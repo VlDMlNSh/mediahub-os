@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.360)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.361)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7134,3 +7134,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - PR #338 remains OPEN/DRAFT/UNMERGED with unresolved branch drift and independent review. Wave 105's incomplete integration experiment is not a PR and must not be integrated.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. No provider invocation, secret access, dispatch, merge, deployment or acceptance occurred.
 - Next: obtain accountable governance decisions; then reconcile PR #338 losslessly against a refreshed base/head and run exact-head CI before considering integration.
+
+
+## 20.361 — Documentation index reconciliation (Wave 109, 2026-10-17)
+
+- Report: [Documentation Index Reconciliation, Wave 109](../checkpoints/MEDIAHUB-DOCUMENTATION-INDEX-RECONCILIATION-WAVE-109-2026-10-17.md).
+- Addendum: [Wave 109](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-109-2026-10-17.md).
+- Reconciles the working map index after Wave 108 report/addendum existed without a map entry. The canonical map was read by exact blob SHA and left unchanged.
+- Current refs verified: Issue #301 OPEN; PR #339 OPEN/DRAFT/UNMERGED, 24 commits ahead / 0 behind canonical docs branch; no PR-triggered workflow runs for exact commit `6080b562002bde5ab5f6117baac907603bd736d7`.
+- PR #338 remains open and unaccepted; its prior CI is candidate-scoped only. No provider, secret, dispatch, merge, deployment or acceptance action occurred.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED. Next: obtain governance disposition and independently reconcile PR #338 losslessly after refreshing refs.
