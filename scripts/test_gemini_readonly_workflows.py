@@ -17,6 +17,7 @@ AUDIT = WORKFLOW_DIR / "gemini-readonly-audit.yml"
 RETRY = WORKFLOW_DIR / "gemini-readonly-audit-retry.yml"
 HTTP_HELPER = ROOT / "scripts" / "gemini_http_response.js"
 HTTP_HARNESS = ROOT / "scripts" / "test_gemini_http_response.js"
+VALIDATION = WORKFLOW_DIR / "gemini-readonly-workflow-validation.yml"
 MANIFEST_FINALIZER_TEST = ROOT / "scripts" / "test_gemini_missing_credential.js"
 MODEL = "gemini-3.5-flash-lite"
 PINNED_ACTION = re.compile(r"^\s*uses:\s*[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@([0-9a-f]{40})\s*$")
@@ -155,6 +156,17 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertLess(finalizer, failure)
                 self.assertIn("if: always() && hashFiles('agent-output/evidence-manifest.json') != ''", source)
                 self.assertIn("BLOCKED_MISSING_CREDENTIAL", (ROOT / "scripts" / "mark_gemini_missing_credential.js").read_text(encoding="utf-8"))
+
+    def test_manifest_finalizer_changes_trigger_contract_ci(self) -> None:
+        source = VALIDATION.read_text(encoding="utf-8")
+        for path in (
+            "scripts/mark_gemini_missing_credential.js",
+            "scripts/test_gemini_missing_credential.js",
+        ):
+            with self.subTest(path=path):
+                self.assertEqual(source.count(f'      - "{path}"'), 2)
+        self.assertIn('branches:\\n      - security/gemini-readonly-hardening-20261017', source)
+        self.assertIn('branches:\\n      - main', source)
 
     def test_artifact_retention_is_bounded(self) -> None:
         for path, source in ((AUDIT, self.audit), (RETRY, self.retry)):
