@@ -149,6 +149,7 @@ jobs:
           const fs = require('node:fs');
           const https = require('node:https');
           const { readBoundedResponse } = require('./scripts/gemini_http_response');
+          const { finalizeProviderResponse, finalizeTransportError } = require('./scripts/gemini_provider_outcome');
           const crypto = require('node:crypto');
           const manifestPath = 'agent-output/evidence-manifest.json';
           const outputPath = 'agent-output/gemini-audit.md';
@@ -160,7 +161,6 @@ jobs:
             contents: [{role:'user',parts:[{text:prompt}]}],
             generationConfig: {maxOutputTokens:4096}
           });
-          const save = () => fs.writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n',{mode:0o600});
           function requestOnce() {
             return new Promise((resolve,reject) => {
               const req = https.request({
@@ -199,43 +199,29 @@ jobs:
             manifest.provider_request_id = response?.requestId || null;
             manifest.finished_at = new Date().toISOString();
             if (transportError || !response) {
-              manifest.status='FAILED';
-              manifest.provider_status='TRANSPORT_ERROR';
-              manifest.failure_class='transport_error';
-              save();
-              console.error('Gemini transport failed after the single generation attempt: '+(transportError || 'unknown transport error'));
-              process.exitCode=34; return;
+              const result = finalizeTransportError({manifest,manifestPath,error:new Error(transportError || 'unknown transport error')});
+              console.error('Gemini transport failed after the single generation attempt: '+result.message);
+              process.exitCode=result.exitCode; return;
             }
-            manifest.provider_status=`HTTP_${response.status}`;
-            if (response.status < 200 || response.status >= 300) {
-              manifest.status='FAILED';
-              manifest.failure_class=response.status===429 ? 'quota_or_rate_limit' : 'provider_http_error';
-              save();
-              console.error(`Gemini API returned HTTP ${response.status}; response body suppressed. No HTTP status is automatically retried.`);
-              process.exitCode=31; return;
+            const normalizedResponse = {
+              statusCode: response.status,
+              body: response.data,
+              headers: { 'x-goog-request-id': response.requestId }
+            };
+            const result = finalizeProviderResponse({response:normalizedResponse,manifest,manifestPath,outputPath});
+            if (!result.ok) {
+              if (result.reason === 'non_2xx') console.error(`Gemini API returned HTTP ${response.status}; response body suppressed. No HTTP status is automatically retried.`);
+              else if (result.reason === 'invalid_json') console.error('Gemini response was invalid JSON; body suppressed.');
+              else console.error('Gemini returned empty or over-limit output.');
+              process.exitCode=result.exitCode; return;
             }
-            let parsed;
-            try { parsed=JSON.parse(response.data); } catch {
-              manifest.status='FAILED'; manifest.provider_status='INVALID_JSON'; save();
-              console.error('Gemini response was invalid JSON; body suppressed.'); process.exitCode=32; return;
-            }
-            const text=(parsed.candidates||[]).flatMap(c=>c.content?.parts||[]).map(p=>p.text||'').join('\n').trim();
-            const bytes=Buffer.byteLength(text,'utf8');
-            if (!text || bytes > 100000) {
-              manifest.status='FAILED'; manifest.failure_class=text?'output_too_large':'empty_output'; save();
-              console.error('Gemini returned empty or over-limit output.'); process.exitCode=33; return;
-            }
-            fs.writeFileSync(outputPath,'<!-- Untrusted model-generated advisory output; not execution authority. -->\n'+text+'\n',{mode:0o600});
-            manifest.status='COMPLETED';
-            manifest.output_sha256=`sha256:${crypto.createHash('sha256').update(fs.readFileSync(outputPath)).digest('hex')}`;
-            manifest.output_bytes=fs.statSync(outputPath).size;
-            save();
             fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
-              `\n## Gemini read-only evidence (single attempt; no automatic POST retry)\n\n- Status: COMPLETED\n- Commit: ${manifest.resolved_commit_sha}\n- Workflow blob SHA: ${manifest.workflow_blob_sha}\n- Context profile: ${manifest.context_profile}\n- Model: ${model}\n- Attempts: ${manifest.attempts} (automatic POST retry disabled)\n- Output SHA-256: ${manifest.output_sha256}\n- Output bytes: ${manifest.output_bytes}\n- Provider response ID: ${manifest.provider_request_id || 'not supplied'}\n\nModel output is untrusted advisory content; inspect the artifact before use.\n`);
+              `\\n## Gemini read-only evidence (single attempt; no automatic POST retry)\\n\\n- Status: COMPLETED\\n- Commit: ${manifest.resolved_commit_sha}\\n- Workflow blob SHA: ${manifest.workflow_blob_sha}\\n- Context profile: ${manifest.context_profile}\\n- Model: ${model}\\n- Attempts: ${manifest.attempts} (automatic POST retry disabled)\\n- Output SHA-256: ${manifest.output_sha256}\\n- Output bytes: ${manifest.output_bytes}\\n- Provider response ID: ${manifest.provider_request_id || 'not supplied'}\\n\\nModel output is untrusted advisory content; inspect the artifact before use.\\n`);
           })().catch(err => {
-            manifest.status='FAILED'; manifest.provider_status='UNEXPECTED_ERROR'; manifest.failure_class='unexpected_error';
-            manifest.finished_at=new Date().toISOString(); save();
-            console.error('Gemini wrapper failed: '+String(err && err.message || 'unknown error').slice(0,160)); process.exitCode=35;
+            const result = finalizeTransportError({manifest,manifestPath,error:err});
+            manifest.failure_class='unexpected_error';
+            fs.writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\\n',{mode:0o600});
+            console.error('Gemini wrapper failed: '+result.message); process.exitCode=35;
           });
           NODE
 
