@@ -155,6 +155,18 @@ jobs:
             generationConfig: {maxOutputTokens:4096}
           });
           const save = () => fs.writeFileSync(manifestPath,JSON.stringify(manifest,null,2)+'\n',{mode:0o600});
+          let settled = false;
+          const reject = err => {
+            if (settled) return;
+            settled = true;
+            manifest.status='FAILED';
+            manifest.provider_status='TRANSPORT_ERROR';
+            manifest.failure_class=String(err && err.message || 'transport error').includes('byte limit') ? 'response_too_large' : 'incomplete_or_failed_response';
+            manifest.finished_at=new Date().toISOString();
+            save();
+            console.error('Gemini response failed before complete validation: '+String(err && err.message || 'transport error').slice(0,160));
+            process.exitCode=34;
+          };
           const req = https.request({
             hostname:'generativelanguage.googleapis.com',
             path:`/v1beta/models/${encodeURIComponent(model)}:generateContent`,
@@ -180,6 +192,8 @@ jobs:
             res.on('aborted',() => reject(new Error('response aborted before completion')));
             res.on('error',err => reject(responseTooLarge ? new Error('response byte limit exceeded') : err));
             res.on('end',() => {
+              if (settled) return;
+              settled = true;
               manifest.provider_status = `HTTP_${res.statusCode || 0}`;
               manifest.provider_request_id = res.headers['x-goog-request-id'] || res.headers['x-request-id'] || null;
               manifest.finished_at = new Date().toISOString();
@@ -211,10 +225,7 @@ jobs:
             });
           });
           req.on('timeout',()=>req.destroy(new Error('request timed out')));
-          req.on('error',err=>{
-            manifest.status='FAILED'; manifest.provider_status='TRANSPORT_ERROR'; manifest.finished_at=new Date().toISOString(); save();
-            console.error('Gemini API transport failed: '+String(err.message).slice(0,200)); process.exitCode=34;
-          });
+          req.on('error',reject);
           req.write(body); req.end();
           NODE
 
