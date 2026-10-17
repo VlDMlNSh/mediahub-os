@@ -4743,3 +4743,16 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - A0 ingress/issuer/fencing/recovery; R-06 sink, retention/residency/time governance; exact accepted target manifest; independent schema/security/supply-chain review; worker qualification; and live queue/dispatch remain open or blocked. Contour A is still NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED.
 - No provider/model call, secret access, workflow dispatch, install, runtime test, merge, deployment, or acceptance occurred.
 - Next: review the A0/MH-12/R-06 primary clauses independently and reconcile PR #338 losslessly against the latest documentation branch. Do not select a token/wire protocol or target profile by assumption.
+
+
+## Wave 106 final exact-ref reconciliation — 2026-10-17
+
+- Final report blob SHA: `cb7e5a92d2c72b438cced40afe1e001f9f7af36a`.
+- Map addendum blob SHA: `63f779550156d709c2c77a407f08dcd42892dfbb`.
+- Unified traceability matrix blob SHA: `099df3001a41ea7f86a54c032d254b55efd4c158`; source-linked clause-level matrix has 14 unique `CA-*` rows and six complete columns per row.
+- Master Roadmap working-copy blob SHA: `2cce6c280679f6bf68ebe54606cdce7af6e5dac0`.
+- Map working-copy blob SHA: `6098781e6332bc7842e63868fbaad5bc7ae02544`; full blob was retrieved and verified at 1,041,464 characters, header points to §20.357.
+- PR #339 title: “Draft: Contour A source reconciliation and acceptance matrix (Waves 105–106)”; status OPEN / DRAFT / UNMERGED. Pre-checkpoint HEAD `ce448ef732296b0562e7d004eda83c86e3214fb0`, base `97d19bc423caca159c916ca9112eee77a18d10cd`, compare 12 ahead / 0 behind, GitHub reports mergeable=true. Review API returned no review submissions. The current connector's PR-event workflow-run listing and combined status endpoint returned empty lists for this exact head; do not claim CI success for this documentation head.
+- Current `main` vs canonical documentation branch: DIVERGED, docs 2,155 ahead / 27 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`. Keep canonical docs work separate from main; no wholesale integration.
+- PR #338 remains OPEN / DRAFT / UNMERGED without independent review. Fresh compare to canonical docs branch remains DIVERGED 20 ahead / 24 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Its PR metadata says mergeable=true, but this does not remove branch-drift review or lossless reconciliation requirements.
+- Wave 106 is a documentation and source-traceability pass only. No code/workflow changes, provider call, secret access, dispatch, runtime qualification, merge, deployment or acceptance.
