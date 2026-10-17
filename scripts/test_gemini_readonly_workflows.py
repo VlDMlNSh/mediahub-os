@@ -66,6 +66,8 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
                 self.assertNotIn("inputs.model", source)
                 self.assertIn("maxOutputTokens:4096", source)
                 self.assertIn("bytes > 100000", source)
+                if path == RETRY:
+                    self.assertIn("${manifest.attempts} (automatic POST retry disabled)", source)
                 self.assertIn("Untrusted model-generated advisory output", source)
                 self.assertIn("evidence-manifest.json", source)
                 self.assertIn("output_sha256", source)
