@@ -71,6 +71,10 @@ class GeminiReadOnlyWorkflowContractTests(unittest.TestCase):
         self.assertIn("maxAttempts = 1", self.retry)
         self.assertIn("non-idempotent-generation-post-no-automatic-retry", self.retry)
         self.assertNotIn("new Set([500, 502, 503, 504])", self.retry)
+        self.assertNotIn("retryableServerStatuses", self.retry)
+        self.assertNotIn("retryDelay(", self.retry)
+        self.assertNotIn("bounded retry", self.retry.lower())
+        self.assertNotIn("await sleep(", self.retry)
         self.assertNotIn("GEMINI_MODEL", self.audit + self.retry)
         self.assertNotIn("OPENROUTER_API_KEY", self.audit + self.retry)
 
