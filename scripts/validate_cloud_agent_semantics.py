@@ -356,7 +356,7 @@ def build_negative_cases(base: dict[str, Any], schema_digests: dict[str, str]) -
         lambda b: b["manifest"]["task"].update(task_id="CAF-Q-999"), True)
     add("schema-reference-version-mismatch", "change evidence schema version",
         lambda b: next(x for x in b["manifest"]["schema_refs"] if x["name"] == "evidence_manifest").update(version="0.1"),
-        True, True, False)
+        False, True, False)
     add("schema-reference-duplicate", "duplicate task-envelope schema reference",
         lambda b: b["manifest"]["schema_refs"].append(copy.deepcopy(b["manifest"]["schema_refs"][0])),
         True, True, False)
@@ -387,8 +387,13 @@ def build_negative_cases(base: dict[str, Any], schema_digests: dict[str, str]) -
         True)
     add("promotion-with-pending-review", "approve next gate while review is pending",
         lambda b: b["manifest"]["disposition"].update(promotion_state="approved_for_next_gate"))
-    add("output-classification-downgrade", "downgrade output from internal to public",
-        lambda b: b["task"]["output"].update(artifact_classification="public"))
+    add("output-classification-downgrade", "downgrade output below the task input data class",
+        lambda b: (
+            b["task"]["data_policy"].update(classification="internal"),
+            b["registry"]["capabilities"].update(data_classes=["internal"]),
+            b["registry"]["provider_routes"][0].update(data_classes=["internal"]),
+            b["task"]["output"].update(artifact_classification="public"),
+        ))
     add("idempotency-digest-mismatch", "mutate digest without resealing",
         lambda b: b["manifest"]["task"].update(idempotency_key_digest="sha256:" + "0" * 64),
         False, True, True)
@@ -398,6 +403,16 @@ def build_negative_cases(base: dict[str, Any], schema_digests: dict[str, str]) -
     add("registry-record-digest-mismatch", "mutate registry digest without resealing",
         lambda b: b["manifest"]["agent"].update(registry_record_sha256="sha256:" + "0" * 64),
         False, True, True)
+    add("aggregate-input-budget-exceeded", "add input bytes above task budget",
+        lambda b: b["manifest"].update(inputs=[{"path":"docs/checkpoints/fixture.json","sha256":"sha256:"+"1"*64,"bytes":10001,"data_class":"public"}]))
+    add("aggregate-output-budget-exceeded", "set artifact bytes above task output budget",
+        lambda b: b["manifest"]["artifacts"][0].update(bytes=10001))
+    add("artifact-count-exceeded", "set max artifact count to zero",
+        lambda b: b["task"]["output"].update(max_artifacts=0))
+    add("revoked-without-revocation-evidence", "mark registry revoked without evidence kind revocation",
+        lambda b: b["registry"].update(status="revoked"))
+    add("authorized-status-without-independent-evidence", "mark registry authorized without authorization/security review evidence",
+        lambda b: b["registry"].update(status="authorized"))
     return cases
 
 
@@ -424,7 +439,7 @@ def main() -> int:
             "schemas_meta_validated": 0,
             "bundle_positive_expected": 1,
             "bundle_positive_passed": 0,
-            "semantic_negative_expected": 20,
+            "semantic_negative_expected": 25,
             "semantic_negative_rejected": 0,
             "failures": 0,
         },
