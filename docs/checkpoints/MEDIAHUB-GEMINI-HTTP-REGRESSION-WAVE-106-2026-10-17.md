@@ -56,3 +56,5 @@ A post-wave source audit found that the JavaScript template embedded in the prim
 - PR #334 remains OPEN / DRAFT / UNMERGED; no provider calls, secret access, queue admission, merge, deployment, or Contour A acceptance.
 
 Next: confirm CI on the exact follow-up head and continue seeking independent security review.
+
+- Follow-up exact-head CI passed on `1e052519f85afb1e9d3b58eb6d05cb45e81c2d73`: [Gemini Read-only Workflow Contract #39068814327](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814327), [Astra Verify #39068814332](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814332), and [Astra Cloud Runtime Validation #39068814337](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814337) all succeeded.
