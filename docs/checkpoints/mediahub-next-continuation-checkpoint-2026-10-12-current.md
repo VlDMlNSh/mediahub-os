@@ -4808,3 +4808,12 @@ Latest PR HEAD `eab691df37b1e9d0a54d67a80c8c558a40d685df`; contract tests blob `
 - Current PR HEAD `b8938e2c8a6b53a9856611beb4e2c91b9b47e7eb`; observed `main` HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`; branch compare diverged 39 ahead / 2 behind; merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`.
 - Exact-head CI passed: contract #39070239298, Astra Verify #39070239407, Cloud Runtime Validation #39070239344. PR remains OPEN / DRAFT / UNMERGED; no independent review returned; protection/rulesets unverified.
 - Next: reconcile branch divergence losslessly, review exact diff, rerun checks, and obtain independent security review/protection read-back. No provider calls, secret reads, dispatch, queue admission, merge, deployment, or Contour A acceptance.
+
+
+## Wave 125 — Gemini provider-status regression and exact-head CI (2026-10-18)
+
+- Report: [Wave 125 provider-status regression](MEDIAHUB-GEMINI-PROVIDER-STATUS-REGRESSION-WAVE-125-2026-10-18.md); map addendum: [Wave 125](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-125-2026-10-18.md).
+- Candidate PR [#334](https://github.com/VlDMlNSh/mediahub-os/pull/334) HEAD: `80c733dc18b79f2b0e77853222bbd02edd562d2e`. Exact-head CI passed: Gemini Read-only Workflow Contract #39075289751, Astra Verify #39075289805, Astra Cloud Runtime Validation #39075289829.
+- Shared provider-outcome helper now rejects missing/non-integer/out-of-range HTTP status before parsing; regression cases cover absent status and values 99/600. CI validates source contract; no provider call is evidenced.
+- PR remains OPEN / DRAFT / UNMERGED. Live compare: diverged 69 ahead / 2 behind, merge base `fbe30881c0ecc5e07a66ec1d5538c2c06171982b`; main HEAD observed `c06015e0b1526e0aaa6a522306052b077455aba5`. Returned review records contain only owner-authored COMMENTED reviews; independent approval is not evidenced. Protection/ruleset read-back remains unverified.
+- No credential read, Gemini dispatch, queue admission, merge, deployment, or Contour A acceptance. Next: inspect/reconcile the two main-side commits losslessly, obtain independent security review and authorized protection-rule read-back, and rerun checks on any reconciled exact head.
