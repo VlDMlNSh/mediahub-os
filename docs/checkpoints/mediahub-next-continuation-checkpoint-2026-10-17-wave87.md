@@ -60,3 +60,16 @@ See [Cloud-Agent Lock Reproducibility and CI Verification — Wave 87](MEDIAHUB-
 - At change-commit verification, workflow run [39047324292](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047324292) was in progress and [39047328133](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39047328133) queued; do not infer success from queued/in-progress states.
 - PR #337 remains Draft and unmerged; branch divergence was 51 ahead / 18 behind canonical docs branch. Issue #301 remains open.
 - Next: verify CI on the final report commit, then proceed with independent schema/authority review and file-level branch reconciliation. Canonical map remains on `docs/mediahub-chat-tree-map-20261012`: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 90 — array-nested required-property negative fixtures (2026-10-17)
+
+- Implementation commit: `4ffd439ebb741f1d27753ef1e624ec8a2cd8bcb5`.
+- Workflow blob: `87db0e3fcfba9cf7373b7ba673325fc01eec6216`.
+- Added traversal of JSON Schema `items` for array instances so nested required fields within object-valued array elements participate in negative fixtures.
+- Successful validation run: [39048283874](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39048283874). Logs show 37 Task Envelope + 35 Registry Record + 45 Evidence Manifest nested-required negative cases (117 total).
+- Wave report: [MEDIAHUB-CLOUD-AGENT-ARRAY-NESTED-REQUIRED-FIXTURES-WAVE-90-2026-10-17.md](MEDIAHUB-CLOUD-AGENT-ARRAY-NESTED-REQUIRED-FIXTURES-WAVE-90-2026-10-17.md), commit `d4892a635ac431f7b3563f0b42584ebac1b49f5d`.
+- A second duplicate validation run `39048287670` was in progress at last observation; recheck before claiming it passed.
+- PR #337 remains Draft/unmerged. Current observed compare against `docs/mediahub-chat-tree-map-20261012`: 56 ahead / 20 behind; merge base `8083cd61dbe348e18ab7db3e09b2769529bdcfda`. No integration performed.
+- Remaining gates in [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301) are unchanged: A0 issuer/verifier lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent schema review, and bounded worker/queue qualification.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
