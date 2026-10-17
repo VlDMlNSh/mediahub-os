@@ -41,6 +41,9 @@ function response(statusCode, body, headers = {}) {
 
 function run() {
   const cases = [
+    { name: 'missing HTTP status', response: response(undefined, '{"candidates":[{"content":{"parts":[{"text":"must not be accepted"}]}}]}'), provider: 'INVALID_STATUS', failure: 'invalid_status', exitCode: 32 },
+    { name: 'HTTP status below range', response: response(99, '{"candidates":[]}'), provider: 'INVALID_STATUS', failure: 'invalid_status', exitCode: 32 },
+    { name: 'HTTP status above range', response: response(600, '{"candidates":[]}'), provider: 'INVALID_STATUS', failure: 'invalid_status', exitCode: 32 },
     { name: 'HTTP 429', response: response(429, '{"error":"rate limited"}'), provider: 'HTTP_429', failure: 'quota_or_rate_limit', exitCode: 31 },
     { name: 'HTTP 503', response: response(503, '{"error":"unavailable"}'), provider: 'HTTP_503', failure: 'provider_http_error', exitCode: 31 },
     { name: 'invalid JSON', response: response(200, '{"candidates":'), provider: 'INVALID_JSON', failure: 'invalid_json', exitCode: 32 },
