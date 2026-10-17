@@ -7112,3 +7112,14 @@ WB-14AA и приложение остаются не-нормативными. 
 - Passing PR merge-ref validation commit: `6d13d5156855a81c522bd33e29ba9fb5eb2aee3d`; successful runs: [Gemini Read-only Workflow Contract #39068528671](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528671), [Astra Cloud Runtime Validation #39068528613](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528613), [Astra Verify #39068528583](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068528583).
 - PR #334 remains OPEN / DRAFT / UNMERGED; independent security review remains outstanding. No provider call, secret read, queue admission, merge, deployment or Contour A acceptance.
 - Next: independent security review and repository protection/review-gate verification.
+
+
+## 20.359 — Gemini advisory artifact newline correction (Wave 107, 2026-10-17)
+
+- Report: [MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md](../checkpoints/MEDIAHUB-GEMINI-HTTP-REGRESSION-WAVE-106-2026-10-17.md), follow-up section Wave 107.
+- Navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-107-2026-10-17.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-107-2026-10-17.md).
+- Candidate HEAD: `1e052519f85afb1e9d3b58eb6d05cb45e81c2d73`; workflow blob `7465ad56496669ea576822109ca34afb47632596`; harness blob `ade921ade649ddfda42c280759c8455d5e502304`.
+- Corrected double-escaped newline sequences in candidate text joining and Markdown artifact framing. The local HTTP harness now asserts actual line-break behavior across multiple response parts.
+- Exact-head CI passed: [Gemini Read-only Workflow Contract #39068814327](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814327), [Astra Verify #39068814332](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814332), [Astra Cloud Runtime Validation #39068814337](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068814337).
+- PR #334 remains OPEN / DRAFT / UNMERGED. Independent security review is still outstanding. No provider call, secret access, queue admission, merge, deployment or Contour A acceptance.
+- Next: independent security review and verification of branch protection/review gates.
