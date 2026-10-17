@@ -1,0 +1,67 @@
+name: Cloud-agent schema validation (Wave 81)
+
+on:
+  pull_request:
+    paths:
+      - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+      - ".github/workflows/cloud-agent-schema-validation.yml"
+  push:
+    branches: ["contour-a-schema-validation-wave81-20261017"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloud-agent-schema-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout immutable event commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install pinned validator
+        run: python -m pip install --disable-pip-version-check --no-input jsonschema[format]==4.23.0
+      - name: Validate Draft 2020-12 meta-schema and fail-closed negative fixture
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          from jsonschema import Draft202012Validator, FormatChecker
+
+          paths = [
+              Path("docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json"),
+              Path("docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json"),
+              Path("docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json"),
+          ]
+          failed = False
+          for path in paths:
+              try:
+                  schema = json.loads(path.read_text(encoding="utf-8"))
+                  if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
+                      raise ValueError("unexpected or missing $schema")
+                  Draft202012Validator.check_schema(schema)
+                  validator = Draft202012Validator(schema, format_checker=FormatChecker())
+                  errors = list(validator.iter_errors({}))
+                  if not errors:
+                      raise AssertionError("negative fixture {} unexpectedly passed".format(path))
+                  print("PASS schema-meta + empty-object negative fixture:", path, "errors=", len(errors))
+              except Exception as exc:
+                  failed = True
+                  print("FAIL:", path, repr(exc), file=sys.stderr)
+          if failed:
+              raise SystemExit(1)
+          PY
