@@ -4714,3 +4714,14 @@ Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-
 - PR #338 remains OPEN / DRAFT / UNMERGED with no independent reviews observed. Compare with current docs branch at Wave 104 was diverged 20 ahead / 20 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; verify fresh state before any integration. Current docs branch and `main` remain highly diverged; do not wholesale merge.
 - Issue #301 remains open. A0 issuer/verifier/lifecycle, R-06, accepted runner/workspace/network manifest, independent review and bounded queue-worker qualification remain open. Status remains **CONTOUR A NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**.
 - No provider calls, secret reads, cloud-agent dispatch, merge, deployment or acceptance occurred. The map indexes this result at §20.356.
+
+
+## /next Wave 105 — Gemini incomplete-response failure path (2026-10-17)
+
+- Report: [MEDIAHUB-GEMINI-READONLY-INCOMPLETE-RESPONSE-FAIL-CLOSED-WAVE-105-2026-10-17.md](MEDIAHUB-GEMINI-READONLY-INCOMPLETE-RESPONSE-FAIL-CLOSED-WAVE-105-2026-10-17.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-105-2026-10-17.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-105-2026-10-17.md).
+- PR #334 candidate head: `3b19bae1b6a19da1c46fff5ced8b6c60c8f8e15d`; workflow blob `4cbeff07f20e698d2c2d26118743c754271e0042`; regression-test blob `5c0e178e5180ab7adfcfb69a84132e31a4d984f4`.
+- Found a concrete defect in the primary workflow: response abort/error callbacks called an undefined `reject`. Added a scoped idempotent failure handler, a settled guard, unified request-error handling, and a static regression assertion.
+- Exact-head CI passed: Gemini Read-only Workflow Contract [39068081607](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081607), Astra Cloud Runtime Validation [39068081597](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081597), Astra Verify [39068081606](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39068081606).
+- PR #334 remains OPEN / DRAFT / UNMERGED. No provider call, secret access, queue admission, merge, deployment, or Contour A acceptance.
+- Residual gap: the regression is static, not socket-level. Next: build a provider-free local HTTP harness covering valid complete, non-2xx, over-limit, and truncated/aborted responses, then obtain independent security review.
