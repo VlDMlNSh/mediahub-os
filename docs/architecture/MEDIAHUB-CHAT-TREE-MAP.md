@@ -7067,3 +7067,26 @@ WB-14AA и приложение остаются не-нормативными. 
 - Current observed validation run [39052849876](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39052849876) was queued at inspection time; **no CI pass is claimed**. Candidate remains Draft and unmerged.
 - Remaining review: exact-head CI and artifact inspection, lock byte-for-byte reproduction, pip/pip-tools bootstrap integrity, independent schema/security review, and Issue #301 A0/R-06/runner/queue gates.
 - Status: **CANDIDATE CREATED / CI PENDING / ACCEPTANCE OPEN**.
+
+
+## 20.354 — Wave 102: lock-generation reproducibility established (2026-10-17)
+
+- Evidence report: [MEDIAHUB-LOCK-REGENERATION-VERIFIED-WAVE-102-2026-10-17.md](../checkpoints/MEDIAHUB-LOCK-REGENERATION-VERIFIED-WAVE-102-2026-10-17.md), blob SHA `f547b64e4a376407a2eb2e917d5176a65f64062b`.
+- Candidate PR [#338](https://github.com/VlDMlNSh/mediahub-os/pull/338), commit `29d72044ae77086df3380358816da2e15a940725`: lock generation run [39053279868](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39053279868), job `117456037581`, completed successfully. Job assertions and the artifact recorded a zero-byte lock diff; the byte-for-byte gate passed.
+- Scope is that candidate SHA and its then-current runner/index. This did not close bootstrap-tool integrity, independent review, or Issue #301 admission gates.
+
+## 20.355 — Wave 103: deliberate hosted-runner and action-runtime pins (2026-10-17)
+
+- Evidence report: [MEDIAHUB-RUNNER-PIN-QUALIFICATION-WAVE-103-2026-10-17.md](../checkpoints/MEDIAHUB-RUNNER-PIN-QUALIFICATION-WAVE-103-2026-10-17.md), blob SHA `def39b8c8fe8cfcfcc3dab75d43aeba430af00b6`.
+- Runner image changed from `ubuntu-latest` to `ubuntu-24.04` in the lock-generation workflow. Later candidate commit `6fa5decdb84c5538aa8d1e32cd41026fd5f875e0` aligned schema validation to Ubuntu 24.04 and moved checkout/setup-python/upload-artifact to reviewed full-SHA Node 24 releases.
+- Exact-head follow-up in Wave 104 confirms these pins are active in both workflows. Runner/action pinning improves reproducibility but does not qualify provider or worker admission.
+
+## 20.356 — Wave 104: hash-locked bootstrap and exact-head CI (2026-10-17)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-BOOTSTRAP-LOCK-AND-CURRENT-HEAD-CI-WAVE-104-2026-10-17.md](../checkpoints/MEDIAHUB-CLOUD-AGENT-BOOTSTRAP-LOCK-AND-CURRENT-HEAD-CI-WAVE-104-2026-10-17.md), blob SHA `6e9e8520122108fba943ee0665f6f816d56277d4`; report creation commit `0e0e672a3fb6eddd36db924582e29d3b765ff052`.
+- Current candidate HEAD: `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; bootstrap lock blob SHA `2cb89e822dabbe54a11e6b718ec8443b8891c926`; lock-generation workflow blob SHA `22ed52a9252630bfa62b5fbb7d37ea79c84f8b82`; schema-validation workflow blob SHA `f58add06b86b9f816e641ca1aea7d343e9662765`.
+- Lock-generation run [39058422263](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058422263), job `117471074334`: success on exact candidate HEAD. Eight bootstrap packages verified against the version set; `LOCK_REGENERATION_MATCH=true` and `git diff --exit-code` passed. Artifact `12110905625`, digest `sha256:c94ead52345eba9d652a0107c611eb67dca46e39f0ce0b49b40d1938e54ad224`.
+- Latest PR schema run [39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661), job `117471084337`: success. 3/3 schemas meta-validated, 3/3 positive fixtures passed, 179/179 negative schema cases rejected (166 generated missing-required cases), 26/26 semantic negatives rejected, zero reported failures. Evidence artifact `12110676230`, digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`.
+- The eight bootstrap wheel hashes were compared to official PyPI file metadata. Residual supply-chain concern remains: PyPI records for `setuptools==84.0.0` report Trusted Publishing was not used. Hash-locking confirms bytes against the selected metadata, not independent approval or full publisher assurance.
+- PR #338 remains OPEN / DRAFT / UNMERGED; no independent review was returned. Candidate vs current documentation branch remains diverged (20 ahead / 20 behind; merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`; verify live before any integration). Issue #301 remains open; A0 issuer/verifier/lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network manifest, independent review and queue qualification remain open.
+- Disposition: **SCHEMA CI AND LOCK REGENERATION PASS / SUPPLY-CHAIN REVIEW AND CONTOUR A ACCEPTANCE OPEN**. No provider call, secret read, cloud-agent dispatch, merge or deployment performed.
