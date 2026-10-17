@@ -6981,3 +6981,11 @@ WB-14AA и приложение остаются не-нормативными. 
 - Removed `cache: pip`; workflow blob SHA `de67071b599bd58db9220a9dd546e7a47666aec4`. Wave 81 report blob SHA `bc3ad858c5c36f003ed1d60268bf572d20371f75` documents the failure and fix.
 - Latest observed PR run: `39041494852`, status `in_progress`, conclusion unset, for head `7dda8247bc66178b3797cb152fda7752dfdbfd89`. No successful validation claim yet.
 - PR #337 remains OPEN / DRAFT and must not be merged until the latest run is inspected and required fixtures/review gates are satisfied.
+
+
+## §20.354 — Wave 81 successful bounded schema validation (2026-10-17)
+
+- Corrected GitHub Actions run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39041494852 completed successfully for PR head `7dda8247bc66178b3797cb152fda7752dfdbfd89`; job `117421751596` conclusion `success`.
+- Logs confirm Draft 2020-12 meta-validation and empty-object negative rejection for all three schema candidates: task envelope (15 errors), agent registry (10), evidence manifest (13).
+- The workflow enabled FormatChecker but did not test invalid-format instances; no positive fixtures or semantic cross-artifact checks yet. This result is bounded verification, not qualification/acceptance.
+- Wave 81 report now includes the exact run and limitations. PR #337 remains OPEN / DRAFT; do not merge until expanded fixtures, independent review and applicable checks/gates are satisfied.
