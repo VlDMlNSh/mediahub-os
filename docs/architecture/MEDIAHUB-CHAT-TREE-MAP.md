@@ -6958,3 +6958,16 @@ WB-14AA и приложение остаются не-нормативными. 
 - Cloud execution remains GitHub-hosted Actions only. Owner-operated servers and self-hosted runners are excluded from cloud model/API-key routing. Servers are reserved for explicitly selected local inference and local computation, using local model runtimes and local resources.
 - Local fallback is a separate execution target with an explicit task-routing decision and data-egress review; it is never a hidden retry for a cloud provider error.
 - This is an architecture clarification, not a claim that current provider accounts are region-independent or already qualified.
+
+
+## 20.352 — GitHub-hosted key routing and provider egress policy, Wave 60 (2026-10-17)
+
+- Primary report: [Gemini Key Rotation and GitHub-Hosted Egress Design — Wave 60](../checkpoints/MEDIAHUB-GITHUB-HOSTED-KEY-ROTATION-AND-EGRESS-DESIGN-WAVE-60-2026-10-17.md).
+- Map navigation: [Wave 60 Addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-60-2026-10-17.md).
+- Decision boundary: cloud API-key selection, quota accounting, provider calls, retries, and cloud-agent execution belong exclusively to GitHub-hosted Actions runners. User geolocation, mobile/home/office network, and the user's internet exit point are outside routing inputs. Provider policy may still evaluate the GitHub runner's egress IP/region.
+- Current Gemini workflows bind one secret each (GEMINI_API_KEY, GEMINI_API_KEY_2, GEMINI_API_KEY_3). They do not implement shared cross-key rotation or provider-aware quota failover. Their concurrency group includes github.run_id, so it does not serialize independent runs across agents.
+- Routing design: explicit provider allowlist; fixed secret mappings in reviewed workflow branches/jobs; provider/account/project/model/metric/reset-scoped ledger; Retry-After/reset-aware cooldowns; bounded idempotent retries; cross-provider failover only when task egress policy permits; fail-closed on unknown quota state; paid routes disabled by default.
+- GitHub Issues remain the durable task inventory; a GitHub-hosted coordinator and reconciliation runs scan eligible tasks. A versioned state branch stores redacted quota metadata. GitHub Actions concurrency is a guardrail, not a durable FIFO queue. State conflicts or missing state cause defer/quarantine.
+- Local servers participate only in explicitly selected local inference/computation. Local fallback requires a separate task route and data-egress approval; it never occurs implicitly after a cloud error.
+- Source inspection only. No provider call, workflow dispatch, test, qualification, credential read, infrastructure change, or deployment occurred.
+- Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md

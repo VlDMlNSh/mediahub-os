@@ -168,3 +168,7 @@ No secret values were read, no provider call or workflow dispatch was made, and 
 - Cloud execution remains GitHub-hosted Actions only. Owner-operated servers and self-hosted runners are excluded from cloud model/API-key routing. Servers are reserved for explicitly selected local inference and local computation, using local model runtimes and local resources.
 - Local fallback is a separate execution target with an explicit task-routing decision and data-egress review; it is never a hidden retry for a cloud provider error.
 - This is an architecture clarification, not a claim that current provider accounts are region-independent or already qualified.
+
+
+## Wave 60 continuation
+The source-bound key-routing and egress design is recorded in [Wave 60](MEDIAHUB-GITHUB-HOSTED-KEY-ROTATION-AND-EGRESS-DESIGN-WAVE-60-2026-10-17.md). All cloud execution stays on GitHub-hosted Actions; local servers remain local-compute-only. Per-workflow Gemini secret references are confirmed, while shared rotation, live secret validity, quota state and runtime behavior remain unverified.
