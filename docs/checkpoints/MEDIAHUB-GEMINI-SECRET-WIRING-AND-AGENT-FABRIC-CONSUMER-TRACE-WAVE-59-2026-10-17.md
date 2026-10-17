@@ -12,7 +12,7 @@
 - Compare `main...docs/mediahub-chat-tree-map-20261012`: **DIVERGED**, docs ahead 2078 / behind 21; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
 - Reverse compare confirms the same topology. No branch integration was attempted.
 - Current checkpoint read-back SHA: `8a3989156ddb6e9c8265ff5c05054489d44252a9`.
-- Bootstrap read-back SHA: `<BOOTSTRAP_SHA>`.
+- Bootstrap read-back SHA: `aa77ba6850f3b3cf51fcf5fae491b2998a276321`.
 - Master Roadmap read-back SHA: `22fc463f40fb9b8360b5bd15cbfe1edc97844699`.
 - Canonical map path on the documentation ref returned 404 through the file-content adapter, while the checkpoint and prior map addendum record canonical map blob `0141454f29b3da6c84488f9464be30812e0b13a3`. Treat this as a retrieval/path/ref discrepancy requiring follow-up; do not infer deletion or an empty map from one adapter response.
 
