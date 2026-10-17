@@ -2,9 +2,9 @@
   "schema_version": "mediahub.cloud-agent-evidence-manifest.v0.2",
   "task": {
     "task_id": "CAF-Q-017",
-    "task_envelope_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "task_envelope_sha256": "sha256:cdc74963bdc12b6e35d538ed2443c4b02b4b699fe1c2b7b5a567bf85ece7bf50",
     "attempt": 1,
-    "idempotency_key_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    "idempotency_key_digest": "sha256:6c95cdd526d610a39fe260dd06764dd9807255cb292c6c67d68b5845116c23ca"
   },
   "execution": {
     "provider_run_id": "fixture-run-id",
@@ -32,9 +32,9 @@
   "inputs": [],
   "agent": {
     "agent_id": "CAF-AGENT-READONLY",
-    "provider_id": "test-only",
-    "model_id": "not-invoked",
-    "registry_record_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    "provider_id": "google",
+    "model_id": "gemini-3.5-flash-lite",
+    "registry_record_sha256": "sha256:e8d745364a7f6165d57abb9c29cd8321f1dd6dcdc80a1a8ec8653eed18cb9ffd"
   },
   "policy": {
     "task_authorization_ref": "authorization://fixture",
@@ -66,17 +66,17 @@
     {
       "name": "task_envelope",
       "version": "0.2",
-      "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      "sha256": "sha256:a8561b038cd56357be639f0324c4aee2e8ad7c17a9965a14689f0cef7fcb3f9f"
     },
     {
       "name": "agent_registry",
       "version": "0.2",
-      "sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      "sha256": "sha256:b976fa4704caff700c3a110ff2741b28ada1866cfcdbb583b9c3919c39049122"
     },
     {
       "name": "evidence_manifest",
       "version": "0.2",
-      "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+      "sha256": "sha256:091e3d8adaf0c347ed800d177abf2438217b3fa4a176cc7b6cee9d4759ac73a2"
     }
   ],
   "verification": {
