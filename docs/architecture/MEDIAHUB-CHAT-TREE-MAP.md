@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-16 (§20.331)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.332)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -6920,3 +6920,13 @@ WB-14AA и приложение остаются не-нормативными. 
 - Status: **SOURCE-ONLY REVIEW COMPLETE / CANDIDATE / NOT SELECTED / NOT ADMITTED / RUNTIME-UNVERIFIED**. A0 issuer/lifecycle, MH-12 authorization, R-06 audit/privacy, target manifest, artifact provenance and qualification gates remain open.
 - No installation, tests, scans, dependency resolution, model/provider call, credential use, host/runtime inspection, qualification, deployment or branch integration occurred.
 - Current project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## 20.332. Owner-directed autonomous execution instruction alignment — 2026-10-17
+
+- Updated the Bootstrap, current continuation checkpoint and Master Roadmap on this canonical documentation branch to reflect the owner's standing instruction for autonomous, continuous engineering without repeated per-action confirmation.
+- The agent is expected to research and reuse stable GitHub components, implement bounded changes, configure workflows, install dependencies in available environments, run tests/checks, invoke authorized cloud providers, and autonomously integrate branches when CI, provenance, repository protections, architecture contracts and no-data-loss checks pass.
+- This wording supersedes blanket historical statements that the project is documentation-only or that every routine merge/rebase/cherry-pick requires a new confirmation. Historical execution records remain intact and are interpreted as describing the scope of their own passes.
+- No authority transfer: Product State Authority remains the sole canonical product-state mutation authority; Jarvis and ASTRA A0 remain within their respective engineering roles. Provider policy, budget, secret isolation, audit, issuer/capability and Contour A acceptance gates remain binding.
+- Source links: [Bootstrap](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md), [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301), [PR #333](https://github.com/VlDMlNSh/mediahub-os/pull/333).
+- Status: documentation alignment recorded; this entry does not claim Contour A implementation or qualification has passed.
