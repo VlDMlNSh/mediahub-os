@@ -29,3 +29,12 @@ Refresh refs and CI logs; locate the canonical provider registry/schema by repos
 
 ## Canonical map
 https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Additional source-discovery result
+- Found existing `ops/qualification/provider_model_registry.json` (blob `62328126fd2cd8879a73bb6812adcacd3e2abe84`, 25 entries) and `profiles/agent-registry.json` (blob `993cbbe1b2b2a88da7d8884a897b404f055981a8`, v1.2.0). No parallel registry was created.
+- Read `ops/qualification/qualify_execution_backends.py` (blob `acf092d5dd9d67ab187f1b67ab691ca730028306`): it loads the provider/model registry for qualification probing. This does not establish that the autonomous dispatcher consumes it.
+- Existing v0.2 task, agent and evidence schemas are proposed-only (blob SHAs `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`, `b49b89b8fbdfc180862e3dc78f8198f35e486035`, `40c402432fd0f3899d45fde0fa0a8af4d34c593a`). Documentary activation queue blob `0d4d591f464b976d6920bbd39c87a45a9d4fda59` has 16 items and remains `DOCUMENTARY_QUEUE_ONLY`.
+- Provider catalog includes credential environment-variable names and model/cost/persistence metadata but no account/project quota/reset/entitlement evidence. Secret values were not inspected or recorded.
+- Focused PR #358 regression tests are verified: run 39117896120 / job 117647309406, 7/7 focused tests passed; 429 cloud-admission unit tests passed. This still does not qualify issuer authorization, provenance, deployment or Contour A.
+- Next: trace actual autonomous dispatcher imports/consumers of these catalogs and confirm signed A0 ingress/provenance integration. Keep all unverified provider routes blocked.
