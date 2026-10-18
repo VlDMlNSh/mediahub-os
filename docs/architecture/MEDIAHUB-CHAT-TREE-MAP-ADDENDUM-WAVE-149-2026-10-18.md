@@ -40,3 +40,11 @@ Wave 149 is a documentation/continuation checkpoint only. It did not run tests, 
 
 ## Wave 149 verified CI evidence
 PR #358 head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5` is still open/Draft/unmerged. Run 39117896120, job 117647309406, confirms the focused worker-run-correlation step passed **7/7 tests**; the same job reports **429 cloud admission unit tests passed**. Run 39117895925, job 117647308536, also completed successfully. This validates the focused correlation regression suite only; it does not qualify issuer authorization, provenance, deployment or Contour A. See [Wave 149 report](../checkpoints/MEDIAHUB-CONTOUR-A-CROSS-CHAT-CONTINUATION-AND-NEXT-WORK-REPORT-WAVE-149-2026-10-18.md).
+
+
+## Wave 149 canonical registry discovery
+- Existing provider/model catalog: `ops/qualification/provider_model_registry.json` — blob `62328126fd2cd8879a73bb6812adcacd3e2abe84`, 25 entries; metadata includes model IDs, secret *environment-variable names*, cost/persistence classes, but not account quota/reset/entitlement evidence. Its labels are not proof of free access.
+- Existing agent catalog: `profiles/agent-registry.json` — blob `993cbbe1b2b2a88da7d8884a897b404f055981a8`, schema `mediahub.ai.agent-registry` v1.2.0; explicitly says provider-model catalog is not authorization proof.
+- Qualification harness `ops/qualification/qualify_execution_backends.py` (blob `acf092d5dd9d67ab187f1b67ab691ca730028306`) loads the provider-model catalog. Autonomous-dispatcher consumption is not yet proven.
+- v0.2 task/agent/evidence schemas remain proposed; activation queue has 16 documentary items and status `DOCUMENTARY_QUEUE_ONLY`. No route admitted.
+- Next: trace dispatcher consumers; keep account/quota unverified until official docs and account/project evidence exist.
