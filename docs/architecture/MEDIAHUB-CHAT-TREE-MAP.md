@@ -7264,3 +7264,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Review confirms exact title matching, freshness, positive integer run ID, and fail-closed duplicate handling. Missing direct negative cases include malformed non-empty command/task/node IDs, malformed/naive timestamps, boolean run ID, and invalid row alongside valid row. These are test coverage gaps, not observed failures.
 - Run-title correlation is not authorization. Signed A0 command and GitHub workflow/event/SHA/job/attempt/artifact provenance validation plus WB-05/R-06 authority decisions remain required. PR stays Draft; no code/dispatch/merge/deployment/qualification in this review.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+## 20.367 — Contour A exact-head CI and integration-gate review (Wave 154, 2026-10-18)
+
+- Report: [MEDIAHUB-CONTOUR-A-EXACT-HEAD-CI-AND-INTEGRATION-GATE-REVIEW-WAVE-154-2026-10-18.md](../checkpoints/MEDIAHUB-CONTOUR-A-EXACT-HEAD-CI-AND-INTEGRATION-GATE-REVIEW-WAVE-154-2026-10-18.md), report blob SHA `351a56a8073162392c56b843fd1c134bcea259c0`, creation commit `24fc7788ed28e55016e230f9e3cd42ed4174126a`.
+- PR #358 exact head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5`: Astra Verify run `39117896120` and Astra Cloud Runtime Validation run `39117895925` passed. This validates the correlation slice, not signed issuer authorization or full result provenance. PR remains Draft.
+- PR #350 exact head `4c1ebafc5d33e8ae075a5bba85771d14aed4ac96`: schema/semantic validation workflow `39078844123` passed. PR remains Draft and diverged from the canonical docs ref 17 ahead / 106 behind; reconcile safely and rerun exact-head CI before integration.
+- PR #361 exact head `a87acd6294fd9f8d9a7e49047dae071a566308e8`: no PR-triggered workflow runs returned; this is no evidence returned, not a failed build. WB-05 Option C remains proposal-only.
+- Open blockers: signed A0 worker ingress and replay/freshness; GitHub-derived workflow/job/attempt/source-SHA/artifact provenance; self-hosted worker isolation; PR #350 divergence; setuptools 84.0.0 publisher attestation; provider registry does not prove live credentials/quota/qualification.
+- No tests were newly run, no workflows dispatched, no secrets/provider calls, no runner changes, deployment, merge or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
