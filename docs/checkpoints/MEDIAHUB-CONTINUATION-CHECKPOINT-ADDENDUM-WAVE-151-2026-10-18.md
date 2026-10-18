@@ -29,3 +29,10 @@ No code/tests, provider calls, secrets, dispatch, merge, deployment, or qualific
 - Targeted provider-registry searches returned no results; this is inconclusive. Roadmap identifies `ops/qualification/provider_model_registry.json` as an existing registry; continue repository-wide consumer census instead of creating another registry.
 - PR #358 CI log shows checkout of `refs/remotes/pull/358/merge`, merge SHA `c8024b033e31b1be218921399feefb16edb915b5` combining PR head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5` into base `c06015e0b1526e0aaa6a522306052b077455aba5`. Dedicated correlation tests and signed command smoke test passed in that merge-ref CI. Additional negative coverage listed above remains open.
 - These are independent CI/source findings only; they do not resolve GOV-CAP-01…07, R-06 or Contour A qualification.
+
+
+## Wave 151 PR #338 path-overlap follow-up
+- Compared all 13 PR #338 changed paths with the current canonical documentation branch: all 13 are absent at those exact paths; no same-path collision was found in this bounded list.
+- Confirmed current canonical source schema blob SHAs match the candidate's recorded pins: task envelope `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; agent registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`; evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- Updated report: [Wave 151 CI provenance and PR #338 divergence review](MEDIAHUB-CONTOUR-A-CI-PROVENANCE-AND-PR338-DIVERGENCE-REVIEW-WAVE-151-2026-10-18.md), latest update commit `96e4657a75760a016511d34f4f60043e5d061a4d`; fetch current blob SHA before reuse.
+- This is not an integration approval: PR #338 remains Draft/non-mergeable pending full history/tree review, independent bootstrap publisher-provenance disposition, and fresh CI after any base reconciliation.
