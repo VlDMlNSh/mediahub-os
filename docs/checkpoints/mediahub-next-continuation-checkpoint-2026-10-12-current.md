@@ -4989,3 +4989,13 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - This verifies artifact integrity and declared fixture checks only. Live issuer/grant/policy/revocation resolution, freshness/replay, target-manifest acceptance, runtime isolation and Contour A qualification remain unproven.
 - Next: independently review signed A0 ingress and worker dispatch contracts, including source-bound workflow/event/SHA/job/attempt/artifact provenance, freshness/replay and fail-closed behavior. Keep PR #363 and PR #364 Draft/unmerged pending independent review and remaining authority/security gates.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 157 continuation — artifact read-back and CI identity correction (2026-10-18)
+
+- Reported in Wave 157 update to the map/checkpoint and PR #365.
+- Downloaded artifact ID `12136710208`, GitHub digest `sha256:553177a7510912426e54d1c4ae3554749c2f88bddd134bd2ba871eec175d8151`; local archive SHA-256 matches.
+- Provenance/report source commit is merge ref `cb2b5851eac94f27ab7da447c261d18d670ff8b0` / `refs/pull/363/merge`, not PR head `dec977fc40fb1b5b6dacc9efa24121ee3a1c3016`. Corrected PR #363 body and posted a correction comment; the previous “exact-head CI” characterization is withdrawn.
+- Schema report: PASS, 182 checks, 0 failures, 3 positive fixtures and 179 negative cases rejected. Semantic report: PASS, 1 positive bundle, 26 negative cases rejected, 0 failures. Pinned schema blob IDs match.
+- Authority references remain unresolved; artifact labels its profile fixture-only and not an accepted A0 issuer/admission contract.
+- Next: run/obtain validation against the actual PR head SHA and check that artifact provenance binds to that SHA; inspect workflow event/ref behavior. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
