@@ -10,7 +10,7 @@ Wave 137 refreshes live repository refs, Issue #301, the schema-validation candi
 
 ## Key source and evidence
 
-- Report: [Contour A Live Governance and CI Reconciliation, Wave 137](../checkpoints/MEDIAHUB-CONTOUR-A-LIVE-GOVERNANCE-CI-RECONCILIATION-WAVE-137-2026-10-18.md), blob SHA to be recorded after read-back.
+- Report: [Contour A Live Governance and CI Reconciliation, Wave 137](../checkpoints/MEDIAHUB-CONTOUR-A-LIVE-GOVERNANCE-CI-RECONCILIATION-WAVE-137-2026-10-18.md), `b1a7450a368cff56a6d60d683ed0e2ecc83feac2`.
 - Issue #301 remains open and its acceptance list still includes A0 issuer/ingress/lifecycle, R-06, accepted target manifest, schema standards validation/review, a read-only worker, controlled dispatch and independent acceptance.
 - PR #350 candidate head references disagree between the current PR body (`f9e05125621955b75bb9b58758586f1c6b658adf`) and Wave 136 checkpoint (`4c1ebafc5d33e8ae075a5bba85771d14aed4ac96`). This remains unresolved until the live PR object/head is read authoritatively.
 - Workflow run #39078419667 passed for the candidate SHA named in the PR body; this is schema-validation evidence only, not end-to-end worker, issuer, runtime, deployment or acceptance evidence.
