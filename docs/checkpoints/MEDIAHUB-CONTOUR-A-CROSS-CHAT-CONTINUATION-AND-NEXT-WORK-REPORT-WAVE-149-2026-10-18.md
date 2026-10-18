@@ -44,3 +44,16 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 - `runtime/mediahub_runtime/autonomous_queue.py` blob `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1` and `runtime/mediahub_runtime/agent_fabric.py` blob `3c70dda5df8c6caa9411201d754ead6b3bfdf6dd` were read from both `main` and the documentation ref; their SHAs match. No provider registry path references were found in those files.
 - Confirmed consumer is `ops/qualification/qualify_execution_backends.py` (blob `acf092d5dd9d67ab187f1b67ab691ca730028306`). This bounded review does not establish that there are no other consumers elsewhere in the repository.
 - Next: complete consumer mapping and prove the accepted runtime binding between provider policy and autonomous queue admission before modifying provider records or enabling any route.
+
+
+## Wave 150 source review — 2026-10-18
+- Reviewed `ops/qualification/run_distributed_local_worker.py`, blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`: task loader checks JSON/object/required fields; the inspected worker entry path has no canonical signed A0 issuer/capability envelope verification before execution. HIGH/BLOCKING for trusted ingress qualification, but no live exploit inferred.
+- Reviewed `.github/workflows/astra-distributed-local-worker.yml`, blob `f650f2416c19dc75b4a0eeec037661c0c6169910`: three worker jobs run on self-hosted runner labels, not GitHub-hosted ephemeral runners.
+- Reviewed main queue `runtime/mediahub_runtime/autonomous_queue.py`, blob `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`: still contains substring run-title matching; PR #358's fix is not canonical until integrated.
+- Confirmed exact PR #358 CI: run 39117896120/job 117647309406 has successful focused test step (7/7) and 429 cloud admission tests passed. This is correlation coverage, not issuer/provenance qualification.
+- Registry boundary: provider catalog `ops/qualification/provider_model_registry.json` (blob `62328126fd2cd8879a73bb6812adcacd3e2abe84`) is loaded by qualification harness `ops/qualification/qualify_execution_backends.py` (blob `acf092d5dd9d67ab187f1b67ab691ca730028306`). Reviewed queue/agent_fabric do not reference it; full repository-wide census remains incomplete.
+- New plan: [Wave 150 issuer and worker trust-hardening plan](MEDIAHUB-CONTOUR-A-ISSUER-AND-WORKER-TRUST-HARDENING-PLAN-WAVE-150-2026-10-18.md).
+- New report: [Wave 150 signed-ingress and worker trust-gap report](MEDIAHUB-CONTOUR-A-SIGNED-INGRESS-AND-WORKER-TRUST-GAP-REPORT-WAVE-150-2026-10-18.md).
+- Master Roadmap post-Wave-150 blob SHA: `94938964d2ef0fef246a69baf144d9c6458168c0`.
+
+**Next:** governance decisions first, then accepted envelope/negative tests and verifier integration; authoritative GitHub provenance; complete registry consumer census; independent runner isolation/recovery qualification. No provider route enabled. No secrets or provider APIs accessed; no worker dispatched; no code/runner config changed; no deployment/qualification.
