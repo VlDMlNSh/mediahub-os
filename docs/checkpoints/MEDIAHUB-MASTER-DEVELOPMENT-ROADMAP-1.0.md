@@ -2186,3 +2186,12 @@ This section is the current continuation entry for any new chat receiving `/next
 - Existing provider registry path is `ops/qualification/provider_model_registry.json` (blob `62328126fd2cd8879a73bb6812adcacd3e2abe84`); do not create a duplicate. Finish repository-wide consumer census.
 - No provider entitlements or routes are verified/enabled. GOV-CAP-01…07 and R-06 remain open. Contour A is NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
 - Evidence boundary: source/CI review and documentation only; no provider calls, secrets, dispatch, branch integration, deployment or qualification.
+
+
+## Wave 151 follow-up — PR #338 changed-path overlap census (2026-10-18)
+
+- Compared all 13 paths in PR #338 against the current canonical docs ref: every candidate path is absent at that exact path, so this bounded check found no same-path overwrite collision.
+- The candidate's three referenced schema files are present at canonical ref and match expected blob SHAs: task envelope `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; agent registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`; evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- This does not eliminate PR #338's 20-ahead / 184-behind divergence or approve integration. Keep it Draft/non-mergeable until complete history/tree reconciliation, independent bootstrap publisher-provenance disposition and fresh CI on the reconciled base.
+- Full evidence: [Wave 151 CI provenance and PR #338 divergence review](MEDIAHUB-CONTOUR-A-CI-PROVENANCE-AND-PR338-DIVERGENCE-REVIEW-WAVE-151-2026-10-18.md). Current registry remains `ops/qualification/provider_model_registry.json`; continue consumer census rather than creating a parallel registry.
+- No rebase, cherry-pick, merge, code change, provider call, secret read, dispatch, deployment or qualification occurred.
