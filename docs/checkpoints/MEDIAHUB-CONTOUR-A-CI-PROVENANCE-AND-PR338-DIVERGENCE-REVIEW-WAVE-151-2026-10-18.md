@@ -50,3 +50,14 @@ Targeted GitHub code searches for provider registry/model ID/secret-reference an
 Source/CI evidence review and documentation only. No tests were run in this chat; no workflow was dispatched; no provider was called; no credentials were inspected; no dependency or workflow source was changed; no branch was rebased/merged; no deployment or qualification occurred.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Follow-up: changed-file overlap census against current canonical documentation ref
+Compared all 13 paths in PR #338's changed-file list against `docs/mediahub-chat-tree-map-20261012` at the current observed ref:
+- All 13 candidate paths are absent on the canonical branch: both new workflow files, candidate report, two lock/input files, two validator scripts and six fixture files. No same-path overwrite conflict was found in this bounded inventory.
+- The three source schemas referenced by the candidate are present and match the recorded expected blob SHAs:
+  - Task Envelope schema: `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`.
+  - Agent Registry schema: `b49b89b8fbdfc180862e3dc78f8198f35e486035`.
+  - Evidence Manifest schema: `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- This reduces direct path-collision risk for the 13 listed files; it does not make the 184-commit history divergence safe to integrate automatically. Keep PR #338 Draft/non-mergeable pending independent supply-chain disposition, review of the complete tree/history, and fresh CI against a reconciled base.
+- No rebase, cherry-pick or merge was performed.
