@@ -38,3 +38,9 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 - Provider catalog includes credential environment-variable names and model/cost/persistence metadata but no account/project quota/reset/entitlement evidence. Secret values were not inspected or recorded.
 - Focused PR #358 regression tests are verified: run 39117896120 / job 117647309406, 7/7 focused tests passed; 429 cloud-admission unit tests passed. This still does not qualify issuer authorization, provenance, deployment or Contour A.
 - Next: trace actual autonomous dispatcher imports/consumers of these catalogs and confirm signed A0 ingress/provenance integration. Keep all unverified provider routes blocked.
+
+
+## Bounded dispatcher-consumer trace
+- `runtime/mediahub_runtime/autonomous_queue.py` blob `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1` and `runtime/mediahub_runtime/agent_fabric.py` blob `3c70dda5df8c6caa9411201d754ead6b3bfdf6dd` were read from both `main` and the documentation ref; their SHAs match. No provider registry path references were found in those files.
+- Confirmed consumer is `ops/qualification/qualify_execution_backends.py` (blob `acf092d5dd9d67ab187f1b67ab691ca730028306`). This bounded review does not establish that there are no other consumers elsewhere in the repository.
+- Next: complete consumer mapping and prove the accepted runtime binding between provider policy and autonomous queue admission before modifying provider records or enabling any route.
