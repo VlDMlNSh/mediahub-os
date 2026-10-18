@@ -7291,3 +7291,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Read-back results: schema report PASS, 182 checks (3 positive fixtures and 179 negative cases rejected), zero failures; semantic report PASS, 1 positive bundle and 26 negative cases rejected, zero failures. Three schema blob pins match. Archive SHA-256 matches GitHub artifact digest.
 - Reports explicitly retain unresolved P0 authority references and state fixture-only limits. No live issuer/grant/policy/revocation resolution or freshness/replay proof.
 - Next: obtain CI that checks out and validates the actual PR head SHA (or independently run the same pinned checks against that SHA), verify its artifact source SHA, then review the workflow's pull_request merge-ref behavior and provenance claims.
+
+
+## 20.371 — Head-bound schema-validation CI (Wave 158, 2026-10-18)
+
+- Report: [MEDIAHUB-CONTOUR-A-HEAD-BOUND-SCHEMA-CI-WAVE-158-2026-10-18.md](../checkpoints/MEDIAHUB-CONTOUR-A-HEAD-BOUND-SCHEMA-CI-WAVE-158-2026-10-18.md), created in commit `ee06766c37e46761da5cc0a32f028d0a9f8b80a4`.
+- PR #363 HEAD `15f4646c70e33a1c9e45483ae437750776093993`. Workflow now checks out PR head SHA, verifies actual checkout SHA, records event/base/head/run metadata, and fails if provenance source SHA differs from PR head SHA.
+- Exact source-bound CI run [39163165440](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39163165440) passed. Artifact ID `12149676123`; archive SHA-256 equals GitHub digest `6aef1787671bc54207790e124d11585807527749f20c63d2e2c79219d4d59417`.
+- Artifact read-back: provenance `commit_sha` = `pr_head_sha` = candidate HEAD; event SHA separately identifies synthetic merge commit. Schema report PASS (182 checks, 0 failures); semantic report PASS (26 negative cases rejected, 0 failures); pinned schema IDs match.
+- Scope remains schema and synthetic semantic fixture validation, not live issuer authority or runtime qualification. PR #363 is still Draft/open/unmerged. Contour A not qualified/deployed/independently accepted.
+- Next: independent review of workflow and negative coverage; trace worker dispatch for signed A0 issuer ingress, audience/node, freshness/replay and target-SHA/current-HEAD binding.
