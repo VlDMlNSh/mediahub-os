@@ -7264,3 +7264,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Review confirms exact title matching, freshness, positive integer run ID, and fail-closed duplicate handling. Missing direct negative cases include malformed non-empty command/task/node IDs, malformed/naive timestamps, boolean run ID, and invalid row alongside valid row. These are test coverage gaps, not observed failures.
 - Run-title correlation is not authorization. Signed A0 command and GitHub workflow/event/SHA/job/attempt/artifact provenance validation plus WB-05/R-06 authority decisions remain required. PR stays Draft; no code/dispatch/merge/deployment/qualification in this review.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+## 20.353 — Contour A Wave 153: WB-05 Option C governance proposal (2026-10-18)
+
+- Report: [WB-05 Option C Governance Proposal and Blocker Review — Wave 153](../checkpoints/MEDIAHUB-CONTOUR-A-WB-05-OPTION-C-GOVERNANCE-PROPOSAL-AND-BLOCKER-REVIEW-WAVE-153-2026-10-18.md).
+- Status: PROPOSED FOR GOVERNANCE / NOT ACCEPTED / NOT IMPLEMENTED. User selected Option C for review only: separately governed MediaHub security authority; Jarvis remains mission coordinator; ASTRA A0 owns internal engineering workflow state; protected boundaries verify capability; Product State Authority remains sole canonical product-state mutation authority.
+- Issue #301 remains open. PR #358 is only a correlation candidate; it does not establish worker authorization or artifact provenance. PR #350 schema-validation candidate requires fresh exact-head CI/review.
+- Source review continues to identify worker signed-ingress/provenance as a qualification blocker (Waves 144/150), self-hosted runner isolation as unqualified, and setuptools 84.0.0 publisher provenance as independently unverified (Wave 152).
+- Live compare at review time: main vs docs branch DIVERGED, 2333 ahead / 27 behind, merge base f0f406feb9f9816b009f4e6e756813541e53b9bc. No automatic integration authorized.
+- This pass did not run tests, dispatch workflows, call providers, read secrets, install, deploy, or merge. See report for evidence and next bounded actions.
