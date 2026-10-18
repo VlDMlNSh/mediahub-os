@@ -4969,3 +4969,13 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 154 continuation — exact-head CI and integration-gate review (2026-10-18)
+
+- Report: [Wave 154 exact-head CI review](MEDIAHUB-CONTOUR-A-EXACT-HEAD-CI-AND-INTEGRATION-GATE-REVIEW-WAVE-154-2026-10-18.md), blob SHA `351a56a8073162392c56b843fd1c134bcea259c0`, creation commit `24fc7788ed28e55016e230f9e3cd42ed4174126a`.
+- PR #358 head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5): Astra Verify `39117896120` and Astra Cloud Runtime Validation `39117895925` both passed. Run-correlation tests do not establish signed issuer authorization or artifact provenance; keep Draft.
+- PR #350 head `4c1ebafc5d33e8ae075a5bba85771d14aed4ac96`: schema validation run `39078844123` passed. The candidate is still DIVERGED from canonical docs (17 ahead / 106 behind; merge base `801d7d212fc114919bcec84faddd153548ec5d14`). Do not mechanically integrate; reconcile and run fresh CI.
+- PR #361 head `a87acd6294fd9f8d9a7e49047dae071a566308e8`: no PR-triggered workflow runs returned; no CI evidence returned. WB-05 Option C is proposal-only, not accepted or implemented.
+- Next bounded step: reconcile PR #350 on a dedicated branch, preserving the 12-file scope and auditing overlap/loss, then run exact-head CI on the reconciled tree. Keep PR #358 Draft pending signed ingress/provenance review. Verify exact-digest PyPI attestation for setuptools 84.0.0.
+- No tests were newly run, workflow dispatched, secrets read, providers invoked, runners changed, merge, deployment or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
