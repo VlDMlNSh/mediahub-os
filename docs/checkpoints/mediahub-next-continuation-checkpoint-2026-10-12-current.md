@@ -4969,3 +4969,13 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 156 continuation — semantic validator and lock-generation review (2026-10-18)
+
+- Report: [Wave 156 semantic-validator and lock-workflow review](MEDIAHUB-CONTOUR-A-SEMANTIC-VALIDATOR-AND-LOCK-WORKFLOW-REVIEW-WAVE-156-2026-10-18.md), creation commit `29266c17951dc5e588cd69a70365604e93a79105`.
+- PR #363 exact head `dec977fc40fb1b5b6dacc9efa24121ee3a1c3016`; workflow run [39126487850](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39126487850) completed successfully, including schema/semantic fixture checks and evidence upload.
+- Static review: fixture crosswalk covers several useful cross-document invariants but does not authenticate issuer/grant/revocation authority, resolve live policy/routes, or establish freshness/replay. The lock-generation workflow is hash-locked/read-only by source review; it was not executed in this pass.
+- PR #363 remains Draft/open/unmerged. Its stale statement that exact-head CI was unavailable has been corrected. No independent reviews were returned.
+- Next: download and independently inspect run 39126487850's evidence artifact; verify report source SHA, run ID/attempt, schema pins, artifact metadata and digest. Continue signed A0 ingress and worker isolation; do not infer Contour A qualification from fixture CI.
+- Status: Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
