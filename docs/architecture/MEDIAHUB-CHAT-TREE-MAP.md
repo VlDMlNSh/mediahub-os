@@ -7264,3 +7264,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Review confirms exact title matching, freshness, positive integer run ID, and fail-closed duplicate handling. Missing direct negative cases include malformed non-empty command/task/node IDs, malformed/naive timestamps, boolean run ID, and invalid row alongside valid row. These are test coverage gaps, not observed failures.
 - Run-title correlation is not authorization. Signed A0 command and GitHub workflow/event/SHA/job/attempt/artifact provenance validation plus WB-05/R-06 authority decisions remain required. PR stays Draft; no code/dispatch/merge/deployment/qualification in this review.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+## 20.372 — Worker-ingress authority audit (Wave 159, 2026-10-18)
+
+- Report: [MEDIAHUB-CONTOUR-A-WORKER-INGRESS-AUTHORITY-AUDIT-WAVE-159-2026-10-18.md](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-INGRESS-AUTHORITY-AUDIT-WAVE-159-2026-10-18.md), blob `c216c845e96f74712207536bcc53908e5b3af050`.
+- Re-read main source blobs: worker `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`, dispatch workflow `f650f2416c19dc75b4a0eeec037661c0c6169910`, A0 agent `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`, autonomous queue `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`, queue contract tests `e3466fd5f8d6d47a846f8ec75b0ab3ca46ed0dc7`.
+- Confirmed: A0 control-command path has HMAC-SHA256, node-specific key, freshness, target-SHA/current-HEAD and replay checks; distributed worker path validates task shape and runtime properties but does not authenticate task JSON against that signed envelope before model execution.
+- PR #358 remains Draft/open/unmerged and only improves workflow-run correlation; it does not close issuer authorization.
+- No runtime changes or worker dispatch were performed. Next: read normative command/capability/task-envelope contracts, define a single cross-envelope binding, then implement shared verifier and fail-closed negative tests. Contour A remains unqualified and Contour B gated.
