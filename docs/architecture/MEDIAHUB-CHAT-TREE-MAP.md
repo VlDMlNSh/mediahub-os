@@ -7228,3 +7228,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Only direct constructor sites in the tracked Python snapshot: three deterministic qualification-probe fixtures in `ops/qualification/produce_runtime_prereq_evidence.py`, blob `2e86e6321a81e73636747fbb46efd612254f503c`. No direct class-name/import references were found in the 100 Python test files.
 - Security status unchanged: local type/allow-list checks do not establish issuer provenance, audience/resource/scope, lifetime, revocation, delegation or replay protection. WB-05 issuer/verifier options remain **NOT SELECTED**; Jarvis→A0 ingress, R-06, and the accepted runner/workspace/network manifest remain open. Qualification fixtures are not a production issuer.
 - No code/test/runtime/provider/credential/dispatch/deployment/integration change was performed in Wave 134. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED**; Contour B remains gated.
+
+
+## 20.363 — A0 ingress trust-boundary revalidation (Wave 148, 2026-10-18)
+
+- Report: [MEDIAHUB-A0-INGRESS-TRUST-BOUNDARY-REVALIDATION-WAVE-148-2026-10-18.md](../checkpoints/MEDIAHUB-A0-INGRESS-TRUST-BOUNDARY-REVALIDATION-WAVE-148-2026-10-18.md), created commit `3a5105053288f39e79ac905ff165e27b92122509`.
+- Re-read main blobs: `task_ingress.py` `59e1254aa61cc8f55f53bd1e179631e81c441393`; `astra_gateway.py` `10985e4ad8f682313d08e7492ecc1856a8bce20f`; `authorization.py` `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; `consumer_boundary.py` `98bf2da9cea85da2c82145b4baef417c20b9ae73`; `ops/control/sign_command.py` `fc6943a79cefdf06e59d6e32771d2df551b2f0e9`; `tools/sign_astra_command.py` `a4222ac51a47cbfe8288f9af34f1e542c0a4b6a8`.
+- Finding: Task Contract ingress accepts file-supplied `approval_state` after shape/enum checks; the inspected path does not verify an issuer or carry `AuthorizationContext`. The typed state-authority context has no issuer/lifecycle proof in its local allow-list implementation. The two HMAC envelope formats are distinct and not established as interoperable.
+- Disposition: source-level trust boundary remains OPEN; do not invent issuer format, ingress API, revocation contract, or exactly-once semantics. Requires accepted MH-12/MH-13 and R-06 authority/privacy disposition before implementation selection.
+- No code, tests, credentials, provider calls, worker dispatch, deployment, merge, or qualification performed. Issue #301 remains open; PR #358 remains Draft/open/unmerged; Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED.
+- Map Contents API returned empty body; map read via blob SHA `e6ed792d3e64df994b7895b6ae0aa1d1a69cfff2` (1,058,262 characters). This addendum is appended without rewriting historical entries.
