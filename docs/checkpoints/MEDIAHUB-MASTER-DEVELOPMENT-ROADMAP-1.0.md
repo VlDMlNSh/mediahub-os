@@ -2128,3 +2128,13 @@ This section is the current continuation entry for any new chat receiving `/next
 - No provider route is ENABLED and no Contour A qualification/deployment is implied by this checkpoint.
 
 **Evidence boundary:** Wave 149 records the durable continuation plan and current known refs only. It does not dispatch a worker/model, read credentials, run tests, merge PRs, deploy infrastructure or qualify Contour A.
+
+
+### Wave 149 verification addendum — PR #358 focused CI tests (2026-10-18)
+
+- Refreshed PR #358: open / Draft / unmerged; head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5`; base `main` SHA `c06015e0b1526e0aaa6a522306052b077455aba5`.
+- Workflow run [39117896120](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39117896120), job `verify` ID `117647309406`: completed / success.
+- Job-step API confirms `Worker run correlation regression tests` completed / success at step 8. Decoded job log confirms command `python -m unittest discover -s tests -p 'test_worker_run_correlation.py' -v`, **7 tests passed**: exact fresh match; empty command ID rejected; substring collision rejected; stale run rejected; duplicate exact runs fail closed; invalid run ID ignored; wrong executor rejected. Full cloud admission unit test step reports **429 tests passed** (`OK`).
+- Separate workflow run [39117895925](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39117895925), job `validate` ID `117647308536`: completed / success; includes contract validation and Astra cloud runtime tests.
+- This is test evidence for the exact PR head, not evidence of signed A0 issuer authorization, end-to-end provider dispatch, provenance completeness, deployment or Contour A qualification.
+- Provider registry search queries (`agent registry schema`, `task envelope evidence manifest v0.2`, `provider registry model route quota`) returned no indexed results. This is **inconclusive**, not evidence the canonical registry is absent; repository-tree enumeration or direct schema path inspection remains required.
