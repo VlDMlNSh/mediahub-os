@@ -7264,3 +7264,14 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Review confirms exact title matching, freshness, positive integer run ID, and fail-closed duplicate handling. Missing direct negative cases include malformed non-empty command/task/node IDs, malformed/naive timestamps, boolean run ID, and invalid row alongside valid row. These are test coverage gaps, not observed failures.
 - Run-title correlation is not authorization. Signed A0 command and GitHub workflow/event/SHA/job/attempt/artifact provenance validation plus WB-05/R-06 authority decisions remain required. PR stays Draft; no code/dispatch/merge/deployment/qualification in this review.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+## 20.368 — Selective schema-validation integration candidate (Wave 155, 2026-10-18)
+
+- Report: [MEDIAHUB-CONTOUR-A-SELECTIVE-SCHEMA-VALIDATION-INTEGRATION-WAVE-155-2026-10-18.md](../checkpoints/MEDIAHUB-CONTOUR-A-SELECTIVE-SCHEMA-VALIDATION-INTEGRATION-WAVE-155-2026-10-18.md), creation commit `07095937822659788d2430845dc98ead4313f8aa`.
+- PR #350's 17-ahead / 106-behind history was not merged or rebased. A clean branch was created from the current canonical docs base `28816f6b523c8cbc878ebd0575b17bc419669889`, carrying exactly the same 12 additive files and no deletions.
+- Candidate PR #363: https://github.com/VlDMlNSh/mediahub-os/pull/363, HEAD `dec977fc40fb1b5b6dacc9efa24121ee3a1c3016`, Draft/open/unmerged. Compare is 12 ahead / 0 behind, merge base equals canonical base, and all 12 changed files are additions.
+- The three schema Git blob pins in the validators match the current canonical schema blobs. All 12 candidate files were read back.
+- Exact-head workflow `39126487850` was queued at last observation; no pass/fail result claimed. PR #350's earlier green CI is not treated as evidence for PR #363.
+- The fixtures are synthetic and do not prove issuer/grant authority or runtime qualification. Signed worker ingress, provenance, runner isolation, publisher attestation, and WB-05 governance remain open.
+- No manual dispatch, local test, provider call, secret read, deployment, merge or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
