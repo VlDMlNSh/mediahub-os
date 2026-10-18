@@ -7274,3 +7274,11 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Lock-generation workflow is read-only and hash-locked in source, but it was not independently run in this pass. Validation artifact contents and digest still need read-back.
 - PR #363 body corrected to cite the exact-head CI run; no code changed. Candidate remains Draft/open/unmerged, with no independent PR reviews recorded.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED. Next: download and inspect exact-head artifact/report provenance, then continue signed A0 ingress and worker isolation review.
+
+
+## 20.370 — Exact-head schema CI artifact inspection (Wave 156, 2026-10-18)
+
+- Wave 156 report: [semantic validator and lock workflow review](../checkpoints/MEDIAHUB-CONTOUR-A-SEMANTIC-VALIDATOR-AND-LOCK-WORKFLOW-REVIEW-WAVE-156-2026-10-18.md); report updated in commit `8db4ac4c86f7a5642ced92236c28c1a98fb38e45`.
+- Downloaded GitHub Actions artifact ID `12136710208` from run `39126487850`. ZIP size 8,799 bytes; locally calculated SHA-256 `553177a7510912426e54d1c4ae3554749c2f88bddd134bd2ba871eec175d8151` matches GitHub artifact metadata exactly.
+- Artifact contains schema report, semantic report and CI provenance JSON. Schema report: 3/3 schemas and positive fixtures passed, 179/179 negative cases rejected, 0 failures. Semantic report: 1/1 positive bundle passed, 26/26 negative cases rejected, 0 failures. Both reports bind to run 39126487850 / attempt 1 and merge SHA `cb2b5851eac94f27ab7da447c261d18d670ff8b0`; run metadata identifies PR head `dec977fc40fb1b5b6dacc9efa24121ee3a1c3016`. This is a pull-request merge ref, not a mismatch to conceal.
+- Artifact integrity and declared fixture checks are verified. Issuer authority, freshness/replay, live policy/route resolution, target manifest, runtime isolation and Contour A qualification remain unproven.
