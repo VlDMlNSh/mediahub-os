@@ -4969,3 +4969,13 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 155 continuation — selective schema-validation integration (2026-10-18)
+
+- Report: [Wave 155](MEDIAHUB-CONTOUR-A-SELECTIVE-SCHEMA-VALIDATION-INTEGRATION-WAVE-155-2026-10-18.md), creation commit `07095937822659788d2430845dc98ead4313f8aa`.
+- To avoid PR #350's divergence (17 ahead / 106 behind canonical docs), created a fresh candidate from canonical base `28816f6b523c8cbc878ebd0575b17bc419669889`, carrying only its 12 additive files; no deletions or existing-file modifications. PR #363: https://github.com/VlDMlNSh/mediahub-os/pull/363, head `dec977fc40fb1b5b6dacc9efa24121ee3a1c3016`, 12 ahead / 0 behind.
+- The validator's three schema blob pins match canonical schema blobs. All 12 candidate files were read back.
+- Exact-head CI run `39126487850` was queued at last observation. Wait for that exact run; do not borrow PR #350's old-head CI result.
+- Next: observe run `39126487850`, inspect its job/artifacts and review the candidate independently. Keep Draft pending signed A0 ingress, result provenance, runner isolation, publisher attestation and WB-05 authority disposition.
+- No manual workflow dispatch, tests locally run, provider calls, secret reads, deployment, merge or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
