@@ -7238,3 +7238,11 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Disposition: source-level trust boundary remains OPEN; do not invent issuer format, ingress API, revocation contract, or exactly-once semantics. Requires accepted MH-12/MH-13 and R-06 authority/privacy disposition before implementation selection.
 - No code, tests, credentials, provider calls, worker dispatch, deployment, merge, or qualification performed. Issue #301 remains open; PR #358 remains Draft/open/unmerged; Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED.
 - Map Contents API returned empty body; map read via blob SHA `e6ed792d3e64df994b7895b6ae0aa1d1a69cfff2` (1,058,262 characters). This addendum is appended without rewriting historical entries.
+
+
+## 20.364 — A0 issuer governance decision-gate matrix (Wave 149, 2026-10-18)
+
+- Report: [MEDIAHUB-A0-ISSUER-GOVERNANCE-DECISION-GATE-MATRIX-WAVE-149-2026-10-18.md](../checkpoints/MEDIAHUB-A0-ISSUER-GOVERNANCE-DECISION-GATE-MATRIX-WAVE-149-2026-10-18.md); creation commit `e13281e486152772ccf3c112831e32ea645c954f`.
+- Crosswalks MH-12 security invariants, WB-05 GOV-CAP-01…07 (all seven remain decisions required), WB-06, Wave 134 call-site inventory, Wave 148 ingress trace and open R-06 audit/privacy items.
+- No issuer option, protocol, token format, key store, audit retention or audit-outage policy selected. No code/tests/provider calls/dispatch/deployment/merge/qualification performed.
+- Jarvis→A0 trusted ingress remains blocked; Product State Authority remains sole canonical product-state mutation authority. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B gated.
