@@ -4999,3 +4999,13 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - Schema report: PASS, 182 checks, 0 failures, 3 positive fixtures and 179 negative cases rejected. Semantic report: PASS, 1 positive bundle, 26 negative cases rejected, 0 failures. Pinned schema blob IDs match.
 - Authority references remain unresolved; artifact labels its profile fixture-only and not an accepted A0 issuer/admission contract.
 - Next: run/obtain validation against the actual PR head SHA and check that artifact provenance binds to that SHA; inspect workflow event/ref behavior. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 158 continuation — head-bound schema-validation CI (2026-10-18)
+
+- Report: [Wave 158 head-bound schema CI](MEDIAHUB-CONTOUR-A-HEAD-BOUND-SCHEMA-CI-WAVE-158-2026-10-18.md), created in commit `ee06766c37e46761da5cc0a32f028d0a9f8b80a4`.
+- PR #363 HEAD `15f4646c70e33a1c9e45483ae437750776093993`. Workflow checkout now uses `github.event.pull_request.head.sha`, records event SHA separately and asserts provenance commit SHA equals PR head SHA.
+- Run [39163165440](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39163165440) passed. Artifact `12149676123`; GitHub and downloaded ZIP SHA-256 match: `6aef1787671bc54207790e124d11585807527749f20c63d2e2c79219d4d59417`.
+- Artifact provenance read-back confirms checked-out `commit_sha` = `pr_head_sha` = `15f4646c70e33a1c9e45483ae437750776093993`; synthetic merge event SHA is recorded separately. Schema: 182 checks, zero failures. Semantic: 26 negative cases rejected, zero failures.
+- PR #363 remains Draft/open/unmerged. CI is head-bound for schema fixtures but does not establish issuer authority, freshness/replay, live provider route, worker isolation or overall Contour A qualification.
+- Next: independently review workflow and fixture coverage; inspect worker dispatch/A0 contract for issuer signature, audience/node binding, freshness/replay and target SHA/current HEAD binding. Contour B remains gated.
