@@ -40,3 +40,10 @@ Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED. Con
 - Canonical schema pins match: task envelope `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`, agent registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`, evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
 - Despite that clean path overlap, PR #338 remains Draft/non-mergeable: 20 ahead / 184 behind. Do not integrate until history/tree reconciliation, independent bootstrap publisher-provenance disposition and fresh CI after reconciliation.
 - Master Roadmap and Wave 151 report/checkpoint contain the full evidence. Canonical registry remains `ops/qualification/provider_model_registry.json`; finish consumer census and do not create a parallel registry.
+
+
+## Wave 152 — bootstrap publisher provenance
+- [Wave 152 report](../checkpoints/MEDIAHUB-SETUPTOOLS-84-0-0-PUBLISHER-PROVENANCE-REVIEW-WAVE-152-2026-10-18.md), blob SHA `ec6e01ebb3d074087cd081df1f4e6748f9d24877`.
+- PyPI metadata for the pinned setuptools 84.0.0 wheel says Trusted Publishing: No. The GitHub tag's verified signature is a separate signal and does not establish wheel-to-source/workflow binding. Keep provenance OPEN pending exact-digest PyPI attestation verification or explicit alternative trust decision.
+- PR #338 currently diverges 20 ahead / 193 behind the canonical docs ref; open/Draft/unmerged. No mechanical integration.
+- Next bounded step: inspect PyPI Integrity API attestation for the exact wheel digest, then reconcile PR #338 and rerun CI on the reconciled base. Canonical provider registry remains `ops/qualification/provider_model_registry.json`.
