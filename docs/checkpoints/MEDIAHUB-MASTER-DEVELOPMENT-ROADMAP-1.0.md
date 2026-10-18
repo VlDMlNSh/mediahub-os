@@ -2089,3 +2089,42 @@ The owner-provided provider list is now captured as a candidate register, not as
 **Work order:** manual read-only verification of Cloudflare Workers AI, Groq and Gemini first; then resolve Z.ai and SiliconFlow model/secret-name discrepancies; next Mistral, OpenRouter, HF and Novita; finally research the additional candidates. Do not assume multiple API keys in one project/account multiply upstream quota. Separate Gemini implementation/research roles from genuinely independent review. No provider route is admitted to autonomous dispatch until A0 signed ingress, immutable isolated execution and authoritative run/job/attempt/source/artifact provenance gates pass.
 
 **Evidence boundary:** Wave 148 recorded a plan and candidate register only. No credentials were inspected, no provider API was called, no model was invoked, and no quota/account entitlement was verified in this pass. Manual provider-assisted development remains available only through authenticated, policy-compliant interfaces and reviewable artifacts.
+
+
+## Wave 149 — durable cross-chat Contour A continuation checkpoint (2026-10-18)
+
+This section is the current continuation entry for any new chat receiving `/next`. Refresh all live refs and SHAs before relying on this snapshot.
+
+**Canonical navigation**
+- Canonical project map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Wave 149 map addendum: ../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-149-2026-10-18.md
+- Wave 149 checkpoint: MEDIAHUB-CONTINUATION-CHECKPOINT-ADDENDUM-WAVE-149-2026-10-18.md
+- Wave 149 detailed report: MEDIAHUB-CONTOUR-A-CROSS-CHAT-CONTINUATION-AND-NEXT-WORK-REPORT-WAVE-149-2026-10-18.md
+- Governing issue: https://github.com/VlDMlNSh/mediahub-os/issues/301
+- Current queue hardening PR: https://github.com/VlDMlNSh/mediahub-os/pull/358
+- Existing documentation integration PR: https://github.com/VlDMlNSh/mediahub-os/pull/333
+
+**Current verified state at checkpoint creation**
+- Documentation branch: `docs/mediahub-chat-tree-map-20261012`; do not confuse it with `main` or the unmerged PR #333 working branch.
+- Master Roadmap before this update was read from GitHub with blob SHA `f0909401a5101bdaf4260ff6468c5c27c5c44356`.
+- PR #358: open, Draft, unmerged, mergeable; head branch `fix/wave-146-fail-closed-worker-run-correlation`, head SHA `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5`, base `main` at `c06015e0b1526e0aaa6a522306052b077455aba5`. Its tests are added to CI in the PR diff; successful workflow status alone is insufficient until job logs confirm the focused test step executed.
+- Issue #301 is the governing Contour A provider/issuer/route/quota/revocation/evidence tracker; refresh live status and body on the next pass.
+- Provider candidates and claimed free quotas are only hypotheses. Wave 148's register remains the inventory; no provider entitlement, quota, API call or route enablement is established by documentation.
+- The Wave 145 manual provider-assisted operating model remains valid as a fallback only for authenticated, policy-compliant sessions producing inspectable branch/PR/patch and test evidence. Do not claim Gemini or any other provider has been connected to the autonomous queue without fresh observable dispatch and artifact evidence.
+
+**Next work — perform in order, but do not wait on one blocked item**
+1. Refresh `main`, `docs/mediahub-chat-tree-map-20261012`, PR #333, PR #358, Issue #301 and relevant CI run/job logs; capture exact refs/SHAs and state changes.
+2. Enumerate repository files and locate the existing canonical provider registry and schema before editing provider records. Prior keyword searches returned no results; this is not proof that the registry is absent. Never create a parallel source of truth or inspect secret values.
+3. Confirm whether PR #358's `Worker run correlation regression tests` step actually ran on the exact current head. If not, report it as unverified and run only through an authorized, reproducible test path.
+4. Continue source-bound hardening of signed A0 ingress and authoritative GitHub run/job/attempt/workflow/ref/event/source-SHA/artifact-ID/digest provenance. Workflow titles and dispatch permission remain correlation/transport metadata, not authorization.
+5. Verify official current quota documentation and account/project-level entitlements for Cloudflare Workers AI, Groq and Gemini first; if account evidence is unavailable, preserve BLOCKED status and proceed with independent source/schema work.
+6. Record every completed pass in a dated report, update the map addendum and continuation checkpoint, read back all changed files, and report blob/commit SHAs and test evidence.
+
+**Non-negotiable boundaries**
+- Keep Jarvis mission coordination, ASTRA A0 internal queue authority and MediaHub Product State Authority separate. Do not bypass issuer/capability or allow a provider/worker to self-qualify or self-promote.
+- Human launch authority remains separate. Distinguish design, implementation, test, verification, qualification, release, deployment and independent acceptance.
+- Do not route around provider terms, data/egress restrictions, quotas or account policy through VPN/proxy/region spoofing; no paid fallback without explicit destination/budget approval.
+- Contour B remains blocked until Contour A is deployed and independently accepted.
+- No provider route is ENABLED and no Contour A qualification/deployment is implied by this checkpoint.
+
+**Evidence boundary:** Wave 149 records the durable continuation plan and current known refs only. It does not dispatch a worker/model, read credentials, run tests, merge PRs, deploy infrastructure or qualify Contour A.
