@@ -54,3 +54,14 @@ PR #358 head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5` is still open/Draft/unme
 - `runtime/mediahub_runtime/autonomous_queue.py` blob `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1` and `runtime/mediahub_runtime/agent_fabric.py` blob `3c70dda5df8c6caa9411201d754ead6b3bfdf6dd` have matching SHAs on `main` and the docs ref. No provider registry path references were found in either reviewed file.
 - Confirmed consumer in this pass: qualification harness `ops/qualification/qualify_execution_backends.py` only. This is bounded evidence, not a repository-wide absence claim. Keep provider registry as candidate catalog, not dispatch authorization.
 - Next: map all consumers and verify the queue's accepted provider admission binding.
+
+
+## Wave 150 — signed ingress trust gap and next work (2026-10-18)
+- Master Roadmap Wave 150 section appended; post-update blob SHA `94938964d2ef0fef246a69baf144d9c6458168c0`.
+- Detailed plan: [Wave 150 issuer and worker trust-hardening plan](../checkpoints/MEDIAHUB-CONTOUR-A-ISSUER-AND-WORKER-TRUST-HARDENING-PLAN-WAVE-150-2026-10-18.md).
+- Source report: [Wave 150 signed-ingress and worker trust-gap report](../checkpoints/MEDIAHUB-CONTOUR-A-SIGNED-INGRESS-AND-WORKER-TRUST-GAP-REPORT-WAVE-150-2026-10-18.md).
+- Blocking finding: worker `load_task()` in `ops/qualification/run_distributed_local_worker.py` blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d` parses JSON and required fields; reviewed entry path does not verify canonical signed A0 issuer/capability envelope before execution. Do not invent key/issuer semantics while governance decisions remain open.
+- Actual worker workflow `.github/workflows/astra-distributed-local-worker.yml` blob `f650f2416c19dc75b4a0eeec037661c0c6169910` uses self-hosted labels `mediahub-control`, `mediahub-provider`, `astra-control`; current path is not GitHub-hosted ephemeral execution.
+- PR #358 remains open/Draft/unmerged at last refresh. CI run 39117896120/job 117647309406 confirms 7/7 focused correlation tests and 429 cloud admission tests. Until integration, main still has substring matching.
+- Provider catalog is confirmed consumed by qualification harness only in bounded review; reviewed autonomous queue/agent_fabric do not reference it. Finish full consumer mapping. Candidate catalog is not dispatch authorization.
+- Next: accepted issuer/trust-anchor/principal/revocation/freshness/delegation/R-06 decisions; versioned envelope and negative fixtures; verifier at worker entrypoint; authoritative GitHub/artifact provenance; complete registry-consumer census; independently qualify isolation/recovery. Keep routes BLOCKED, Contour A not qualified/deployed/accepted and Contour B blocked.
