@@ -66,3 +66,29 @@ Obtain explicit owner/governance dispositions for issuer authority, principal li
 - Read `runtime/mediahub_runtime/autonomous_queue.py` at blob `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1` and `runtime/mediahub_runtime/agent_fabric.py` at blob `3c70dda5df8c6caa9411201d754ead6b3bfdf6dd` on both `main` and the documentation ref; their SHAs match across those refs. A full-text search of these two files found no reference to `provider_model_registry`, `profiles/agent-registry.json` or the provider-registry path.
 - Therefore the only confirmed consumer in this bounded pass is `ops/qualification/qualify_execution_backends.py` (blob `acf092d5dd9d67ab187f1b67ab691ca730028306`). This does **not** prove no other consumer exists elsewhere in the repository; no repo-wide dependency graph or recursive tree census was completed.
 - Next engineering task: use exact source/search/tree evidence to map all consumers and establish whether the qualification catalog is separate from autonomous queue admission. Until an accepted runtime binding is proven, treat the provider catalog as a qualification-candidate inventory, not dispatch authority.
+
+
+## Wave 150 continuation point — 2026-10-18
+
+- Master Roadmap post-Wave-150 blob SHA: `94938964d2ef0fef246a69baf144d9c6458168c0`.
+- Wave 150 plan: [issuer and worker trust-hardening plan](MEDIAHUB-CONTOUR-A-ISSUER-AND-WORKER-TRUST-HARDENING-PLAN-WAVE-150-2026-10-18.md).
+- Wave 150 report: [signed-ingress and worker trust-gap report](MEDIAHUB-CONTOUR-A-SIGNED-INGRESS-AND-WORKER-TRUST-GAP-REPORT-WAVE-150-2026-10-18.md).
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+### Highest-priority finding
+The reviewed `ops/qualification/run_distributed_local_worker.py` entry path parses task JSON and validates required fields/node/executor/target SHA, but does not verify a canonical signed A0 issuer/capability envelope before task execution. Treat as HIGH/BLOCKING for trusted autonomous ingress qualification; do not invent cryptographic/key lifecycle semantics while governance is open.
+
+### Execution and integration state
+- Worker workflow uses self-hosted runner labels, not GitHub-hosted ephemeral runners; isolation/recovery qualification is still open.
+- PR #358 is open/Draft/unmerged at head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5`. CI run 39117896120/job 117647309406: focused correlation suite 7/7 and cloud-admission suite 429/429. Main still has old substring run matching until PR integration.
+- Provider registry is a qualification candidate catalog, not dispatch authority. Reviewed queue and agent_fabric have no references to it; only qualification harness consumption is confirmed in this bounded review.
+
+### Next /next sequence
+1. Refresh main/docs refs, Issue #301, PR #333/#358 and current CI checks.
+2. Resolve accepted issuer/principal/trust-anchor/revocation/freshness/delegation and R-06 governance decisions.
+3. Derive versioned envelope contract and negative fixtures from accepted A0/MH-12/R-06 contracts; verify in worker entrypoint before branch creation.
+4. Bind GitHub run/job/attempt/event/ref/source SHA/artifact ID/digest to the envelope digest and independently verify uploaded evidence.
+5. Complete repository-wide consumer mapping for provider and agent registries; keep provider routes BLOCKED until entitlement/policy/quota evidence exists.
+6. Qualify actual self-hosted runner isolation, secrets, cleanup, cancellation and compromise recovery or establish approved ephemeral alternative.
+
+No code, credentials, provider calls, worker dispatch, deployment or qualification occurred in Wave 150. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
