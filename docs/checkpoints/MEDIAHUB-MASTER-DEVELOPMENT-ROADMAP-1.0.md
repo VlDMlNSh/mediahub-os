@@ -2156,3 +2156,22 @@ This section is the current continuation entry for any new chat receiving `/next
 - Read `runtime/mediahub_runtime/autonomous_queue.py` at blob `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1` and `runtime/mediahub_runtime/agent_fabric.py` at blob `3c70dda5df8c6caa9411201d754ead6b3bfdf6dd` on both `main` and the documentation ref; their SHAs match across those refs. A full-text search of these two files found no reference to `provider_model_registry`, `profiles/agent-registry.json` or the provider-registry path.
 - Therefore the only confirmed consumer in this bounded pass is `ops/qualification/qualify_execution_backends.py` (blob `acf092d5dd9d67ab187f1b67ab691ca730028306`). This does **not** prove no other consumer exists elsewhere in the repository; no repo-wide dependency graph or recursive tree census was completed.
 - Next engineering task: use exact source/search/tree evidence to map all consumers and establish whether the qualification catalog is separate from autonomous queue admission. Until an accepted runtime binding is proven, treat the provider catalog as a qualification-candidate inventory, not dispatch authority.
+
+
+## Wave 150 — signed ingress and worker trust-boundary hardening (2026-10-18)
+
+- Detailed execution plan: [Wave 150 issuer and worker trust-hardening plan](MEDIAHUB-CONTOUR-A-ISSUER-AND-WORKER-TRUST-HARDENING-PLAN-WAVE-150-2026-10-18.md).
+- Source report: [Wave 150 signed-ingress and worker trust-gap report](MEDIAHUB-CONTOUR-A-SIGNED-INGRESS-AND-WORKER-TRUST-GAP-REPORT-WAVE-150-2026-10-18.md).
+- Project-map entry: [Wave 149 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-149-2026-10-18.md); current continuation checkpoint remains linked there.
+
+**Blocking source finding:** in `ops/qualification/run_distributed_local_worker.py` (blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`), `load_task()` JSON-decodes the task and checks required fields but the reviewed worker entry path does not validate a canonical signed A0 issuer/capability envelope before execution. The command ID is read from environment and is not shown bound to a verified envelope. This is a source-review trust gap, not evidence of a live exploit. Do not invent key-management or issuer semantics; Wave 149 governance decisions must be accepted first.
+
+**Execution topology:** `.github/workflows/astra-distributed-local-worker.yml` blob `f650f2416c19dc75b4a0eeec037661c0c6169910` runs three jobs on self-hosted runner labels (`mediahub-control`, `mediahub-provider`, `astra-control`). Do not describe the current path as GitHub-hosted ephemeral workers. Isolation, persistent state, secret injection, cancellation, compromise recovery and independent qualification remain open.
+
+**Correlation fix:** PR #358 head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5` remains open/Draft/unmerged at last refresh. CI run 39117896120, job 117647309406, verified the focused correlation step at 7/7 tests and the full cloud-admission suite at 429 tests. Until PR #358 is integrated, `main` retains old substring run matching; refresh refs/checks before integration.
+
+**Registry boundary:** `ops/qualification/provider_model_registry.json` blob `62328126fd2cd8879a73bb6812adcacd3e2abe84` is confirmed consumed by `ops/qualification/qualify_execution_backends.py` blob `acf092d5dd9d67ab187f1b67ab691ca730028306`. The reviewed autonomous queue and agent-fabric files have no registry-path references. This is bounded evidence only; finish repository-wide consumer mapping. Treat registry records as qualification candidates, not dispatch authorization. Provider entitlements/quotas remain unverified and routes stay BLOCKED.
+
+**Next work:** (1) settle issuer/principal/trust-anchor/revocation/freshness/delegation and R-06 decisions; (2) derive accepted envelope contract and negative fixtures; (3) test verifier in worker entrypoint; (4) bind authoritative GitHub run/job/attempt/event/ref/source SHA/artifact ID/digest to task-envelope digest; (5) complete provider-registry consumer census; (6) independently qualify actual runner isolation and recovery. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
+
+**Evidence boundary:** Wave 150 source review and documentation only; no secrets read, providers called, workers dispatched, runner configuration changed, deployment or qualification performed.
