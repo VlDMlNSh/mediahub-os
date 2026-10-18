@@ -4961,3 +4961,11 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - No issuer/token format or lifecycle was invented. Accepted MH-12/MH-13 and R-06 authority/privacy dispositions remain required before issuer implementation. No code, tests, credentials, provider calls, dispatch, deployment, merge or qualification in this pass.
 - Live repository status: main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`; docs ref DIVERGED 2,268 ahead / 27 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Issue #301 open; PR #358 Draft/open/unmerged; PR #350 Draft/open/non-mergeable. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED.
 - Next: reconcile the exact authority decision path for issuer/audience/resource/scope/lifetime/revocation/delegation/replay and audit-unavailable behavior; only then implement a narrow verifier plus negative tests.
+
+
+## Wave 152 continuation — bootstrap publisher provenance (2026-10-18)
+- Report: [Wave 152](MEDIAHUB-SETUPTOOLS-84-0-0-PUBLISHER-PROVENANCE-REVIEW-WAVE-152-2026-10-18.md), blob SHA `ec6e01ebb3d074087cd081df1f4e6748f9d24877`, creation commit `419d7a5f309d1a5ec94f19273d05fd4b4fa3b407`.
+- Official PyPI metadata for setuptools 84.0.0 states Trusted Publishing was not used for the wheel. The upstream GitHub release shows verified signature metadata, but this does not independently bind the PyPI wheel to the source tag or publishing workflow. Provenance remains OPEN / NOT INDEPENDENTLY VERIFIED.
+- PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
+- Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
+- No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
