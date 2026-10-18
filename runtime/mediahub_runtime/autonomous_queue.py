@@ -11,7 +11,7 @@ import re
 import subprocess
 import tempfile
 import time
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 
 from .agent_fabric import AgentClaim, ClaimStore
@@ -106,7 +106,8 @@ def select_correlated_workflow_run(
     return matches[0] if matches else None
 
 
-def worktree_path(task_id: str) -> Path:    return STATE / "worktrees" / safe_task_id(task_id)def worktree_path(task_id: str) -> Path:    return STATE / "worktrees" / safe_task_id(task_id)
+def worktree_path(task_id: str) -> Path:
+    return STATE / "worktrees" / safe_task_id(task_id)
 
 
 def load_tasks() -> list[dict]:
