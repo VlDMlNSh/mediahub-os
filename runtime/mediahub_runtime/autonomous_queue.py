@@ -77,7 +77,7 @@ def select_correlated_workflow_run(
         raise ValueError("invalid_task_id")
     if not isinstance(node_id, str) or not node_id or not re.fullmatch(r"[A-Za-z0-9._-]+", node_id):
         raise ValueError("invalid_node_id")
-    if executor not in {"codex", "claude"}:
+    if executor != "claude":
         raise ValueError("invalid_executor")
 
     expected_title = f"Astra distributed worker / {command_id} / {task_id} / {node_id} / {executor}"
