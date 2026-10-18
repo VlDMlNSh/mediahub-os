@@ -4969,3 +4969,43 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 156 continuation — semantic validator and lock-generation review (2026-10-18)
+
+- Report: [Wave 156 semantic-validator and lock-workflow review](MEDIAHUB-CONTOUR-A-SEMANTIC-VALIDATOR-AND-LOCK-WORKFLOW-REVIEW-WAVE-156-2026-10-18.md), creation commit `29266c17951dc5e588cd69a70365604e93a79105`.
+- PR #363 exact head `dec977fc40fb1b5b6dacc9efa24121ee3a1c3016`; workflow run [39126487850](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39126487850) completed successfully, including schema/semantic fixture checks and evidence upload.
+- Static review: fixture crosswalk covers several useful cross-document invariants but does not authenticate issuer/grant/revocation authority, resolve live policy/routes, or establish freshness/replay. The lock-generation workflow is hash-locked/read-only by source review; it was not executed in this pass.
+- PR #363 remains Draft/open/unmerged. Its stale statement that exact-head CI was unavailable has been corrected. No independent reviews were returned.
+- Next: download and independently inspect run 39126487850's evidence artifact; verify report source SHA, run ID/attempt, schema pins, artifact metadata and digest. Continue signed A0 ingress and worker isolation; do not infer Contour A qualification from fixture CI.
+- Status: Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 156 follow-through — CI artifact integrity and report read-back (2026-10-18)
+
+- Wave 156 report updated in commit `bd920dfff6a9d6001950dbe3a307bbfa1d0d6b99`; map contains the artifact-verification addendum.
+- Artifact ID `12136710208` from workflow run `39126487850`: 8,799-byte ZIP. Locally computed SHA-256 `553177a7510912426e54d1c4ae3554749c2f88bddd134bd2ba871eec175d8151` matches GitHub's artifact digest exactly.
+- Schema report: 3/3 schemas meta-validated, 3/3 positive fixtures passed, 179/179 negative cases rejected, 0 failures. Semantic report: 1/1 positive bundle passed, 26/26 semantic negative cases rejected, 0 failures. Provenance binds to run 39126487850 / attempt 1 and synthetic PR merge SHA `cb2b5851eac94f27ab7da447c261d18d670ff8b0`; run metadata independently identifies PR head `dec977fc40fb1b5b6dacc9efa24121ee3a1c3016`.
+- This verifies artifact integrity and declared fixture checks only. Live issuer/grant/policy/revocation resolution, freshness/replay, target-manifest acceptance, runtime isolation and Contour A qualification remain unproven.
+- Next: independently review signed A0 ingress and worker dispatch contracts, including source-bound workflow/event/SHA/job/attempt/artifact provenance, freshness/replay and fail-closed behavior. Keep PR #363 and PR #364 Draft/unmerged pending independent review and remaining authority/security gates.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 157 continuation — artifact read-back and CI identity correction (2026-10-18)
+
+- Reported in Wave 157 update to the map/checkpoint and PR #365.
+- Downloaded artifact ID `12136710208`, GitHub digest `sha256:553177a7510912426e54d1c4ae3554749c2f88bddd134bd2ba871eec175d8151`; local archive SHA-256 matches.
+- Provenance/report source commit is merge ref `cb2b5851eac94f27ab7da447c261d18d670ff8b0` / `refs/pull/363/merge`, not PR head `dec977fc40fb1b5b6dacc9efa24121ee3a1c3016`. Corrected PR #363 body and posted a correction comment; the previous “exact-head CI” characterization is withdrawn.
+- Schema report: PASS, 182 checks, 0 failures, 3 positive fixtures and 179 negative cases rejected. Semantic report: PASS, 1 positive bundle, 26 negative cases rejected, 0 failures. Pinned schema blob IDs match.
+- Authority references remain unresolved; artifact labels its profile fixture-only and not an accepted A0 issuer/admission contract.
+- Next: run/obtain validation against the actual PR head SHA and check that artifact provenance binds to that SHA; inspect workflow event/ref behavior. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 158 continuation — head-bound schema-validation CI (2026-10-18)
+
+- Report: [Wave 158 head-bound schema CI](MEDIAHUB-CONTOUR-A-HEAD-BOUND-SCHEMA-CI-WAVE-158-2026-10-18.md), created in commit `ee06766c37e46761da5cc0a32f028d0a9f8b80a4`.
+- PR #363 HEAD `15f4646c70e33a1c9e45483ae437750776093993`. Workflow checkout now uses `github.event.pull_request.head.sha`, records event SHA separately and asserts provenance commit SHA equals PR head SHA.
+- Run [39163165440](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39163165440) passed. Artifact `12149676123`; GitHub and downloaded ZIP SHA-256 match: `6aef1787671bc54207790e124d11585807527749f20c63d2e2c79219d4d59417`.
+- Artifact provenance read-back confirms checked-out `commit_sha` = `pr_head_sha` = `15f4646c70e33a1c9e45483ae437750776093993`; synthetic merge event SHA is recorded separately. Schema: 182 checks, zero failures. Semantic: 26 negative cases rejected, zero failures.
+- PR #363 remains Draft/open/unmerged. CI is head-bound for schema fixtures but does not establish issuer authority, freshness/replay, live provider route, worker isolation or overall Contour A qualification.
+- Next: independently review workflow and fixture coverage; inspect worker dispatch/A0 contract for issuer signature, audience/node binding, freshness/replay and target SHA/current HEAD binding. Contour B remains gated.
