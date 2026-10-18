@@ -33,3 +33,10 @@ Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED. Con
 - PR #338 merge-ref CI: run `39058425661`, tested merge SHA `dce0bc01c04020560b2842de6ab5cf190348f0fa`, artifact ID `12110676230`, digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`. PR head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21` was not the tested commit.
 - PR #338 current divergence: 20 ahead / 184 behind docs branch `51bd196d29c3bbac2902034ecc3d05c341b19e1f`. Do not integrate mechanically.
 - Canonical provider registry path is already recorded in roadmap as `ops/qualification/provider_model_registry.json`; continue consumer census, do not create a duplicate.
+
+
+## Wave 151 path-overlap census result
+- PR #338 has 13 changed paths; all 13 are absent on the current canonical documentation branch, so no same-path overwrite conflict was found in that bounded list.
+- Canonical schema pins match: task envelope `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`, agent registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`, evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- Despite that clean path overlap, PR #338 remains Draft/non-mergeable: 20 ahead / 184 behind. Do not integrate until history/tree reconciliation, independent bootstrap publisher-provenance disposition and fresh CI after reconciliation.
+- Master Roadmap and Wave 151 report/checkpoint contain the full evidence. Canonical registry remains `ops/qualification/provider_model_registry.json`; finish consumer census and do not create a parallel registry.
