@@ -7255,3 +7255,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Comparison against current canonical docs ref: DIVERGED, PR head 20 commits ahead / 144 behind; merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. No integration attempted.
 - Supply-chain gate remains open: pinned hashes verify artifact bytes, not publisher identity. Existing roadmap flags the setuptools 84.0.0 Trusted Publishing provenance risk; this pass did not independently refresh PyPI metadata.
 - No code/dependency/workflow changes, secret/provider access, dispatch, deployment, merge or qualification in this review. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED.
+
+
+## 20.366 — PR #358 worker-run correlation negative-coverage review (Wave 151, 2026-10-18)
+
+- Report: [MEDIAHUB-PR358-WORKER-RUN-CORRELATION-NEGATIVE-COVERAGE-REVIEW-WAVE-151-2026-10-18.md](../checkpoints/MEDIAHUB-PR358-WORKER-RUN-CORRELATION-NEGATIVE-COVERAGE-REVIEW-WAVE-151-2026-10-18.md), blob SHA `a7d57fc2b7301db740b5032a30d07b6bd254b21a`, report commit `85827b04c85f2897dda5489be4ec916a5eabe2de`.
+- PR #358 HEAD `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5`; Astra Verify run `39117896120` passed the full 429-test suite and dedicated 7-test correlation suite; Astra Cloud Runtime Validation run `39117895925` passed.
+- Review confirms exact title matching, freshness, positive integer run ID, and fail-closed duplicate handling. Missing direct negative cases include malformed non-empty command/task/node IDs, malformed/naive timestamps, boolean run ID, and invalid row alongside valid row. These are test coverage gaps, not observed failures.
+- Run-title correlation is not authorization. Signed A0 command and GitHub workflow/event/SHA/job/attempt/artifact provenance validation plus WB-05/R-06 authority decisions remain required. PR stays Draft; no code/dispatch/merge/deployment/qualification in this review.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
