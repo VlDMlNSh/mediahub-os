@@ -2195,3 +2195,13 @@ This section is the current continuation entry for any new chat receiving `/next
 - This does not eliminate PR #338's 20-ahead / 184-behind divergence or approve integration. Keep it Draft/non-mergeable until complete history/tree reconciliation, independent bootstrap publisher-provenance disposition and fresh CI on the reconciled base.
 - Full evidence: [Wave 151 CI provenance and PR #338 divergence review](MEDIAHUB-CONTOUR-A-CI-PROVENANCE-AND-PR338-DIVERGENCE-REVIEW-WAVE-151-2026-10-18.md). Current registry remains `ops/qualification/provider_model_registry.json`; continue consumer census rather than creating a parallel registry.
 - No rebase, cherry-pick, merge, code change, provider call, secret read, dispatch, deployment or qualification occurred.
+
+
+## Wave 152 — bootstrap publisher provenance review (2026-10-18)
+
+- Report: [Wave 152 setuptools 84.0.0 publisher-provenance review](MEDIAHUB-SETUPTOOLS-84-0-0-PUBLISHER-PROVENANCE-REVIEW-WAVE-152-2026-10-18.md), report blob SHA `ec6e01ebb3d074087cd081df1f4e6748f9d24877`, creation commit `419d7a5f309d1a5ec94f19273d05fd4b4fa3b407`.
+- PyPI official metadata for `setuptools==84.0.0` reports wheel SHA-256 `51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670` and “Uploaded using Trusted Publishing? No”. The upstream GitHub release page shows verified signature metadata for v84.0.0, but this alone does not bind the uploaded wheel to that source/workflow. Publisher provenance therefore remains OPEN / NOT INDEPENDENTLY VERIFIED.
+- PyPI official attestation documentation supports digest-to-publisher identity verification; a machine-verifiable attestation for the exact wheel digest was not queried/verified in this pass. Do not overstate this as a complete supply-chain audit.
+- PR #338 is still open/Draft/unmerged at `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; comparison against current docs branch is now DIVERGED 20 ahead / 193 behind (merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`). This supersedes the prior 20/184 snapshot. No mechanical rebase/cherry-pick/merge.
+- Next: verify the PyPI Integrity API attestation bundle for the exact wheel digest, or document an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI on the reconciled base. Continue canonical provider registry consumer census at `ops/qualification/provider_model_registry.json`; do not create a duplicate.
+- No wheel download/hash recomputation, tests, workflow dispatch, credentials, provider calls, merge, deployment or qualification occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
