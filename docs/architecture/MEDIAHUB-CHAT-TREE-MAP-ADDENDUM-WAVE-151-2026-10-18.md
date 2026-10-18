@@ -26,3 +26,10 @@
 
 ## Gate
 Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED. Contour B remains blocked. Documentation-only Wave 151; no code changes, provider calls, dispatch, credentials, merge, deployment or qualification.
+
+
+## Wave 151 supplemental CI evidence
+- PR #358 merge-ref CI: run `39117896120`, merge SHA `c8024b033e31b1be218921399feefb16edb915b5`; focused correlation tests and signed-command smoke test passed. Additional negative coverage remains open.
+- PR #338 merge-ref CI: run `39058425661`, tested merge SHA `dce0bc01c04020560b2842de6ab5cf190348f0fa`, artifact ID `12110676230`, digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`. PR head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21` was not the tested commit.
+- PR #338 current divergence: 20 ahead / 184 behind docs branch `51bd196d29c3bbac2902034ecc3d05c341b19e1f`. Do not integrate mechanically.
+- Canonical provider registry path is already recorded in roadmap as `ops/qualification/provider_model_registry.json`; continue consumer census, do not create a duplicate.
