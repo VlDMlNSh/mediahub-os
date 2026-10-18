@@ -36,3 +36,7 @@
 Jarvis remains mission coordination; ASTRA A0 owns only its accepted internal queue state; MediaHub Product State Authority alone owns canonical product-state mutation. Workflow dispatch permission/title is not issuer authorization. Human launch authority remains distinct. No self-qualification/self-promotion. Contour B remains blocked until Contour A is deployed and independently accepted.
 
 Wave 149 is a documentation/continuation checkpoint only. It did not run tests, dispatch workers or models, inspect credentials, merge code, deploy infrastructure or qualify Contour A.
+
+
+## Wave 149 verified CI evidence
+PR #358 head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5` is still open/Draft/unmerged. Run 39117896120, job 117647309406, confirms the focused worker-run-correlation step passed **7/7 tests**; the same job reports **429 cloud admission unit tests passed**. Run 39117895925, job 117647308536, also completed successfully. This validates the focused correlation regression suite only; it does not qualify issuer authorization, provenance, deployment or Contour A. See [Wave 149 report](../checkpoints/MEDIAHUB-CONTOUR-A-CROSS-CHAT-CONTINUATION-AND-NEXT-WORK-REPORT-WAVE-149-2026-10-18.md).
