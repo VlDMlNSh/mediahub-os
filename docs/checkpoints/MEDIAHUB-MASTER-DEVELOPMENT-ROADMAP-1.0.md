@@ -2175,3 +2175,14 @@ This section is the current continuation entry for any new chat receiving `/next
 **Next work:** (1) settle issuer/principal/trust-anchor/revocation/freshness/delegation and R-06 decisions; (2) derive accepted envelope contract and negative fixtures; (3) test verifier in worker entrypoint; (4) bind authoritative GitHub run/job/attempt/event/ref/source SHA/artifact ID/digest to task-envelope digest; (5) complete provider-registry consumer census; (6) independently qualify actual runner isolation and recovery. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
 
 **Evidence boundary:** Wave 150 source review and documentation only; no secrets read, providers called, workers dispatched, runner configuration changed, deployment or qualification performed.
+
+
+## Wave 151 — CI provenance and branch-divergence continuation (2026-10-18)
+
+- Evidence report: [CI provenance and PR #338 divergence review](MEDIAHUB-CONTOUR-A-CI-PROVENANCE-AND-PR338-DIVERGENCE-REVIEW-WAVE-151-2026-10-18.md).
+- PR #358 run `39117896120`, job `117647309406`: worker-run correlation regression tests and signed-command smoke test passed on GitHub merge ref `refs/remotes/pull/358/merge`, merge SHA `c8024b033e31b1be218921399feefb16edb915b5`, combining head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5` with base `c06015e0b1526e0aaa6a522306052b077455aba5`. Existing checkpoint records 429 total tests and seven focused tests; additional malformed-input/invalid-row negative coverage remains requested.
+- PR #338 run `39058425661`, job `117471084337`: schema Draft 2020-12 and semantic validation passed on merge ref SHA `dce0bc01c04020560b2842de6ab5cf190348f0fa`; artifact `12110676230`, digest `sha256:7957517179ce91c469e851996d2141410640c008da90c6f0c35f879ac185bb3c`. This is merge-ref CI, not exact PR-head CI.
+- PR #338 is DIVERGED 20 ahead / 184 behind current docs branch SHA `51bd196d29c3bbac2902034ecc3d05c341b19e1f`; keep Draft and reconcile full tree/file overlap before any integration. Bootstrap publisher provenance remains open.
+- Existing provider registry path is `ops/qualification/provider_model_registry.json` (blob `62328126fd2cd8879a73bb6812adcacd3e2abe84`); do not create a duplicate. Finish repository-wide consumer census.
+- No provider entitlements or routes are verified/enabled. GOV-CAP-01…07 and R-06 remain open. Contour A is NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
+- Evidence boundary: source/CI review and documentation only; no provider calls, secrets, dispatch, branch integration, deployment or qualification.
