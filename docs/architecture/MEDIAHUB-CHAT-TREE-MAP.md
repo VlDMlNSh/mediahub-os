@@ -7246,3 +7246,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Crosswalks MH-12 security invariants, WB-05 GOV-CAP-01…07 (all seven remain decisions required), WB-06, Wave 134 call-site inventory, Wave 148 ingress trace and open R-06 audit/privacy items.
 - No issuer option, protocol, token format, key store, audit retention or audit-outage policy selected. No code/tests/provider calls/dispatch/deployment/merge/qualification performed.
 - Jarvis→A0 trusted ingress remains blocked; Product State Authority remains sole canonical product-state mutation authority. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B gated.
+
+
+## 20.365 — PR #338 exact-head CI and supply-chain gate review (Wave 150, 2026-10-18)
+
+- Report: [MEDIAHUB-CONTOUR-A-PR338-EXACT-HEAD-CI-AND-SUPPLY-CHAIN-GATE-REVIEW-WAVE-150-2026-10-18.md](../checkpoints/MEDIAHUB-CONTOUR-A-PR338-EXACT-HEAD-CI-AND-SUPPLY-CHAIN-GATE-REVIEW-WAVE-150-2026-10-18.md); creation commit `e96d839987406fe1c05456092f1871e5f00e5d76`; report blob SHA `9f7ff2c10b1824a3317dcd9b6146f2a445402abf`.
+- PR #338 head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, Draft/open/non-mergeable. Exact-head CI run `39058425661` passed the schema, semantic, report and provenance steps.
+- Comparison against current canonical docs ref: DIVERGED, PR head 20 commits ahead / 144 behind; merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. No integration attempted.
+- Supply-chain gate remains open: pinned hashes verify artifact bytes, not publisher identity. Existing roadmap flags the setuptools 84.0.0 Trusted Publishing provenance risk; this pass did not independently refresh PyPI metadata.
+- No code/dependency/workflow changes, secret/provider access, dispatch, deployment, merge or qualification in this review. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED.
