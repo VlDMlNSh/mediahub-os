@@ -44,4 +44,4 @@ Status: **INDEPENDENT STATIC REVIEW / CANDIDATE ONLY / NOT QUALIFICATION**
 
 ## Next bounded step
 
-Download and inspect the exact-head validation artifact from run `39126487850`; verify report statuses, source SHA, run ID/attempt, schema pins and artifact metadata/digest against GitHub's run/artifact records. Then independently review the semantic validator's negative coverage and define the minimum issuer/ingress contract tests without inventing an issuer API or token format.
+Next: independently review the signed A0 ingress and worker dispatch contracts, including source-bound workflow/event/SHA/job/attempt/artifact provenance, freshness/replay and fail-closed behavior. Keep PR #363 Draft until independent review and authority/security gates are satisfied.
