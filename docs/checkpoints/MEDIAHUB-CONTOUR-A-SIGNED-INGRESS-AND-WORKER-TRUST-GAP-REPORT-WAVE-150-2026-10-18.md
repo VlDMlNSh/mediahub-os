@@ -29,3 +29,10 @@ A bounded read of the current `main` worker path found an important trust-bounda
 
 ## Boundaries
 No credential values were read, no provider API was called, no worker was dispatched, and no code/secret/runner configuration was modified in this pass. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
+
+
+## Repository write provenance
+- Initial report creation commit: `ffd18bf58eaa571238e31903a70d1f1bd1d38391`.
+- Wave 150 plan creation commit: `cc6b86ed2eb09c037ddc544b05c1bd9693421c3a`.
+- Master Roadmap Wave 150 update commit: `8c2ad212b5fb0be663abf06d8c5a612248a1f09f`; verified post-update roadmap blob SHA: `94938964d2ef0fef246a69baf144d9c6458168c0`.
+- Map/checkpoint/report index updates are recorded on documentation branch `docs/mediahub-chat-tree-map-20261012`; canonical `main` was not changed by this documentation pass.
