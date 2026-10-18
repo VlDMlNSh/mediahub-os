@@ -48,3 +48,9 @@ PR #358 head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5` is still open/Draft/unme
 - Qualification harness `ops/qualification/qualify_execution_backends.py` (blob `acf092d5dd9d67ab187f1b67ab691ca730028306`) loads the provider-model catalog. Autonomous-dispatcher consumption is not yet proven.
 - v0.2 task/agent/evidence schemas remain proposed; activation queue has 16 documentary items and status `DOCUMENTARY_QUEUE_ONLY`. No route admitted.
 - Next: trace dispatcher consumers; keep account/quota unverified until official docs and account/project evidence exist.
+
+
+## Wave 149 bounded dispatcher trace
+- `runtime/mediahub_runtime/autonomous_queue.py` blob `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1` and `runtime/mediahub_runtime/agent_fabric.py` blob `3c70dda5df8c6caa9411201d754ead6b3bfdf6dd` have matching SHAs on `main` and the docs ref. No provider registry path references were found in either reviewed file.
+- Confirmed consumer in this pass: qualification harness `ops/qualification/qualify_execution_backends.py` only. This is bounded evidence, not a repository-wide absence claim. Keep provider registry as candidate catalog, not dispatch authorization.
+- Next: map all consumers and verify the queue's accepted provider admission binding.
