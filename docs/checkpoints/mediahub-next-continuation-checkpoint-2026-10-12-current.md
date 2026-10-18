@@ -4969,3 +4969,12 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 159 — worker-ingress authority audit (2026-10-18)
+
+- Report: [Wave 159 worker-ingress authority audit](MEDIAHUB-CONTOUR-A-WORKER-INGRESS-AUTHORITY-AUDIT-WAVE-159-2026-10-18.md), blob `c216c845e96f74712207536bcc53908e5b3af050`.
+- Re-read exact source blobs for the distributed worker, its workflow, `astra_github_agent.py`, autonomous queue and queue contract tests. A0 command path has HMAC-SHA256, node key, freshness, current-HEAD/target-SHA and replay checks; distributed worker path does not authenticate its task JSON against that canonical envelope before model execution.
+- PR #358 is still Draft/open/unmerged; its run correlation fix is not issuer authentication.
+- No runtime code or workflow changes, secrets, providers or worker dispatch were touched.
+- Next: inspect normative signed-command/capability/task-envelope contracts, define one approved cross-envelope binding, then implement shared verification and negative tests. Do not create a second signing protocol. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
