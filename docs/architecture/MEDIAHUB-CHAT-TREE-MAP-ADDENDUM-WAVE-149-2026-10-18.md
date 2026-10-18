@@ -65,3 +65,11 @@ PR #358 head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5` is still open/Draft/unme
 - PR #358 remains open/Draft/unmerged at last refresh. CI run 39117896120/job 117647309406 confirms 7/7 focused correlation tests and 429 cloud admission tests. Until integration, main still has substring matching.
 - Provider catalog is confirmed consumed by qualification harness only in bounded review; reviewed autonomous queue/agent_fabric do not reference it. Finish full consumer mapping. Candidate catalog is not dispatch authorization.
 - Next: accepted issuer/trust-anchor/principal/revocation/freshness/delegation/R-06 decisions; versioned envelope and negative fixtures; verifier at worker entrypoint; authoritative GitHub/artifact provenance; complete registry-consumer census; independently qualify isolation/recovery. Keep routes BLOCKED, Contour A not qualified/deployed/accepted and Contour B blocked.
+
+
+## Wave 150 artifact verification
+- Roadmap blob SHA: `94938964d2ef0fef246a69baf144d9c6458168c0`; update commit `8c2ad212b5fb0be663abf06d8c5a612248a1f09f`.
+- Wave 150 plan blob SHA: `d765706261fabaeccaaa3ff13d214a17945b60a6`; creation commit `cc6b86ed2eb09c037ddc544b05c1bd9693421c3a`.
+- Wave 150 report latest verified blob SHA: `6db13777ecc4e516b00d2f4100993b42d98412a7`; provenance-update commit `7eae8a4c298f91c183d12c6d5fd0f80183f1401d`.
+- Map addendum update commit: `d0e0c862ffa4ad62b109c7d0e23cabb129d0bcb0`; checkpoint update commit: `ccb064d0d1771884804ebf75993a8704a1f194d8`.
+- These are documentation-branch artifacts; `main` was not changed or merged in this pass.
