@@ -45,3 +45,12 @@ Status: **INDEPENDENT STATIC REVIEW / CANDIDATE ONLY / NOT QUALIFICATION**
 ## Next bounded step
 
 Next: independently review the signed A0 ingress and worker dispatch contracts, including source-bound workflow/event/SHA/job/attempt/artifact provenance, freshness/replay and fail-closed behavior. Keep PR #363 Draft until independent review and authority/security gates are satisfied.
+
+
+## Wave 157 — artifact read-back correction
+
+Artifact ID `12136710208` was downloaded and inspected. GitHub reports digest `sha256:553177a7510912426e54d1c4ae3554749c2f88bddd134bd2ba871eec175d8151`; the downloaded ZIP's SHA-256 matches. The provenance file and both JSON reports identify `cb2b5851eac94f27ab7da447c261d18d670ff8b0` and `refs/pull/363/merge`. PR #363's head is `dec977fc40fb1b5b6dacc9efa24121ee3a1c3016`, so run 39126487850 is a successful merge-ref run, **not** exact-head validation. Prior wording was corrected in the PR body and a correction comment was posted.
+
+Read-back: schema report PASS, 182 checks, zero failures (3 positive fixtures, 179 negative cases rejected); semantic report PASS, zero failures (1 positive bundle, 26 negative cases rejected); all three pinned schema blob IDs match. Both reports still explicitly describe fixture-only validation; authority references are unresolved and freshness/replay are not proven.
+
+Next: run/obtain CI against the actual head SHA and require artifact provenance to match that SHA. Re-check workflow event/ref behavior before making CI claims.
