@@ -2056,3 +2056,22 @@ Alignment audit and navigation: [canonical project map §20.351](../architecture
 - Issue #301 remains open. A0 issuer/verifier/ingress/lifecycle, R-06 audit/privacy authority, accepted runner/workspace/network target manifest, independent schema/authority review and bounded worker/queue qualification remain open.
 - Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT PRODUCTION-ACCEPTED**. No provider call, secret access, cloud-agent dispatch, merge or deployment was performed in these waves.
 - Next authorized engineering step: obtain independent supply-chain/schema review and reconcile PR #338's base/head divergence; then continue the Issue #301 admission/qualification sequence without crossing the Jarvis/A0/Product State Authority boundary.
+
+
+## Wave 147 — Contour A cloud-agent enablement and manual fallback (2026-10-18)
+
+**Execution sequencing decision:** do not block Contour A engineering on Gemini automation or on the autonomous queue. Until the queue is independently demonstrated to move tasks end-to-end without manual run selection or evidence handoff, operate a controlled `MANUAL / PROVIDER-ASSISTED` lane alongside queue hardening. Gemini is one possible contributor, not a single-provider dependency; other cloud coding/review agents may contribute only through an actually available authenticated interface and task-specific admission gates.
+
+- Detailed procedure, provider admission sequence, task packets, stop/go criteria and evidence limits: [Contour A cloud-agent enablement and manual fallback roadmap addendum](MEDIAHUB-CONTOUR-A-CLOUD-AGENT-ENABLEMENT-AND-MANUAL-FALLBACK-ROADMAP-ADDENDUM-2026-10-18.md).
+- Map navigation: [Wave 147 project map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-147-2026-10-18.md).
+- Continuation: [Wave 147 checkpoint addendum](MEDIAHUB-CONTINUATION-CHECKPOINT-ADDENDUM-WAVE-147-2026-10-18.md).
+- Governing tracker: [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Current worker correlation hardening: [PR #358](https://github.com/VlDMlNSh/mediahub-os/pull/358).
+
+**Manual lane:** bounded, non-overlapping tasks; exact base SHA and allowed paths; separate contributor branch/PR; no direct main writes or self-merge; no secrets in prompts/files/artifacts; independently reviewed diffs and test evidence; provider outputs are untrusted and cannot self-qualify. Use this lane sequentially if only one provider is available. Record a provider as active only when task-specific output is observable.
+
+**Queue lane:** continue A0 signed-envelope validation, authoritative workflow/run/job/attempt/ref/event/source-SHA/artifact-digest binding, negative fixtures, explicit focused-test CI evidence, isolated immutable-source execution, secret isolation, cancellation/retry/replay/recovery and end-to-end terminal-state reconciliation. PR #358 currently improves run correlation only; it does not prove issuer authorization or full provenance. Latest observed head at this pass: `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5`; associated workflow runs 39117895925 and 39117896120 reported success, but the focused test step still requires job-log confirmation.
+
+**Autonomy exit gate:** manual fallback remains until the queue's signed issuer/capability checks, source/workspace isolation, authoritative evidence binding, failure/recovery behavior, and end-to-end task progression pass tests and required independent qualification (executor-path rounds, recovery, A3 review and soak). Provider availability, one successful workflow, green CI, or merged code alone is not Contour A qualification. Human launch authority remains separate. Jarvis mission coordination, ASTRA A0 internal queue authority and MediaHub Product State Authority remain distinct. Contour B stays blocked until Contour A is deployed and independently accepted.
+
+**Wave 147 evidence boundary:** the plan was recorded in GitHub and read back. This documentation change did not dispatch Gemini or another provider, did not dispatch a worker, and did not deploy or qualify Contour A.
