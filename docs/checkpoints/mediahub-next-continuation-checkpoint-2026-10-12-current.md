@@ -4951,3 +4951,13 @@ Clean schema-validation transplant recorded in [Wave 129 report](MEDIAHUB-SCHEMA
 ### Next bounded action
 
 Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then locate/accept the target runner/workspace/network manifest. Only then define versioned positive/negative verifier conformance vectors for every protected consumer, including LifecycleService. Keep qualification-only constructors isolated from the production trust chain.
+
+
+## Continuation update — Wave 148 A0 ingress trust-boundary revalidation (2026-10-18)
+
+- Report: [MEDIAHUB-A0-INGRESS-TRUST-BOUNDARY-REVALIDATION-WAVE-148-2026-10-18.md](MEDIAHUB-A0-INGRESS-TRUST-BOUNDARY-REVALIDATION-WAVE-148-2026-10-18.md), blob SHA `a0f00dd08e99e913e1f6949843e6943ecb937b15`, creation commit `3a5105053288f39e79ac905ff165e27b92122509`.
+- Canonical map updated with §20.363. Map blob SHA after update: `2870f0d9a7560fd948eefa670837b5787d2b71f7`; map update commit `e0826f331f4400e857f54eec3cf62b066bb6fea9`.
+- Main source revalidation confirms the Task Contract file ingress trusts a shape-checked `approval_state` field but does not establish an issuer or connect to `AuthorizationContext`; the local context policy has no issuer lifecycle; the two HMAC command envelope formats remain distinct. Full exact SHAs and limitations are in the report.
+- No issuer/token format or lifecycle was invented. Accepted MH-12/MH-13 and R-06 authority/privacy dispositions remain required before issuer implementation. No code, tests, credentials, provider calls, dispatch, deployment, merge or qualification in this pass.
+- Live repository status: main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`; docs ref DIVERGED 2,268 ahead / 27 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Issue #301 open; PR #358 Draft/open/unmerged; PR #350 Draft/open/non-mergeable. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED.
+- Next: reconcile the exact authority decision path for issuer/audience/resource/scope/lifetime/revocation/delegation/replay and audit-unavailable behavior; only then implement a narrow verifier plus negative tests.
