@@ -25,3 +25,16 @@ No code, tests, credentials, provider calls, workflow dispatch, deployment, merg
 Obtain explicit owner/governance dispositions for issuer authority, principal lifecycle, verifier locations, trust-anchor/compromise ownership, revocation/expiry freshness, delegation bounds, acceptance evidence, and the open R-06 audit/privacy items. Then derive a versioned verifier contract and negative test matrix only from accepted decisions.
 
 **Gate:** Jarvis→A0 trusted ingress remains blocked. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+## Cross-chat Contour A continuation queue (Wave 149)
+
+- Master Roadmap Wave 149 section has been appended and read back from GitHub; current roadmap blob SHA at this verification: `c7cb206b0416589199e4ded0c8ac94a568c84622`.
+- Detailed ordered work plan: [Contour A master-roadmap addendum — Wave 149](MEDIAHUB-CONTOUR-A-MASTER-ROADMAP-ADDENDUM-WAVE-149-2026-10-18.md).
+- Project map navigation: [Wave 149 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-149-2026-10-18.md).
+- Detailed report: [Wave 149 cross-chat report](MEDIAHUB-CONTOUR-A-CROSS-CHAT-CONTINUATION-AND-NEXT-WORK-REPORT-WAVE-149-2026-10-18.md).
+- Last known PR #358 head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5`, open/Draft/unmerged; refresh before action. Focused regression test must be proven by exact workflow step logs.
+- Refresh Issue #301, PR #333/#358 and all branch refs on every `/next`. Find the canonical provider registry/schema via repository tree/source inspection before editing; keyword search no-results are inconclusive.
+- Verify official docs and account/project entitlements for Cloudflare Workers AI, Groq and Gemini first. Until evidence exists, provider routes remain BLOCKED; never inspect or record secret values.
+- Continue signed A0 issuer/capability ingress, replay/freshness checks, immutable-source isolation and authoritative GitHub run/job/attempt/workflow/ref/event/source-SHA/artifact-ID/digest provenance.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked. Jarvis, ASTRA A0 and MediaHub Product State Authority remain separate.
