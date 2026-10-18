@@ -92,3 +92,11 @@ The reviewed `ops/qualification/run_distributed_local_worker.py` entry path pars
 6. Qualify actual self-hosted runner isolation, secrets, cleanup, cancellation and compromise recovery or establish approved ephemeral alternative.
 
 No code, credentials, provider calls, worker dispatch, deployment or qualification occurred in Wave 150. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
+
+
+## Wave 150 artifact provenance (read-back verified)
+- Master Roadmap blob `94938964d2ef0fef246a69baf144d9c6458168c0`, update commit `8c2ad212b5fb0be663abf06d8c5a612248a1f09f`.
+- Wave 150 plan blob `d765706261fabaeccaaa3ff13d214a17945b60a6`, creation commit `cc6b86ed2eb09c037ddc544b05c1bd9693421c3a`.
+- Wave 150 report blob `6db13777ecc4e516b00d2f4100993b42d98412a7`, latest update commit `7eae8a4c298f91c183d12c6d5fd0f80183f1401d`.
+- Map addendum update commit `d0e0c862ffa4ad62b109c7d0e23cabb129d0bcb0`; checkpoint update commit `ccb064d0d1771884804ebf75993a8704a1f194d8` (this file then received this provenance append; fetch current blob SHA on the next pass).
+- Documentation branch only; no merge to `main` in this pass.
