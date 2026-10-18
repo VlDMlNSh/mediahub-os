@@ -4979,3 +4979,13 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #363 remains Draft/open/unmerged. Its stale statement that exact-head CI was unavailable has been corrected. No independent reviews were returned.
 - Next: download and independently inspect run 39126487850's evidence artifact; verify report source SHA, run ID/attempt, schema pins, artifact metadata and digest. Continue signed A0 ingress and worker isolation; do not infer Contour A qualification from fixture CI.
 - Status: Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 156 follow-through — CI artifact integrity and report read-back (2026-10-18)
+
+- Wave 156 report updated in commit `bd920dfff6a9d6001950dbe3a307bbfa1d0d6b99`; map contains the artifact-verification addendum.
+- Artifact ID `12136710208` from workflow run `39126487850`: 8,799-byte ZIP. Locally computed SHA-256 `553177a7510912426e54d1c4ae3554749c2f88bddd134bd2ba871eec175d8151` matches GitHub's artifact digest exactly.
+- Schema report: 3/3 schemas meta-validated, 3/3 positive fixtures passed, 179/179 negative cases rejected, 0 failures. Semantic report: 1/1 positive bundle passed, 26/26 semantic negative cases rejected, 0 failures. Provenance binds to run 39126487850 / attempt 1 and synthetic PR merge SHA `cb2b5851eac94f27ab7da447c261d18d670ff8b0`; run metadata independently identifies PR head `dec977fc40fb1b5b6dacc9efa24121ee3a1c3016`.
+- This verifies artifact integrity and declared fixture checks only. Live issuer/grant/policy/revocation resolution, freshness/replay, target-manifest acceptance, runtime isolation and Contour A qualification remain unproven.
+- Next: independently review signed A0 ingress and worker dispatch contracts, including source-bound workflow/event/SHA/job/attempt/artifact provenance, freshness/replay and fail-closed behavior. Keep PR #363 and PR #364 Draft/unmerged pending independent review and remaining authority/security gates.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
