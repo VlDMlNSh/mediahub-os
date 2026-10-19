@@ -18,6 +18,8 @@
 
 - Wave 205 (2026-10-19): [truth-ranked audit and readiness](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-205-2026-10-19.md). Exact-head commit `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`; Astra Verify run [39295373907](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373907) and Cloud Runtime Validation run [39295373833](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373833) both SUCCESS. PR #375 remains Draft/unmerged; authority and trusted-publisher gates remain open.
 
+- Wave 206 (2026-10-19): [truth-ranked authority and publisher boundary audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUTHORITY-PUBLISHER-AUDIT-WAVE-206-2026-10-19.md). Current `main` still has `contents: write` and checkout credentials persisted; PR #375 candidate uses read-only permissions and disables persisted checkout credentials but remains Draft/unmerged. Mesh capability envelope enforcement remains unproven.
+
 ## 1. Правила интерпретации
 
 1. Номер MH обозначает архитектурный/рабочий домен. Сам по себе номер не доказывает существование отдельного чата, его закрытие или принятие архитектуры.
@@ -7377,3 +7379,5 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Wave 206 (2026-10-19): [truth-ranked readiness and branch drift audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-READINESS-AND-DRIFT-WAVE-206-2026-10-19.md). PR #375 exact head `6fb078aad7e8e1bb41916168fdd038dfa4e1022b` has green exact-head CI but is now 12 ahead / 1 behind main; keep Draft and do not integrate.
 
 - Wave 206 (2026-10-19): [truth-ranked readiness and branch drift audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-READINESS-AND-DRIFT-WAVE-206-2026-10-19.md). Exact-head CI evidence and current branch divergence recorded; no worker dispatch, merge, deployment, qualification or governance promotion.
+
+- Wave 206 (2026-10-19): [authority and publisher boundary audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUTHORITY-PUBLISHER-AUDIT-WAVE-206-2026-10-19.md). Main-vs-PR evidence and capability-validator gap documented; no governance gate promoted.
