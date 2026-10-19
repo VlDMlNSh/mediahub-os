@@ -5001,3 +5001,18 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #374 was refreshed against docs HEAD `1eb9de28c2c90188ecebfd44ec72618bb23407ec`; the resulting PR file list contains only the 12 intended candidate files. Subsequent canonical report/map/checkpoint writes advance the docs branch again, so refresh the PR base to the latest canonical docs HEAD before an integration decision.
 - PR #374 remains OPEN/DRAFT/UNMERGED; no independent review submissions. The bootstrap setuptools publisher-provenance gate remains UNVERIFIED. A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority and accepted runner/workspace/network target-manifest remain open.
 - No credentials, provider calls, dispatch/admission, merge, deployment, qualification or production acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+## Continuation update — Wave 174 exact-head drift and credential gate recheck (2026-10-19)
+
+- Report: [Wave 174 exact-head drift and credential gate recheck](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CONTOUR-A-EXACT-HEAD-DRIFT-AND-CREDENTIAL-GATE-RECHECK-WAVE-174-2026-10-19.md); report commit `d1729faea178e0a01b481ced1342df3106634da6`.
+- Canonical map §20.368 updated; map commit `f8764882d132ef252fa1a881d53284c1558b25ce`. Immutable blob read-back confirmed section and report filename; map blob content length 1,068,568 characters. Contents API still returns an empty map body; use immutable blob retrieval for read-back.
+- Bootstrap blob `fe9f09ff6b1913bab833db93d442111062b2fd15`; pre-update checkpoint blob `3194e8bcb9eb92335ab1a022ace2896ebb189d50`; Master Roadmap blob `beef785c787702dc174cf9a5515bac8c9f4b292f`; Baseline 2.0 on main `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
+- PR #374 head `ff7ad6524ec5bec47a0245a0490d8850e874483a`; comparison showed 13 ahead / 3 behind canonical docs ref; exact-head CI run [39221618675](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39221618675) completed SUCCESS. PR remains open/draft/unmerged; independent review and setuptools bootstrap publisher provenance remain unresolved.
+- PR #373 remains open/draft/unmerged, 44 ahead / 12 behind canonical docs ref; no current CI pass claimed from available lookup. `main` vs docs branch diverged 2,343 ahead / 27 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- Issue #301 remains open. Credential boundary, WB-05 issuer/verifier governance, GOV-CAP-01…07, R-06, accepted runner/workspace/network manifest, lease/cancel/recovery and bootstrap publisher provenance remain blockers.
+- No tests, credentials, provider calls, worker dispatch, merge/rebase, deployment or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+### Next bounded action
+
+Obtain independent review and explicit bootstrap publisher-provenance disposition for PR #374; reconcile candidate history against the latest canonical docs ref without loss and rerun exact-head CI. In parallel, prepare a separate credential-boundary remediation candidate using synthetic-secret negative tests only; do not dispatch workers or access real credentials.
