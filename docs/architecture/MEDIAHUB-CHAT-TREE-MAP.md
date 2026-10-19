@@ -7264,3 +7264,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Review confirms exact title matching, freshness, positive integer run ID, and fail-closed duplicate handling. Missing direct negative cases include malformed non-empty command/task/node IDs, malformed/naive timestamps, boolean run ID, and invalid row alongside valid row. These are test coverage gaps, not observed failures.
 - Run-title correlation is not authorization. Signed A0 command and GitHub workflow/event/SHA/job/attempt/artifact provenance validation plus WB-05/R-06 authority decisions remain required. PR stays Draft; no code/dispatch/merge/deployment/qualification in this review.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+## 20.373 — Worker run-correlation independent review (Wave 160, 2026-10-19)
+
+- Report: [Contour A worker run-correlation review — Wave 160](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-RUN-CORRELATION-REVIEW-WAVE-160-2026-10-19.md).
+- PR [#358](https://github.com/VlDMlNSh/mediahub-os/pull/358) head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5`; independent COMMENT review [5567557085](https://github.com/VlDMlNSh/mediahub-os/pull/358#pullrequestreview-5567557085), not an approval.
+- Associated workflow runs #39117895925 and #39117896120 and their jobs succeeded, including the correlation regression tests. Available run metadata did not expose head SHA/event SHA/checkout SHA; exact-head provenance is not independently established by this pass.
+- Review confirms exact-title/freshness/duplicate handling is correlation only. Additional direct negative cases remain requested. WB-05 issuer/verifier selection, R-06 authority/privacy, signed task-envelope verification at worker ingress and independent worker qualification remain open.
+- No worker dispatch, secret access, runtime modification, merge, deployment or acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+- Next: read normative MH-12/WB-05 signed-command, capability/issuer, task-envelope and R-06 contracts; if no accepted issuer lifecycle is present, prepare a governance decision delta rather than inventing a protocol.

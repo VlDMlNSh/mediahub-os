@@ -4969,3 +4969,13 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 160 — Worker run-correlation independent review (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-WORKER-RUN-CORRELATION-REVIEW-WAVE-160-2026-10-19.md](MEDIAHUB-CONTOUR-A-WORKER-RUN-CORRELATION-REVIEW-WAVE-160-2026-10-19.md).
+- PR #358 head `a36fa0ec8b23d522d3953b4b8f93ee486bad7df5`; independent COMMENT review ID `5567557085`, no approval implied.
+- Associated runs #39117895925 and #39117896120 succeeded, including the dedicated worker run-correlation regression tests. The available run projection does not expose head/event/checkout SHA; exact-head checkout provenance is not independently confirmed.
+- Explicit gaps: further negative tests for malformed IDs, timestamps, boolean run ID and mixed malformed/valid rows; accepted WB-05 issuer/verifier and R-06 authority/privacy decisions; signed-envelope verification at worker ingress. Correlation is not authorization.
+- No worker dispatch, secret access, runtime code modification, merge, deployment or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+- Next: read normative MH-12/WB-05 signed-command, capability/issuer, task-envelope and R-06 contracts; if issuer lifecycle is not accepted, prepare a governance decision delta without inventing a protocol.
