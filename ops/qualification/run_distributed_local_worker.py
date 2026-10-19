@@ -356,7 +356,7 @@ def security_gate(changed: set[str], task: dict) -> list[str]:
     forbidden = tuple(str(x) for x in task.get("forbidden", task.get("forbidden_surfaces", [])))
     findings: list[str] = []
     secret_patterns = [
-        re.compile(r"(?i)(api[_-]?key|access[_-]?token|secret|private[_-]?key|bearer)\\s*[:=]\\s*['\\\"][^'\\\"]{12,}"),
+        re.compile(r"""(?i)(api[_-]?key|access[_-]?token|secret|private[_-]?key|bearer)\s*[:=]\s*['"][^'"]{12,}"""),
         re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     ]
     for path in sorted(changed):
