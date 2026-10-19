@@ -18,11 +18,38 @@ def _permission_value_is_write(value):
     return isinstance(value, str) and value.strip().lower() == "write"
 
 
+class UniqueKeyLoader(yaml.SafeLoader):
+    """Safe YAML loader that rejects duplicate mapping keys instead of silently overriding them."""
+
+
+def _construct_unique_mapping(loader, node, deep=False):
+    mapping = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        try:
+            duplicate = key in mapping
+        except TypeError as exc:
+            raise yaml.constructor.ConstructorError(
+                None, None, "mapping keys must be hashable", key_node.start_mark
+            ) from exc
+        if duplicate:
+            raise yaml.constructor.ConstructorError(
+                None, None, f"duplicate mapping key {key!r}", key_node.start_mark
+            )
+        mapping[key] = loader.construct_object(value_node, deep=deep)
+    return mapping
+
+
+UniqueKeyLoader.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _construct_unique_mapping
+)
+
+
 def policy_violations(source):
     """Return policy violations based on parsed GitHub Actions workflow structure."""
     violations = []
     try:
-        workflow = yaml.safe_load(source)
+        workflow = yaml.load(source, Loader=UniqueKeyLoader)
     except yaml.YAMLError as exc:
         return [f"workflow YAML must parse successfully: {exc}"]
 
@@ -147,6 +174,23 @@ class WorkerWorkflowCredentialPolicyTests(unittest.TestCase):
             count=1,
         )
         self.assertTrue(any("expected exactly three checkout steps" in item for item in policy_violations(mutated)))
+
+    def test_rejects_duplicate_workflow_permission_keys(self):
+        duplicate = self.source.replace(
+            "permissions:\n  contents: read",
+            "permissions:\n  contents: read\n  contents: write",
+            1,
+        )
+        self.assertTrue(any("YAML must parse" in item for item in policy_violations(duplicate)))
+
+    def test_rejects_duplicate_job_permission_keys(self):
+        marker = "  mh-dev-01-claude:\n"
+        duplicate = self.source.replace(
+            marker,
+            marker + "    permissions:\n      contents: read\n      contents: write\n",
+            1,
+        )
+        self.assertTrue(any("YAML must parse" in item for item in policy_violations(duplicate)))
 
     def test_rejects_invalid_yaml(self):
         self.assertTrue(any("YAML must parse" in item for item in policy_violations("permissions: [broken")))
