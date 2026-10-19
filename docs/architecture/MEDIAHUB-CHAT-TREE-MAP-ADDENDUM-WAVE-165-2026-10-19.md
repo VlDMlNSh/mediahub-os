@@ -2,7 +2,7 @@
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 
-- Report: [Wave 165 schema-validation candidate exact-head review](../checkpoints/MEDIAHUB-CONTOUR-A-SCHEMA-VALIDATION-CANDIDATE-EXACT-HEAD-REVIEW-WAVE-165-2026-10-19.md), report blob SHA to be verified after commit.
+- Report: [Wave 165 schema-validation candidate exact-head review](../checkpoints/MEDIAHUB-CONTOUR-A-SCHEMA-VALIDATION-CANDIDATE-EXACT-HEAD-REVIEW-WAVE-165-2026-10-19.md), report blob SHA after read-back: `6e30f824dbc0536a8a6ad25a3020ed6380f99b5a`.
 - Governing tracker: [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
 - [PR #338](https://github.com/VlDMlNSh/mediahub-os/pull/338) remains OPEN / DRAFT / UNMERGED at exact HEAD `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`.
 - Exact-head workflow run [39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661) completed successfully. Job evidence shows immutable checkout, hash-locked dependency install, Draft 2020-12 schema/fixture validation, semantic fixture validation, report checks and artifact upload succeeded. Artifact metadata ties it to the exact candidate SHA; payload was not downloaded/read in this pass.
