@@ -7423,3 +7423,6 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 
 
 - Wave 215 publication-reuse follow-up: existing publisher workflow blob 087a373fe113d11a81be4d349e4c3d330a22f33c only consumes two supervisor/qualification workflows and writes a sanitized controller result; distributed worker workflow blob f650f2416c19dc75b4a0eeec037661c0c6169910 still has contents: write, persist-credentials: true, and worker-side git push. Generic artifact helper blob a5dddf3b58a35e21385e3c9f9049a6e538c2e71b is reusable for SHA-256 checking but is not a complete trust contract. Do not wire the worker into the existing publisher without reconciling schema, routing, issuer and base-SHA semantics. See Wave 215 report.
+
+
+- Wave 215 Gemini result update: A3 created Draft PR #393 (head 93853dd0ad82f59726a56be8d29e472aa3dcf310; report blob dee1e60cf23fd55d5aeafa1f3ed10215e089ea4e). Review comment 6277569380 requested correction of overclaims about explicit subprocess environments and shell-injection immunity; PR #393 remains unaccepted. At last Actions read-back A1 run 39325506829 and A2 run 39325510774 remained in progress; A3 run 39325515053 also reported in progress despite PR creation. See Wave 215 report.

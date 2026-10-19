@@ -80,6 +80,14 @@ Scopes:
 
 Their final conclusions and resulting Draft PRs must be read back and appended to this report/checkpoint after completion. A queued/in-progress run is not a completed audit.
 
+## 3A. Partial Gemini result read-back (latest check)
+
+A3 created Draft PR #393: https://github.com/VlDMlNSh/mediahub-os/pull/393, head 93853dd0ad82f59726a56be8d29e472aa3dcf310, report blob dee1e60cf23fd55d5aeafa1f3ed10215e089ea4e. The report correctly identifies the exact PR #392 head and calls out direct git publication, but it overstates several subprocess guarantees: it says all invocations use explicit working directories/environment controls and calls them immune to shell injection, while generic run() with env=None inherits the ambient environment and ollama_has_model() invokes that path. It also treats the entire env-file dictionary as safely scoped without proving key allowlisting.
+
+A correction request was posted on PR #393 (comment 6277569380), requiring exact-source claims, explicit inherited-environment paths, accurate qualification of the direct push gap, and continued Draft status. PR #393 is not accepted as an independent pass until corrected.
+
+At the latest Actions API read-back, runs 39325506829 (A1) and 39325510774 (A2) remained in progress; run 39325515053 (A3) also still reported in progress despite PR #393 having been created. Treat PR creation as partial output, not workflow completion. Refresh all three run statuses and review any eventual A1/A2 reports before closing this pass.
+
 ## 4. SentinelX operational configuration and limits
 
 SentinelX capability discovery reported the connected host Voktors-Mac-mini.local, agent version 0.22.0, operational status, and the host was configured as the default target. The host reports one active slot under the current plan; two other enrolled hosts are disabled. Do not assume parallel local-host execution or re-enable disabled hosts. Parallelism for this pass is supplied by the three independent GitHub-hosted Gemini workflows while SentinelX performs the primary local engineering pass.

@@ -5338,3 +5338,6 @@ Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 
 
 
 - Wave 215 source-bound publication-reuse finding: existing .github/workflows/astra-node-result-publication.yml blob 087a373fe113d11a81be4d349e4c3d330a22f33c handles only supervisor/GOLD controller-result payloads; .github/workflows/astra-distributed-local-worker.yml blob f650f2416c19dc75b4a0eeec037661c0c6169910 still grants contents: write/persist-credentials and worker code directly git-add/commit/pushes. ops/mesh/artifacts.py blob a5dddf3b58a35e21385e3c9f9049a6e538c2e71b is a reusable hash-verification component, not a complete trust boundary. Next design a worker-specific bounded artifact contract and separate publisher authorization before changing workflow triggers.
+
+
+- Wave 215 Gemini partial output: A3 report PR #393 https://github.com/VlDMlNSh/mediahub-os/pull/393, head 93853dd0ad82f59726a56be8d29e472aa3dcf310, report blob dee1e60cf23fd55d5aeafa1f3ed10215e089ea4e. Review comment 6277569380 challenges inaccurate broad claims about subprocess env controls and shell-injection immunity; keep Draft pending correction. A1 run 39325506829 and A2 run 39325510774 remained in progress at latest read-back; A3 run 39325515053 still reported in progress despite PR creation. Refresh run statuses and review outputs before accepting any result.
