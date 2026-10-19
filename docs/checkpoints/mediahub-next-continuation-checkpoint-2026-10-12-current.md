@@ -5261,7 +5261,7 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 
 ## Wave 212 — three-agent Gemini dispatch (2026-10-19)
 
-- Report: [Three-agent Gemini dispatch and independent review](MEDIAHUB-CONTOUR-A-THREE-GEMINI-PARALLEL-DISPATCH-WAVE-212-2026-10-19.md), final docs-branch commit `7d5bf79f8b715f35466c13df9c001e7107c60ec3`, blob `5c74d9716f1274e3a76d4f1936f45262af032ea6`.
+- Report: [Three-agent Gemini dispatch and independent review](MEDIAHUB-CONTOUR-A-THREE-GEMINI-PARALLEL-DISPATCH-WAVE-212-2026-10-19.md), final docs-branch commit `1031a7eb74beb60d7c0b0668e00c222af51d7c80`, blob `40ae36d177f6055a7b92f2a6505927a627e1d02c`.
 - Base main SHA: `0897bd613c0c041794ec5ec4a72cd487b13a6944`.
 - Gemini Agent 1 run 39317199908 SUCCESS; output artifact 12217848256 digest `e36df6cde43e85c55f4fc45a0b996e301e91f835ee47d8b80e2ba548901f7737`; Draft PR #382 head `14b2ea83faa336589020b69a591f13bdf6785691`.
 - Gemini Agent 2 run 39317204825 SUCCESS; output artifact 12219425521 digest `5bdaec3c9de880f4314d1be9627d06f12dceb2778240135e44bfa9ff12d5add3`; Draft PR #381 head `99c1a8f844ed3a906cdad654cad7b2eda1d49308`.
@@ -5271,3 +5271,10 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Draft PRs #381–#383 remain unmerged. Review comments request correction of unsupported claims: worker direct push is not artifact-only publication; env-copy plus key removal is not an explicit allowlist; docs-only crosswalk is not qualification; unique run_id in concurrency key does not serialize; secret suppression claim lacks source evidence.
 - No source/workflow code changes, no tests, no provider qualification, no merge/deployment, and no persistent queue created. Contour A status unchanged.
 - Next: revise/review agent PRs, investigate stderr annotation safely, implement artifact-only worker/publisher boundary with explicit environment allowlists and negative tests, then define any recurring agent queue only after Issue #301 governance/admission gates.
+
+
+## Wave 212 branch-state correction (2026-10-19)
+
+- Current main HEAD: `1363c03f0168c6371332095d38a410974a875815`. This is the cleanup deletion commit after the Wave 212 report was briefly placed on main and then moved to the canonical docs branch. Main history now contains both the temporary creation commit `ce5261d4615b3d978e12550075bce58a588bd3d4` and cleanup deletion commit `1363c03f0168c6371332095d38a410974a875815`; read-back confirms the report path is absent from main.
+- Rechecked PR comparisons against current main: #377 = 3 ahead / 2 behind; #381, #382 and #383 = 1 ahead / 2 behind each. All share merge base `0897bd613c0c041794ec5ec4a72cd487b13a6944` and remain open Drafts. Do not merge blindly; reconcile against current main only after review and CI/provenance checks.
+- This branch-history correction is explicitly recorded; no agent PR was merged and no source/workflow files were changed by the correction.
