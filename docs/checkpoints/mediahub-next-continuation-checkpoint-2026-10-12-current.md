@@ -5052,7 +5052,7 @@ Before adopting PR #338, either secure and verify provenance for the exact candi
 ## Wave 169 — PR #373 exact-head CI and evidence-scope audit (2026-10-19)
 
 - Report: [MEDIAHUB-CONTOUR-A-PR373-EXACT-HEAD-CI-AND-EVIDENCE-SCOPE-AUDIT-WAVE-169-2026-10-19.md](MEDIAHUB-CONTOUR-A-PR373-EXACT-HEAD-CI-AND-EVIDENCE-SCOPE-AUDIT-WAVE-169-2026-10-19.md), blob SHA `c75fad6f596457c1918d85a9d2602f9912120143`.
-- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-169-2026-10-19.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-169-2026-10-19.md), blob SHA `bbc33b2c316528754e9972b3a29283a7e493444c`.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-169-2026-10-19.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-169-2026-10-19.md), blob SHA `dba69c0d855332c66679ba4590badbc3d8c6a2f9`.
 - PR #373 exact head before this Wave 169 commit: `6989f21bdb1d3ce1bba8da2d082334dfba2ddd41`; base docs ref `28816f6b523c8cbc878ebd0575b17bc419669889`; compare 24 ahead / 0 behind, 13 changed files, 581 additions, no deletions.
 - Exact-head workflow-run connector returned no runs. It is scoped to PR-triggered runs and first page; no CI success or global absence is claimed.
 - PR title lagged the contents (named Waves 163–167 while Wave 168 was already included); the PR title was corrected to Waves 163–169 after this audit. PR remains Draft/open/unmerged.
