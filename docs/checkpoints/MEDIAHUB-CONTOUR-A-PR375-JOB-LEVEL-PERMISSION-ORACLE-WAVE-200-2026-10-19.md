@@ -22,7 +22,7 @@ A source-level review of the PR's static credential-policy oracle found a false-
 ## Verification and limits
 
 - Read-back verified the final blob SHA and the corrected regex/fixture text.
-- No CI run was returned for correction commit `c9383017d9255c637df81cf5811c8d8ea32737e3` at the time of this check. The new test has **not** been claimed as executed or passing; await exact-commit CI.
+- A follow-up query for correction commit `c9383017d9255c637df81cf5811c8d8ea32737e3` surfaced Astra Verify run [39244658819](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39244658819) and Astra Cloud Runtime Validation run [39244658804](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39244658804). These are the previously recorded Wave 199 runs for the preceding candidate commit `a617a960346756a6b3098ee974d74327f9088f5e`; the available run listing does not expose a head SHA proving they tested `c9383017d9255c637df81cf5811c8d8ea32737e3`. They are **not** accepted as exact-commit evidence. The new job-level negative fixture's execution on the correction commit remains unverified.
 - PR #375 remains open and Draft/unmerged. No independent review submissions were found in the reviewed PR review list.
 - This is a static regression-oracle improvement, not a complete workflow authorization boundary. It does not replace a trusted publisher, solve output publication after removing worker write access, or establish issuer/capability enforcement, OS/network isolation, FCC token propagation, branch protection, or independent security acceptance.
 - No worker dispatch, provider call, secret access, host command, merge, deployment, or qualification occurred.
