@@ -7301,3 +7301,10 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Issue #301 remains open. Credential isolation, WB-05 issuer/verifier governance, GOV-CAP-01…07, R-06, accepted runner/workspace/network manifest, lease/cancel/recovery and bootstrap publisher provenance remain blockers.
 - No credentials, provider calls, dispatch, tests, code changes, merge/rebase, deployment or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
 - Next: independent review and bootstrap provenance disposition for PR #374; reconcile candidate history without loss, rerun exact-head CI, and prepare credential-boundary remediation with synthetic-secret negative tests only.
+
+
+### Wave 129 latest exact-head run (2026-10-19)
+
+- Candidate head `3b1fc96beeedcc6cb38c7beeb5809f0004c6ac8a`; exact-head run [39222111677](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222111677) SUCCESS, job `117959603249`, artifact `12171314150`, SHA-256 `4aaf3dbe764f22fd4eb0288685d1e069e3e28407c26f37d2e6825a487c7ae675`.
+- Report updated: [Wave 129 report](../checkpoints/MEDIAHUB-SCHEMA-VALIDATION-CLEAN-BASE-CANDIDATE-WAVE-129-2026-10-19.md). PR #374 remains Draft/open/unmerged with 12 intended files; independent review is absent.
+- Bootstrap publisher provenance UNVERIFIED; A0/R-06/target-manifest gates remain open. No dispatch, credential/provider use, merge, deployment or qualification.
