@@ -7289,3 +7289,15 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Exact-head CI run [39221618675](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39221618675) succeeded on that exact SHA. Job `117957998293`; evidence artifact `12171683002`, SHA-256 `d1ace7f2881841ef8e07df76ec973d23e0adf02e51627f8381d959fd6f7cfe5d`.
 - PR #374 was refreshed against canonical docs branch HEAD `1eb9de28c2c90188ecebfd44ec72618bb23407ec`; GitHub then reported exactly 12 changed files and mergeable=true. This is not an independent approval. Later report/checkpoint commits advance the base branch; retarget the PR to the current docs head before any integration decision.
 - Report blob SHA after final CI evidence update: `23890ee0a11e9aa21337d6978a8e201ed8a2acec`. Bootstrap publisher provenance remains UNVERIFIED; independent review and A0/R-06/target-manifest gates remain open.
+
+
+## 20.368 — Exact-head drift and credential gate recheck (Wave 174, 2026-10-19)
+
+- Report: [Wave 174 exact-head drift and credential gate recheck](../checkpoints/MEDIAHUB-CONTOUR-A-EXACT-HEAD-DRIFT-AND-CREDENTIAL-GATE-RECHECK-WAVE-174-2026-10-19.md).
+- Map Contents API returned empty content, but immutable blob retrieval succeeded. Source blob before this append: `09aa87a01414d547b5abcf896e29e6e155dac5ac`; retrieved content length 1066757 characters.
+- `main` HEAD observed as `c06015e0b1526e0aaa6a522306052b077455aba5`; docs branch comparison: 2,343 ahead / 27 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Diverged history is not permission for bulk merge.
+- PR #374 head `ff7ad6524ec5bec47a0245a0490d8850e874483a`, open/draft/unmerged; compare against then-current docs ref was 13 ahead / 3 behind. Exact-head workflow run [39221618675](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39221618675) succeeded. CI is not independent review, supply-chain acceptance or Contour A qualification.
+- PR #373 open/draft/unmerged; 44 ahead / 12 behind canonical docs ref; no current CI pass claimed from the available run lookup.
+- Issue #301 remains open. Credential isolation, WB-05 issuer/verifier governance, GOV-CAP-01…07, R-06, accepted runner/workspace/network manifest, lease/cancel/recovery and bootstrap publisher provenance remain blockers.
+- No credentials, provider calls, dispatch, tests, code changes, merge/rebase, deployment or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+- Next: independent review and bootstrap provenance disposition for PR #374; reconcile candidate history without loss, rerun exact-head CI, and prepare credential-boundary remediation with synthetic-secret negative tests only.
