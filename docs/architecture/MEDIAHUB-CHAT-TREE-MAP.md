@@ -7393,3 +7393,6 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 
 
 - Wave 209 (2026-10-19): [worker environment inheritance audit](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-ENVIRONMENT-INHERITANCE-WAVE-209-2026-10-19.md). Source review confirms ambient environment inheritance, `git add -A`, and direct push attempt in the worker; effective runner credentials remain unverified. PR #375 remains Draft/diverged; no gate promoted.
+
+
+- Wave 210 (2026-10-19): [worker artifact/publisher boundary and candidate synchronization audit](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-ARTIFACT-PUBLISHER-BOUNDARY-WAVE-210-2026-10-19.md). Rechecked PR #375/#376 exact heads, live compare and CI job steps; both branches diverge from current main. PR #375 CI passes its static credential policy tests but does not exercise worker publication; current worker still stages/commits/pushes directly and inherits ambient environment. PR #376's recorded verify steps do not run the added parity test. Both remain Draft; no code integration or qualification.
