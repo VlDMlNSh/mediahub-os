@@ -4969,3 +4969,18 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 162 continuation — issuer decision readiness and worker provenance (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-ISSUER-DECISION-READINESS-AND-WORKER-PROVENANCE-CROSSWALK-WAVE-162-2026-10-19.md](MEDIAHUB-CONTOUR-A-ISSUER-DECISION-READINESS-AND-WORKER-PROVENANCE-CROSSWALK-WAVE-162-2026-10-19.md), report blob SHA `6a30c8ce0a250fdc8ce559723089f5ccc1881a67` (read-back on the initial work branch).
+- Map navigation: [Wave 162 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-162-2026-10-19.md).
+- Source pins: `astra_github_agent.py` `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`; worker `ops/qualification/run_distributed_local_worker.py` `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`; workflow `.github/workflows/astra-distributed-local-worker.yml` `f650f2416c19dc75b4a0eeec037661c0c6169910`; autonomous queue `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`.
+- Finding: the separate workflow-dispatch path does not invoke the canonical polling `read_command()` verifier before task execution. The workflow has `contents: write` and checkout credentials persist during model-controlled execution; the worker has a git-push path before the result is independently accepted. This is a source-level trust-boundary finding, not a demonstrated exploit.
+- WB-05 Option C remains a governance proposal, not accepted. GOV-CAP-01…07 and R-06 remain open. No new HMAC/token format was invented. PR #358 correlation CI does not prove issuer authorization or artifact provenance.
+- Live SentinelX connected hosts: 0; `mh-dev-01` and `mh-dev-02` disabled, `Voktors-Mac-mini.local` offline; Codex environments: 0. No worker dispatch was attempted.
+- No runtime code/tests/workflow edits, secret reads, provider calls, host changes, merge, deployment, qualification or independent acceptance occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+### Next bounded action
+
+Process Option C through governance/change control and record accountable owners/dispositions for GOV-CAP-01…07 and R-06. After acceptance, derive one versioned envelope/verifier contract, isolate model execution from publication credentials, and add pure negative tests before any controlled dispatch.
