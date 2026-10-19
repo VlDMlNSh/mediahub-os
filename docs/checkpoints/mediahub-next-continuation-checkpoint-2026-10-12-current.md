@@ -4969,3 +4969,14 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 152 — PyPI bootstrap publisher-provenance gate review (2026-10-19)
+
+- Report: [MEDIAHUB-PYPI-BOOTSTRAP-PUBLISHER-PROVENANCE-GATE-WAVE-152-2026-10-19.md](MEDIAHUB-PYPI-BOOTSTRAP-PUBLISHER-PROVENANCE-GATE-WAVE-152-2026-10-19.md); report blob `73afeb3ec3d6a63d78221e6b264d6a569b9780fc`.
+- Map navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-152-2026-10-19.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-152-2026-10-19.md), blob `05d42f8ced62a275ee5f50a26864a4b4f32a2492`.
+- Re-read bootstrap lock blob `2cb89e822dabbe54a11e6b718ec8443b8891c926`; locked setuptools wheel SHA-256 is `51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670`. PyPI's exact release page confirms this digest and says Trusted Publishing was not used. Official Integrity API contract documents per-file provenance and 404 for absent provenance, but the exact endpoint response was not retrieved in this pass; no cryptographic verification or API 404 is claimed.
+- Disposition: supply-chain publisher provenance remains UNVERIFIED. No dependency/lock change; keep PR #350 Draft/unmerged pending independent review and explicit trust disposition. PR #350 observed head `4c1ebafc5d33e8ae075a5bba85771d14aed4ac96`, open/draft/unmerged, no independent review submissions; canonical docs branch had advanced to `28816f6b523c8cbc878ebd0575b17bc419669889`, so candidate history requires reconciliation before integration.
+- Issue #301 remains open. A0 issuer/ingress/lease/cancel/recovery, R-06 authority/privacy and accepted runner/workspace/network target manifest remain separate gates. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+- No code, dependency, workflow, secret, provider, dispatch, queue, merge or deployment action was performed in this pass.
+- Next: retrieve and verify the exact wheel's provenance if available, or propose a reviewed minimal bootstrap dependency/toolchain adjustment with reproducible lock regeneration and fresh exact-head CI; continue independent A0/R-06/target-manifest work in parallel.
