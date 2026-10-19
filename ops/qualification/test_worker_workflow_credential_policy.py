@@ -1,59 +1,92 @@
-"""Static regression tests for the distributed worker's checkout credential policy.
+"""Semantic regression tests for the distributed worker checkout credential policy.
 
-These tests do not dispatch workflows, access credentials, or execute a worker.
+These tests parse YAML and never dispatch a workflow or access credentials.
 Run with: python -m unittest ops.qualification.test_worker_workflow_credential_policy
 """
 from pathlib import Path
-import re
 import unittest
+
+import yaml
 
 
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = ROOT / ".github" / "workflows" / "astra-distributed-local-worker.yml"
 
 
-def policy_violations(source):
-    """Return policy violations for source text; safe for synthetic mutation fixtures."""
-    violations = []
-    permissions = re.search(
-        r"(?m)^permissions:\n((?:^[ \t]+[^\n]*\n)+)", source
-    )
-    if permissions is None:
-        violations.append("workflow permissions block must be explicit")
-    else:
-        block = permissions.group(1)
-        if not re.search(r"(?m)^  contents: read\s*$", block):
-            violations.append("workflow must explicitly set contents: read")
-        if re.search(r"(?m)^  contents: write\s*$", block):
-            violations.append("workflow must not grant contents: write")
+def _permission_value_is_write(value):
+    """Recognize GitHub Actions write permission values after YAML parsing."""
+    return isinstance(value, str) and value.strip().lower() == "write"
 
-    checkout_blocks = re.findall(
-        r"(?ms)^      - uses: actions/checkout@[^\n]+\n(.*?)(?=^      - |^  [a-zA-Z0-9_-]+:|\Z)",
-        source,
-    )
-    if len(checkout_blocks) != 3:
-        violations.append(
-            f"expected exactly three checkout steps, found {len(checkout_blocks)}"
-        )
-    for index, block in enumerate(checkout_blocks, start=1):
-        if not re.search(
-            r"(?m)^          persist-credentials: false\s*$", block
-        ):
+
+def policy_violations(source):
+    """Return policy violations based on parsed GitHub Actions workflow structure."""
+    violations = []
+    try:
+        workflow = yaml.safe_load(source)
+    except yaml.YAMLError as exc:
+        return [f"workflow YAML must parse successfully: {exc}"]
+
+    if not isinstance(workflow, dict):
+        return ["workflow document must be a YAML mapping"]
+
+    permissions = workflow.get("permissions")
+    if not isinstance(permissions, dict):
+        violations.append("workflow permissions must be an explicit mapping")
+    else:
+        contents = permissions.get("contents")
+        if not isinstance(contents, str) or contents.strip().lower() != "read":
+            violations.append("workflow must explicitly set contents: read")
+        if any(_permission_value_is_write(value) for value in permissions.values()):
+            violations.append("workflow must not grant write permissions")
+        if isinstance(permissions, str) and permissions.strip().lower() == "write-all":
+            violations.append("workflow must not grant write-all permissions")
+
+    jobs = workflow.get("jobs")
+    if not isinstance(jobs, dict) or not jobs:
+        violations.append("workflow must define a non-empty jobs mapping")
+        jobs = {}
+
+    checkout_steps = []
+    for job_name, job in jobs.items():
+        if not isinstance(job, dict):
+            violations.append(f"job {job_name!r} must be a mapping")
+            continue
+
+        job_permissions = job.get("permissions")
+        if isinstance(job_permissions, str):
+            if job_permissions.strip().lower() == "write-all":
+                violations.append(f"job {job_name!r} must not grant write-all permissions")
+        elif job_permissions is not None:
+            if not isinstance(job_permissions, dict):
+                violations.append(f"job {job_name!r} permissions must be a mapping")
+            elif any(_permission_value_is_write(value) for value in job_permissions.values()):
+                violations.append(f"job {job_name!r} must not grant write permissions")
+
+        steps = job.get("steps", [])
+        if not isinstance(steps, list):
+            violations.append(f"job {job_name!r} steps must be a list")
+            continue
+        for step in steps:
+            if not isinstance(step, dict):
+                continue
+            uses = step.get("uses")
+            if isinstance(uses, str) and uses.split("@", 1)[0].lower() == "actions/checkout":
+                checkout_steps.append((job_name, step))
+
+    if len(checkout_steps) != 3:
+        violations.append(f"expected exactly three checkout steps, found {len(checkout_steps)}")
+
+    for index, (job_name, step) in enumerate(checkout_steps, start=1):
+        with_config = step.get("with", {})
+        if not isinstance(with_config, dict):
+            violations.append(f"checkout {index} in job {job_name!r} must have a 'with' mapping")
+            continue
+        persist = with_config.get("persist-credentials")
+        if persist is not False:
             violations.append(
-                f"checkout {index} must set persist-credentials: false"
+                f"checkout {index} in job {job_name!r} must set persist-credentials: false"
             )
-        if re.search(
-            r"(?m)^          persist-credentials: true\s*$", block
-        ):
-            violations.append(
-                f"checkout {index} must not persist credentials"
-            )
-    write_permission_patterns = (
-        r"(?m)^[ \t]+contents\s*:\s*(?:write|'write'|\"write\")\s*(?:#.*)?$",
-        r"(?m)\bpermissions\s*:\s*\{[^}\n]*\bcontents\s*:\s*(?:write|'write'|\"write\")[^}\n]*\}",
-    )
-    if any(re.search(pattern, source) for pattern in write_permission_patterns):
-        violations.append("workflow must not grant contents: write at any level")
+
     return violations
 
 
@@ -65,85 +98,58 @@ class WorkerWorkflowCredentialPolicyTests(unittest.TestCase):
     def test_current_workflow_satisfies_credential_policy(self):
         self.assertEqual([], policy_violations(self.source))
 
-    def test_rejects_synthetic_write_permission_regression(self):
-        marker = "\n  contents: read\n"
-        self.assertIn(marker, self.source, "fixture must target current permission")
-        mutated = self.source.replace(marker, "\n  contents: write\n", 1)
+    def test_rejects_workflow_level_write_permission(self):
+        mutated = self.source.replace("  contents: read", "  contents: write", 1)
         violations = policy_violations(mutated)
-        self.assertIn(
-            "workflow must explicitly set contents: read", violations
-        )
-        self.assertIn("workflow must not grant contents: write", violations)
+        self.assertTrue(any("workflow must explicitly set contents: read" in item for item in violations))
+        self.assertTrue(any("workflow must not grant write permissions" in item for item in violations))
 
-    def test_rejects_synthetic_job_level_write_permission_regression(self):
+    def test_rejects_job_level_block_write_permission(self):
         marker = "  mh-dev-01-claude:\n"
-        self.assertIn(marker, self.source, "fixture must target a known worker job")
-        mutated = self.source.replace(
-            marker,
-            marker + "    permissions:\n      contents: write\n",
-            1,
-        )
-        violations = policy_violations(mutated)
-        self.assertIn(
-            "workflow must not grant contents: write at any level", violations
-        )
+        self.assertIn(marker, self.source)
+        mutated = self.source.replace(marker, marker + "    permissions:\n      contents: write\n", 1)
+        self.assertTrue(any("must not grant write permissions" in item for item in policy_violations(mutated)))
 
-    def test_rejects_synthetic_flow_style_write_permission_regression(self):
+    def test_rejects_job_level_flow_style_write_permission(self):
         marker = "  mh-dev-01-claude:\n"
-        self.assertIn(marker, self.source, "fixture must target a known worker job")
-        mutated = self.source.replace(
-            marker,
-            marker + "    permissions: { contents: write }\n",
-            1,
-        )
-        violations = policy_violations(mutated)
-        self.assertIn(
-            "workflow must not grant contents: write at any level", violations
-        )
+        self.assertIn(marker, self.source)
+        mutated = self.source.replace(marker, marker + "    permissions: { contents: write }\n", 1)
+        self.assertTrue(any("must not grant write permissions" in item for item in policy_violations(mutated)))
 
-    def test_rejects_synthetic_quoted_write_permission_regression(self):
+    def test_rejects_quoted_job_level_write_permission(self):
         marker = "  mh-dev-01-claude:\n"
-        self.assertIn(marker, self.source, "fixture must target a known worker job")
-        mutated = self.source.replace(
-            marker,
-            marker + "    permissions:\n      contents: 'write'\n",
-            1,
-        )
-        violations = policy_violations(mutated)
-        self.assertIn(
-            "workflow must not grant contents: write at any level", violations
-        )
+        self.assertIn(marker, self.source)
+        mutated = self.source.replace(marker, marker + "    permissions:\n      contents: 'write'\n", 1)
+        self.assertTrue(any("must not grant write permissions" in item for item in policy_violations(mutated)))
 
-    def test_rejects_synthetic_persisted_checkout_credential_regression(self):
+    def test_rejects_write_all_permissions(self):
+        marker = "  mh-dev-01-claude:\n"
+        self.assertIn(marker, self.source)
+        mutated = self.source.replace(marker, marker + "    permissions: write-all\n", 1)
+        self.assertTrue(any("write-all" in item for item in policy_violations(mutated)))
+
+    def test_rejects_persisted_checkout_credentials(self):
         marker = "          persist-credentials: false"
-        self.assertIn(marker, self.source, "fixture must target current checkout policy")
-        mutated = self.source.replace(marker, "          persist-credentials: true")
-        violations = policy_violations(mutated)
-        self.assertGreaterEqual(
-            sum("must not persist credentials" in item for item in violations),
-            1,
-        )
-        self.assertGreaterEqual(
-            sum("must set persist-credentials: false" in item for item in violations),
-            1,
-        )
+        self.assertIn(marker, self.source)
+        mutated = self.source.replace(marker, "          persist-credentials: true", 1)
+        self.assertTrue(any("persist-credentials: false" in item for item in policy_violations(mutated)))
 
     def test_rejects_missing_checkout_steps(self):
-        checkout_pattern = re.compile(
-            r"(?ms)^      - uses: actions/checkout@[^\n]+\n.*?"
-            r"(?=^      - |^  [a-zA-Z0-9_-]+:|\Z)"
+        marker = "      - uses: actions/checkout@v4"
+        self.assertEqual(3, self.source.count(marker))
+        mutated = self.source.replace(marker, "      - uses: actions/checkout@v4 # removed by mutation", 1)
+        # Mutating a comment does not remove a step; instead remove one complete checkout block.
+        import re
+        mutated = re.sub(
+            r"(?ms)^      - uses: actions/checkout@[^\n]+\n.*?(?=^      - |^  [a-zA-Z0-9_-]+:|\Z)",
+            "",
+            self.source,
+            count=1,
         )
-        matches = list(checkout_pattern.finditer(self.source))
-        self.assertEqual(3, len(matches), "fixture must start with three checkout steps")
-        mutated = self.source
-        for match in reversed(matches[1:]):
-            mutated = mutated[:match.start()] + mutated[match.end():]
-        self.assertEqual(1, len(checkout_pattern.findall(mutated)))
-        violations = policy_violations(mutated)
-        self.assertTrue(
-            any("expected exactly three checkout steps" in item for item in violations),
-            violations,
-        )
+        self.assertTrue(any("expected exactly three checkout steps" in item for item in policy_violations(mutated)))
+
+    def test_rejects_invalid_yaml(self):
+        self.assertTrue(any("YAML must parse" in item for item in policy_violations("permissions: [broken"))
 
 
 if __name__ == "__main__":
