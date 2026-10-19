@@ -5020,3 +5020,16 @@ Before adopting PR #338, either secure and verify provenance for the exact candi
 - No issuer option, token format, key store, audit policy, runtime code, dependency/workflow, secret/provider access, dispatch, host change, merge, deployment or qualification was performed.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
 - Next: source-bound audit of A0 ingress and model-controlled execution credential isolation, independent of the candidate-only setuptools provenance gate.
+
+
+## Wave 167 continuation — A0 model-execution credential-isolation trace (2026-10-19)
+
+- Report: [MEDIAHUB-A0-MODEL-EXECUTION-CREDENTIAL-ISOLATION-TRACE-WAVE-167-2026-10-19.md](MEDIAHUB-A0-MODEL-EXECUTION-CREDENTIAL-ISOLATION-TRACE-WAVE-167-2026-10-19.md); exact blob SHA is added after read-back verification.
+- Map navigation: [Wave 167 project map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-167-2026-10-19.md).
+- Current-main source pins: agent `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`; autonomous queue `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`; worker workflow `f650f2416c19dc75b4a0eeec037661c0c6169910`; worker script `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`.
+- Finding: self-hosted jobs request `contents: write` and checkout `persist-credentials: true`; the model worker receives Git/Python tools within that checkout. Its worker script reads the runner-local FCC env file and merges the values into the Claude process environment, including `ANTHROPIC_AUTH_TOKEN` and `ANTHROPIC_API_KEY`. This is a source-backed exposure path, not evidence of actual token access or exfiltration.
+- The local command HMAC verifies a controller command envelope but does not establish issuer-bound worker capability verification. Prompt-declared task boundaries and post-hoc changed-file checks are not OS-level isolation.
+- Risk: high-priority model/credential trust-boundary design issue affecting current-main source, independent of PR #338's candidate-only setuptools provenance gate.
+- No secret value was read, no live runner/process/queue/workflow was accessed, and no code, workflow, host, credential, dependency, merge, deployment or qualification change occurred.
+- Next: owner-authorized containment and a credential-free model execution design, followed by independent negative tests. Do not claim Contour A qualified or dispatch additional autonomous work to the affected self-hosted path without an approved, reviewed boundary.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
