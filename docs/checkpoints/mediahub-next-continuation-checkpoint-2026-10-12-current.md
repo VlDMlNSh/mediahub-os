@@ -5164,3 +5164,15 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Canonical map updated in commit `fc19e1c75f97ca9f5a0687fcbdbdba6aa4190985`, new blob `5e97157766f646bfc7fa550f8b1bb8860c55df0b`. Re-read map and report blobs before declaring documentation sync complete.
 - No worker/provider/Gemini dispatch, secret access, merge, deployment, qualification or acceptance. Issue #301 remains open; Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
 - Next: independent review of PR #375; authorized verification of branch rules; governance-approved issuer/capability envelope semantics; then fail-closed implementation/tests and separate trusted publisher design.
+
+
+## Wave 206 — publication path, current truth and branch drift (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-206-2026-10-19.md](MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-206-2026-10-19.md); report commit `6d06d86ced2c6c075d8e67c3d008373b86510ea6`.
+- PR #375 head confirmed: `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`; exact-head Astra Verify run [39295373907](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373907) SUCCESS; Astra Cloud Runtime Validation run [39295373833](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373833) SUCCESS.
+- Current compare against `main`: 12 ahead / 2 behind; merge-base `c06015e0b1526e0aaa6a522306052b077455aba5`. PR remains OPEN / Draft / unmerged; no review submissions returned.
+- Worker workflow blob `c24ad16ab8ed59fd4dbad9538063f63a933eab2c` has `contents: read` and all three checkout steps set `persist-credentials: false`. The invoked worker script blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d` nevertheless contains `git push origin HEAD:refs/heads/{branch}`; credential chain and repository-level git config have not been fully audited. Do not infer push succeeds or is impossible.
+- Current truth on main blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED, overall NOT_PROVEN / BLOCKED. Issue #301 remains OPEN; branch protection was not verified (previous API response 403).
+- Canonical map updated with Wave 206 entry; map update commit `e2df11a5f0b00a35eaa2295b09f992ff2815a26a`, blob `3b72a02f94a358a8378a4273d278164f65e241c1`.
+- No worker/Gemini/provider dispatch, secret access, host command, merge, deployment, qualification or acceptance.
+- Next: independent audit of credential sources and worker publication path; agree artifact-only worker / trusted-publisher boundary and issuer/capability semantics through governance; refresh branch compare and CI before any integration.
