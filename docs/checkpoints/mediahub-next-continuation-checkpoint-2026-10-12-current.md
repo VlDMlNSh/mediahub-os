@@ -5194,3 +5194,10 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Current truth on main blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED, overall NOT_PROVEN / BLOCKED. Issue #301 remains OPEN; branch protection/required reviews unverified.
 - No worker/Gemini/provider dispatch, credential use, host command, merge, deployment, qualification or acceptance.
 - Next: read-only inventory of runner bootstrap/service and Git credential configuration metadata, without exposing secret values; then define an artifact-only worker contract and isolated publisher, with governance approval before credential/publisher implementation.
+
+
+### Wave 207 final read-back correction
+
+- Wave 207 report amended for transient PR metadata drift; current report blob `5801e38d55b58e7812c61a86573876ea9f59f1d2` (update commit `39d541a50b78117354ae633abcc6587409581938`).
+- GitHub's computed `mergeable` field changed from false to true between reads, while PR #375 remained OPEN / Draft / unmerged. Do not treat this field as authorization. Fresh comparison remains 12 ahead / 3 behind `main`; branch divergence and unverified protection still block integration.
+- Wave 207 canonical map blob: `cba3afa53c4c2ba8c6ca4083dcb160288e1350ea`; Wave 207 report link remains indexed in the map.
