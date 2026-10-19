@@ -2,7 +2,7 @@
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 
-- Report: [Wave 166 semantic authority-reference review](../checkpoints/MEDIAHUB-A0-SEMANTIC-AUTHORITY-REFERENCE-REVIEW-WAVE-166-2026-10-19.md), blob SHA to be pinned after read-back.
+- Report: [Wave 166 semantic authority-reference review](../checkpoints/MEDIAHUB-A0-SEMANTIC-AUTHORITY-REFERENCE-REVIEW-WAVE-166-2026-10-19.md), report blob SHA `9f1b3c1dcbe0abf592934602da1f4bc49115f17c` (read-back verified).
 - Governing tracker: [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
 - Re-read Wave 149 issuer decision matrix (blob `9c1a02dc125b37abea9284f0c0aa5deb571f13e7`) confirms GOV-CAP-01…07 remain required decisions, WB-05 options A–D remain unselected, and R-06 audit/privacy handling remains unresolved.
 - Wave 134 call-site inventory (blob `cd6f6021bc5b617ef0bc581bfe4a6748515ce81e`) found local AuthorizationContext consumers and qualification-probe constructors, not an authoritative production issuer.
