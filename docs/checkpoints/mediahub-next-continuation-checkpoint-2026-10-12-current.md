@@ -5335,3 +5335,6 @@ Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 
 - Three runs launched: A1 39325506829; A2 39325510774; A3 39325515053. Status/output and PRs must be refreshed before relying on results.
 - Remaining security limits: generic run() still inherits ambient environment when env is omitted; worker-side git add/commit/push remains; no artifact-only trusted-publisher boundary. Issue #301 remains OPEN; Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
 - Next: inspect completed Gemini reports; continue generic subprocess/publishing isolation and negative tests on a fresh current-main branch; review #388 schema validation independently.
+
+
+- Wave 215 source-bound publication-reuse finding: existing .github/workflows/astra-node-result-publication.yml blob 087a373fe113d11a81be4d349e4c3d330a22f33c handles only supervisor/GOLD controller-result payloads; .github/workflows/astra-distributed-local-worker.yml blob f650f2416c19dc75b4a0eeec037661c0c6169910 still grants contents: write/persist-credentials and worker code directly git-add/commit/pushes. ops/mesh/artifacts.py blob a5dddf3b58a35e21385e3c9f9049a6e538c2e71b is a reusable hash-verification component, not a complete trust boundary. Next design a worker-specific bounded artifact contract and separate publisher authorization before changing workflow triggers.

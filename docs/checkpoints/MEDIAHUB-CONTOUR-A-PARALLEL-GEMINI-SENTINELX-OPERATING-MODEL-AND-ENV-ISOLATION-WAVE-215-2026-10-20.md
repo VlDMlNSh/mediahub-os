@@ -86,6 +86,15 @@ SentinelX capability discovery reported the connected host Voktors-Mac-mini.loca
 
 The agent-browser core skill was loaded before browser use; the browser was used read-only against PR #392. No secret values were read, printed, committed, or sent to a model prompt. No deployment, merge, qualification, or authoritative product-state mutation occurred.
 
+## 4A. Existing publication implementation inspected for reuse
+
+Source inspection of current main found an existing GitHub-hosted sanitized result publisher, but it is not a drop-in publisher for the distributed local worker:
+- .github/workflows/astra-node-result-publication.yml blob 087a373fe113d11a81be4d349e4c3d330a22f33c. It triggers only after the Astra autonomous queue supervisor and ASTRA GOLD unified autonomous development qualification workflows, validates a controller-result.json payload, then publishes control/results/mh-dev-01.json to astra-node/mh-dev-01 and checks the remote SHA.
+- .github/workflows/astra-distributed-local-worker.yml blob f650f2416c19dc75b4a0eeec037661c0c6169910. It currently grants contents: write and sets persist-credentials: true on all three self-hosted checkout paths, then uploads astra-distributed-worker-result.json. The worker code itself performs git add -A, commit and push before artifact upload.
+- ops/mesh/artifacts.py blob a5dddf3b58a35e21385e3c9f9049a6e538c2e71b provides generic SHA-256 artifact verification/manifest checks, but that alone does not establish the worker result schema, trusted issuer provenance, or publisher authorization.
+
+Conclusion: reuse the existing publisher workflow's separated job, payload-validation and remote-SHA-verification pattern where compatible, but first design a worker-specific bounded result manifest/artifact contract and its authorized trigger. Do not simply add the worker to the existing workflow's trigger list: its payload shape, per-node routing, target/base semantics, and governance identity must be explicitly reconciled. The current worker write credential and direct push remain a high-priority Contour A trust-boundary gap.
+
 ## 5. Next actions
 
 1. Read back all three Gemini run conclusions, job artifacts/outputs and resulting PRs; correct any stale or unsupported findings.
