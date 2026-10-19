@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-19 (Wave 204; index entries appended; historical section numbering preserved)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-19 (Wave 205; semantic YAML duplicate-key rejection and readiness audit)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -15,6 +15,8 @@
 - Wave 203 (2026-10-19): [truth-ranked gaps and architecture blueprint](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-GAPS-BLUEPRINT-WAVE-203-2026-10-19.md).
 
 - Wave 204 (2026-10-19): [PR #375 YAML semantic permission oracle](../checkpoints/MEDIAHUB-CONTOUR-A-PR375-YAML-SEMANTIC-PERMISSION-ORACLE-WAVE-204-2026-10-19.md). Exact candidate CI is linked in the report; PR remains Draft/unmerged.
+
+- Wave 205 (2026-10-19): [truth-ranked audit and readiness](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-205-2026-10-19.md). Exact-head commit `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`; Astra Verify run [39295373907](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373907) and Cloud Runtime Validation run [39295373833](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373833) both SUCCESS. PR #375 remains Draft/unmerged; authority and trusted-publisher gates remain open.
 
 ## 1. Правила интерпретации
 
@@ -7369,3 +7371,5 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Wave 203 (2026-10-19): [truth-ranked gaps and architecture blueprint](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-GAPS-BLUEPRINT-WAVE-203-2026-10-19.md). Ranked P0 issuer/capability authority, trusted publisher/output provenance, independent governance disposition; P1 exact-head CI/YAML oracle, runner isolation/FCC propagation, Gemini supply chain, map freshness; P2 branch divergence. Proposal only; no governance acceptance.
 - Wave 204 (2026-10-19): [PR #375 YAML semantic permission oracle](../checkpoints/MEDIAHUB-CONTOUR-A-PR375-YAML-SEMANTIC-PERMISSION-ORACLE-WAVE-204-2026-10-19.md). Candidate commit `40ca9a2eabf69949134c941babd2624559f0cb1f`, test blob `67a9589b16332f1a07ee9ce7b73662d2ce23d237`; exact-head Astra Verify run [39294040201](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39294040201) and Cloud Runtime Validation run [39294040541](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39294040541) both SUCCESS. PR #375 remains Draft/unmerged; this closes only the tested YAML-oracle gap, not publisher provenance or independent security acceptance. No worker dispatch, secrets, host command, merge, deployment or qualification.
 - Continuation checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), Wave 204 record committed at `8518de23e88262bbf9516313fcb15e015d4152e3`.
+
+- Wave 205 (2026-10-19): [truth-ranked audit and readiness](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-205-2026-10-19.md). PyYAML oracle now rejects duplicate mapping keys; exact-head CI is green. No worker dispatch, merge, deployment, qualification or governance promotion.
