@@ -5341,3 +5341,14 @@ Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 
 
 
 - Wave 215 Gemini partial output: A3 report PR #393 https://github.com/VlDMlNSh/mediahub-os/pull/393, head 93853dd0ad82f59726a56be8d29e472aa3dcf310, report blob dee1e60cf23fd55d5aeafa1f3ed10215e089ea4e. Review comment 6277569380 challenges inaccurate broad claims about subprocess env controls and shell-injection immunity; keep Draft pending correction. A1 run 39325506829 and A2 run 39325510774 remained in progress at latest read-back; A3 run 39325515053 still reported in progress despite PR creation. Refresh run statuses and review outputs before accepting any result.
+
+
+## Wave 216–217 continuation update — 2026-10-20 (working PR; not canonical until merged)
+
+- Report: [Continuous qualification kickoff and exact-head CI triage](MEDIAHUB-CONTOUR-A-CONTINUOUS-QUALIFICATION-WAVE-216-2026-10-20.md).
+- Map proposal: [Wave 216 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-216-2026-10-20.md); canonical map was updated on the working branch and read back by blob SHA `7dd84c817b48a78f2896b838d5033ba8c4dc4a35` because path fetch returns empty content for the large file.
+- Review PR: https://github.com/VlDMlNSh/mediahub-os/pull/396 (Draft/open; not merged).
+- Read-back evidence: report blob `6222154b069a9d29705de4eaf63d1f04143ebe95`; map blob `7dd84c817b48a78f2896b838d5033ba8c4dc4a35`.
+- Exact-head CI queried: PR #388 SHA `4a131acf6484f6e370625b0ebc454ee7b4b5116c` — Astra Verify and Astra Cloud Runtime Validation SUCCESS; PR #392 SHA `b76a88aa7da9f8ad211d9377ac3458f7ed561a90` — both workflows SUCCESS. These results do not close the documented schema acceptance or worker publisher-boundary gaps.
+- Current qualification truth remains NOT_PROVEN / BLOCKED; G0–G11 are blocked and G11 remains human-only. No deployment, independent acceptance, gate promotion, or background overnight executor is claimed.
+- Next: inspect PR #388 and #392 full diffs/current heads and negative tests; verify branch protections and exact-head review; then select one bounded implementation change. Do not merge solely on green CI.
