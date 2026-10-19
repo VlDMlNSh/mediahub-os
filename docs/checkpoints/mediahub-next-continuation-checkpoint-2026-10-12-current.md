@@ -5261,7 +5261,7 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 
 ## Wave 212 — three-agent Gemini dispatch (2026-10-19)
 
-- Report: [Three-agent Gemini dispatch and independent review](MEDIAHUB-CONTOUR-A-THREE-GEMINI-PARALLEL-DISPATCH-WAVE-212-2026-10-19.md), commit `ce5261d4615b3d978e12550075bce58a588bd3d4`.
+- Report: [Three-agent Gemini dispatch and independent review](MEDIAHUB-CONTOUR-A-THREE-GEMINI-PARALLEL-DISPATCH-WAVE-212-2026-10-19.md), final docs-branch commit `7d5bf79f8b715f35466c13df9c001e7107c60ec3`, blob `5c74d9716f1274e3a76d4f1936f45262af032ea6`.
 - Base main SHA: `0897bd613c0c041794ec5ec4a72cd487b13a6944`.
 - Gemini Agent 1 run 39317199908 SUCCESS; output artifact 12217848256 digest `e36df6cde43e85c55f4fc45a0b996e301e91f835ee47d8b80e2ba548901f7737`; Draft PR #382 head `14b2ea83faa336589020b69a591f13bdf6785691`.
 - Gemini Agent 2 run 39317204825 SUCCESS; output artifact 12219425521 digest `5bdaec3c9de880f4314d1be9627d06f12dceb2778240135e44bfa9ff12d5add3`; Draft PR #381 head `99c1a8f844ed3a906cdad654cad7b2eda1d49308`.
