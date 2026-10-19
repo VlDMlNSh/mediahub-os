@@ -5083,3 +5083,12 @@ Before adopting PR #338, either secure and verify provenance for the exact candi
 - Wave 167/170 credential isolation and worker issuer-bound admission remain independent high-priority blockers; GOV-CAP-01…07 and R-06 remain unresolved. No secrets, provider calls, dispatch, live host/process inspection, tests, runtime/workflow changes, merge, deployment or qualification occurred.
 - Next: inspect the five canonical-base commits and do path/history reconciliation; separately obtain owner-authorized containment and governance disposition before additional dispatch to the affected self-hosted execution path.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## WAVE-173-CREDENTIAL-BOUNDARY — remediation design and negative-test matrix (2026-10-19)
+
+- Report: [A0 credential-boundary remediation and negative-test matrix — Wave 173](MEDIAHUB-A0-CREDENTIAL-BOUNDARY-REMEDIATION-AND-NEGATIVE-TEST-MATRIX-WAVE-173-2026-10-19.md), blob SHA `a5a46f061678a3a13b0130719226c44e37aa7abb` (read-back verified).
+- Map addendum: [Wave 173 project map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-173-2026-10-19.md), blob SHA `34c7c91dc48a7b4641e2d3a75e9b1d21b5dbb3a3` (read-back verified).
+- Scope: proposal for controller/model/publisher trust-domain separation and CB-01…CB-14 synthetic-sentinel negative tests. Source pins are in the report. No code or workflow remediation, tests, runner dispatch, credential access, merge, deployment or qualification.
+- Required next gates: owner-authorized interim dispatch posture; accepted issuer/capability semantics; explicit child environment allowlists; credential-free model checkout; OS/network isolation; independent evidence validation.
+- Current status: Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B blocked. This work-branch checkpoint does not change the canonical map or make the proposal accepted.
