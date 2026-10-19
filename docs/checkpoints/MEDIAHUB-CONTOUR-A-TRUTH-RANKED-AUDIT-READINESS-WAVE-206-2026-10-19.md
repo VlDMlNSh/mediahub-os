@@ -10,7 +10,7 @@
 
 - PR #375 head is `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`, OPEN / Draft / unmerged.
 - PR metadata reports `mergeable: true`, but this is not a review approval or permission to merge.
-- Current comparison against `main`: 12 commits ahead, 2 behind; merge base `c06015e0b1526e0aaa6a522306052b077455aba5`. The branch is now diverged, so the previous Wave 205 statement of 11 ahead / 0 behind is historical and must not be reused.
+- Comparison snapshot during initial Wave 206 inspection: 12 commits ahead, 2 behind; merge base `c06015e0b1526e0aaa6a522306052b077455aba5`. The branch is now diverged, so the previous Wave 205 statement of 11 ahead / 0 behind is historical and must not be reused.
 - Changed files: `.github/workflows/astra-distributed-local-worker.yml`, `.github/workflows/astra-verify.yml`, `ops/qualification/test_worker_workflow_credential_policy.py`.
 - Review submissions: none returned. Review threads: zero returned. Issue #301 remains OPEN (last updated 2026-10-19T10:37:13Z); its last inspected comments still state that branch protection/review settings could not be verified because the API returned 403.
 - Generated current truth on `main`, blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED; overall NOT_PROVEN / BLOCKED.
@@ -70,3 +70,8 @@ The test file at blob `2c5fae2d431ca765bb548f4a2b5d70874961a438` uses a safe PyY
 No worker, Gemini or provider dispatch; no secret access, host command, merge, deployment or qualification was performed.
 
 Next: (1) independently review worker script and credential chain, including repository-level git config and any ambient token sources; (2) specify artifact-only worker contract and publisher trust boundary; (3) resolve issuer/capability decisions in governance; (4) recheck exact PR head, CI, ancestry, branch protections and review state before any integration. Adversarial cases must include wrong repo/ref/SHA, expired/revoked/replayed grants, forbidden paths, symlinks/binary/oversized patches, forged Git metadata, cancellation races, audit outage and remote-SHA mismatch.
+
+
+## Final read-back drift note
+
+A fresh comparison after documentation writes returned 12 commits ahead / 3 behind `main`, with the same merge base `c06015e0b1526e0aaa6a522306052b077455aba5`. The base advanced during this pass; use 12 ahead / 3 behind as the latest observed value and refresh again before any integration action. Map/checkpoint cross-links were read back by SHA; the canonical map content was retrieved via blob because the file endpoint returned empty content for this large file.
