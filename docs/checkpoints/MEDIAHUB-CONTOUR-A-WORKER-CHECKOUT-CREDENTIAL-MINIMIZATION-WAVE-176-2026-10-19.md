@@ -59,3 +59,12 @@ Read-only source inspection found an unresolved compatibility issue:
 3. Establish the FCC authentication contract before changing the model subprocess environment. Continue synthetic-secret negative tests and explicit environment allowlisting as a separate change.
 4. Keep PR #375 Draft until checks and independent review pass. Do not merge on CI alone.
 5. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
+
+
+## Follow-up security review and PR gate (2026-10-19)
+
+- Re-read the exact worker source blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`. Lines 663–679 explicitly run `git add -A`, `git commit`, `git push origin HEAD:refs/heads/{branch}`, then `git ls-remote` and compare the remote SHA.
+- This confirms an operational dependency the credential-minimization candidate has not reconciled: `contents: read` plus `persist-credentials: false` removes the standard checkout token path, while the worker expects authenticated Git publication. The evidence does not prove every runner lacks an ambient credential helper; it proves no replacement publishing contract has been defined or exercised in this PR.
+- Posted a PR #375 conversation warning, comment ID `6263244730`: https://github.com/VlDMlNSh/mediahub-os/pull/375#issuecomment-6263244730. The PR must remain Draft and must not be merged as-is.
+- Proposed design direction, not implementation/approval: isolate the model/worker execution from publication. A separately trusted publisher should receive a constrained result, independently verify target SHA, branch and allowed diff, avoid trusting the worker-modified Git metadata, use a narrowly scoped credential only inside the publisher boundary, and emit auditable push provenance. The exact issuer/capability and publisher contract remains a governance/security design task.
+- No worker dispatch, credential access, provider calls, merge, deployment, or qualification occurred. Existing CI proves static regression checks, not end-to-end publication.
