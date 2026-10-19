@@ -48,8 +48,8 @@ def policy_violations(source):
             violations.append(
                 f"checkout {index} must not persist credentials"
             )
-    if re.search(r"(?m)^  contents: write\s*$", source):
-        violations.append("workflow must not contain top-level contents: write")
+    if re.search(r"(?m)^[ \\t]+contents: write\\s*$", source):
+        violations.append("workflow must not grant contents: write at any level")
     return violations
 
 
@@ -70,6 +70,19 @@ class WorkerWorkflowCredentialPolicyTests(unittest.TestCase):
             "workflow must explicitly set contents: read", violations
         )
         self.assertIn("workflow must not grant contents: write", violations)
+
+    def test_rejects_synthetic_job_level_write_permission_regression(self):
+        marker = "  mh-dev-01-claude:\\n"
+        self.assertIn(marker, self.source, "fixture must target a known worker job")
+        mutated = self.source.replace(
+            marker,
+            marker + "    permissions:\\n      contents: write\\n",
+            1,
+        )
+        violations = policy_violations(mutated)
+        self.assertIn(
+            "workflow must not grant contents: write at any level", violations
+        )
 
     def test_rejects_synthetic_persisted_checkout_credential_regression(self):
         marker = "          persist-credentials: false"
