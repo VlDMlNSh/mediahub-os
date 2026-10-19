@@ -5289,3 +5289,14 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Gemini runs 39319707614, 39319711872, 39319716373 all SUCCESS on current main and produced Draft PRs #386, #387, #385 respectively. Agent reports are not accepted: #386 has stale timestamp/overstated closure; #387 incorrectly calls custom lint full Draft 2020-12 meta-validation; #385 reviews adjacent scanner rather than PR #384's changed code. Corrective review comments posted.
 - PRs #375–#383 remain unmerged; several are based on stale main and require reconciliation. No provider dispatch beyond these authorized Gemini review workflows, no secret values read, no merge/deployment/qualification.
 - Next: review PR #384 against corrected exact-target independent review; close Issue #301 authority/admission gates with source-backed evidence; correct schema validation gaps; implement artifact-only worker/publisher boundary. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
+
+
+## Wave 213 integration correction — PR #384 merged (2026-10-19)
+
+- PR #384: https://github.com/VlDMlNSh/mediahub-os/pull/384 is MERGED; merge commit/current main HEAD `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`.
+- Post-merge Astra Verify run 39320722769 SUCCESS. Mainline read-back confirms worker blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1`, regression test `53098d1755518bc9fcd67a2236d874534aeb8fd5`, AGENTS.md `9506501f7f6f1c958ad87907089641486ad46ebb`, and .agents/skills/mediahub-next/SKILL.md `66d33c76a1919e909307d8fb68847c6a65b70ac3`. Project-local instructions are now on main.
+- Merge push queued three unrelated self-hosted/qualification workflows: 39320722831, 39320722932, 39320722875. All were cancelled. The Mac job in the 23-wave run failed Canonical admission before any rounds; the mh-dev-01 job was cancelled while queued; the queue supervisor was cancelled before command preparation completed; mh-dev-02 qualification was cancelled while queued. No qualification or authoritative command executed. Treat automatic qualification trigger coupling as a follow-up workflow risk.
+- Branch protection API reported main is not protected and repository rulesets list was empty at merge time. This is recorded as a governance risk, not an acceptance claim.
+- Gemini PRs #385–#387 remain Draft and unaccepted due evidence mismatches noted in review comments.
+- Next: correct Gemini review reports or replace them with source-anchored reviews; close Issue #301 authority/admission gates; fix actual Draft 2020-12 meta-validation gap; design artifact-only worker/publisher boundary. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
+- Full report: [Wave 213 security gate, agent audit, and merge addendum](MEDIAHUB-CONTOUR-A-SECURITY-GATE-AND-THREE-GEMINI-WAVE-213-2026-10-19.md).
