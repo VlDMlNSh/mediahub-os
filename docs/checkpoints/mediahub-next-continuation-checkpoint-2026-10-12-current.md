@@ -5201,3 +5201,16 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Wave 207 report amended for transient PR metadata drift; current report blob `5801e38d55b58e7812c61a86573876ea9f59f1d2` (update commit `39d541a50b78117354ae633abcc6587409581938`).
 - GitHub's computed `mergeable` field changed from false to true between reads, while PR #375 remained OPEN / Draft / unmerged. Do not treat this field as authorization. Fresh comparison remains 12 ahead / 3 behind `main`; branch divergence and unverified protection still block integration.
 - Wave 207 canonical map blob: `cba3afa53c4c2ba8c6ca4083dcb160288e1350ea`; Wave 207 report link remains indexed in the map.
+
+
+### Wave 208 — credential boundary and runner-evidence audit (2026-10-19)
+
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-208-2026-10-19.md
+- Report commit: `ccd1aff52fde0883ff76d42822d6c97238346d70`.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Revalidated PR #375 OPEN/Draft/unmerged at `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`; exact-head Astra Verify `39295373907` and Cloud Runtime Validation `39295373833` SUCCESS.
+- Latest comparison: 12 commits ahead / 3 behind `main`, merge base `c06015e0b1526e0aaa6a522306052b077455aba5`; branch diverged. No review submissions; branch protection remains unverified.
+- Source-level evidence: workflow blob `c24ad16ab8ed59fd4dbad9538063f63a933eab2c` has `contents: read` and checkout `persist-credentials: false`; invoked worker blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d` inherits process environment in subprocess helpers and contains `git add -A` / commit / direct `git push`. Effective self-hosted runner credential chain is NOT PROVEN.
+- Current truth on `main` blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED; overall NOT_PROVEN / BLOCKED.
+- No runner host/config was inspected, no secret values were read, no worker/provider dispatch, credential change, merge, deployment, qualification or acceptance occurred.
+- Next: authorized read-only runner configuration inventory of metadata only; define artifact-only worker contract and isolated publisher with governance approval before implementing credential changes.
