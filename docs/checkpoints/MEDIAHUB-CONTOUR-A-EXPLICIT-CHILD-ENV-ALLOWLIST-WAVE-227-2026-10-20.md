@@ -23,7 +23,7 @@ The existing PR #392 uses a strict parent-environment allowlist, but `child_envi
 4. Added a regression test proving that injected `GH_TOKEN`, `ASTRA_PUBLISHER_TOKEN`, `SUPABASE_SERVICE_ROLE_KEY`, arbitrary MediaHub fields and `PYTHONPATH` do not propagate from the FCC env map while required local FCC fields do.
 5. Corrected two stale worker tests: the checked-in 23-wave workflow is `read-only`, not `workspace-write`; the permanent executor pool binds the three nodes to Claude and permits at most one claim per node.
 
-No worker was dispatched. No real secret values were read or written. The local FCC file was not read in this wave; tests use synthetic values only.
+No worker was dispatched and no real secret values were read or written. During an earlier exploratory check on the first host, only FCC env key names were listed and all values were suppressed; all new regression tests use synthetic values only.
 
 ## Verification
 
