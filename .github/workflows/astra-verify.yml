@@ -38,6 +38,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends transmission-cli
       - name: Compile
         run: python -m compileall -q .
+      - name: Worker workflow credential policy regression tests
+        run: python -m unittest ops.qualification.test_worker_workflow_credential_policy
       - name: Cloud admission unit tests
         run: python -m unittest discover -s tests -p 'test_*.py'
       - name: Signed command smoke test
