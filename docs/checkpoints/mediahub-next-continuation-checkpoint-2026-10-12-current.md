@@ -5305,3 +5305,15 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 ## Wave 213 live PR divergence refresh (2026-10-19)
 
 Current main: `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`. Current live compare: #375 = 12 ahead / 6 behind; #376 = 1/6 (merge base `c06015e0b1526e0aaa6a522306052b077455aba5`); #377 = 3/3; #381–#383 = 1/3 each (merge base `0897bd613c0c041794ec5ec4a72cd487b13a6944`); #385–#387 = 1/1 each (merge base `1363c03f0168c6371332095d38a410974a875815`). All remain unmerged; do not integrate without reviewing diffs, updating bases safely, and obtaining fresh exact-head CI. Detailed matrix in [Wave 213 report](MEDIAHUB-CONTOUR-A-SECURITY-GATE-AND-THREE-GEMINI-WAVE-213-2026-10-19.md).
+
+
+
+## Wave 214 — JSON Schema validation and three-agent Gemini review (2026-10-19)
+
+- Report: [Wave 214 JSON Schema validation and Gemini review](MEDIAHUB-CONTOUR-A-JSON-SCHEMA-VALIDATION-AND-GEMINI-WAVE-214-2026-10-19.md).
+- PR #388: https://github.com/VlDMlNSh/mediahub-os/pull/388, OPEN / Draft, current head 4a131acf6484f6e370625b0ebc454ee7b4b5116c, base main 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. Code commit 6e586d4337badd8bd4fc4715f653f89ce927b381; CI dependency fix commit 4a131acf6484f6e370625b0ebc454ee7b4b5116c.
+- Changed blobs: requirements 95f28282b6c2e2f27ea25c59d102e9147a0977e8; validator 45739d931a146f5639f790272bcef58a84075f22; tests c1e62b1bcb02a79824a9cec1cab1f48959606c1c; Astra Verify workflow 0b1f1fddf3d12e58304ee014364083ca0f6c0e27.
+- Local checks: 7/7 focused tests, 433/433 full unittest discovery, 25 schema files validated, 9 metadata-envelope contracts, identity separation, compile and diff-check pass. Initial Astra Verify run 39322774630 failed because workflow installed only PyYAML; fixed to install requirements-dev.txt. Current exact-head Astra Verify 39323095151 and Cloud Runtime Validation 39323095228 both SUCCESS.
+- Gemini runs 39322867519 → Draft PR #389, 39322871826 → Draft PR #390, 39322875847 → Draft PR #391. All runs completed SUCCESS. Review corrections requested: #389 stale reviewed head/reference-resolution overclaim (comment 6277140643); #390 wrong worker scope (comment 6277141360); #391 unsupported claims about cancelled job execution and invalid simultaneous paths/paths-ignore syntax (comment 6277171984). All remain Draft.
+- Current canonical schema tree has zero $ref keywords; semantic reference resolution and runtime payload corpus remain open. Issue #301 stays OPEN; no merge, deployment or Contour A acceptance.
+- Next: source-bound artifact-only worker/publisher isolation with negative tests; review workflow trigger coupling separately against exact workflow/job evidence. Refresh refs, SHA, branch divergence and CI before integration.
