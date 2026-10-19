@@ -7264,3 +7264,10 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Review confirms exact title matching, freshness, positive integer run ID, and fail-closed duplicate handling. Missing direct negative cases include malformed non-empty command/task/node IDs, malformed/naive timestamps, boolean run ID, and invalid row alongside valid row. These are test coverage gaps, not observed failures.
 - Run-title correlation is not authorization. Signed A0 command and GitHub workflow/event/SHA/job/attempt/artifact provenance validation plus WB-05/R-06 authority decisions remain required. PR stays Draft; no code/dispatch/merge/deployment/qualification in this review.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+### Wave 152 — PyPI bootstrap publisher-provenance gate review (2026-10-19)
+
+- Evidence report: [MEDIAHUB-PYPI-BOOTSTRAP-PUBLISHER-PROVENANCE-GATE-WAVE-152-2026-10-19.md](../checkpoints/MEDIAHUB-PYPI-BOOTSTRAP-PUBLISHER-PROVENANCE-GATE-WAVE-152-2026-10-19.md).
+- PyPI's exact `setuptools==84.0.0` wheel page confirms the pinned SHA-256 but reports Trusted Publishing was not used. The official Integrity API was reviewed; the exact file endpoint response could not be retrieved, so publisher provenance remains UNVERIFIED and no cryptographic verification is claimed.
+- No dependency/lock change; PR #350 stays Draft/unmerged pending explicit supply-chain disposition and independent review. A0 issuer/lifecycle, R-06 authority/privacy and accepted runner/workspace/network target-manifest gates remain separate blockers. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED.
