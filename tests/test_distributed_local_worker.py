@@ -71,7 +71,8 @@ def test_claude_worker_uses_isolated_config_directory():
 
 def test_23wave_codex_qualification_is_not_unbounded():
     workflow = Path(".github/workflows/mh25-dual-local-23wave.yml").read_text(encoding="utf-8")
-    assert "--sandbox workspace-write" in workflow
+    assert "--sandbox read-only" in workflow
+    assert "--sandbox workspace-write" not in workflow
     assert "--sandbox danger-full-access" not in workflow
 
 
@@ -80,14 +81,15 @@ def test_codex_worker_disables_reasoning_for_local_models():
     assert 'model_reasoning_effort = "none"' in worker
 
 
-def test_distributed_selection_allows_one_claim_per_executor_lane():
+def test_distributed_selection_enforces_permanent_executor_binding_and_one_claim_per_node():
     tasks = [
-        {"task_id": "codex-a", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
-        {"task_id": "codex-b", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
+        {"task_id": "wrong-codex", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
         {"task_id": "claude-mh1", "priority": "P0", "node_id": "mh-dev-01", "executor": "claude"},
+        {"task_id": "claude-mh2", "priority": "P0", "node_id": "mh-dev-02", "executor": "claude"},
+        {"task_id": "duplicate-mh2", "priority": "P0", "node_id": "mh-dev-02", "executor": "claude"},
         {"task_id": "claude-mac", "priority": "P1", "node_id": "Voktors-Mac-mini.local", "executor": "claude"},
     ]
     selected = __import__("mediahub_runtime.autonomous_queue", fromlist=["select_distributed_tasks"]).select_distributed_tasks(tasks, 3)
-    assert [t["task_id"] for t in selected] == ["codex-a", "claude-mh1", "claude-mac"]
+    assert [t["task_id"] for t in selected] == ["claude-mh1", "claude-mh2", "claude-mac"]
     assert len({t["node_id"] for t in selected}) == len(selected)
-    assert len({t["executor"] for t in selected}) == len(selected)
+    assert all(t["executor"] == "claude" for t in selected)

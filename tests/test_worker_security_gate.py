@@ -47,12 +47,41 @@ class SecurityGateSecretDetectionTests(unittest.TestCase):
             clear=True,
         ):
             env = worker.child_environment(
-                {"MEDIAHUB_TEST_EXPLICIT_SENTINEL": "explicit-value"}
+                {"MEDIAHUB_TEST_EXPLICIT_SENTINEL": "explicit-value"},
+                explicit_allowlist={"PATH"},
             )
         self.assertEqual(env["PATH"], "/safe/bin")
         self.assertEqual(env["HOME"], "/tmp/test-home")
         self.assertNotIn("MEDIAHUB_TEST_AMBIENT_SENTINEL", env)
-        self.assertEqual(env["MEDIAHUB_TEST_EXPLICIT_SENTINEL"], "explicit-value")
+        self.assertNotIn("MEDIAHUB_TEST_EXPLICIT_SENTINEL", env)
+
+    def test_fcc_env_file_cannot_inject_unapproved_credentials(self) -> None:
+        with patch.dict(
+            worker.os.environ,
+            {"PATH": "/safe/bin", "GH_TOKEN": "ambient-token", "PYTHONPATH": "/untrusted"},
+            clear=True,
+        ):
+            env = worker.child_environment(
+                {
+                    "MODEL": "ollama/qwen2.5-coder:1.5b",
+                    "HOST": "127.0.0.1",
+                    "PORT": "8093",
+                    "ANTHROPIC_AUTH_TOKEN": "local-proxy-token",
+                    "GH_TOKEN": "injected-token",
+                    "ASTRA_PUBLISHER_TOKEN": "injected-token",
+                    "SUPABASE_SERVICE_ROLE_KEY": "injected-key",
+                    "MEDIAHUB_TEST_EXPLICIT_SENTINEL": "unapproved",
+                    "PYTHONPATH": "/untrusted-explicit",
+                },
+                explicit_allowlist=worker.FCC_ENV_ALLOWLIST,
+            )
+        self.assertEqual(env["MODEL"], "ollama/qwen2.5-coder:1.5b")
+        self.assertEqual(env["HOST"], "127.0.0.1")
+        self.assertEqual(env["PORT"], "8093")
+        self.assertEqual(env["ANTHROPIC_AUTH_TOKEN"], "local-proxy-token")
+        for key in ("GH_TOKEN", "ASTRA_PUBLISHER_TOKEN", "SUPABASE_SERVICE_ROLE_KEY",
+                    "MEDIAHUB_TEST_EXPLICIT_SENTINEL", "PYTHONPATH"):
+            self.assertNotIn(key, env)
 
 
 if __name__ == "__main__":
