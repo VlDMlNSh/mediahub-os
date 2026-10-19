@@ -94,6 +94,61 @@ def task_prompt(task: dict, role: str) -> str:
     )
 
 
+# Model-controlled subprocesses must not inherit the runner's publication or cloud authority.
+# Local FCC credentials are reintroduced only from the dedicated FCC env file and only
+# through the explicit key allowlist below.
+_MODEL_ENV_BLOCKED_PREFIXES = (
+    "ASTRA_", "MEDIAHUB_", "GITHUB_", "GH_", "ACTIONS_", "GIT_CONFIG_",
+    "AWS_", "AZURE_", "GOOGLE_", "GCP_", "GCLOUD_", "CLOUDSDK_",
+    "OPENAI_", "ANTHROPIC_", "GEMINI_", "CLAUDE_", "CODEX_", "FCC_",
+    "NPM_", "NODE_AUTH_", "PYPI_", "TWINE_", "DOCKER_",
+)
+_MODEL_ENV_BLOCKED_EXACT = {
+    "SSH_AUTH_SOCK", "GIT_ASKPASS", "GIT_SSH_COMMAND", "KUBECONFIG",
+    "NETRC", "WGETRC", "CURL_HOME", "PYTHONPATH", "PYTHONHOME",
+    "PYTHONSTARTUP", "BASH_ENV", "ENV",
+}
+_MODEL_ENV_SECRET_MARKERS = (
+    "TOKEN", "SECRET", "PASSWORD", "PRIVATE_KEY", "CREDENTIAL",
+    "API_KEY", "ACCESS_KEY", "AUTHORIZATION",
+)
+_FCC_CHILD_ENV_ALLOWLIST = {
+    "MODEL", "HOST", "PORT", "OLLAMA_BASE_URL", "HTTP_READ_TIMEOUT",
+    "PROVIDER_MAX_CONCURRENCY", "PROVIDER_PROGRESS_TIMEOUT",
+    "PROVIDER_RATE_LIMIT", "PROXY_AUTH_ENABLED", "REASONING_POLICY",
+    "ANTHROPIC_AUTH_TOKEN",
+}
+
+
+def build_model_child_env(base_env: dict[str, str] | None = None) -> dict[str, str]:
+    """Copy ordinary runtime settings but drop ambient credentials and authority overrides."""
+    source = os.environ if base_env is None else base_env
+    result: dict[str, str] = {}
+    for key, value in source.items():
+        upper = key.upper()
+        if upper in _MODEL_ENV_BLOCKED_EXACT:
+            continue
+        if upper.startswith(_MODEL_ENV_BLOCKED_PREFIXES):
+            continue
+        if any(marker in upper for marker in _MODEL_ENV_SECRET_MARKERS):
+            continue
+        result[key] = value
+    # Do not inherit an arbitrary import path from the runner; expose only this checkout.
+    result["PYTHONPATH"] = os.pathsep.join((str(ROOT / "runtime"), str(ROOT)))
+    return result
+
+
+def build_fcc_child_env(
+    base_env: dict[str, str], fcc_env: dict[str, str]
+) -> dict[str, str]:
+    """Build FCC server/client environment without inheriting unrelated runner authority."""
+    result = build_model_child_env(base_env)
+    for key in _FCC_CHILD_ENV_ALLOWLIST:
+        if key in fcc_env:
+            result[key] = fcc_env[key]
+    return result
+
+
 def load_env_file(path: Path) -> dict[str, str]:
     if not path.is_file():
         raise RuntimeError("fcc_env_file_missing")
@@ -117,8 +172,7 @@ def start_fcc(env_file: Path, model: str, server_path: str | None = None) -> tup
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
         raise RuntimeError("fcc_model_binding_mismatch")
-    env = os.environ.copy()
-    env.update(env_updates)
+    env = build_fcc_child_env(os.environ, env_updates)
     env["FCC_ENV_FILE"] = str(env_file)
     host = env_updates.get("HOST", "127.0.0.1")
     port = env_updates.get("PORT", "8093")
@@ -159,7 +213,7 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
             '[features]\nmulti_agent = false\napps = false\ntool_search = false\nplugins = false\n',
             encoding="utf-8",
         )
-        env = os.environ.copy()
+        env = build_model_child_env()
         env["CODEX_HOME"] = home
         sandbox = os.environ.get("ASTRA_CODEX_SANDBOX_MODE", "").strip() if writable else "read-only"
         if writable and sandbox not in {"workspace-write", "danger-full-access"}:
@@ -194,8 +248,8 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     claude = shutil.which("claude")
     if not claude:
         raise RuntimeError("claude_cli_missing")
-    env = os.environ.copy()
-    env.update(env_updates)
+    env = build_fcc_child_env(os.environ, env_updates)
+    env["FCC_ENV_FILE"] = str(env_file)
     env["ANTHROPIC_BASE_URL"] = f"http://{host}:{port}"
     env["ANTHROPIC_AUTH_TOKEN"] = token
     env["ANTHROPIC_API_KEY"] = token
@@ -611,13 +665,7 @@ def main() -> int:
             raise RuntimeError("task_boundary_violation")
 
         test_paths = [str(x) for x in task.get("test_paths", [])]
-        test_env = os.environ.copy()
-        test_env["PYTHONPATH"] = str(ROOT / "runtime") + os.pathsep + str(ROOT) + os.pathsep + test_env.get("PYTHONPATH", "")
-        test_env = os.environ.copy()
-        existing_pythonpath = test_env.get("PYTHONPATH", "")
-        test_env["PYTHONPATH"] = os.pathsep.join(
-            p for p in [str(ROOT / "runtime"), str(ROOT), existing_pythonpath] if p
-        )
+        test_env = build_model_child_env()
         if len(test_paths) == 1:
             test_path = Path(test_paths[0])
             test_script = (

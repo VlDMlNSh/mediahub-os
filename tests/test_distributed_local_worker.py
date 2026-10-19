@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 from ops.qualification import run_distributed_local_worker as worker
@@ -71,7 +72,8 @@ def test_claude_worker_uses_isolated_config_directory():
 
 def test_23wave_codex_qualification_is_not_unbounded():
     workflow = Path(".github/workflows/mh25-dual-local-23wave.yml").read_text(encoding="utf-8")
-    assert "--sandbox workspace-write" in workflow
+    assert "--sandbox read-only" in workflow
+    assert "--sandbox workspace-write" not in workflow
     assert "--sandbox danger-full-access" not in workflow
 
 
@@ -80,14 +82,69 @@ def test_codex_worker_disables_reasoning_for_local_models():
     assert 'model_reasoning_effort = "none"' in worker
 
 
-def test_distributed_selection_allows_one_claim_per_executor_lane():
+def test_distributed_selection_enforces_permanent_executor_binding_and_one_claim_per_node():
     tasks = [
-        {"task_id": "codex-a", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
-        {"task_id": "codex-b", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
+        {"task_id": "wrong-codex", "priority": "P0", "node_id": "mh-dev-02", "executor": "codex"},
         {"task_id": "claude-mh1", "priority": "P0", "node_id": "mh-dev-01", "executor": "claude"},
+        {"task_id": "claude-mh2", "priority": "P0", "node_id": "mh-dev-02", "executor": "claude"},
+        {"task_id": "duplicate-mh2", "priority": "P0", "node_id": "mh-dev-02", "executor": "claude"},
         {"task_id": "claude-mac", "priority": "P1", "node_id": "Voktors-Mac-mini.local", "executor": "claude"},
     ]
     selected = __import__("mediahub_runtime.autonomous_queue", fromlist=["select_distributed_tasks"]).select_distributed_tasks(tasks, 3)
-    assert [t["task_id"] for t in selected] == ["codex-a", "claude-mh1", "claude-mac"]
+    assert [t["task_id"] for t in selected] == ["claude-mh1", "claude-mh2", "claude-mac"]
     assert len({t["node_id"] for t in selected}) == len(selected)
-    assert len({t["executor"] for t in selected}) == len(selected)
+    assert all(t["executor"] == "claude" for t in selected)
+
+
+def test_model_child_environment_strips_ambient_authority_credentials():
+    parent = {
+        "PATH": "/usr/bin",
+        "HOME": "/tmp/user-home",
+        "SAFE_RUNTIME_FLAG": "keep",
+        "GITHUB_TOKEN": "do-not-inherit",
+        "GH_TOKEN": "do-not-inherit",
+        "ACTIONS_ID_TOKEN_REQUEST_TOKEN": "do-not-inherit",
+        "ASTRA_PUBLISHER_TOKEN": "do-not-inherit",
+        "MEDIAHUB_PUBLISHER_CREDENTIAL": "do-not-inherit",
+        "AWS_ACCESS_KEY_ID": "do-not-inherit",
+        "OPENAI_API_KEY": "do-not-inherit",
+        "ANTHROPIC_AUTH_TOKEN": "ambient-token",
+        "GIT_CONFIG_COUNT": "1",
+        "GIT_ASKPASS": "/tmp/credential-helper",
+        "SSH_AUTH_SOCK": "/tmp/agent.sock",
+        "DB_PASSWORD": "do-not-inherit",
+    }
+    child = worker.build_model_child_env(parent)
+    assert child["PATH"] == "/usr/bin"
+    assert child["HOME"] == "/tmp/user-home"
+    assert child["SAFE_RUNTIME_FLAG"] == "keep"
+    assert child["PYTHONPATH"] == f"{worker.ROOT / 'runtime'}{__import__('os').pathsep}{worker.ROOT}"
+    blocked = {
+        "GITHUB_TOKEN", "GH_TOKEN", "ACTIONS_ID_TOKEN_REQUEST_TOKEN",
+        "ASTRA_PUBLISHER_TOKEN", "MEDIAHUB_PUBLISHER_CREDENTIAL",
+        "AWS_ACCESS_KEY_ID", "OPENAI_API_KEY", "ANTHROPIC_AUTH_TOKEN",
+        "GIT_CONFIG_COUNT", "GIT_ASKPASS", "SSH_AUTH_SOCK", "DB_PASSWORD",
+    }
+    assert blocked.isdisjoint(child)
+
+
+def test_fcc_child_environment_only_accepts_explicit_local_proxy_fields():
+    parent = {"PATH": "/usr/bin", "GH_TOKEN": "ambient-token", "SAFE_RUNTIME_FLAG": "keep"}
+    fcc = {
+        "MODEL": "ollama/qwen2.5-coder:1.5b",
+        "HOST": "127.0.0.1",
+        "PORT": "8093",
+        "ANTHROPIC_AUTH_TOKEN": "local-proxy-token",
+        "GH_TOKEN": "must-not-propagate",
+        "ASTRA_PUBLISHER_TOKEN": "must-not-propagate",
+    }
+    child = worker.build_fcc_child_env(parent, fcc)
+    assert child["MODEL"] == "ollama/qwen2.5-coder:1.5b"
+    assert child["HOST"] == "127.0.0.1"
+    assert child["PORT"] == "8093"
+    assert child["ANTHROPIC_AUTH_TOKEN"] == "local-proxy-token"
+    assert child["PATH"] == "/usr/bin"
+    assert child["SAFE_RUNTIME_FLAG"] == "keep"
+    assert child["PYTHONPATH"] == f"{worker.ROOT / 'runtime'}{__import__('os').pathsep}{worker.ROOT}"
+    assert "GH_TOKEN" not in child
+    assert "ASTRA_PUBLISHER_TOKEN" not in child
