@@ -82,3 +82,8 @@ Not established:
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - [Wave 210 worker artifact/publisher boundary audit](MEDIAHUB-CONTOUR-A-WORKER-ARTIFACT-PUBLISHER-BOUNDARY-WAVE-210-2026-10-19.md)
 - [Wave 211 Gemini parity CI evidence](MEDIAHUB-CONTOUR-A-GEMINI-PARITY-CI-ENFORCEMENT-WAVE-211-2026-10-19.md)
+
+
+## Repository placement correction
+
+During report creation, the initial Contents API call omitted the target branch and briefly placed this file on `main`. This was detected on read-back and corrected immediately: the report was recreated on `docs/mediahub-chat-tree-map-20261012`, then removed from `main` in commit `1363c03f0168c6371332095d38a410974a875815`. A subsequent read returned 404 for this path on `main` and confirmed the file exists on the canonical documentation branch. The final report is maintained only on the canonical docs branch; no source code or workflow files were affected by this correction.
