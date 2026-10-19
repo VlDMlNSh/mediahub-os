@@ -48,7 +48,11 @@ def policy_violations(source):
             violations.append(
                 f"checkout {index} must not persist credentials"
             )
-    if re.search(r"(?m)^[ \t]+contents: write\s*$", source):
+    write_permission_patterns = (
+        r"(?m)^[ \t]+contents\s*:\s*(?:write|'write'|\"write\")\s*(?:#.*)?$",
+        r"(?m)\bpermissions\s*:\s*\{[^}\n]*\bcontents\s*:\s*(?:write|'write'|\"write\")[^}\n]*\}",
+    )
+    if any(re.search(pattern, source) for pattern in write_permission_patterns):
         violations.append("workflow must not grant contents: write at any level")
     return violations
 
@@ -77,6 +81,32 @@ class WorkerWorkflowCredentialPolicyTests(unittest.TestCase):
         mutated = self.source.replace(
             marker,
             marker + "    permissions:\n      contents: write\n",
+            1,
+        )
+        violations = policy_violations(mutated)
+        self.assertIn(
+            "workflow must not grant contents: write at any level", violations
+        )
+
+    def test_rejects_synthetic_flow_style_write_permission_regression(self):
+        marker = "  mh-dev-01-claude:\n"
+        self.assertIn(marker, self.source, "fixture must target a known worker job")
+        mutated = self.source.replace(
+            marker,
+            marker + "    permissions: { contents: write }\n",
+            1,
+        )
+        violations = policy_violations(mutated)
+        self.assertIn(
+            "workflow must not grant contents: write at any level", violations
+        )
+
+    def test_rejects_synthetic_quoted_write_permission_regression(self):
+        marker = "  mh-dev-01-claude:\n"
+        self.assertIn(marker, self.source, "fixture must target a known worker job")
+        mutated = self.source.replace(
+            marker,
+            marker + "    permissions:\n      contents: 'write'\n",
             1,
         )
         violations = policy_violations(mutated)
