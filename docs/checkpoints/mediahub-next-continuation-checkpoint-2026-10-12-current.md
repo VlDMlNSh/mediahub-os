@@ -5246,3 +5246,14 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Source worker blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d` retains ambient environment inheritance and direct `git add -A` / commit / push; PR #375 workflow blob `c24ad16ab8ed59fd4dbad9538063f63a933eab2c` uses `contents: read` and `persist-credentials: false`. Do not infer actual push outcome; effective runner credential chain is unverified.
 - PR #375 and #376 remain OPEN / Draft / unmerged. No code integration, worker/Gemini/provider dispatch, secret access, host configuration change, deployment, qualification or acceptance. Issue #301 remains open; GOV-CAP-01…07 / A0 issuer-lifecycle and R-06 remain blocked/not proven.
 - Next: implement and test an artifact-only worker contract on a fresh branch from the current main SHA; prohibit direct worker publication and ambient credential inheritance. Keep publisher credential in a separate trusted boundary after governance acceptance. Reconcile PR #375/#376 before any integration.
+
+
+## Wave 211 — Gemini parity CI enforcement (2026-10-19)
+
+- Report: [Gemini parity CI enforcement and exact-head evidence](MEDIAHUB-CONTOUR-A-GEMINI-PARITY-CI-ENFORCEMENT-WAVE-211-2026-10-19.md).
+- Candidate PR: https://github.com/VlDMlNSh/mediahub-os/pull/377 (Draft), head `ed100737eb9235f3d4c66b42d61f0ac5e6d6b2eb`, based on current main `0897bd613c0c041794ec5ec4a72cd487b13a6944`.
+- Exact-head CI: Astra Verify run 39315656809 SUCCESS; explicit Gemini workflow parity regression test step SUCCESS; full unit-test discovery and signed-command smoke test SUCCESS. Astra Cloud Runtime Validation run 39315656798 SUCCESS.
+- Read-back blobs: workflow `d03dc0a76d43938bd50196e0219bac4fd449fb47`; parity test `a65796d5d8ae258b26b95a9fe8a50d1b06382fd0`.
+- PR #375 and #376 remain Draft/diverged (12 ahead/3 behind and 1 ahead/3 behind respectively); no blind integration. Worker publication/ambient environment issue remains open.
+- No Gemini dispatch, secret access, host mutation, merge, deployment, qualification or acceptance. Contour A status unchanged.
+- Next: review PR #377; continue artifact-only worker/publisher boundary on a fresh current-main branch, then reconcile older PRs after CI/provenance/security review.
