@@ -10,6 +10,8 @@ Governing issue: [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 
 ## Verified baseline and changes
 
+- Final Wave 200 report blob: `7024ea06fe99910993ab7d421cd87837d3dd0fda`; map addendum blob: `6ab404c3ad4d6ea859fa4ed4e92ff517336ef15a`.
+- Canonical map update commit: `4dcb16c795a375e5fc883177411c66c6b87502da`; map blob: `4b700268253cb70eaefba2f3e92a28cbfdb9167e`. The map Contents API returned empty text; the exact blob was fetched and verified to contain the Wave 200 correction.
 - `main` baseline remains `c06015e0b1526e0aaa6a522306052b077455aba5` in this pass.
 - PR [#375](https://github.com/VlDMlNSh/mediahub-os/pull/375) remains open/Draft/unmerged. Candidate branch: `security/contour-a-worker-checkout-credential-minimization-wave176-20261019`; comparison against `main` showed 8 commits ahead, 0 behind, and three changed paths.
 - Source review found the credential-policy oracle could miss job-level `permissions: contents: write` even though it rejected a top-level write permission. Added a synthetic job-level negative fixture and broadened the matcher.
