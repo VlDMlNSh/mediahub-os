@@ -5016,3 +5016,11 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 ### Next bounded action
 
 Obtain independent review and explicit bootstrap publisher-provenance disposition for PR #374; reconcile candidate history against the latest canonical docs ref without loss and rerun exact-head CI. In parallel, prepare a separate credential-boundary remediation candidate using synthetic-secret negative tests only; do not dispatch workers or access real credentials.
+
+
+## Wave 129 latest exact-head run (2026-10-19)
+
+- Report: [Wave 129 clean-base schema candidate](MEDIAHUB-SCHEMA-VALIDATION-CLEAN-BASE-CANDIDATE-WAVE-129-2026-10-19.md).
+- Candidate head `3b1fc96beeedcc6cb38c7beeb5809f0004c6ac8a`; exact-head run [39222111677](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222111677) SUCCESS, job `117959603249`; artifact `12171314150`, SHA-256 `4aaf3dbe764f22fd4eb0288685d1e069e3e28407c26f37d2e6825a487c7ae675`.
+- PR #374 remains OPEN/DRAFT/UNMERGED with 12 intended changed files and no independent review. Refresh its base to the latest canonical docs head before any future integration decision.
+- Bootstrap publisher provenance remains UNVERIFIED. A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority and accepted runner/workspace/network target manifest remain open. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
