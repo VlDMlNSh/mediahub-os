@@ -3,6 +3,7 @@
 - Status: post-CI evidence reconciliation recorded; no engineering PR merged.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md)
 - Wave 184 report: [Post-CI evidence reconciliation](../checkpoints/MEDIAHUB-CONTOUR-A-WAVE-184-POST-CI-EVIDENCE-RECONCILIATION-2026-10-19.md)
+- Continuation checkpoint: [Wave 184 /next checkpoint](../checkpoints/MEDIAHUB-NEXT-CONTINUATION-CHECKPOINT-WAVE-184-2026-10-19.md)
 - Wave 183 implementation candidate: [PR #376](https://github.com/VlDMlNSh/mediahub-os/pull/376)
 - Governing issue: [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 
