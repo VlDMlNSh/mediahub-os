@@ -4996,3 +4996,15 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 ### Next bounded action
 
 Before adopting PR #338, either secure and verify provenance for the exact candidate artifact or obtain an explicit accountable alternative trust disposition. If considering removal/substitution, first substantiate dependency necessity and preserve deterministic lock generation, then run fresh exact-head CI and independent review. Do not silently alter the bootstrap lock.
+
+
+## Wave 165 continuation — schema-validation candidate exact-head review (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-SCHEMA-VALIDATION-CANDIDATE-EXACT-HEAD-REVIEW-WAVE-165-2026-10-19.md](MEDIAHUB-CONTOUR-A-SCHEMA-VALIDATION-CANDIDATE-EXACT-HEAD-REVIEW-WAVE-165-2026-10-19.md); exact report blob SHA recorded after read-back.
+- Map navigation: [Wave 165 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-165-2026-10-19.md).
+- PR #338 remains OPEN / DRAFT / UNMERGED at candidate HEAD `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`. Workflow run [39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661) ties to that exact HEAD; its validation job and all observed steps completed successfully. The uploaded evidence artifact was verified by metadata only, not downloaded/read.
+- Source pins: schema validator `02c326da8cf90d2e5253dff3c1a5b90d72f6e18d`; semantic validator `7c69f478301360930e9e2ff341692cf2676b16cd`; negative fixture catalog `88a2571fb92e7dc2dd825a649a42fb4b95827cc7`; task-envelope schema `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; agent-registry schema `b49b89b8fbdfc180862e3dc78f8198f35e486035`; evidence-manifest schema `40c402432fd0f3899d45fde0fa0a8af4d34c593a`; validation workflow `f58add06b86b9f816e641ca1aea7d343e9662765`.
+- Finding: candidate tests exercise Draft 2020-12 meta-validation with format checking, positive synthetic fixtures, declared and generated missing-required negatives, semantic cross-document digest/version checks, report validation and artifact upload. The semantic validator explicitly records unresolved authority references as P0 / OPEN. Successful CI is not issuer authorization or runtime qualification.
+- Setuptools 84.0.0 provenance remains a candidate-only adoption gate for PR #338. No dependency substitution, code/workflow edit, secret/provider access, dispatch, merge, deployment or qualification occurred.
+- Current Wave 165 disposition: **candidate CI evidence verified; governance, A0 ingress, runtime isolation and independent acceptance gates remain open**. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+- Next: independently review semantic reference resolution against accepted authority contracts and continue the A0 ingress / publication-credential isolation tracks.
