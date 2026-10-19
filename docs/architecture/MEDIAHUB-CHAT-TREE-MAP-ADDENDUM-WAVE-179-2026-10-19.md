@@ -15,4 +15,4 @@ This is not an accepted schema or executable test suite. No issuer/key lifecycle
 
 ## Evidence boundaries
 
-Wave 179 report commit: `74501b2edcf8a867d208ce161a1c7173ecef8b40`; report blob SHA pending read-back. No tests were executed, no worker dispatched, no credentials read, no merge or deployment performed. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
+Report blob SHA after read-back: `50e5dcbb3bfb277d4e752413c06910c9f5c4d00f`; report commit: `74501b2edcf8a867d208ce161a1c7173ecef8b40`. Addendum initial blob SHA: `163602c8896b5471f0f8c89004573a06bf870182`. No tests were executed, no worker dispatched, no credentials read, no merge or deployment performed. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
