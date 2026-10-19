@@ -25,7 +25,7 @@ All three run pages showed the annotation **“Gemini CLI stderr was not valid J
 
 ## Draft PRs produced
 
-All three PRs are open Drafts, one commit ahead of current `main`, with merge base equal to `0897bd613c0c041794ec5ec4a72cd487b13a6944`. Each adds one document only; no source or workflow code changed.
+At dispatch time, all three PRs were one commit ahead of `main` at `0897bd613c0c041794ec5ec4a72cd487b13a6944`. After the report-placement correction documented below, current `main` is `1363c03f0168c6371332095d38a410974a875815`; it contains the report-creation commit `ce5261d4615b3d978e12550075bce58a588bd3d4` followed by deletion commit `1363c03f0168c6371332095d38a410974a875815`. Current comparisons against this `main` are: PR #377 = 3 ahead / 2 behind; PRs #381, #382 and #383 = 1 ahead / 2 behind each, all with merge base `0897bd613c0c041794ec5ec4a72cd487b13a6944`. The two commits were a documentation-placement error and its cleanup; the file is absent from `main` and exists on the canonical docs branch. Each agent PR adds one document only; no agent PR changed source or workflow code.
 
 1. [PR #382 — Agent 1 security/evidence pass](https://github.com/VlDMlNSh/mediahub-os/pull/382)  
    Branch `mh-contour-a-gemini-20261019-a1`; head commit `14b2ea83faa336589020b69a591f13bdf6785691`; report blob `8b44d46d640a38c20dde3b2d35e01ca46020fec9`; file `recovery/mh-contour-a-gemini-20261019-a1.md`.
