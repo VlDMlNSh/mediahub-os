@@ -5034,3 +5034,13 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - These are source-level exposure paths, not evidence of secret access or exfiltration. No credential values, provider calls, worker dispatch, tests, code changes, merge or deployment were performed.
 - Next: separate minimal remediation candidate with static workflow policy tests and synthetic-secret environment tests; establish FCC authentication contract before changing token flow. No real credentials or dispatch.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 176 — worker checkout credential minimization (2026-10-19)
+- Draft PR [#375](https://github.com/VlDMlNSh/mediahub-os/pull/375), head `77352fc1224372b94e0a7d9b92288ca86b059cc2`, base `main` at `c06015e0b1526e0aaa6a522306052b077455aba5`. Separate security branch; not merged.
+- Workflow blob `c24ad16ab8ed59fd4dbad9538063f63a933eab2c`: `contents: read`; all three checkout steps set `persist-credentials: false`. Test blob `4b3787368758f2dba4abd85325025cfbfbe59e9b`: three static policy tests.
+- Exact-head CI runs [39222837361](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837361) and [39222837322](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837322) both completed successfully. Job step summaries do not explicitly confirm invocation of the new test file; do not claim it executed.
+- Dated report: [Wave 176](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-CHECKOUT-CREDENTIAL-MINIMIZATION-WAVE-176-2026-10-19.md). Map §20.370 records exact-head CI state.
+- Remaining blockers: run/confirm the dedicated static tests, independent security review, FCC auth contract, ambient environment/token isolation, OS/network isolation and publisher provenance. No real credentials, dispatch, provider call, merge, deployment or qualification.
+- Next step: add an explicit CI invocation for `python -m unittest ops.qualification.test_worker_workflow_credential_policy` in a safe non-dispatch validation workflow, then recheck exact PR-head CI and independent review. Keep PR #375 Draft.
+- Status: Contour A **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
