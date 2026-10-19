@@ -7271,3 +7271,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Evidence report: [MEDIAHUB-PYPI-BOOTSTRAP-PUBLISHER-PROVENANCE-GATE-WAVE-152-2026-10-19.md](../checkpoints/MEDIAHUB-PYPI-BOOTSTRAP-PUBLISHER-PROVENANCE-GATE-WAVE-152-2026-10-19.md).
 - PyPI's exact `setuptools==84.0.0` wheel page confirms the pinned SHA-256 but reports Trusted Publishing was not used. The official Integrity API was reviewed; the exact file endpoint response could not be retrieved, so publisher provenance remains UNVERIFIED and no cryptographic verification is claimed.
 - No dependency/lock change; PR #350 stays Draft/unmerged pending explicit supply-chain disposition and independent review. A0 issuer/lifecycle, R-06 authority/privacy and accepted runner/workspace/network target-manifest gates remain separate blockers. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED.
+
+
+## 20.367 — Clean-base cloud-agent schema-validation candidate (Wave 129, 2026-10-19)
+
+- Report: [MEDIAHUB-SCHEMA-VALIDATION-CLEAN-BASE-CANDIDATE-WAVE-129-2026-10-19.md](../checkpoints/MEDIAHUB-SCHEMA-VALIDATION-CLEAN-BASE-CANDIDATE-WAVE-129-2026-10-19.md).
+- Navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-129-2026-10-19.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-129-2026-10-19.md).
+- Draft PR #374: https://github.com/VlDMlNSh/mediahub-os/pull/374; exact tested head `12adb9ab9d3e20d227e5dc964b16e38cbab8ad13`, based on canonical docs HEAD `f3efa8f52966fc62858c2a7079e447ad581dd780` at creation. The compare showed 12 commits ahead / 0 behind and exactly 12 added files.
+- Exact-head workflow run [39221209671](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39221209671) succeeded. Evidence artifact `12171377615`, SHA-256 `72d8a0cb5c5952901db21f562550a88d79ded8f0ecbf9c925adf1a1da389aa6e`.
+- No independent PR review. The `setuptools==84.0.0` bootstrap publisher provenance remains UNVERIFIED; A0 issuer/ingress/lease/cancel/recovery, R-06 authority/privacy and accepted runner/workspace/network target-manifest gates remain open.
+- No credentials, provider calls, dispatch/admission, merge, deployment or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
