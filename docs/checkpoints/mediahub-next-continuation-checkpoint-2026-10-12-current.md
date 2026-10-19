@@ -5153,3 +5153,14 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Canonical map commit `ea27ec038f774006f71439c3b0841bf06546d9ee`, blob `b182a9ce8c576439a40fe6ca2c89feaf3ac3e521`.
 - No worker/provider dispatch, secret access, host command, merge, deployment, qualification or acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
 - Next: independently review authority/publisher boundaries and resolve issuer/capability semantics through governance before implementation.
+
+
+## Wave 206 — authority and publisher boundary audit (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUTHORITY-PUBLISHER-AUDIT-WAVE-206-2026-10-19.md](MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUTHORITY-PUBLISHER-AUDIT-WAVE-206-2026-10-19.md); report commit `a58b1aced213d4592c0b30707df3c50a383ee731`.
+- PR #375 remains OPEN / Draft / unmerged at observed head `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`. Candidate workflow blob `c24ad16ab8ed59fd4dbad9538063f63a933eab2c`; current main workflow blob `f650f2416c19dc75b4a0eeec037661c0c6169910`.
+- Critical truth distinction: current `main` worker workflow has `contents: write` and `persist-credentials: true` on all three checkout steps. PR candidate changes these to `contents: read` and `persist-credentials: false`, but remains unmerged.
+- Mesh capability validator blob `416a7ecaf4add9d0b81f0467cf426d9c7deb3ec7`, admission blob `46e92d3c4f9b9865356443403e9ebd34587996cd`, schema blob `d9360b62520aabd2fa8d74a2b74bf3fc328c9c7c`: structural capability checks do not prove signed issuer-bound operation/resource grants are enforced by mesh admission.
+- Canonical map updated in commit `fc19e1c75f97ca9f5a0687fcbdbdba6aa4190985`, new blob `5e97157766f646bfc7fa550f8b1bb8860c55df0b`. Re-read map and report blobs before declaring documentation sync complete.
+- No worker/provider/Gemini dispatch, secret access, merge, deployment, qualification or acceptance. Issue #301 remains open; Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+- Next: independent review of PR #375; authorized verification of branch rules; governance-approved issuer/capability envelope semantics; then fail-closed implementation/tests and separate trusted publisher design.
