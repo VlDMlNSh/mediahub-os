@@ -63,3 +63,23 @@ Rationale: several high-priority candidate PRs overlap in authority, schema vali
 
 This is a planning/evidence artifact based on source read-back. No repository code tests were executed in this wave. The next step is exact-head PR/CI review, then one bounded implementation slice.
 
+
+## 8. Wave 217 — exact-head CI triage (2026-10-20)
+
+The following candidate commit workflow runs were queried directly by SHA:
+
+| Candidate | Exact SHA queried | Workflow evidence | Interpretation |
+|---|---|---|---|
+| PR #388 schema validation | `4a131acf6484f6e370625b0ebc454ee7b4b5116c` | Astra Verify SUCCESS; Astra Cloud Runtime Validation SUCCESS | CI is green for this SHA only. The independent schema review #395 notes that a prior/custom Python evaluator and unit tests alone do not prove formal Draft 2020-12 compliance; inspect the actual validator path and negative fixtures before qualification. |
+| PR #392 worker environment isolation | `b76a88aa7da9f8ad211d9377ac3458f7ed561a90` | Astra Verify SUCCESS; Astra Cloud Runtime Validation SUCCESS | CI is green for this SHA only. Review #393 reports several PASS findings, but #392's own scope leaves a generic command-helper ambient-env path and worker-side git add/commit/push path unresolved. No trusted publisher boundary is proven by these runs. |
+| Wave 216 documentation candidate | `6da7039ca6dd2366c929347dea82aaf1af4c0d65` | No PR workflow runs returned for this SHA | No CI conclusion can be inferred. |
+
+The combined-status endpoint returned no status entries for these SHAs; workflow-run records above are the available evidence. The latest report/map changes on the Wave 216 branch have not been qualified by CI. This wave did not run local tests and did not merge any PR.
+
+### Decision
+
+Do not merge PR #388 or #392 solely because their recorded workflows passed. Continue with a source-level exact-head review of schema validator invocation/negative fixtures and worker publication pathways; retain Draft status until independent review, branch protection, provenance, and authority gates are verified.
+
+## 9. Current map reconciliation
+
+The canonical map on the working branch now has a Wave 216 entry inserted ahead of the Wave 206 entry. Its updated blob SHA is `7dd84c817b48a78f2896b838d5033ba8c4dc4a35`. The ordinary path fetch still returns empty content for this large file; the blob was re-read directly to verify the inserted entry. This remains a proposed change on the Draft documentation PR, not the canonical accepted map until reviewed and merged.
