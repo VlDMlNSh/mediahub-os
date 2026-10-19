@@ -5317,3 +5317,9 @@ Current main: `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`. Current live compare: 
 - Gemini runs 39322867519 → Draft PR #389, 39322871826 → Draft PR #390, 39322875847 → Draft PR #391. All runs completed SUCCESS. Review corrections requested: #389 stale reviewed head/reference-resolution overclaim (comment 6277140643); #390 wrong worker scope (comment 6277141360); #391 unsupported claims about cancelled job execution and invalid simultaneous paths/paths-ignore syntax (comment 6277171984). All remain Draft.
 - Current canonical schema tree has zero $ref keywords; semantic reference resolution and runtime payload corpus remain open. Issue #301 stays OPEN; no merge, deployment or Contour A acceptance.
 - Next: source-bound artifact-only worker/publisher isolation with negative tests; review workflow trigger coupling separately against exact workflow/job evidence. Refresh refs, SHA, branch divergence and CI before integration.
+
+
+
+## Wave 214 live PR divergence refresh
+
+Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 ahead / 6 behind; #376 = 1/6 (merge base c06015e0b1526e0aaa6a522306052b077455aba5). PR #377 = 3/3 and #381–#383 = 1/3 (merge base 0897bd613c0c041794ec5ec4a72cd487b13a6944). PR #385–#387 = 1/1 (merge base 1363c03f0168c6371332095d38a410974a875815). PR #388 = 2/0 and #389–#391 = 1/0 (merge base current main). All remain OPEN / Draft. No rebase or merge performed. See the Wave 214 report for exact-head CI and review blockers.

@@ -76,3 +76,18 @@ All three agent PRs remain Draft and are not accepted evidence until corrections
 - [Master Development Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md)
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - [Wave 213 code and agent review report](MEDIAHUB-CONTOUR-A-SECURITY-GATE-AND-THREE-GEMINI-WAVE-213-2026-10-19.md)
+
+
+## 5. Live PR divergence snapshot (main = 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4)
+
+| PR | State | Ahead | Behind | Merge base | Disposition |
+|---|---|---:|---:|---|---|
+| #375 | OPEN / Draft | 12 | 6 | c06015e0b1526e0aaa6a522306052b077455aba5 | Diverged; do not integrate blindly |
+| #376 | OPEN / Draft | 1 | 6 | c06015e0b1526e0aaa6a522306052b077455aba5 | Diverged; do not integrate blindly |
+| #377 | OPEN / Draft | 3 | 3 | 0897bd613c0c041794ec5ec4a72cd487b13a6944 | Diverged; reconcile after review |
+| #381–#383 | OPEN / Draft | 1 each | 3 each | 0897bd613c0c041794ec5ec4a72cd487b13a6944 | Diverged research/audit PRs |
+| #385–#387 | OPEN / Draft | 1 each | 1 each | 1363c03f0168c6371332095d38a410974a875815 | Diverged; review claims remain unaccepted |
+| #388 | OPEN / Draft | 2 | 0 | 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4 | Exact-head CI passes; independent review pending correction |
+| #389–#391 | OPEN / Draft | 1 each | 0 each | 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4 | Agent reports require source-bound corrections |
+
+These are live comparisons against the observed main SHA above. No rebase or merge was performed. Refresh all refs and exact-head CI again before any integration.
