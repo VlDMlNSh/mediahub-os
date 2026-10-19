@@ -43,10 +43,19 @@ Exact candidate HEAD `59a9d063778ec11b751cc7309c04e7fe27f3a603` CI evidence:
 - [Astra Verify run 39223983372](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223983372) succeeded. Job `117965687179` explicitly ran `Worker workflow credential policy regression tests` successfully, then the cloud admission tests and signed-command smoke test also passed.
 - [Astra Cloud Runtime Validation run 39223983379](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223983379) succeeded (job `117965686996`).
 
+## Publication-path compatibility review (2026-10-19)
+
+Read-only source inspection found an unresolved compatibility issue:
+
+- Worker source on `main`, blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`, lines 663–679 stages and commits changes, invokes `git push origin HEAD:refs/heads/{branch}`, fails on push error, and verifies the remote SHA with `git ls-remote`.
+- The candidate changes repository permissions to read-only and disables persisted checkout credentials on all checkouts. The worker still expects authenticated Git publication, but this candidate does not define an alternative publisher path.
+- Passing static tests and hosted CI do not exercise the self-hosted worker push path. No worker dispatch was run. It is not proven that all runner configurations would fail, but the candidate has not demonstrated operationally valid publication.
+- **Do not merge this candidate as-is.** Design a separately reviewed publisher boundary with explicit authority, narrow access, immutable target SHA and auditable push evidence before changing worker authentication or dispatching a validation run.
+
 ## Next gates
 
-1. Obtain independent review of the static assertions and negative fixtures; verify no downstream worker step depends on checkout-persisted Git credentials.
-2. Independently review workflow permission reduction, checkout behavior, and test assertions. Confirm no downstream step relies on checkout's persisted credential.
+1. Design and review a valid least-privilege publisher boundary; the current worker's commit/push path is not reconciled with read-only permissions and disabled checkout credential persistence.
+2. Establish explicit authority and publisher evidence before changing authentication or dispatching a worker.
 3. Establish the FCC authentication contract before changing the model subprocess environment. Continue synthetic-secret negative tests and explicit environment allowlisting as a separate change.
 4. Keep PR #375 Draft until checks and independent review pass. Do not merge on CI alone.
 5. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
