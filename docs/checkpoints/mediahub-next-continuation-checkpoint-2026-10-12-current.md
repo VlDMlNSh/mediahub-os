@@ -5065,3 +5065,13 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Updated dated report blob: `be7cbf8d0bee337247a1cfb64fdf141d206609ee`. Updated canonical map §20.370 blob: `e9605c9a08861e3042976c841e11ae89bdcbdabf`.
 - Next bounded step: independent security review and confirmation no downstream worker step depends on persisted checkout credentials. FCC auth token propagation, ambient environment isolation, OS/network isolation, issuer/capability governance and publisher provenance remain unresolved.
 - No real credentials, worker dispatch, provider calls, merge, deployment or qualification. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
+
+
+## Wave 176 follow-up — publication-path compatibility blocker (2026-10-19)
+
+- Independent source inspection of worker blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`, lines 663–679, confirms the worker commits generated changes, pushes to `origin`, and verifies the remote branch SHA.
+- Candidate PR [#375](https://github.com/VlDMlNSh/mediahub-os/pull/375) sets `contents: read` and disables persisted checkout credentials but has no established alternative publisher path. Exact-head hosted CI success does not exercise self-hosted worker publication.
+- **Do not merge PR #375 as-is.** No worker was dispatched, and it is not proven that all runner environments fail; rather, the required publishing authentication contract is not established by this candidate.
+- Updated Wave 176 report blob: `73e3802e42408409686535c6011253bd325c1a85`. Updated canonical map §20.370 blob: `49f82462083f00697a0934e47e20de39e720c5a0`.
+- Next: design and independently review a least-privilege publisher boundary with explicit authority, immutable target/branch constraints, and auditable push evidence. Do not reintroduce broad ambient access or dispatch a worker until this contract is reviewed.
+- Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
