@@ -17,7 +17,7 @@ Governing issue: [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - Initial test-oracle change commit: `db19e9b5c35bbb4db6d56e6a215e1b7502490568`.
 - Corrective commit: `c9383017d9255c637df81cf5811c8d8ea32737e3`.
 - Final test blob read back by SHA: `1d003b1d33fa31ec44d4cc8220747e3c4982b8b6`.
-- No PR-triggered workflow runs were returned for the correction commit when queried. The added negative fixture is **not yet verified by CI**.
+- A follow-up query surfaced Astra Verify run [39244658819](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39244658819) and Astra Cloud Runtime Validation run [39244658804](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39244658804), but those are the previously documented Wave 199 runs for preceding commit `a617a960346756a6b3098ee974d74327f9088f5e`. The run listing does not expose a head SHA proving either run tested correction commit `c9383017d9255c637df81cf5811c8d8ea32737e3`. Therefore the new job-level negative fixture remains **unverified by exact-commit CI**.
 - The most recent reviewed Issue #301 comment remains Wave 192 comment ID `6265270600`; no later governance disposition is evidenced in the retrieved history. PR #375 review list had no submitted reviews in the reviewed snapshot. Repository protection/review settings remain unverified.
 - Main generated qualification truth remains G0–G11 BLOCKED, overall `NOT_PROVEN / BLOCKED`, G11 human-only.
 
