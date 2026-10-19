@@ -5044,3 +5044,14 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Remaining blockers: run/confirm the dedicated static tests, independent security review, FCC auth contract, ambient environment/token isolation, OS/network isolation and publisher provenance. No real credentials, dispatch, provider call, merge, deployment or qualification.
 - Next step: add an explicit CI invocation for `python -m unittest ops.qualification.test_worker_workflow_credential_policy` in a safe non-dispatch validation workflow, then recheck exact PR-head CI and independent review. Keep PR #375 Draft.
 - Status: Contour A **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
+
+
+## Wave 176 follow-up — explicit credential-policy CI execution (2026-10-19)
+
+- Candidate PR [#375](https://github.com/VlDMlNSh/mediahub-os/pull/375) remains Draft/open/unmerged. Current HEAD: `ad18328f940c2573707efd919778e8118e8c9723`; base `main` at `c06015e0b1526e0aaa6a522306052b077455aba5`; compare reports 3 commits ahead, 0 behind, 3 files changed.
+- Added an explicit step to `.github/workflows/astra-verify.yml`: `python -m unittest ops.qualification.test_worker_workflow_credential_policy`. Workflow blob: `5b0e166e3f5540dbf6f00859b0e499494e8c4a47`.
+- Exact-head [Astra Verify run 39223502183](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223502183) succeeded; job `117964107846` confirms the dedicated regression-test step completed successfully. [Astra Cloud Runtime Validation run 39223502235](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223502235) also succeeded.
+- Updated dated report [Wave 176](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-CHECKOUT-CREDENTIAL-MINIMIZATION-WAVE-176-2026-10-19.md), blob `3078d0ccb32528f13fd44ecd50321906bacc6303`.
+- Updated canonical map §20.370; map blob `871698a84982a8e494ec080cfb9ee76a6f520dca`. Immutable blob read-back is required after the write.
+- Next bounded step: add negative/mutation fixtures proving that the tests reject `contents: write` and `persist-credentials: true`; independently review workflow behavior and whether any downstream step depends on persisted checkout credentials.
+- FCC token propagation, ambient environment isolation, OS/network isolation, issuer/capability governance and bootstrap publisher provenance remain open. No real credentials, worker dispatch, provider calls, merge or deployment. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
