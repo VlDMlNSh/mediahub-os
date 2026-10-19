@@ -7381,3 +7381,5 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Wave 206 (2026-10-19): [truth-ranked readiness and branch drift audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-READINESS-AND-DRIFT-WAVE-206-2026-10-19.md). Exact-head CI evidence and current branch divergence recorded; no worker dispatch, merge, deployment, qualification or governance promotion.
 
 - Wave 206 (2026-10-19): [authority and publisher boundary audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUTHORITY-PUBLISHER-AUDIT-WAVE-206-2026-10-19.md). Main-vs-PR evidence and capability-validator gap documented; no governance gate promoted.
+
+- Wave 206 (2026-10-19): [truth-ranked audit and readiness](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-206-2026-10-19.md). Revalidated PR #375 at `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`; exact-head CI passed, but branch comparison is now 12 ahead / 2 behind `main`. Worker script contains a direct `git push` path while the workflow has `contents: read` and checkout credentials disabled; credential chain remains unverified. PR stays Draft; governance gates remain open.
