@@ -5055,3 +5055,13 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Updated canonical map §20.370; map blob `871698a84982a8e494ec080cfb9ee76a6f520dca`. Immutable blob read-back is required after the write.
 - Next bounded step: add negative/mutation fixtures proving that the tests reject `contents: write` and `persist-credentials: true`; independently review workflow behavior and whether any downstream step depends on persisted checkout credentials.
 - FCC token propagation, ambient environment isolation, OS/network isolation, issuer/capability governance and bootstrap publisher provenance remain open. No real credentials, worker dispatch, provider calls, merge or deployment. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
+
+
+## Wave 176 follow-up — negative credential-policy fixtures (2026-10-19)
+
+- Candidate PR [#375](https://github.com/VlDMlNSh/mediahub-os/pull/375) remains Draft/open/unmerged. Candidate HEAD: `59a9d063778ec11b751cc7309c04e7fe27f3a603`; base `main` at `c06015e0b1526e0aaa6a522306052b077455aba5`; compare: 4 commits ahead, 0 behind, 3 changed files.
+- Reworked `ops/qualification/test_worker_workflow_credential_policy.py` to use `policy_violations(source)` and added synthetic mutation fixtures for top-level `contents: write` and checkout `persist-credentials: true`. Test blob: `c24897e827b70941fc9b4f154fd0aa1b31b801cc`. Mutations occur only in memory.
+- Exact-head [Astra Verify run 39223983372](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223983372) and [Astra Cloud Runtime Validation run 39223983379](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223983379) both succeeded. Verify job `117965687179` confirms the dedicated regression-test step passed, along with cloud-admission unit tests and signed-command smoke test.
+- Updated dated report blob: `be7cbf8d0bee337247a1cfb64fdf141d206609ee`. Updated canonical map §20.370 blob: `e9605c9a08861e3042976c841e11ae89bdcbdabf`.
+- Next bounded step: independent security review and confirmation no downstream worker step depends on persisted checkout credentials. FCC auth token propagation, ambient environment isolation, OS/network isolation, issuer/capability governance and publisher provenance remain unresolved.
+- No real credentials, worker dispatch, provider calls, merge, deployment or qualification. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
