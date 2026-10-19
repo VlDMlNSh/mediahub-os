@@ -26,7 +26,7 @@ The tests intentionally do not claim that secrets are configured, a model can be
 - Base branch SHA: `c06015e0b1526e0aaa6a522306052b077455aba5`
 - PR created at 2026-10-19T09:34:36Z, one file changed, 96 additions.
 - Read-back confirmed the file exists and contains the parity class and mutable-reference detector.
-- At the last check, two CI jobs were `in_progress`: [validate](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39231107098/job/117988998804) and [verify](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39231107074/job/117988998688). Do not treat them as passed until final conclusions are fetched.
+- Final CI re-check on head `1b6643d4dc3cbb27646e9dbfd27a6a763340cfbd`: both jobs completed successfully — [validate](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39231107098/job/117988998804) and [verify](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39231107074/job/117988998688). This proves the repository CI jobs passed on this commit; it does not substitute for independent review or qualification.
 
 ## 3. Scope and security boundary
 
