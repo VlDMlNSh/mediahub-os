@@ -5176,3 +5176,10 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Canonical map updated with Wave 206 entry; map update commit `e2df11a5f0b00a35eaa2295b09f992ff2815a26a`, blob `3b72a02f94a358a8378a4273d278164f65e241c1`.
 - No worker/Gemini/provider dispatch, secret access, host command, merge, deployment, qualification or acceptance.
 - Next: independent audit of credential sources and worker publication path; agree artifact-only worker / trusted-publisher boundary and issuer/capability semantics through governance; refresh branch compare and CI before any integration.
+
+
+### Wave 206 final read-back correction
+
+- Initial compare was 12 ahead / 2 behind; a fresh comparison after documentation writes returned 12 ahead / 3 behind `main`, with unchanged merge-base `c06015e0b1526e0aaa6a522306052b077455aba5`. Use 12 / 3 as the latest observed value; refresh before any integration.
+- Updated report commit: `03d3a761f47874856c9e63e157388451bc920c0b`, blob `0907f4e3679be8a225f7978399599c6ffe3b9712`.
+- Updated map commit: `45b40407c658dd193ad5dea677cb70dde5e238e5`, blob `74f105e65836df007b591de3ceab336aaf0a3f11`. Large map content was verified by blob read-back, not the empty file endpoint response.
