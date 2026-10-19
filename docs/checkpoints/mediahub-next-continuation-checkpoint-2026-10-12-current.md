@@ -5140,3 +5140,5 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Canonical map Wave 205 header/index update committed as `551273b10ce6890194c4028dc05331b31c687716`; expected map blob `b219a89c71fe9c4995aaacf2660fef34c947855b`.
 - Wave 205 report read-back is tracked at `docs/checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-205-2026-10-19.md`; report commit `769ff4ff0e5b560b12754e2770210b2be28310d0`.
 - Re-read map and report blobs after write before treating documentation sync as complete. Keep PR #375 Draft until independent review and governance gates pass.
+
+- Wave 205 report read-back confirmed at blob SHA `b6e57e06dd256bb150af2b3e19017dd70283b847` (report commit `769ff4ff0e5b560b12754e2770210b2be28310d0`).
