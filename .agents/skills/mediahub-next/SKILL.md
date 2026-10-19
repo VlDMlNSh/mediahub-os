@@ -40,3 +40,19 @@ Use for any /next, Contour A, repository audit, CI/PR, architecture-gap, or proj
 - Re-read every changed file after writing and verify exact contents and SHA.
 - If a documentation change affects project navigation, update the canonical map and continuation checkpoint on the documentation branch, then read them back by blob SHA.
 - Do not report success without direct evidence. If a check cannot run, state why and leave the status unqualified.
+
+
+## Mandatory three-agent parallel lane on every /next
+
+Dispatch these three independent GitHub Actions workflows for each explicit /next, using current main and distinct bounded tasks:
+1. A1 — Gemini Autonomous Engineering Dispatch: architecture/governance, issuer/capability, dependency ordering, and evidence gaps.
+2. A2 — Gemini Agent 2 — Research and Architecture: reusable components, schema/contract crosswalks, implementation options and acceptance tests.
+3. A3 — Gemini Agent 3 — Security and Verification Review: independent source/diff/CI review, negative cases, credential flow, and claim-to-evidence audit.
+
+Run all three in parallel with the primary ChatGPT/SentinelX implementation. Do not hand off or suspend the primary work while agents run. Each agent gets a unique task, explicit scope, current base SHA, prohibited actions, and output expectations; capture run ID, conclusion, commit SHA and Draft PR. Review each output independently and request correction for stale refs, source mismatch, unsupported tests, or overclaimed status. Agent PRs remain Draft until exact-head checks and review gates pass. Never merge/deploy on the basis of agent output alone.
+
+The rule persists across chats because it is stored here, but it is request-triggered, not an always-on process: dispatch the three workflows on every /next; do not claim agents run between requests. If a workflow cannot start or fails, continue the other lanes and primary engineering, and record the exact blocker.
+
+## SentinelX and agent-browser operating procedure
+
+Use SentinelX as the connected engineering environment for repository orientation/snapshots, host/capability/health checks, file reads/searches, Git fetch/status/diff/branch/push, controlled file edits, scripts, tests, logs/service inspection, job notifications and exact read-back. Select the verified development Mac explicitly or through its configured default host. Use agent-browser for browser UI verification only after loading agent-browser skills get core; re-snapshot after page changes and preserve run IDs/URLs. Prefer GitHub APIs for refs, files, PR metadata and CI steps. Respect SentinelX allowlists, avoid secret values, and do not use a capability merely because it is technically exposed.

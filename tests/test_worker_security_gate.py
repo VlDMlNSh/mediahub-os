@@ -36,5 +36,24 @@ class SecurityGateSecretDetectionTests(unittest.TestCase):
         self.assertEqual(self.scan("This is ordinary task documentation.\n"), [])
 
 
+    def test_child_environment_excludes_unapproved_ambient_values(self) -> None:
+        with patch.dict(
+            worker.os.environ,
+            {
+                "PATH": "/safe/bin",
+                "HOME": "/tmp/test-home",
+                "MEDIAHUB_TEST_AMBIENT_SENTINEL": "ambient-value",
+            },
+            clear=True,
+        ):
+            env = worker.child_environment(
+                {"MEDIAHUB_TEST_EXPLICIT_SENTINEL": "explicit-value"}
+            )
+        self.assertEqual(env["PATH"], "/safe/bin")
+        self.assertEqual(env["HOME"], "/tmp/test-home")
+        self.assertNotIn("MEDIAHUB_TEST_AMBIENT_SENTINEL", env)
+        self.assertEqual(env["MEDIAHUB_TEST_EXPLICIT_SENTINEL"], "explicit-value")
+
+
 if __name__ == "__main__":
     unittest.main()
