@@ -5115,3 +5115,11 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - The regex oracle is replaced by PyYAML structural parsing for workflow/job permission mappings and checkout credential settings. This closes only the tested static-oracle gap; it does not close publisher provenance, authority governance, secret/OS/network isolation, or independent security review.
 - PR #375 remains OPEN / Draft / unmerged. No worker dispatch, provider call, secret access, host command, merge, deployment, qualification, or Contour B work occurred.
 - Next: independent review of the semantic oracle and output-publication path; reconcile the canonical map by read-back SHA. Do not implement a trusted publisher or choose issuer/key semantics before governance approves the authority contract. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+### Wave 204 documentation reconciliation addendum
+
+- Canonical map index/header updated and read back from blob `c2af8dc16c32a98d9e07527721df1e72de483fd3`; map commit `0bb5c59db45141aefaba618bb968d39bb8214420`.
+- The map now links Wave 203 and Wave 204 reports near the top and records 2026-10-19 as the latest confirmed incremental update; the existing historical inventory and section numbering were preserved.
+- Wave 204 report read-back blob: `ed751f1c35c9e983bc92b4b1c2b53d4ebc2503a8`. PR #375 exact candidate remains `40ca9a2eabf69949134c941babd2624559f0cb1f`, with exact-head Astra Verify and Cloud Runtime Validation both SUCCESS.
+- Documentation writes are complete for this bounded pass. Remaining next step is independent review of the semantic oracle and trusted publisher/output path; no governance gate is treated as closed.
