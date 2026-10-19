@@ -73,3 +73,12 @@ Request independent review of PR #374 and obtain explicit governance/supply-chai
 - PR API read-back: #374 OPEN / DRAFT / UNMERGED, mergeable=true, base SHA `1eb9de28c2c90188ecebfd44ec72618bb23407ec`, head SHA `ff7ad6524ec5bec47a0245a0490d8850e874483a`, 12 changed files.
 - Exact-head run `39221618675` passed after the synchronization; all nine primary validation steps succeeded. Artifact digest recorded above.
 - Review submissions remain absent. The branch sync does not close the independent review, bootstrap publisher provenance, A0, R-06 or target-manifest gates.
+
+
+## Latest synchronized candidate verification (2026-10-19)
+
+- Candidate branch was synchronized again to the then-current canonical docs head while preserving the earlier candidate history as the second parent. Current exact tested head: `3b1fc96beeedcc6cb38c7beeb5809f0004c6ac8a`.
+- Exact-head run [39222111677](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222111677) completed SUCCESS; job `117959603249`. All schema, semantic fixture, report and artifact-upload steps passed.
+- Evidence artifact `12171314150`; SHA-256 `4aaf3dbe764f22fd4eb0288685d1e069e3e28407c26f37d2e6825a487c7ae675`.
+- PR #374 remains OPEN/DRAFT/UNMERGED with exactly 12 intended changed files. No independent review submissions were present. Canonical documentation continues to advance independently; refresh the PR base to the current canonical docs head before any future integration decision.
+- No implementation beyond the isolated schema candidate; no credentials, provider calls, dispatch/admission, merge, deployment, qualification or production acceptance. Bootstrap publisher provenance remains UNVERIFIED and A0/R-06/target-manifest gates remain open.
