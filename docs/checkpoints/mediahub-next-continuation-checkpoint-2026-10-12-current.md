@@ -5123,3 +5123,13 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - The map now links Wave 203 and Wave 204 reports near the top and records 2026-10-19 as the latest confirmed incremental update; the existing historical inventory and section numbering were preserved.
 - Wave 204 report read-back blob: `ed751f1c35c9e983bc92b4b1c2b53d4ebc2503a8`. PR #375 exact candidate remains `40ca9a2eabf69949134c941babd2624559f0cb1f`, with exact-head Astra Verify and Cloud Runtime Validation both SUCCESS.
 - Documentation writes are complete for this bounded pass. Remaining next step is independent review of the semantic oracle and trusted publisher/output path; no governance gate is treated as closed.
+
+
+## Wave 205 — truth-ranked audit and readiness (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-205-2026-10-19.md](MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-205-2026-10-19.md), report commit `769ff4ff0e5b560b12754e2770210b2be28310d0`.
+- PR #375 head: `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`; test blob `2c5fae2d431ca765bb548f4a2b5d70874961a438`.
+- Wave 205 hardening rejects duplicate YAML mapping keys via a safe PyYAML loader and adds negative fixtures for duplicate workflow-level and job-level permission keys.
+- Exact-head Astra Verify run [39295373907](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373907), job 118206367053, SUCCESS. Exact-head Astra Cloud Runtime Validation run [39295373833](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373833), job 118206368089, SUCCESS.
+- PR #375 remains OPEN / Draft / unmerged. Issue #301 remains OPEN. Worker direct-push/output provenance and issuer/capability authority are unresolved. No worker dispatch, provider call, secret access, host command, merge, deployment or qualification.
+- Next: independent review of the oracle and trusted publisher design; resolve authority semantics through governance before implementing issuer/key/publisher behavior. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
