@@ -5059,3 +5059,15 @@ Before adopting PR #338, either secure and verify provenance for the exact candi
 - Main-vs-canonical-docs ref remains diverged (main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`, 2,333 ahead / 27 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). No wholesale integration/rebase.
 - No tests, dispatch, secrets/provider calls, runtime changes, merge, deployment or qualification. GOV-CAP-01…07, R-06, credential isolation and issuer-bound task admission remain open. Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B gated.
 - Next: refresh exact-head checks, obtain accepted issuer/R-06 governance disposition and target manifest, then implement a shared verifier plus negative tests under that accepted contract.
+
+
+## Continuation update — Wave 170 worker-dispatch trust-boundary trace (2026-10-19)
+
+- Report: [Wave 170 worker-dispatch trust-boundary trace](MEDIAHUB-A0-WORKER-DISPATCH-TRUST-BOUNDARY-TRACE-WAVE-170-2026-10-19.md), blob SHA `583e5961d901bc774fd2d1a018ba33755a37ec97`.
+- Map navigation addendum: [Wave 170 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-170-2026-10-19.md), blob SHA `b04fb202a1e744299572df38dddb600c2ac3cfa6`.
+- Current-main source pins: queue `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`; worker workflow `f650f2416c19dc75b4a0eeec037661c0c6169910`; worker script `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`; controller `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`.
+- End-to-end static trace confirms the queue supplies separate task JSON and dispatch inputs, the workflow grants `contents: write` and persists checkout credentials, and the worker places FCC auth values in the model process environment. This is a credible trust-boundary exposure path, not evidence of actual credential access or exfiltration.
+- No task dispatch, secret read, live host/process inspection, tests, code/runtime/workflow change, merge, deployment or qualification occurred.
+- WB-05 / GOV-CAP-01…07 and R-06 remain open. Worker issuer-bound admission and credential isolation remain independent blockers. PR #373 remains Draft/open/unmerged; canonical docs ref remains separate from main and diverged (2,333 ahead / 27 behind at this snapshot).
+- Next: refresh exact-head CI; resolve accepted issuer/R-06 authority and target runner/workspace/network manifest; only then implement and independently test a shared worker-ingress verifier and credential isolation boundary.
+
