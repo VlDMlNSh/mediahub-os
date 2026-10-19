@@ -149,7 +149,7 @@ class WorkerWorkflowCredentialPolicyTests(unittest.TestCase):
         self.assertTrue(any("expected exactly three checkout steps" in item for item in policy_violations(mutated)))
 
     def test_rejects_invalid_yaml(self):
-        self.assertTrue(any("YAML must parse" in item for item in policy_violations("permissions: [broken"))
+        self.assertTrue(any("YAML must parse" in item for item in policy_violations("permissions: [broken")))
 
 
 if __name__ == "__main__":
