@@ -5235,3 +5235,14 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Report commit: `4a3570ea117358293bc55baad2a2e9241b3805bc`; verified report blob: `b92eb259a1ffc0f4875d2c4ca864a85b6745d8ce`.
 - Canonical map commit: `49955ed5a41ca0fd552fb8767e909e63b5a9f229`; verified map blob: `8ad3bc20a48f48199053ccb96356ddd52c434dfa`.
 - Previous checkpoint blob read back: `ce3f027b2d4e42060b8db589a1264afd0df200be`; Wave 209 text present. This correction records the report blob after GitHub read-back.
+
+
+## Wave 210 — worker artifact/publisher boundary and candidate synchronization audit (2026-10-19)
+
+- Report: [Wave 210 worker artifact/publisher boundary audit](MEDIAHUB-CONTOUR-A-WORKER-ARTIFACT-PUBLISHER-BOUNDARY-WAVE-210-2026-10-19.md); report commit `f8fec4e0ff254c40230edd708b453b3fe1667504`.
+- Canonical map updated in commit `0c358461ca848bb1b4e4e10ba9530bc91840ef82`, map blob `3e79cf80b5ccd3d372555070d22ad534d46663dd`.
+- PR #375 head `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`: current compare DIVERGED, 12 ahead / 3 behind `main`; merge base `c06015e0b1526e0aaa6a522306052b077455aba5`; compare returned current main SHA `0897bd613c0c041794ec5ec4a72cd487b13a6944`. Exact-head Astra Verify `39295373907` and Cloud Runtime Validation `39295373833` are SUCCESS; the verify run includes credential policy tests but does not execute a live worker push.
+- PR #376 head `1b6643d4dc3cbb27646e9dbfd27a6a763340cfbd`: current compare DIVERGED, 1 ahead / 3 behind `main`, same merge base. Runs `39231107074` and `39231107098` are SUCCESS, but the recorded verify job steps do not include `tests/test_gemini_workflow_parity.py`; parity test execution remains unproven.
+- Source worker blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d` retains ambient environment inheritance and direct `git add -A` / commit / push; PR #375 workflow blob `c24ad16ab8ed59fd4dbad9538063f63a933eab2c` uses `contents: read` and `persist-credentials: false`. Do not infer actual push outcome; effective runner credential chain is unverified.
+- PR #375 and #376 remain OPEN / Draft / unmerged. No code integration, worker/Gemini/provider dispatch, secret access, host configuration change, deployment, qualification or acceptance. Issue #301 remains open; GOV-CAP-01…07 / A0 issuer-lifecycle and R-06 remain blocked/not proven.
+- Next: implement and test an artifact-only worker contract on a fresh branch from the current main SHA; prohibit direct worker publication and ambient credential inheritance. Keep publisher credential in a separate trusted boundary after governance acceptance. Reconcile PR #375/#376 before any integration.
