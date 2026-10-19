@@ -5024,3 +5024,13 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Candidate head `3b1fc96beeedcc6cb38c7beeb5809f0004c6ac8a`; exact-head run [39222111677](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222111677) SUCCESS, job `117959603249`; artifact `12171314150`, SHA-256 `4aaf3dbe764f22fd4eb0288685d1e069e3e28407c26f37d2e6825a487c7ae675`.
 - PR #374 remains OPEN/DRAFT/UNMERGED with 12 intended changed files and no independent review. Refresh its base to the latest canonical docs head before any future integration decision.
 - Bootstrap publisher provenance remains UNVERIFIED. A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority and accepted runner/workspace/network target manifest remain open. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+## Continuation update — Wave 175 credential-boundary source revalidation (2026-10-19)
+
+- Report: [A0 credential-boundary source revalidation](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-A0-CREDENTIAL-BOUNDARY-SOURCE-REVALIDATION-WAVE-175-2026-10-19.md); report blob `5a9b1de90e63ff57c62aa174e1ae907def198157`.
+- Canonical map §20.369 appended; current map blob `0134760e9e286d0b958c3ef714fd7e3c4fa5067d`. Immutable blob retrieval confirms section and report link; content length 1,070,406 characters.
+- Re-read source blobs on main: worker `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`; workflow `f650f2416c19dc75b4a0eeec037661c0c6169910`; queue `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`. The child process inherits ambient environment and FCC auth values; workflow grants contents write and persists checkout credentials; dispatcher may load gh auth token into GH_TOKEN.
+- These are source-level exposure paths, not evidence of secret access or exfiltration. No credential values, provider calls, worker dispatch, tests, code changes, merge or deployment were performed.
+- Next: separate minimal remediation candidate with static workflow policy tests and synthetic-secret environment tests; establish FCC authentication contract before changing token flow. No real credentials or dispatch.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
