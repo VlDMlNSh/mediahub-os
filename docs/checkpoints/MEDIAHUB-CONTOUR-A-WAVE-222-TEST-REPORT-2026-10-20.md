@@ -30,7 +30,7 @@ A disposable venv at `/tmp/mediahub-contour-a-wave220-venv` was populated from `
 
 The local candidate reduces the worker workflow's token scope, disables persisted checkout credentials for the three checkout steps, and adds semantic YAML regression tests. The candidate does not remove worker-side Git publication or prove issuer/capability enforcement, artifact-only publishing, OS/network isolation or complete provenance.
 
-The refresh branch has not been published to GitHub; no new PR, merge, deployment, branch-protection change or credential change is claimed. Contour A remains NOT_PROVEN / BLOCKED; G0–G11 BLOCKED and G11 HUMAN_ONLY.
+The tested current-main-based candidate has been published as Draft PR #397: https://github.com/VlDMlNSh/mediahub-os/pull/397. Exact PR head is `8ee730e2a5d9038d6f2764cf00e483bd3a5505e0`; base is `main` at `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`. Read-back verified the three intended files; workflow source has exactly three checkout steps, all three set `persist-credentials: false`, `contents: read`, no `contents: write`, and Astra Verify invokes the new unittest suite. At report time both Astra Verify and Astra Cloud Runtime Validation were still in progress. No merge, deployment, branch-protection change or credential change is claimed. Contour A remains NOT_PROVEN / BLOCKED; G0–G11 BLOCKED and G11 HUMAN_ONLY.
 
 ## Next action
 
