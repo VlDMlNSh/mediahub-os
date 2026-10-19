@@ -5278,3 +5278,14 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Current main HEAD: `1363c03f0168c6371332095d38a410974a875815`. This is the cleanup deletion commit after the Wave 212 report was briefly placed on main and then moved to the canonical docs branch. Main history now contains both the temporary creation commit `ce5261d4615b3d978e12550075bce58a588bd3d4` and cleanup deletion commit `1363c03f0168c6371332095d38a410974a875815`; read-back confirms the report path is absent from main.
 - Rechecked PR comparisons against current main: #377 = 3 ahead / 2 behind; #381, #382 and #383 = 1 ahead / 2 behind each. All share merge base `0897bd613c0c041794ec5ec4a72cd487b13a6944` and remain open Drafts. Do not merge blindly; reconcile against current main only after review and CI/provenance checks.
 - This branch-history correction is explicitly recorded; no agent PR was merged and no source/workflow files were changed by the correction.
+
+
+## Wave 213 — worker security gate and three Gemini reviews (2026-10-19)
+
+- Report: [worker security gate fix and three-agent review](MEDIAHUB-CONTOUR-A-SECURITY-GATE-AND-THREE-GEMINI-WAVE-213-2026-10-19.md).
+- Current main at start: `1363c03f0168c6371332095d38a410974a875815`; docs branch prior HEAD `1031a7eb74beb60d7c0b0668e00c222af51d7c80`.
+- PR #384: https://github.com/VlDMlNSh/mediahub-os/pull/384; head `a83c23142a8c87eceb73bc5b1e1390691f96e1e7`, base current main, 1 ahead / 0 behind, Draft. Fixes secret assignment regex; red-green regression tests 4/4; secret-hygiene 5/5; full local unittest discovery on Python 3.14 passed 426 tests. Exact-head CI: Astra Verify 39319478351 SUCCESS; Cloud Runtime Validation 39319478348 SUCCESS.
+- Project-local persistent guidance candidate in PR #384: `AGENTS.md` blob `9506501f7f6f1c958ad87907089641486ad46ebb`; `.agents/skills/mediahub-next/SKILL.md` blob `66d33c76a1919e909307d8fb68847c6a65b70ac3`. Not merged/mainline yet.
+- Gemini runs 39319707614, 39319711872, 39319716373 all SUCCESS on current main and produced Draft PRs #386, #387, #385 respectively. Agent reports are not accepted: #386 has stale timestamp/overstated closure; #387 incorrectly calls custom lint full Draft 2020-12 meta-validation; #385 reviews adjacent scanner rather than PR #384's changed code. Corrective review comments posted.
+- PRs #375–#383 remain unmerged; several are based on stale main and require reconciliation. No provider dispatch beyond these authorized Gemini review workflows, no secret values read, no merge/deployment/qualification.
+- Next: review PR #384 against corrected exact-target independent review; close Issue #301 authority/admission gates with source-backed evidence; correct schema validation gaps; implement artifact-only worker/publisher boundary. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
