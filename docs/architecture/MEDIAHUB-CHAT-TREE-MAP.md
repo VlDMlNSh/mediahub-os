@@ -7388,3 +7388,8 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 
 
 - Wave 208 (2026-10-19): [Wave 208 truth-ranked audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-208-2026-10-19.md). Reconfirmed exact-head CI success, 12/3 branch divergence, direct worker push path and unverified runner credential chain. No runner host was inspected and no gate was promoted.
+
+- Wave 209 (2026-10-19): [worker environment inheritance audit](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-ENVIRONMENT-INHERITANCE-WAVE-209-2026-10-19.md). Source review confirms ambient environment inheritance, `git add -A`, and direct push attempt in the worker; effective runner credentials remain unverified. PR #375 remains Draft/diverged; no gate promoted.
+
+
+- Wave 209 (2026-10-19): [worker environment inheritance audit](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-ENVIRONMENT-INHERITANCE-WAVE-209-2026-10-19.md). Source review confirms ambient environment inheritance, `git add -A`, and direct push attempt in the worker; effective runner credentials remain unverified. PR #375 remains Draft/diverged; no gate promoted.
