@@ -47,7 +47,7 @@ The worker validates changed paths against task-provided `boundary` / `forbidden
 - Read back source and blob SHAs for the signer, agent, queue, worker, worker workflow, and credential-policy PR.
 - Read back exact PR #397 head and two successful exact-head workflow runs.
 - No worker dispatch, credential use, branch publication, merge, deployment, or qualification was performed by this pass.
-- No tests were run by this pass; CI results above belong to PR #397's exact head and are not tests of the proposed publisher boundary.
+- Local tests on a detached worktree at exact main SHA `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`: signer suite 5/5 passed; worker security-gate suite 4/4 passed. The distributed workflow contract suite could not run in this environment because `pytest` and PyYAML are absent (`ModuleNotFoundError`); this is an environment limitation, not a pass. CI results above belong to PR #397's exact head and are not tests of the proposed publisher boundary.
 - Current truth remains **NOT_PROVEN / BLOCKED**. G0–G11 remain BLOCKED; G11 remains HUMAN_ONLY. Contour A is not accepted.
 
 ## Next step
