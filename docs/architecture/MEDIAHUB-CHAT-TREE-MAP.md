@@ -7408,3 +7408,6 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 
 
 - Wave 213 integration correction — PR #384 merged at 2026-10-19T20:36:28Z as `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`; mainline read-back confirms worker/test/AGENTS/skill blobs. Post-merge Astra Verify run 39320722769 SUCCESS. The merge also triggered unrelated local qualification/supervisor workflows; runs 39320722831, 39320722932 and 39320722875 were cancelled. The Mac 23-wave job failed canonical admission before any rounds; no qualification occurred. See Wave 213 report addendum for evidence and risk.
+
+
+- Wave 213 live PR divergence refresh (main `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`): #375 12/6 and #376 1/6 (merge base `c06015e0b1526e0aaa6a522306052b077455aba5`); #377 3/3 and #381–#383 1/3 (merge base `0897bd613c0c041794ec5ec4a72cd487b13a6944`); #385–#387 1/1 (merge base `1363c03f0168c6371332095d38a410974a875815`). All listed PRs are diverged from main; no rebase/merge performed. See Wave 213 report Section 8.
