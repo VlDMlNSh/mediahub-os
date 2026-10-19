@@ -7308,3 +7308,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Candidate head `3b1fc96beeedcc6cb38c7beeb5809f0004c6ac8a`; exact-head run [39222111677](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222111677) SUCCESS, job `117959603249`, artifact `12171314150`, SHA-256 `4aaf3dbe764f22fd4eb0288685d1e069e3e28407c26f37d2e6825a487c7ae675`.
 - Report updated: [Wave 129 report](../checkpoints/MEDIAHUB-SCHEMA-VALIDATION-CLEAN-BASE-CANDIDATE-WAVE-129-2026-10-19.md). PR #374 remains Draft/open/unmerged with 12 intended files; independent review is absent.
 - Bootstrap publisher provenance UNVERIFIED; A0/R-06/target-manifest gates remain open. No dispatch, credential/provider use, merge, deployment or qualification.
+
+
+## 20.369 — Credential-boundary source revalidation (Wave 175, 2026-10-19)
+
+- Report: [A0 credential-boundary source revalidation](../checkpoints/MEDIAHUB-A0-CREDENTIAL-BOUNDARY-SOURCE-REVALIDATION-WAVE-175-2026-10-19.md).
+- Re-read source blobs on `main`: worker `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`; worker workflow `f650f2416c19dc75b4a0eeec037661c0c6169910`; dispatcher queue `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`.
+- Confirmed source-level concerns: worker child environment inherits `os.environ` and merges FCC auth values; the workflow grants `contents: write` and persists checkout credentials; dispatcher helper may acquire `gh auth token` into `GH_TOKEN`. No actual secret access or exfiltration was established.
+- No worker run, provider call, dispatch, test execution, code change, merge, deployment or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
+- Next: separate minimal candidate with static workflow-policy tests and synthetic-secret environment tests; establish FCC authentication contract before changing token flow; no real credentials or dispatch.
