@@ -5142,3 +5142,14 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Re-read map and report blobs after write before treating documentation sync as complete. Keep PR #375 Draft until independent review and governance gates pass.
 
 - Wave 205 report read-back confirmed at blob SHA `b6e57e06dd256bb150af2b3e19017dd70283b847` (report commit `769ff4ff0e5b560b12754e2770210b2be28310d0`).
+
+
+## Wave 206 — truth-ranked readiness and drift audit (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-TRUTH-RANKED-READINESS-AND-DRIFT-WAVE-206-2026-10-19.md](MEDIAHUB-CONTOUR-A-TRUTH-RANKED-READINESS-AND-DRIFT-WAVE-206-2026-10-19.md), report commit `6f8dcfd4d81500227adfc91a56bddd7722f6264d`.
+- PR #375 head at audit: `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`; exact-head Astra Verify `39295373907` and Cloud Runtime Validation `39295373833` both SUCCESS.
+- Branch compare: 12 ahead / 1 behind main, merge-base `c06015e0b1526e0aaa6a522306052b077455aba5`. Keep Draft; inspect main-side drift and the full diff before integration.
+- Generated truth on main blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED, overall NOT_PROVEN / BLOCKED, G11 HUMAN_ONLY.
+- Canonical map commit `ea27ec038f774006f71439c3b0841bf06546d9ee`, blob `b182a9ce8c576439a40fe6ca2c89feaf3ac3e521`.
+- No worker/provider dispatch, secret access, host command, merge, deployment, qualification or acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+- Next: independently review authority/publisher boundaries and resolve issuer/capability semantics through governance before implementation.
