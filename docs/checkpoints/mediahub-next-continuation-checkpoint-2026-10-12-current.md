@@ -5071,3 +5071,15 @@ Before adopting PR #338, either secure and verify provenance for the exact candi
 - WB-05 / GOV-CAP-01…07 and R-06 remain open. Worker issuer-bound admission and credential isolation remain independent blockers. PR #373 remains Draft/open/unmerged; canonical docs ref remains separate from main and diverged (2,333 ahead / 27 behind at this snapshot).
 - Next: refresh exact-head CI; resolve accepted issuer/R-06 authority and target runner/workspace/network manifest; only then implement and independently test a shared worker-ingress verifier and credential isolation boundary.
 
+
+
+## Wave 172 — PR #373 exact-head and branch-drift recheck (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-PR373-EXACT-HEAD-DRIFT-RECHECK-WAVE-172-2026-10-19.md](MEDIAHUB-CONTOUR-A-PR373-EXACT-HEAD-DRIFT-RECHECK-WAVE-172-2026-10-19.md), blob SHA `90bab8c9fc64d3719058467701fbe5774aee0e7d`.
+- Map navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-172-2026-10-19.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-172-2026-10-19.md), blob SHA `1047ec0ff3df4a0bc74488734ecd662532f3b7f8`.
+- PR #373 reviewed pre-report head `33169ce31e92bf20612c685d3a0a39f33c025bc2`, OPEN / DRAFT / UNMERGED. Exact-head workflow lookup returned no runs via a connector scoped to PR-triggered runs / first page; no CI pass is claimed.
+- PR branch vs canonical docs: DIVERGED 36 ahead / 5 behind, merge base `28816f6b523c8cbc878ebd0575b17bc419669889`, canonical docs SHA observed `f3efa8f52966fc62858c2a7079e447ad581dd780`. Review the five base-side commits and reconcile before integration.
+- Main vs canonical docs remains DIVERGED: canonical docs 2,338 ahead / main 27 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`, main SHA `c06015e0b1526e0aaa6a522306052b077455aba5`. No integration attempted.
+- Wave 167/170 credential isolation and worker issuer-bound admission remain independent high-priority blockers; GOV-CAP-01…07 and R-06 remain unresolved. No secrets, provider calls, dispatch, live host/process inspection, tests, runtime/workflow changes, merge, deployment or qualification occurred.
+- Next: inspect the five canonical-base commits and do path/history reconciliation; separately obtain owner-authorized containment and governance disposition before additional dispatch to the affected self-hosted execution path.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
