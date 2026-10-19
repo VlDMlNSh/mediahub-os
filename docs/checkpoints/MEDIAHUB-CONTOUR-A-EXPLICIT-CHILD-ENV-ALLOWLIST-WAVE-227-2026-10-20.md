@@ -47,3 +47,13 @@ No worker was dispatched. No real secret values were read or written. The local 
 ## Next bounded step
 
 Read back the exact PR #392 head and its CI/job steps; obtain independent review of the new FCC explicit-key allowlist and confirm the current conditional Git-publication finding remains clearly open. Do not merge or dispatch a worker until the publication/authority gates are resolved.
+
+## Independent read-only cloud-agent review (three bounded audits)
+
+All three read-only Gemini Architecture Audit runs completed successfully and their artifacts were downloaded and inspected. The workflow ran with read-only repository permissions; it did not create branches/PRs or modify files.
+
+- **A1 architecture/governance:** [run 39337246861](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39337246861). Confirmed the explicit allowlist and emphasized that environment filtering is defense-in-depth, not OS/network isolation. It correctly kept Contour A `NOT_PROVEN / BLOCKED`. Its references to G12–G13 conflict with the current checkpoint's G0–G11 vocabulary; those labels are not adopted without source reconciliation.
+- **A2 implementation/reuse:** [run 39337250824](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39337250824). Confirmed all relevant child-environment call sites use explicit allowlists and found no competing env-management component in `ops/mesh/artifacts.py`; that module remains an artifact hash/manifest helper, not a trusted publisher. Recommended keeping the allowlists minimal and testing future changes.
+- **A3 independent security review:** [run 39337254835](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39337254835). Rated direct worker `git add` / commit / `git push` as **SEV-1 / HIGH** because publication authority remains in the worker execution path; noted **SEV-2** lack of OS/network sandboxing around model-controlled Bash/Python tools and **SEV-3** that `load_task()` parses `ASTRA_MICRO_TASK_JSON` without verifying a signed task/capability envelope inside that worker path. The source-level observations align with the local audit and remain open blockers.
+
+The three runs are review evidence only. They do not qualify the worker, authorize credential changes, or close the publisher/issuer/capability gates. The A3 task-signature finding should be addressed at the admission boundary through the accepted authority contract; do not treat an HMAC-valid command as permission to publish source.
