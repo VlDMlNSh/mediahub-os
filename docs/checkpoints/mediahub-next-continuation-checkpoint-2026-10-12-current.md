@@ -4969,3 +4969,105 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 163 continuation — exact-file PyPI publisher provenance (2026-10-19)
+
+- Report: [MEDIAHUB-SETUPTOOLS-84-0-0-PUBLISHER-PROVENANCE-EXACT-FILE-RECHECK-WAVE-163-2026-10-19.md](MEDIAHUB-SETUPTOOLS-84-0-0-PUBLISHER-PROVENANCE-EXACT-FILE-RECHECK-WAVE-163-2026-10-19.md), blob SHA `f221d56a6241b0e99f244d6dff6f5cd2b27aa273` (read-back verified).
+- Map navigation: [Wave 163 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-163-2026-10-19.md).
+- Official PyPI JSON metadata identifies `setuptools-84.0.0-py3-none-any.whl` SHA-256 `51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670`, 818,216 bytes, uploaded 2026-08-08T18:27:56.719708Z.
+- Exact-file Integrity API routes for wheel and source archive returned 404; official API documentation says 404 means the file has no provenance. Publisher provenance remains OPEN / BLOCKING / NOT INDEPENDENTLY VERIFIED. This does not indicate the artifact is malicious; it means this API supplies no provenance bundle for verification.
+- No package download/install, local digest recomputation, dependency/workflow/code changes, secrets, provider calls, dispatch, merge, deployment, or qualification occurred.
+- Next: inspect existing bootstrap lock/manifest consumers and determine whether this exact artifact is mandatory. Do not silently replace it. If alternative artifact is proposed, verify exact digest/provenance and compatibility through the existing canonical lock/manifest and normal PR/CI.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 164 continuation — bootstrap provenance scope and lock consumer trace (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-BOOTSTRAP-PROVENANCE-SCOPE-AND-LOCK-CONSUMER-TRACE-WAVE-164-2026-10-19.md](MEDIAHUB-CONTOUR-A-BOOTSTRAP-PROVENANCE-SCOPE-AND-LOCK-CONSUMER-TRACE-WAVE-164-2026-10-19.md), report creation commit `db24707f6bd246a5281ddfd9a7daf5c73946ac94`, report blob SHA after read-back `e1382c071539215b791a56ed008527475cb623c8`.
+- Map navigation: [Wave 164 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-164-2026-10-19.md).
+- Important scope correction: current `main` runtime bootstrap `ops/astra-github-bootstrap.sh` (blob `5f36f35ea85f55e5f49af6d3dabb5e876fffa09b`) only fetches/checks out the repository and executes `python3 astra_github_agent.py`; it does not install setuptools. Candidate-only bootstrap lock and lock-generation workflow paths are absent from current main (direct reads returned 404). `requirements-dev.txt` (blob `241432c98a273df782c65f35b76d10593c3dea43`) lists only PyYAML and pytest.
+- Exact `setuptools==84.0.0` is directly pinned and version-asserted only in the unmerged Draft PR #338 candidate lock-generation path. The separate candidate runtime schema-validation lock does not mention setuptools. Thus provenance remains a blocker for adopting PR #338 as currently written, not an established runtime dependency of current main.
+- PR #338 head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21` remains OPEN/DRAFT/UNMERGED with four passing check-runs at that exact SHA; those runs do not produce publisher provenance. Compared with current canonical docs HEAD, candidate history is DIVERGED 20 ahead / 202 behind, merge base `2bd41f5b71006597a7669a4b7154abc58f87af5d`; no automatic integration.
+- Exact PyPI Integrity API endpoints for wheel and source archive still return 404, whose documented meaning is no provenance object. No maliciousness claim is inferred.
+- No runtime/dependency/workflow edit, package download/install, local digest recomputation, secret read, provider call, dispatch, host change, merge, deployment, qualification or independent acceptance occurred.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+### Next bounded action
+
+Before adopting PR #338, either secure and verify provenance for the exact candidate artifact or obtain an explicit accountable alternative trust disposition. If considering removal/substitution, first substantiate dependency necessity and preserve deterministic lock generation, then run fresh exact-head CI and independent review. Do not silently alter the bootstrap lock.
+
+
+## Wave 165 continuation — schema-validation candidate exact-head review (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-SCHEMA-VALIDATION-CANDIDATE-EXACT-HEAD-REVIEW-WAVE-165-2026-10-19.md](MEDIAHUB-CONTOUR-A-SCHEMA-VALIDATION-CANDIDATE-EXACT-HEAD-REVIEW-WAVE-165-2026-10-19.md), blob SHA `6e30f824dbc0536a8a6ad25a3020ed6380f99b5a` (read-back verified).
+- Map navigation: [Wave 165 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-165-2026-10-19.md), blob SHA `e06b6f97bafb9c015cc2851a86fa1f809380a91f` (read-back verified).
+- PR #338 remains OPEN / DRAFT / UNMERGED at candidate HEAD `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`. Workflow run [39058425661](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39058425661) ties to that exact HEAD; its validation job and all observed steps completed successfully. The uploaded evidence artifact was verified by metadata only, not downloaded/read.
+- Source pins: schema validator `02c326da8cf90d2e5253dff3c1a5b90d72f6e18d`; semantic validator `7c69f478301360930e9e2ff341692cf2676b16cd`; negative fixture catalog `88a2571fb92e7dc2dd825a649a42fb4b95827cc7`; task-envelope schema `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; agent-registry schema `b49b89b8fbdfc180862e3dc78f8198f35e486035`; evidence-manifest schema `40c402432fd0f3899d45fde0fa0a8af4d34c593a`; validation workflow `f58add06b86b9f816e641ca1aea7d343e9662765`.
+- Finding: candidate tests exercise Draft 2020-12 meta-validation with format checking, positive synthetic fixtures, declared and generated missing-required negatives, semantic cross-document digest/version checks, report validation and artifact upload. The semantic validator explicitly records unresolved authority references as P0 / OPEN. Successful CI is not issuer authorization or runtime qualification.
+- Setuptools 84.0.0 provenance remains a candidate-only adoption gate for PR #338. No dependency substitution, code/workflow edit, secret/provider access, dispatch, merge, deployment or qualification occurred.
+- Current Wave 165 disposition: **candidate CI evidence verified; governance, A0 ingress, runtime isolation and independent acceptance gates remain open**. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+- Next: independently review semantic reference resolution against accepted authority contracts and continue the A0 ingress / publication-credential isolation tracks.
+
+
+## Wave 166 continuation — semantic authority-reference review (2026-10-19)
+
+- Report: [MEDIAHUB-A0-SEMANTIC-AUTHORITY-REFERENCE-REVIEW-WAVE-166-2026-10-19.md](MEDIAHUB-A0-SEMANTIC-AUTHORITY-REFERENCE-REVIEW-WAVE-166-2026-10-19.md), blob SHA `9f1b3c1dcbe0abf592934602da1f4bc49115f17c` (read-back verified).
+- Map navigation: [Wave 166 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-166-2026-10-19.md), blob SHA `5c6a9cc4f73e5989360de2d53aeb9ca9c70915ad` (read-back verified).
+- Re-read Wave 149 decision matrix blob `9c1a02dc125b37abea9284f0c0aa5deb571f13e7`: GOV-CAP-01…07 remain decisions required; WB-05 options A–D remain unselected; R-06 audit/privacy and audit-unavailable behavior remain unresolved.
+- Wave 134 call-site inventory blob `cd6f6021bc5b617ef0bc581bfe4a6748515ce81e` identifies local AuthorizationContext consumers and qualification-probe constructors, not an authoritative production issuer. Prior ingress trace records shape-checked file-supplied approval_state without issuer verification or AuthorizationContext propagation.
+- Wave 165's exact-head PR #338 CI evidence establishes schema/fixture checks only. Semantic validator's `AUTHORITY_REFERENCES_UNRESOLVED` P0/OPEN remains aligned with governance evidence; no authorization or runtime-safety claim is inferred from green CI.
+- No issuer option, token format, key store, audit policy, runtime code, dependency/workflow, secret/provider access, dispatch, host change, merge, deployment or qualification was performed.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+- Next: source-bound audit of A0 ingress and model-controlled execution credential isolation, independent of the candidate-only setuptools provenance gate.
+
+
+## Wave 167 continuation — A0 model-execution credential-isolation trace (2026-10-19)
+
+- Report: [MEDIAHUB-A0-MODEL-EXECUTION-CREDENTIAL-ISOLATION-TRACE-WAVE-167-2026-10-19.md](MEDIAHUB-A0-MODEL-EXECUTION-CREDENTIAL-ISOLATION-TRACE-WAVE-167-2026-10-19.md); exact blob SHA is added after read-back verification.
+- Map navigation: [Wave 167 project map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-167-2026-10-19.md).
+- Current-main source pins: agent `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`; autonomous queue `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`; worker workflow `f650f2416c19dc75b4a0eeec037661c0c6169910`; worker script `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`.
+- Finding: self-hosted jobs request `contents: write` and checkout `persist-credentials: true`; the model worker receives Git/Python tools within that checkout. Its worker script reads the runner-local FCC env file and merges the values into the Claude process environment, including `ANTHROPIC_AUTH_TOKEN` and `ANTHROPIC_API_KEY`. This is a source-backed exposure path, not evidence of actual token access or exfiltration.
+- The local command HMAC verifies a controller command envelope but does not establish issuer-bound worker capability verification. Prompt-declared task boundaries and post-hoc changed-file checks are not OS-level isolation.
+- Risk: high-priority model/credential trust-boundary design issue affecting current-main source, independent of PR #338's candidate-only setuptools provenance gate.
+- No secret value was read, no live runner/process/queue/workflow was accessed, and no code, workflow, host, credential, dependency, merge, deployment or qualification change occurred.
+- Next: owner-authorized containment and a credential-free model execution design, followed by independent negative tests. Do not claim Contour A qualified or dispatch additional autonomous work to the affected self-hosted path without an approved, reviewed boundary.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 168 — cross-envelope authority-binding review (2026-10-19)
+
+- Report: [MEDIAHUB-A0-CROSS-ENVELOPE-AUTHORITY-BINDING-REVIEW-WAVE-168-2026-10-19.md](MEDIAHUB-A0-CROSS-ENVELOPE-AUTHORITY-BINDING-REVIEW-WAVE-168-2026-10-19.md), blob SHA `55b6854e60cd5b326dcde933e2d8a0d211396264`.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-168-2026-10-19.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-168-2026-10-19.md), blob SHA `c8322e0c89b461955dd73f8bdf6e68591820a791`.
+- Bounded source crosswalk ties the controller HMAC command envelope, file task ingress, worker `task_json` dispatch and model execution boundary. The reviewed sources do not establish one issuer-authorized binding from command to exact task/target/audience.
+- The semantic binding requirements and negative conformance matrix are documented as a proposal only. No token/wire format, issuer, key store, audit product or exactly-once semantics are selected.
+- Wave 148 source trace blob `a0f00dd08e99e913e1f6949843e6943ecb937b15`; Wave 134 inventory blob `cd6f6021bc5b617ef0bc581bfe4a6748515ce81e`; Wave 149 governance matrix blob `9c1a02dc125b37abea9284f0c0aa5deb571f13e7`. GOV-CAP-01…07 and R-06 remain open.
+- Main HEAD at review: `c06015e0b1526e0aaa6a522306052b077455aba5`. Documentation ref is diverged from main (2,333 ahead / 27 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc)); no integration attempted.
+- PR #373 remains OPEN / DRAFT / UNMERGED. Exact-head workflow lookup returned no workflow runs; no CI pass is claimed.
+- No tests, code/runtime/workflow changes, secret reads, provider calls, worker dispatch, host inspection, merge, deployment or qualification occurred.
+- Credential isolation from Wave 167 is a separate high-priority gate; cross-envelope binding does not remediate inherited Git/FCC credentials.
+- Next: obtain the explicit issuer/lifecycle and R-06 governance disposition, then implement a shared worker-ingress verifier and negative tests only against the accepted contract. Keep Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED and Contour B gated.
+
+
+## Wave 169 — PR #373 exact-head CI and evidence-scope audit (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-PR373-EXACT-HEAD-CI-AND-EVIDENCE-SCOPE-AUDIT-WAVE-169-2026-10-19.md](MEDIAHUB-CONTOUR-A-PR373-EXACT-HEAD-CI-AND-EVIDENCE-SCOPE-AUDIT-WAVE-169-2026-10-19.md), blob SHA `c75fad6f596457c1918d85a9d2602f9912120143`.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-169-2026-10-19.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-169-2026-10-19.md), blob SHA `dba69c0d855332c66679ba4590badbc3d8c6a2f9`.
+- PR #373 exact head before this Wave 169 commit: `6989f21bdb1d3ce1bba8da2d082334dfba2ddd41`; base docs ref `28816f6b523c8cbc878ebd0575b17bc419669889`; compare 24 ahead / 0 behind, 13 changed files, 581 additions, no deletions.
+- Exact-head workflow-run connector returned no runs. It is scoped to PR-triggered runs and first page; no CI success or global absence is claimed.
+- PR title lagged the contents (named Waves 163–167 while Wave 168 was already included); the PR title was corrected to Waves 163–169 after this audit. PR remains Draft/open/unmerged.
+- Main-vs-canonical-docs ref remains diverged (main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`, 2,333 ahead / 27 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). No wholesale integration/rebase.
+- No tests, dispatch, secrets/provider calls, runtime changes, merge, deployment or qualification. GOV-CAP-01…07, R-06, credential isolation and issuer-bound task admission remain open. Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B gated.
+- Next: refresh exact-head checks, obtain accepted issuer/R-06 governance disposition and target manifest, then implement a shared verifier plus negative tests under that accepted contract.
+
+
+## Continuation update — Wave 170 worker-dispatch trust-boundary trace (2026-10-19)
+
+- Report: [Wave 170 worker-dispatch trust-boundary trace](MEDIAHUB-A0-WORKER-DISPATCH-TRUST-BOUNDARY-TRACE-WAVE-170-2026-10-19.md), blob SHA `583e5961d901bc774fd2d1a018ba33755a37ec97`.
+- Map navigation addendum: [Wave 170 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-170-2026-10-19.md), blob SHA `b04fb202a1e744299572df38dddb600c2ac3cfa6`.
+- Current-main source pins: queue `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`; worker workflow `f650f2416c19dc75b4a0eeec037661c0c6169910`; worker script `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`; controller `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`.
+- End-to-end static trace confirms the queue supplies separate task JSON and dispatch inputs, the workflow grants `contents: write` and persists checkout credentials, and the worker places FCC auth values in the model process environment. This is a credible trust-boundary exposure path, not evidence of actual credential access or exfiltration.
+- No task dispatch, secret read, live host/process inspection, tests, code/runtime/workflow change, merge, deployment or qualification occurred.
+- WB-05 / GOV-CAP-01…07 and R-06 remain open. Worker issuer-bound admission and credential isolation remain independent blockers. PR #373 remains Draft/open/unmerged; canonical docs ref remains separate from main and diverged (2,333 ahead / 27 behind at this snapshot).
+- Next: refresh exact-head CI; resolve accepted issuer/R-06 authority and target runner/workspace/network manifest; only then implement and independently test a shared worker-ingress verifier and credential isolation boundary.
+
