@@ -5104,3 +5104,14 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - PR #375 remains Draft/open/unmerged. Previously recorded exact-SHA CI is evidence only for its recorded commit; current-head CI was not verified in Wave 203.
 - Next bounded pass: freeze current refs/PR head and exact-head workflow runs; implement/propose offline YAML-parser semantic permission tests. Do not dispatch workers, expose secrets, merge, deploy, or implement a trusted publisher until the authority contract is approved.
 - No governance acceptance or qualification is implied. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 204 — YAML semantic permission oracle (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-PR375-YAML-SEMANTIC-PERMISSION-ORACLE-WAVE-204-2026-10-19.md](MEDIAHUB-CONTOUR-A-PR375-YAML-SEMANTIC-PERMISSION-ORACLE-WAVE-204-2026-10-19.md), report commit `b4018269baf8238749f47c57bf8eb3c0c56eb185`.
+- PR #375 candidate corrected commit: `40ca9a2eabf69949134c941babd2624559f0cb1f`; test blob `67a9589b16332f1a07ee9ce7b73662d2ce23d237`.
+- Exact-head CI is green: Astra Verify run [39294040201](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39294040201), job 118201803921 SUCCESS; Astra Cloud Runtime Validation run [39294040541](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39294040541), job 118201804833 SUCCESS.
+- An intermediate candidate commit `5d88a4506c02b3ec34d6549ba9d075ed35446113` failed compileall due to an unclosed test assertion. The failure was inspected and fixed in the corrected commit; the corrected exact-head CI passed.
+- The regex oracle is replaced by PyYAML structural parsing for workflow/job permission mappings and checkout credential settings. This closes only the tested static-oracle gap; it does not close publisher provenance, authority governance, secret/OS/network isolation, or independent security review.
+- PR #375 remains OPEN / Draft / unmerged. No worker dispatch, provider call, secret access, host command, merge, deployment, qualification, or Contour B work occurred.
+- Next: independent review of the semantic oracle and output-publication path; reconcile the canonical map by read-back SHA. Do not implement a trusted publisher or choose issuer/key semantics before governance approves the authority contract. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
