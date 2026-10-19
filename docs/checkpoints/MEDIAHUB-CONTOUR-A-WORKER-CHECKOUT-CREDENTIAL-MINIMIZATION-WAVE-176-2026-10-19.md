@@ -1,7 +1,7 @@
 # MediaHub Contour A — worker checkout credential minimization (Wave 176)
 
 - Date: 2026-10-19
-- Status: DRAFT IMPLEMENTATION CANDIDATE; CI IN PROGRESS AT REPORT TIME; NOT QUALIFIED.
+- Status: DRAFT IMPLEMENTATION CANDIDATE; exact-head CI successful; dedicated new static test not confirmed executed; NOT QUALIFIED.
 - Candidate PR: [#375](https://github.com/VlDMlNSh/mediahub-os/pull/375), open Draft, base `main`.
 - Governing tracker: [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
@@ -27,10 +27,18 @@ Created branch `security/contour-a-worker-checkout-credential-minimization-wave1
 
 This reduces the worker workflow's GitHub permission and removes the checkout action's persisted Git credential from all three checkouts. It does not establish that the job can never access another credential, and does not fix the separate FCC auth token passed into the Claude subprocess. It does not provide OS or network isolation, define issuer/capability authority, validate the bootstrap publisher's provenance, or independently qualify the worker. No real credential was accessed; no worker dispatch, provider call, host change, merge, deployment, or qualification occurred.
 
+## CI recheck (2026-10-19)
+
+Exact PR-head commit `77352fc1224372b94e0a7d9b92288ca86b059cc2` has two associated pull-request workflow runs, both completed successfully:
+- [Astra Cloud Runtime Validation](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837361), run ID `39222837361`, job `validate` (`117961956367`) succeeded.
+- [Astra Verify](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837322), run ID `39222837322`, job `verify` (`117961956042`) succeeded.
+
+The reported step summaries show contract/runtime tests and cloud-admission tests passed. They do not explicitly show invocation of the newly added `test_worker_workflow_credential_policy.py`; therefore its execution is **not claimed**. The two successful CI runs are not independent security review or Contour A qualification.
+
 ## Next gates
 
-1. Wait for and inspect exact-head CI for commit `77352fc1224372b94e0a7d9b92288ca86b059cc2`; execute the static test in an isolated test environment when available.
-2. Independently review the workflow permission reduction, checkout behavior, and test assertions. Confirm no downstream step relies on checkout's persisted credential.
+1. Confirm the new static regression test is actually included in a CI command or execute it in an isolated checkout; capture exact command and result.
+2. Independently review workflow permission reduction, checkout behavior, and test assertions. Confirm no downstream step relies on checkout's persisted credential.
 3. Establish the FCC authentication contract before changing the model subprocess environment. Continue synthetic-secret negative tests and explicit environment allowlisting as a separate change.
 4. Keep PR #375 Draft until checks and independent review pass. Do not merge on CI alone.
 5. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
