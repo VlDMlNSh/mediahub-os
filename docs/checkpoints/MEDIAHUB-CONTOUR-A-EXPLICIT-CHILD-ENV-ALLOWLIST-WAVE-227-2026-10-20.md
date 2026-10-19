@@ -36,7 +36,8 @@ No worker was dispatched. No real secret values were read or written. The local 
 
 ## Current limits / disposition
 
-- Exact-head CI for the updated PR commit is pending at report creation; check PR #392 before calling the CI gate green.
+- Exact-head CI on code commit `7443802823e31a7095a245856c7baa252d7313aa`: [Astra Verify run 39336937049](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39336937049) SUCCESS; [Astra Cloud Runtime Validation run 39336937058](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39336937058) SUCCESS. Both runs were read back with the same `headSha`.
+- This report update is documentation-only; it does not change worker/test source. Recheck exact-head CI after the report commit before any integration decision.
 - The worker still commits/pushes its own branch. This change does not implement the separate trusted publisher from Waves 177/179/207/210.
 - The existing independent review of PR #392 is conditional on the host Git publication credential path; this wave does not close that finding.
 - A strict environment allowlist is defense-in-depth, not an OS/filesystem/network sandbox. Runner/workspace/network isolation and issuer/capability verification remain unproven.
