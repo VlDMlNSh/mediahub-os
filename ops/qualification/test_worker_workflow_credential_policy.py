@@ -31,8 +31,10 @@ def policy_violations(source):
         r"(?ms)^      - uses: actions/checkout@[^\n]+\n(.*?)(?=^      - |^  [a-zA-Z0-9_-]+:|\Z)",
         source,
     )
-    if not checkout_blocks:
-        violations.append("expected at least one checkout step")
+    if len(checkout_blocks) != 3:
+        violations.append(
+            f"expected exactly three checkout steps, found {len(checkout_blocks)}"
+        )
     for index, block in enumerate(checkout_blocks, start=1):
         if not re.search(
             r"(?m)^          persist-credentials: false\s*$", block
@@ -81,6 +83,23 @@ class WorkerWorkflowCredentialPolicyTests(unittest.TestCase):
         self.assertGreaterEqual(
             sum("must set persist-credentials: false" in item for item in violations),
             1,
+        )
+
+    def test_rejects_missing_checkout_steps(self):
+        checkout_pattern = re.compile(
+            r"(?ms)^      - uses: actions/checkout@[^\\n]+\\n.*?"
+            r"(?=^      - |^  [a-zA-Z0-9_-]+:|\\Z)"
+        )
+        matches = list(checkout_pattern.finditer(self.source))
+        self.assertEqual(3, len(matches), "fixture must start with three checkout steps")
+        mutated = self.source
+        for match in reversed(matches[1:]):
+            mutated = mutated[:match.start()] + mutated[match.end():]
+        self.assertEqual(1, len(checkout_pattern.findall(mutated)))
+        violations = policy_violations(mutated)
+        self.assertTrue(
+            any("expected exactly three checkout steps" in item for item in violations),
+            violations,
         )
 
 
