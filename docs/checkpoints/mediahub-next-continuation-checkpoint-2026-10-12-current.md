@@ -5300,3 +5300,8 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Gemini PRs #385–#387 remain Draft and unaccepted due evidence mismatches noted in review comments.
 - Next: correct Gemini review reports or replace them with source-anchored reviews; close Issue #301 authority/admission gates; fix actual Draft 2020-12 meta-validation gap; design artifact-only worker/publisher boundary. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
 - Full report: [Wave 213 security gate, agent audit, and merge addendum](MEDIAHUB-CONTOUR-A-SECURITY-GATE-AND-THREE-GEMINI-WAVE-213-2026-10-19.md).
+
+
+## Wave 213 live PR divergence refresh (2026-10-19)
+
+Current main: `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`. Current live compare: #375 = 12 ahead / 6 behind; #376 = 1/6 (merge base `c06015e0b1526e0aaa6a522306052b077455aba5`); #377 = 3/3; #381–#383 = 1/3 each (merge base `0897bd613c0c041794ec5ec4a72cd487b13a6944`); #385–#387 = 1/1 each (merge base `1363c03f0168c6371332095d38a410974a875815`). All remain unmerged; do not integrate without reviewing diffs, updating bases safely, and obtaining fresh exact-head CI. Detailed matrix in [Wave 213 report](MEDIAHUB-CONTOUR-A-SECURITY-GATE-AND-THREE-GEMINI-WAVE-213-2026-10-19.md).
