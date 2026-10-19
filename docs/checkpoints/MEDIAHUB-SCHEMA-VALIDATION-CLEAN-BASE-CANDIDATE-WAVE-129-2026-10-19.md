@@ -13,10 +13,11 @@ Rebuilt the schema-validation candidate against the current canonical documentat
 
 - PR: https://github.com/VlDMlNSh/mediahub-os/pull/374
 - Candidate branch: `contour-a-schema-validation-clean-wave129-20261019`
-- Exact tested head: `12adb9ab9d3e20d227e5dc964b16e38cbab8ad13`
+- Initial exact-tested head: `12adb9ab9d3e20d227e5dc964b16e38cbab8ad13`.
+- Synchronized candidate head after preserving candidate history and incorporating the latest canonical docs head as first parent: `ff7ad6524ec5bec47a0245a0490d8850e874483a`.
 - Base at PR creation: `docs/mediahub-chat-tree-map-20261012` / `f3efa8f52966fc62858c2a7079e447ad581dd780`
-- Compare at creation: **12 commits ahead / 0 behind**, merge base exactly the current canonical docs HEAD.
-- PR #374 remains **OPEN / DRAFT / UNMERGED**. GitHub reported mergeable at the last read; this is not approval or qualification.
+- After documentation updates, the candidate was synchronized using a two-parent merge commit `ff7ad6524ec5bec47a0245a0490d8850e874483a` (first parent current canonical docs HEAD `1eb9de28c2c90188ecebfd44ec72618bb23407ec`, second parent original candidate head `12adb9ab9d3e20d227e5dc964b16e38cbab8ad13`). This preserves both histories without dropping content.
+- Final compare against current canonical docs branch: **13 commits ahead / 0 behind**, merge base `1eb9de28c2c90188ecebfd44ec72618bb23407ec`, exactly 12 changed files (1,713 additions / 0 deletions). PR #374 remains **OPEN / DRAFT / UNMERGED**; GitHub reports mergeable, which is not approval or qualification.
 
 ## Transplanted files and source blob SHA
 
@@ -45,8 +46,8 @@ The validator pins and checks the three canonical v0.2 schema blobs:
 - Exact-head workflow run: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39221209671
 - Run ID: `39221209671`; job ID: `117956681418`
 - Event: `pull_request`; exact head: `12adb9ab9d3e20d227e5dc964b16e38cbab8ad13`
-- Conclusion: **SUCCESS**. The immutable-checkout SHA check, Python setup, hash-locked dependency installation, Draft 2020-12 schema/regression validation, cross-artifact semantic fixtures, machine-readable report checks, and artifact upload all completed successfully.
-- Evidence artifact: `12171377615`; SHA-256 `72d8a0cb5c5952901db21f562550a88d79ded8f0ecbf9c925adf1a1da389aa6e`.
+- Initial head run 39221209671 succeeded; after syncing the candidate to the latest canonical docs head, the final exact-head workflow run [39221618675](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39221618675) also completed **SUCCESS** on `ff7ad6524ec5bec47a0245a0490d8850e874483a` (job `117957998293`). The immutable-checkout SHA check, Python setup, hash-locked dependency installation, Draft 2020-12 schema/regression validation, cross-artifact semantic fixtures, machine-readable report checks, and artifact upload all completed successfully.
+- Final-head evidence artifact: `12171683002`; SHA-256 `d1ace7f2881841ef8e07df76ec973d23e0adf02e51627f8381d959fd6f7cfe5d`. Initial-head artifact `12171377615` remains historical evidence.
 - Read-back after writes confirmed the exact expected blob SHAs for the schema workflow, runtime lock, validator and all three positive fixtures.
 - No independent review submissions exist for PR #374 at this report's preparation time.
 
@@ -63,3 +64,12 @@ The historical source-head run 39058425661 is retained as background only; Wave 
 ## Next bounded step
 
 Request independent review of PR #374 and obtain explicit governance/supply-chain disposition for the bootstrap publisher provenance. Keep the draft unmerged. Continue independent A0/R-06/target-manifest work under Issue #301 without treating schema CI as authorization.
+
+
+## Final synchronization read-back (2026-10-19)
+
+- Canonical docs branch HEAD: `1eb9de28c2c90188ecebfd44ec72618bb23407ec`.
+- Candidate branch HEAD: `ff7ad6524ec5bec47a0245a0490d8850e874483a`; tree is based on the current canonical docs tree plus the same 12 candidate blobs. The merge commit has two parents and retains the earlier candidate history.
+- PR API read-back: #374 OPEN / DRAFT / UNMERGED, mergeable=true, base SHA `1eb9de28c2c90188ecebfd44ec72618bb23407ec`, head SHA `ff7ad6524ec5bec47a0245a0490d8850e874483a`, 12 changed files.
+- Exact-head run `39221618675` passed after the synchronization; all nine primary validation steps succeeded. Artifact digest recorded above.
+- Review submissions remain absent. The branch sync does not close the independent review, bootstrap publisher provenance, A0, R-06 or target-manifest gates.
