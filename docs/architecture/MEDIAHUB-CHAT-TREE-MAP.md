@@ -7317,3 +7317,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Confirmed source-level concerns: worker child environment inherits `os.environ` and merges FCC auth values; the workflow grants `contents: write` and persists checkout credentials; dispatcher helper may acquire `gh auth token` into `GH_TOKEN`. No actual secret access or exfiltration was established.
 - No worker run, provider call, dispatch, test execution, code change, merge, deployment or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
 - Next: separate minimal candidate with static workflow-policy tests and synthetic-secret environment tests; establish FCC authentication contract before changing token flow; no real credentials or dispatch.
+
+
+## 20.370 — Worker checkout credential minimization (Wave 176, 2026-10-19)
+
+- Report: [Worker checkout credential minimization](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-CHECKOUT-CREDENTIAL-MINIMIZATION-WAVE-176-2026-10-19.md).
+- Draft implementation: [PR #375](https://github.com/VlDMlNSh/mediahub-os/pull/375), branch `security/contour-a-worker-checkout-credential-minimization-wave176-20261019`, base `main` at `c06015e0b1526e0aaa6a522306052b077455aba5`, head `77352fc1224372b94e0a7d9b92288ca86b059cc2`. Two commits ahead, zero behind; two files changed.
+- Workflow change: `contents: read`; all three checkouts explicitly use `persist-credentials: false`. Added three dependency-free static regression tests. Read-back confirmed three checkout steps and no write/persist-true markers.
+- Exact-head PR CI runs [39222837361](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837361) and [39222837322](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837322) were `in_progress` at inspection; no pass claimed. Unit test not executed in this pass.
+- Scope is limited: FCC auth token propagation, OS/network isolation, issuer/capability governance and publisher provenance remain unresolved. No credentials, worker dispatch, provider calls, merge or deployment.
+- Next: inspect exact-head CI, execute isolated unit test, independent review checkout behavior and assertions, and establish FCC authentication contract before changing model-process environment. Keep PR Draft; Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
