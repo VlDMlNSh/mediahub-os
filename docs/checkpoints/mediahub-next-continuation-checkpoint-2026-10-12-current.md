@@ -5094,3 +5094,13 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Canonical map §20.371 added; map blob `89891d4e0f025af9621c762f82a2a06e406ac269`. Read-back verification is required.
 - This is design only. No code implementation, worker dispatch, credential access, provider call, merge, deployment or qualification. Required next step: governance/independent security review of the proposal and explicit authority/capability and publisher contract before implementation.
 - Remaining blockers: FCC token propagation, environment/OS/network isolation, A0 issuer lifecycle, R-06 authority/privacy, accepted runner/workspace/network manifest, bootstrap publisher provenance. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
+
+
+## Wave 203 — truth-ranked gaps and architecture blueprint (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-TRUTH-RANKED-GAPS-BLUEPRINT-WAVE-203-2026-10-19.md](MEDIAHUB-CONTOUR-A-TRUTH-RANKED-GAPS-BLUEPRINT-WAVE-203-2026-10-19.md), commit `0b2e0321dd9e8c3f8b2a0c2e750869000b109a2a`.
+- Ranked priorities: P0 issuer/capability authority, trusted publisher/output provenance, and independent governance/security disposition; P1 exact-head CI/YAML oracle, runner isolation/FCC propagation, Gemini supply chain, documentation freshness; P2 branch divergence/integration hygiene.
+- Blob retrieval fallback recovered the canonical map after path-based reads returned empty/404. Map freshness remains unresolved; do not treat retrieval success as proof of current index/header state.
+- PR #375 remains Draft/open/unmerged. Previously recorded exact-SHA CI is evidence only for its recorded commit; current-head CI was not verified in Wave 203.
+- Next bounded pass: freeze current refs/PR head and exact-head workflow runs; implement/propose offline YAML-parser semantic permission tests. Do not dispatch workers, expose secrets, merge, deploy, or implement a trusted publisher until the authority contract is approved.
+- No governance acceptance or qualification is implied. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
