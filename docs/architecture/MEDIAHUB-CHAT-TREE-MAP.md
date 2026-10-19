@@ -7281,3 +7281,11 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Exact-head workflow run [39221209671](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39221209671) succeeded. Evidence artifact `12171377615`, SHA-256 `72d8a0cb5c5952901db21f562550a88d79ded8f0ecbf9c925adf1a1da389aa6e`.
 - No independent PR review. The `setuptools==84.0.0` bootstrap publisher provenance remains UNVERIFIED; A0 issuer/ingress/lease/cancel/recovery, R-06 authority/privacy and accepted runner/workspace/network target-manifest gates remain open.
 - No credentials, provider calls, dispatch/admission, merge, deployment or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+### Wave 129 final-head verification addendum (2026-10-19)
+
+- Candidate final tested head at synchronization: `ff7ad6524ec5bec47a0245a0490d8850e874483a`; two-parent merge commit first-parent `1eb9de28c2c90188ecebfd44ec72618bb23407ec`, preserving the original candidate history as second parent.
+- Exact-head CI run [39221618675](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39221618675) succeeded on that exact SHA. Job `117957998293`; evidence artifact `12171683002`, SHA-256 `d1ace7f2881841ef8e07df76ec973d23e0adf02e51627f8381d959fd6f7cfe5d`.
+- PR #374 was refreshed against canonical docs branch HEAD `1eb9de28c2c90188ecebfd44ec72618bb23407ec`; GitHub then reported exactly 12 changed files and mergeable=true. This is not an independent approval. Later report/checkpoint commits advance the base branch; retarget the PR to the current docs head before any integration decision.
+- Report blob SHA after final CI evidence update: `23890ee0a11e9aa21337d6978a8e201ed8a2acec`. Bootstrap publisher provenance remains UNVERIFIED; independent review and A0/R-06/target-manifest gates remain open.
