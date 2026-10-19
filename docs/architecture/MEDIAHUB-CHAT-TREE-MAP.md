@@ -7264,3 +7264,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Review confirms exact title matching, freshness, positive integer run ID, and fail-closed duplicate handling. Missing direct negative cases include malformed non-empty command/task/node IDs, malformed/naive timestamps, boolean run ID, and invalid row alongside valid row. These are test coverage gaps, not observed failures.
 - Run-title correlation is not authorization. Signed A0 command and GitHub workflow/event/SHA/job/attempt/artifact provenance validation plus WB-05/R-06 authority decisions remain required. PR stays Draft; no code/dispatch/merge/deployment/qualification in this review.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+
+
+## 20.372 — Worker admission and run-correlation audit (Wave 159, 2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-WORKER-ADMISSION-AND-CORRELATION-AUDIT-WAVE-159-2026-10-19.md](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-ADMISSION-AND-CORRELATION-AUDIT-WAVE-159-2026-10-19.md), commit `f515507d06ab8bed7e7c0551b486ee412a9c3b2d`.
+- Read-back confirmed canonical A0 HMAC/freshness/node/target-SHA/replay checks in `astra_github_agent.py` (blob `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`) are not called by the distributed local worker path. The worker validates task shape, node/executor, target SHA/current HEAD and workspace cleanliness, but does not verify the signed task envelope before branch creation/execution.
+- Workflow `.github/workflows/astra-distributed-local-worker.yml` (blob `f650f2416c19dc75b4b0eeec037661c0c6169910`) accepts separate command/task fields; “signed” labels are not verification evidence. Worker uses self-hosted runner labels.
+- PR #358 proposes exact title correlation, fresh dispatch-time matching, non-empty command ID and duplicate rejection; it remains Draft/unmerged with no submitted reviews. Existing associated successful runs were not independently provenance-read-back as exact-head CI in this pass.
+- No worker admission code changed because accepted issuer/capability governance remains unresolved. Next: independently verify #358 exact-head CI and locate accepted worker issuer contract; if absent, prepare a governance decision delta rather than invent a new signature protocol.
+- Contour A remains not qualified/deployed/independently accepted; Contour B remains gated.
