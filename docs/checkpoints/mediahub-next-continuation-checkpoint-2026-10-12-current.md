@@ -5033,3 +5033,17 @@ Before adopting PR #338, either secure and verify provenance for the exact candi
 - No secret value was read, no live runner/process/queue/workflow was accessed, and no code, workflow, host, credential, dependency, merge, deployment or qualification change occurred.
 - Next: owner-authorized containment and a credential-free model execution design, followed by independent negative tests. Do not claim Contour A qualified or dispatch additional autonomous work to the affected self-hosted path without an approved, reviewed boundary.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 168 — cross-envelope authority-binding review (2026-10-19)
+
+- Report: [MEDIAHUB-A0-CROSS-ENVELOPE-AUTHORITY-BINDING-REVIEW-WAVE-168-2026-10-19.md](MEDIAHUB-A0-CROSS-ENVELOPE-AUTHORITY-BINDING-REVIEW-WAVE-168-2026-10-19.md), blob SHA `55b6854e60cd5b326dcde933e2d8a0d211396264`.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-168-2026-10-19.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-168-2026-10-19.md), blob SHA `c8322e0c89b461955dd73f8bdf6e68591820a791`.
+- Bounded source crosswalk ties the controller HMAC command envelope, file task ingress, worker `task_json` dispatch and model execution boundary. The reviewed sources do not establish one issuer-authorized binding from command to exact task/target/audience.
+- The semantic binding requirements and negative conformance matrix are documented as a proposal only. No token/wire format, issuer, key store, audit product or exactly-once semantics are selected.
+- Wave 148 source trace blob `a0f00dd08e99e913e1f6949843e6943ecb937b15`; Wave 134 inventory blob `cd6f6021bc5b617ef0bc581bfe4a6748515ce81e`; Wave 149 governance matrix blob `9c1a02dc125b37abea9284f0c0aa5deb571f13e7`. GOV-CAP-01…07 and R-06 remain open.
+- Main HEAD at review: `c06015e0b1526e0aaa6a522306052b077455aba5`. Documentation ref is diverged from main (2,333 ahead / 27 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc)); no integration attempted.
+- PR #373 remains OPEN / DRAFT / UNMERGED. Exact-head workflow lookup returned no workflow runs; no CI pass is claimed.
+- No tests, code/runtime/workflow changes, secret reads, provider calls, worker dispatch, host inspection, merge, deployment or qualification occurred.
+- Credential isolation from Wave 167 is a separate high-priority gate; cross-envelope binding does not remediate inherited Git/FCC credentials.
+- Next: obtain the explicit issuer/lifecycle and R-06 governance disposition, then implement a shared worker-ingress verifier and negative tests only against the accepted contract. Keep Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED and Contour B gated.
