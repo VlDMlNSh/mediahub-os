@@ -5084,3 +5084,13 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Updated report blob `4c124934c50368e0c9f906340931b6dc9d05a36b`. Updated canonical map §20.370 blob `f4ffeaa3ae3f8e9c187015f6f148964bba3c43b7`.
 - Next bounded action: design the trusted publisher boundary before any workflow auth change or worker dispatch. Keep model execution untrusted; independently validate exact target SHA, branch and allowed diff; do not trust worker-modified Git metadata; provide a narrowly scoped credential only to a separate trusted publishing boundary; capture verifiable push provenance. Treat this as design/governance work, not an accepted architecture until the required review/approval process completes.
 - No real credentials, worker dispatch, provider calls, merge, deployment or qualification. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
+
+
+## Wave 177 — trusted publisher boundary design proposal (2026-10-19)
+
+- Design report: [MEDIAHUB-CONTOUR-A-TRUSTED-PUBLISHER-BOUNDARY-DESIGN-WAVE-177-2026-10-19.md](MEDIAHUB-CONTOUR-A-TRUSTED-PUBLISHER-BOUNDARY-DESIGN-WAVE-177-2026-10-19.md), blob `1ebfc8342c7c18d211edb1e095c6bb9b0df1de8f`.
+- The proposal responds to the Wave 176 blocker: current worker code commits/pushes and verifies remote SHA, but PR #375 removes the checkout credential path without establishing a publisher alternative. PR remains Draft/open/unmerged; do not merge as-is.
+- Preferred design direction (not accepted/approved): isolate model-controlled execution; pass a constrained patch/result to a separate trusted publisher; independently reconstruct from clean checkout at immutable target SHA; validate issuer/capability, repo/ref, allowed paths and diff; issue least-privilege short-lived credential only inside publisher boundary; record push provenance and remote SHA evidence.
+- Canonical map §20.371 added; map blob `89891d4e0f025af9621c762f82a2a06e406ac269`. Read-back verification is required.
+- This is design only. No code implementation, worker dispatch, credential access, provider call, merge, deployment or qualification. Required next step: governance/independent security review of the proposal and explicit authority/capability and publisher contract before implementation.
+- Remaining blockers: FCC token propagation, environment/OS/network isolation, A0 issuer lifecycle, R-06 authority/privacy, accepted runner/workspace/network manifest, bootstrap publisher provenance. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
