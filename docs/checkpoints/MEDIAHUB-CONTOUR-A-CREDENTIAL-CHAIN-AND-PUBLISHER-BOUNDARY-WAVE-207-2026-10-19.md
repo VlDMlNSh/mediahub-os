@@ -62,3 +62,8 @@ Do not implement issuer semantics or credential minting ad hoc. Governance must 
 ## Next bounded action
 
 Review the exact runner bootstrap/service configuration and Git configuration source paths using read-only metadata only, without reading secret values or invoking the worker. Then propose a small testable worker contract that strips ambient publisher credentials and exports only an allowlisted environment; do not ship it until contracts and CI tests demonstrate that model execution still functions without write authority.
+
+
+## Final read-back note
+
+GitHub's PR metadata field `mergeable` changed from `false` in one read to `true` in a later read while the PR stayed OPEN/Draft/unmerged. Treat this as a transient computed field, not a merge authorization. The fresh compare still reports 12 commits ahead / 3 behind `main`, so the branch is diverged and must not be integrated without explicit conflict review, required governance, verified protection settings and a fresh exact-head CI check.
