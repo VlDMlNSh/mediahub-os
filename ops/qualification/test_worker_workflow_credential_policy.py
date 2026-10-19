@@ -12,36 +12,76 @@ ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = ROOT / ".github" / "workflows" / "astra-distributed-local-worker.yml"
 
 
+def policy_violations(source):
+    """Return policy violations for source text; safe for synthetic mutation fixtures."""
+    violations = []
+    permissions = re.search(
+        r"(?m)^permissions:\n((?:^[ \t]+[^\n]*\n)+)", source
+    )
+    if permissions is None:
+        violations.append("workflow permissions block must be explicit")
+    else:
+        block = permissions.group(1)
+        if not re.search(r"(?m)^  contents: read\s*$", block):
+            violations.append("workflow must explicitly set contents: read")
+        if re.search(r"(?m)^  contents: write\s*$", block):
+            violations.append("workflow must not grant contents: write")
+
+    checkout_blocks = re.findall(
+        r"(?ms)^      - uses: actions/checkout@[^\n]+\n(.*?)(?=^      - |^  [a-zA-Z0-9_-]+:|\Z)",
+        source,
+    )
+    if not checkout_blocks:
+        violations.append("expected at least one checkout step")
+    for index, block in enumerate(checkout_blocks, start=1):
+        if not re.search(
+            r"(?m)^          persist-credentials: false\s*$", block
+        ):
+            violations.append(
+                f"checkout {index} must set persist-credentials: false"
+            )
+        if re.search(
+            r"(?m)^          persist-credentials: true\s*$", block
+        ):
+            violations.append(
+                f"checkout {index} must not persist credentials"
+            )
+    if re.search(r"(?m)^  contents: write\s*$", source):
+        violations.append("workflow must not contain top-level contents: write")
+    return violations
+
+
 class WorkerWorkflowCredentialPolicyTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.source = WORKFLOW.read_text(encoding="utf-8")
 
-    def test_workflow_does_not_grant_repository_write_permission(self):
-        permissions = re.search(
-            r"(?m)^permissions:\n((?:^[ \t]+[^\n]*\n)+)", self.source
-        )
-        self.assertIsNotNone(permissions, "workflow permissions block must be explicit")
-        self.assertRegex(permissions.group(1), r"(?m)^  contents: read\s*$")
-        self.assertNotRegex(permissions.group(1), r"(?m)^  contents: write\s*$")
+    def test_current_workflow_satisfies_credential_policy(self):
+        self.assertEqual([], policy_violations(self.source))
 
-    def test_every_checkout_disables_persisted_credentials(self):
-        checkout_blocks = re.findall(
-            r"(?ms)^      - uses: actions/checkout@[^\n]+\n(.*?)(?=^      - |^  [a-zA-Z0-9_-]+:|\Z)",
-            self.source,
+    def test_rejects_synthetic_write_permission_regression(self):
+        marker = "\n  contents: read\n"
+        self.assertIn(marker, self.source, "fixture must target current permission")
+        mutated = self.source.replace(marker, "\n  contents: write\n", 1)
+        violations = policy_violations(mutated)
+        self.assertIn(
+            "workflow must explicitly set contents: read", violations
         )
-        self.assertGreaterEqual(len(checkout_blocks), 1, "expected checkout steps")
-        for index, block in enumerate(checkout_blocks, start=1):
-            with self.subTest(checkout=index):
-                self.assertRegex(
-                    block,
-                    r"(?m)^          persist-credentials: false\s*$",
-                    "every checkout must explicitly disable persisted credentials",
-                )
-                self.assertNotRegex(block, r"(?m)^          persist-credentials: true\s*$")
+        self.assertIn("workflow must not grant contents: write", violations)
 
-    def test_workflow_has_no_repository_write_permission_marker(self):
-        self.assertNotRegex(self.source, r"(?m)^  contents: write\s*$")
+    def test_rejects_synthetic_persisted_checkout_credential_regression(self):
+        marker = "          persist-credentials: false"
+        self.assertIn(marker, self.source, "fixture must target current checkout policy")
+        mutated = self.source.replace(marker, "          persist-credentials: true")
+        violations = policy_violations(mutated)
+        self.assertGreaterEqual(
+            sum("must not persist credentials" in item for item in violations),
+            1,
+        )
+        self.assertGreaterEqual(
+            sum("must set persist-credentials: false" in item for item in violations),
+            1,
+        )
 
 
 if __name__ == "__main__":
