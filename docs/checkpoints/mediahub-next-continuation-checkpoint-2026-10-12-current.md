@@ -5228,3 +5228,10 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Current truth on main blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED; overall NOT_PROVEN / BLOCKED. Issue #301 remains OPEN; no PR review submissions or review threads returned; branch protection remains unverified.
 - No worker/Gemini/provider dispatch, secret access, host command, merge, deployment, qualification or acceptance.
 - Next: specify and test an artifact-only worker contract with a minimal allowlisted environment, immutable base SHA binding, explicit output path allowlist and no direct publication call; governance must approve authority semantics before publisher credential work.
+
+
+### Wave 209 read-back correction
+
+- Report commit: `4a3570ea117358293bc55baad2a2e9241b3805bc`; verified report blob: `b92eb259a1ffc0f4875d2c4ca864a85b6745d8ce`.
+- Canonical map commit: `49955ed5a41ca0fd552fb8767e909e63b5a9f229`; verified map blob: `8ad3bc20a48f48199053ccb96356ddd52c434dfa`.
+- Previous checkpoint blob read back: `ce3f027b2d4e42060b8db589a1264afd0df200be`; Wave 209 text present. This correction records the report blob after GitHub read-back.
