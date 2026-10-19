@@ -113,6 +113,9 @@ def test_model_child_environment_strips_ambient_authority_credentials():
         "GIT_ASKPASS": "/tmp/credential-helper",
         "SSH_AUTH_SOCK": "/tmp/agent.sock",
         "DB_PASSWORD": "do-not-inherit",
+        "SUPABASE_SERVICE_ROLE_KEY": "do-not-inherit",
+        "CLOUDFLARE_API_TOKEN": "do-not-inherit",
+        "DATABASE_URL": "postgres://user:password@example.invalid/db",
     }
     child = worker.build_model_child_env(parent)
     assert child["PATH"] == "/usr/bin"
@@ -124,6 +127,7 @@ def test_model_child_environment_strips_ambient_authority_credentials():
         "ASTRA_PUBLISHER_TOKEN", "MEDIAHUB_PUBLISHER_CREDENTIAL",
         "AWS_ACCESS_KEY_ID", "OPENAI_API_KEY", "ANTHROPIC_AUTH_TOKEN",
         "GIT_CONFIG_COUNT", "GIT_ASKPASS", "SSH_AUTH_SOCK", "DB_PASSWORD",
+        "SUPABASE_SERVICE_ROLE_KEY", "CLOUDFLARE_API_TOKEN", "DATABASE_URL",
     }
     assert blocked.isdisjoint(child)
 

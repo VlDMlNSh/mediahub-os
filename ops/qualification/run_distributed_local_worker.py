@@ -101,16 +101,19 @@ _MODEL_ENV_BLOCKED_PREFIXES = (
     "ASTRA_", "MEDIAHUB_", "GITHUB_", "GH_", "ACTIONS_", "GIT_CONFIG_",
     "AWS_", "AZURE_", "GOOGLE_", "GCP_", "GCLOUD_", "CLOUDSDK_",
     "OPENAI_", "ANTHROPIC_", "GEMINI_", "CLAUDE_", "CODEX_", "FCC_",
-    "NPM_", "NODE_AUTH_", "PYPI_", "TWINE_", "DOCKER_",
+    "NPM_", "NODE_AUTH_", "PYPI_", "TWINE_", "DOCKER_", "SSH_", "GIT_",
+    "SUPABASE_", "CLOUDFLARE_", "SENTRY_", "SILICONFLOW_", "OPENROUTER_",
+    "HUGGINGFACE_", "HF_", "NEON_", "PINECONE_", "DATABRICKS_",
+    "VERCEL_", "NETLIFY_", "RAILWAY_", "HEROKU_", "FLY_", "STRIPE_",
+    "POSTGRES_", "REDIS_", "MONGODB_", "DATABASE_",
 )
 _MODEL_ENV_BLOCKED_EXACT = {
-    "SSH_AUTH_SOCK", "GIT_ASKPASS", "GIT_SSH_COMMAND", "KUBECONFIG",
-    "NETRC", "WGETRC", "CURL_HOME", "PYTHONPATH", "PYTHONHOME",
+    "KUBECONFIG", "NETRC", "WGETRC", "CURL_HOME", "PYTHONPATH", "PYTHONHOME",
     "PYTHONSTARTUP", "BASH_ENV", "ENV",
 }
 _MODEL_ENV_SECRET_MARKERS = (
     "TOKEN", "SECRET", "PASSWORD", "PRIVATE_KEY", "CREDENTIAL",
-    "API_KEY", "ACCESS_KEY", "AUTHORIZATION",
+    "API_KEY", "ACCESS_KEY", "AUTHORIZATION", "_KEY", "_URI", "_URL", "_DSN",
 )
 _FCC_CHILD_ENV_ALLOWLIST = {
     "MODEL", "HOST", "PORT", "OLLAMA_BASE_URL", "HTTP_READ_TIMEOUT",
@@ -135,6 +138,7 @@ def build_model_child_env(base_env: dict[str, str] | None = None) -> dict[str, s
         result[key] = value
     # Do not inherit an arbitrary import path from the runner; expose only this checkout.
     result["PYTHONPATH"] = os.pathsep.join((str(ROOT / "runtime"), str(ROOT)))
+    result["GIT_TERMINAL_PROMPT"] = "0"
     return result
 
 
