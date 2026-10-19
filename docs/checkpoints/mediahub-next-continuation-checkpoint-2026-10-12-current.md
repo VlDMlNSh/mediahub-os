@@ -5075,3 +5075,12 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Updated Wave 176 report blob: `73e3802e42408409686535c6011253bd325c1a85`. Updated canonical map §20.370 blob: `49f82462083f00697a0934e47e20de39e720c5a0`.
 - Next: design and independently review a least-privilege publisher boundary with explicit authority, immutable target/branch constraints, and auditable push evidence. Do not reintroduce broad ambient access or dispatch a worker until this contract is reviewed.
 - Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
+
+
+## Wave 176 follow-up — publication dependency and merge gate (2026-10-19)
+
+- Read-only review of worker blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`, lines 663–679, confirms commit/push/remote-SHA verification. PR #375 removes checkout-persisted credentials and sets `contents: read` but defines no replacement publisher contract. Do not merge as-is.
+- PR conversation warning posted: [comment #6263244730](https://github.com/VlDMlNSh/mediahub-os/pull/375#issuecomment-6263244730). PR remains Draft/open/unmerged, candidate HEAD `59a9d063778ec11b751cc7309c04e7fe27f3a603`.
+- Updated report blob `4c124934c50368e0c9f906340931b6dc9d05a36b`. Updated canonical map §20.370 blob `f4ffeaa3ae3f8e9c187015f6f148964bba3c43b7`.
+- Next bounded action: design the trusted publisher boundary before any workflow auth change or worker dispatch. Keep model execution untrusted; independently validate exact target SHA, branch and allowed diff; do not trust worker-modified Git metadata; provide a narrowly scoped credential only to a separate trusted publishing boundary; capture verifiable push provenance. Treat this as design/governance work, not an accepted architecture until the required review/approval process completes.
+- No real credentials, worker dispatch, provider calls, merge, deployment or qualification. Contour A remains **NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED**; Contour B remains gated.
