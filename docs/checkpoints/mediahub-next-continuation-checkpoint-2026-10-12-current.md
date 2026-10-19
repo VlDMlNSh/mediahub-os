@@ -4969,3 +4969,12 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 159 continuation — worker admission and correlation (2026-10-19)
+
+- Report: [Wave 159 worker admission and correlation audit](MEDIAHUB-CONTOUR-A-WORKER-ADMISSION-AND-CORRELATION-AUDIT-WAVE-159-2026-10-19.md), commit `f515507d06ab8bed7e7c0551b486ee412a9c3b2d`.
+- Source review confirms A0's canonical HMAC/freshness/node/target-SHA/replay verifier exists in `astra_github_agent.py`, but the distributed worker's `load_task()` does not invoke it. Worker checks task shape and target SHA/current HEAD but executes under a separate unverified input path.
+- PR #358 improves workflow-run correlation but remains Draft/unmerged and has no submitted reviews. Its associated runs were not independently confirmed as exact-head provenance during this pass.
+- No worker admission implementation was changed: issuer/capability governance is not yet shown as accepted, so no new signature/token protocol is to be invented.
+- Next: read back #358's exact-head CI provenance and find the accepted worker issuer contract. If none exists, prepare a governance delta. No deployment, provider invocation, secret reads or merge. Contour A remains not qualified; Contour B gated.
