@@ -5133,3 +5133,10 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Exact-head Astra Verify run [39295373907](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373907), job 118206367053, SUCCESS. Exact-head Astra Cloud Runtime Validation run [39295373833](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373833), job 118206368089, SUCCESS.
 - PR #375 remains OPEN / Draft / unmerged. Issue #301 remains OPEN. Worker direct-push/output provenance and issuer/capability authority are unresolved. No worker dispatch, provider call, secret access, host command, merge, deployment or qualification.
 - Next: independent review of the oracle and trusted publisher design; resolve authority semantics through governance before implementing issuer/key/publisher behavior. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+### Wave 205 documentation reconciliation
+
+- Canonical map Wave 205 header/index update committed as `551273b10ce6890194c4028dc05331b31c687716`; expected map blob `b219a89c71fe9c4995aaacf2660fef34c947855b`.
+- Wave 205 report read-back is tracked at `docs/checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-205-2026-10-19.md`; report commit `769ff4ff0e5b560b12754e2770210b2be28310d0`.
+- Re-read map and report blobs after write before treating documentation sync as complete. Keep PR #375 Draft until independent review and governance gates pass.
