@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-17 (§20.332)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-19 (Wave 204; index entries appended; historical section numbering preserved)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -11,6 +11,10 @@
 - Wave 125 (2026-10-18): [Gemini provider-status regression report](../checkpoints/MEDIAHUB-GEMINI-PROVIDER-STATUS-REGRESSION-WAVE-125-2026-10-18.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-125-2026-10-18.md).
 
 - Wave 126 (2026-10-18): [lossless main-history reconciliation report](../checkpoints/MEDIAHUB-MAIN-HISTORY-RECONCILIATION-WAVE-126-2026-10-18.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-126-2026-10-18.md).
+
+- Wave 203 (2026-10-19): [truth-ranked gaps and architecture blueprint](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-GAPS-BLUEPRINT-WAVE-203-2026-10-19.md).
+
+- Wave 204 (2026-10-19): [PR #375 YAML semantic permission oracle](../checkpoints/MEDIAHUB-CONTOUR-A-PR375-YAML-SEMANTIC-PERMISSION-ORACLE-WAVE-204-2026-10-19.md). Exact candidate CI is linked in the report; PR remains Draft/unmerged.
 
 ## 1. Правила интерпретации
 
