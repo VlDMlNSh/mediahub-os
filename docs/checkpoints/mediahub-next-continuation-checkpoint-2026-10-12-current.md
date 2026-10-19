@@ -4979,3 +4979,19 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - Explicit gaps: further negative tests for malformed IDs, timestamps, boolean run ID and mixed malformed/valid rows; accepted WB-05 issuer/verifier and R-06 authority/privacy decisions; signed-envelope verification at worker ingress. Correlation is not authorization.
 - No worker dispatch, secret access, runtime code modification, merge, deployment or qualification. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
 - Next: read normative MH-12/WB-05 signed-command, capability/issuer, task-envelope and R-06 contracts; if issuer lifecycle is not accepted, prepare a governance decision delta without inventing a protocol.
+
+
+## Wave 162 continuation — issuer decision readiness and worker provenance (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-ISSUER-DECISION-READINESS-AND-WORKER-PROVENANCE-CROSSWALK-WAVE-162-2026-10-19.md](MEDIAHUB-CONTOUR-A-ISSUER-DECISION-READINESS-AND-WORKER-PROVENANCE-CROSSWALK-WAVE-162-2026-10-19.md), report creation commit `94cac6a62f9da5a165897df1382a52a58143d519`, read-back report blob SHA `d3e782578f97cd864819b809c41856adef818c70`.
+- Map navigation: [Wave 162 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-162-2026-10-19.md); map addendum created in the same work branch after report creation.
+- Current source pins: `astra_github_agent.py` `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c`; worker `ops/qualification/run_distributed_local_worker.py` `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`; workflow `.github/workflows/astra-distributed-local-worker.yml` `f650f2416c19dc75b4a0eeec037661c0c6169910`; autonomous queue `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`.
+- Finding: the separate worker workflow input path does not invoke the canonical polling `read_command()` verifier before task execution. It uses `contents: write` and `persist-credentials: true`; the worker's model-controlled execution can reach a git push path before the overall result is independently accepted. This is a source-level trust-boundary finding, not evidence of an observed exploit. See the report for detail and the required separation of builder and publisher credentials.
+- Governance remains blocking: WB-05 Option C is only proposed (PR #361 OPEN/DRAFT, status endpoint returned zero check runs); GOV-CAP-01…07 and R-06 remain unresolved. No HMAC/token format or key lifecycle was invented.
+- PR #358 remains OPEN/DRAFT; its exact/fresh/unique correlation tests do not establish signed ingress or cryptographic artifact provenance. Issue #301 remains OPEN.
+- Live executor inventory: SentinelX has 0 connected hosts; `mh-dev-01` and `mh-dev-02` are disabled, `Voktors-Mac-mini.local` is offline; Codex environment inventory is empty. No dispatch was attempted.
+- No runtime code/tests/workflow edits, secret reads, provider calls, host changes, merge, deployment, qualification or independent acceptance occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+### Next bounded action
+
+Process the existing Option C proposal through the prescribed governance/change-control route and obtain explicit dispositions/owners for GOV-CAP-01…07 and R-06. After acceptance, derive one versioned envelope/verifier contract, isolate model execution from publication credentials, and add pure negative tests before any controlled dispatch.
