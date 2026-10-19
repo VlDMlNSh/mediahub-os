@@ -87,8 +87,8 @@ class WorkerWorkflowCredentialPolicyTests(unittest.TestCase):
 
     def test_rejects_missing_checkout_steps(self):
         checkout_pattern = re.compile(
-            r"(?ms)^      - uses: actions/checkout@[^\\n]+\\n.*?"
-            r"(?=^      - |^  [a-zA-Z0-9_-]+:|\\Z)"
+            r"(?ms)^      - uses: actions/checkout@[^\n]+\n.*?"
+            r"(?=^      - |^  [a-zA-Z0-9_-]+:|\Z)"
         )
         matches = list(checkout_pattern.finditer(self.source))
         self.assertEqual(3, len(matches), "fixture must start with three checkout steps")
