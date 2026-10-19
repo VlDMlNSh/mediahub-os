@@ -7405,3 +7405,6 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 
 
 - Wave 213 (2026-10-19): [worker secret-assignment detection fix and three-agent Gemini audit](../checkpoints/MEDIAHUB-CONTOUR-A-SECURITY-GATE-AND-THREE-GEMINI-WAVE-213-2026-10-19.md). PR #384 fixes a reproducible double-escaped regex defect; exact-head Astra Verify run 39319478351 and Cloud Runtime Validation run 39319478348 succeeded; local Python 3.14 full unittest discovery passed 426 tests. PR #384 remains Draft. Three fresh Gemini dispatches 39319707614/39319711872/39319716373 succeeded and opened PRs #386/#387/#385, but review found unsupported claims; corrections requested, no agent PR accepted. Contour A remains unqualified.
+
+
+- Wave 213 integration correction — PR #384 merged at 2026-10-19T20:36:28Z as `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`; mainline read-back confirms worker/test/AGENTS/skill blobs. Post-merge Astra Verify run 39320722769 SUCCESS. The merge also triggered unrelated local qualification/supervisor workflows; runs 39320722831, 39320722932 and 39320722875 were cancelled. The Mac 23-wave job failed canonical admission before any rounds; no qualification occurred. See Wave 213 report addendum for evidence and risk.
