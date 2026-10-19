@@ -17,9 +17,9 @@ Created branch `security/contour-a-worker-checkout-credential-minimization-wave1
 
 - Source workflow blob before edit: `f650f2416c19dc75b4a0eeec037661c0c6169910`.
 - Candidate workflow blob after edit: `c24ad16ab8ed59fd4dbad9538063f63a933eab2c`.
-- Candidate test blob after edit: `4b3787368758f2dba4abd85325025cfbfbe59e9b`.
-- Candidate head commit at initial report: `77352fc1224372b94e0a7d9b92288ca86b059cc2`; Wave 176 follow-up commit adds explicit CI invocation, resulting head `ad18328f940c2573707efd919778e8118e8c9723`.
-- Branch comparison against `main` after CI wiring: ahead 3, behind 0, three changed files (`.github/workflows/astra-distributed-local-worker.yml`, `.github/workflows/astra-verify.yml`, and `ops/qualification/test_worker_workflow_credential_policy.py`).
+- Candidate test blob after initial edit: `4b3787368758f2dba4abd85325025cfbfbe59e9b`; negative-fixture revision blob: `c24897e827b70941fc9b4f154fd0aa1b31b801cc`.
+- Candidate head commit at initial report: `77352fc1224372b94e0a7d9b92288ca86b059cc2`; follow-up commits add explicit CI invocation and synthetic negative fixtures, resulting head `59a9d063778ec11b751cc7309c04e7fe27f3a603`.
+- Branch comparison against `main` after negative-fixture wiring: ahead 4, behind 0, three changed files (`.github/workflows/astra-distributed-local-worker.yml`, `.github/workflows/astra-verify.yml`, and `ops/qualification/test_worker_workflow_credential_policy.py`).
 - Read-back inspection verified exactly three checkout steps, three explicit `persist-credentials: false` settings, zero `persist-credentials: true` settings, no `contents: write`, and three static tests with no third-party test dependency.
 - PR-triggered workflow runs at exact head when queried: [Astra Cloud Runtime Validation](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837361) and [Astra Verify](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837322) were both `in_progress`. No passing CI is claimed. The unit test has not been executed in an isolated local environment in this pass.
 
@@ -35,9 +35,17 @@ Exact PR-head commit `77352fc1224372b94e0a7d9b92288ca86b059cc2` has two associat
 
 On the updated candidate HEAD `ad18328f940c2573707efd919778e8118e8c9723`, [Astra Verify run 39223502183](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223502183) completed successfully. Job `verify` (`117964107846`) shows step `Worker workflow credential policy regression tests` completed with conclusion `success`; the executed command is `python -m unittest ops.qualification.test_worker_workflow_credential_policy`. [Astra Cloud Runtime Validation run 39223502235](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223502235) also completed successfully. These CI results validate the candidate's automated checks, not independent security review or Contour A qualification.
 
+## Negative-fixture follow-up (2026-10-19)
+
+Reworked the static policy checks around a pure `policy_violations(source)` function and added synthetic mutation tests that deliberately replace the top-level `contents: read` permission with `contents: write`, and replace checkout `persist-credentials: false` with `true`. These fixtures only mutate in-memory strings; they do not write to the repository workflow, dispatch a worker, or access credentials. Candidate test blob: `c24897e827b70941fc9b4f154fd0aa1b31b801cc`.
+
+Exact candidate HEAD `59a9d063778ec11b751cc7309c04e7fe27f3a603` CI evidence:
+- [Astra Verify run 39223983372](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223983372) succeeded. Job `117965687179` explicitly ran `Worker workflow credential policy regression tests` successfully, then the cloud admission tests and signed-command smoke test also passed.
+- [Astra Cloud Runtime Validation run 39223983379](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223983379) succeeded (job `117965686996`).
+
 ## Next gates
 
-1. Add mutation/negative-fixture coverage to prove the static policy tests reject a workflow that restores `contents: write` or `persist-credentials: true`.
+1. Obtain independent review of the static assertions and negative fixtures; verify no downstream worker step depends on checkout-persisted Git credentials.
 2. Independently review workflow permission reduction, checkout behavior, and test assertions. Confirm no downstream step relies on checkout's persisted credential.
 3. Establish the FCC authentication contract before changing the model subprocess environment. Continue synthetic-secret negative tests and explicit environment allowlisting as a separate change.
 4. Keep PR #375 Draft until checks and independent review pass. Do not merge on CI alone.
