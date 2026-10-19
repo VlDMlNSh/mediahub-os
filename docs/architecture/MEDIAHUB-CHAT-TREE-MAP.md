@@ -18,6 +18,8 @@
 
 - Wave 205 (2026-10-19): [truth-ranked audit and readiness](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-205-2026-10-19.md). Exact-head commit `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`; Astra Verify run [39295373907](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373907) and Cloud Runtime Validation run [39295373833](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373833) both SUCCESS. PR #375 remains Draft/unmerged; authority and trusted-publisher gates remain open.
 
+- Wave 216 (2026-10-20): [continuous qualification kickoff and truth reconciliation](../checkpoints/MEDIAHUB-CONTOUR-A-CONTINUOUS-QUALIFICATION-WAVE-216-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-216-2026-10-20.md). This is a working evidence proposal; Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
+
 - Wave 206 (2026-10-19): [truth-ranked authority and publisher boundary audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUTHORITY-PUBLISHER-AUDIT-WAVE-206-2026-10-19.md). Current `main` still has `contents: write` and checkout credentials persisted; PR #375 candidate uses read-only permissions and disables persisted checkout credentials but remains Draft/unmerged. Mesh capability envelope enforcement remains unproven.
 
 ## 1. Правила интерпретации
