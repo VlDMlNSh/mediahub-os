@@ -5012,8 +5012,8 @@ Before adopting PR #338, either secure and verify provenance for the exact candi
 
 ## Wave 166 continuation — semantic authority-reference review (2026-10-19)
 
-- Report: [MEDIAHUB-A0-SEMANTIC-AUTHORITY-REFERENCE-REVIEW-WAVE-166-2026-10-19.md](MEDIAHUB-A0-SEMANTIC-AUTHORITY-REFERENCE-REVIEW-WAVE-166-2026-10-19.md), blob SHA pinned after read-back.
-- Map navigation: [Wave 166 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-166-2026-10-19.md), blob SHA pinned after read-back.
+- Report: [MEDIAHUB-A0-SEMANTIC-AUTHORITY-REFERENCE-REVIEW-WAVE-166-2026-10-19.md](MEDIAHUB-A0-SEMANTIC-AUTHORITY-REFERENCE-REVIEW-WAVE-166-2026-10-19.md), blob SHA `9f1b3c1dcbe0abf592934602da1f4bc49115f17c` (read-back verified).
+- Map navigation: [Wave 166 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-166-2026-10-19.md), blob SHA `5c6a9cc4f73e5989360de2d53aeb9ca9c70915ad` (read-back verified).
 - Re-read Wave 149 decision matrix blob `9c1a02dc125b37abea9284f0c0aa5deb571f13e7`: GOV-CAP-01…07 remain decisions required; WB-05 options A–D remain unselected; R-06 audit/privacy and audit-unavailable behavior remain unresolved.
 - Wave 134 call-site inventory blob `cd6f6021bc5b617ef0bc581bfe4a6748515ce81e` identifies local AuthorizationContext consumers and qualification-probe constructors, not an authoritative production issuer. Prior ingress trace records shape-checked file-supplied approval_state without issuer verification or AuthorizationContext propagation.
 - Wave 165's exact-head PR #338 CI evidence establishes schema/fixture checks only. Semantic validator's `AUTHORITY_REFERENCES_UNRESOLVED` P0/OPEN remains aligned with governance evidence; no authorization or runtime-safety claim is inferred from green CI.
