@@ -2205,3 +2205,11 @@ This section is the current continuation entry for any new chat receiving `/next
 - PR #338 is still open/Draft/unmerged at `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`; comparison against current docs branch is now DIVERGED 20 ahead / 193 behind (merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`). This supersedes the prior 20/184 snapshot. No mechanical rebase/cherry-pick/merge.
 - Next: verify the PyPI Integrity API attestation bundle for the exact wheel digest, or document an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI on the reconciled base. Continue canonical provider registry consumer census at `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No wheel download/hash recomputation, tests, workflow dispatch, credentials, provider calls, merge, deployment or qualification occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
+
+
+## Wave 152 — PyPI bootstrap publisher-provenance gate review (2026-10-19)
+
+- Evidence: [Wave 152 report](MEDIAHUB-PYPI-BOOTSTRAP-PUBLISHER-PROVENANCE-GATE-WAVE-152-2026-10-19.md); canonical map entry: [Wave 152 addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-152-2026-10-19.md).
+- Exact bootstrap wheel digest remains consistent with PyPI metadata, but the exact setuptools 84.0.0 file is marked “Uploaded using Trusted Publishing? No”. The Integrity API contract was checked, but the exact per-file provenance response was not retrieved or cryptographically verified. Publisher provenance remains UNVERIFIED; do not close the supply-chain gate.
+- No dependency/lock changes were made. Keep schema candidate PR #350 Draft/unmerged pending independent review and explicit trust disposition. Do not treat hashes alone as publisher identity proof.
+- Next bounded action: retrieve and verify a provenance bundle for the exact wheel if available, or submit a separately reviewed minimal bootstrap dependency/toolchain change with reproducible lock regeneration and fresh exact-head CI. Continue A0 issuer/lifecycle, R-06 authority/privacy and accepted runner/workspace/network manifest work in parallel.
