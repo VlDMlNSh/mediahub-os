@@ -19,4 +19,4 @@ Await/record the required issuer governance decision; in parallel, only non-auth
 
 ## Evidence boundaries
 
-Report blob SHA after write: `pending read-back`; report commit: `6107e68dff950c4c1a9a05d4b62d05f2127310d4`. No tests were run; no credentials were read; no worker/provider/workflow was dispatched; no merge or deployment occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
+Report blob SHA after read-back: `07756689c103a8ad2ea2414be6231e5f215c21b0`; report commit: `6107e68dff950c4c1a9a05d4b62d05f2127310d4`. Map addendum initial blob SHA: `193022ae4ba761bff2020b98831d8241154191aa`. No tests were run; no credentials were read; no worker/provider/workflow was dispatched; no merge or deployment occurred. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
