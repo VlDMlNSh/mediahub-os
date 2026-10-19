@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-19 (Wave 205; semantic YAML duplicate-key rejection and readiness audit)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-19 (Wave 206; readiness audit and branch drift revalidation)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7373,3 +7373,7 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Continuation checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md), Wave 204 record committed at `8518de23e88262bbf9516313fcb15e015d4152e3`.
 
 - Wave 205 (2026-10-19): [truth-ranked audit and readiness](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-205-2026-10-19.md). PyYAML oracle now rejects duplicate mapping keys; exact-head CI is green. No worker dispatch, merge, deployment, qualification or governance promotion.
+
+- Wave 206 (2026-10-19): [truth-ranked readiness and branch drift audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-READINESS-AND-DRIFT-WAVE-206-2026-10-19.md). PR #375 exact head `6fb078aad7e8e1bb41916168fdd038dfa4e1022b` has green exact-head CI but is now 12 ahead / 1 behind main; keep Draft and do not integrate.
+
+- Wave 206 (2026-10-19): [truth-ranked readiness and branch drift audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-READINESS-AND-DRIFT-WAVE-206-2026-10-19.md). Exact-head CI evidence and current branch divergence recorded; no worker dispatch, merge, deployment, qualification or governance promotion.
