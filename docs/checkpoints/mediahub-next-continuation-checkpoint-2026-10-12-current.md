@@ -4980,3 +4980,15 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - Issue #301 remains open. A0 issuer/ingress/lease/cancel/recovery, R-06 authority/privacy and accepted runner/workspace/network target manifest remain separate gates. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
 - No code, dependency, workflow, secret, provider, dispatch, queue, merge or deployment action was performed in this pass.
 - Next: retrieve and verify the exact wheel's provenance if available, or propose a reviewed minimal bootstrap dependency/toolchain adjustment with reproducible lock regeneration and fresh exact-head CI; continue independent A0/R-06/target-manifest work in parallel.
+
+
+## Continuation update — Wave 129 clean-base schema-validation candidate (2026-10-19)
+
+- Report: [MEDIAHUB-SCHEMA-VALIDATION-CLEAN-BASE-CANDIDATE-WAVE-129-2026-10-19.md](MEDIAHUB-SCHEMA-VALIDATION-CLEAN-BASE-CANDIDATE-WAVE-129-2026-10-19.md).
+- Canonical map navigation: [Wave 129 addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-129-2026-10-19.md); canonical map section §20.367 records the same evidence.
+- Draft PR #374: https://github.com/VlDMlNSh/mediahub-os/pull/374. Candidate branch `contour-a-schema-validation-clean-wave129-20261019`; exact tested head `12adb9ab9d3e20d227e5dc964b16e38cbab8ad13`. At creation it was based on canonical docs HEAD `f3efa8f52966fc62858c2a7079e447ad581dd780`, 12 commits ahead / 0 behind, with 12 added files and no deletions.
+- Exact-head run [39221209671](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39221209671) completed SUCCESS; job `117956681418`; evidence artifact `12171377615`, SHA-256 `72d8a0cb5c5952901db21f562550a88d79ded8f0ecbf9c925adf1a1da389aa6e`. Schema validation, semantic fixture checks, report checks and upload all passed.
+- PR #374 is OPEN/DRAFT/UNMERGED; no independent review submissions were present at read-back. Keep it unmerged until independent schema/security review and supply-chain disposition.
+- The setuptools 84.0.0 bootstrap publisher-provenance gate remains UNVERIFIED. Issue #301 remains OPEN. A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority and accepted runner/workspace/network target manifest remain separate blockers.
+- No credentials, provider calls, worker/queue dispatch, merge, deployment, qualification or production acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
+- Next bounded step: obtain independent review and explicit bootstrap publisher-provenance disposition, while continuing independent A0/R-06/target-manifest work.
