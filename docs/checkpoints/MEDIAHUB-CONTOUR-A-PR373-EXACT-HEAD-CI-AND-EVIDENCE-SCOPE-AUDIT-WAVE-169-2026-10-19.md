@@ -26,7 +26,7 @@ The workflow-run connector was queried for exact PR head `6989f21bdb1d3ce1bba8da
 
 ## 3. Scope/title consistency
 
-The PR title at the start of this pass named Waves 163–167, while its actual changed tree already included Wave 168 cross-envelope authority-binding evidence. This was metadata drift, not a content-integrity defect. The title is being updated to include Wave 169; the PR remains Draft and unmerged.
+The PR title at the start of this pass named Waves 163–167, while its actual changed tree already included Wave 168 cross-envelope authority-binding evidence. This was metadata drift, not a content-integrity defect. The PR title was corrected after this audit to include Waves 163–169; the PR remains Draft and unmerged.
 
 Wave 168's report is present at blob `55b6854e60cd5b326dcde933e2d8a0d211396264`; its map addendum is present at blob `c8322e0c89b461955dd73f8bdf6e68591820a791`. Wave 167's credential-isolation report remains blob `7da957751ae10c38370f0fbc228d98cef3883b96`.
 
