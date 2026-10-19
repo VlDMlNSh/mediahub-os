@@ -21,7 +21,7 @@ Governing issue: [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 
 ## Wave 202 actions
 
-Updated only the existing draft PR's regression test. Published the Wave 202 report and map addendum; appended the result to the canonical map. The map was fetched by blob after Contents API returned an empty body. Map update commit: `b1cac4fa9fd168d6f690480d78f70195ef21947f`; map blob after read-back: `050559734a25fc08be0bafac8d69e022a59d9fa6`. The new map entry was verified in the read-back blob.
+Updated only the existing draft PR's regression test. Published the Wave 202 report and map addendum; appended the result to the canonical map. The map was fetched by blob after Contents API returned an empty body. Map update commit after exact-head CI correction: `9c436d8bfd3792e96acf896263d9c13971df9f05`; map blob after read-back: `2eb9717ed8194b4a0a07391bd8acad20dbc0a7da`. The Wave 202 entry and corrected CI evidence were verified in the read-back blob. Report blob: `b9899e20835b194cb4f89be2c41c8ca6e6fa2237`; addendum blob: `98857e7b0972590207a743c8d3a33a9c56507299`.
 
 No workflow dispatch, provider call, secret access, host command, merge, deployment, qualification, or Contour B work occurred.
 
