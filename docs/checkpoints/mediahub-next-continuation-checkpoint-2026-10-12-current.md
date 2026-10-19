@@ -4969,3 +4969,14 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - PR #338 current head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21`, open/Draft/unmerged; compare to docs ref: 20 ahead / 193 behind, merge base `2bd41b5f71006597a7669a4b7154abc58f87af5d`. Do not mechanically integrate.
 - Next: query/verify exact-digest PyPI Integrity API attestations or record an explicit alternative trust decision; then reconcile PR #338 history/tree and run fresh CI. Canonical provider registry: `ops/qualification/provider_model_registry.json`; do not create a duplicate.
 - No tests, provider calls, secret reads, dispatch, merge, deployment or qualification. Contour A remains not qualified/deployed/independently accepted; Contour B remains blocked.
+
+
+## Wave 163 continuation — exact-file PyPI publisher provenance (2026-10-19)
+
+- Report: [MEDIAHUB-SETUPTOOLS-84-0-0-PUBLISHER-PROVENANCE-EXACT-FILE-RECHECK-WAVE-163-2026-10-19.md](MEDIAHUB-SETUPTOOLS-84-0-0-PUBLISHER-PROVENANCE-EXACT-FILE-RECHECK-WAVE-163-2026-10-19.md), blob SHA `f221d56a6241b0e99f244d6dff6f5cd2b27aa273` (read-back verified).
+- Map navigation: [Wave 163 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-163-2026-10-19.md).
+- Official PyPI JSON metadata identifies `setuptools-84.0.0-py3-none-any.whl` SHA-256 `51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670`, 818,216 bytes, uploaded 2026-08-08T18:27:56.719708Z.
+- Exact-file Integrity API routes for wheel and source archive returned 404; official API documentation says 404 means the file has no provenance. Publisher provenance remains OPEN / BLOCKING / NOT INDEPENDENTLY VERIFIED. This does not indicate the artifact is malicious; it means this API supplies no provenance bundle for verification.
+- No package download/install, local digest recomputation, dependency/workflow/code changes, secrets, provider calls, dispatch, merge, deployment, or qualification occurred.
+- Next: inspect existing bootstrap lock/manifest consumers and determine whether this exact artifact is mandatory. Do not silently replace it. If alternative artifact is proposed, verify exact digest/provenance and compatibility through the existing canonical lock/manifest and normal PR/CI.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
