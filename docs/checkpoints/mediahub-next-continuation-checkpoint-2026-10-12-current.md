@@ -5257,3 +5257,17 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - PR #375 and #376 remain Draft/diverged (12 ahead/3 behind and 1 ahead/3 behind respectively); no blind integration. Worker publication/ambient environment issue remains open.
 - No Gemini dispatch, secret access, host mutation, merge, deployment, qualification or acceptance. Contour A status unchanged.
 - Next: review PR #377; continue artifact-only worker/publisher boundary on a fresh current-main branch, then reconcile older PRs after CI/provenance/security review.
+
+
+## Wave 212 — three-agent Gemini dispatch (2026-10-19)
+
+- Report: [Three-agent Gemini dispatch and independent review](MEDIAHUB-CONTOUR-A-THREE-GEMINI-PARALLEL-DISPATCH-WAVE-212-2026-10-19.md), commit `ce5261d4615b3d978e12550075bce58a588bd3d4`.
+- Base main SHA: `0897bd613c0c041794ec5ec4a72cd487b13a6944`.
+- Gemini Agent 1 run 39317199908 SUCCESS; output artifact 12217848256 digest `e36df6cde43e85c55f4fc45a0b996e301e91f835ee47d8b80e2ba548901f7737`; Draft PR #382 head `14b2ea83faa336589020b69a591f13bdf6785691`.
+- Gemini Agent 2 run 39317204825 SUCCESS; output artifact 12219425521 digest `5bdaec3c9de880f4314d1be9627d06f12dceb2778240135e44bfa9ff12d5add3`; Draft PR #381 head `99c1a8f844ed3a906cdad654cad7b2eda1d49308`.
+- Gemini Agent 3 run 39317210525 SUCCESS; output artifact 12219371268 digest `77ba6b590ce68fc46c1aadb37adb4e8e521ac88868d296440aab2e9e5b243134`; Draft PR #383 head `1fc2eafc13e4e5c99d0605007ef5ef08e01736fa`.
+- All three runs showed annotation `Gemini CLI stderr was not valid JSON` while the workflow output validation and PR creation checks passed. This is an unresolved warning; no secrets or raw logs were exposed.
+- SentinelX Mac host was operational; only one SentinelX host slot is active, with two other enrolled hosts disabled. Parallelism occurred on three GitHub-hosted Actions runners. `agent-browser` 0.27.0 passed offline quick diagnostics (6 pass, 0 fail) and verified the visible Actions summary pages; browser session was logged out and did not inspect detailed logs.
+- Draft PRs #381–#383 remain unmerged. Review comments request correction of unsupported claims: worker direct push is not artifact-only publication; env-copy plus key removal is not an explicit allowlist; docs-only crosswalk is not qualification; unique run_id in concurrency key does not serialize; secret suppression claim lacks source evidence.
+- No source/workflow code changes, no tests, no provider qualification, no merge/deployment, and no persistent queue created. Contour A status unchanged.
+- Next: revise/review agent PRs, investigate stderr annotation safely, implement artifact-only worker/publisher boundary with explicit environment allowlists and negative tests, then define any recurring agent queue only after Issue #301 governance/admission gates.
