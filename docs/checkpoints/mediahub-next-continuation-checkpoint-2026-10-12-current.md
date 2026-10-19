@@ -5323,3 +5323,15 @@ Current main: `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`. Current live compare: 
 ## Wave 214 live PR divergence refresh
 
 Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 ahead / 6 behind; #376 = 1/6 (merge base c06015e0b1526e0aaa6a522306052b077455aba5). PR #377 = 3/3 and #381–#383 = 1/3 (merge base 0897bd613c0c041794ec5ec4a72cd487b13a6944). PR #385–#387 = 1/1 (merge base 1363c03f0168c6371332095d38a410974a875815). PR #388 = 2/0 and #389–#391 = 1/0 (merge base current main). All remain OPEN / Draft. No rebase or merge performed. See the Wave 214 report for exact-head CI and review blockers.
+
+
+## Wave 215 — parallel Gemini/SentinelX operating model and worker environment isolation (2026-10-20)
+
+- Canonical report: [Wave 215 parallel Gemini/SentinelX operating model and worker environment isolation](MEDIAHUB-CONTOUR-A-PARALLEL-GEMINI-SENTINELX-OPERATING-MODEL-AND-ENV-ISOLATION-WAVE-215-2026-10-20.md).
+- PR #392: https://github.com/VlDMlNSh/mediahub-os/pull/392, OPEN / Draft, base main 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4, head b76a88aa7da9f8ad211d9377ac3458f7ed561a90.
+- Changed blobs: worker d1f6591c7732888b2d4d918374b8a892674ff3c5; tests 45da68755ce554cfc5defc85735c2a5f79ddcf1a; AGENTS.md 09df81316fb6bf0dedb7dcaee877e22e6e2e930d; GEMINI.md d787a8f104e6b215e1682aa917b08d54d0a063af; skill 578781b6d1066ce1e92e3a803bdc8fa9633e8600.
+- Local evidence: focused unittest 5/5; full unittest discovery 427/427; compileall and diff-check pass. Exact-head Astra Verify 39325464533 and Cloud Runtime Validation 39325464506 both SUCCESS. Browser/UI read-only verification of PR #392 performed using agent-browser.
+- Permanent per-/next instructions are recorded in AGENTS.md, GEMINI.md and .agents/skills/mediahub-next/SKILL.md. Each /next dispatches A1 architecture/governance, A2 research/schema/reuse, and A3 independent security/verification as separate GitHub-hosted workflows while the primary ChatGPT/SentinelX engineering pass continues. This is a per-request rule, not an always-on agent daemon.
+- Three runs launched: A1 39325506829; A2 39325510774; A3 39325515053. Status/output and PRs must be refreshed before relying on results.
+- Remaining security limits: generic run() still inherits ambient environment when env is omitted; worker-side git add/commit/push remains; no artifact-only trusted-publisher boundary. Issue #301 remains OPEN; Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED.
+- Next: inspect completed Gemini reports; continue generic subprocess/publishing isolation and negative tests on a fresh current-main branch; review #388 schema validation independently.
