@@ -101,3 +101,18 @@ Each agent PR is open and Draft, based on current main, 1 commit ahead / 0 behin
 - The merge push automatically queued three unrelated self-hosted/qualification workflows because the changed path matches their push filters: Astra local Claude executor qualification run 39320722831, autonomous queue supervisor run 39320722932, and MH-25 dual-local 23-wave qualification run 39320722875. These were not intended as part of this bounded code change and were cancelled. Run 39320722875's Mac runner job failed Canonical admission immediately; the 23 real Claude rounds were skipped, and the mh-dev-01 job was cancelled while queued. The queue supervisor was cancelled before its command-preparation step completed; the separate mh-dev-02 qualification was cancelled while queued. No 23-wave qualification or authoritative command was executed by these runs. This trigger coupling is a workflow-design risk to address separately.
 - Main branch protection API returned 404 (“Branch not protected”) and repository rulesets returned an empty list at merge time. PR was clean, 1 ahead / 0 behind, and both pre-merge required project workflows passed. No provider credentials were read; no deployment or Contour A qualification was performed.
 - Status correction: the earlier sections record PR #384 as Draft because they describe the pre-merge state. This addendum supersedes that point-in-time status. PRs #385–#387 remain Draft and their review claims remain unaccepted pending corrections.
+
+
+## 8. Post-merge branch comparison refresh (main = `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`)
+
+After the merge, live compare against current main reports:
+
+| PR | Ahead | Behind | Merge base | Disposition |
+|---|---:|---:|---|---|
+| #375 | 12 | 6 | `c06015e0b1526e0aaa6a522306052b077455aba5` | Diverged; do not integrate blindly |
+| #376 | 1 | 6 | `c06015e0b1526e0aaa6a522306052b077455aba5` | Diverged; do not integrate blindly |
+| #377 | 3 | 3 | `0897bd613c0c041794ec5ec4a72cd487b13a6944` | Diverged; reconcile after review |
+| #381–#383 | 1 each | 3 each | `0897bd613c0c041794ec5ec4a72cd487b13a6944` | Draft reports, stale base and known evidence defects |
+| #385–#387 | 1 each | 1 each | `1363c03f0168c6371332095d38a410974a875815` | Draft reports, known evidence defects; now diverged by the #384 merge |
+
+No branch was rebased or merged as part of this refresh. The documentation branch remains separate from main; current docs HEAD observed after read-back is `d5c991a1912a604084e82a4bdfae0eef83467fa1`.
