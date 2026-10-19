@@ -5183,3 +5183,14 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Initial compare was 12 ahead / 2 behind; a fresh comparison after documentation writes returned 12 ahead / 3 behind `main`, with unchanged merge-base `c06015e0b1526e0aaa6a522306052b077455aba5`. Use 12 / 3 as the latest observed value; refresh before any integration.
 - Updated report commit: `03d3a761f47874856c9e63e157388451bc920c0b`, blob `0907f4e3679be8a225f7978399599c6ffe3b9712`.
 - Updated map commit: `45b40407c658dd193ad5dea677cb70dde5e238e5`, blob `74f105e65836df007b591de3ceab336aaf0a3f11`. Large map content was verified by blob read-back, not the empty file endpoint response.
+
+
+### Wave 207 — credential-chain and publisher-boundary audit (2026-10-19)
+
+- Report: [Wave 207 audit](MEDIAHUB-CONTOUR-A-CREDENTIAL-CHAIN-AND-PUBLISHER-BOUNDARY-WAVE-207-2026-10-19.md); commit `fad59d137e2cf153dde1e63dd2e641114d47586b`.
+- Canonical map update commit: `1e33bbda8dd4596786146215ec7238e5903be6f1`, map blob `cba3afa53c4c2ba8c6ca4083dcb160288e1350ea`.
+- PR #375 remains OPEN / Draft / unmerged at `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`; GitHub reports `mergeable: false`. Fresh compare: 12 ahead / 3 behind `main`, merge base `c06015e0b1526e0aaa6a522306052b077455aba5`. Exact-head CI runs `39295373907` and `39295373833` remain SUCCESS.
+- Read-only inspection confirmed worker script blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d` includes a direct `git push` path; workflow blob `c24ad16ab8ed59fd4dbad9538063f63a933eab2c` sets `contents: read` and `persist-credentials: false` for all checkout steps. Worker helpers inherit ambient process environment by default; the full self-hosted runner Git credential chain remains unverified. No secret values or env-file contents were read.
+- Current truth on main blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED, overall NOT_PROVEN / BLOCKED. Issue #301 remains OPEN; branch protection/required reviews unverified.
+- No worker/Gemini/provider dispatch, credential use, host command, merge, deployment, qualification or acceptance.
+- Next: read-only inventory of runner bootstrap/service and Git credential configuration metadata, without exposing secret values; then define an artifact-only worker contract and isolated publisher, with governance approval before credential/publisher implementation.
