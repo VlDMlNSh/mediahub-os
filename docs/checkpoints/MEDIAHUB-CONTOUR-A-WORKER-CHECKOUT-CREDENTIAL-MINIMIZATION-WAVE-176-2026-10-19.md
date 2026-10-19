@@ -1,7 +1,7 @@
 # MediaHub Contour A — worker checkout credential minimization (Wave 176)
 
 - Date: 2026-10-19
-- Status: DRAFT IMPLEMENTATION CANDIDATE; exact-head CI successful; dedicated new static test not confirmed executed; NOT QUALIFIED.
+- Status: DRAFT IMPLEMENTATION CANDIDATE; dedicated static regression test now explicitly executed successfully in exact-head CI; independent review and qualification remain outstanding.
 - Candidate PR: [#375](https://github.com/VlDMlNSh/mediahub-os/pull/375), open Draft, base `main`.
 - Governing tracker: [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
@@ -18,8 +18,8 @@ Created branch `security/contour-a-worker-checkout-credential-minimization-wave1
 - Source workflow blob before edit: `f650f2416c19dc75b4a0eeec037661c0c6169910`.
 - Candidate workflow blob after edit: `c24ad16ab8ed59fd4dbad9538063f63a933eab2c`.
 - Candidate test blob after edit: `4b3787368758f2dba4abd85325025cfbfbe59e9b`.
-- Candidate head commit: `77352fc1224372b94e0a7d9b92288ca86b059cc2` (test-file commit; workflow change is the preceding commit).
-- Branch comparison against `main`: ahead 2, behind 0, two changed files.
+- Candidate head commit at initial report: `77352fc1224372b94e0a7d9b92288ca86b059cc2`; Wave 176 follow-up commit adds explicit CI invocation, resulting head `ad18328f940c2573707efd919778e8118e8c9723`.
+- Branch comparison against `main` after CI wiring: ahead 3, behind 0, three changed files (`.github/workflows/astra-distributed-local-worker.yml`, `.github/workflows/astra-verify.yml`, and `ops/qualification/test_worker_workflow_credential_policy.py`).
 - Read-back inspection verified exactly three checkout steps, three explicit `persist-credentials: false` settings, zero `persist-credentials: true` settings, no `contents: write`, and three static tests with no third-party test dependency.
 - PR-triggered workflow runs at exact head when queried: [Astra Cloud Runtime Validation](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837361) and [Astra Verify](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837322) were both `in_progress`. No passing CI is claimed. The unit test has not been executed in an isolated local environment in this pass.
 
@@ -33,11 +33,11 @@ Exact PR-head commit `77352fc1224372b94e0a7d9b92288ca86b059cc2` has two associat
 - [Astra Cloud Runtime Validation](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837361), run ID `39222837361`, job `validate` (`117961956367`) succeeded.
 - [Astra Verify](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39222837322), run ID `39222837322`, job `verify` (`117961956042`) succeeded.
 
-The reported step summaries show contract/runtime tests and cloud-admission tests passed. They do not explicitly show invocation of the newly added `test_worker_workflow_credential_policy.py`; therefore its execution is **not claimed**. The two successful CI runs are not independent security review or Contour A qualification.
+On the updated candidate HEAD `ad18328f940c2573707efd919778e8118e8c9723`, [Astra Verify run 39223502183](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223502183) completed successfully. Job `verify` (`117964107846`) shows step `Worker workflow credential policy regression tests` completed with conclusion `success`; the executed command is `python -m unittest ops.qualification.test_worker_workflow_credential_policy`. [Astra Cloud Runtime Validation run 39223502235](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39223502235) also completed successfully. These CI results validate the candidate's automated checks, not independent security review or Contour A qualification.
 
 ## Next gates
 
-1. Confirm the new static regression test is actually included in a CI command or execute it in an isolated checkout; capture exact command and result.
+1. Add mutation/negative-fixture coverage to prove the static policy tests reject a workflow that restores `contents: write` or `persist-credentials: true`.
 2. Independently review workflow permission reduction, checkout behavior, and test assertions. Confirm no downstream step relies on checkout's persisted credential.
 3. Establish the FCC authentication contract before changing the model subprocess environment. Continue synthetic-secret negative tests and explicit environment allowlisting as a separate change.
 4. Keep PR #375 Draft until checks and independent review pass. Do not merge on CI alone.
