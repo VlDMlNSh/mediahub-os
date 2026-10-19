@@ -4980,3 +4980,19 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - No package download/install, local digest recomputation, dependency/workflow/code changes, secrets, provider calls, dispatch, merge, deployment, or qualification occurred.
 - Next: inspect existing bootstrap lock/manifest consumers and determine whether this exact artifact is mandatory. Do not silently replace it. If alternative artifact is proposed, verify exact digest/provenance and compatibility through the existing canonical lock/manifest and normal PR/CI.
 - Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+
+## Wave 164 continuation — bootstrap provenance scope and lock consumer trace (2026-10-19)
+
+- Report: [MEDIAHUB-CONTOUR-A-BOOTSTRAP-PROVENANCE-SCOPE-AND-LOCK-CONSUMER-TRACE-WAVE-164-2026-10-19.md](MEDIAHUB-CONTOUR-A-BOOTSTRAP-PROVENANCE-SCOPE-AND-LOCK-CONSUMER-TRACE-WAVE-164-2026-10-19.md), report creation commit `db24707f6bd246a5281ddfd9a7daf5c73946ac94`, report blob SHA after read-back `e1382c071539215b791a56ed008527475cb623c8`.
+- Map navigation: [Wave 164 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-164-2026-10-19.md).
+- Important scope correction: current `main` runtime bootstrap `ops/astra-github-bootstrap.sh` (blob `5f36f35ea85f55e5f49af6d3dabb5e876fffa09b`) only fetches/checks out the repository and executes `python3 astra_github_agent.py`; it does not install setuptools. Candidate-only bootstrap lock and lock-generation workflow paths are absent from current main (direct reads returned 404). `requirements-dev.txt` (blob `241432c98a273df782c65f35b76d10593c3dea43`) lists only PyYAML and pytest.
+- Exact `setuptools==84.0.0` is directly pinned and version-asserted only in the unmerged Draft PR #338 candidate lock-generation path. The separate candidate runtime schema-validation lock does not mention setuptools. Thus provenance remains a blocker for adopting PR #338 as currently written, not an established runtime dependency of current main.
+- PR #338 head `fd12ee3272e64707fdbf9e0648bdbce3f7c5eb21` remains OPEN/DRAFT/UNMERGED with four passing check-runs at that exact SHA; those runs do not produce publisher provenance. Compared with current canonical docs HEAD, candidate history is DIVERGED 20 ahead / 202 behind, merge base `2bd41f5b71006597a7669a4b7154abc58f87af5d`; no automatic integration.
+- Exact PyPI Integrity API endpoints for wheel and source archive still return 404, whose documented meaning is no provenance object. No maliciousness claim is inferred.
+- No runtime/dependency/workflow edit, package download/install, local digest recomputation, secret read, provider call, dispatch, host change, merge, deployment, qualification or independent acceptance occurred.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains gated.
+
+### Next bounded action
+
+Before adopting PR #338, either secure and verify provenance for the exact candidate artifact or obtain an explicit accountable alternative trust disposition. If considering removal/substitution, first substantiate dependency necessity and preserve deterministic lock generation, then run fresh exact-head CI and independent review. Do not silently alter the bootstrap lock.
