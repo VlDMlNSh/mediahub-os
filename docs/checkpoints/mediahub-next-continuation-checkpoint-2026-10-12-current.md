@@ -5051,11 +5051,11 @@ Before adopting PR #338, either secure and verify provenance for the exact candi
 
 ## Wave 169 — PR #373 exact-head CI and evidence-scope audit (2026-10-19)
 
-- Report: [MEDIAHUB-CONTOUR-A-PR373-EXACT-HEAD-CI-AND-EVIDENCE-SCOPE-AUDIT-WAVE-169-2026-10-19.md](MEDIAHUB-CONTOUR-A-PR373-EXACT-HEAD-CI-AND-EVIDENCE-SCOPE-AUDIT-WAVE-169-2026-10-19.md), blob SHA `02493064055e4463c50a786b12a30bfc2e5f3573`.
-- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-169-2026-10-19.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-169-2026-10-19.md), blob SHA `f4a2220558678ac565a5daf10f0ed9d7a2aa14ba`.
+- Report: [MEDIAHUB-CONTOUR-A-PR373-EXACT-HEAD-CI-AND-EVIDENCE-SCOPE-AUDIT-WAVE-169-2026-10-19.md](MEDIAHUB-CONTOUR-A-PR373-EXACT-HEAD-CI-AND-EVIDENCE-SCOPE-AUDIT-WAVE-169-2026-10-19.md), blob SHA `c75fad6f596457c1918d85a9d2602f9912120143`.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-169-2026-10-19.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-169-2026-10-19.md), blob SHA `bbc33b2c316528754e9972b3a29283a7e493444c`.
 - PR #373 exact head before this Wave 169 commit: `6989f21bdb1d3ce1bba8da2d082334dfba2ddd41`; base docs ref `28816f6b523c8cbc878ebd0575b17bc419669889`; compare 24 ahead / 0 behind, 13 changed files, 581 additions, no deletions.
 - Exact-head workflow-run connector returned no runs. It is scoped to PR-triggered runs and first page; no CI success or global absence is claimed.
-- PR title lagged the contents (named Waves 163–167 while Wave 168 report/addendum were already included); metadata correction will bring it current. PR remains Draft/open/unmerged.
+- PR title lagged the contents (named Waves 163–167 while Wave 168 was already included); the PR title was corrected to Waves 163–169 after this audit. PR remains Draft/open/unmerged.
 - Main-vs-canonical-docs ref remains diverged (main HEAD `c06015e0b1526e0aaa6a522306052b077455aba5`, 2,333 ahead / 27 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). No wholesale integration/rebase.
 - No tests, dispatch, secrets/provider calls, runtime changes, merge, deployment or qualification. GOV-CAP-01…07, R-06, credential isolation and issuer-bound task admission remain open. Contour A NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B gated.
 - Next: refresh exact-head checks, obtain accepted issuer/R-06 governance disposition and target manifest, then implement a shared verifier plus negative tests under that accepted contract.
