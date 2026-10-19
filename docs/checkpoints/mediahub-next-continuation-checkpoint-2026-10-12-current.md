@@ -5214,3 +5214,17 @@ Obtain independent review and explicit bootstrap publisher-provenance dispositio
 - Current truth on `main` blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED; overall NOT_PROVEN / BLOCKED.
 - No runner host/config was inspected, no secret values were read, no worker/provider dispatch, credential change, merge, deployment, qualification or acceptance occurred.
 - Next: authorized read-only runner configuration inventory of metadata only; define artifact-only worker contract and isolated publisher with governance approval before implementing credential changes.
+
+
+### Wave 209 — worker environment inheritance audit (2026-10-19)
+
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CONTOUR-A-WORKER-ENVIRONMENT-INHERITANCE-WAVE-209-2026-10-19.md
+- Report creation commit: `4a3570ea117358293bc55baad2a2e9241b3805bc`.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Map update commit: `49955ed5a41ca0fd552fb8767e909e63b5a9f229`, map blob `8ad3bc20a48f48199053ccb96356ddd52c434dfa`.
+- Revalidated PR #375 head `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`, OPEN/Draft/unmerged. Compare is 12 ahead / 3 behind `main`, diverged; merge base `c06015e0b1526e0aaa6a522306052b077455aba5`. Exact-head CI runs `39295373907` and `39295373833` remain SUCCESS.
+- Worker source blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d` uses `os.environ.copy()` in FCC/Claude paths, generic subprocess calls inherit the parent environment when no explicit environment is passed, and publication path stages `git add -A`, commits, then attempts direct `git push`. Workflow blob `c24ad16ab8ed59fd4dbad9538063f63a933eab2c` still has `contents: read` and `persist-credentials: false` on all three checkouts. Effective runner credential chain remains unverified; no host or secret contents were inspected.
+- Static policy test blob `2c5fae2d431ca765bb548f4a2b5d70874961a438` has 11 tests for YAML policy but does not exercise worker environment allowlisting, Git credential configuration, artifact output allowlists, or publisher separation.
+- Current truth on main blob `48d581a8f6a6a5fd380abbb7a7ce938b3b1e6731`: G0–G11 BLOCKED; overall NOT_PROVEN / BLOCKED. Issue #301 remains OPEN; no PR review submissions or review threads returned; branch protection remains unverified.
+- No worker/Gemini/provider dispatch, secret access, host command, merge, deployment, qualification or acceptance.
+- Next: specify and test an artifact-only worker contract with a minimal allowlisted environment, immutable base SHA binding, explicit output path allowlist and no direct publication call; governance must approve authority semantics before publisher credential work.
