@@ -4992,3 +4992,12 @@ Obtain an explicit governance decision on WB-05 issuer/verifier ownership, then 
 - The setuptools 84.0.0 bootstrap publisher-provenance gate remains UNVERIFIED. Issue #301 remains OPEN. A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority and accepted runner/workspace/network target manifest remain separate blockers.
 - No credentials, provider calls, worker/queue dispatch, merge, deployment, qualification or production acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
 - Next bounded step: obtain independent review and explicit bootstrap publisher-provenance disposition, while continuing independent A0/R-06/target-manifest work.
+
+
+## Wave 129 final-head verification — 2026-10-19
+
+- Report: [MEDIAHUB-SCHEMA-VALIDATION-CLEAN-BASE-CANDIDATE-WAVE-129-2026-10-19.md](MEDIAHUB-SCHEMA-VALIDATION-CLEAN-BASE-CANDIDATE-WAVE-129-2026-10-19.md), final evidence revision blob SHA `23890ee0a11e9aa21337d6978a8e201ed8a2acec`.
+- Candidate head tested by final run: `ff7ad6524ec5bec47a0245a0490d8850e874483a`; exact-head run [39221618675](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39221618675) SUCCESS, job `117957998293`, artifact `12171683002`, SHA-256 `d1ace7f2881841ef8e07df76ec973d23e0adf02e51627f8381d959fd6f7cfe5d`.
+- PR #374 was refreshed against docs HEAD `1eb9de28c2c90188ecebfd44ec72618bb23407ec`; the resulting PR file list contains only the 12 intended candidate files. Subsequent canonical report/map/checkpoint writes advance the docs branch again, so refresh the PR base to the latest canonical docs HEAD before an integration decision.
+- PR #374 remains OPEN/DRAFT/UNMERGED; no independent review submissions. The bootstrap setuptools publisher-provenance gate remains UNVERIFIED. A0 issuer/ingress/lease/cancel/recovery, R-06 audit/privacy authority and accepted runner/workspace/network target-manifest remain open.
+- No credentials, provider calls, dispatch/admission, merge, deployment, qualification or production acceptance. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT ACCEPTED; Contour B remains gated.
