@@ -380,3 +380,15 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Still open: authoritative OCI digest pin for `ghcr.io/github/github-mcp-server:v0.27.0`; independent review; controlled negative caller-context runtime test; governance-approved integration. No agent launch, secret access, merge, deployment, or qualification in Wave 255.
 - Wave 255 map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-255-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-255-2026-10-20.md).
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 256 (2026-10-20): MCP image digest pinned
+
+- Report: [MEDIAHUB-CLOUD-AGENT-MCP-IMAGE-DIGEST-WAVE-256-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-MCP-IMAGE-DIGEST-WAVE-256-2026-10-20.md), blob SHA `db27c6876eb7d88b68cd84f2db29d13aa12ca00d`.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-256-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-256-2026-10-20.md), blob SHA `b996c4dd5e7fddbf535e64fdf4c4f6f3f4d6709e`.
+- Official GHCR v0.27.0 package record: https://github.com/orgs/github/packages/container/github-mcp-server/630595547?tag=v0.27.0; verified linux/amd64 digest `sha256:cbca61d547beec9b819b26bbfe6ac66ba6b373f1d6b64e8291e346bf524633e2`. All three child workflows now reference the image by digest, not mutable tag.
+- PR #421 candidate `d25cad4343126e6f6770247d48abec1c7f6c2b9b`, 27 ahead / 0 behind base `main` `80be45a70732b1d568164571d4273a6397792c3b`; remains Draft/unmerged.
+- Exact-head [Astra Cloud Runtime Validation #39416621016](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416621016) and [Astra Verify #39416620952](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416620952) SUCCESS. Verify logs confirm actionlint, 9 reusable-workflow contract tests, 440 Python unit tests, compile, and signed-command smoke test passed.
+- Current read-back blobs: controller `da1d0254a993adcc224d5859a9a97bf609abd710`; Agent 1 `983d3d06303f75f65de15ae2ee7f824403605e76`; Agent 2 `eefcc97f1cf9504218f48fd248f37aa8306cd309`; Agent 3 `4608462d4b59c088bbf962412060e4b1b8a93519`; Astra Verify `a087ccde747cc621f6003226e01abb10e33261dc`; contract tests `063c8f4ab2f3906d0b4f207dac429b921d5710c2`.
+- Remaining: genuine independent review by another identity; controlled negative caller-context runtime test (connector has no workflow-dispatch action); branch-protection/governance integration. No agent launched, no secret read, no merge/deployment/qualification. After gates and integration, routine bounded runs may use the sole controller with `confirm: yes`; no separate per-run owner prompt is required.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
