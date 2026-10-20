@@ -178,7 +178,7 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
         self.assertEqual(jobs["probe"]["permissions"], {})
         self.assertEqual(jobs["probe"]["uses"], "./.github/workflows/gemini-reusable-context-probe-wave284.yml")
         self.assertEqual(jobs["assert_probe_context"]["permissions"], {})
-        self.assertEqual(jobs["assert_probe_context"]["needs"], ["probe"])
+        self.assertEqual(jobs["assert_probe_context"]["needs"], "probe")
 
     def test_trusted_caller_guard_is_the_engineer_job_condition(self):
         import yaml
