@@ -85,3 +85,12 @@ For all three artifacts, the output JSON was downloaded and checked without prin
 - **PR #418 — REQUEST_CHANGES** (review ID `5582935564`). The submitted security review analyzed the local `astra_github_agent.py` / systemd controller rather than the assigned GitHub Actions controller and child workflows. It does not establish the requested transport/credential review. Its blanket claim that `setdefault` prevents secret leakage is also unsupported.
 
 Thus **transport dispatch and run correlation passed**, while **agent output acceptance did not pass**. The three successful workflow conclusions are not a Contour A qualification, deployment, or independent acceptance.
+
+
+## Wave 220 follow-up — automated regression test merged (2026-10-20)
+
+- Added `tests/test_gemini_transport_controller_contract.py` and merged [PR #419](https://github.com/VlDMlNSh/mediahub-os/pull/419) as commit `80be45a70732b1d568164571d4273a6397792c3b`.
+- Test file blob SHA on `main`: `00fcbdb4416031ef6f736661823a7c8b6d93f344`.
+- Coverage: quoted `confirm` string-choice semantics; empty built-in token permissions; `MEDIAHUB_GITHUB_TOKEN` binding in both dispatch/monitor steps without logging; fixed three child workflow IDs and fixed `main`/`contour-a` payload; baseline/timestamp correlation and fail-closed ambiguity/non-success handling.
+- PR checks passed on exact head: `validate` and `verify`. Post-merge Astra Verify [run 39398784963](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39398784963) completed SUCCESS and executed **431 unit tests** (including the five new controller contract tests); compile and signed-command smoke test also passed.
+- Main HEAD at this read: `80be45a70732b1d568164571d4273a6397792c3b`.
