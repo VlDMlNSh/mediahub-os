@@ -93,6 +93,24 @@ class SignedCommandVerifierTests(unittest.TestCase):
             MODULE.verify_signed_command(signed, self.KEY, expected_node_id="mh-dev-01",
                 expected_operation="health", expected_target_sha=self.TARGET, allowed_paths={self.PATH})
 
+    def test_rejects_boolean_issued_at(self):
+        command = self.command()
+        command["issued_at"] = True
+        signed = dict(command)
+        signed["signature"] = hmac.new(
+            self.KEY.encode(), MODULE.canonical_command_body(signed), hashlib.sha256
+        ).hexdigest()
+        with self.assertRaisesRegex(ValueError, "issued_at"):
+            MODULE.verify_signed_command(
+                signed,
+                self.KEY,
+                expected_node_id="mh-dev-01",
+                expected_operation="health",
+                expected_target_sha=self.TARGET,
+                allowed_paths={self.PATH},
+                now=1,
+            )
+
     def test_rejects_stale_command(self):
         command = self.command()
         command["issued_at"] = int(time.time()) - MODULE.MAX_AGE_SECONDS - 5
