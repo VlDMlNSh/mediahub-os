@@ -24,4 +24,4 @@ Every upstream component is a candidate until exact version/source, license, mai
 Planning/source inventory only; no components installed, provider calls made, agents launched, routes enabled, or deployment/qualification accepted.
 
 ## Next
-Build a source-grounded component comparison matrix and mock-provider proof of the smallest viable orchestration/router/state stack.
+Build a source-grounded component comparison matrix and mock-provider proof of the smallest viable orchestration/router/state stack. Treat the Wave 42 router ADR as proposed and address its documented fail-open, non-atomic quota selection, credential-in-URL and missing task-policy issues before adoption.
