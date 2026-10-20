@@ -76,3 +76,14 @@ CI compiled the repository and ran the repository's unit-test workflow, includin
 4. Trace the external A0 mission producer/writer and the actual trusted issuer/approval verifier before accepting a new Task Contract schema. Preserve the distinction among signed control-command, Task Contract, A0 coordination authority and canonical Product State Authority.
 
 Contour A remains **NOT_PROVEN / BLOCKED**. Contour B remains blocked pending Contour A deployment and independent acceptance.
+
+
+## Traceability and current integration snapshot
+
+- Canonical map entry: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Map blob SHA after Wave 280 entry: `017d779e2183dde8bd68f2ea1758b9921feccc94`; indexing commit: `4e96b4cdea9d188a29ddfc447415c26206c40fda`.
+- Continuation checkpoint: [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Main is still `80be45a70732b1d568164571d4273a6397792c3b`; the documentation branch at the map-index snapshot was `4e96b4cdea9d188a29ddfc447415c26206c40fda`. Compare is `diverged`, 2,863 ahead / 44 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; only 300 file records were returned. This is not an exhaustive no-loss integration review.
+- PR #425 is OPEN/DRAFT/UNMERGED at `ce44a47b0d327a5cca9593e529fe97b492ffaa4a`; changed paths are the worker and the new mock-only route-admission test. Exact-head CI: Astra Verify #39453835133 and Astra Cloud Runtime Validation #39453835149 SUCCESS. Independent review remains absent.
+- PR #421 remains OPEN/DRAFT/UNMERGED for controller-only Gemini calls, with exact-head checks #39425009644 / #39425009654 successful but independent review and caller/secret/negative-context gates still open. PR #423 remains the single OPEN/DRAFT legacy-workflow retirement proposal, with exact-head checks #39451818611 / #39451818985 successful but no submitted reviews. PR #422 is CLOSED as a duplicate of #423, not merged. PR #424 is a separate OPEN/DRAFT documentation-branch worker secret-regex/test restoration, not merged.
+- This wave's code verification was performed by the repository's exact-head CI. No local node execution, provider call, host or secret access, Gemini dispatch, merge, deployment, qualification or acceptance was performed.
