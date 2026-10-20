@@ -23,3 +23,12 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Agent PRs #416, #417, #418 all remain unaccepted; REQUEST_CHANGES reviews are recorded for authority-schema contradiction, missing exact component provenance, and A3 scope mismatch. Do not merge those outputs until corrected and re-reviewed.
 - Wave 217 report now includes terminal evidence: [runtime qualification report](MEDIAHUB-CONTOUR-A-GITHUB-TRANSPORT-RUNTIME-QUALIFICATION-WAVE-217-2026-10-20.md), current report blob SHA to be verified by read-back. Map final blob SHA: `e94d847b65584f0aea0f43b931193ccb159bc454`; documentation commit: `710c8a78cd5d4baee5c723b70aead94dc4cd4184`.
 - Next bounded pass: reconcile the three requested agent revisions and add a focused automated regression test for the controller's dispatch input/credential contract if a repository-owned test harness exists. Contour A as a whole remains NOT_PROVEN / BLOCKED pending the remaining G0–G11 gates, deployment and independent acceptance.
+
+
+## Wave 219 — Gemini failure diagnosis and agent PR review (2026-10-20)
+
+- Report: [Wave 219](MEDIAHUB-GEMINI-TRANSPORT-FAILURE-AND-AGENT-PR-REVIEW-WAVE-219-2026-10-20.md).
+- Controller run 39396582084: dispatch step SUCCESS; monitor failed because Agent 2 failed. Agent 2 logs identify repeated GitHub MCP get_file_contents errors, Gemini free-tier input-token quota exhaustion (250,000 input-token limit for gemini-3.5-flash-lite), then max-session-turn exhaustion; stdout artifact absent and validator failed closed. No paid fallback.
+- PR #413 requests changes (review 5582981729): hard-coded 00:00 UTC timestamp not matching observed run time and unsupported PASS_STATIC_REVIEW framing; refresh provenance against current main.
+- PR #414 requests changes (review 5582982170): Draft 2020-12 claims lack exact schema inventory and validator evidence; separate hypotheses from demonstrated findings. Neither PR merged.
+- Next: improve task budgeting/repeated-tool-failure handling and emit bounded failure evidence where possible; retry only after correction, using the approved GitHub API transport. Contour A remains not accepted.
