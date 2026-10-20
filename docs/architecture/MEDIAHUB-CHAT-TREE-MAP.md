@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 270; owner reaffirmation of A0 hybrid routing and Alamo Claude non-paid API boundary)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 271; issuer/task contract reconciliation under Wave 270 hard requirements)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -19,6 +19,8 @@
 - Wave 205 (2026-10-19): [truth-ranked audit and readiness](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUDIT-READINESS-WAVE-205-2026-10-19.md). Exact-head commit `6fb078aad7e8e1bb41916168fdd038dfa4e1022b`; Astra Verify run [39295373907](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373907) and Cloud Runtime Validation run [39295373833](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39295373833) both SUCCESS. PR #375 remains Draft/unmerged; authority and trusted-publisher gates remain open.
 
 - Wave 206 (2026-10-19): [truth-ranked authority and publisher boundary audit](../checkpoints/MEDIAHUB-CONTOUR-A-TRUTH-RANKED-AUTHORITY-PUBLISHER-AUDIT-WAVE-206-2026-10-19.md). Current `main` still has `contents: write` and checkout credentials persisted; PR #375 candidate uses read-only permissions and disables persisted checkout credentials but remains Draft/unmerged. Mesh capability envelope enforcement remains unproven.
+
+- Wave 271 (2026-10-20): [A0 issuer/task contract reconciliation](../checkpoints/MEDIAHUB-A0-ISSUER-TASK-CONTRACT-RECONCILIATION-WAVE-271-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-271-2026-10-20.md).
 
 ## 1. Правила интерпретации
 

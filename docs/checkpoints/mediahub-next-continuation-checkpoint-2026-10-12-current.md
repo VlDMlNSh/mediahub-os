@@ -573,3 +573,13 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - No runtime calls, provider calls, secrets, host inspection, dispatch, tests, merge, deployment, qualification, or acceptance. Contour A remains NOT_PROVEN / BLOCKED.
 - Next: find the authoritative issuer lifecycle and task-envelope contracts; reconcile rather than create a parallel schema. Then add Draft 2020-12 and static/mock-only negative fixtures before any real dispatch.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 271 (2026-10-20)
+
+- Re-read Wave 270 owner hard requirements, Wave 269 candidate envelope, authoritative runtime Task ingress, AuthorizationContext, Astra gateway, autonomous queue, routing candidate and provider registry/adapter schemas.
+- Confirmed the existing ingress lacks authenticated issuer/capability provenance, destination admission, DAG, locality/egress, auth-cost-class and cross-route fencing fields. AuthorizationContext is principal+capability only; provider schemas are not the mission envelope. Gateway remains cloud-first/Ollama and queue filesystem-backed; neither proves a qualified hybrid A0 plane.
+- Report: [Wave 271](MEDIAHUB-A0-ISSUER-TASK-CONTRACT-RECONCILIATION-WAVE-271-2026-10-20.md); map addendum: [Wave 271](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-271-2026-10-20.md).
+- Docs branch HEAD before this pass: `1232734db801e08e5d16951ee247740ee06bf0d0`; `main` HEAD: `80be45a70732b1d568164571d4273a6397792c3b`. Issue #301 open; PR #421 open/draft.
+- No tests, provider calls, host inspection, secret reads, agent dispatch, merge, deployment, qualification or acceptance occurred. Contour A remains NOT_PROVEN / BLOCKED.
+- Next: trace the authoritative Task Contract producer/writer and approval/attestation lifecycle; map candidate fields to existing contracts before static/mock-only negative fixtures. Do not wire Wave 269 into runtime yet.
