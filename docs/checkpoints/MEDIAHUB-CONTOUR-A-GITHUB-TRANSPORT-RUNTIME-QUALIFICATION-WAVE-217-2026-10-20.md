@@ -94,3 +94,14 @@ Thus **transport dispatch and run correlation passed**, while **agent output acc
 - Coverage: quoted `confirm` string-choice semantics; empty built-in token permissions; `MEDIAHUB_GITHUB_TOKEN` binding in both dispatch/monitor steps without logging; fixed three child workflow IDs and fixed `main`/`contour-a` payload; baseline/timestamp correlation and fail-closed ambiguity/non-success handling.
 - PR checks passed on exact head: `validate` and `verify`. Post-merge Astra Verify [run 39398784963](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39398784963) completed SUCCESS and executed **431 unit tests** (including the five new controller contract tests); compile and signed-command smoke test also passed.
 - Main HEAD at this read: `80be45a70732b1d568164571d4273a6397792c3b`.
+
+
+## Wave 221 — agent checkpoint corrections and exact-head CI (2026-10-20)
+
+To make the three agent drafts truthful and source-bound, their checkpoints and PR descriptions were corrected without accepting or merging them:
+
+- **PR #416**, head `1dba44a9a6e63d27d79f24471ee31e82bc075660`, now explicitly marks the authority conflict unresolved: `GEMINI.md` assigns canonical mutation to Product State Authority, while the qualification/launch schema literally declares `authority.state_authority: A0-ASTRA`. The checkpoint does not reinterpret or mutate that schema. Exact-head `validate` and `verify` passed. PR remains Draft / not accepted pending governance change control.
+- **PR #417**, head `58bf18fd74488bb76bd699b1f5b17906a41fc506`, now withdraws the unsupported “provenance passed” claim and marks all eleven candidates unverified because exact upstream pins and license-file evidence were not captured. Baseline 2.0 blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f` and component registry blob `3ad109ba5ec9b095d0fac851514caadcefbe2f69` are recorded as contract boundaries. Exact-head `validate` and `verify` passed. No component selection is accepted.
+- **PR #418**, head `550d9f1a35a22de4ae4c8ff1f5350d081b7227e7`, now replaces the out-of-scope local systemd/Python review with the assigned GitHub Actions controller/child workflow review. It confirms runtime API use, identifies residual non-unique time/baseline correlation, unknown token scope, and tag-based action/container pinning gaps. Exact-head `validate` and `verify` passed. PR remains Draft / not accepted; negative tests and supply-chain hardening remain open.
+
+The CI passes validate the documentation branches only; they do not convert the agent findings into accepted architecture, prove the full token scope, or close Contour A qualification gates.
