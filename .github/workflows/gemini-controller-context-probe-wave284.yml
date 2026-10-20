@@ -20,7 +20,6 @@ jobs:
     name: Read-only reusable workflow context observation
     uses: ./.github/workflows/gemini-reusable-context-probe-wave284.yml
     permissions: {}
-    secrets: {}
 
   assert_untrusted_context:
     name: Assert actual PR caller context is denied
