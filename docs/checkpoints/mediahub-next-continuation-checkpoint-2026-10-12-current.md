@@ -5486,3 +5486,15 @@ Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map
 - Exact-head CI is not verified; no local suite or worker dispatch was run. PR creation was not completed. No secret access, merge, deployment, qualification or acceptance occurred.
 - Issuer/capability, expiry/revocation/replay, trusted publisher and clean-checkout revalidation, ambient runner credential/environment isolation and Issue #301 acceptance gates remain open. Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated.
 - Report: [Wave 252](MEDIAHUB-CONTOUR-A-WORKER-ARTIFACT-ONLY-HANDOFF-WAVE-252-2026-10-20.md). Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Wave 212 — Gemini dispatch capability and trust-boundary recheck (2026-10-20)
+
+- Report: [Wave 212](MEDIAHUB-CONTOUR-A-GEMINI-DISPATCH-AND-TRUST-BOUNDARY-WAVE-212-2026-10-20.md).
+- Map addendum: [Wave 212 pointer](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-212-2026-10-20.md).
+- Live main HEAD observed as `1324f2f9e558a99c1d3e06eb9d955c0827214fe2`; Bootstrap blob `4a101ab3d7ec766ccbd2d3541f84593e9a406a8b`; Master Roadmap blob `beef785c787702dc174cf9a5515bac8c9f4b292f`. Map Contents-wrapper response was empty with blob SHA `e931e615bb29a8779129df5a33fa97b974eea011`; canonical map must be read via raw/blob before editing.
+- Confirmed the three Gemini workflow definitions on `main` are manual-dispatch workflows with separate configured secret references. This is static configuration evidence only.
+- No Actions dispatch operation is exposed in this session; generic GitHub fetch is GET-only. The only SentinelX host is legacy, so it was not used to perform a cloud write. No Gemini runs were launched; no run IDs/artifacts/agent PRs exist for this wave.
+- Existing assignments: [#378](https://github.com/VlDMlNSh/mediahub-os/issues/378), [#379](https://github.com/VlDMlNSh/mediahub-os/issues/379), [#380](https://github.com/VlDMlNSh/mediahub-os/issues/380). Their scopes restrict dispatch for those particular assignments; issue existence is not execution evidence.
+- Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED. Highest-priority track remains worker/model credential isolation and artifact-only publisher boundary.
+- This is a proposed evidence update on a working branch; canonical map/checkpoint acceptance and workflow dispatch remain pending. No tests, merge, deployment, or qualification occurred.
