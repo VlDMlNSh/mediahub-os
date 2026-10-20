@@ -67,6 +67,7 @@ Public documentation currently provides examples of the relevant component class
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301) is OPEN; it remains a tracker and is not authorization to dispatch, use credentials, call providers, merge or deploy.
 - [PR #421](https://github.com/VlDMlNSh/mediahub-os/pull/421) is OPEN/DRAFT at head `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`, base `80be45a70732b1d568164571d4273a6397792c3b`; no independent reviews were returned. The queried exact-head runs [Astra Cloud Runtime Validation #39425009654](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009654) and [Astra Verify #39425009644](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009644) were SUCCESS. They do not test or approve this requirements-only update.
 - The repository rulesets endpoint returned an empty list; branch-protection endpoints returned 403 to the available integration. Required protection state therefore remains unverified.
+- Branch compare was read at docs HEAD `c3529df28bf2ca9d242db6a4765d430d660200c0`: `main...docs/mediahub-chat-tree-map-20261012` returned `diverged`, 2,805 commits ahead, 44 behind, with 300 file records in the response. This is not sufficient for a no-loss integration decision. No merge/rebase was run; safe synchronization requires reviewing the main-only commits and changed-file overlap. Checkpoint now records this blocker.
 
 ## Changes made in Wave 273
 
@@ -79,7 +80,7 @@ Public documentation currently provides examples of the relevant component class
   - Wave 273 map addendum: blob `47cf21a18b8b49b764a406770bfa79317d3bd2a6`, creation commit `d4a575be33302032fac1094898b24fab3ce2d428`.
   - Bootstrap: blob `eabdc46adeab07bab12bd738d018d72165fc9a45`, update commit `4fede85583829c670b0034c64b2f88a84ea4041c`.
   - Master Development Roadmap: blob `c130b877f485cdcf70bb03fb2603653bc59c0a65`, update commit `4835b4acc6409933865bce681e3467e2ecf2fbba`.
-  - Continuation checkpoint: blob `9b88c162e99db57320fa3163d9aeaa2d1ee53fd5`, update commit `07fe2df327b536473bb260423101002b29942e0e`.
+  - Continuation checkpoint: blob `3aae226a5c2c4348bf73c2c4a4931981fcd9e246`, update commit `32d56f6cbadfdbba0412d8767e8a590e840d1ec6`.
   - Every listed file was fetched again after its write; the canonical map's 1,124,729-character blob was read by SHA because the Contents API did not return its full body. This report was subsequently read back by GitHub after its final evidence update; its resulting blob SHA is reported in the session summary.
   - Before the final report evidence update, canonical docs HEAD was `07fe2df327b536473bb260423101002b29942e0e`; `main` remained `80be45a70732b1d568164571d4273a6397792c3b`.
 
