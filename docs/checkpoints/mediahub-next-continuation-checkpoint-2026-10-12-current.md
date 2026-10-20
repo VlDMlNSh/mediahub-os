@@ -43,3 +43,12 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Canonical map blob after Wave 220 index: `a5752f49578083c41c80caccaf0f624568b87360`; documentation commit `641f44c20897913252aa721f772303688220e890`.
 - Runtime proof remains: controller [39396854829](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396854829) SUCCESS and child runs [39397165125](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39397165125), [39397167382](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39397167382), [39397169704](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39397169704) all SUCCESS. Agent PRs #416–#418 are not accepted; each has REQUEST_CHANGES for concrete evidence gaps.
 - Next bounded step: review revisions to #416–#418 and decide whether the contradictory `state_authority: A0-ASTRA` field needs a formal governance change request. Do not edit accepted authority semantics silently. Contour A remains NOT_PROVEN / BLOCKED pending remaining G0–G11 gates and independent acceptance.
+
+
+## Latest continuation — Wave 220 (2026-10-20)
+
+- Failure-handling review report: [MEDIAHUB-GEMINI-FAILURE-HANDLING-REVIEW-WAVE-220-2026-10-20.md](MEDIAHUB-GEMINI-FAILURE-HANDLING-REVIEW-WAVE-220-2026-10-20.md).
+- Re-read main child workflow blobs: Agent 1 `09523d809530ae5b7bf528eab5fa53bc5deaf92d`; Agent 2 `259c8c82b8d90a39e1c90e65390e469b241b5581`; Agent 3 `91b5397001e088dfae2f450ee77c9c23118b5601`.
+- Agent 2 run [39396596067](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396596067), job `118540763883`, repeated MCP read errors after an unconfigured `update_topic` call, then exhausted Gemini free-tier input-token quota and hit max session turns. No usable stdout JSON artifact was available; post-step validation failed closed.
+- Next bounded engineering task: prepare a reviewed PR adding best-effort failure diagnostics with `if: always()` to all three child workflows and explicitly stop-on-first-tool-error prompt guidance; keep the success validator fail-closed. Do not rerun Agent 2 until checks/review pass.
+- No workflow implementation, dispatch, merge, deployment, or qualification was performed in Wave 220. Continue using only the approved GitHub-hosted controller transport; no paid or alternate fallback.
