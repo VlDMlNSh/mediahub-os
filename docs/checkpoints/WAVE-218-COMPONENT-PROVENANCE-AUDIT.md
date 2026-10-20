@@ -1,76 +1,58 @@
-# MediaHub OS — Wave 218 / Agent-2 Component Provenance Audit
+# MediaHub OS — Wave 218 / Agent-2 Component Candidate Inventory
 
 ## Metadata
-- **Queue / Task ID:** Wave 218 / Agent-2 Component Provenance Audit (PR #410 Review)
-- **Agent Identity:** `gemini-agent-2`
-- **Authorized Contour:** Contour A (Developer Fabric)
-- **Base Ref:** `main` (commit SHA: `d27a52fed03703c16c62c4c1481091e6110e80f2`)
-- **Branch:** `agent-2/wave-218-component-provenance`
+
+- **Task ID:** Wave 218 / Agent-2 Component Provenance Audit (PR #410 Review)
+- **Agent identity:** `gemini-agent-2`
+- **Contour:** Contour A (Developer Fabric)
+- **Base ref inspected:** `main`, observed base SHA `d27a52fed03703c16c62c4c1481091e6110e80f2`
 - **Date:** 2026-10-20
-- **Status:** COMPLETED (Documentation & Provenance Pass)
+- **Status:** **UNVERIFIED CANDIDATE INVENTORY — NOT COMPONENT SELECTION**
 
----
+## Correction to earlier provenance claims
 
-## 1. Executive Summary & Objective
-This audit reviews and refines the reusable component candidates raised in PR #410 in alignment with Functional Baseline 2.0 and ASTRA-GOLD governance contracts. 
+The earlier draft described release channels/tags as “pinned” and stated that provenance passed. Those phrases were not backed by exact upstream commit SHAs, immutable release identifiers, or inspected license-file SHAs. This checkpoint corrects that overclaim.
 
-**Key Correction:** Blanket compatibility claims are rejected. Upstream components are **never** drop-in domain replacements or autonomous authorities. MediaHub OS retains sole ownership of:
-1. Product State Authority (`components/COMPONENT-REGISTRY.yaml`)
-2. Domain Models & Contracts
-3. Authorization & Security Enforcement
-4. Recovery & Update Authority
+- No exact upstream commit SHA was captured for the candidates below in this pass.
+- No upstream `LICENSE` / `COPYING` file was read back with a source ref and blob SHA for this pass.
+- License labels are therefore **not verified here** and are not legal approval.
+- Compatibility is a proposal only; no runtime, benchmark, integration, migration, or qualification test was performed.
+- No candidate is approved for implementation, runtime activation, or production use by this report.
 
----
+## MediaHub contracts used as boundaries
 
-## 2. Retained Component Provenance & Contract Mapping
+1. **Functional Baseline 2.0** — `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, blob SHA `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`. This is the canonical functional reference; component registration does not imply implementation or qualification.
+2. **Component Registry** — `components/COMPONENT-REGISTRY.yaml@main`, blob SHA `3ad109ba5ec9b095d0fac851514caadcefbe2f69`. Its stated principle is to reuse mature open-source blocks and patterns rather than adopting whole products without explicit justification; MediaHub retains architectural ownership and authoritative state.
+3. **Gemini authority rule** — `GEMINI.md@main`, blob SHA `4c431143aa5c46776e80893bf3c0e5f202e3b76d`: Product State Authority alone owns canonical MediaHub product-state mutation; AI agents, cloud workflows, queues, and adapters do not acquire it.
+4. **ASTRA governance contract** — `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml@main`, blob SHA `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`. Any candidate must remain an implementation primitive or adapter and must not gain authority by implication.
 
-### A. Relational Persistence & Vector Search
-- **PostgreSQL** (`https://github.com/postgres/postgres`)
-  - *License:* PostgreSQL License (Permissive)
-  - *Pinned Reference:* Upstream stable release channel / pinned release manifests.
-  - *Fit & Unknowns:* Target durable persistence backend only. MH-03 remains in-memory/single-node until the persistence governance gate passes. MediaHub owns schema, migrations, and invariants.
-- **pgvector** (`https://github.com/pgvector/pgvector`)
-  - *License:* PostgreSQL License
-  - *Pinned Reference:* Compatible release tag mapped to PostgreSQL extension tier.
-  - *Fit & Unknowns:* Semantic and vector search capabilities integrated directly inside PostgreSQL; does not constitute a separate vector state authority.
+## Candidate inventory — every row remains unverified
 
-### B. Local AI Runtimes
-- **ONNX Runtime** (`https://github.com/microsoft/onnxruntime`)
-  - *License:* MIT
-  - *Pinned Reference:* Pinned release tag / manifest integration.
-  - *Fit & Unknowns:* Portable local inference runtime. Model provenance, execution policy, and resource limits remain strictly MediaHub-owned.
-- **llama.cpp** (`https://github.com/ggml-org/llama.cpp`)
-  - *License:* MIT
-  - *Pinned Reference:* Pinned stable commit / release tag.
-  - *Fit & Unknowns:* Primary local LLM inference engine for local advisory workflows. Prompt policy, tool permissions, and state boundaries are controlled by MediaHub AI Gateway.
+| Candidate | Upstream repository | Exact commit/release pin | License-file evidence | MediaHub fit status |
+|---|---|---|---|---|
+| PostgreSQL | https://github.com/postgres/postgres | NOT CAPTURED | NOT INSPECTED | Proposal only; persistence activation remains gated |
+| pgvector | https://github.com/pgvector/pgvector | NOT CAPTURED | NOT INSPECTED | Proposal only; extension/schema compatibility not tested |
+| ONNX Runtime | https://github.com/microsoft/onnxruntime | NOT CAPTURED | NOT INSPECTED | Proposal only; model/runtime provenance and resource gates open |
+| llama.cpp | https://github.com/ggml-org/llama.cpp | NOT CAPTURED | NOT INSPECTED | Proposal only; build/model provenance and resource gates open |
+| OpenTelemetry Collector | https://github.com/open-telemetry/opentelemetry-collector | NOT CAPTURED | NOT INSPECTED | Proposal only; telemetry must remain non-authoritative |
+| Prometheus | https://github.com/prometheus/prometheus | NOT CAPTURED | NOT INSPECTED | Proposal only; observability must remain non-mutating |
+| Cosign | https://github.com/sigstore/cosign | NOT CAPTURED | NOT INSPECTED | Proposal only; signature evidence feeds MediaHub release policy |
+| Syft | https://github.com/anchore/syft | NOT CAPTURED | NOT INSPECTED | Proposal only; SBOM output is evidence, not release authority |
+| Trivy | https://github.com/aquasecurity/trivy | NOT CAPTURED | NOT INSPECTED | Proposal only; scan output is evidence, not security authority |
+| SOPS | https://github.com/getsops/sops | NOT CAPTURED | NOT INSPECTED | Proposal only; must not create a competing secret authority |
+| age | https://github.com/FiloSottile/age | NOT CAPTURED | NOT INSPECTED | Proposal only; cryptographic workflow integration remains untested |
 
-### C. Observability & Supply Chain
-- **OpenTelemetry & Prometheus** (`open-telemetry/opentelemetry-collector`, `prometheus/prometheus`)
-  - *License:* Apache-2.0
-  - *Fit & Unknowns:* Non-authoritative, non-mutating operational observability and metrics collection. Cannot mutate State Authority.
-- **Cosign, Syft, & Trivy** (`sigstore/cosign`, `anchore/syft`, `aquasecurity/trivy`)
-  - *License:* Apache-2.0
-  - *Fit & Unknowns:* Artifact signing, SBOM generation, and security vulnerability scanning. Feeds release gates and policy; scanner outputs are evidence, not security authorities.
+## Required evidence before retaining any candidate
 
-### D. Secret Management & Configuration
-- **SOPS & age** (`getsops/sops`, `FiloSottile/age`)
-  - *License:* MPL-2.0 / BSD-3-Clause
-  - *Fit & Unknowns:* Encrypted configuration and secrets workflow retained as the deployment/configuration primitive pending OpenBao capability comparison. Must not create conflicting secret authorities.
+For each candidate to be retained beyond inventory, the next pass must record:
 
----
+1. Canonical upstream repository URL and exact commit SHA or immutable release reference.
+2. Exact license file path, blob SHA, and license text identifier; legal approval remains a separate decision.
+3. Maintainer/release and security-advisory evidence as of the reviewed ref.
+4. Contract-specific fit and incompatibilities against Baseline 2.0 and the component registry.
+5. Adapter boundary, configuration/data egress, privilege requirements, rollback, and negative-test cases.
+6. Runtime/benchmark evidence only when explicitly within the bounded task; no such evidence is claimed here.
 
-## 3. Acceptance Criteria & Known Gaps
+## Disposition
 
-- **Acceptance Criteria:**
-  1. Strict license compliance and upstream provenance pinning.
-  2. Isolation of upstream APIs behind MediaHub-owned adapter boundaries.
-  3. Preservation of single-node MH-03 runtime reference constraints unless explicitly gated.
-- **Known Gaps:**
-  - Target-gated components (e.g., PostgreSQL, ONNX, llama.cpp) require explicit downstream activation gates and benchmark evidence.
-  - No autonomous activation of distributed or persistent features without human governance approval (G11).
-
----
-
-## 4. Verification Status
-- **Static Analysis / Documentation Check:** PASSED. All candidate mappings audited against `architecture/FUNCTIONAL-BASELINE-1.0-OSS-COMPONENT-BASELINE.md` and `components/COMPONENT-REGISTRY.yaml`.
-- **Runtime Execution:** Skipped per instructions (no test execution, no deployment, no secret inspection).
+This checkpoint is a corrected candidate inventory, not a completed provenance qualification. PR #417 must remain Draft until the evidence above is added for any candidate claimed as retained. No tests, deployment, secret inspection, or component activation were performed.
