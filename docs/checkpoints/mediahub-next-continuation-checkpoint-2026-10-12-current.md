@@ -3,6 +3,17 @@
 Created: 2026-10-12
 Purpose: Resume this exact project state in a new chat when the user sends /next.
 
+
+## Latest continuation — Wave 217 (2026-10-20)
+
+- Canonical map updated with Wave 216/217 entries; map blob SHA: `8078f003f9438a6f9997a6060e950c46d70c8cbc`; documentation commit: `3a3ff1b8af9dfa7568b512c42af781e82b5cbb61`.
+- Runtime evidence report: [MEDIAHUB-CONTOUR-A-GITHUB-TRANSPORT-RUNTIME-QUALIFICATION-WAVE-217-2026-10-20.md](MEDIAHUB-CONTOUR-A-GITHUB-TRANSPORT-RUNTIME-QUALIFICATION-WAVE-217-2026-10-20.md), blob SHA `40587a1c0f7aa90c47943d8c14de3d9fc23c8fee`.
+- Controller PR #408 merged; input choice fix PR #412 merged; Wave 218 task update PR #415 merged. Current `main` HEAD at last verified read: `d27a52fed03703c16c62c4c1481091e6110e80f2`.
+- Controller workflow blob: `99e5a87825aeb239568f96ecef004a102ff3e53b`. Static validation passed: actionlint v1.7.7, YAML semantic assertions, and `bash -n` for both embedded shell blocks. PR checks `validate`/`verify` passed for #412 and #415.
+- Controller run [39396854829](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396854829) was accepted through GitHub Actions via `workflow_dispatch` with `confirm=yes`, but the last read showed status `pending` and no jobs. The earlier pre-fix attempt returned HTTP 422 and created no run. No child run IDs are asserted until the controller itself reports/records them.
+- Controller's REST API credential binding is `secrets.MEDIAHUB_GITHUB_TOKEN`; secret values were not read or logged. Runtime authorization of that secret remains unverified until controller steps run.
+- Immediate next step: inspect run #39396854829, confirm the three child run IDs and terminal outcomes, review each artifact/PR against source contracts, then update this checkpoint and report with verified final SHAs. Contour A remains NOT_PROVEN / BLOCKED until all acceptance gates pass.
+
 ## Current owner instruction supersession — 2026-10-17
 
 This block supersedes older blanket restrictions below where they state that this checkpoint authorizes documentation-only work, prohibits tests/installation/provider invocation/merge, or requires separate permission for routine integration. The owner has directed autonomous, continuous project development. Do not request per-action confirmation for normal engineering work within the project scope: inspect GitHub, implement bounded changes, install dependencies in available environments, run tests/checks, invoke authorized providers, and perform required merge/rebase/cherry-pick when the relevant architectural gates and repository protections pass. Check CI, provenance, conflicts, data-loss risk, actual access and capability/issuer requirements; preserve the distinction between engineering workflow authority and Product State Authority. Historical pass records remain historical evidence, not current blanket prohibitions. Continue to respect provider policy, budget, secret isolation, audit, and the Contour A acceptance gates.
