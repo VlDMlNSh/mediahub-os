@@ -131,3 +131,13 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Exact-head CI runs #39402774891 (Astra Cloud Runtime Validation) and #39402774885 (Astra Verify) were in progress at checkpoint update; terminal results must be rechecked before claiming success.
 - No independent review yet; controlled failure-path test still requires authorization and evidence. Do not redispatch Agent 2, merge, deploy, or claim Contour A qualification.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+### Wave 225 CI completion
+
+- Exact-head CI on `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc` completed successfully:
+  - [Astra Cloud Runtime Validation #39402774891](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774891) — SUCCESS.
+  - [Astra Verify #39402774885](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774885) — SUCCESS.
+- The artifact uploader is pinned to upstream-verified Node 24 commit `cf430e030ddbb5b0abf93d22962f4752f3646cd9`. This is static/CI evidence only, not proof of upload during a Gemini action failure.
+- Independent review and an authorized controlled failure-path test remain open. Keep PR #420 Draft/unmerged and do not redispatch Agent 2 before those gates.
+- Report: [Wave 225](MEDIAHUB-UPLOAD-ARTIFACT-IMMUTABLE-PIN-WAVE-225-2026-10-20.md). Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
