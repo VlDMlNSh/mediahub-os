@@ -1,8 +1,8 @@
-# Wave 273 — A0 multi-tier routing and explicit FreeLLMAPI/Claude-Alamo constraints (2026-10-20)
+# Wave 273 supplement — repository-state and FreeLLMAPI source reconciliation (2026-10-20)
 
 ## Status and authority
 
-**OWNER-DIRECTED HARD TARGET REQUIREMENTS RECORDED; IMPLEMENTATION/QUALIFICATION NOT VERIFIED.** This wave clarifies and supplements the owner lock in Wave 272. The requirements bind subsequent design and implementation planning; they do not amend Functional Baseline 2.0, replace governance/change control, qualify any route, or authorize live actions.
+**SUPPLEMENTAL SOURCE/STATE NOTE; NOT A SECOND WAVE DECISION.** The canonical owner-directed Wave 273 requirement record is [the primary FreeLLMAPI/FCC/Alamo hard-route report](MEDIAHUB-A0-FREELLMAPI-FCC-ALAMO-CLAUDE-HARD-ROUTE-REQUIREMENTS-WAVE-273-2026-10-20.md). The binding architectural contract is [A0 hybrid dispatch and Alamo Claude routing hard requirements](../architecture/MEDIAHUB-A0-HYBRID-DISPATCH-AND-ALAMO-CLAUDE-ROUTING-HARD-REQUIREMENTS.md). This supplemental report preserves a distinct repository-state/source reconciliation and must not be treated as a competing owner decision. It does not amend Functional Baseline 2.0 or claim that any route is qualified.
 
 ## Confirmed target architecture
 
