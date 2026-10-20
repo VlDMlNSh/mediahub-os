@@ -3,7 +3,21 @@
 Created: 2026-10-12
 Purpose: Resume this exact project state in a new chat when the user sends /next.
 
-## Latest continuation — Wave 281 (2026-10-20)
+## Latest continuation — Wave 282 (2026-10-20)
+
+- Report: [worker generic-gateway route-admission audit](MEDIAHUB-CONTOUR-A-WORKER-GATEWAY-ROUTE-ADMISSION-WAVE-282-2026-10-20.md). Report blob SHA `ce7d5a3a81be4e9280f0fadc9b8f9b31815a6f69`; traceability update commit `161aafd24df5468227332288d0ec1060e7a8cec7`.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 282. Map blob SHA `6e8eda4effca2b233f8a0dcb90a6b7d98b394b2b`; map indexing commit `ed1c9f43612b5feed12247055d0de3f9b8ff9379`.
+- Master Roadmap Wave 282 addendum: [Master Development Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), blob SHA `c5d55e85cadbf39a4c69590bfb866ba7f49a67ff`; update commit `ee708ea331535831697428a90ad14eb5b8528798`.
+- Main HEAD remains `80be45a70732b1d568164571d4273a6397792c3b`. PR #425 branch `contour-a/fail-closed-generic-gateway-fallback-wave277` HEAD `ce44a47b0d327a5cca9593e529fe97b492ffaa4a`; compare is 2 ahead / 0 behind and exactly two paths are changed: `astra_github_agent.py` and `tests/test_astra_github_gateway_route_admission.py`.
+- Worker blob on candidate: `386390079c3271739c8ca4713d10d5f2f70203f0`; regression test blob: `12534024eb32a3c6e8d1f9f5b2ee7cdba599db47`. Source has no `AstraGatewayRuntime().run_bounded(` generic fallback; six generic operations fail closed before gateway import and future unhandled allowlisted operations fail closed.
+- Exact-head Astra Verify #39453835133 and Astra Cloud Runtime Validation #39453835149 are SUCCESS. Verify log reports compile, 434 unit tests and signed-command smoke passing. PR #425 remains OPEN/DRAFT/UNMERGED; the reviews endpoint returns no independent review. The current pass re-read existing CI metadata and source; no local test or provider execution was performed.
+- PR #421 remains OPEN/DRAFT/UNMERGED for the Gemini controller-only transition. Static negative caller-context tests exist, but the required live non-launching GitHub caller-context probe and independent security review are still missing. Do not dispatch Gemini until that gate is complete. PR #423 remains separate for the two legacy workflow retirements; PR #422 is closed as an unmerged duplicate. PR #424 remains a different docs-branch correction.
+- No Gemini/model/provider call, workflow dispatch, host/secret access, merge, deployment, route qualification or acceptance occurred. Contour A remains `NOT_PROVEN / BLOCKED`; Contour B remains gated.
+- **Next:** get independent review of #425 and recheck required checks on its exact current head. Keep #421's independent review, caller/secret-boundary audit and non-launching GitHub runtime-context probe as separate blockers.
+
+---
+
+## Previous continuation — Wave 281 (2026-10-20)
 
 - Audit report: [Gemini caller-guard gate audit](MEDIAHUB-CONTOUR-A-GEMINI-CALLER-GUARD-GATE-AUDIT-WAVE-281-2026-10-20.md). Report blob SHA after traceability update: `b37a54018cab05d69c1bd7586dd303ff504f3d5a`; report update commit `480e76b80d768f47b34aa89242e6ad1ad1d575df`.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Map update commit `abb08acac46e9e7758226c8d5f521a70f11629a2`; map blob SHA `205c25126e73dc542b671f4235691f7a09745372`.
