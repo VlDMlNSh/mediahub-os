@@ -1,0 +1,12 @@
+# Canonical map addendum — Wave 286 (2026-10-20)
+
+## Least-privilege Gemini caller-context probe repair
+
+- **Detailed report:** [Wave 286 — least-privilege probe repair and exact-head CI](../checkpoints/MEDIAHUB-GEMINI-CALLER-PROBE-LEAST-PRIVILEGE-REPAIR-WAVE-286-2026-10-20.md), report blob SHA `2e20dc96bfac0b086e9fd3b169b68e40fef08bba`, report-creation commit `86b21be0b34042b2b67c885bfad8a922dff8af74`.
+- [Canonical project map](MEDIAHUB-CHAT-TREE-MAP.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301); [PR #421](https://github.com/VlDMlNSh/mediahub-os/pull/421).
+- Candidate branch `contour-a/workflow-call-controller-governance-wave243`, final observed HEAD `3141a44370694d78f76779243adb548318a745d7`, based on `main` `80be45a70732b1d568164571d4273a6397792c3b`.
+- New source blobs: read-only reusable observer `e05759d04f34f52cc7ad1b794b6718585ee2507f`; caller probe `795d0786a8d1855dc5caf236e950eb6595dd23d4`; dedicated contract validation workflow `ace5c3bf06130781f929966bdd1b49f66753d69d`; static contract tests `0691728f2de808ae8aeff4bcfe4f091ab158a450`.
+- Repaired startup failure by removing the empty `secrets: {}` caller mapping rejected by actionlint and using a minimal `permissions: {}` reusable observer rather than invoking a write-capable Gemini child. The probe has no provider secret, checkout or model/provider action.
+- Removed the old probe/test path collisions with PR #426. `.github/workflows/astra-verify.yml` is restored to the same blob as `main`, moving the specialised lint/static checks into a separate PR-triggered workflow. Compare against main: PR #421 changed-file list has no path intersection with PR #426's current changed-file list.
+- Exact-head runs at `3141a44370694d78f76779243adb548318a745d7`: Cloud Runtime Validation #39462792548 SUCCESS; dedicated contract validation #39462792571 SUCCESS; non-launching caller-context probe #39462792657 SUCCESS; Astra Verify #39462792590 was still IN PROGRESS at capture. No Gemini/provider dispatch or secrets access.
+- PR #421 remains OPEN/DRAFT/UNMERGED with zero submitted independent reviews; Issue #301 remains OPEN. Do not merge, deploy, qualify, or dispatch Gemini until exact-head full CI, independent review and governance/protection gates are satisfied.
