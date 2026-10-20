@@ -10,10 +10,12 @@ on:
       - ".github/workflows/gemini-caller-context-probe.yml"
       - "tests/test_gemini_caller_context_probe_contract.py"
 
-# The workflow and assertion job have no token permissions. The reusable-call
-# job grants only the child workflow's declared read-only permission ceiling;
+# The workflow has a read-only ceiling because the reusable child declares
+# contents/issues:read. The assertion job overrides this to no token permissions.
 # probe_only=true and secrets:{} prevent provider/model execution.
-permissions: {}
+permissions:
+  contents: read
+  issues: read
 
 jobs:
   probe:
