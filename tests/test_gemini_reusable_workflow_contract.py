@@ -11,6 +11,8 @@ CHILD_PATHS = (
 )
 EXPECTED_SECRETS = ("GEMINI_API_KEY", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3")
 TRUSTED_CONTROLLER_REF = "VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main"
+TRUSTED_GUARD = "github.workflow_ref == '" + TRUSTED_CONTROLLER_REF + "'"
+TRUSTED_CONTROLLER_REF = "VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main"
 
 
 def caller_ref_allowed(event_name: str, workflow_ref: str) -> bool:
@@ -81,6 +83,29 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
         bad = list(self.children)
         bad[1] = bad[1] + "\n# MEDIAHUB_GITHUB_TOKEN\n"
         self.assertIn("child 2 violates secret isolation", contract_errors(self.controller, bad))
+
+    def test_negative_fixture_rejects_untrusted_controller_branch(self):
+        bad = list(self.children)
+        bad[0] = bad[0].replace(
+            TRUSTED_GUARD,
+            "github.workflow_ref == 'VlDMlNSh/mediahub-os/.github/workflows/"
+            "gemini-batch-dispatch-controller.yml@refs/heads/feature/untrusted'",
+        )
+        self.assertIn(
+            "child 1 must require the exact trusted main controller ref",
+            contract_errors(self.controller, bad),
+        )
+
+    def test_negative_fixture_rejects_loose_controller_path_match(self):
+        bad = list(self.children)
+        bad[2] = bad[2].replace(
+            TRUSTED_GUARD,
+            "contains(github.workflow_ref, '/.github/workflows/"
+            "gemini-batch-dispatch-controller.yml@')",
+        )
+        errors = contract_errors(self.controller, bad)
+        self.assertIn("child 3 must require the exact trusted main controller ref", errors)
+        self.assertIn("child 3 must not use a loose controller-ref predicate", errors)
 
 
 if __name__ == "__main__":
