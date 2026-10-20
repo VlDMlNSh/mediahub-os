@@ -21,3 +21,5 @@ Wave 267 source inspection found that AuthorizationContext lacks issuer provenan
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md)
 - Current checkpoint: [mediahub-next-continuation-checkpoint-2026-10-12-current.md](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md)
 - Master plan: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md)
+
+- Follow-on contract draft: [Wave 269 — A0 hybrid mission envelope and destination lifecycle](../checkpoints/MEDIAHUB-A0-HYBRID-MISSION-ENVELOPE-AND-DESTINATION-LIFECYCLE-CONTRACT-DRAFT-WAVE-269-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-269-2026-10-20.md). This is a design candidate, not a normative schema; see source gaps and negative-test plan in that report.
