@@ -176,18 +176,28 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
     def test_trusted_caller_guard_is_the_engineer_job_condition(self):
         import yaml
 
-        expected = (
-            "github.event_name == 'workflow_dispatch' && "
-            "github.workflow_ref == '" + TRUSTED_CONTROLLER_REF + "'"
+        required_guards = (
+            "inputs.probe_only != true",
+            "needs.caller_context.outputs.trusted_controller == 'true'",
+            "github.event_name == 'workflow_dispatch'",
+            "github.workflow_ref == '" + TRUSTED_CONTROLLER_REF + "'",
         )
         for index, path in enumerate(CHILD_PATHS):
             with self.subTest(child=index + 1):
                 workflow = yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
                 engineer = workflow.get("jobs", {}).get("engineer", {})
+                condition = " ".join(engineer.get("if", "").split())
+                for guard in required_guards:
+                    with self.subTest(guard=guard):
+                        self.assertIn(
+                            guard,
+                            condition,
+                            "engineer must be gated by probe mode, observed trusted-caller result, event, and exact controller ref",
+                        )
                 self.assertEqual(
-                    engineer.get("if", "").strip(),
-                    expected,
-                    "trusted-caller guard must be the actual engineer job condition, not a comment or unrelated string",
+                    engineer.get("needs"),
+                    ["caller_context", "reject_untrusted_caller"],
+                    "engineer must depend on caller-context observation and fail-closed caller rejection",
                 )
 
 
