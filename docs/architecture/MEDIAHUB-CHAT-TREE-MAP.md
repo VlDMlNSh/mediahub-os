@@ -1,12 +1,14 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 278; A0 coordination vs Product State Authority cross-contract crosswalk)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 279; worker secret-gate regression restoration)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
 - Статус карты: **ИНВЕНТАРИЗАЦИЯ / НЕ ПОЛНАЯ ПРИЁМКА**
 - Назначение: единая точка входа для восстановления дерева MH-01…MH-25 и предотвращения повторного поиска одних и тех же материалов.
+
+- Wave 279 (2026-10-20): [worker secret-gate regression restoration](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-SECRET-GATE-REGRESSION-RESTORATION-WAVE-279-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-279-2026-10-20.md).
 
 - Wave 277 (2026-10-20): [exhaustive branch-tree drift and A0 authority crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-TREE-DRIFT-AND-A0-AUTHORITY-CROSSWALK-WAVE-277-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-277-2026-10-20.md).
 
@@ -7677,3 +7679,10 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - PR #421 remains Draft with CI successes but independent review/security-boundary/governance gates absent. PR #423 is the sole draft retirement candidate for the two old-host migration workflows; PR #422 is closed as duplicate. No PR is merged.
 - No local/CI tests run in this audit, no server/secret/provider access, workflow dispatch, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Related: [Wave 277 exhaustive tree / A0 authority crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-TREE-DRIFT-AND-A0-AUTHORITY-CROSSWALK-WAVE-277-2026-10-20.md), [Wave 276 task ingress issuer / approval audit](../checkpoints/MEDIAHUB-A0-TASK-INGRESS-ISSUER-AND-APPROVAL-TRUST-GAP-WAVE-276-2026-10-20.md), [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+
+
+### Wave 279 — worker secret-gate regression restoration (2026-10-20)
+
+- Report: [Wave 279](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-SECRET-GATE-REGRESSION-RESTORATION-WAVE-279-2026-10-20.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-279-2026-10-20.md).
+- The docs branch had an over-escaped secret-detection regex in `ops/qualification/run_distributed_local_worker.py` (prior blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`); main's source line is blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1`. The main regression suite `tests/test_worker_security_gate.py` (blob `53098d1755518bc9fcd67a2236d874534aeb8fd5`) was missing from docs and is restored in Draft PR #424.
+- PR #424 changes exactly those two paths on an isolated branch targeting the documentation ref. Head `1538eb2c11f0336186fec0962dec7896a73cab7b`; no PR-triggered runs or reviews were returned at the last check. The fix remains proposed, not integrated; exact-head CI and independent review are required. No mainline change occurred.

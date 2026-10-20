@@ -2468,3 +2468,10 @@ Trace and source-pin the actual task producer/writer, inbox ACL, and trusted app
 1. Resolve the exact semantics and identifier for A0 mission/control-plane state versus MediaHub Product State Authority through governance/Issue #301.
 2. Trace the external Task Contract producer/writer, inbox ACL and trusted approval/attestation verifier documented in Wave 276 before adding an accepted task envelope.
 3. Obtain independent review and re-evaluate exact-head checks for PR #421 and #423; do not dispatch Gemini or merge either PR without its separate gates.
+
+
+## Wave 279 — worker secret-detection regression repair (2026-10-20)
+
+- Report: [Wave 279](MEDIAHUB-CONTOUR-A-WORKER-SECRET-GATE-REGRESSION-RESTORATION-WAVE-279-2026-10-20.md); map addendum: [Wave 279](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-279-2026-10-20.md).
+- Diff-driven source finding: docs `ops/qualification/run_distributed_local_worker.py` escaped `\s*` twice, unlike main; the restored expression now reads back with main's exact blob SHA `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1`. The missing test suite `tests/test_worker_security_gate.py` is restored from blob `53098d1755518bc9fcd67a2236d874534aeb8fd5`.
+- Draft PR #424 has exactly two changed paths and targets only `docs/mediahub-chat-tree-map-20261012`. No exact-head workflows or reviews were returned; test execution is unverified. Keep the PR Draft pending CI and independent review. Do not cherry-pick/promote to main without a separate review.
