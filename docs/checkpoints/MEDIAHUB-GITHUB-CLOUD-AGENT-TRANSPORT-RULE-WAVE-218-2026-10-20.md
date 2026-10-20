@@ -25,3 +25,15 @@ Rule recorded in:
 ## Verification limits and next step
 
 The canonical map itself was not overwritten because the Contents wrapper returned an empty body for the large map; the map addendum is used instead. This rule does not establish Contour A acceptance or accept agent outputs. No agent PR was merged. Next: read back all changed files and record blob SHAs, inspect Agent 2 logs, and independently review PRs #413/#414. Future agent launches remain restricted to the approved controller and MEDIAHUB_GITHUB_TOKEN.
+
+
+## Read-back verification
+
+Read-back from the canonical documentation branch after writes:
+- Dedicated policy blob SHA: `18c27e3f3be100da54b256cdc7d97a36e1fd753e`.
+- Bootstrap blob SHA: `d54870c68633c3ff49f992647d46ea5fc7219a05`.
+- Continuation checkpoint blob SHA: `28722e5eff8650402ed28b653772660bb17a8248`.
+- Map addendum blob SHA: `c2a4513c9a4eccb7bfcee8119fd2d837edd75986`.
+- This report before this read-back append: `541e1b8788aee2796fc00064b7f26dad8ad42a9e`.
+- Controller workflow on `main` read-back SHA: `99e5a87825aeb239568f96ecef004a102ff3e53b`; content references `secrets.MEDIAHUB_GITHUB_TOKEN`.
+- Issue #301 comment ID: `6287381098`.
