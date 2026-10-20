@@ -5429,3 +5429,13 @@ Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map
 - Classic `MEDIAHUB_GITHUB_TOKEN` was proven only for the temporary smoke target, runs #39383103249/#39383110978. No A1/A2/A3 dispatch in Wave 247; no credential values accessed or placed in model/worker inputs.
 - Next: authorized signed-in dispatch path and a source-bound artifact-only worker/trusted-publisher design. Current state **NOT PROVEN / BLOCKED**.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 248 — worker/publisher boundary source review (2026-10-20)
+
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-WORKER-PUBLISHER-BOUNDARY-SOURCE-REVIEW-WAVE-248-2026-10-20.md
+- Main audited: `1324f2f9e558a99c1d3e06eb9d955c0827214fe2`. Worker blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1`; workflow blob `f650f2416c19dc75b4a0eeec037661c0c6169910`.
+- Worker lines 64–74 validate task JSON shape/required fields, not cryptographic issuer/capability/expiry/revocation/replay. Lines 663–680 show worker-side stage/commit/push and remote-SHA check. Lines 116–124 and 176–218 show ambient environment copying. Main workflow lines 34–35 grant `contents: write`; lines 56/97/138 persist checkout credentials.
+- PR #375's exact-head checks passed, but its permission regression tests do not prove artifact-only worker/publisher separation. PR remains Draft/unmerged.
+- Next: govern issuer/capability ownership; implement an artifact-only worker with strict manifest/path validation and a separately credentialed publisher; add negative tests before qualification. No implementation/deployment performed in this pass.
+- Current state: **NOT PROVEN / BLOCKED**. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md

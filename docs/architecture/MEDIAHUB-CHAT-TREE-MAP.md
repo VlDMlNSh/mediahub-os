@@ -7467,3 +7467,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Exact-head CI verified: PR #375 (`6fb078a...`) and #388 (`815fa4a...`) and #404 (`75ce935...`) have two named checks SUCCESS each; PRs #401/#402/#403 agent research candidates have both named checks `action_required`, not successful CI. All six PRs remain OPEN/Draft/unmerged.
 - Classic `MEDIAHUB_GITHUB_TOKEN` smoke dispatch remains proven only for temporary caller/target runs #39383103249/#39383110978; no A1/A2/A3 dispatch occurred in this wave. Broad PAT was not used in worker/model execution.
 - Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated. Do not merge candidates based on green checks alone; issuer/capability/replay/revocation and independent publisher boundary remain open.
+
+
+## 20.375 — Wave 248: worker/publisher boundary source review (2026-10-20)
+
+- Report: [Wave 248 worker/publisher boundary review](../checkpoints/MEDIAHUB-WORKER-PUBLISHER-BOUNDARY-SOURCE-REVIEW-WAVE-248-2026-10-20.md).
+- Audited `main=1324f2f9e558a99c1d3e06eb9d955c0827214fe2`; worker blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1`; workflow blob `f650f2416c19dc75b4a0eeec037661c0c6169910`.
+- Verified: worker task loader checks JSON shape/required fields but does not itself verify issuer/signature, capability, expiry, revocation or replay; worker owns `git add -A`, commit, push and remote-SHA comparison; subprocesses inherit ambient environment. On `main`, workflow has `contents: write` and three `persist-credentials: true` checkouts.
+- PR #375 reduces workflow permission/checkout credential exposure and its exact-head CI is green, but does not remove worker-side publication or establish a separate trusted publisher. Keep Draft/unmerged pending artifact-only worker, signed manifest, issuer/capability contract and negative tests.
+- Issue #378 remained open with no comments at audit; this is a source review, not evidence Gemini Agent 1 ran. No code, secrets, hosts, dispatches or deployment changed.
+- Contour A remains **NOT PROVEN / BLOCKED**. Canonical map and checkpoint updated in this wave; refs remain separate and unmerged.
