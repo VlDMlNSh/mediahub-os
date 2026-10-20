@@ -32,3 +32,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - PR #413 requests changes (review 5582981729): hard-coded 00:00 UTC timestamp not matching observed run time and unsupported PASS_STATIC_REVIEW framing; refresh provenance against current main.
 - PR #414 requests changes (review 5582982170): Draft 2020-12 claims lack exact schema inventory and validator evidence; separate hypotheses from demonstrated findings. Neither PR merged.
 - Next: improve task budgeting/repeated-tool-failure handling and emit bounded failure evidence where possible; retry only after correction, using the approved GitHub API transport. Contour A remains not accepted.
+
+
+## Wave 220 — GitHub Transport controller regression coverage (2026-10-20)
+
+- Added and merged [PR #419](https://github.com/VlDMlNSh/mediahub-os/pull/419), merge commit `80be45a70732b1d568164571d4273a6397792c3b`.
+- Test file: `tests/test_gemini_transport_controller_contract.py`, main blob SHA `00fcbdb4416031ef6f736661823a7c8b6d93f344`.
+- Post-merge Astra Verify [run 39398784963](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39398784963) SUCCESS; 431 unit tests passed, including the five new controller assertions. Compile and signed-command smoke test passed. PR exact-head `validate` and `verify` checks passed.
+- Main HEAD at last verified read: `80be45a70732b1d568164571d4273a6397792c3b`.
+- Canonical map blob after Wave 220 index: `a5752f49578083c41c80caccaf0f624568b87360`; documentation commit `641f44c20897913252aa721f772303688220e890`.
+- Runtime proof remains: controller [39396854829](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396854829) SUCCESS and child runs [39397165125](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39397165125), [39397167382](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39397167382), [39397169704](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39397169704) all SUCCESS. Agent PRs #416–#418 are not accepted; each has REQUEST_CHANGES for concrete evidence gaps.
+- Next bounded step: review revisions to #416–#418 and decide whether the contradictory `state_authority: A0-ASTRA` field needs a formal governance change request. Do not edit accepted authority semantics silently. Contour A remains NOT_PROVEN / BLOCKED pending remaining G0–G11 gates and independent acceptance.
