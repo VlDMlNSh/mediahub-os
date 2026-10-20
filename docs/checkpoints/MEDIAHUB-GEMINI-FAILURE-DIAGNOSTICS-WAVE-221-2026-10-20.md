@@ -69,3 +69,14 @@ Read-back confirms `job_id` is present and `job_status` absent in each file; the
 - Astra Cloud Runtime Validation [#39400178859](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178859) is now `success`.
 - Astra Verify [#39400178898](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178898) remained `in_progress` on job `118552633193`; compile passed and cloud admission unit tests were still running. Final result not yet observed.
 - These checks are associated with latest branch commit `d34c6cd646b59e83d75bf338739722464577dd56`; neither run is a dedicated workflow linter or controlled Gemini failure-path test.
+
+
+## Wave 223 — diagnostic field correction and exact-head CI refresh (2026-10-20)
+
+- Rechecked current main: `80be45a70732b1d568164571d4273a6397792c3b`. PR [#420](https://github.com/VlDMlNSh/mediahub-os/pull/420) remains the active proposal; it has no submitted reviews in the current read-back and is not merged.
+- Exact-head CI for the prior branch head `d34c6cd646b59e83d75bf338739722464577dd56` has now completed: [Astra Cloud Runtime Validation #39400178859](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178859) and [Astra Verify #39400178898](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178898) both concluded `success`. These generic checks do not demonstrate workflow YAML linting or the controlled failure-path artifact behavior.
+- Review found the JSON object key was still `job` although its value came from `GITHUB_JOB`; the prior Wave 222 note incorrectly stated the emitted key itself was `job_id`. Corrected the emitted key to `job_id` in all three workflows.
+- New branch blob SHAs after read-back: Agent 1 `be6400d2f4d511bf7f12296b6e9505ddc10c9031`; Agent 2 `e46b6c107de41992009c7d960a0849ccc53df1ca`; Agent 3 `991ccecbfe8e5eda5568cd11be1be2daf061fcae`. Latest branch commit: `d1ea86688ae5397e3149b1fb3b2192f0dc2bcb23`.
+- New exact-head CI runs for `d1ea86688ae5397e3149b1fb3b2192f0dc2bcb23`: [Astra Cloud Runtime Validation #39400954042](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400954042) and [Astra Verify #39400954055](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400954055) were `queued` when queried. No result is claimed yet.
+- Compare `main...${branch}`: branch is 9 commits ahead, 0 behind; changed paths remain the three child workflows. Existing fail-closed validator and stop-after-MCP-error prompt were confirmed on all three files.
+- Remaining gates: obtain independent review; validate workflow YAML with a dedicated linter; run an authorized controlled failure-path test proving sanitized metadata uploads after Gemini action failure; review the newly introduced `actions/upload-artifact@v4` tag pin against the project's full-SHA action-pinning requirement. No merge, agent redispatch, paid fallback, secret read, deployment, or Contour A qualification occurred.
