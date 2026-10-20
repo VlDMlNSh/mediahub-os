@@ -30,3 +30,12 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Agent 2 failed after repeated GitHub MCP file-read errors, Gemini free-tier input-token quota exhaustion and max-session-turn exhaustion; no stdout artifact was produced. Controller correctly reported the batch failure; dispatch itself succeeded.
 - PR #413 and #414 received REQUEST_CHANGES reviews (IDs 5582981729 and 5582982170). PR #413 has an unverified fixed timestamp; PR #414's schema-gap claims need exact schema-source and validator evidence. Neither merged.
 - Continue only through the GitHub-hosted controller with MEDIAHUB_GITHUB_TOKEN; no paid fallback or alternate launch transport.
+
+
+## Wave 220 — Gemini failure-handling evidence review (2026-10-20)
+
+- Report: [Wave 220 failure-handling review](../checkpoints/MEDIAHUB-GEMINI-FAILURE-HANDLING-REVIEW-WAVE-220-2026-10-20.md).
+- Re-read all three child workflows on `main`: Agent 1 blob `09523d809530ae5b7bf528eab5fa53bc5deaf92d`; Agent 2 blob `259c8c82b8d90a39e1c90e65390e469b241b5581`; Agent 3 blob `91b5397001e088dfae2f450ee77c9c23118b5601`.
+- Agent 2 job `118540763883` log shows an unconfigured `update_topic` call, repeated GitHub MCP read failures, Gemini free-tier input-token quota exhaustion, then `FatalTurnLimitedError`. The post-step validator had no usable stdout JSON and failed closed.
+- The Gemini action's internal artifact-upload step was skipped in this failed run; current workflow validation steps use `if: success()`. Proposed next change: best-effort outer diagnostic upload with `if: always()`, no secret-bearing files, plus stricter stop-on-first-tool-error prompt language. No workflow edits or rerun were performed.
+- Preserve approved GitHub Actions controller transport, no paid fallback, no auto-merge, and no qualification claims. Mainline workflow modifications require a separate reviewed PR and exact-head CI.
