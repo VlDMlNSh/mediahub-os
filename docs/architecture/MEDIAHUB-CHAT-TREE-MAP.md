@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 268; A0 multi-tier routing and Alamo Claude non-paid authorization hard constraints)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 270; owner reaffirmation of A0 hybrid routing and Alamo Claude non-paid API boundary)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7575,3 +7575,11 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - Required next: version the mission envelope and destination responsibility/lifecycle matrix; add negative fixtures/mock-only tests for paid Anthropic API, unknown router, missing issuer, unknown destination, silent fallback, duplicate claims, missing locality policy and DAG identity.
 - No runtime calls, secrets, host inspection, dispatch, tests, merge, deployment, qualification or acceptance occurred in Wave 268. Contour A remains NOT_PROVEN / BLOCKED.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 270 — A0 hybrid routing and Alamo Claude hard requirements reaffirmation (2026-10-20)
+
+- [Wave 270 report](../checkpoints/MEDIAHUB-A0-OWNER-HARD-REQUIREMENTS-AND-ROADMAP-SYNC-WAVE-270-2026-10-20.md)
+- [Wave 270 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-270-2026-10-20.md)
+- Binding requirements: A0 schedules bounded dependency-aware subtasks among the GitHub-hosted cloud pool, admitted user-owned MediaHub, and admitted local executors; A0 owns hybrid lifecycle/reconciliation. Claude/Claude Code for this target is exclusively local on Alamo; Anthropic API and paid Anthropic API authorization/billing are prohibited; FCC/fcc-claude/equivalent routers are conditional candidates subject to upstream/auth/cost/terms/egress/version/host evidence; no silent fallback; execution locality does not prove inference locality. The cloud pool remains independent of Alamo/user devices.
+- Wave 268 records the hard requirements; Wave 269 remains a design-only contract draft. Next: reconcile candidate envelope with authoritative issuer/task contracts and add static/schema/mock-only negative fixtures. Runtime activity and acceptance remain separately gated.

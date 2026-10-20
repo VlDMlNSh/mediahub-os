@@ -4,7 +4,18 @@ Created: 2026-10-12
 Purpose: Resume this exact project state in a new chat when the user sends /next.
 
 
-## Latest continuation — Wave 217 (2026-10-20)
+
+
+## Latest continuation — Wave 270 (2026-10-20)
+
+- Owner reaffirmed hard target requirements: ASTRA GOLD A0 decomposes missions and routes bounded subtasks among GitHub-hosted cloud workers, admitted user-owned MediaHub, and admitted local executors; A0 owns hybrid DAG/queue/claim/lease/retry/cancel/recovery/fencing/handoff/reconciliation.
+- Claude/Claude Code for this target is exclusively a local Alamo executor; Anthropic API and paid Anthropic API authorization/billing routes are prohibited, and no silent fallback is allowed. FCC/fcc-claude or equivalent routers remain conditional candidates only after upstream/auth/cost/terms/egress/version/Alamo-binding evidence; “free” is not proof of permission. Alamo execution is not proof of local inference.
+- Wave 270 report: [MEDIAHUB-A0-OWNER-HARD-REQUIREMENTS-AND-ROADMAP-SYNC-WAVE-270-2026-10-20.md](MEDIAHUB-A0-OWNER-HARD-REQUIREMENTS-AND-ROADMAP-SYNC-WAVE-270-2026-10-20.md); map addendum: [Wave 270](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-270-2026-10-20.md).
+- Wave 268 is the binding requirements consolidation; Wave 269 remains a candidate contract draft, not a normative accepted schema. Next: reconcile fields against authoritative issuer/task contracts and add schema/static/mock-only negative fixtures.
+- Branch HEAD before Wave 270 documentation changes: `82df9b91688200e709a8c6a9b2a26d0bc924b13c`; main HEAD observed: `80be45a70732b1d568164571d4273a6397792c3b`. Issue #301 open; PR #421 open/draft when checked.
+- No tests, provider calls, host inspection, secret reads, agent dispatch, merge, deployment, qualification, or acceptance occurred in this documentation-only pass. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated on deployment and independent acceptance.
+
+## Historical continuation record — Wave 217 (2026-10-20)
 
 - Canonical map contains the Wave 216/217 entries; final map blob SHA: `e94d847b65584f0aea0f43b931193ccb159bc454`; map update commit: `710c8a78cd5d4baee5c723b70aead94dc4cd4184`.
 - Runtime evidence report: [MEDIAHUB-CONTOUR-A-GITHUB-TRANSPORT-RUNTIME-QUALIFICATION-WAVE-217-2026-10-20.md](MEDIAHUB-CONTOUR-A-GITHUB-TRANSPORT-RUNTIME-QUALIFICATION-WAVE-217-2026-10-20.md), final blob SHA `9ae291716286aa6d867672431b0661667a954978`.
