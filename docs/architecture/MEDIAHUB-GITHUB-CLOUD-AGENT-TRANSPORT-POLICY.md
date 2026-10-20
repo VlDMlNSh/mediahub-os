@@ -5,13 +5,13 @@ Status: OWNER-DIRECTED WORKING RULE / REQUIRED FOR ALL FUTURE CLOUD-AGENT DISPAT
 
 ## Binding rule
 
-All cloud-agent launches for MediaHub OS MUST use the repository's GitHub-hosted Actions controller workflow `.github/workflows/gemini-batch-dispatch-controller.yml` and its child workflows. The controller's GitHub REST API dispatch and run-monitoring calls MUST authenticate with the repository secret `MEDIAHUB_GITHUB_TOKEN`.
+The GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` is the only authorized entry point for cloud-agent launches. On current `main`, it still uses GitHub REST dispatch/monitoring with `MEDIAHUB_GITHUB_TOKEN`, but that legacy path is ON HOLD. The owner approved Option B for implementation only in [PR #421](https://github.com/VlDMlNSh/mediahub-os/pull/421): the controller will call the three fixed-scope child workflows through `workflow_call`, with no standalone child `workflow_dispatch`. Do not treat the proposed design as active until review, required checks, and governed integration are complete. Even after integration, a separate authorization is required before any live agent run.
 
 This is the sole approved launch transport for cloud agents in this project. Do not launch Gemini or other cloud agents directly from SentinelX, a server shell, a local CLI, an ad-hoc script, an unrelated workflow, or another transport. SentinelX may be used for local computation and for non-agent repository inspection, but not as the agent execution host or an alternate agent launcher. Cloud-agent execution must occur on GitHub-hosted Actions runners through the approved controller/child-workflow path.
 
 ## Credential handling
 
-- `MEDIAHUB_GITHUB_TOKEN` is an API credential used by the controller only for the documented GitHub API operations required to dispatch and monitor the fixed-scope child workflows.
+- On current `main`, `MEDIAHUB_GITHUB_TOKEN` is the controller's legacy REST-dispatch credential; never expose it to child/model processes. The proposed Option B controller uses native reusable-workflow jobs and must not pass or need this credential for child invocation.
 - Never print, echo, decode, upload, place in prompts, pass to Gemini/model tools, or expose the token to child agent processes. Do not copy the token into artifacts, PRs, logs, task payloads, or reports.
 - Keep provider credentials (for example, the separately configured Gemini API keys) distinct from the GitHub transport credential.
 - Use least privilege and repository/environment secret controls. Do not broaden token permissions or create alternate credentials merely to bypass a denied request.
@@ -20,7 +20,7 @@ This is the sole approved launch transport for cloud agents in this project. Do 
 ## Dispatch and evidence protocol
 
 1. Dispatch the controller through the approved GitHub Actions workflow entry point with its explicit confirmation input.
-2. The controller uses `secrets.MEDIAHUB_GITHUB_TOKEN` for child `workflow_dispatch` calls and run metadata/monitoring. Keep the controller's fixed task scopes and ambiguity/fail-closed behavior.
+2. Current-main REST dispatch is on hold. The approved Option B proposal replaces it with three local `workflow_call` jobs from the controller; pass only the explicitly named provider key to each child, never `secrets: inherit`, and do not pass `MEDIAHUB_GITHUB_TOKEN` to children or models. Preserve fixed task scopes and fail-closed aggregate validation.
 3. Record the controller run ID, each child run ID/job ID, exact workflow/ref, terminal conclusion, produced artifact/PR, and relevant commit/blob SHA. Never infer success from dispatch acceptance alone.
 4. Review agent output as untrusted proposals. Independently inspect source refs, diff, tests, provenance, authority boundaries and exact-head CI before any integration. No automatic merge or qualification follows from a successful agent run.
 5. If a child or controller fails, record the observed failure, inspect available logs, correct the demonstrated cause, and retry only after diagnosis. Do not silently switch transports.
