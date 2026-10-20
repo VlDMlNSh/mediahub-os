@@ -1,12 +1,14 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 277; exhaustive branch-tree drift and A0 authority crosswalk)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 280; fail-closed generic worker gateway fallback admission fix)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
 - Статус карты: **ИНВЕНТАРИЗАЦИЯ / НЕ ПОЛНАЯ ПРИЁМКА**
 - Назначение: единая точка входа для восстановления дерева MH-01…MH-25 и предотвращения повторного поиска одних и тех же материалов.
+
+- Wave 279 (2026-10-20): [worker secret-gate regression restoration](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-SECRET-GATE-REGRESSION-RESTORATION-WAVE-279-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-279-2026-10-20.md).
 
 - Wave 277 (2026-10-20): [exhaustive branch-tree drift and A0 authority crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-TREE-DRIFT-AND-A0-AUTHORITY-CROSSWALK-WAVE-277-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-277-2026-10-20.md).
 
@@ -7665,3 +7667,33 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - The main-only set includes six Gemini/controller workflow files and `tests/test_worker_security_gate.py`; a secret-detection regex differs between `main` and the docs version of `ops/qualification/run_distributed_local_worker.py`. Review exact blob SHAs in Wave 277 before any path-specific integration.
 - PR #423 proposes deletion of only the two legacy old-host migration workflows. Exact-head Astra Cloud Runtime Validation #39451818985 and Astra Verify #39451818611 reported SUCCESS, but the PR remains Draft/unmerged with no submitted reviews. PR #421 likewise remains Draft/unmerged with exact-head CI success but no independent review; the caller-guard/secret-boundary gate and non-launching negative caller-context test remain open.
 - Existing task ingress/authentication/provider schemas do not establish the full A0 mission issuer, trusted approval, destination admission, DAG and route policy lifecycle. Resolve producer/writer, trusted approval verifier and A0 vs Product State Authority naming before adding an accepted schema. No live route, host action, secret access, agent dispatch, merge, deployment, qualification or acceptance occurred.
+
+
+## Wave 278 — ASTRA A0 vs Product State Authority cross-contract audit (2026-10-20)
+
+- Report: [Wave 278 authority cross-contract audit](../checkpoints/MEDIAHUB-ASTRA-GOLD-A0-VS-PRODUCT-STATE-AUTHORITY-CROSSWALK-WAVE-278-2026-10-20.md).
+- Source-level conflict/ambiguity: the canonical qualification-launch schema (`authority.state_authority: A0-ASTRA`) and the gated hybrid-agent profile repeat the same label, and `test_astra_gold_architecture_drift.py` locks it. The reference architecture calls A0 a “coordination and state authority”, while the unified system model describes A0 as a coordination authority and forbids ASTRA GOLD from silently becoming a domain State Authority.
+- This is recorded as a **governance/semantic ambiguity, not a confirmed runtime bypass**. The label may mean mission/control-plane state or Product State Authority; sources inspected do not provide a sufficiently explicit crosswalk. Do not change the canonical schema, profile or tests piecemeal and do not infer that A0 may bypass the Product State Authority.
+- Existing runtime has a separate `StateAuthority` interface and a `ConsumerBoundary` that preserves canonical state-authority exclusivity. The exact identity/contract for the Product State Authority still must be aligned to the intended owner/governance terms before the next versioned envelope is introduced.
+- Proposal: decide and document separate fields for A0 mission/coordination state and canonical Product State Authority, then update qualification schema, reference architecture, unified model, profile and cross-contract tests atomically in a reviewed PR. Until accepted, preserve current canonical values and block runtime authority changes.
+- PR #421 remains Draft with CI successes but independent review/security-boundary/governance gates absent. PR #423 is the sole draft retirement candidate for the two old-host migration workflows; PR #422 is closed as duplicate. No PR is merged.
+- No local/CI tests run in this audit, no server/secret/provider access, workflow dispatch, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Related: [Wave 277 exhaustive tree / A0 authority crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-TREE-DRIFT-AND-A0-AUTHORITY-CROSSWALK-WAVE-277-2026-10-20.md), [Wave 276 task ingress issuer / approval audit](../checkpoints/MEDIAHUB-A0-TASK-INGRESS-ISSUER-AND-APPROVAL-TRUST-GAP-WAVE-276-2026-10-20.md), [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+
+
+### Wave 279 — worker secret-gate regression restoration (2026-10-20)
+
+- Report: [Wave 279](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-SECRET-GATE-REGRESSION-RESTORATION-WAVE-279-2026-10-20.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-279-2026-10-20.md).
+- The docs branch had an over-escaped secret-detection regex in `ops/qualification/run_distributed_local_worker.py` (prior blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`); main's source line is blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1`. The main regression suite `tests/test_worker_security_gate.py` (blob `53098d1755518bc9fcd67a2236d874534aeb8fd5`) was missing from docs and is restored in Draft PR #424.
+- PR #424 changes exactly those two paths on an isolated branch targeting the documentation ref. Head `1538eb2c11f0336186fec0962dec7896a73cab7b`; no PR-triggered runs or reviews were returned at the last check. The fix remains proposed, not integrated; exact-head CI and independent review are required. No mainline change occurred.
+
+
+## Wave 280 — fail-closed generic worker gateway fallback (2026-10-20)
+
+- Report: [Wave 280 generic worker gateway fallback and route-admission fix](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-GENERIC-GATEWAY-FALLBACK-WAVE-280-2026-10-20.md).
+- Source: on `main`, the signed command worker reads `control/commands/{NODE_ID}.json` and validates HMAC/freshness/node/target-HEAD/replay boundaries. Its generic branch nevertheless passed a plain dict into `AstraGatewayRuntime.run_bounded()`, whose contract requires `AstraTaskRequest`; the resulting bounded failure is a dataclass that `publish()` attempts to JSON-serialize. That can fail before the command is marked consumed. The generic path also attempted a host-side cloud-first gateway, which is not an admitted cloud transport under current Contour A policy.
+- [Draft PR #425](https://github.com/VlDMlNSh/mediahub-os/pull/425) removes that implicit fallback and fails closed for `research`, `architecture`, `review`, `documents`, `coding`, and `coding_v2` with `gateway_route_not_admitted` before importing the gateway. It also rejects any future allowed operation without a concrete handler. This does not enable a new execution route.
+- Exact-head CI: Astra Verify [#39453835133](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39453835133) and Astra Cloud Runtime Validation [#39453835149](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39453835149) succeeded. PR #425 remains OPEN/DRAFT/UNMERGED; independent review is not yet evidenced.
+- The HMAC-signed node control-command is distinct from the file-based `mediahub.ai.astra-task` contract. Do not conflate them or infer task issuer/approval authority from command signature alone. The Task Contract's external writer/approval boundary remains to be established.
+- Current `main` remains `80be45a70732b1d568164571d4273a6397792c3b`. The docs branch is highly diverged and the repository compare returns 300 file records; no wholesale sync was performed. PR #423 remains the single legacy-workflow retirement review candidate; PR #422 was closed as its duplicate. PR #421 remains a separate controller-only Gemini transport gate. PR #424 is an independent docs-branch secret-gate regression proposal and is not merged.
+- No live host command, secret read, provider/model call, Gemini dispatch, merge, deployment, release, Contour A qualification or acceptance occurred. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
