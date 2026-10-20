@@ -7477,3 +7477,11 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - PR #375 reduces workflow permission/checkout credential exposure and its exact-head CI is green, but does not remove worker-side publication or establish a separate trusted publisher. Keep Draft/unmerged pending artifact-only worker, signed manifest, issuer/capability contract and negative tests.
 - Issue #378 remained open with no comments at audit; this is a source review, not evidence Gemini Agent 1 ran. No code, secrets, hosts, dispatches or deployment changed.
 - Contour A remains **NOT PROVEN / BLOCKED**. Canonical map and checkpoint updated in this wave; refs remain separate and unmerged.
+
+
+## 20.375 — Wave 249: GitHub-hosted runner regional boundary review (2026-10-20)
+
+- Report: [Wave 249 — GitHub-hosted workflow regional boundary review](../checkpoints/MEDIAHUB-GITHUB-HOSTED-RUNNER-REGIONAL-BOUNDARY-WAVE-249-2026-10-20.md).
+- Clarification: GitHub App/API dispatch moves the control-plane request; it does not erase network locations. A1/A2/A3 currently specify `runs-on: ubuntu-latest`, so model API calls originate from the GitHub-hosted runner's egress, not necessarily from the API caller or former Russian server. Standard runner labels do not pin a specific geographic region in workflow source.
+- Google AI Studio/Gemini API published availability lists Lithuania but not Russia. This explains why changing the caller environment may affect access, but does not prove account/key eligibility or successful API access. No region masking, proxy, or provider restriction bypass was implemented.
+- No new dispatch/provider request was run. Actual runner egress region, Gemini key validity, A1/A2/A3 execution and task output remain unverified. Keep Contour A **NOT PROVEN / BLOCKED**.

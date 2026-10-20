@@ -5439,3 +5439,12 @@ Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map
 - PR #375's exact-head checks passed, but its permission regression tests do not prove artifact-only worker/publisher separation. PR remains Draft/unmerged.
 - Next: govern issuer/capability ownership; implement an artifact-only worker with strict manifest/path validation and a separately credentialed publisher; add negative tests before qualification. No implementation/deployment performed in this pass.
 - Current state: **NOT PROVEN / BLOCKED**. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 249 — GitHub-hosted runner regional boundary review (2026-10-20)
+
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-GITHUB-HOSTED-RUNNER-REGIONAL-BOUNDARY-WAVE-249-2026-10-20.md
+- GitHub App/API dispatch does not remove geographic network locations. Dispatch caller -> GitHub API and GitHub-hosted runner -> Gemini API are separate routes. A1/A2/A3 use `runs-on: ubuntu-latest`; workflow source does not pin a geographic egress location. Google AI Studio/Gemini API availability lists Lithuania but not Russia; this is contextual evidence, not proof of key/account eligibility or a successful model call.
+- No new dispatch, provider call, secret access, or region-masking configuration was performed. Next: verify a permitted provider call from a GitHub-hosted runner and record run ID, runner type/environment and non-secret success evidence; only then expand to A1/A2/A3.
+- Worker issuer/capability/replay/revocation and separate trusted-publisher gaps remain open. Current state: **Contour A NOT PROVEN / BLOCKED**.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
