@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 271; issuer/task contract reconciliation under Wave 270 hard requirements)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 272; A0 multi-tier routing and Alamo Claude non-paid-auth hard requirements)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7585,3 +7585,17 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - [Wave 270 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-270-2026-10-20.md)
 - Binding requirements: A0 schedules bounded dependency-aware subtasks among the GitHub-hosted cloud pool, admitted user-owned MediaHub, and admitted local executors; A0 owns hybrid lifecycle/reconciliation. Claude/Claude Code for this target is exclusively local on Alamo; Anthropic API and paid Anthropic API authorization/billing are prohibited; FCC/fcc-claude/equivalent routers are conditional candidates subject to upstream/auth/cost/terms/egress/version/host evidence; no silent fallback; execution locality does not prove inference locality. The cloud pool remains independent of Alamo/user devices.
 - Wave 268 records the hard requirements; Wave 269 remains a design-only contract draft. Next: reconcile candidate envelope with authoritative issuer/task contracts and add static/schema/mock-only negative fixtures. Runtime activity and acceptance remain separately gated.
+
+
+
+## Wave 272 — A0 multi-tier routing and Alamo Claude non-paid auth hard requirements (2026-10-20)
+
+- Requirements report: [Wave 272 hard requirements](../checkpoints/MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-ALAMO-CLAUDE-NONPAID-AUTH-HARD-REQUIREMENTS-WAVE-272-2026-10-20.md).
+- Map addendum: [Wave 272](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-272-2026-10-20.md).
+- Binding owner-directed target: ASTRA GOLD A0 decomposes authorized missions into bounded dependency-aware tasks and distributes work among the GitHub-hosted cloud pool, admitted user-owned MediaHub and admitted local executors. A0 owns DAG/queue/claim/lease/retry/cancel/recovery/handoff/fencing/reconciliation and evidence aggregation. Executors are not authorities; A3 independent verification stays separate.
+- Cloud pool remains independent of Alamo and user-owned devices.
+- Claude/Claude Code is exclusively a local executor on Alamo. Anthropic API, paid Anthropic API credentials/authorization/billing, proxy-mediated paid API routes and silent fallback are prohibited for this route. FCC/fcc-claude/equivalent is not approved by name alone: require evidence of permitted upstream/auth mechanism, non-paid auth/cost class, billing behavior, terms/limits, version, egress and Alamo binding. “Free” alone is not permission; provider controls must not be bypassed. Alamo execution does not prove local inference.
+- Required next: trace authoritative Task Contract producer/writer and approval/attestation lifecycle; map fields to accepted contracts; draft destination lifecycle matrix; implement static/schema/mock-only negative fixtures for paid API, issuer/capability, unknown destination/router, silent fallback, locality/budget, malformed DAG and duplicate cross-route claims.
+- Wave 271 source gaps remain open. This Wave 272 entry is a target requirement, not proof of runtime enforcement, route qualification, deployment or acceptance. Contour A NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Updated checkpoint: [Wave 272 continuation](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md). Updated roadmap: [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+
