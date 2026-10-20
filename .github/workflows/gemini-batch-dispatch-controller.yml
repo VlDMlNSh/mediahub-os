@@ -1,6 +1,6 @@
 name: MediaHub Contour A — Gemini GitHub transport batch
 
-run-name: Gemini transport qualification probe — Wave 217
+run-name: Gemini transport qualification probe — Wave 218
 
 on:
   workflow_dispatch:
@@ -82,11 +82,11 @@ jobs:
           }
 
           dispatch_one "gemini-autonomous-engineering.yml" \
-            "Wave 213 / agent-1 transport smoke: read GEMINI.md from main using the configured GitHub MCP tool, then produce one bounded evidence checkpoint and isolated Draft PR. Include exact source refs, successful tool-call evidence, and remaining unknowns. Static review only; no secret values, no tests, no additional workflow dispatch, no merge or deployment."
+            "Wave 218 / agent-1 authority-contract correction: inspect the accepted ASTRA A0 engineering coordination/internal queue contract and MediaHub Product State Authority contract. Produce a source-bound crosswalk that corrects the known authority-boundary confusion from PR #409; cite exact paths, refs, blob SHAs and relevant sections. Create one bounded checkpoint and isolated Draft PR. No secret values, no tests, no additional workflow dispatch, no merge or deployment."
           dispatch_one "gemini-agent-2.yml" \
-            "Wave 213 / agent-2 transport and workflow parity review: use the configured GitHub MCP tool to read GEMINI.md from main, then produce one bounded evidence checkpoint and isolated Draft PR. Compare the three Gemini workflow source files for dispatch inputs, secret-reference names, permissions and output validation; cite exact refs and hashes. Do not inspect secret values, run tests, dispatch other workflows, merge or deploy."
+            "Wave 218 / agent-2 component provenance: audit the reusable component candidates raised in PR #410. For each retained candidate, pin an exact repository commit, inspect the license file and relevant API/maintenance evidence, and map fit/unknowns to exact MediaHub contracts. Correct blanket compatibility claims. Create one bounded checkpoint and isolated Draft PR. Do not inspect secret values, run tests, dispatch other workflows, merge or deploy."
           dispatch_one "gemini-agent-3.yml" \
-            "Wave 213 / agent-3 schema evidence review: use the configured GitHub MCP tool to read GEMINI.md from main, then produce one bounded evidence checkpoint and isolated Draft PR. Inspect the current task-envelope, agent-registry and evidence-manifest schema candidates; report paths, refs, SHA, Draft 2020-12 gaps and negative-fixture recommendations. Static review only; do not install dependencies, run tests, inspect secret values, dispatch other workflows, merge or deploy."
+            "Wave 218 / agent-3 independent controller security review: inspect the merged GitHub Transport controller and all three child workflows on main. Verify credential routing through MEDIAHUB_GITHUB_TOKEN, quoted confirmation inputs, permissions, run-baseline correlation, ambiguous-run failure behavior, artifact/PR output validation and secret isolation. Report concrete evidence and residual risks; create one bounded checkpoint and isolated Draft PR. Do not inspect secret values, run tests, dispatch other workflows, merge or deploy."
 
       - name: Find and monitor all three workflow runs
         shell: bash
@@ -160,7 +160,7 @@ jobs:
           done
 
           {
-            echo "## Gemini transport batch — Wave 213"
+            echo "## Gemini transport batch — Wave 218"
             echo
             echo "| Agent | Run ID | Status | Conclusion |"
             echo "|---|---:|---|---|"
