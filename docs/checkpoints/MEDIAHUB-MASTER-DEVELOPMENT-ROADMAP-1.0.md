@@ -8,6 +8,18 @@
 - Functional authority: `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - Historical provenance: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, blob `9df4892ed0734050ac79732603d15bb414717310`; do not merge implicitly with Baseline 2.0.
 
+## Current execution record — Wave 287 (2026-10-20)
+
+This record supersedes prior transient CI status where it refers to PR #421's exact head; it does not replace independent review or governance authority.
+
+- Audit report: [Gemini controller exact-head and positive-context gap audit](MEDIAHUB-GEMINI-CONTROLLER-EXACT-HEAD-AND-POSITIVE-CONTEXT-GAP-AUDIT-WAVE-287-2026-10-20.md), blob `ecb88790abad4df66c85d287dc690cb6a21f1bfe`; report commit `74161fed6bd45ff7009dc1de18bf36ca344b40c8`.
+- Map addendum: [Wave 287](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-287-2026-10-20.md), blob `26ca15fb36c15753224e83e5c94c8aabc6f72965`; addendum commit `d9679b1d3aa57d9de68b1e074b21a3d8a6483d78`.
+- Verified at audit start: `main` HEAD `80be45a70732b1d568164571d4273a6397792c3b`; documentation branch HEAD `2b84e27dee1e4825859d03e330d3e26de10e9fc6`; PR #421 head `3141a44370694d78f76779243adb548318a745d7`. Branch compare was DIVERGED (2,897 ahead / 44 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc)); no merge/rebase was attempted.
+- PR #421 exact-head Cloud Runtime Validation #39462792548, dedicated workflow contract validation #39462792571, non-launching negative caller-context probe #39462792657 and Astra Verify #39462792590 all reached terminal **SUCCESS**.
+- The probe only proves runtime rejection of an untrusted pull-request caller. No successful runtime observation proves that the exact trusted main-controller `workflow_dispatch` context is recognized inside the reusable child. Static predicate tests do not close that gap.
+- PR #421 remains OPEN / DRAFT / UNMERGED, with zero submitted independent reviews. Therefore **no Gemini dispatch, merge, deployment or qualification**. The safe next probe must call only the no-credential observer, have empty permissions and no provider-secret mapping, and prove all model-action jobs unreachable in probe mode. Obtain independent security review and resolve governance/protection evidence before considering execution.
+- Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301) remains OPEN. Contour A stays **NOT_PROVEN / BLOCKED**; Contour B remains gated pending Contour A deployment and independent acceptance.
+
 ## 0. Executive decision and operating rule
 
 The work is divided into two sequentially gated contours:
