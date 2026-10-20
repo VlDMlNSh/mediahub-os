@@ -1,3 +1,12 @@
+## Current execution record — Wave 292 (2026-10-20)
+
+- Report: [Wave 292 default-deny trusted caller-context probe](MEDIAHUB-DEFAULT-DENY-TRUSTED-CALLER-CONTEXT-PROBE-WAVE-292-2026-10-20.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-292-2026-10-20.md).
+- Implemented on unmerged PR #421 branch `contour-a/workflow-call-controller-governance-wave243`, candidate head `d7721ab3c15da3655ac2a2d71f07558c4b5f7845`. Default `mode=probe` invokes only the read-only observer, with no secrets or permissions; agent jobs require `mode=agents` and `confirm=yes` on workflow_dispatch.
+- Exact-head checks passed: Astra Verify #39474954350 (453 tests), workflow contract validation #39474954348, Cloud Runtime Validation #39474954173, negative probe #39474954143, Wave 292 controller probe #39474954081. PR probe observed `pull_request`, `refs/pull/421/merge`, `trusted_controller=false`; model jobs skipped.
+- Trusted positive dispatch remains untested because candidate is unmerged. Effective repository/org Actions policy and branch protection remain unreadable/unverified; rulesets `[]` plus branch-protection HTTP 403 are not proof protection is absent.
+- PR #421/#426 remain open/draft/unmerged with zero independent reviews. No provider call, merge, deployment, qualification or acceptance. Contour A **NOT_PROVEN / BLOCKED**; Contour B gated.
+- Next: obtain governance visibility and independent review; after merge, run only the default probe mode (`mode=probe`, `confirm=no`) to collect trusted positive caller-context evidence.
+
 ## Current execution record — Wave 291 (2026-10-20)
 
 - Report: [GitHub governance visibility and positive-probe safety audit](MEDIAHUB-GITHUB-GOVERNANCE-VISIBILITY-AND-POSITIVE-PROBE-SAFETY-WAVE-291-2026-10-20.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-291-2026-10-20.md).

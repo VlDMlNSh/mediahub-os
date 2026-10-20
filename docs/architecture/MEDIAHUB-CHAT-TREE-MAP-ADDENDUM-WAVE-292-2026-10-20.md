@@ -1,0 +1,8 @@
+# Canonical map addendum — Wave 292 (2026-10-20)
+
+- **Report:** [Default-deny trusted caller-context probe](../checkpoints/MEDIAHUB-DEFAULT-DENY-TRUSTED-CALLER-CONTEXT-PROBE-WAVE-292-2026-10-20.md).
+- Candidate code is on PR #421 branch `contour-a/workflow-call-controller-governance-wave243`, final head `d7721ab3c15da3655ac2a2d71f07558c4b5f7845`; this is not accepted or merged.
+- Controller defaults to `mode=probe`; probe calls only the existing read-only reusable observer with no secret mapping and empty permissions. All three model jobs require `workflow_dispatch`, `mode=agents`, and `confirm=yes`.
+- Exact-head checks passed: Astra Verify run 39474954350 (453 tests), workflow contract validation 39474954348 (actionlint and focused tests), Cloud Runtime Validation 39474954173, existing negative probe 39474954143, Wave 292 PR probe 39474954081. The PR probe observed `pull_request` + `refs/pull/421/merge` + `trusted_controller=false`; all model jobs were skipped.
+- Trusted positive dispatch remains untested until reviewed merge to `main`; do not use agent mode for qualification. PR #421/#426 remain open/draft/unmerged with zero independent reviews. Governance visibility remains incomplete. Contour A **NOT_PROVEN / BLOCKED**; Contour B gated.
+- **Next:** obtain review and effective branch-protection/Actions policy evidence; after accepted merge, manually run the controller in default `mode=probe`, `confirm=no`, and preserve the positive-context evidence.
