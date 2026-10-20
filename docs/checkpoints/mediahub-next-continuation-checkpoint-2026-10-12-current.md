@@ -5356,3 +5356,16 @@ Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 
 - No new Gemini workflow was dispatched in this pass because the available GitHub connector does not expose workflow dispatch. No secrets, cloud resources, server changes, merge, deployment or qualification occurred.
 - Next action: resolve the source-bound worker/publisher credential path, issuer/capability/replay/revocation, accepted target manifest and R-06 gates; obtain authorized branch-protection evidence; then perform clean-room installation and independent recovery/qualification only after gate acceptance.
 - Map update remains pending: the canonical map blob exceeds 1 MB and the available Contents wrapper returns empty content. The exact blob was read successfully, but this API path cannot safely rewrite the oversized map; do not replace it or merge the diverged docs branch as a workaround. Use an authorized Git-data tree update based on a verified current tree/HEAD and read back map/checkpoint SHAs.
+
+
+## Wave 234 — Contour A live evidence and dispatch-capability audit (2026-10-20)
+
+- Report: [Wave 234 live evidence and dispatch-capability audit](MEDIAHUB-CONTOUR-A-LIVE-EVIDENCE-AND-DISPATCH-CAPABILITY-AUDIT-WAVE-234-2026-10-20.md).
+- Report commit: `bace2d6f6c84b7a5cf2ee3a2c0f2b09d5072636c`.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md; map blob SHA `2187b4ca50792fe073f0979442c0f73432a2f6f9`. Contents API and base64 response were empty; reading the blob by SHA succeeded. Map size 1,094,624 characters; its latest indexed entry is Wave 206. Safe map rewrite is blocked by the oversized blob and unavailable Git-data tree update capability.
+- Live compare reports main HEAD `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`, documentation branch DIVERGED 2,537 ahead / 33 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase attempted.
+- Issue #301 remains OPEN. PR #404 remains OPEN / Draft at head `75ce935bd54003b63086bb990496cee1ddc96d3b`; Astra Verify run `39371237195` and Cloud Runtime Validation run `39371237182` are SUCCESS on that exact head. These checks do not establish qualification.
+- Prior Gemini A1/A2/A3 runs `39370191589`, `39370202615`, `39370217605` created PRs #403/#401/#402. Their exact-head checks were `action_required` with no jobs returned; findings remain unaccepted.
+- No new A1/A2/A3 runs were dispatched: available GitHub connector tools expose no workflow-dispatch action. No guessed endpoint or alternate authority path was used.
+- Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated. No secrets, provider calls, cloud/server changes, merge, deployment or qualification.
+- Next: authorized Git-data map update with read-back; obtain authorized dispatch and branch-protection evidence; continue source-bound worker/publisher and issuer/capability/replay/revocation work. Do not merge PR #404 or agent PRs on CI alone.
