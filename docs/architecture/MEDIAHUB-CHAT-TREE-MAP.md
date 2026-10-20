@@ -1,11 +1,12 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-19 (Wave 206; readiness audit and branch drift revalidation)
+- Последнее подтверждённое инкрементальное обновление на рабочей ветке PR #396: 2026-10-20 (Wave 231; signed-command verifier proposal). Каноническая docs-ветка ещё не обновлена этим проходом.
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
 - Статус карты: **ИНВЕНТАРИЗАЦИЯ / НЕ ПОЛНАЯ ПРИЁМКА**
+- Wave 231 (2026-10-20; рабочая ветка PR #396): [signed-command verifier proposal, PR #400](https://github.com/VlDMlNSh/mediahub-os/pull/400), report blob `ae774a05f3d9c4ce49ac3577e42c4d0e321583fe`. Draft/unmerged; verifier not connected to worker; Contour A remains NOT_PROVEN / BLOCKED.
 - Назначение: единая точка входа для восстановления дерева MH-01…MH-25 и предотвращения повторного поиска одних и тех же материалов.
 
 - Wave 125 (2026-10-18): [Gemini provider-status regression report](../checkpoints/MEDIAHUB-GEMINI-PROVIDER-STATUS-REGRESSION-WAVE-125-2026-10-18.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-125-2026-10-18.md).
