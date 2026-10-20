@@ -550,3 +550,15 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - No code/tests/provider calls/secrets/host inspection/dispatch/merge/deployment/qualification/acceptance in Wave 268. Contour A remains NOT_PROVEN / BLOCKED.
 - Next: version the mission envelope and destination responsibility/lifecycle matrix against existing contracts; add static negative fixtures/mock-only tests before any real dispatch.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 269 — A0 hybrid mission envelope and destination lifecycle contract draft (2026-10-20)
+
+- Owner hard target constraints are already recorded in Wave 268; this pass converted them into a source-grounded contract candidate, not a normative schema.
+- Report: [Wave 269 mission envelope and destination lifecycle contract draft](MEDIAHUB-A0-HYBRID-MISSION-ENVELOPE-AND-DESTINATION-LIFECYCLE-CONTRACT-DRAFT-WAVE-269-2026-10-20.md).
+- Map addendum: [Wave 269](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-269-2026-10-20.md); Wave 268 map addendum now links this continuation.
+- Main-source blobs inspected: `task_ingress.py` `59e1254aa61cc8f55f53bd1b179631e81c441393`; `astra_gateway.py` `10985e4ad8f682313d08e7492ecc1856a8bce20f`; `autonomous_queue.py` `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1`. Existing ingress does not bind authenticated issuer provenance, destination class, DAG, route/locality policy; gateway is cloud-first with local Ollama and is not proof of target A0/Alamo enforcement.
+- Routing candidate blob `af3d96fe91055af6ba79eded9c800d28d8c0c5c9` does not prove Alamo identity, FCC upstream/auth/cost class, or exclusion of paid Anthropic API routes.
+- No runtime calls, provider calls, secrets, host inspection, dispatch, tests, merge, deployment, qualification, or acceptance. Contour A remains NOT_PROVEN / BLOCKED.
+- Next: find the authoritative issuer lifecycle and task-envelope contracts; reconcile rather than create a parallel schema. Then add Draft 2020-12 and static/mock-only negative fixtures before any real dispatch.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
