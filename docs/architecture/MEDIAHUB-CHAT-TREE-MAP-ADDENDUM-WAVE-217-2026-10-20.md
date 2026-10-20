@@ -22,3 +22,11 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Wave report: [MEDIAHUB-GITHUB-CLOUD-AGENT-TRANSPORT-RULE-WAVE-218-2026-10-20.md](../checkpoints/MEDIAHUB-GITHUB-CLOUD-AGENT-TRANSPORT-RULE-WAVE-218-2026-10-20.md).
 - Runtime batch: controller dispatch succeeded but monitor failed because Agent 2 failed actionable-PR validation; Agent 1 and Agent 3 jobs succeeded. See report for exact run IDs.
 - Canonical map file itself was not overwritten due to empty Contents wrapper output; this addendum records navigation and evidence safely.
+
+
+## Wave 219 — runtime diagnosis and independent PR review (2026-10-20)
+
+- Report: [Wave 219 diagnosis and review](../checkpoints/MEDIAHUB-GEMINI-TRANSPORT-FAILURE-AND-AGENT-PR-REVIEW-WAVE-219-2026-10-20.md).
+- Agent 2 failed after repeated GitHub MCP file-read errors, Gemini free-tier input-token quota exhaustion and max-session-turn exhaustion; no stdout artifact was produced. Controller correctly reported the batch failure; dispatch itself succeeded.
+- PR #413 and #414 received REQUEST_CHANGES reviews (IDs 5582981729 and 5582982170). PR #413 has an unverified fixed timestamp; PR #414's schema-gap claims need exact schema-source and validator evidence. Neither merged.
+- Continue only through the GitHub-hosted controller with MEDIAHUB_GITHUB_TOKEN; no paid fallback or alternate launch transport.
