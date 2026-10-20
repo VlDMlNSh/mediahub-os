@@ -528,3 +528,12 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Existing routing source on main, blob af3d96fe91055af6ba79eded9c800d28d8c0c5c9, lists CLAUDE_FCC, CLAUDE_OMNIROUTE and CLAUDE_CODE_DIRECT but does not prove Alamo binding, non-paid auth or API exclusion.
 - Next: reconcile A0 ingress and typed issuer/AuthorizationContext with task/destination schemas; add static negative fixtures rejecting Anthropic API/paid credentials for Alamo Claude, unknown FCC/router variants and silent cloud fallback.
 - No provider/API call, secret access, host inspection, dispatch, test, merge, deployment or qualification was performed. Contour A remains NOT_PROVEN / BLOCKED.
+
+
+## Wave 267 — A0 ingress / issuer / destination contract reconciliation (2026-10-20)
+
+- Read-only inspection confirms a material gap: `AuthorizationContext` has only principal/capability and does not establish issuer provenance; current file task ingress does not carry a hybrid destination/DAG/route envelope; the inspected Astra gateway is cloud-first with Ollama local adapter, not the required A0 multi-tier scheduler or Alamo Claude local-only enforcement.
+- FCC/OmniRoute/native Claude entries remain qualification-gated candidates; no evidence yet proves Alamo host binding, non-paid authorization, or exclusion of Anthropic API routes.
+- Report: [Wave 267 ingress/authorization/destination gap](MEDIAHUB-A0-INGRESS-AUTHORIZATION-AND-DESTINATION-CONTRACT-GAP-WAVE-267-2026-10-20.md). Map addendum: [Wave 267](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-267-2026-10-20.md).
+- Next: draft versioned mission envelope and destination-class responsibility matrix against accepted contracts; then add static negative fixtures/mock-only tests for issuer, destination, paid Anthropic API, unknown router, silent fallback, duplicate claims and DAG identity.
+- No code/test/runtime change, provider/API call, secret access, host inspection, dispatch, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED.
