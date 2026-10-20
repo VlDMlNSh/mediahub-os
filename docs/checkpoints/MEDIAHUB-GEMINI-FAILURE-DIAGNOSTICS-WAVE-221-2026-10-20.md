@@ -50,3 +50,15 @@ Review PR #420 and its exact-head CI. Fix any workflow syntax or expression erro
   - [Astra Verify #39399830302](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39399830302), job `verify` / `118551487161`, conclusion `success`.
 - These runs cover the repository's contract/runtime and verification suites, but the job step lists do not show a dedicated GitHub Actions workflow-lint or failure-path test. Therefore, CI is green for the associated checks; workflow syntax/runtime behavior of the new step is not yet independently demonstrated.
 - Both runs report no downloadable artifacts; they are verification runs, not Gemini child workflow executions.
+
+
+## Wave 222 follow-up verification (2026-10-20)
+
+During follow-up review, the diagnostic JSON field `job_status` was found to contain `GITHUB_JOB` (the job identifier, not a status). Corrected the key to `job_id` in all three child workflows.
+
+Updated branch blob SHAs:
+- Agent 1: `21162f0771880d23d452e0d3b30dfa8b86db9b21`.
+- Agent 2: `44b585b4481033fd1a4e3ac4c092669af90b8c65`.
+- Agent 3: `026e59691281c27a43abe21109a8eb62f176fdc3`.
+
+Read-back confirms `job_id` is present and `job_status` absent in each file; the always-run diagnostic step, stop rule, and fail-closed validator remain present. The latest branch commit is `d34c6cd646b59e83d75bf338739722464577dd56`. New associated CI runs [39400178859](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178859) and [39400178898](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178898) were `in_progress` at the last check. Do not reuse earlier green CI as proof for this updated head. PR #420 remains open and unmerged; no independent review or controlled runtime failure test is recorded yet.
