@@ -7599,3 +7599,16 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - Wave 271 source gaps remain open. This Wave 272 entry is a target requirement, not proof of runtime enforcement, route qualification, deployment or acceptance. Contour A NOT_PROVEN / BLOCKED; Contour B remains gated.
 - Updated checkpoint: [Wave 272 continuation](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md). Updated roadmap: [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
 
+
+## Wave 273 — explicit FreeLLMAPI candidate gate and Alamo Claude non-paid route boundary (2026-10-20)
+
+- [Wave 273 requirements report](../checkpoints/MEDIAHUB-A0-FREELLMAPI-FCC-ALAMO-CLAUDE-HARD-ROUTE-REQUIREMENTS-WAVE-273-2026-10-20.md).
+- [Wave 273 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-273-2026-10-20.md).
+- Owner's hard target architecture: ASTRA GOLD A0 decomposes authorized work into bounded dependency-aware subtasks and dispatches to admitted GitHub-hosted cloud workers, admitted user-owned MediaHub destinations and admitted local executors. A0 owns DAG scheduling, queue/claim/lease, retry/cancel/recovery, handoff/fencing, cross-route reconciliation and evidence aggregation; execution completion remains distinct from independent A3 verification.
+- The GitHub-hosted pool must remain independent from Alamo and user-owned devices. Claude Code is exclusively a local executor on Alamo for this target. Prohibited on that route: Anthropic API, paid API auth/credentials/billing or paid API backends through proxies, paid fallback, and silent rerouting.
+- FCC/fcc-claude, FreeLLMAPI and similar routers are named candidates, not approved routes or proof of free authorization. Admission requires exact repo/fork/version/upstream, permitted auth basis, terms/limits, actual cost/billing class, a strict provider/model allowlist, disabled paid routes/fallback, credential handling, egress/data locality and Alamo binding. No provider-control, account eligibility, quota or billing bypass. Unknown route properties fail closed.
+- Keep Claude Code client/executor host distinct from inference backend: a local Alamo process does not prove local inference. No tests, live router/provider calls, secret access, host inspection, dispatch, merge, deployment, qualification or acceptance were performed in this documentation pass.
+- Source note: public candidate descriptions for [FCC](https://github.com/Factix/fcc) and [FreeLLMAPI](https://github.com/lov0u/freellmapi) describe proxy/gateway routes that can include multiple cost/provider classes; these URLs are examples only, not a selected canonical upstream or permission to use a route.
+- Wave 272 source gaps remain open. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated until Contour A is deployed and independently accepted.
+- Updated checkpoint: [Wave 273 continuation](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md). Updated roadmap: [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+
