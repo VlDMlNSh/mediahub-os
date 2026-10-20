@@ -65,3 +65,23 @@ The corrected controller run has entered the monitor step. Its dispatch step com
 | A3 — controller security review | 39397169704 | IN_PROGRESS | https://github.com/VlDMlNSh/mediahub-os/actions/runs/39397169704 |
 
 Controller run: [39396854829](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396854829); job `dispatch-and-verify` is IN_PROGRESS, with the dispatch step SUCCESS and monitor step IN_PROGRESS. Final outcomes and generated PR/artifact review are pending.
+
+## Final runtime outcome — 2026-10-20T09:01Z
+
+Controller run [39396854829](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396854829) completed **SUCCESS** on `main` at `d27a52fed03703c16c62c4c1481091e6110e80f2`. Its dispatch step succeeded using `secrets.MEDIAHUB_GITHUB_TOKEN`; the monitor correlated all three post-baseline child runs and observed all three terminal conclusions as SUCCESS. This is the first verified controller-mediated batch in this project thread, and it confirms the configured repository secret has sufficient access for the required workflow REST operations. Secret values were not read or logged.
+
+| Agent | Run ID | Job ID | Conclusion | Artifact ID / digest | Result PR |
+|---|---:|---:|---|---|---|
+| A1 — authority contract correction | 39397165125 | 118542635044 | SUCCESS | 12252531017 / `sha256:d6be68a9b9a6b390b2caa3ef9c22c88b754386bf0d5421b4c7e1f99608cfa990` | [#416](https://github.com/VlDMlNSh/mediahub-os/pull/416) |
+| A2 — component provenance | 39397167382 | 118542642971 | SUCCESS | 12252332254 / `sha256:167c5ae783a176b71b3e10a82368bdc348af2f403cba8192ba6ffbcc8a25f980` | [#417](https://github.com/VlDMlNSh/mediahub-os/pull/417) |
+| A3 — controller security review | 39397169704 | 118542651902 | SUCCESS | 12252421908 / `sha256:a8fbb6b5ccf0f1e23f228a1e31dd1b5a18d0d54cea94ac1094995711b607af39` | [#418](https://github.com/VlDMlNSh/mediahub-os/pull/418) |
+
+For all three artifacts, the output JSON was downloaded and checked without printing the response payload: non-empty response, at least one successful tool call, and one successful create-PR tool call. Each workflow's built-in output validator also passed. Artifacts remain available and unexpired at the time of this read.
+
+### Independent disposition of agent outputs
+
+- **PR #416 — REQUEST_CHANGES** (review ID `5582929471`). The crosswalk correctly cites Product State Authority exclusivity but incorrectly describes `authority.state_authority: A0-ASTRA` in the canonical qualification/launch schema as coordination context. The YAML field is explicit and conflicts with the desired boundary; record it as a contract inconsistency and route schema correction through governance/change control. Do not silently reinterpret it.
+- **PR #417 — REQUEST_CHANGES** (review ID `5582929857`). Several purported upstream pins remain generic release-channel/tag phrases rather than exact commits. License claims are not linked to inspected LICENSE paths/SHAs. Mark as unverified or supply exact source-bound evidence; no component selection accepted.
+- **PR #418 — REQUEST_CHANGES** (review ID `5582935564`). The submitted security review analyzed the local `astra_github_agent.py` / systemd controller rather than the assigned GitHub Actions controller and child workflows. It does not establish the requested transport/credential review. Its blanket claim that `setdefault` prevents secret leakage is also unsupported.
+
+Thus **transport dispatch and run correlation passed**, while **agent output acceptance did not pass**. The three successful workflow conclusions are not a Contour A qualification, deployment, or independent acceptance.
