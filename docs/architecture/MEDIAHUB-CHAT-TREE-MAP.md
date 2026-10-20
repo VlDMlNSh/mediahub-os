@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 272; A0 multi-tier routing and Alamo Claude non-paid-auth hard requirements)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 274; Alamo Claude router identity and non-paid route guards)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7614,3 +7614,14 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - Wave 272 source gaps remain open. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated until Contour A is deployed and independently accepted.
 - Updated checkpoint: [Wave 273 continuation](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md). Updated roadmap: [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
 
+
+
+## Wave 274 — Alamo Claude router identity and non-paid route guards (2026-10-20)
+
+- Wave 274 report: [router candidate identity and non-paid route guard](../checkpoints/MEDIAHUB-ALAMO-CLAUDE-ROUTER-CANDIDATE-IDENTITY-AND-NONPAID-ROUTE-GUARD-WAVE-274-2026-10-20.md).
+- Architecture contract: [A0 hybrid dispatch and Alamo Claude routing hard requirements](MEDIAHUB-A0-HYBRID-DISPATCH-AND-ALAMO-CLAUDE-ROUTING-HARD-REQUIREMENTS.md), updated to name FCC/fcc-claude, FreeLLMAPI, OmniRoute, OpenFlux and equivalents as unqualified candidates pending exact source/version and routing evidence.
+- A0 remains the single coordinator for authorized hybrid missions and distributes bounded dependency-aware work among admitted GitHub-hosted cloud workers, admitted user-owned MediaHub destinations, and admitted local executors. The cloud pool remains independent of Alamo and user-owned hardware; A0 owns task DAG/lifecycle/fencing/reconciliation/evidence aggregation; A3 remains independent.
+- Claude Code on Alamo remains executor/client only. No direct or proxy-mediated Anthropic API route, paid authorization/credentials/billing, paid/unknown backend or fallback, silent reroute, unsupported account/subscription credential use, or provider-control bypass is permitted. Alamo execution does not establish local inference.
+- FCC and OmniRoute public descriptions indicate multi-provider and fallback capabilities, so an explicit allowlist and disabled paid/unknown fallback are required. FreeLLMAPI identity and upstream remain unresolved; OpenFlux identity remains ambiguous and is not admitted on name alone.
+- No router/provider calls, credential access, Alamo inspection, tests, dispatch, merge, deployment, qualification or acceptance occurred in this documentation pass. Runtime enforcement remains NOT VERIFIED; Contour A remains NOT_PROVEN / BLOCKED.
+- [Continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md) and [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md) carry the matching handoff.
