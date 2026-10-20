@@ -1,6 +1,6 @@
 name: MediaHub Contour A — Gemini GitHub transport batch
 
-run-name: Gemini transport qualification probe — Wave 213
+run-name: Gemini transport qualification probe — Wave 217
 
 on:
   workflow_dispatch:
@@ -14,9 +14,7 @@ on:
           - yes
         default: no
 
-permissions:
-  contents: read
-  actions: write
+permissions: {}
 
 concurrency:
   group: mediahub-gemini-transport-batch
@@ -32,11 +30,12 @@ jobs:
         id: dispatch
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PAT_DISPATCH }}
           CONFIRM: ${{ inputs.confirm }}
         run: |
           set -euo pipefail
           [[ "$CONFIRM" == "yes" ]] || { echo "::error::Explicit confirmation is required."; exit 1; }
+          [[ -n "${GH_TOKEN:-}" ]] || { echo "::error::PAT_DISPATCH repository secret is not available."; exit 1; }
           started_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
           echo "started_at=$started_at" >> "$GITHUB_OUTPUT"
 
@@ -92,7 +91,7 @@ jobs:
       - name: Find and monitor all three workflow runs
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PAT_DISPATCH }}
           STARTED_AT: ${{ steps.dispatch.outputs.started_at }}
           BASELINE_AGENT1: ${{ steps.dispatch.outputs.baseline_agent1 }}
           BASELINE_AGENT2: ${{ steps.dispatch.outputs.baseline_agent2 }}
