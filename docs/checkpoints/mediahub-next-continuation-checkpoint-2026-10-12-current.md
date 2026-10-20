@@ -291,3 +291,15 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Until Option A evidence is provided or Option B is explicitly approved, keep cloud-agent dispatch unused and continue independent work. No agent/workflow launched, no secret read, no merge/deployment/qualification. PR #420's independent review and authorized controlled failure-path test remain open.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Map addendum: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md
+
+
+## Latest continuation — Wave 241 (2026-10-20)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-GOVERNANCE-HOLD-SYNC-WAVE-241-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-GOVERNANCE-HOLD-SYNC-WAVE-241-2026-10-20.md), blob SHA `2d81c0ff3e9f2d13d8a8c36427dda015b7180ae9`, creation commit `84881d5e95a0c250cfa4dcfebf87ef1331b7681a`.
+- The only policy-authorized cloud-agent/API route remains GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` → three fixed-scope child workflows. Direct SentinelX/server/local CLI/ad-hoc/alternate launch routes remain prohibited; `MEDIAHUB_GITHUB_TOKEN` is controller-only and must never be exposed to agent/model processes.
+- Policy updated/read-back target blob `7441e2059c5a7b987c559f822c1764047d0150d4`; Bootstrap updated/read-back target blob `69a11d27c591dac859a097734f9eda3df80f29de`. These explicitly distinguish the sole approved transport from current launch authorization.
+- **Cloud-agent dispatch remains ON HOLD** until Option A is proven with repository-administrator evidence or governance explicitly approves Option B. Option A was not verifiable through the available GitHub connection; Option B is only a request at [Issue #301 comment 6289444269](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6289444269). No governance disposition was found in the latest comments read.
+- Main child workflows still expose `workflow_dispatch`: A1 `09523d809530ae5b7bf528eab5fa53bc5deaf92d`, A2 `259c8c82b8d90a39e1c90e65390e469b241b5581`, A3 `91b5397001e088dfae2f450ee77c9c23118b5601`. Technical exclusion of direct child dispatch remains **NOT PROVEN**.
+- PR #420 remains Draft/unmerged; exact-head CI runs `39402774891` and `39402774885` succeeded, but independent review and authorized controlled failure-path test remain open. Do not dispatch agents or implement Option B until the appropriate gate is met.
+- No agent/workflow launched, no secret read, no merge, deployment or Contour A qualification.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); current map addendum: [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md).
