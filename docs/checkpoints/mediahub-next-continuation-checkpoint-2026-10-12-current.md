@@ -5341,3 +5341,18 @@ Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 
 
 
 - Wave 215 Gemini partial output: A3 report PR #393 https://github.com/VlDMlNSh/mediahub-os/pull/393, head 93853dd0ad82f59726a56be8d29e472aa3dcf310, report blob dee1e60cf23fd55d5aeafa1f3ed10215e089ea4e. Review comment 6277569380 challenges inaccurate broad claims about subprocess env controls and shell-injection immunity; keep Draft pending correction. A1 run 39325506829 and A2 run 39325510774 remained in progress at latest read-back; A3 run 39325515053 still reported in progress despite PR creation. Refresh run statuses and review outputs before accepting any result.
+
+
+## Wave 233 — Deep Research / Contour A evidence reconciliation (2026-10-20)
+
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CONTOUR-A-DEEP-RESEARCH-WAVE-233-2026-10-20.md
+- Report commit: `33fcc6359dbf63718c735fcaa0234fa30dfccdc3`.
+- Live `main` HEAD observed: `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`; documentation branch HEAD before this report: `d18dfb64efa536142c39e00bf94a807511c0e460`.
+- Live `main...docs/mediahub-chat-tree-map-20261012` compare: DIVERGED, documentation branch 2,533 ahead / 33 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Do not bulk merge/rebase the documentation branch.
+- Canonical map blob `2187b4ca50792fe073f0979442c0f73432a2f6f9` was read by blob SHA after Contents API returned empty content. The blob is 1,094,624 characters and the inspected map currently lists Wave 206 as its latest entry; Wave 232 is not indexed there.
+- Issue #301 remains open. PR #404 is Draft at `75ce935bd54003b63086bb990496cee1ddc96d3b`; exact-head Astra Verify run `39371237195` and Cloud Runtime Validation run `39371237182` are SUCCESS. These do not qualify or accept Contour A.
+- Latest documented Gemini dispatches from main SHA `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`: A1 run `39370191589` -> Draft PR #403; A2 run `39370202615` -> Draft PR #401; A3 run `39370217605` -> Draft PR #402. All three dispatch runs completed successfully, but their exact-head PR checks were `action_required` with no jobs returned. Agent findings remain unaccepted; publisher separation, secret scrubbing, and upstream component provenance are not established.
+- Fresh branch-protection read returned HTTP 403 and rulesets returned an empty list; protection remains UNKNOWN, not disabled.
+- No new Gemini workflow was dispatched in this pass because the available GitHub connector does not expose workflow dispatch. No secrets, cloud resources, server changes, merge, deployment or qualification occurred.
+- Next action: resolve the source-bound worker/publisher credential path, issuer/capability/replay/revocation, accepted target manifest and R-06 gates; obtain authorized branch-protection evidence; then perform clean-room installation and independent recovery/qualification only after gate acceptance.
+- Map update remains pending: the canonical map blob exceeds 1 MB and the available Contents wrapper returns empty content. The exact blob was read successfully, but this API path cannot safely rewrite the oversized map; do not replace it or merge the diverged docs branch as a workaround. Use an authorized Git-data tree update based on a verified current tree/HEAD and read back map/checkpoint SHAs.
