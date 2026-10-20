@@ -152,3 +152,13 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - All three Gemini child workflows use full SHA actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9; official v7 ref resolves to the same commit, signature metadata is verified, and the action declares Node 24. See the Wave 226 report for workflow blob SHAs and evidence.
 - Remaining gates: independent review and authorized controlled failure-path artifact test. Do not redispatch Agent 2, merge, deploy or call Contour A qualified before these gates pass. No secrets read or agents dispatched during this wave. Continue using only the approved GitHub-hosted Actions controller/child-workflow transport.
 - Historical note: the Wave 224/225 sections above are immutable historical snapshots; Wave 226 supersedes their current-head and gate status where noted. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
+
+
+## Latest continuation — Wave 227 single-path cloud-agent transport verification (2026-10-20)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-TRANSPORT-SINGLE-PATH-VERIFICATION-WAVE-227-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-TRANSPORT-SINGLE-PATH-VERIFICATION-WAVE-227-2026-10-20.md).
+- Re-read and verified transport policy blob `18c27e3f3be100da54b256cdc7d97a36e1fd753e` and Bootstrap blob `d54870c68633c3ff49f992647d46ea5fc7219a05`, section 1B. The sole permitted cloud-agent launch path is GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` and fixed-scope child workflows; controller API dispatch/monitoring must use repo secret `MEDIAHUB_GITHUB_TOKEN`. Direct SentinelX/server/local CLI/ad-hoc/alternate launch paths are prohibited. Never expose the token to model/agent processes.
+- Governing Issue #301 policy comment: https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6287381098. Wave 226 sync comment: https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6288415115.
+- Live PR #420: head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind main `80be45a70732b1d568164571d4273a6397792c3b`; Draft/unmerged; review API returned no submitted reviews. Exact-head CI runs #39402774891 and #39402774885 succeeded.
+- Open gates: genuine independent review and authorized controlled failure-path artifact test. No agent was dispatched, no secret read, no merge/deployment, no Contour A qualification in Wave 227. This policy is persisted and binding, but do not claim alternate routes are technically disabled unless repository-control evidence demonstrates that.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
