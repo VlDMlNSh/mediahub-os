@@ -1,0 +1,28 @@
+{
+  "schema": "mediahub.astra.wave213-transport-smoke.v1",
+  "contour": "contour-a",
+  "task": "Wave 213 / agent-1 transport smoke",
+  "captured_at_utc": "2026-10-20T00:00:00Z",
+  "status": "PASS_STATIC_REVIEW",
+  "source_refs": {
+    "base_ref": "main",
+    "commit_sha": "1b9e13e943ccd19bcd753fad01f387992bcdc3b9",
+    "gemini_md_sha": "4c431143aa5c46776e80893bf3c0e5f202e3b76d"
+  },
+  "tool_call_evidence": {
+    "get_file_contents": {
+      "path": "GEMINI.md",
+      "status": "SUCCESS",
+      "sha": "4c431143aa5c46776e80893bf3c0e5f202e3b76d"
+    }
+  },
+  "acceptance_criteria": [
+    "Read GEMINI.md from main using GitHub MCP tool",
+    "Produce bounded evidence checkpoint and isolated branch",
+    "Static review only; no secret values, no tests, no additional workflow dispatch, no merge or deployment"
+  ],
+  "known_gaps": [
+    "Static review pass; live transport execution and qualification gates not executed per scoping constraints"
+  ],
+  "verification_status": "Verified static schema and tool-call connectivity"
+}
