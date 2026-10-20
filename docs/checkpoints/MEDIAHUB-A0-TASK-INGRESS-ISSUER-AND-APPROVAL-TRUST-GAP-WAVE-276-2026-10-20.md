@@ -94,3 +94,14 @@ Trace the caller/producer of `FileTaskIngress` and the configured inbox path, th
 - Master Roadmap addendum: [Master Development Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
 - Governing issue: https://github.com/VlDMlNSh/mediahub-os/issues/301
 - Runtime admission changes are deliberately deferred until the trusted writer/issuer and approval-authority contract are identified. The report is a source audit, not runtime qualification evidence.
+
+
+## Runtime wiring follow-up (same audit pass)
+
+A follow-up read of the resident service entrypoint narrows runtime reachability:
+
+- `runtime/mediahub_runtime/astra_service.py` blob `6aa2d09fc8737ccc0ba7f05bd13a15a0ebde7129` instantiates `AstraGatewayRuntime()`, prints a READY marker and sleeps. Its comment explicitly says it is intentionally inert until an application/API boundary submits Task Contracts. It does not instantiate or call `FileTaskIngress`.
+- `runtime/mediahub_runtime/__init__.py` blob `4ff499f8e489e60e344283ee01e4dad5e72a2646` exports `FileTaskIngress`, `TaskIngressError` and `task_to_contract`.
+- No in-repository call site for `FileTaskIngress` was established by the inspected package/runtime files. Code search results were unavailable/empty, so this must not be interpreted as exhaustive proof that no application or external caller exists.
+- Classification refined: **latent admission-contract gap before ingress wiring**, not a verified currently reachable production exploit. The resident service path does not establish active Task Contract intake. The approval field must still not become authority when future API/inbox wiring is implemented.
+
