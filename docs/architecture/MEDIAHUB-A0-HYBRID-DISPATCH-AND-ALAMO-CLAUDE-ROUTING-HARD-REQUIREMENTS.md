@@ -35,7 +35,7 @@ A local Claude Code process does **not** prove that the underlying model inferen
 
 ## 3. FCC / FreeLLMAPI / equivalent route components
 
-FCC/fcc-claude, FreeLLMAPI and similar specialized Claude Code auth/router/adaptor components are **candidate components only**, not approved routes by name. Their identity and function must be disambiguated and pinned to an exact repository/project, version or immutable source digest, deployment identity and configuration before qualification.
+FCC/fcc-claude, FreeLLMAPI, OmniRoute, OpenFlux and similar specialized Claude Code auth/router/adaptor components are **candidate components only**, not approved routes by name. Their identity and function must be disambiguated and pinned to an exact repository/project, version or immutable source digest, deployment identity and configuration before qualification. Public FCC and OmniRoute descriptions include multi-provider routing and mixed cost classes, so they require an explicit Alamo-only provider/model allowlist and disabled paid/unknown fallback. FreeLLMAPI is a name used by multiple projects/forks, and its name or Anthropic-compatible API shape proves neither the actual upstream nor the authorization/cost class. OpenFlux is currently an unresolved identity: available public search results include similarly named projects with unrelated roles, and no specific Claude Code free-auth/router implementation has been verified. Do not infer its identity or capability from the name; it remains unadmitted until a precise source URL and pinned version are reviewed.
 
 A candidate can be admitted for this route only after evidence establishes all of the following:
 
@@ -54,7 +54,7 @@ FreeLLMAPI in particular must not be assumed to be an authentication method or a
 Source-level, schema and mock-only negative tests must reject:
 
 - Anthropic API use by the Alamo Claude route, directly or through a proxy/router; paid Anthropic API auth/billing; or a paid/unknown fallback.
-- Unknown or unpinned FCC, FreeLLMAPI or equivalent identity, upstream, auth/cost class, terms status, version, egress or Alamo binding.
+- Unknown or unpinned FCC, FreeLLMAPI, OmniRoute, OpenFlux or equivalent identity, upstream, auth/cost class, terms status, version, egress or Alamo binding; any paid/unknown fallback reachable through a mixed-provider router.
 - An untrusted/replayed issuer, missing capability/audience, unadmitted/revoked user-owned MediaHub or local executor, unknown destination or missing task scope.
 - Missing DAG dependency identity, duplicate active cross-route claims, stale leases, unfenced handoff, silent failover, missing locality/budget policy or unverifiable result evidence.
 - Any worker changing A0 queue/coordination state or MediaHub Product State Authority data outside its admitted capability.
