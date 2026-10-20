@@ -303,3 +303,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - PR #420 remains Draft/unmerged; exact-head CI runs `39402774891` and `39402774885` succeeded, but independent review and authorized controlled failure-path test remain open. Do not dispatch agents or implement Option B until the appropriate gate is met.
 - No agent/workflow launched, no secret read, no merge, deployment or Contour A qualification.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); current map addendum: [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md).
+
+
+## Latest continuation — Wave 242 (2026-10-20)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-GOVERNANCE-APPROVAL-REQUEST-SYNC-WAVE-242-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-GOVERNANCE-APPROVAL-REQUEST-SYNC-WAVE-242-2026-10-20.md), blob SHA to verify by read-back.
+- Re-read the binding cloud-agent transport policy (blob `7441e2059c5a7b987c559f822c1764047d0150d4`) and Bootstrap (blob `69a11d27c591dac859a097734f9eda3df80f29de`). The sole policy-authorized route is GitHub-hosted controller `.github/workflows/gemini-batch-dispatch-controller.yml` → fixed-scope child workflows; `MEDIAHUB_GITHUB_TOKEN` is controller-only and must never be exposed to child agents/models.
+- Option A remains unproven; Option B remains REQUESTED, NOT APPROVED. Existing governance request: [Issue #301 comment 6289444269](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6289444269); hold sync: [comment 6289488182](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6289488182). Do not dispatch agents or implement the workflow_call redesign until explicit authorized governance approval.
+- PR #420 remains Draft/unmerged at `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind base `80be45a70732b1d568164571d4273a6397792c3b`. Exact-head CI [39402774891](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774891) and [39402774885](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774885) succeeded; independent review and authorized controlled failure-path test remain open.
+- No agent/workflow launched, no secret value read, no Option B implementation, merge, deployment or Contour A qualification.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Map addendum: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md
