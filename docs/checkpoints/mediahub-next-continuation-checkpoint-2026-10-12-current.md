@@ -450,3 +450,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Latest verified PR #421 head `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`; exact-head checks #39425009654 and #39425009644 SUCCESS. PR remains Draft/open; independent review absent; branch protection API returns 403. No Gemini dispatch, secret access, merge, deployment or qualification in Wave 260.
 - Next: close PR #421's independent-review and non-invoking caller-context evidence gates, while inventorying cloud-agent candidates from existing source docs without invoking new providers.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 261 (2026-10-20): reuse mature multi-agent systems
+
+- Report: [MEDIAHUB-CLOUD-POOL-READY-MADE-AGENT-STACKS-WAVE-261-2026-10-20.md](MEDIAHUB-CLOUD-POOL-READY-MADE-AGENT-STACKS-WAVE-261-2026-10-20.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-261-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-261-2026-10-20.md).
+- Added ready-made multi-agent frameworks and corporation-enabling components to the cloud-pool plan: orchestration, durable queue/state, provider quota routing, isolated execution, evidence/observability, roles/pools, escalation and approval. Framework names are candidates, not selected dependencies; source/license/security/authority checks and mock-provider tests precede integration.
+- Existing ECC decision at blob `c707a83777ae5970081bd6bb1e3027c88bbf3fa1` explicitly rejects ECC as a second controller/dependency while selectively using its practices. Keep this decision until explicit ADR/governance change. Cloud router ADR at blob `f445e2ab6b43dfcae275ffa598e44ab18049e504` remains proposed/source review partial/implementation gated.
+- No component installation, provider call, secret access, agent dispatch, deployment or qualification occurred. Registry free-tier labels do not prove current provider entitlements.
+- Next: create source-grounded candidate comparison matrix and define mock-provider proof for the smallest viable orchestration/router/state stack.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
