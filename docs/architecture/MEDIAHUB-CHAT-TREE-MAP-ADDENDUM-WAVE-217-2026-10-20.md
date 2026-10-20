@@ -94,3 +94,10 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Read-back workflow blobs: Agent 1 `89ded6bd650b6f14ab419151762dc3d4f2804a0d`; Agent 2 `7a067fd7093a31c243c9e1f0e2caeec701f29c18`; Agent 3 `d0e2e21d15523757293100f10a72e5e85232b7a2`.
 - PR head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind main `80be45a70732b1d568164571d4273a6397792c3b`. Exact-head Astra Cloud Runtime Validation #39402774891 and Astra Verify #39402774885 were in progress when recorded; no pass is claimed yet.
 - Independent review and authorized controlled failure-path test remain open. PR stays Draft/unmerged; no agent re-dispatch, secret read, deployment, or Contour A qualification.
+
+
+### Wave 225 exact-head CI result
+
+- Updated [Wave 225 report](../checkpoints/MEDIAHUB-UPLOAD-ARTIFACT-IMMUTABLE-PIN-WAVE-225-2026-10-20.md): [Astra Cloud Runtime Validation #39402774891](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774891) and [Astra Verify #39402774885](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774885) both completed SUCCESS on exact head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`.
+- Read-back confirmed Agent 2 workflow blob `7a067fd7093a31c243c9e1f0e2caeec701f29c18` contains the full SHA pin and no longer contains `actions/upload-artifact@v4`.
+- Static CI success is not a controlled failure-path test. Independent review and authorized controlled test remain open; PR #420 remains Draft/unmerged.
