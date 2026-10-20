@@ -5369,3 +5369,15 @@ Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 
 - No new A1/A2/A3 runs were dispatched: available GitHub connector tools expose no workflow-dispatch action. No guessed endpoint or alternate authority path was used.
 - Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated. No secrets, provider calls, cloud/server changes, merge, deployment or qualification.
 - Next: authorized Git-data map update with read-back; obtain authorized dispatch and branch-protection evidence; continue source-bound worker/publisher and issuer/capability/replay/revocation work. Do not merge PR #404 or agent PRs on CI alone.
+
+
+## Wave 235 — JSON Schema metadata edge-case hardening (2026-10-20)
+
+- Report: [Wave 235 schema metadata edge-case hardening](MEDIAHUB-CONTOUR-A-JSON-SCHEMA-METADATA-EDGE-CASE-HARDENING-WAVE-235-2026-10-20.md).
+- Report commit: `9f40003f4ca64352cb43a2f63025f0ebfab85920`.
+- Re-read PR #388 exact head `4a131acf6484f6e370625b0ebc454ee7b4b5116c`; fixed metadata envelope checks for boolean `schema_version` subschemas and non-string `const` values, with two new negative tests on branch `contour-a/schema-validator-draft202012-wave214`.
+- Final PR #388 head: `815fa4af497a593f321ee692f64f53a12dcad061`; validator blob `50e85da3e9d3a2cd806236bcb6650b11764b4955`, tests blob `75b99297cf94997b66663ecb66eb0caea477d7f1`. Read-back confirmed both guards and both tests.
+- Exact-head Astra Verify run `39375449122` SUCCESS; log: compile passed, full unittest discovery `435 tests / 0 failures`, signed-command smoke test passed. Exact-head Cloud Runtime Validation `39375449153` SUCCESS, including contract validation and cloud runtime tests. PR remains OPEN / Draft and is 4 ahead / 0 behind main. COMMENT review ID `5581127268`; not an approval.
+- Issue #301 remains OPEN. Semantic `$ref` resolution, runtime payload corpus, accepted target manifest, A0 issuer lifecycle, R-06 and worker/publisher boundary remain open. Contour A stays NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Canonical map remains unmodified; blob SHA `2187b4ca50792fe073f0979442c0f73432a2f6f9`. Contents API returns empty content and available connector methods do not provide the current branch's base-tree SHA/read operation. No guessed tree, truncated map, bulk merge or rebase attempted.
+- Next: obtain a verified Git-data base-tree read for safe map update; continue source-bound worker/publisher isolation and A0 issuer/capability/replay/revocation gates. Do not merge PR #388 on green CI alone.
