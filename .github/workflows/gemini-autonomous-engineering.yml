@@ -27,7 +27,7 @@ jobs:
   engineer:
     if: >-
       github.event_name == 'workflow_dispatch' &&
-      contains(github.workflow_ref, '/.github/workflows/gemini-batch-dispatch-controller.yml@')
+      github.workflow_ref == 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
     name: Bounded Gemini engineering task
     runs-on: ubuntu-latest
     timeout-minutes: 30
