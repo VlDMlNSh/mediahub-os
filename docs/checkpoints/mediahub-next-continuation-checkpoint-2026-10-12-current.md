@@ -335,3 +335,13 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Bootstrap final blob SHA: `9718e645ce21df2cbdb5ceb2daf1ec5828185227`.
 - Final Wave 243 report blob SHA: `8e416575158d360b3397e9de0fb39ba0d1ecfb42`.
 - Current `main` remains the legacy REST-dispatch implementation and stays ON HOLD. PR #421 is the proposed `workflow_call` design; the governance approval covers implementation only. Even after integration, a separate live-run authorization is required.
+
+
+## Latest continuation — Wave 244 (2026-10-20): owner clarification on cloud-agent autonomy
+
+- Owner clarified that autonomous development, including cloud-agent use, is intended; do not read earlier dispatch hold as a permanent or project-wide prohibition. Routine controller-only agent runs are authorized after the PR #421 technical/governance gates pass; no separate per-run owner prompt is required after integration.
+- Report: [MEDIAHUB-CLOUD-AGENT-AUTONOMY-CLARIFICATION-WAVE-244-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-AUTONOMY-CLARIFICATION-WAVE-244-2026-10-20.md).
+- PR #421 remains Draft/unmerged, 11 ahead / 0 behind `main` at base `80be45a70732b1d568164571d4273a6397792c3b`; review API returned no submitted reviews. Existing exact-head CI evidence: [Astra Cloud Runtime Validation #39414529957](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39414529957), [Astra Verify #39414529912](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39414529912). A controlled negative caller-context test and genuine independent review remain required before integration.
+- The only approved route remains GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` and its fixed-scope child workflows. No agent launched in Wave 244; proposed workflow-call controller is not yet active on `main`.
+- Next: secure independent review of PR #421, verify caller-guard semantics/permissions/provider-secret flow, add or verify the negative caller-context test without running Gemini, rerun exact-head checks, then integrate through branch protection. After integration, use controller `confirm: yes` for bounded agent tasks without another per-run owner prompt. Continue independent engineering in parallel.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
