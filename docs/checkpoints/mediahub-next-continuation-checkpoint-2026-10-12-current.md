@@ -3,7 +3,21 @@
 Created: 2026-10-12
 Purpose: Resume this exact project state in a new chat when the user sends /next.
 
-## Latest continuation — Wave 274 (2026-10-20)
+## Latest continuation — Wave 275 (2026-10-20)
+
+- Dated source audit: [Wave 275 legacy workflow retirement drift audit](MEDIAHUB-CONTOUR-A-WAVE-275-LEGACY-WORKFLOW-RETIREMENT-DRIFT-AUDIT-2026-10-20.md). It verifies the two old-server-only workflows were retired on the documentation branch but remain on `main`; no runtime execution status was inferred.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 275 entry. Map blob SHA `394853e3f301ddc73a22efded3bee9a694c471e9`; map update commit `b40823d8e5e1787268699f594f17060e130a857f`.
+- Master Roadmap has a Wave 275 addendum. Its update commit: `d1cc6f3ed6422f089a490c12bfed3d697c70fb4d`; new roadmap blob SHA: `cffdf290e45c9d4d999d46e298bb9f177b24684b`.
+- Audit report blob SHA after traceability update: `a1ef0be23dd93f777085b4250872273fd56cf502`; report update commit: `b2e37b18ddbab06e2ce32748d236a298cb3241df`.
+- `main` was re-read at `80be45a70732b1d568164571d4273a6397792c3b`. At audit start the docs branch was `f8993cd0b18f8c81083e9b61ead126cc74087e42`; the audit/report/map/roadmap/checkpoint commits were written only to `docs/mediahub-chat-tree-map-20261012`. The branches remain diverged; do not merge the documentation branch wholesale.
+- Narrow [PR #422](https://github.com/VlDMlNSh/mediahub-os/pull/422) on `contour-a/retire-legacy-server-workflows-wave275` proposes deletion of only the two old-server workflow files, based on `main` at `80be45a70732b1d568164571d4273a6397792c3b`. PR head `3735ae534993c279b0d380813bcd1595c79397a3`, diff exactly two deletions. Astra Verify run `39450887422` and Astra Cloud Runtime Validation `39450887471` succeeded; no independent review was returned. PR remains Draft/unmerged.
+- Prior owner direction restricts cloud-agent execution to the GitHub-hosted controller after its safety gates. PR #421 remains separately OPEN/DRAFT; no Gemini agents were dispatched in this pass.
+- No legacy workflow dispatch, provider/model call, secret access, host inspection, tests on a host, merge, deployment, route qualification or acceptance occurred. Runtime enforcement remains NOT VERIFIED; Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated on Contour A deployment and independent acceptance.
+- **Next:** obtain independent review / verify exact-head checks for PR #422; preserve the no-merge posture until gates pass. Separately trace the accepted A0 Task Contract producer and trusted issuer/admission lifecycle, then add static/mock-only negative fixtures for issuer provenance, destination class, paid Anthropic route/fallback, unknown router, duplicate claims and malformed DAG.
+
+---
+
+## Previous continuation — Wave 274 (2026-10-20)
 
 - Owner's follow-up clarified the Alamo Claude candidate family: FCC/fcc-claude, FreeLLMAPI, OmniRoute, OpenFlux and equivalent specialized auth/router/adaptor components may be evaluated, but a project name is not authorization or route admission. Wave 274 report: [router candidate identity and non-paid route guards](MEDIAHUB-ALAMO-CLAUDE-ROUTER-CANDIDATE-IDENTITY-AND-NONPAID-ROUTE-GUARD-WAVE-274-2026-10-20.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-274-2026-10-20.md).
 - The binding [A0 hybrid dispatch / Alamo Claude routing contract](../architecture/MEDIAHUB-A0-HYBRID-DISPATCH-AND-ALAMO-CLAUDE-ROUTING-HARD-REQUIREMENTS.md) now names these candidate families and blocks unpinned or ambiguous identities. FCC and public OmniRoute variants expose multi-provider/mixed-cost routing; strict provider/model allowlists and disabled paid/unknown fallback are mandatory. FreeLLMAPI upstream/fork remains unresolved. OpenFlux identity remains unresolved: matching public search results were ambiguous and did not prove a Claude Code free-auth/router capability. Do not infer its function from its name.
