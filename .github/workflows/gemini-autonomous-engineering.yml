@@ -126,7 +126,7 @@ jobs:
             --argjson stdout_valid_json "$valid_json" \
             --argjson response_present "$response_present" \
             --argjson tool_summary "$tool_summary" \
-            '{run_id:$run_id, run_attempt:$run_attempt, job:$job_id, gemini_step_outcome:$step_outcome, gemini_step_conclusion:$step_conclusion, stdout_present:$stdout_present, stdout_valid_json:$stdout_valid_json, response_present:$response_present, tool_summary:$tool_summary}' \
+            '{run_id:$run_id, run_attempt:$run_attempt, job_id:$job_id, gemini_step_outcome:$step_outcome, gemini_step_conclusion:$step_conclusion, stdout_present:$stdout_present, stdout_valid_json:$stdout_valid_json, response_present:$response_present, tool_summary:$tool_summary}' \
             > "$RUNNER_TEMP/gemini-diagnostic.json"
 
       - name: Upload sanitized Gemini diagnostic metadata
