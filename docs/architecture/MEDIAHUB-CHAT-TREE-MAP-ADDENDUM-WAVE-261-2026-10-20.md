@@ -25,3 +25,12 @@ Planning/source inventory only; no components installed, provider calls made, ag
 
 ## Next
 Build a source-grounded component comparison matrix and mock-provider proof of the smallest viable orchestration/router/state stack. Treat the Wave 42 router ADR as proposed and address its documented fail-open, non-atomic quota selection, credential-in-URL and missing task-policy issues before adoption.
+
+
+## Wave 262 — infrastructure boundary refinement
+
+The cloud pool is GitHub-cloud-only for orchestration, scheduling/dispatch, worker execution, coordination, artifacts and evidence. No dedicated hardware, VPS, self-hosted runner, local workstation, NAS, or always-on listener is a pool dependency. External model APIs are permitted only as authorized endpoints called from GitHub-hosted jobs, not as alternate orchestration infrastructure. Servers are reserved for later Jarvis/local compute; Jarvis/local executor work follows cloud-pool deployment and independent acceptance. Any requirement for an external hosted queue/database/router must be raised as an explicit governance capability gap, not introduced silently.
+
+Evidence: [Wave 262 report](../checkpoints/MEDIAHUB-GITHUB-CLOUD-ONLY-POOL-AND-LOCAL-JARVIS-BOUNDARY-WAVE-262-2026-10-20.md).
+
+Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
