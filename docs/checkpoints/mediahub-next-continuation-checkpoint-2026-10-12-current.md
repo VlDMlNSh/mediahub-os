@@ -1,3 +1,16 @@
+## Latest continuation — Wave 288 (2026-10-20)
+
+- Report: [Reusable-workflow permission ceiling audit](MEDIAHUB-GEMINI-REUSABLE-WORKFLOW-PERMISSION-CEILING-AUDIT-WAVE-288-2026-10-20.md), blob SHA `f4b358c270611634a2ebde215d6a2ebac4bc433f`, creation commit `796f38da736524774e0c72be10a3e1aa3d890032`.
+- Canonical map addendum: [Wave 288 index](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-288-2026-10-20.md), blob SHA `d581655ec040b4b675568ed1a1c9c20cbebfcb14`, creation commit `6a7d428c5ae7d63de741c7e550ce4f301da244d8`.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), blob SHA `9ab178f6c5bd591711874987407db89d907d1611`. Contents API returns empty content for this blob; do not infer the map is empty.
+- PR #421 remains OPEN / DRAFT / UNMERGED at head `3141a44370694d78f76779243adb548318a745d7`, base `80be45a70732b1d568164571d4273a6397792c3b`, 61 ahead / 0 behind. Submitted independent reviews: zero. Exact-head CI was green per Wave 287, but positive trusted-controller runtime proof and governance gates remain open.
+- New source-contract finding: controller `.github/workflows/gemini-batch-dispatch-controller.yml` blob `da1d0254a993adcc224d5859a9a97bf609abd710` declares top-level `permissions: {}`; child jobs request write scopes and pass `github.token` to GitHub MCP. Reusable workflows cannot elevate the caller GITHUB_TOKEN permission ceiling, so intended write operations conflict with the configured ceiling. This is a source-level incompatibility; no runtime dispatch was used to test it.
+- PR #426 remains OPEN / DRAFT / UNMERGED at head `6caf55977260e808a055c8c4b9a04d68eb050d8c`; it demonstrates the negative caller path only, not trusted positive-path qualification.
+- Issue #301 remains OPEN. No workflow dispatch/rerun, provider/model invocation, secret/host access, test execution, merge, deployment, qualification, or acceptance occurred. Contour A remains **NOT_PROVEN / BLOCKED**; Contour B remains gated.
+- **Next:** independent security review of the token-ceiling interpretation and least-privilege design; only then plan a no-credential positive caller-context probe that keeps all model/provider jobs unreachable. Keep PR #421 and #426 separate and unmerged.
+
+---
+
 # MediaHub OS — continuation checkpoint (current)
 
 Created: 2026-10-12
