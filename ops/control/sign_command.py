@@ -19,7 +19,7 @@ def validate_command_shape(command: dict, now: int | None = None) -> None:
     if not isinstance(command["command_id"], str) or not command["command_id"] or len(command["command_id"])>128: raise ValueError("command_id must be a non-empty string <=128 chars")
     if not isinstance(command["node_id"], str) or not command["node_id"]: raise ValueError("node_id must be a non-empty string")
     if not isinstance(command["operation"], str) or not command["operation"]: raise ValueError("operation must be a non-empty string")
-    if not isinstance(command["issued_at"], int): raise ValueError("issued_at must be an integer Unix timestamp")
+    if type(command["issued_at"]) is not int: raise ValueError("issued_at must be an integer Unix timestamp")
     current_time = int(time.time()) if now is None else int(now)
     if abs(current_time-command["issued_at"])>MAX_AGE_SECONDS: raise ValueError("command issued_at is outside the accepted freshness window")
 
