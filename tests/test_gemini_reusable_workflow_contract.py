@@ -45,6 +45,10 @@ def contract_errors(controller: str, children: list[str]) -> list[str]:
             errors.append(f"child {index + 1} must not use a loose controller-ref predicate")
         if EXPECTED_SECRETS[index] not in child:
             errors.append(f"child {index + 1} must declare its explicit provider secret")
+        if "ghcr.io/github/github-mcp-server@sha256:" not in child:
+            errors.append(f"child {index + 1} must pin the GitHub MCP server image digest")
+        if "ghcr.io/github/github-mcp-server:v0.27.0" in child:
+            errors.append(f"child {index + 1} uses a mutable GitHub MCP server tag")
         for line in child.splitlines():
             if "uses:" not in line:
                 continue
@@ -88,6 +92,16 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
             "child 3 has a mutable external action ref" in error
             for error in contract_errors(self.controller, bad)
         ))
+
+    def test_negative_fixture_rejects_mutable_container_tag(self):
+        bad = list(self.children)
+        bad[0] = bad[0].replace(
+            "ghcr.io/github/github-mcp-server@sha256:cbca61d547beec9b819b26bbfe6ac66ba6b373f1d6b64e8291e346bf524633e2",
+            "ghcr.io/github/github-mcp-server:v0.27.0",
+        )
+        errors = contract_errors(self.controller, bad)
+        self.assertIn("child 1 must pin the GitHub MCP server image digest", errors)
+        self.assertIn("child 1 uses a mutable GitHub MCP server tag", errors)
 
     def test_negative_fixture_rejects_direct_dispatch(self):
         bad = list(self.children)
