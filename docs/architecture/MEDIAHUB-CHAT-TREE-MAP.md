@@ -7528,3 +7528,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Worker direct commit/push was replaced by an untrusted patch and manifest with target SHA, changed paths and patch SHA-256. Candidate workflow uses `contents: read`, three `persist-credentials: false` checkouts and per-runner patch/manifest uploads.
 - Exact-head CI is not evidenced; no local suite or worker dispatch was run. PR creation was not completed. Issuer/capability, signature/replay/revocation and trusted publisher remain unimplemented.
 - Issue #301 remains OPEN; PR #400/#405 remain Draft/unmerged. Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated.
+
+
+## Contour A cloud-agent continuation — Wave 255 (2026-10-20)
+
+- [Wave 255 report](../checkpoints/MEDIAHUB-GEMINI-ACTION-REF-HARDENING-WAVE-255-2026-10-20.md) records immutable GitHub Action references and exact-head CI evidence.
+- [Wave 255 addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-255-2026-10-20.md) records the outstanding container digest, independent review, negative caller-context runtime test, and governance integration gates.
+- PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) is still Draft and unmerged. Re-check its moving head and CI before relying on previous run results.
+- Do not treat release-asset checksums or a digest for a different image/version as the MCP container manifest digest. Pin only after the exact `v0.27.0` image digest is independently verified.
+- No Gemini launch, secret access, merge, deployment, or Contour A qualification was performed in Wave 255.
