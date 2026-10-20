@@ -2230,3 +2230,11 @@ This is an execution-order update under the existing roadmap, not an architectur
 Current PR #421 evidence at the time of this update: head `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`; exact-head checks #39425009654 and #39425009644 succeeded; PR remains Draft/open, independent review absent, and branch-protection verification is blocked by API 403. Wave 260 performed no agent dispatch, secret access, merge, deployment or qualification.
 
 Canonical navigation: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 261 — ready-made multi-agent systems and corporation-enabling components (2026-10-20)
+
+- Report: [Wave 261 component reuse review](MEDIAHUB-CLOUD-POOL-READY-MADE-AGENT-STACKS-WAVE-261-2026-10-20.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-261-2026-10-20.md).
+- Cloud-pool work explicitly includes comparison and selective integration of mature multi-agent orchestration frameworks, durable queue/state, provider-aware quota routing, isolated executors, evidence/observability and corporation-enabling role/task/escalation components. Evaluate LangGraph, AutoGen, CrewAI, OpenHands/SWE-agent and others as candidates only after source/license/security/authority review; prototype with mocked providers first.
+- Existing ECC decision rejects ECC as a second controller/dependency while selectively using its workflow practices. Do not silently reverse it; controller-level ECC adoption requires explicit ADR/governance change. Existing router ADR remains PROPOSED / SOURCE REVIEW PARTIAL / IMPLEMENTATION GATED. Provider registry free-tier labels do not prove current entitlements or quotas.
+- No components installed, provider routes enabled, API calls, agent dispatches, secret reads, deployment or qualification in this wave. Next: source-grounded component comparison matrix and mock-provider prototype plan.
