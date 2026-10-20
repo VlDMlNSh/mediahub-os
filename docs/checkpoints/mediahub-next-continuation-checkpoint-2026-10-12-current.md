@@ -414,3 +414,17 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - The GHCR digest/version mapping is verified. Open gates: genuine independent review, controlled negative caller-context runtime test, and authorized branch-protection verification. Branch protection API access returned 403; no assumption made.
 - No Gemini agent dispatch, secret access, merge, deployment, or Contour A qualification.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+## Latest continuation — Wave 258 (2026-10-20): controller gate revalidation
+
+- Report: [MEDIAHUB-CONTROLLER-GATE-REVALIDATION-WAVE-258-2026-10-20.md](MEDIAHUB-CONTROLLER-GATE-REVALIDATION-WAVE-258-2026-10-20.md), commit `e482bafcd689091e7c162363540fafaeca2a7235`.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-258-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-258-2026-10-20.md), commit `6ad48d5eb3d44c2a989a9df1423b48b2b6f88438`.
+- PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) remains Draft/open at head `d8d8997bbfc48d20b08c9d4e6e0a5aecca4411be`, base `main` `80be45a70732b1d568164571d4273a6397792c3b`.
+- Exact-head [Astra Cloud Runtime Validation #39417784502](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39417784502) and [Astra Verify #39417784544](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39417784544) remain SUCCESS.
+- No independent review is recorded. Branch-protection API returned 403; branch protection remains unverified.
+- Static YAML test verifies that the trusted-caller guard is the actual `jobs.engineer.if` condition in all three child workflows. It is not a runtime caller-context test.
+- The available GitHub connector has no workflow-dispatch operation. No alternate transport was used. No Gemini agent was launched; no secret was accessed; no merge, deployment, or Contour A qualification occurred.
+- The canonical map exceeds the available file-read/update surface in this connector; its full raw content could not be retrieved safely for a complete-file update. Wave 258 is recorded in the linked map addendum; the canonical map itself was not modified in this wave.
+- Next: obtain genuine independent review and authorized branch-protection verification; then produce a controlled negative caller-context runtime test with no Gemini invocation. Only after these gates pass, consider a bounded live-agent batch.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
