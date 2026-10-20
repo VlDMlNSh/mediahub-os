@@ -483,3 +483,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Issue #301 is OPEN and describes ephemeral GitHub-hosted workers, outbound HTTPS and runtime-only secrets; schema Draft 2020-12 validation/negative fixtures remain open; CAF-Q-001…015 are documentary, not a live scheduler. Controller workflow source blob on main: `99e5a87825aeb239568f96ecef004a102ff3e53b`; PR #421 remained OPEN/Draft at last check. No dispatch authorization was inferred.
 - No workflow/provider call, secret access, server use, installation, merge, deployment or qualification occurred. Next: provider registry consumer census, reusable component matrix filtered to GitHub-hosted-only, and mock-provider/schema/evidence tests; record any GitHub-native capability gap and seek governance before introducing external infrastructure.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 263 — Provider registry consumer census (2026-10-20)
+
+- Report: [MEDIAHUB-PROVIDER-REGISTRY-CONSUMER-CENSUS-WAVE-263-2026-10-20.md](MEDIAHUB-PROVIDER-REGISTRY-CONSUMER-CENSUS-WAVE-263-2026-10-20.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-263-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-263-2026-10-20.md).
+- Confirmed discrepancy: `ops/qualification/provider_model_registry.json` (blob `62328126fd2cd8879a73bb6812adcacd3e2abe84`) is a 25-entry mixed-scope registry and contains a localhost Ollama endpoint plus inline static bearer value. It is not safe to use as a cloud-pool allowlist.
+- `profiles/agent-registry.json` (blob `993cbbe1b2b2a88da7d8884a897b404f055981a8`) is a separate catalog. AI provider/adapter schemas are separate contracts (blobs `9537a64bc948b1bea3e2a640670f48e107760a50`, `e0dab7002222451579e649a7d1d29985393d9a42`); current evidence does not prove the ops registry validates against them or is wired into cloud dispatch.
+- Code search returned no indexed results, so the census is path-level rather than exhaustive. Canonical map Contents API returned an empty body while reporting blob SHA `cae684678cfbe31a88d01d65614420b70dbc7394`; no overwrite attempted. See Wave 262/263 addenda for boundary and detail.
+- Next bounded step: CI-only eligibility/schema checks and negative fixtures with mock providers; default unknown/local entries to denied; run reproducible repository-wide consumer scan. No provider calls, secret access, workflow dispatch, server use, merge, deployment, qualification or acceptance occurred.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
