@@ -74,7 +74,14 @@ Public documentation currently provides examples of the relevant component class
 - Updated the canonical project map to index Wave 273 and link the hard requirements, addendum, checkpoint and roadmap.
 - Updated the bootstrap instruction so the requirements are loaded on every relevant `/next`.
 - Updated the continuation checkpoint and Master Development Roadmap with the new FreeLLMAPI/FCC clarification and next implementation sequence.
-- Exact commit/blob SHA and read-back evidence for these changes are added after all document writes finish.
+- Final document read-back identities after the associated writes:
+  - Canonical map: blob `71d2409be45a5b0f0dd0dd726f5b1ba766669d16`, update commit `47f04065bfd2ebf14e7325f9ff8575d256ca6ff7`.
+  - Wave 273 map addendum: blob `47cf21a18b8b49b764a406770bfa79317d3bd2a6`, creation commit `d4a575be33302032fac1094898b24fab3ce2d428`.
+  - Bootstrap: blob `eabdc46adeab07bab12bd738d018d72165fc9a45`, update commit `4fede85583829c670b0034c64b2f88a84ea4041c`.
+  - Master Development Roadmap: blob `c130b877f485cdcf70bb03fb2603653bc59c0a65`, update commit `4835b4acc6409933865bce681e3467e2ecf2fbba`.
+  - Continuation checkpoint: blob `9b88c162e99db57320fa3163d9aeaa2d1ee53fd5`, update commit `07fe2df327b536473bb260423101002b29942e0e`.
+  - Every listed file was fetched again after its write; the canonical map's 1,124,729-character blob was read by SHA because the Contents API did not return its full body. This report was subsequently read back by GitHub after its final evidence update; its resulting blob SHA is reported in the session summary.
+  - Before the final report evidence update, canonical docs HEAD was `07fe2df327b536473bb260423101002b29942e0e`; `main` remained `80be45a70732b1d568164571d4273a6397792c3b`.
 
 ## Next bounded engineering step
 
