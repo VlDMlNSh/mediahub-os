@@ -7546,3 +7546,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Exact-head [Cloud Runtime Validation #39416621016](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416621016) and [Astra Verify #39416620952](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416620952) both report SUCCESS.
 - The three child workflows are digest-pinned. The official [GitHub Container Registry version record for `v0.27.0`](https://github.com/orgs/github/packages/container/github-mcp-server/630595547?tag=v0.27.0) confirms `sha256:cbca61d547beec9b819b26bbfe6ac66ba6b373f1d6b64e8291e346bf524633e2` for Linux amd64, matching the configured Ubuntu x64 hosted runner. Independent review, negative caller-context runtime test, and governance integration remain open.
 - Independent review, controlled negative caller-context runtime test, and governance integration remain open. No agent launch, secret access, merge, deployment, or qualification.
+
+
+## Contour A caller-guard contract hardening — Wave 257 (2026-10-20)
+
+- Report: [MEDIAHUB-CALLER-GUARD-CONTRACT-HARDENING-WAVE-257-2026-10-20.md](../checkpoints/MEDIAHUB-CALLER-GUARD-CONTRACT-HARDENING-WAVE-257-2026-10-20.md), created in commit `bc3825422663f72db445a82701826b777e7f41ed`.
+- PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) current head `d8d8997bbfc48d20b08c9d4e6e0a5aecca4411be`, base `main` `80be45a70732b1d568164571d4273a6397792c3b`, Draft/open.
+- Added a YAML-parsing contract test that asserts the trusted controller guard is the actual `jobs.engineer.if` condition in each of the three child workflows, not merely a string in a comment or unrelated field. Test blob SHA: `33149b9265f6dd458a7b3460cf7caf6277a981b3`.
+- Exact-head [Astra Cloud Runtime Validation #39417784502](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39417784502) and [Astra Verify #39417784544](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39417784544) both SUCCESS.
+- The official GHCR v0.27.0 Linux amd64 version record verifies the digest pinned in all three child workflows. Still open: independent review, actual negative caller-context runtime test, and authorized branch-protection verification. No Gemini dispatch, secret access, merge, deployment, or qualification.
