@@ -39,3 +39,12 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Agent 2 job `118540763883` log shows an unconfigured `update_topic` call, repeated GitHub MCP read failures, Gemini free-tier input-token quota exhaustion, then `FatalTurnLimitedError`. The post-step validator had no usable stdout JSON and failed closed.
 - The Gemini action's internal artifact-upload step was skipped in this failed run; current workflow validation steps use `if: success()`. Proposed next change: best-effort outer diagnostic upload with `if: always()`, no secret-bearing files, plus stricter stop-on-first-tool-error prompt language. No workflow edits or rerun were performed.
 - Preserve approved GitHub Actions controller transport, no paid fallback, no auto-merge, and no qualification claims. Mainline workflow modifications require a separate reviewed PR and exact-head CI.
+
+
+## Wave 221 — sanitized Gemini failure diagnostics proposal (2026-10-20)
+
+- Report: [Wave 221 implementation and verification status](../checkpoints/MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md).
+- Draft PR [#420](https://github.com/VlDMlNSh/mediahub-os/pull/420) proposes an always-run sanitized diagnostic JSON artifact for all three child workflows and an explicit stop-after-MCP-error prompt rule.
+- PR head `2016c1c99a44cbf9b700d0a1eba777a9964fed09`; child workflow blob SHAs: Agent 1 `e3de99ec9299b33a9c12e126aba785d55cfb71d9`, Agent 2 `75d9db95a9ccb75e5dfaba373f6d6ac77883fe11`, Agent 3 `b730bfb426450cda45a4252db6b4e370959e2061`.
+- Read-back confirms the new steps and unchanged fail-closed validator. Exact-head CI was in progress when checked; not yet accepted. No agent rerun or merge.
+- Raw stdout/tool arguments are deliberately not copied to the new artifact; it contains only run metadata, booleans, and tool-name success/failure counts. Controlled runtime failure-path validation is still required.
