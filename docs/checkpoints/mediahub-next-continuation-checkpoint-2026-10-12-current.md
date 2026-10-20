@@ -314,3 +314,16 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - No agent/workflow launched, no secret value read, no Option B implementation, merge, deployment or Contour A qualification.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Map addendum: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md
+
+
+## Latest continuation — Wave 243 (2026-10-20)
+
+- Governance approval verified: owner [APPROVE OPTION B comment 6289586838](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6289586838) explicitly authorizes implementation in a separate PR only. It does not authorize agent dispatch, merge, deployment, or qualification.
+- [Draft PR #421](https://github.com/VlDMlNSh/mediahub-os/pull/421) proposes controller-only reusable workflows. Branch `contour-a/workflow-call-controller-governance-wave243`, checked commit `436c6d386289c77538382f76d7d6102aaa28acbb`; base `main` `80be45a70732b1d568164571d4273a6397792c3b`; 11 ahead / 0 behind at last compare.
+- Three child workflows use `workflow_call` only, with a controller workflow-ref guard. Controller uses three local reusable-workflow jobs, preserves manual `confirm: yes`, fixed `main` / `contour-a` inputs, explicit child-specific provider secrets and fail-closed summary. No `secrets: inherit`, no controller REST dispatch, no `MEDIAHUB_GITHUB_TOKEN` in proposed controller/children.
+- Exact-head checks succeeded: [Astra Cloud Runtime Validation #39414529957](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39414529957) and [Astra Verify #39414529912](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39414529912). Astra Verify includes actionlint, compileall, positive/negative reusable-workflow contract tests, full Python unit tests and signed-command smoke test.
+- Binding policy blob `e872ce09074c259beee0cbc8e7fbe6def4ef5f06`; Bootstrap blob `beb0de42af395d99acc1c63c8a1293524598cac8`; Wave report [MEDIAHUB-CLOUD-AGENT-CONTROLLER-ONLY-IMPLEMENTATION-WAVE-243-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-CONTROLLER-ONLY-IMPLEMENTATION-WAVE-243-2026-10-20.md).
+- PR remains Draft/unmerged; no independent review recorded. Next: independent review of `github.workflow_ref` caller-context semantics, guard bypass scenarios, and permission/secret boundaries; add/verify a controlled negative caller-context test without launching Gemini. **Cloud-agent dispatch remains ON HOLD** until these gates and integration are complete and a separate live-run authorization is recorded.
+- No agent/workflow launched, no secret value read, no merge, deployment, or Contour A qualification.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Map addendum: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md
