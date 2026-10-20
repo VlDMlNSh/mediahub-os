@@ -2328,3 +2328,16 @@ This is a binding owner-directed target requirement for design/qualification seq
 - Source blockers from Wave 267 remain open. No provider call, secret access, host inspection, dispatch, test execution, merge, deployment, qualification or acceptance occurred.
 - Report: [Wave 268](MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-ALAMO-CLAUDE-NONPAID-AUTH-HARD-CONSTRAINTS-WAVE-268-2026-10-20.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-268-2026-10-20.md); [canonical map](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md).
 - Next: version mission envelope/destination responsibility matrix, then static negative fixtures and mock-only tests.
+
+
+## Wave 269 — A0 hybrid mission envelope and destination lifecycle design candidate (2026-10-20)
+
+This is a source-reconciled design candidate under the owner-directed hard constraints recorded in Wave 268. It is not a normative schema and does not authorize runtime execution.
+
+- Report: [Wave 269 mission-envelope and destination-lifecycle contract draft](MEDIAHUB-A0-HYBRID-MISSION-ENVELOPE-AND-DESTINATION-LIFECYCLE-CONTRACT-DRAFT-WAVE-269-2026-10-20.md).
+- Map addendum: [Wave 269](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-269-2026-10-20.md).
+- Current ingress `task_ingress.py@main` blob `59e1254aa61cc8f55f53bd1b179631e81c441393` accepts a limited task contract without issuer provenance, destination/DAG, or route/locality policy. `astra_gateway.py@main` blob `10985e4ad8f682313d08e7492ecc1856a8bce20f` is cloud-first with local Ollama; it is not proof of the required A0 hybrid route. The current local queue blob `72c4a5ccb367884fb02d247b1b8848ea62c3c6b1` does not establish distributed cross-route lifecycle.
+- The Alamo Claude route must reject Anthropic API inference and all paid Anthropic API authorization/billing paths even if a router abstracts them. FCC/fcc-claude and comparable routes remain unqualified candidates until upstream, auth/cost class, policy/terms, egress, version, and Alamo binding are evidenced. No silent fallback.
+- Required next: locate the authoritative issuer/task-envelope contracts, version/reconcile existing contracts, then add schema and static/mock-only negative fixtures. No real dispatch or provider invocation before all relevant gates pass.
+- Contour A remains NOT_PROVEN / BLOCKED. No tests, runtime, secret access, host inspection, dispatch, merge, deployment, qualification, or acceptance in Wave 269.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
