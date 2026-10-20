@@ -121,3 +121,13 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Report: [Wave 224 workflow lint and CI](MEDIAHUB-GEMINI-WORKFLOW-LINT-AND-CI-WAVE-224-2026-10-20.md), creation commit `b8de92f5741ff652be9f4b11c7e9d81bf95532e9`.
 - Open gates: independent review; controlled, authorized failure-path test proving sanitized metadata uploads after Gemini action failure; review `actions/upload-artifact@v4` tag pin against full-SHA policy. No agent redispatch, merge, paid fallback, alternate transport, deployment or Contour A qualification.
 - Next: secure independent review, resolve action pinning, then consider a bounded authorized failure-path test. Do not rerun Agent 2 or merge PR #420 before acceptance gates pass.
+
+
+## /next Wave 225 — immutable upload-artifact pin (2026-10-20)
+
+- Read [Wave 225 report](MEDIAHUB-UPLOAD-ARTIFACT-IMMUTABLE-PIN-WAVE-225-2026-10-20.md) and [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md).
+- In Draft PR #420, pinned the sanitized diagnostic upload step in all three Gemini child workflows to official `actions/upload-artifact` v7.0.2 commit `cf430e030ddbb5b0abf93d22962f4752f3646cd9`; upstream commit metadata reports verified signature and action runtime Node 24.
+- Read-back blobs: Agent 1 `89ded6bd650b6f14ab419151762dc3d4f2804a0d`; Agent 2 `7a067fd7093a31c243c9e1f0e2caeec701f29c18`; Agent 3 `d0e2e21d15523757293100f10a72e5e85232b7a2`. PR head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`.
+- Exact-head CI runs #39402774891 (Astra Cloud Runtime Validation) and #39402774885 (Astra Verify) were in progress at checkpoint update; terminal results must be rechecked before claiming success.
+- No independent review yet; controlled failure-path test still requires authorization and evidence. Do not redispatch Agent 2, merge, deploy, or claim Contour A qualification.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
