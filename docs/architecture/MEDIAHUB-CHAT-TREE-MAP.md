@@ -7485,3 +7485,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Clarification: GitHub App/API dispatch moves the control-plane request; it does not erase network locations. A1/A2/A3 currently specify `runs-on: ubuntu-latest`, so model API calls originate from the GitHub-hosted runner's egress, not necessarily from the API caller or former Russian server. Standard runner labels do not pin a specific geographic region in workflow source.
 - Google AI Studio/Gemini API published availability lists Lithuania but not Russia. This explains why changing the caller environment may affect access, but does not prove account/key eligibility or successful API access. No region masking, proxy, or provider restriction bypass was implemented.
 - No new dispatch/provider request was run. Actual runner egress region, Gemini key validity, A1/A2/A3 execution and task output remain unverified. Keep Contour A **NOT PROVEN / BLOCKED**.
+
+
+## 20.376 — Wave 247: GitHub Actions geography and Gemini availability (2026-10-20)
+
+- Report: [Wave 247 — GitHub Actions execution geography vs. provider region restrictions](../checkpoints/MEDIAHUB-GITHUB-ACTIONS-REGION-AND-GEMINI-AVAILABILITY-WAVE-247-2026-10-20.md).
+- Refs at start: `main=1324f2f9e558a99c1d3e06eb9d955c0827214fe2`; canonical docs branch `5d7cd0f580799d8c2691e107728b75899f29a54a`. No merge/rebase.
+- Official GitHub docs distinguish dispatch caller from runner. Current A1/A2/A3 use GitHub-hosted `ubuntu-latest`, do not pin a country or static egress IP, and pass a job-scoped GitHub token to the configured GitHub MCP server.
+- Google's published Gemini API/AI Studio availability list does not include Russia; it points users outside the list to Gemini Enterprise Agent Platform, which requires separate eligibility and terms checks. Actual runner egress and account eligibility remain unmeasured; no model API was called and no secret was read.
+- Contour A remains **NOT PROVEN / BLOCKED**; worker issuer/capability and trusted publisher gates remain open.

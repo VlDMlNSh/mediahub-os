@@ -5448,3 +5448,12 @@ Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map
 - No new dispatch, provider call, secret access, or region-masking configuration was performed. Next: verify a permitted provider call from a GitHub-hosted runner and record run ID, runner type/environment and non-secret success evidence; only then expand to A1/A2/A3.
 - Worker issuer/capability/replay/revocation and separate trusted-publisher gaps remain open. Current state: **Contour A NOT PROVEN / BLOCKED**.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 247 — GitHub Actions execution geography and Gemini availability (2026-10-20)
+
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-GITHUB-ACTIONS-REGION-AND-GEMINI-AVAILABILITY-WAVE-247-2026-10-20.md
+- A GitHub App/API dispatch caller is not the same network actor as the Actions runner. Current A1/A2/A3 use `ubuntu-latest`, with no region or static egress pinned. Model API requests originate from the runner egress unless a proxy/gateway is configured.
+- Google's official Gemini API/AI Studio availability list does not include Russia and directs users outside the list to Gemini Enterprise Agent Platform; eligibility and terms must be checked separately. Runner egress country and account eligibility were not measured. No model API call or secret access occurred.
+- Next: run an authorized no-secret egress diagnostic on the exact runner class; separately establish provider/account eligibility and dispatch A1/A2/A3 using an authorized path. Do not use routing to evade provider or territorial restrictions.
+- Status: **Contour A NOT PROVEN / BLOCKED**. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
