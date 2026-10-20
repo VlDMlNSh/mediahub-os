@@ -3,7 +3,22 @@
 Created: 2026-10-12
 Purpose: Resume this exact project state in a new chat when the user sends /next.
 
-## Latest continuation — Wave 282 (2026-10-20)
+## Latest continuation — Wave 283 (2026-10-20)
+
+- Primary owner-directed hard-requirements contract: [ASTRA GOLD three-pool routing and Claude free-route constraints](../architecture/MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-HARD-REQUIREMENTS-WAVE-283-2026-10-20.md), contract blob SHA `d652824d33c1fc423dcc1ef6b1acc51e2a123b2e`, creation commit `3a92731f208eae19aa815260fa84cdb5dc852927`.
+- Audit report: [Wave 283 source and status audit](MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-REQUIREMENTS-AUDIT-WAVE-283-2026-10-20.md). It records current PR/CI truth and limitations; the final report blob SHA is captured after read-back in GitHub.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Wave 283 map blob SHA `bb7506751bc9c338128049cf7a7e4c9a0ed6cd5c`, map update commit `15b4ce168cff439d388518e81fd2bc5a786d4fa2`.
+- Required topology: Jarvis mission -> ASTRA GOLD A0 bounded task DAG and dispatch -> (a) GitHub-hosted cloud workers, (b) separately admitted user machines in the MediaHub pool, and (c) the local Claude/Claude Code executor on Alamo only. For delegated multi-pool work A0 is the dispatch/lifecycle authority; no Jarvis bypass or competing queue.
+- Claude/Alamo hard boundary: only an admitted source-pinned Claude Code-compatible route verified as valid zero-cost/free-tier upstream. Paid Anthropic API/direct endpoint/paid subscription auth/paid downstream or paid fallback are forbidden. FCC, FreeLLMAPI, OmniRoute, OpenFlux are candidates, not approvals. Free entitlement, ToS compliance, no-paid-fallback, host binding and egress must be proven; failure is closed. OpenFlux's source identity/role must be reconciled because the current A0 architecture labels the identified EDEAI/OpenFlux project as a desktop-agent candidate, not a proven router.
+- This clarifies the target topology from Wave 264: delegated multi-pool missions do not use a separate direct Jarvis-to-Alamo queue. It does not activate routes, bypass issuer/capability/A3/Product State Authority, or make local machines a dependency for independent GitHub-hosted-pool qualification.
+- Refs/status before pass: `main` HEAD `80be45a70732b1d568164571d4273a6397792c3b`; docs branch HEAD `e08ea614c85982592e39e62ae7738e623f676410`. Branch compare DIVERGED, docs 2,877 ahead / 44 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; no merge/rebase attempted. Branch protections/rulesets were not found in the queried API response.
+- Issue #301 remains OPEN. PR #421 is OPEN/DRAFT/UNMERGED at `77e101dfdeceb03eedb12fc823ab808a956a4fcb`; current returned Astra Verify failed and its caller-context probe has `startup_failure`, although Cloud Runtime Validation succeeded. PR #426 is OPEN/DRAFT/UNMERGED at `6caf55977260e808a055c8c4b9a04d68eb050d8c`; returned Astra Verify and Cloud Runtime Validation succeeded, but no independent review. PR #425 and #423 are also OPEN/DRAFT/UNMERGED with successful returned checks but no independent reviews. Do not dispatch Gemini.
+- No tests, route invocation, provider/model call, host/secret access, workflow dispatch, Gemini dispatch, merge, deployment, route qualification or acceptance occurred. Contour A remains `NOT_PROVEN / BLOCKED`; Contour B remains gated.
+- **Next:** reconcile A0 issuer/capability, mission/task envelope and cross-pool lifecycle; define free-only route admission fields and static negative tests (paid Anthropic, paid downstream, quota-exhaustion fallback, unknown router/OpenFlux identity, unadmitted host). Separately diagnose PR #421 CI failure and obtain independent security review before considering Gemini dispatch.
+
+---
+
+## Previous continuation — Wave 282 (2026-10-20)
 
 - Report: [worker generic-gateway route-admission audit](MEDIAHUB-CONTOUR-A-WORKER-GATEWAY-ROUTE-ADMISSION-WAVE-282-2026-10-20.md). Report blob SHA `ce7d5a3a81be4e9280f0fadc9b8f9b31815a6f69`; traceability update commit `161aafd24df5468227332288d0ec1060e7a8cec7`.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 282. Map blob SHA `6e8eda4effca2b233f8a0dcb90a6b7d98b394b2b`; map indexing commit `ed1c9f43612b5feed12247055d0de3f9b8ff9379`.
