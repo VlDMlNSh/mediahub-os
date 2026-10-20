@@ -31,6 +31,10 @@ This is the sole approved launch transport for cloud agents in this project. Do 
 
 This rule applies to all future MediaHub OS cloud-agent work and every `/next` wave until changed through explicit owner direction and the project's applicable governance/change-control process. It governs transport only; it does not grant additional product, repository, provider, or deployment authority and does not change Baseline 2.0.
 
+## Current operational status — governance gate (2026-10-20)
+
+The controller → fixed-scope child-workflow chain is the **only policy-authorized cloud-agent/API transport**. This does not mean dispatch is currently cleared to run. Until either (A) repository-administrator evidence proves effective exclusion of direct child dispatch while preserving the existing REST-dispatch contract, or (B) governance explicitly approves the proposed controller-only reusable-workflow redesign, **do not dispatch cloud agents**. Continue independent non-agent work. The available GitHub connection did not expose the required Actions permission settings; all three child workflows on main still declare `workflow_dispatch`, so technical exclusion of direct invocation remains NOT PROVEN. Option B is a request, not an approval. Do not alter the REST-dispatch contract before explicit governance disposition.
+
 ## Initial runtime evidence (2026-10-20)
 
 - Controller run: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396582084 — dispatch step succeeded using `MEDIAHUB_GITHUB_TOKEN`; monitoring step concluded failure because at least one child did not pass the controller's completion validation.
