@@ -2420,3 +2420,13 @@ Evidence read:
 - Storage workflow source includes a self-hosted runner, `contents: write`, `rsync --delete`, source directory replacement, backup removal and push to `main`. Execution history and physical host/data state are unknown. Neither workflow was dispatched.
 - No wholesale branch integration, workflow dispatch, host access, secret access, provider call, deployment or qualification occurred. Contour A stays `NOT_PROVEN / BLOCKED`; Contour B remains gated on Contour A deployment and independent acceptance.
 - Next: obtain independent review and exact-head CI review for PR #422 and keep it unmerged until the gates pass; continue with the authoritative A0 Task Contract and trusted issuer/admission lifecycle, then static/mock-only negative tests.
+
+
+## Wave 276 addendum — A0 Task ingress issuer / approval trust gap (2026-10-20)
+
+- Detailed audit: [Wave 276 A0 Task ingress, issuer and approval trust-gap audit](MEDIAHUB-A0-TASK-INGRESS-ISSUER-AND-APPROVAL-TRUST-GAP-WAVE-276-2026-10-20.md); see [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 276.
+- Source snapshot on `main`: `task_ingress.py` blob `59e1254aa61cc8f55f53bd1e179631e81c441393`; `astra_gateway.py` blob `10985e4ad8f682313d08e7492ecc1856a8bce20f`; `authorization.py` blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`.
+- Source finding: local file ingress validates a hard-coded task schema identifier and field types, but no canonical Task Contract JSON Schema or issuer/approval evidence verifier was found in the inspected path. It carries caller-supplied `approval_state` into the gateway; sensitive-action approval is guarded by equality with the string `approved`. External inbox ACLs/writer and any external trusted approval verifier remain unverified; do not overstate this as a confirmed exploit.
+- Authorization seam exists as a default-deny principal/capability/operation allowlist but is not connected to the inspected task ingress/gateway path. The security/trust document is marked PROPOSED ARCHITECTURAL BASELINE; resolve governance before changing accepted runtime authority.
+- Next: trace the `FileTaskIngress` caller/producer and inbox trust boundary. Establish the versioned, governance-approved approval/issuer evidence and verifier, then write negative static/mock-only tests that prove executor-not-called for absent/forged/expired/replayed/scope-mismatched evidence. Do not wire the unaccepted Wave 269 draft into runtime.
+- No runtime tests, provider calls, secret/host access, agent dispatch, merge, deployment, route qualification or acceptance occurred. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated pending Contour A deployment and independent acceptance.
