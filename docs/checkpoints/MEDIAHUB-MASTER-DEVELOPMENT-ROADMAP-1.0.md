@@ -2438,3 +2438,16 @@ Evidence read:
 - No in-repository call site was established in inspected package/runtime files. Search results were empty/unavailable; this is **not** an exhaustive proof that no external application caller exists. Therefore classify the approval trust issue as a **latent admission-contract gap before ingress wiring**, not a verified currently reachable production exploit.
 - If/when ingress is connected to an API or inbox, the authoritative issuer/approval record must be independently authenticated and scope-bound before provider selection or any sensitive operation. Caller-supplied `approval_state="approved"` is not sufficient authority.
 - Updated source report: [Wave 276 Task ingress trust-gap audit](MEDIAHUB-A0-TASK-INGRESS-ISSUER-AND-APPROVAL-TRUST-GAP-WAVE-276-2026-10-20.md).
+
+
+## Wave 277 — branch-tree reconciliation and A0 contract crosswalk (2026-10-20)
+
+- Report: [Wave 277 tree-drift and A0 authority crosswalk](MEDIAHUB-CONTOUR-A-TREE-DRIFT-AND-A0-AUTHORITY-CROSSWALK-WAVE-277-2026-10-20.md); map addendum: [Wave 277](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-277-2026-10-20.md).
+- Full-tree branch comparison captured `main` at `80be45a70732b1d568164571d4273a6397792c3b` and docs at `51d2c0b6e917abb44f11a655aa4c7e68669c4eda`: 2,835 ahead / 44 behind, merge-base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; recursive trees were complete. Tree inventory: 704 docs-only blobs, 29 main-only blobs, 14 shared-path SHA differences. Main-only files include all six Gemini/controller workflows plus the main security-gate test. The docs worker file has a different/over-escaped secret-detection regex. No wholesale sync is permitted without a separate no-loss reconciliation and review.
+- PR #423 is the focused retirement proposal for just two old-host migration workflows. Exact-head CI runs #39451818985 and #39451818611 report SUCCESS; PR remains Draft/unmerged with no submitted reviews.
+- PR #421 remains Draft/unmerged at `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`; exact-head CI #39425009654 and #39425009644 report SUCCESS, but independent review, caller-guard/secret-boundary review, non-launching negative caller-context test and governance/protection evidence remain missing/unknown. No Gemini dispatch is authorized before these gates.
+- A0 source audit reconfirms the task ingress and principal/capability allow-list are not yet a verified issuer/approval/destination/DAG contract. The caller-supplied approval string and profile's `state_authority: A0-ASTRA` ambiguity require resolution against governance and Product State Authority before runtime implementation. No new schema is accepted in this pass.
+- Execution class: source inspection + docs only. No runtime test, provider or host calls, secret access, agent dispatch, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+
+### Required next step
+Trace and source-pin the actual task producer/writer, inbox ACL, and trusted approval/attestation verifier. Approve the authority crosswalk before proposing the versioned mission envelope; then add static/mock-only negative fixtures proving the executor is not called for missing/forged/expired/replayed/scope-mismatched evidence or disallowed destination/route. Keep provider choices and Alamo enforcement qualification-gated.
