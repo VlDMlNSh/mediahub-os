@@ -1,3 +1,13 @@
+## Latest continuation — Wave 290 (2026-10-20)
+
+- Report: [Wave 290 caller/child permission matrix and probe evidence](MEDIAHUB-GEMINI-CALLER-PERMISSION-MATRIX-AND-PROBE-EVIDENCE-WAVE-290-2026-10-20.md).
+- Map addendum: [Wave 290 index](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-290-2026-10-20.md).
+- PR #421 caller/child permission declarations match at source level for all three child workflows; repository/org policy and successful write behavior remain unverified.
+- Earlier run #39459834572 has `startup_failure` and zero jobs; cause remains unknown. Later run #39462792657 logs prove only the negative `pull_request` caller path (`trusted_controller=false`), not trusted positive context.
+- PR #421 and #426 remain OPEN/DRAFT/UNMERGED with zero independent reviews. No dispatch, provider/model call, tests, merge, deployment, qualification, or acceptance. Contour A remains **NOT_PROVEN / BLOCKED**; Contour B gated.
+- **Next:** obtain independently reviewable repository/org policy and protection evidence; design a separately named no-credential positive-context observer with all model/provider jobs unreachable. Keep the negative-path test and candidates separate.
+
+---
 ## Latest continuation — Wave 289 (2026-10-20)
 
 - Corrective report: [Wave 289 reusable-workflow permission-ceiling correction](MEDIAHUB-GEMINI-REUSABLE-WORKFLOW-PERMISSION-CEILING-CORRECTION-WAVE-289-2026-10-20.md).

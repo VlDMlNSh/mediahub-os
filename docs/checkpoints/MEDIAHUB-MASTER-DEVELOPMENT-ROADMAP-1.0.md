@@ -1,13 +1,10 @@
-# MediaHub — Master Development Roadmap 1.0
-- Date: 2026-10-13
-- Owner direction: user explicitly directs that this roadmap be the single working plan of record for subsequent development sequencing.
-- Ref: `docs/mediahub-chat-tree-map-20261012`
-- Status: **OWNER-DIRECTED MASTER PLAN / WORKING CONTROL DOCUMENT**. This is not a replacement for accepted architecture, Baseline 2.0, domain contracts, or governance decisions. The owner directs autonomous project execution: routine engineering work within the project scope does not require repeated per-action confirmation. This standing direction does not replace architectural authority, repository protection, security, budget, or acceptance gates.
-- Navigation authority: `docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md` on the same ref.
-- Supporting initial plan: `docs/checkpoints/MEDIAHUB-DEVELOPER-FABRIC-UNIFIED-PLAN-2026-10-13.md`.
-- Functional authority: `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
-- Historical provenance: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, blob `9df4892ed0734050ac79732603d15bb414717310`; do not merge implicitly with Baseline 2.0.
+## Current execution record — Wave 290 (2026-10-20)
 
+- Report: [Wave 290 caller/child permission matrix and probe evidence](MEDIAHUB-GEMINI-CALLER-PERMISSION-MATRIX-AND-PROBE-EVIDENCE-WAVE-290-2026-10-20.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-290-2026-10-20.md).
+- Source matrix at PR #421 head `3141a44370694d78f76779243adb548318a745d7`: all three caller/child permission pairs match; repository/org policy and successful writes remain unverified.
+- Run #39459834572 remains unexplained (`startup_failure`, zero jobs). Run #39462792657 proves only the negative `pull_request` caller path; trusted positive context remains unproven.
+- PR #421 and #426 remain open/draft/unmerged with zero independent reviews. No dispatch, provider call, merge, deployment, qualification or acceptance.
+- Next: obtain independently reviewable repo/org policy and protection evidence; design a separately named no-credential positive-context observer while model/provider jobs remain unreachable.
 ## Current execution record — Wave 289 correction (2026-10-20)
 
 Wave 288's permission-ceiling conclusion is withdrawn. The controller has workflow-level `permissions: {}`, but each reusable-workflow calling job declares job-level permissions, which are the relevant token permission set passed to the called workflow. The empty workflow-level map alone does not prove child writes are denied.

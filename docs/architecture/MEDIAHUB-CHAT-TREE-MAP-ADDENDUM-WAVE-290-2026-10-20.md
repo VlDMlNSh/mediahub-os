@@ -1,0 +1,7 @@
+# Canonical map addendum — Wave 290 (2026-10-20)
+
+- **Report:** [Wave 290 caller/child permission matrix and probe evidence](../checkpoints/MEDIAHUB-GEMINI-CALLER-PERMISSION-MATRIX-AND-PROBE-EVIDENCE-WAVE-290-2026-10-20.md).
+- [Canonical map](MEDIAHUB-CHAT-TREE-MAP.md); [checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- PR #421 source matrix: all three caller/child permission pairs match at source level; actual repository/org policy and successful writes remain unverified. Earlier run #39459834572 has startup_failure and zero jobs, so cause is unknown. Later run #39462792657 proves only rejection of an untrusted PR caller.
+- PR #421 and #426 remain OPEN/DRAFT/UNMERGED with zero independent reviews. No dispatch, provider call, merge, deployment, qualification or acceptance. Contour A remains **NOT_PROVEN / BLOCKED**; Contour B remains gated.
+- **Next:** obtain independently reviewable repo/org policy and protection evidence; design a separately named no-credential positive-context observer with model/provider jobs unreachable. Keep the negative-context test and do not dispatch Gemini.
