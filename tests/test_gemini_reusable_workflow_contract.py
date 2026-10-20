@@ -1,5 +1,6 @@
 """Contract tests for the controller-only Gemini reusable-workflow transport."""
 from pathlib import Path
+import re
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,6 +45,13 @@ def contract_errors(controller: str, children: list[str]) -> list[str]:
             errors.append(f"child {index + 1} must not use a loose controller-ref predicate")
         if EXPECTED_SECRETS[index] not in child:
             errors.append(f"child {index + 1} must declare its explicit provider secret")
+        for line in child.splitlines():
+            if "uses:" not in line:
+                continue
+            if "./.github/workflows/" in line:
+                continue
+            if not re.search(r"uses:\s+[^\s@]+@[0-9a-f]{40}(?:\s|$)", line):
+                errors.append(f"child {index + 1} has a mutable external action ref: {line.strip()}")
     for secret in EXPECTED_SECRETS:
         expected = chr(36) + "{{ secrets." + secret + " }}"
         if expected not in controller:
@@ -69,6 +77,17 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
         bad = list(self.children)
         bad[0] = bad[0].replace(trusted, untrusted)
         self.assertIn("child 1 must pin the trusted controller ref", contract_errors(self.controller, bad))
+
+    def test_negative_fixture_rejects_mutable_action_refs(self):
+        bad = list(self.children)
+        bad[2] = bad[2].replace(
+            "google-github-actions/run-gemini-cli@f77273f4c914e4bf38440cf36a0369cb64a37489",
+            "google-github-actions/run-gemini-cli@v0",
+        )
+        self.assertTrue(any(
+            "child 3 has a mutable external action ref" in error
+            for error in contract_errors(self.controller, bad)
+        ))
 
     def test_negative_fixture_rejects_direct_dispatch(self):
         bad = list(self.children)
