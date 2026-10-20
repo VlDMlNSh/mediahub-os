@@ -28,7 +28,13 @@ class GeminiCallerContextProbeTests(unittest.TestCase):
         ]
 
     def test_probe_has_no_provider_secret_or_model_step(self):
-        self.assertEqual(self.probe["permissions"], {})
+        self.assertEqual(
+            self.probe["permissions"],
+            {"contents": "read", "issues": "read"},
+        )
+        self.assertEqual(
+            self.probe["jobs"]["assert_untrusted_context"]["permissions"], {}
+        )
         probe_job = self.probe["jobs"]["probe"]
         # The reusable child declares read-only contents/issues permissions for
         # its engineer job; only this skipped probe call must grant that ceiling.
