@@ -356,3 +356,4 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - PR remains DRAFT / NOT ACCEPTED. Cloud-agent dispatch remains ON HOLD. No agent launch, secret access, merge, deployment, or qualification.
 - Documentation branch drift against main: 2699 ahead / 44 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase attempted.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Wave 253 map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-253-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-253-2026-10-20.md)
