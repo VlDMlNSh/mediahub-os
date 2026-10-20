@@ -35,9 +35,12 @@
 
 ## 2. Постоянные архитектурные инварианты
 
-### Binding owner-directed target requirements — Wave 272
+### Binding owner-directed target requirements — Waves 272–273
 
 For every `/next` that touches ASTRA GOLD A0, hybrid routing, user-owned MediaHub destinations, or the Alamo Claude executor, read and enforce [Wave 272 hard requirements](../checkpoints/MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-ALAMO-CLAUDE-NONPAID-AUTH-HARD-REQUIREMENTS-WAVE-272-2026-10-20.md) and its [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-272-2026-10-20.md). A0 must own bounded DAG decomposition and cross-route task lifecycle; destinations are the admitted GitHub-hosted cloud pool, admitted user-owned MediaHub, and admitted local executors. The cloud pool must not depend on Alamo. Claude/Claude Code is local-executor-only on Alamo: no Anthropic API, paid Anthropic API auth/billing, proxy-mediated paid API, or silent fallback. FCC/equivalent is conditional on proven permitted non-paid authentication, upstream terms, billing/auth class, version, egress, and Alamo binding. These are hard target constraints; source documentation is not proof of runtime enforcement or route qualification.
+
+Wave 273 explicitly names **FreeLLMAPI** alongside FCC/fcc-claude and similar components as a router candidate, not an approved free-auth route. For every route, resolve exact upstream/fork/version, provider/model and auth basis, terms/limits, actual cost/billing class, transitive route/fallback behavior, credential handling, egress and Alamo binding. The Alamo Claude Code route must exclude Anthropic API and **all paid API routes**, including paid proxy backends and paid fallbacks; do not bypass identity/account/subscription, quota, provider or billing controls. A mixed-provider router requires a strict allowlist and paid routes disabled. Treat unknowns as fail-closed, and do not infer local model inference merely from the executor running on Alamo. Read [Wave 273 hard requirements](../checkpoints/MEDIAHUB-A0-FREELLMAPI-FCC-ALAMO-CLAUDE-HARD-ROUTE-REQUIREMENTS-WAVE-273-2026-10-20.md) and [Wave 273 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-273-2026-10-20.md) for every related `/next`.
+
 
 
 - Product State Authority — единственный источник изменения canonical product state. A0-ASTRA — инженерная координация/очередь/evidence/qualification, а не Product State Authority.
