@@ -537,3 +537,16 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Report: [Wave 267 ingress/authorization/destination gap](MEDIAHUB-A0-INGRESS-AUTHORIZATION-AND-DESTINATION-CONTRACT-GAP-WAVE-267-2026-10-20.md). Map addendum: [Wave 267](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-267-2026-10-20.md).
 - Next: draft versioned mission envelope and destination-class responsibility matrix against accepted contracts; then add static negative fixtures/mock-only tests for issuer, destination, paid Anthropic API, unknown router, silent fallback, duplicate claims and DAG identity.
 - No code/test/runtime change, provider/API call, secret access, host inspection, dispatch, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED.
+
+
+## Wave 268 — A0 multi-tier routing and Alamo Claude non-paid authorization hard constraints (2026-10-20)
+
+- Report: [MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-ALAMO-CLAUDE-NONPAID-AUTH-HARD-CONSTRAINTS-WAVE-268-2026-10-20.md](MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-ALAMO-CLAUDE-NONPAID-AUTH-HARD-CONSTRAINTS-WAVE-268-2026-10-20.md).
+- Map addendum: [Wave 268](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-268-2026-10-20.md).
+- Owner hard constraints consolidated: A0 routes dependency-aware subtasks across (1) GitHub-hosted cloud pool, (2) admitted user-owned MediaHub instances/devices, and (3) admitted local executors; A0 owns hybrid lifecycle and reconciliation.
+- Claude is exclusively an Alamo-local executor route. Anthropic API inference and paid Anthropic API credentials/billing/authorization are forbidden for this route; no silent cloud fallback. FCC/fcc-claude and similar routers are candidate non-paid authorization/routing mechanisms only after verifying actual upstream, auth/cost class, policy/terms, egress, and Alamo identity. “Free” is not permission to bypass access controls. Alamo execution does not prove local inference.
+- The GitHub-hosted cloud pool remains independent of Alamo/user devices. All destination classes require issuer/capability, admission, locality/egress, budget/quota, revocation and evidence; A3 stays independent. Direct-local Jarvis route cannot bypass A0 for hybrid missions.
+- Wave 267 blockers remain: AuthorizationContext lacks issuer provenance; existing ingress lacks hybrid destination/DAG/route envelope; FCC/OmniRoute/native candidates do not prove Alamo binding or paid API exclusion.
+- No code/tests/provider calls/secrets/host inspection/dispatch/merge/deployment/qualification/acceptance in Wave 268. Contour A remains NOT_PROVEN / BLOCKED.
+- Next: version the mission envelope and destination responsibility/lifecycle matrix against existing contracts; add static negative fixtures/mock-only tests before any real dispatch.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md

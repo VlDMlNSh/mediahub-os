@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-19 (Wave 206; readiness audit and branch drift revalidation)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 268; A0 multi-tier routing and Alamo Claude non-paid authorization hard constraints)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7565,3 +7565,13 @@ Owner-clarified hard target requirements are recorded in [Wave 265 report](../ch
 ## Wave 267 — A0 ingress / issuer / destination contract gap (2026-10-20)
 
 Source-pinned review confirms the current `AuthorizationContext` carries principal/capability only; `FileTaskIngress` is a local file contract without authenticated Jarvis→A0 provenance or hybrid destination/DAG constraints; the inspected Astra gateway is cloud-first with an Ollama local adapter, not the target A0 multi-tier scheduler or Alamo Claude local-only enforcement. FCC/OmniRoute/native Claude routes remain unqualified candidates; no proof of Alamo binding, non-paid auth or Anthropic API exclusion. See [Wave 267 report](../checkpoints/MEDIAHUB-A0-INGRESS-AUTHORIZATION-AND-DESTINATION-CONTRACT-GAP-WAVE-267-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-267-2026-10-20.md). Next: version the mission envelope/destination responsibility matrix, then static negative fixtures and mock-only tests. No runtime/dispatch/qualification or acceptance; Contour A remains NOT_PROVEN / BLOCKED.
+
+
+## Wave 266–268 — A0 multi-tier routing and Alamo Claude authorization boundary (2026-10-20)
+
+- Wave 266 owner hard constraints: A0 distributes bounded dependency-aware tasks across GitHub-hosted cloud workers, admitted user-owned MediaHub, and admitted local executors; Claude Code is Alamo-local; Anthropic API/paid API authorization and silent cloud fallback are forbidden; FCC and similar routers remain qualification-gated non-paid candidates, never a permission bypass.
+- Wave 267 source reconciliation: AuthorizationContext lacks issuer provenance; current task ingress lacks a complete hybrid destination/DAG/route envelope; routing candidates do not prove Alamo binding or API exclusion. These are open blockers, not implemented features.
+- Wave 268 consolidates the owner’s explicit no-paid-Anthropic-API requirement and the non-paid-router conditions. Report: [Wave 268](../checkpoints/MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-ALAMO-CLAUDE-NONPAID-AUTH-HARD-CONSTRAINTS-WAVE-268-2026-10-20.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-268-2026-10-20.md).
+- Required next: version the mission envelope and destination responsibility/lifecycle matrix; add negative fixtures/mock-only tests for paid Anthropic API, unknown router, missing issuer, unknown destination, silent fallback, duplicate claims, missing locality policy and DAG identity.
+- No runtime calls, secrets, host inspection, dispatch, tests, merge, deployment, qualification or acceptance occurred in Wave 268. Contour A remains NOT_PROVEN / BLOCKED.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md

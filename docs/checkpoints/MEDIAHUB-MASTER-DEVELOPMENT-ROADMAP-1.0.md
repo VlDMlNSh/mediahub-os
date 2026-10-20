@@ -2314,3 +2314,17 @@ Evidence: [Wave 266 report](MEDIAHUB-A0-ALAMO-CLAUDE-FCC-AUTH-BOUNDARY-WAVE-266-
 ## Wave 267 — A0 ingress and authorization contract gap
 
 The bounded source trace is recorded in [Wave 267 report](MEDIAHUB-A0-INGRESS-AUTHORIZATION-AND-DESTINATION-CONTRACT-GAP-WAVE-267-2026-10-20.md) and [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-267-2026-10-20.md). Do not treat the existing local task-file ingress or cloud-first AstraGateway/Ollama adapter as the accepted Jarvis→A0 multi-tier mission route. The existing `AuthorizationContext` does not carry issuer provenance; the task contract lacks hybrid destination/DAG/route policy fields; FCC/OmniRoute candidate entries do not prove free/non-paid authorization or Anthropic API exclusion. Next gate: version a mission envelope and destination responsibility matrix, then add static negative fixtures and mock-only tests. No real dispatch or runtime qualification before issuer/admission and governance gates pass.
+
+
+## Wave 268 — Owner hard constraints: A0 multi-tier routing and Alamo Claude non-paid authorization (2026-10-20)
+
+This is a binding owner-directed target requirement for design/qualification sequencing, not evidence that the target is implemented or accepted.
+
+- ASTRA GOLD A0 decomposes missions into bounded dependency-aware subtasks and routes eligible work among the GitHub-hosted cloud pool, admitted user-owned MediaHub devices/instances, and admitted local executors. A0 owns hybrid DAG, queue/claim/lease, dependency scheduling, retry/cancel/recovery, and cross-route reconciliation.
+- Claude for the Alamo route is exclusively a local executor/client/workspace. Anthropic API inference and paid Anthropic API credentials, billing, or authorization routes are forbidden; no silent cloud fallback. FCC/fcc-claude and similar routers may be evaluated only as candidate non-paid auth/routing paths after verifying upstream, auth/cost class, policy/terms, egress, router identity, and Alamo host binding. No bypass of authentication, terms, usage limits, or access controls. “Free” is not proof of authorization.
+- Alamo execution is not proof of local inference. Keep the inference-location claim unmade until evidenced.
+- The cloud pool must operate independently of Alamo and user-owned devices. All destinations require identity, issuer provenance, capability, admission, data-locality/egress policy, budget/quota, revocation, evidence, and independent A3 verification. Executors do not gain A0 or Product State Authority.
+- Negative fixtures required before runtime: reject paid Anthropic API route/credentials for Alamo Claude, unknown FCC/router, missing issuer, unknown destination, silent fallback, duplicate cross-route claims, missing locality policy, and malformed/unbound DAG identity.
+- Source blockers from Wave 267 remain open. No provider call, secret access, host inspection, dispatch, test execution, merge, deployment, qualification or acceptance occurred.
+- Report: [Wave 268](MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-ALAMO-CLAUDE-NONPAID-AUTH-HARD-CONSTRAINTS-WAVE-268-2026-10-20.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-268-2026-10-20.md); [canonical map](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Next: version mission envelope/destination responsibility matrix, then static negative fixtures and mock-only tests.
