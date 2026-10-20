@@ -2451,3 +2451,20 @@ Evidence read:
 
 ### Required next step
 Trace and source-pin the actual task producer/writer, inbox ACL, and trusted approval/attestation verifier. Approve the authority crosswalk before proposing the versioned mission envelope; then add static/mock-only negative fixtures proving the executor is not called for missing/forged/expired/replayed/scope-mismatched evidence or disallowed destination/route. Keep provider choices and Alamo enforcement qualification-gated.
+
+
+## Wave 278 addendum — A0 coordination vs Product State Authority cross-contract ambiguity (2026-10-20)
+
+- Detailed report: [Wave 278 authority cross-contract audit](MEDIAHUB-ASTRA-GOLD-A0-VS-PRODUCT-STATE-AUTHORITY-CROSSWALK-WAVE-278-2026-10-20.md); canonical map entry: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- `architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` currently sets both `coordination: A0-ASTRA` and `state_authority: A0-ASTRA`; the gated provider profile repeats `coordinator: A0-ASTRA` / `state_authority: A0-ASTRA`; `tests/test_astra_gold_architecture_drift.py` explicitly enforces the `state_authority` value. Reference architecture says “coordination and state authority”, while unified architecture says A0 is a coordination authority and ASTRA GOLD must not silently become a domain State Authority.
+- Disposition: governance/semantic ambiguity, not a proven runtime bypass. Do not rename fields or patch tests/profile in isolation. First decide whether `state_authority` means A0's mission/control-plane state or canonical MediaHub Product State Authority, then update the canonical schema, reference architecture, unified model, gated profile and drift/governance tests atomically under review.
+- Runtime `StateAuthority` interface, `ConsumerBoundary` and lifecycle facade exist as distinct source components; use them in the eventual authority crosswalk rather than implicitly moving canonical product-state power to A0.
+- PR #421 remains OPEN/DRAFT/UNMERGED at `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`; exact-head checks #39425009654 and #39425009644 succeeded, but independent review and caller/secret/governance gates remain open. PR #423 remains OPEN/DRAFT/UNMERGED at `ccb302b03ce224059b898d4ac6599e9f46301721`; exact-head checks #39451818985 and #39451818611 succeeded, but independent review remains absent. PR #422 was closed as a duplicate of #423 and was not merged.
+- The exhaustive Wave 277 tree comparison still warns against wholesale documentation-branch integration (704 docs-only blob paths, 29 main-only blobs, 14 shared-path SHA deltas; commit comparison endpoint is truncated at 300 file records). Preserve path-limited, independently reviewed integration.
+- Work was source/contract inspection and documentation only. No tests executed in this pass, provider/model calls, secret or host access, agent dispatch, merge, deployment, qualification or acceptance. Contour A remains **NOT_PROVEN / BLOCKED**; Contour B remains gated.
+
+### Next bounded actions
+
+1. Resolve the exact semantics and identifier for A0 mission/control-plane state versus MediaHub Product State Authority through governance/Issue #301.
+2. Trace the external Task Contract producer/writer, inbox ACL and trusted approval/attestation verifier documented in Wave 276 before adding an accepted task envelope.
+3. Obtain independent review and re-evaluate exact-head checks for PR #421 and #423; do not dispatch Gemini or merge either PR without its separate gates.
