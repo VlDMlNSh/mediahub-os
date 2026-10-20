@@ -3,7 +3,21 @@
 Created: 2026-10-12
 Purpose: Resume this exact project state in a new chat when the user sends /next.
 
-## Latest continuation — Wave 275 (2026-10-20)
+## Latest continuation — Wave 276 (2026-10-20)
+
+- Detailed source audit: [A0 Task ingress, issuer and approval trust-gap audit](MEDIAHUB-A0-TASK-INGRESS-ISSUER-AND-APPROVAL-TRUST-GAP-WAVE-276-2026-10-20.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 276. Map blob SHA `3906cd3d36467ff60b4b2053a1ad2560eee193fe`; map update commit `56259205b3760737ed7460f62f08e2e33fd730db`.
+- Master Roadmap addendum update commit: `6e6b8571709d159cbe7ba1d3aca39a1f4e2a3b1d`; blob SHA `61238dfb616836868e21a5f99993f6d6cae0df07`.
+- Wave 276 report traceability update commit: `b8b7bb9d2697ddca3a7e49e2b0cac56984b68a52`; blob SHA `6d5fe621da9d5ef77945f45763df095846301819`.
+- Current refs rechecked: `main` remains `80be45a70732b1d568164571d4273a6397792c3b`; PR #421 remains OPEN/DRAFT at `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`; PR #422 remains OPEN/DRAFT at `3735ae534993c279b0d380813bcd1595c79397a3`. Both report success for the two inspected check workflows, but neither has a returned independent review. Neither PR was merged and no Gemini agent was dispatched.
+- Main-source files inspected: `task_ingress.py` blob `59e1254aa61cc8f55f53bd1e179631e81c441393`; `astra_gateway.py` blob `10985e4ad8f682313d08e7492ecc1856a8bce20f`; `authorization.py` blob `4d8df5d3c1c26f7f133a8093cd270635b085f4d5`; canonical AI schemas directory contains inference/model/provider schemas but no canonical `mediahub.ai.astra-task` schema was found in the inspected tree.
+- Trust gap: file Task Ingress accepts `approval_state="approved"` as ordinary input and gateway sensitive-action guard relies on that string. The inspected path does not verify issuer, a signed approval, scope, freshness/expiry, target SHA, revocation or replay. An external trusted writer/ACL/verifier may exist, but was not identified/verified. This is a source-level admission risk, not proof of exploit or execution. Do not change authorization semantics until the authoritative producer and governance-approved approval contract are known.
+- No tests were executed, no host/ACL/secret/provider access, agent dispatch, merge, deployment, qualification or acceptance occurred. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- **Next:** trace callers/writers of `FileTaskIngress`, inspect actual inbox-path configuration and determine whether a trusted approval verifier exists outside the module. Then implement the minimum approved, fail-closed trust check and mock-only negative tests proving the executor is never called on forged/missing/expired/replayed/scope-mismatched approval.
+
+---
+
+## Previous continuation — Wave 275 (2026-10-20)
 
 - Dated source audit: [Wave 275 legacy workflow retirement drift audit](MEDIAHUB-CONTOUR-A-WAVE-275-LEGACY-WORKFLOW-RETIREMENT-DRIFT-AUDIT-2026-10-20.md). It verifies the two old-server-only workflows were retired on the documentation branch but remain on `main`; no runtime execution status was inferred.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 275 entry. Map blob SHA `394853e3f301ddc73a22efded3bee9a694c471e9`; map update commit `b40823d8e5e1787268699f594f17060e130a857f`.
