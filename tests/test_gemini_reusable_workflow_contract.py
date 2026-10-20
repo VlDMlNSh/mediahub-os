@@ -155,5 +155,23 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
         self.assertIn("child 3 must not use a loose controller-ref predicate", errors)
 
 
+    def test_trusted_caller_guard_is_the_engineer_job_condition(self):
+        import yaml
+
+        expected = (
+            "github.event_name == 'workflow_dispatch' && "
+            "github.workflow_ref == '" + TRUSTED_CONTROLLER_REF + "'"
+        )
+        for index, path in enumerate(CHILD_PATHS):
+            with self.subTest(child=index + 1):
+                workflow = yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+                engineer = workflow.get("jobs", {}).get("engineer", {})
+                self.assertEqual(
+                    engineer.get("if", "").strip(),
+                    expected,
+                    "trusted-caller guard must be the actual engineer job condition, not a comment or unrelated string",
+                )
+
+
 if __name__ == "__main__":
     unittest.main()
