@@ -122,3 +122,12 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Governing Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301) already contains owner-directed rule comment [#6287381098](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6287381098) and Wave 226 synchronization comment [#6288415115](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6288415115).
 - Live PR #420 refresh: head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind main `80be45a70732b1d568164571d4273a6397792c3b`; Draft/unmerged; review API returned no submitted reviews. Exact-head CI runs #39402774891 and #39402774885 succeeded. Independent review and authorized controlled failure-path test remain open.
 - This is a binding project policy persisted in GitHub, but not proof that all alternate technical dispatch routes have been disabled by repository controls. No agent dispatch, secret read, merge, deployment, or qualification occurred in Wave 227.
+
+
+## Wave 229 — controller-only launch path / bootstrap conflict fix (2026-10-20)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-SINGLE-PATH-AND-BOOTSTRAP-CONFLICT-FIX-WAVE-229-2026-10-20.md](../checkpoints/MEDIAHUB-CLOUD-AGENT-SINGLE-PATH-AND-BOOTSTRAP-CONFLICT-FIX-WAVE-229-2026-10-20.md), blob `c08d1d9e1fa0e11692938b49bde19e058c8ebdc0`, report commit `08e5196bd28f42c458ae7eff6539c8f8a82e4ca3`.
+- Re-read policy blob `18c27e3f3be100da54b256cdc7d97a36e1fd753e`; corrected Bootstrap section 1A, which previously ambiguously authorized direct child workflow dispatch. Bootstrap read-back blob: `77368971b90071812f82c384cdd3be813513a5dc`; update commit `7e15cc9ba7235703f56ddfc3235e62eaf9b3ef39`.
+- Sole permitted cloud-agent/API launch route: GitHub-hosted `.github/workflows/gemini-batch-dispatch-controller.yml` → fixed-scope child workflows. Controller dispatch/monitoring uses repository secret `MEDIAHUB_GITHUB_TOKEN`, never exposed to models or child processes. No direct SentinelX/server/local CLI/ad-hoc/alternate transport and no fallback.
+- No agent dispatched and no secret read. Policy is binding but technical disabling of all alternate routes is not yet proven; repository permission enforcement remains a separate check.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
