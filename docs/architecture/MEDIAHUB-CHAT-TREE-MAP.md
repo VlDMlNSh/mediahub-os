@@ -1,6 +1,8 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 289; correction to Wave 288: caller jobs explicitly declare permissions; actual positive caller-context qualification remains unproven)
+- Wave 289 correction: [reusable-workflow permission-ceiling correction](../checkpoints/MEDIAHUB-GEMINI-REUSABLE-WORKFLOW-PERMISSION-CEILING-CORRECTION-WAVE-289-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-289-2026-10-20.md). Wave 288's claim that workflow-level `permissions: {}` alone blocks child writes is withdrawn; caller jobs declare job-level permissions. Transport remains unqualified for separate reasons.
 - Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 287; exact-head CI revalidated; trusted-controller positive runtime context remains unproven; PR #421 remains open/draft/unreviewed)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`

@@ -8,6 +8,15 @@
 - Functional authority: `docs/checkpoints/mediahub-functional-baseline-2.0.md@main`, blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
 - Historical provenance: `specification/MEDIAHUB-FUNCTIONAL-BASELINE-1.0.md@main`, blob `9df4892ed0734050ac79732603d15bb414717310`; do not merge implicitly with Baseline 2.0.
 
+## Current execution record — Wave 289 correction (2026-10-20)
+
+Wave 288's permission-ceiling conclusion is withdrawn. The controller has workflow-level `permissions: {}`, but each reusable-workflow calling job declares job-level permissions, which are the relevant token permission set passed to the called workflow. The empty workflow-level map alone does not prove child writes are denied.
+
+- Corrective report: [Wave 289](MEDIAHUB-GEMINI-REUSABLE-WORKFLOW-PERMISSION-CEILING-CORRECTION-WAVE-289-2026-10-20.md).
+- Map addendum: [Wave 289](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-289-2026-10-20.md).
+- PR #421 and #426 remain OPEN/DRAFT/UNMERGED; independent review and trusted positive caller-context evidence remain unresolved. No dispatch, provider call, merge, deployment, or qualification.
+- Next: inspect caller-job/child-job permissions, repo/org policy and actual non-launching probe run evidence. Do not assume the earlier startup failure was caused by the permission ceiling.
+
 ## Current execution record — Wave 287 (2026-10-20)
 
 This record supersedes prior transient CI status where it refers to PR #421's exact head; it does not replace independent review or governance authority.

@@ -1,3 +1,14 @@
+## Latest continuation — Wave 289 (2026-10-20)
+
+- Corrective report: [Wave 289 reusable-workflow permission-ceiling correction](MEDIAHUB-GEMINI-REUSABLE-WORKFLOW-PERMISSION-CEILING-CORRECTION-WAVE-289-2026-10-20.md).
+- Map addendum: [Wave 289 index](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-289-2026-10-20.md).
+- **Correction:** Wave 288 incorrectly inferred that top-level controller `permissions: {}` prevents child write permissions. The controller's reusable-workflow calling jobs explicitly declare job-level permissions; that job-level declaration is the relevant permission ceiling. Withdraw the Wave 288 conclusion. No runtime permission failure was demonstrated.
+- PR #421 remains OPEN/DRAFT/UNMERGED at head `3141a44370694d78f76779243adb548318a745d7`, with zero submitted independent reviews. PR #426 remains OPEN/DRAFT/UNMERGED at `6caf55977260e808a055c8c4b9a04d68eb050d8c`. Positive trusted caller context remains unproven; the earlier probe startup failure must be investigated from run evidence, not attributed to a token ceiling without evidence.
+- No dispatch, model/provider call, secret/host access, tests, merge, deployment, qualification, or acceptance occurred. Contour A remains **NOT_PROVEN / BLOCKED**; Contour B remains gated.
+- **Next:** build a source-to-runtime permissions matrix for every controller calling job and child workflow; inspect exact-head probe failure evidence and repository/org policy. Keep PR #421 and #426 separate and unmerged.
+
+---
+
 ## Latest continuation — Wave 288 (2026-10-20)
 
 - Report: [Reusable-workflow permission ceiling audit](MEDIAHUB-GEMINI-REUSABLE-WORKFLOW-PERMISSION-CEILING-AUDIT-WAVE-288-2026-10-20.md), blob SHA `f4b358c270611634a2ebde215d6a2ebac4bc433f`, creation commit `796f38da736524774e0c72be10a3e1aa3d890032`.
