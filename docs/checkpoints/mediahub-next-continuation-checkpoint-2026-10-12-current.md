@@ -5476,3 +5476,13 @@ Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map
 - No new workflow_dispatch request was issued in this pass. The GitHub connector offers no dispatch action and neither browser profile records GitHub as signed in. The prior temporary PAT smoke target is not equivalent to agent dispatch.
 - Next operational blocker: establish a confirmed authenticated GitHub Actions browser profile or authorized dispatch-capable API integration, then dispatch the three tasks separately and record run IDs/outcomes. Do not pass `MEDIAHUB_GITHUB_TOKEN` to model jobs.
 - Current state: **Contour A NOT PROVEN / BLOCKED**. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest verified continuation — Wave 252 artifact-only worker handoff candidate (2026-10-20)
+
+- Live `main` HEAD observed: `1324f2f9e558a99c1d3e06eb9d955c0827214fe2`. Canonical docs branch latest observed before this update: `8480a0fe120f79e60262644a1f8991314790ff6a`; current map blob `e931e615bb29a8779129df5a33fa97b974eea011` was recovered by Git blob API because Contents returned an empty body.
+- Candidate branch `security/contour-a-worker-artifact-only-handoff-wave250`, head `76bfcab98fbf86b4a620a381650050691c38b785`. Worker direct commit/push was removed; output is an untrusted patch + manifest. Workflow candidate uses read-only contents permission, disables persisted checkout credentials in all three jobs, and uploads patch/manifest artifacts.
+- Candidate file blob SHAs: worker `676eccbac65220da8611e1995ce908ee329851e2`; workflow `e150202564a2dbed5f8008b83b148d092fb160f9`; tests `7e025d40f416adfcf9581df88eb616acd306ec53`.
+- Exact-head CI is not verified; no local suite or worker dispatch was run. PR creation was not completed. No secret access, merge, deployment, qualification or acceptance occurred.
+- Issuer/capability, expiry/revocation/replay, trusted publisher and clean-checkout revalidation, ambient runner credential/environment isolation and Issue #301 acceptance gates remain open. Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated.
+- Report: [Wave 252](MEDIAHUB-CONTOUR-A-WORKER-ARTIFACT-ONLY-HANDOFF-WAVE-252-2026-10-20.md). Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).

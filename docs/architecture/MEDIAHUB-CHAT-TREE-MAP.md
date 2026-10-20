@@ -7513,3 +7513,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Three independent bounded assignments are documented for A1 (worker/publisher engineering boundary), A2 (regional and dispatch architecture evidence), and A3 (issuer/capability negative-test matrix). All require Draft PRs and prohibit merge/deployment or secret access.
 - No A1/A2/A3 dispatch was issued in this session. The available GitHub connector has no workflow-dispatch operation; browser profiles do not establish an authenticated GitHub session. Prior temporary PAT smoke success is not evidence of these three launches.
 - Launch state: **NOT CONFIRMED / BLOCKED**. Contour A remains **NOT PROVEN / BLOCKED**.
+
+
+## 20.379 — Wave 252: artifact-only worker handoff candidate (2026-10-20)
+
+- Report: [Wave 252 — worker artifact-only handoff](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-ARTIFACT-ONLY-HANDOFF-WAVE-252-2026-10-20.md).
+- Candidate branch `security/contour-a-worker-artifact-only-handoff-wave250`, commit `76bfcab98fbf86b4a620a381650050691c38b785`, based on observed `main=1324f2f9e558a99c1d3e06eb9d955c0827214fe2`. Isolated candidate only; not integrated or accepted.
+- Worker direct commit/push was replaced by an untrusted patch and manifest with target SHA, changed paths and patch SHA-256. Candidate workflow uses `contents: read`, three `persist-credentials: false` checkouts and per-runner patch/manifest uploads.
+- Exact-head CI is not evidenced; no local suite or worker dispatch was run. PR creation was not completed. Issuer/capability, signature/replay/revocation and trusted publisher remain unimplemented.
+- Issue #301 remains OPEN; PR #400/#405 remain Draft/unmerged. Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated.
