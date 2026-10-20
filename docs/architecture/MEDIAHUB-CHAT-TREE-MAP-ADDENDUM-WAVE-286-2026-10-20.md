@@ -3,6 +3,7 @@
 ## Least-privilege Gemini caller-context probe repair
 
 - **Detailed report:** [Wave 286 — least-privilege probe repair and exact-head CI](../checkpoints/MEDIAHUB-GEMINI-CALLER-PROBE-LEAST-PRIVILEGE-REPAIR-WAVE-286-2026-10-20.md), report blob SHA `aff07fe8e3ab0ce6696ae566e11dc22104c01a95`, report-creation commit `86b21be0b34042b2b67c885bfad8a922dff8af74`.
+- Canonical map itself was updated and re-read successfully: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md), blob SHA `77ef4c0531c25aee6940fef6d82d0e36ac2f2117`, map-update commit `f0834a0710086de8110b1ab9b4c2d1c92d44970b`. The map remains an inventory/navigation source, not Contour A acceptance.
 - [Canonical project map](MEDIAHUB-CHAT-TREE-MAP.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301); [PR #421](https://github.com/VlDMlNSh/mediahub-os/pull/421).
 - Candidate branch `contour-a/workflow-call-controller-governance-wave243`, final observed HEAD `3141a44370694d78f76779243adb548318a745d7`, based on `main` `80be45a70732b1d568164571d4273a6397792c3b`.
 - New source blobs: read-only reusable observer `e05759d04f34f52cc7ad1b794b6718585ee2507f`; caller probe `795d0786a8d1855dc5caf236e950eb6595dd23d4`; dedicated contract validation workflow `ace5c3bf06130781f929966bdd1b49f66753d69d`; static contract tests `0691728f2de808ae8aeff4bcfe4f091ab158a450`.
