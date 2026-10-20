@@ -48,8 +48,15 @@ Historical successful batch (not started by this session and not launched by thi
 
 No new run IDs, artifacts or agent Draft PRs were created by Wave 214. The controller is still on a feature branch, so it is not yet available as a default-branch workflow for normal manual dispatch.
 
+## Wave 215 change — safer run correlation
+
+Controller updated on the same feature branch to snapshot the latest run ID for each child workflow before dispatch. The monitor now considers only `workflow_dispatch` runs on `main` created after the batch start and with IDs greater than that workflow's baseline. If more than one candidate exists, it fails closed instead of silently selecting the newest. This narrows the earlier race but is not a substitute for a real runtime test or an immutable dispatch correlation ID.
+
+- Controller commit: `a1ad2b003909289a57a08ecdc56a1bb864948c82`
+- Controller blob after write: `cb75ca90467775eafb8766fe3bba8871bfcff934`
+
 ## Risk and next step
 
-The controller currently finds runs using workflow path, `workflow_dispatch`, `main`, and creation time after the controller start timestamp. Concurrent direct dispatches could cause incorrect correlation. Before integration, improve run correlation or serialize every dispatch source, run YAML/actionlint checks, then execute a single controlled batch and verify the three exact run IDs, jobs, artifacts, and agent Draft PRs. Keep agent output untrusted and do not auto-merge.
+The controller has not been executed. YAML/actionlint validation, CI, and actual dispatch remain pending. Before integration, run static checks, review the updated diff, then execute one controlled batch and verify the three exact run IDs, jobs, artifacts, and agent Draft PRs. If any competing run appears, the controller should fail closed. Keep agent output untrusted and do not auto-merge.
 
 PR #408 has a Wave 214 comment documenting these findings (comment ID 6286674187). No merge/deploy/qualification/acceptance is claimed. Contour A remains NOT_PROVEN / BLOCKED pending the project's required gates.
