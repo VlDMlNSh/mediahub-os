@@ -1,0 +1,67 @@
+name: Non-launching Gemini reusable caller-context probe
+
+on:
+  workflow_call:
+    outputs:
+      guarded_job_result:
+        description: "Actual result of the sentinel job guarded by the controller-only caller predicate"
+        value: ${{ jobs.report.outputs.guarded_job_result }}
+      caller_event_name:
+        description: "github.event_name observed inside the reusable workflow"
+        value: ${{ jobs.report.outputs.caller_event_name }}
+      caller_workflow_ref:
+        description: "github.workflow_ref observed inside the reusable workflow"
+        value: ${{ jobs.report.outputs.caller_workflow_ref }}
+
+permissions: {}
+
+jobs:
+  guarded_probe:
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      github.workflow_ref == 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Non-launching sentinel only
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "sentinel=ran" >> "$GITHUB_STEP_SUMMARY"
+          echo "::warning::Caller-context guard unexpectedly admitted this probe. No provider, model, or network step exists in this workflow."
+
+  report:
+    if: always()
+    needs: [guarded_probe]
+    runs-on: ubuntu-latest
+    permissions: {}
+    outputs:
+      guarded_job_result: ${{ steps.publish.outputs.guarded_job_result }}
+      caller_event_name: ${{ steps.publish.outputs.caller_event_name }}
+      caller_workflow_ref: ${{ steps.publish.outputs.caller_workflow_ref }}
+    steps:
+      - name: Publish actual caller context and guarded result
+        id: publish
+        shell: bash
+        env:
+          GUARDED_RESULT: ${{ needs.guarded_probe.result }}
+          CALLER_EVENT_NAME: ${{ github.event_name }}
+          CALLER_WORKFLOW_REF: ${{ github.workflow_ref }}
+        run: |
+          set -euo pipefail
+          case "$GUARDED_RESULT" in
+            success|skipped|failure|cancelled) ;;
+            *) echo "::error::Unexpected guarded result: $GUARDED_RESULT"; exit 1 ;;
+          esac
+          printf 'guarded_job_result=%s\n' "$GUARDED_RESULT" >> "$GITHUB_OUTPUT"
+          printf 'caller_event_name=%s\n' "$CALLER_EVENT_NAME" >> "$GITHUB_OUTPUT"
+          printf 'caller_workflow_ref=%s\n' "$CALLER_WORKFLOW_REF" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Non-launching caller-context probe"
+            echo
+            echo "- Observed event: $CALLER_EVENT_NAME"
+            echo "- Observed workflow ref: $CALLER_WORKFLOW_REF"
+            echo "- Guarded sentinel job result: $GUARDED_RESULT"
+            echo
+            echo "This workflow contains no Gemini action, provider key, or transport token."
+          } >> "$GITHUB_STEP_SUMMARY"
