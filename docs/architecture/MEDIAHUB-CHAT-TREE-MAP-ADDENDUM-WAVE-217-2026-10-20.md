@@ -66,3 +66,12 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 
 
 - CI refresh for PR #420 head `d34c6cd646b59e83d75bf338739722464577dd56`: Astra Cloud Runtime Validation `39400178859` succeeded; Astra Verify `39400178898` was still running at the last check. The latter is not recorded as a pass until its final conclusion is observed.
+
+
+## Wave 223 — diagnostic field correction and exact-head CI refresh (2026-10-20)
+
+- Current main HEAD re-read: `80be45a70732b1d568164571d4273a6397792c3b`.
+- PR [#420](https://github.com/VlDMlNSh/mediahub-os/pull/420) remains unmerged. Prior exact-head CI for `d34c6cd646b59e83d75bf338739722464577dd56` completed successfully (runs [39400178859](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178859), [39400178898](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178898)); these are not dedicated workflow-lint or controlled failure-path tests.
+- Corrected a reporting discrepancy: the JSON output key was `job`, not `job_id`, despite the variable being named `job_id`. The three child workflow proposals now emit `job_id`; read-back blob SHAs: `be6400d2f4d511bf7f12296b6e9505ddc10c9031`, `e46b6c107de41992009c7d960a0849ccc53df1ca`, `991ccecbfe8e5eda5568cd11be1be2daf061fcae`.
+- Latest proposed head `d1ea86688ae5397e3149b1fb3b2192f0dc2bcb23`; new CI runs [39400954042](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400954042) and [39400954055](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400954055) were queued at the time of check. Await final conclusions.
+- Branch is 9 commits ahead / 0 behind main. Open gates: independent review, dedicated workflow YAML lint, controlled failure-path artifact test, and action SHA pin review. No merge, redispatch, deployment, or qualification.
