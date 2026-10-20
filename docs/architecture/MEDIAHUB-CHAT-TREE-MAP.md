@@ -7723,3 +7723,15 @@ The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee
 - Keep #425 Draft/unmerged until independent review. Passing these checks does not qualify live nodes or enable Gemini dispatch; PR #421 has separate caller/secret-boundary and actual non-launching GitHub caller-context requirements.
 - The A0 task ingress issuer/approval gap documented in Wave 276 remains unresolved at source/governance level; this pass did not alter those semantics. No provider call, workflow dispatch, host/secret access, merge, deployment, qualification or acceptance occurred. Contour A remains NOT_PROVEN/BLOCKED; Contour B remains gated.
 - Continuation checkpoint: [current checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); Master Roadmap contains the Wave 282 addendum.
+
+
+## Wave 283 — three-pool routing and Claude free-route constraints
+
+- Owner-directed target requirements: [Wave 283 contract](MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-HARD-REQUIREMENTS-WAVE-283-2026-10-20.md) and [Wave 283 source audit](../checkpoints/MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-REQUIREMENTS-AUDIT-WAVE-283-2026-10-20.md).
+- A0 owns mission DAG dispatch and task-lifecycle/evidence reconciliation across the GitHub-hosted cloud pool and separately admitted user/Alamo lanes. The cloud pool must remain independent of local hardware; Alamo Claude routing must be admitted, source-pinned, and proven free/zero-cost. Candidate routers are not approvals.
+
+## Wave 284 — caller-context probe triage
+
+- Report: [Wave 284](../checkpoints/MEDIAHUB-GEMINI-CALLER-PROBE-STARTUP-FAILURE-TRIAGE-WAVE-284-2026-10-20.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-284-2026-10-20.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- PR #421: `abcfce3f70c4cc56335bf353a51a268d998f41b0`, verify #39459833610 SUCCESS, cloud validation #39459833967 SUCCESS, non-launching probe #39459834572 STARTUP_FAILURE with zero jobs. Leading cause is a caller/callee GITHUB_TOKEN permission mismatch; startup logs were not accessible, so this remains a hypothesis.
+- PR #421 and #426 assign incompatible workflow roles to the same path `.github/workflows/gemini-caller-context-probe.yml`; separate filenames before attempting integration. Keep both draft/unmerged absent independent review. No agent dispatch, merge, deployment, qualification or acceptance.
