@@ -85,3 +85,12 @@ This pass read source files, schema inventories and the documented governance/au
 ## Next bounded step
 
 Trace the caller/producer of `FileTaskIngress` and the configured inbox path, then identify whether a governance-approved external approval verifier already exists. If it does, attach it and prove its call order with negative tests; if not, propose the smallest versioned contract/governance change before implementing new authority semantics.
+
+
+## Traceability and review pointer
+
+- Canonical map entry: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 276.
+- Continuation checkpoint: [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Master Roadmap addendum: [Master Development Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Governing issue: https://github.com/VlDMlNSh/mediahub-os/issues/301
+- Runtime admission changes are deliberately deferred until the trusted writer/issuer and approval-authority contract are identified. The report is a source audit, not runtime qualification evidence.
