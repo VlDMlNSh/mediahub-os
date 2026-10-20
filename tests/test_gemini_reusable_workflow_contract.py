@@ -155,6 +155,24 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
         self.assertIn("child 3 must not use a loose controller-ref predicate", errors)
 
 
+    def test_controller_jobs_are_all_gated_by_explicit_yes(self):
+        import yaml
+
+        controller = yaml.load(CONTROLLER_PATH.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+        dispatch = controller.get("on", {}).get("workflow_dispatch", {})
+        confirm = dispatch.get("inputs", {}).get("confirm", {})
+        self.assertEqual(confirm.get("default"), "no")
+        self.assertEqual(confirm.get("options"), ["no", "yes"])
+        jobs = controller.get("jobs", {})
+        self.assertEqual(set(jobs), {"agent1", "agent2", "agent3", "summarize"})
+        for job_name, job in jobs.items():
+            with self.subTest(job=job_name):
+                self.assertEqual(
+                    job.get("if", "").replace(" ", ""),
+                    "always()&&inputs.confirm=='yes'" if job_name == "summarize" else "inputs.confirm=='yes'",
+                    "every controller job must fail closed unless the manual confirmation is exactly yes",
+                )
+
     def test_trusted_caller_guard_is_the_engineer_job_condition(self):
         import yaml
 
