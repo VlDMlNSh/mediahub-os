@@ -96,3 +96,14 @@ All three runs finished successfully, but the artifacts contain tool failures an
 - PR #404 exact-head CI on `80b290206d4e6d40f2ff076a389cfb9f477d2f3b`: Astra Verify run `39370493729` SUCCESS; Astra Cloud Runtime Validation run `39370493773` SUCCESS. These verify existing repository checks on the proposal branch; they do not qualify the proposed clean-room architecture.
 
 Disposition: preserve all three agent PRs as unaccepted research proposals until the corrections are made and the exact source claims are re-verified. Contour A remains `NOT_PROVEN / BLOCKED`; G0–G11 blocked, G11 human-only.
+
+
+## 9. Exact-head CI status of agent PRs (2026-10-20)
+
+GitHub run read-back confirms that the agent dispatch runs and their PR CI are different signals:
+
+- A2 PR #401 head `0d492cd8998ed60be9b6cef2ad40d3e168907aba`: [Astra Verify 39370284376](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370284376) and [Cloud Runtime 39370284372](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370284372) both completed with conclusion `action_required`; no jobs were returned.
+- A3 PR #402 head `ccb26d0b65042e3b9d1d87604dc3223cb2a7f9bb`: [Cloud Runtime 39370303319](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370303319) and [Astra Verify 39370303391](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370303391) both `action_required`; no jobs were returned.
+- A1 PR #403 head `7a939d8805d12b2b56d4c0edabcd63c15b4f3c9a`: [Astra Verify 39370356797](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370356797) and [Cloud Runtime 39370356910](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370356910) both `action_required`; no jobs were returned.
+
+Therefore the three Gemini workflow runs passed their own output validator, but the resulting PRs have **no successful exact-head CI evidence** at this read-back. Keep all three Draft/unmerged. Do not confuse these `action_required` checks with test failures or passes; the returned evidence shows that the jobs did not run/are gated.
