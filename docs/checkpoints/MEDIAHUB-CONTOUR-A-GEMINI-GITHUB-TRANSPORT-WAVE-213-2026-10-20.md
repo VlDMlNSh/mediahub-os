@@ -43,3 +43,22 @@ Review and merge this PR through the repository's normal governance. Then open t
 
 ## Canonical map
 [MediaHub OS canonical project map](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md)
+
+
+## Additional historical execution evidence discovered during this wave
+
+The repository's Actions API exposes a prior three-agent batch on 2026-10-20, before this controller PR was created. These are real historical runs, but they were NOT initiated by this chat session or by this Wave 213 controller:
+
+| Agent | Run | Job | Conclusion | Artifact | Artifact digest |
+|---|---:|---:|---|---:|---|
+| Gemini 1 | [39370191589](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370191589) | 118456086050 | success | 12240818397 | `sha256:6ba571f563e38fd9df2be5d5ca23da0c59e446661528284ac22b428dfde93d3e` |
+| Gemini 2 | [39370202615](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370202615) | 118456119718 | success | 12241545147 | `sha256:a800276ca454550d19930b03a62169cdfe45786e96beabf59d9194b54098644f` |
+| Gemini 3 | [39370217605](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370217605) | 118456166571 | success | 12240363870 | `sha256:6d91dc54e57aebb3720674c86466e0fa37cc3f69c525a5c94bb0b5c14fceeccd` |
+
+All three were `workflow_dispatch` runs on source HEAD `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`. Their job summaries show the Gemini CLI action and the actionable-output validator completed successfully; each published a non-expired `gemini-output` artifact. This is strong evidence that the configured workflows, provider credentials at that time, GitHub MCP tool call validation, and artifact publishing worked in that earlier batch. It does not prove the credentials remain valid now or that Wave 213 dispatched anything.
+
+The repository's current report in [PR #404](https://github.com/VlDMlNSh/mediahub-os/pull/404) also records successful Gemini runs and Draft PR outputs [#401](https://github.com/VlDMlNSh/mediahub-os/pull/401), [#402](https://github.com/VlDMlNSh/mediahub-os/pull/402), and [#403](https://github.com/VlDMlNSh/mediahub-os/pull/403), with independent review caveats. Agent output remains untrusted and those PRs were not accepted by this wave.
+
+## Current-session execution result
+
+No new run was started from this chat session: the GitHub connector exposes no workflow-dispatch mutation, and the available browser profiles have no recorded GitHub sign-in. The controller in PR #408 remains the proposed next step; it must be reviewed and merged under normal repository governance, then invoked through GitHub Actions with `confirm=yes`. Do not claim the historical runs were launched by this session.
