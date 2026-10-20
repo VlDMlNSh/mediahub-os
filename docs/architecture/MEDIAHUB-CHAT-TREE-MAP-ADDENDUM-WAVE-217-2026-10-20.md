@@ -63,3 +63,6 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Updated blobs: Agent 1 `21162f0771880d23d452e0d3b30dfa8b86db9b21`; Agent 2 `44b585b4481033fd1a4e3ac4c092669af90b8c65`; Agent 3 `026e59691281c27a43abe21109a8eb62f176fdc3`.
 - Latest branch commit `d34c6cd646b59e83d75bf338739722464577dd56`; associated Astra Cloud Runtime Validation #39400178859 and Astra Verify #39400178898 were still in progress at last check. Earlier CI success applies to the earlier head only.
 - Report: [Wave 221 and follow-up](../checkpoints/MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md). No merge, agent re-dispatch, or qualification.
+
+
+- CI refresh for PR #420 head `d34c6cd646b59e83d75bf338739722464577dd56`: Astra Cloud Runtime Validation `39400178859` succeeded; Astra Verify `39400178898` was still running at the last check. The latter is not recorded as a pass until its final conclusion is observed.
