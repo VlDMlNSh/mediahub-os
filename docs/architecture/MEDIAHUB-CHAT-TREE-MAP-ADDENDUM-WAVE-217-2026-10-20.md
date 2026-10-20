@@ -75,3 +75,12 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Corrected a reporting discrepancy: the JSON output key was `job`, not `job_id`, despite the variable being named `job_id`. The three child workflow proposals now emit `job_id`; read-back blob SHAs: `be6400d2f4d511bf7f12296b6e9505ddc10c9031`, `e46b6c107de41992009c7d960a0849ccc53df1ca`, `991ccecbfe8e5eda5568cd11be1be2daf061fcae`.
 - Latest proposed head `d1ea86688ae5397e3149b1fb3b2192f0dc2bcb23`; exact-head CI completed successfully: [Astra Cloud Runtime Validation #39400954042](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400954042), job `validate` / `118555237235`, and [Astra Verify #39400954055](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400954055), job `verify` / `118555237769`. These are not dedicated workflow-lint or controlled failure-path tests.
 - Branch is 9 commits ahead / 0 behind main. Open gates: independent review, dedicated workflow YAML lint, controlled failure-path artifact test, and action SHA pin review. No merge, redispatch, deployment, or qualification.
+
+
+## Wave 224 — Gemini workflow lint and exact-head CI (2026-10-20)
+
+- Report: [Wave 224 Gemini workflow lint and CI verification](../checkpoints/MEDIAHUB-GEMINI-WORKFLOW-LINT-AND-CI-WAVE-224-2026-10-20.md), report commit `b8de92f5741ff652be9f4b11c7e9d81bf95532e9`.
+- PR [#420](https://github.com/VlDMlNSh/mediahub-os/pull/420) branch head `eb61ac926ee0dd4a9c45bba3b03a3ef049c3f6a6`; compare against main `80be45a70732b1d568164571d4273a6397792c3b`: 10 ahead / 0 behind.
+- Added actionlint v1.7.7 to Astra Verify for the three Gemini workflow files. Exact-head [Astra Verify #39401961171](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39401961171) and [Astra Cloud Runtime Validation #39401961153](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39401961153) both completed SUCCESS. The actionlint step and remaining Astra Verify steps passed.
+- Workflow blob SHAs: Astra Verify `9b38238e59c45d06bffca5198ef1bd764c5fc467`; Agent 1 `be6400d2f4d511bf7f12296b6e9505ddc10c9031`; Agent 2 `e46b6c107de41992009c7d960a0849ccc53df1ca`; Agent 3 `991ccecbfe8e5eda5568cd11be1be2daf061fcae`.
+- PR #420 remains Draft/unmerged, with no submitted reviews observed. Still open: independent review, authorized controlled failure-path test for sanitized diagnostic upload, and full-SHA pin review for `actions/upload-artifact@v4`. No Gemini redispatch, merge, deployment, or Contour A acceptance.
