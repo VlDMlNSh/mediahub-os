@@ -226,3 +226,15 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - No agent dispatched, no secret read, no workflow trigger, no transport code change, no merge/deployment/qualification. Next: inspect non-secret Actions policy configuration and establish token-principal type; otherwise prepare explicit governance change-control for controller orchestration redesign. PR #420 independent review and authorized controlled failure-path test remain open.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md)
+
+
+## Latest continuation — Wave 235 (2026-10-20)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-SOLE-ROUTE-SYNC-WAVE-235-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-SOLE-ROUTE-SYNC-WAVE-235-2026-10-20.md), blob SHA `0b9a78306839780697aaae919539a127262c8b87`; create commit `dd76c28d4afd7e1c033ac7abf3ed02d6027a0152`.
+- Re-read and confirmed the sole policy-authorized cloud-agent/API route is GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` → fixed-scope child workflows. Controller REST dispatch/monitoring uses `MEDIAHUB_GITHUB_TOKEN`, which must remain inaccessible to agent/model processes.
+- Binding policy blob `18c27e3f3be100da54b256cdc7d97a36e1fd753e`; Bootstrap blob `77368971b90071812f82c384cdd3be813513a5dc`; controller main blob `99e5a87825aeb239568f96ecef004a102ff3e53b`.
+- Mainline child workflow blobs remain A1 `09523d809530ae5b7bf528eab5fa53bc5deaf92d`, A2 `259c8c82b8d90a39e1c90e65390e469b241b5581`, A3 `91b5397001e088dfae2f450ee77c9c23118b5601`; each still declares `workflow_dispatch`. Therefore policy exclusivity is recorded, but technical exclusion of direct dispatch remains NOT PROVEN.
+- PR #420 remains Draft/unmerged at proposal head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind base `80be45a70732b1d568164571d4273a6397792c3b`. Exact-head Astra Cloud Runtime Validation #39402774891 and Astra Verify #39402774885 succeeded; review API returned no submitted reviews. Independent review and authorized controlled failure-path artifact test remain open.
+- No agent dispatched, no secret read, no workflow triggered, no merge/deployment/qualification. Next: inspect non-secret Actions execution policy and token principal; if direct dispatch cannot be excluded, prepare a controller-orchestrated `workflow_call` proposal for explicit governance change control.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md)
