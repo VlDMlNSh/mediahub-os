@@ -44,6 +44,7 @@ jobs:
           .github/workflows/gemini-autonomous-engineering.yml
           .github/workflows/gemini-agent-2.yml
           .github/workflows/gemini-agent-3.yml
+          .github/workflows/gemini-caller-context-probe.yml
 
       - name: Compile
         run: python -m compileall -q .
