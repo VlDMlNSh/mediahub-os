@@ -73,3 +73,12 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - All three PRs #416/#417/#418 have exact-head `validate` and `verify` PASS, but remain Draft/not accepted. The passing checks validate the documentation branch, not architecture acceptance or runtime qualification.
 - Wave 221 report addendum is in [runtime qualification report](MEDIAHUB-CONTOUR-A-GITHUB-TRANSPORT-RUNTIME-QUALIFICATION-WAVE-217-2026-10-20.md), current blob SHA pending read-back. Canonical map blob SHA `baa715602545461fc24afc9e8a8e1d83d9099425`; documentation commit `a07fa06ec33704ba6799ca908ce9ffe21225bfac`.
 - Next: formalize a governance/change-control proposal for the qualification schema's contradictory A0 state_authority field; harden controller correlation with a unique batch nonce; pin child action/container dependencies to reviewed immutable refs. Contour A remains NOT_PROVEN / BLOCKED pending remaining G0–G11 gates and independent acceptance.
+
+
+## Latest continuation — Wave 221 (2026-10-20)
+
+- Report: [MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md](MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md).
+- Draft PR [#420](https://github.com/VlDMlNSh/mediahub-os/pull/420) adds sanitized `if: always()` diagnostics to all three child Gemini workflows and explicit stop-after-MCP-error prompt guidance. It preserves the fail-closed validator.
+- PR head commit: `2016c1c99a44cbf9b700d0a1eba777a9964fed09`. Agent 1 workflow SHA `e3de99ec9299b33a9c12e126aba785d55cfb71d9`; Agent 2 SHA `75d9db95a9ccb75e5dfaba373f6d6ac77883fe11`; Agent 3 SHA `b730bfb426450cda45a4252db6b4e370959e2061`.
+- Exact-head CI first observed in progress (runs `39399830230` and `39399830302`); do not treat as pass. No controlled failure-path runtime test yet.
+- Next step: inspect exact-head CI and independent review, correct any workflow issues, and only then consider a controlled failure-path test. No agent re-dispatch, merge, deployment, paid fallback, or qualification in this wave.
