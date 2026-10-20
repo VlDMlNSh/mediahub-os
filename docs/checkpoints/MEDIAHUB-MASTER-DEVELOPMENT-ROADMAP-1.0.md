@@ -2238,3 +2238,14 @@ Canonical navigation: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub
 - Cloud-pool work explicitly includes comparison and selective integration of mature multi-agent orchestration frameworks, durable queue/state, provider-aware quota routing, isolated executors, evidence/observability and corporation-enabling role/task/escalation components. Evaluate LangGraph, AutoGen, CrewAI, OpenHands/SWE-agent and others as candidates only after source/license/security/authority review; prototype with mocked providers first.
 - Existing ECC decision rejects ECC as a second controller/dependency while selectively using its workflow practices. Do not silently reverse it; controller-level ECC adoption requires explicit ADR/governance change. Existing router ADR remains PROPOSED / SOURCE REVIEW PARTIAL / IMPLEMENTATION GATED. Provider registry free-tier labels do not prove current entitlements or quotas.
 - No components installed, provider routes enabled, API calls, agent dispatches, secret reads, deployment or qualification in this wave. Next: source-grounded component comparison matrix and mock-provider prototype plan.
+
+
+## Wave 261 — ready-made multi-agent and corporation components (2026-10-20)
+
+- Evidence and decision: [Wave 261 report](MEDIAHUB-CLOUD-POOL-READY-COMPONENTS-AND-MULTIAGENT-PLATFORMS-WAVE-261-2026-10-20.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-261-2026-10-20.md).
+- Cloud-pool work must evaluate reusable multi-agent frameworks, provider gateway/router, durable queue/state, isolated execution, evidence/observability, policy enforcement and corporation roles/delegation/review/budget controls before custom implementation. ECC decision already exists: reuse selected workflow practices only; no ECC dependency/second controller. Router ADR Wave 42 remains proposed and its fail-open, race, key-in-URL and typed-policy gaps must be addressed before adoption.
+- Reuse registry `ops/qualification/provider_model_registry.json` (25 provider records; blob `62328126fd2cd8879a73bb6812adcacd3e2abe84`), do not duplicate it. Provider records are candidates, not proof of active entitlements. The existing Agent Fabric claim store is bounded file-backed coordination, not distributed cloud orchestration.
+- No third-party component installed, provider/agent invoked, secret accessed, merge, deployment or qualification performed in Wave 261. Local executor/Jarvis design remains after cloud-pool deployment and independent operational acceptance; Contour B remains blocked until Contour A acceptance.
+- Next: source-backed component comparison matrix, registry consumer census, and mock-provider proof for the smallest safe orchestration/router/state stack.
+
+Canonical navigation: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
