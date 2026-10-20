@@ -18,7 +18,7 @@ jobs:
     name: Reusable workflow context observation (probe-only)
     uses: ./.github/workflows/gemini-agent-2.yml
     with:
-      task: "Observe caller context only. Do not invoke any model, provider, tool, or repository mutation."
+      task: "Non-launching: observe caller context only. Do not invoke any model, provider, tool, or repository mutation."
       base_ref: main
       scope: contour-a
       probe_only: true
