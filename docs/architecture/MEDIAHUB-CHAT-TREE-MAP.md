@@ -7647,3 +7647,10 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - Do not create or silently accept a new A0 authority schema. Trace the producer/writer and establish the governing issuer/approval record first; then add fail-closed static/mock-only tests ensuring no executor is called for missing, forged, expired, replayed or scope-mismatched approval evidence.
 - No code/test runtime was executed and no execution, host access, secret access, provider call, dispatch, merge, deployment, qualification or acceptance occurred. Contour A remains NOT_PROVEN / BLOCKED; Contour B is gated on Contour A deployment and independent acceptance.
 - Updated checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); Master Roadmap carries the Wave 276 addendum.
+
+
+### Wave 276 runtime-reachability clarification
+
+- Resident service `runtime/mediahub_runtime/astra_service.py` only instantiates `AstraGatewayRuntime` and waits; it does not call `FileTaskIngress`. The package exports `FileTaskIngress`/ `task_to_contract`, but no call site was established in the inspected runtime files.
+- Therefore the approval issue is recorded as a **latent trust/admission-contract gap before wiring**, not a verified reachable production exploit. External API/inbox callers and ACLs remain unknown; this pass did not exhaustively search every external integration.
+- Wave 276 report and Master Roadmap contain the updated boundary and required future negative-test matrix.
