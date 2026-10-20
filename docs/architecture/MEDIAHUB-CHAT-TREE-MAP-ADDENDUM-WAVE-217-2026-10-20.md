@@ -257,3 +257,13 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - PR #420 remains Draft/unmerged at `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`; exact-head checks `39402774891` and `39402774885` succeeded, but independent review and authorized controlled failure-path test remain open.
 - No agent/workflow launched, no secret read, no architecture change, merge, deployment or qualification. Continue independent non-agent work pending governance.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Wave 242 — governance approval request and dispatch hold sync (2026-10-20)
+
+- Report: [Wave 242 governance approval request and synchronization](../checkpoints/MEDIAHUB-CLOUD-AGENT-GOVERNANCE-APPROVAL-REQUEST-SYNC-WAVE-242-2026-10-20.md).
+- Re-read binding policy blob `7441e2059c5a7b987c559f822c1764047d0150d4` and Bootstrap blob `69a11d27c591dac859a097734f9eda3df80f29de`. The only policy-authorized cloud-agent/API route remains GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` → fixed-scope child workflows; `MEDIAHUB_GITHUB_TOKEN` remains controller-only.
+- Option A is unproven because Actions policy endpoints/principal details could not be verified through the available connection, and all three main child workflows still expose `workflow_dispatch`. Option B request is recorded at [Issue #301 comment 6289444269](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6289444269); hold sync is [comment 6289488182](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6289488182). No explicit governance approval was found in the latest comments read.
+- **Dispatch remains ON HOLD**. Do not implement Option B or dispatch agents until an authorized governance response explicitly approves the change. No agent/workflow launched, no secret value read, no workflow code changed, no merge/deployment/qualification.
+- PR [#420](https://github.com/VlDMlNSh/mediahub-os/pull/420) remains Draft/unmerged at `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`; exact-head Astra Cloud Runtime Validation [#39402774891](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774891) and Astra Verify [#39402774885](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774885) succeeded. Independent review and controlled failure-path test remain open.
+- [Canonical map](MEDIAHUB-CHAT-TREE-MAP.md) · [Bootstrap](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md) · [Checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md) · [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
