@@ -345,3 +345,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - The only approved route remains GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` and its fixed-scope child workflows. No agent launched in Wave 244; proposed workflow-call controller is not yet active on `main`.
 - Next: secure independent review of PR #421, verify caller-guard semantics/permissions/provider-secret flow, add or verify the negative caller-context test without running Gemini, rerun exact-head checks, then integrate through branch protection. After integration, use controller `confirm: yes` for bounded agent tasks without another per-run owner prompt. Continue independent engineering in parallel.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 253 (2026-10-20): controller caller-ref guard review
+
+- Report: [MEDIAHUB-CLOUD-AGENT-CALLER-REF-GUARD-REVIEW-WAVE-253-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-CALLER-REF-GUARD-REVIEW-WAVE-253-2026-10-20.md), creation commit `5f3790b8e8d2095694581e26c235845bc3a53b88`.
+- Draft PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) candidate `436c6d386289c77538382f76d7d6102aaa28acbb`, base `main` `80be45a70732b1d568164571d4273a6397792c3b`; 11 ahead / 0 behind. Exact-head runs [39414529957](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39414529957) and [39414529912](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39414529912) completed SUCCESS.
+- Review found a blocking guard gap: child workflows check that `github.workflow_ref` contains the controller path but do not constrain the ref suffix. An untrusted branch's manually dispatched controller may satisfy the guard while receiving provider secrets and write-capable `github.token`. Existing tests only assert the substring and do not test an untrusted ref.
+- Finding recorded in [PR #421 comment 6289801576](https://github.com/VlDMlNSh/mediahub-os/pull/421#issuecomment-6289801576). A formal REQUEST_CHANGES review was rejected because the connected identity is the PR author; the comment is not a review state.
+- PR remains DRAFT / NOT ACCEPTED. Cloud-agent dispatch remains ON HOLD. No agent launch, secret access, merge, deployment, or qualification.
+- Documentation branch drift against main: 2699 ahead / 44 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase attempted.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
