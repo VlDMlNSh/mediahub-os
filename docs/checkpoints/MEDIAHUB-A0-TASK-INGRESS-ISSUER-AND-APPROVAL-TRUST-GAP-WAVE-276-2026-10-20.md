@@ -108,3 +108,8 @@ A follow-up read of the resident service entrypoint narrows runtime reachability
 
 
 - Runtime wiring follow-up commit: 8672be82b8a56c40221114ddcfad78d50d13892e; revised report blob `761dd2fc267260f39f6b8a63ce37f5e846725262`. Resident service not calling the ingress is recorded as a reachability qualifier, not proof no external caller exists.
+
+
+## Important execution boundary
+
+The inspected gateway is an AI request/execution gateway. In this code path the `approval_state` string permits or denies reaching provider/model execution; no direct shell command runner or direct canonical State Authority mutation was identified in `task_ingress.py` / `astra_gateway.py`. Therefore this finding does **not** establish that `production_deploy`, `host_install`, or any destructive operation was actually performed or could be executed by this module alone. The concern is that a caller can label the request approved without the inspected path authenticating that approval, which is unsafe as an admission contract and must be resolved before any external action-capable application relies on it.
