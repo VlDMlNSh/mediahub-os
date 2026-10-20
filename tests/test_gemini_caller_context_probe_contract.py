@@ -43,7 +43,7 @@ class GeminiCallerContextProbeTests(unittest.TestCase):
         self.assertIn('[[ "$OBSERVED_EVENT_NAME" == "pull_request" ]]', run_script)
         self.assertIn('gemini-caller-context-probe.yml@', run_script)
         self.assertIn('[[ "$OBSERVED_TRUSTED_CONTROLLER" == "false" ]]', run_script)
-        self.assertNotIn(TRUSTED_CONTROLLER_REF + "'", self.probe_source)
+        self.assertIn('[[ "$OBSERVED_WORKFLOW_REF" != "$TRUSTED_CONTROLLER_REF" ]] ', run_script)
 
     def test_every_child_has_probe_only_input_and_context_outputs(self):
         for name, child, secret in self.children:
