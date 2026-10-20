@@ -10,7 +10,9 @@ on:
       - ".github/workflows/gemini-caller-context-probe.yml"
       - "tests/test_gemini_caller_context_probe_contract.py"
 
-# This probe has no GitHub token permissions and passes no provider secrets.
+# The workflow and assertion job have no token permissions. The reusable-call
+# job grants only the child workflow's declared read-only permission ceiling;
+# probe_only=true and secrets:{} prevent provider/model execution.
 permissions: {}
 
 jobs:
@@ -22,7 +24,9 @@ jobs:
       base_ref: main
       scope: contour-a
       probe_only: true
-    permissions: {}
+    permissions:
+      contents: read
+      issues: read
     secrets: {}
 
   assert_untrusted_context:
