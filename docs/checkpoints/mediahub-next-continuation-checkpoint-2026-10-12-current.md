@@ -3,6 +3,19 @@
 Created: 2026-10-12
 Purpose: Resume this exact project state in a new chat when the user sends /next.
 
+## Latest continuation — Wave 287 (2026-10-20)
+
+- Report: [Gemini controller exact-head and positive-context gap audit](MEDIAHUB-GEMINI-CONTROLLER-EXACT-HEAD-AND-POSITIVE-CONTEXT-GAP-AUDIT-WAVE-287-2026-10-20.md), blob SHA `ecb88790abad4df66c85d287dc690cb6a21f1bfe`, creation commit `74161fed6bd45ff7009dc1de18bf36ca344b40c8`.
+- Canonical map addendum: [Wave 287 index](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-287-2026-10-20.md), blob SHA `26ca15fb36c15753224e83e5c94c8aabc6f72965`, creation commit `d9679b1d3aa57d9de68b1e074b21a3d8a6483d78`.
+- Ref ledger at the start of this pass: `main` `80be45a70732b1d568164571d4273a6397792c3b`; documentation branch `2b84e27dee1e4825859d03e330d3e26de10e9fc6`; PR #421 head `3141a44370694d78f76779243adb548318a745d7`. Documentation branch was DIVERGED, 2,897 ahead / 44 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`.
+- PR #421 exact-head checks are now all terminal SUCCESS: Cloud Runtime Validation #39462792548, workflow contract validation #39462792571, non-launching negative caller-context probe #39462792657 and Astra Verify #39462792590.
+- The actual runtime probe proves rejection of the untrusted `pull_request` caller only. A successful static predicate test does not prove the positive `workflow_dispatch` / trusted-controller context at runtime. PR #421 is OPEN / DRAFT / UNMERGED with zero submitted independent reviews.
+- Decision: **do not dispatch Gemini**. A separate positive-context probe must call only the no-credential observer, have empty permissions, map no provider secrets, and make all Gemini action jobs unreachable. Independent security review and governance/protection evidence remain required.
+- No provider/model invocation, workflow dispatch, host/secret access, merge, deployment, qualification or acceptance occurred. Contour A remains **NOT_PROVEN / BLOCKED**; Contour B remains gated.
+- **Next:** obtain an independent review of caller/ref semantics, secret mapping and reusable-workflow token ceilings, then qualify a no-credential positive-context probe without invoking Gemini.
+
+---
+
 ## Latest continuation — Wave 286 (2026-10-20)
 
 - Report: [least-privilege caller-context probe repair and exact-head CI](MEDIAHUB-GEMINI-CALLER-PROBE-LEAST-PRIVILEGE-REPAIR-WAVE-286-2026-10-20.md), blob SHA `aff07fe8e3ab0ce6696ae566e11dc22104c01a95`.
