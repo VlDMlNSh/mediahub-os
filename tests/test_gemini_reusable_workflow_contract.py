@@ -37,7 +37,8 @@ def contract_errors(controller: str, children: list[str]) -> list[str]:
         if EXPECTED_SECRETS[index] not in child:
             errors.append(f"child {index + 1} must declare its explicit provider secret")
     for secret in EXPECTED_SECRETS:
-        if f"${{{{ secrets.{secret} }}}}" not in controller:
+        expected = chr(36) + "{{ secrets." + secret + " }}"
+        if expected not in controller:
             errors.append(f"controller must pass {secret} explicitly")
     return errors
 
@@ -53,17 +54,17 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
 
     def test_negative_fixture_rejects_direct_dispatch(self):
         bad = list(self.children)
-        bad[0] = bad[0] + "\\non:\\n  workflow_dispatch: {}\\n"
+        bad[0] = bad[0] + "\non:\n  workflow_dispatch: {}\n"
         self.assertIn("child 1 must not expose workflow_dispatch", contract_errors(self.controller, bad))
 
     def test_negative_fixture_rejects_inherited_secrets(self):
-        bad_controller = self.controller + "\\nsecrets: inherit\\n"
+        bad_controller = self.controller + "\nsecrets: inherit\n"
         self.assertIn("controller must not use REST child dispatch, transport token, or inherited secrets",
                       contract_errors(bad_controller, self.children))
 
     def test_negative_fixture_rejects_transport_token_leak(self):
         bad = list(self.children)
-        bad[1] = bad[1] + "\\n# MEDIAHUB_GITHUB_TOKEN\\n"
+        bad[1] = bad[1] + "\n# MEDIAHUB_GITHUB_TOKEN\n"
         self.assertIn("child 2 violates secret isolation", contract_errors(self.controller, bad))
 
 
