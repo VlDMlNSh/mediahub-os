@@ -1,7 +1,7 @@
 name: Gemini Agent 3 — Security and Verification Review
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       task:
         description: "One bounded engineering task for Gemini; include acceptance criteria and relevant IDs"
@@ -11,26 +11,25 @@ on:
         description: "Target base branch for the isolated change and Pull Request"
         required: true
         default: main
-        type: choice
-        options:
-          - main
+        type: string
       scope:
         description: "Authorized contour"
         required: true
         default: contour-a
-        type: choice
-        options:
-          - contour-a
+        type: string
+    secrets:
+      GEMINI_API_KEY_3:
+        required: true
 
 permissions:
   contents: read
 
-concurrency:
-  group: gemini-autonomous-${{ github.workflow }}-${{ github.run_id }}
-  cancel-in-progress: false
 
 jobs:
   engineer:
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      contains(github.workflow_ref, '/.github/workflows/gemini-batch-dispatch-controller.yml@')
     name: Bounded Gemini engineering task
     runs-on: ubuntu-latest
     timeout-minutes: 30
