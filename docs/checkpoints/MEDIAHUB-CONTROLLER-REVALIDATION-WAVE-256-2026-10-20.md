@@ -11,8 +11,8 @@ Status: REVALIDATED / CI GREEN ON CURRENT HEAD / INDEPENDENT GATES OPEN
 - [Astra Cloud Runtime Validation #39416621016](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416621016): SUCCESS on exact current head.
 - [Astra Verify #39416620952](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416620952): SUCCESS on exact current head.
 
-## Digest qualification — not closed
-The GitHub MCP package page and release metadata were inspected. The available package page did not establish that digest `cbca61d547beec9b819b26bbfe6ac66ba6b373f1d6b64e8291e346bf524633e2` is specifically the OCI manifest for release `v0.27.0`; direct unauthenticated registry manifest reads returned HTTP 401. Therefore the workflow is syntactically digest-pinned, but the mapping from this digest to the intended release is UNVERIFIED. Do not treat it as qualified until the package's authoritative version/digest metadata or a trusted supply-chain attestation confirms it.
+## Digest qualification — verified for Linux amd64
+The official [GitHub Container Registry version record for `v0.27.0`](https://github.com/orgs/github/packages/container/github-mcp-server/630595547?tag=v0.27.0) explicitly maps Linux amd64 to `sha256:cbca61d547beec9b819b26bbfe6ac66ba6b373f1d6b64e8291e346bf524633e2`, matching the digest used by all three workflows. The same record lists different digests for linux/arm64 and unknown/unknown; the workflows run on Ubuntu x64 hosted runners. This closes the exact image-version mapping gate for the configured Linux amd64 runtime. It does not replace broader independent supply-chain review.
 
 ## Remaining gates
 1. Verify the pinned OCI digest against the intended release/version; if it does not match, replace it with a verified digest and rerun CI.
