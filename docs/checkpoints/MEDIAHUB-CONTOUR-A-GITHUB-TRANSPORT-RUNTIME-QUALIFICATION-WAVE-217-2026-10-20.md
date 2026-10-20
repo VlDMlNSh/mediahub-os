@@ -52,3 +52,16 @@ All agent results remain untrusted proposals until reviewed. The controller is e
 ## Next step
 
 Re-read controller run `39396854829` and its three correlated child run IDs, inspect each terminal status and resulting artifacts/PRs, then update this report and the canonical map/checkpoint with read-back SHAs. Do not claim qualification, deployment, or independent acceptance until the runtime and broader Contour A gates pass.
+
+
+## Runtime update — controller dispatch accepted (2026-10-20T08:58Z)
+
+The corrected controller run has entered the monitor step. Its dispatch step completed successfully, and the three GitHub-hosted child runs are independently visible with event `workflow_dispatch`, branch `main`, and the controller's exact head SHA. This demonstrates that `MEDIAHUB_GITHUB_TOKEN` is available to the controller and authorized for the required workflow dispatch/run-list operations; the secret value remains undisclosed.
+
+| Agent | Child run ID | Status at observation | URL |
+|---|---:|---|---|
+| A1 — authority contract correction | 39397165125 | IN_PROGRESS | https://github.com/VlDMlNSh/mediahub-os/actions/runs/39397165125 |
+| A2 — component provenance | 39397167382 | IN_PROGRESS | https://github.com/VlDMlNSh/mediahub-os/actions/runs/39397167382 |
+| A3 — controller security review | 39397169704 | IN_PROGRESS | https://github.com/VlDMlNSh/mediahub-os/actions/runs/39397169704 |
+
+Controller run: [39396854829](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396854829); job `dispatch-and-verify` is IN_PROGRESS, with the dispatch step SUCCESS and monitor step IN_PROGRESS. Final outcomes and generated PR/artifact review are pending.
