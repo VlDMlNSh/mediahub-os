@@ -245,3 +245,15 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Interim disposition: keep the binding route policy unchanged and do not dispatch cloud agents until Option A is verified by repository-admin evidence or governance explicitly approves Option B. Continue independent work (Option C) meanwhile.
 - No agent dispatched, workflow triggered, secret read, workflow code changed, merge, deployment or Contour A qualification. PR #420 remains Draft/unmerged; independent review and controlled failure-path test remain separate gates.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## /next Wave 241 — governance hold and sole cloud-agent route synchronization (2026-10-20)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-GOVERNANCE-HOLD-SYNC-WAVE-241-2026-10-20.md](../checkpoints/MEDIAHUB-CLOUD-AGENT-GOVERNANCE-HOLD-SYNC-WAVE-241-2026-10-20.md), blob SHA `2d81c0ff3e9f2d13d8a8c36427dda015b7180ae9`, creation commit `84881d5e95a0c250cfa4dcfebf87ef1331b7681a`.
+- Reaffirmed the only policy-authorized cloud-agent/API route: GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` → its three fixed-scope child workflows. Direct SentinelX/server/local CLI/ad-hoc/unrelated workflow/alternate transports remain prohibited; `MEDIAHUB_GITHUB_TOKEN` remains controller-only and must never be exposed to models or child processes.
+- Clarified the operational hold in the binding transport policy and Bootstrap: the sole route is persisted, but agent dispatch is paused until Option A is proven by repository-admin evidence or governance explicitly approves Option B. Option A remains unverified; Option B remains a request, not approval.
+- Policy blob SHA `7441e2059c5a7b987c559f822c1764047d0150d4`; Bootstrap blob SHA `69a11d27c591dac859a097734f9eda3df80f29de`. Main controller blob `99e5a87825aeb239568f96ecef004a102ff3e53b`. Main child workflows still expose `workflow_dispatch` (A1 `09523d809530ae5b7bf528eab5fa53bc5deaf92d`, A2 `259c8c82b8d90a39e1c90e65390e469b241b5581`, A3 `91b5397001e088dfae2f450ee77c9c23118b5601`); technical direct-dispatch exclusion remains **NOT PROVEN**.
+- Governance request remains [Issue #301 comment 6289444269](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6289444269); no explicit disposition found in the latest comments read.
+- PR #420 remains Draft/unmerged at `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`; exact-head checks `39402774891` and `39402774885` succeeded, but independent review and authorized controlled failure-path test remain open.
+- No agent/workflow launched, no secret read, no architecture change, merge, deployment or qualification. Continue independent non-agent work pending governance.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
