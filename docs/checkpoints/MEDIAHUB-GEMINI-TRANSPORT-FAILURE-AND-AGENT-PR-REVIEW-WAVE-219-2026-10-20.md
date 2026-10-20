@@ -31,3 +31,11 @@ Keep the GitHub API controller transport as the only approved cloud-agent launch
 ## Acceptance boundary
 
 This pass diagnoses the runtime failure and records review decisions only. It does not qualify Contour A, accept either agent PR, or change product-state authority. Secret values were not read or exposed.
+
+
+## GitHub read-back verification
+
+- Report blob SHA before this verification append: `0ebb356635db1cdbfcb72c226d28127a16c3b70e`.
+- Continuation checkpoint blob SHA after update/read-back: `d148af0f0570b82fd9720014d5056b04898409ef`.
+- Map addendum blob SHA after update/read-back: `adb7c6c5dce1f42f161c4b0a1e6b71df4a48d671`.
+- Both index artifacts contain the Wave 219 reference; report contents and review IDs are present on the canonical documentation branch.
