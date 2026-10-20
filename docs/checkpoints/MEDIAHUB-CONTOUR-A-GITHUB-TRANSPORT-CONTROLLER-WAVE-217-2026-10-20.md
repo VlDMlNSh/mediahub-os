@@ -32,3 +32,17 @@ Agent provider keys remain separately bound to `GEMINI_API_KEY`, `GEMINI_API_KEY
 ## Next bounded step
 
 Wait for PR #411's exact-head CI to finish, reread the file and SHA, integrate only if checks remain green, then dispatch one controlled batch through the GitHub-hosted controller with `confirm=yes`. Record controller run ID, three exact child run IDs, jobs, conclusions, artifacts and Draft PR links. If the token is rejected or the controller fails, fix the GitHub secret scope/permissions or controller and retry only after diagnosing the failure.
+
+
+## Runtime dispatch — 2026-10-20 08:54 UTC
+
+The corrected controller was manually dispatched on `main` and is running on GitHub-hosted Actions:
+
+- Controller run [39396582084](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396582084), job [118540718853](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396582084/job/118540718853). The `Dispatch the three fixed-scope agents` step completed SUCCESS. This proves the controller was able to use `MEDIAHUB_GITHUB_TOKEN` for the API calls needed to dispatch the three workflows; no token value was exposed.
+- Agent 1 run [39396593650](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396593650), job 118540757771: SUCCESS. Draft/working output PR [#413](https://github.com/VlDMlNSh/mediahub-os/pull/413) exists.
+- Agent 2 run [39396596067](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396596067), job 118540763883: IN_PROGRESS at the last read; Gemini CLI step still running.
+- Agent 3 run [39396598015](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396598015), job 118540769364: SUCCESS. Draft PR [#414](https://github.com/VlDMlNSh/mediahub-os/pull/414) exists.
+- The controller is still monitoring the child runs. Its final conclusion is not yet available; do not call the batch fully successful until the controller and Agent 2 reach terminal states.
+- Prior API rejection was HTTP 422 on the unquoted choice input. The corrective change was merged in PR [#411](https://github.com/VlDMlNSh/mediahub-os/pull/411), merge commit `7d86e852bf5837bc7dcf650327b22c1b27886efa`. The corrected workflow was reread from `main` and showed quoted string values.
+
+The map file remains unreadable through the GitHub Contents wrapper (empty content despite known blob SHA), so it was not overwritten. This report is on the canonical documentation branch.
