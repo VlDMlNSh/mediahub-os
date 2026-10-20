@@ -208,7 +208,7 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 
 ## Wave 237 — sole cloud-agent route persistence and sync audit (2026-10-20)
 
-- Report: [Wave 237 sole-route sync audit](../checkpoints/MEDIAHUB-CLOUD-AGENT-SOLE-ROUTE-SYNC-WAVE-237-2026-10-20.md), create commit `c67d3ed0fa6cdc2aa671ce5ff8779b2dabfb50d3`.
+- Report: [Wave 237 sole-route sync audit](../checkpoints/MEDIAHUB-CLOUD-AGENT-SOLE-ROUTE-SYNC-WAVE-237-2026-10-20.md), blob SHA `204986d315afb1492322af41bff28e924eb5b596`; create commit `c67d3ed0fa6cdc2aa671ce5ff8779b2dabfb50d3`.
 - Re-read canonical transport policy blob `18c27e3f3be100da54b256cdc7d97a36e1fd753e` and Bootstrap blob `77368971b90071812f82c384cdd3be813513a5dc`; both preserve the single policy-authorized route: GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` → three fixed-scope child workflows, using repository secret `MEDIAHUB_GITHUB_TOKEN` only in the controller for GitHub REST dispatch/monitoring.
 - Re-read main controller blob `99e5a87825aeb239568f96ecef004a102ff3e53b` and child blobs A1 `09523d809530ae5b7bf528eab5fa53bc5deaf92d`, A2 `259c8c82b8d90a39e1c90e65390e469b241b5581`, A3 `91b5397001e088dfae2f450ee77c9c23118b5601`. All children still expose `workflow_dispatch`; technical direct-dispatch exclusion remains NOT PROVEN.
 - PR #420 remains Draft/unmerged at `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind main `80be45a70732b1d568164571d4273a6397792c3b`; exact-head runs `39402774891` and `39402774885` were recorded SUCCESS; review API returned no submitted reviews. These checks do not prove exclusivity or controlled failure-path behavior.
