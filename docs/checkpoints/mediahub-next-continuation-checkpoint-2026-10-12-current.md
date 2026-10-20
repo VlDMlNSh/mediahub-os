@@ -89,3 +89,12 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - PR #420 exact head `2016c1c99a44cbf9b700d0a1eba777a9964fed09` associated CI runs `39399830230` (job `118551486243`) and `39399830302` (job `118551487161`) both concluded `success`.
 - These do not establish dedicated workflow syntax validation or runtime execution of the new diagnostic step; no controlled failure-path test was run. PR #420 remains unmerged.
 - Report: [Wave 221](MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md).
+
+
+### Wave 222 follow-up (2026-10-20)
+
+- PR #420 head was corrected so diagnostic metadata labels `GITHUB_JOB` as `job_id`, not `job_status`.
+- Latest workflow blob SHAs: `21162f0771880d23d452e0d3b30dfa8b86db9b21`, `44b585b4481033fd1a4e3ac4c092669af90b8c65`, `026e59691281c27a43abe21109a8eb62f176fdc3`.
+- Latest branch commit `d34c6cd646b59e83d75bf338739722464577dd56`; CI runs `39400178859` and `39400178898` were in progress at last check. Earlier successful CI was for the prior head only.
+- No independent review or controlled failure-path runtime test yet. Keep PR #420 unmerged pending checks and review.
+- Report: [MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md](MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md).
