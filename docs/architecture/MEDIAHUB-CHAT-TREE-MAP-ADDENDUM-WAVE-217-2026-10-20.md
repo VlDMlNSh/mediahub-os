@@ -55,3 +55,11 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - PR #420 exact head `2016c1c99a44cbf9b700d0a1eba777a9964fed09`: associated Astra Cloud Runtime Validation run `39399830230` and Astra Verify run `39399830302` both completed with `success`.
 - These are general repository checks, not dedicated workflow YAML lint or a controlled Gemini failure-path run. The PR remains a proposal; no merge, agent rerun, or qualification.
 - Report updated with exact job IDs and verification boundary.
+
+
+### Wave 222 follow-up
+
+- PR #420 remains the active Draft proposal. A semantic field-label defect was corrected: `job_status` held `GITHUB_JOB`, so the field is now `job_id` in all three workflows.
+- Updated blobs: Agent 1 `21162f0771880d23d452e0d3b30dfa8b86db9b21`; Agent 2 `44b585b4481033fd1a4e3ac4c092669af90b8c65`; Agent 3 `026e59691281c27a43abe21109a8eb62f176fdc3`.
+- Latest branch commit `d34c6cd646b59e83d75bf338739722464577dd56`; associated Astra Cloud Runtime Validation #39400178859 and Astra Verify #39400178898 were still in progress at last check. Earlier CI success applies to the earlier head only.
+- Report: [Wave 221 and follow-up](../checkpoints/MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md). No merge, agent re-dispatch, or qualification.
