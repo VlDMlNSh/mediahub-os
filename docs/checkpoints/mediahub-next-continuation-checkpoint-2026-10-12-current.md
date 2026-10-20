@@ -258,3 +258,13 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Enforcement gap persists: children on `main` still expose `workflow_dispatch`; effective Actions policy and token principal type remain unknown. Do not claim technical exclusivity. Wave 236 governance options A/B/C remain proposals; no controller/child redesign without explicit governance disposition.
 - PR #420: head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind base `80be45a70732b1d568164571d4273a6397792c3b`, Draft/unmerged; recorded exact-head CI runs `39402774891` and `39402774885` succeeded; review API has no submitted reviews. Independent review and authorized controlled failure-path test remain open.
 - Wave 237 did not dispatch agents or trigger workflows, read secrets, change workflow code, merge, deploy, or qualify Contour A. Continue independent work while waiting for governance disposition. See [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md) and [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## /next Wave 238 — sole cloud-agent route read-back audit (2026-10-20)
+
+- Report: [Wave 238](MEDIAHUB-CLOUD-AGENT-SOLE-ROUTE-READBACK-WAVE-238-2026-10-20.md).
+- Binding policy remains blob `18c27e3f3be100da54b256cdc7d97a36e1fd753e`; Bootstrap remains blob `77368971b90071812f82c384cdd3be813513a5dc`; controller on main remains blob `99e5a87825aeb239568f96ecef004a102ff3e53b`.
+- Re-read all three child workflows on main: A1 `09523d809530ae5b7bf528eab5fa53bc5deaf92d`, A2 `259c8c82b8d90a39e1c90e65390e469b241b5581`, A3 `91b5397001e088dfae2f450ee77c9c23118b5601`. All still declare `workflow_dispatch`; policy exclusivity is persisted, but technical exclusion of direct invocation remains NOT PROVEN.
+- Wave 236 governance options remain unaccepted proposals; no governance disposition was evidenced in the latest Issue #301 comments read during this pass. Do not change the current REST dispatch architecture without that disposition.
+- No agent dispatched, workflow triggered, secret read, workflow code changed, merge, deployment or Contour A qualification. Continue independent work while awaiting governance disposition.
+- Wave 238 report creation commit: `cd9f421e3a2d95e040d1dc44fc8a9474d6560844`. Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); map addendum: [current addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md).
