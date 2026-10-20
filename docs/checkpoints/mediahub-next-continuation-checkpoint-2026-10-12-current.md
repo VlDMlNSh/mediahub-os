@@ -52,3 +52,13 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Agent 2 run [39396596067](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39396596067), job `118540763883`, repeated MCP read errors after an unconfigured `update_topic` call, then exhausted Gemini free-tier input-token quota and hit max session turns. No usable stdout JSON artifact was available; post-step validation failed closed.
 - Next bounded engineering task: prepare a reviewed PR adding best-effort failure diagnostics with `if: always()` to all three child workflows and explicitly stop-on-first-tool-error prompt guidance; keep the success validator fail-closed. Do not rerun Agent 2 until checks/review pass.
 - No workflow implementation, dispatch, merge, deployment, or qualification was performed in Wave 220. Continue using only the approved GitHub-hosted controller transport; no paid or alternate fallback.
+
+
+### Wave 220 read-back verification
+
+- Wave 220 report blob SHA: `0f02f3242d4dd5491c3cbb1e3858da8acfacf498`.
+- Map addendum blob SHA: `03d7e3f0abf6583aad9a5399174523da4234ce99`.
+- Checkpoint blob SHA before this verification append: `6c7d32f0ee949b6e1cd85f38144d22778afebe7d`.
+- Canonical documentation branch: `docs/mediahub-chat-tree-map-20261012`.
+- Mainline latest commit observed during this pass: `80be45a70732b1d568164571d4273a6397792c3b` (transport-controller contract regression tests; this does not by itself prove child workflow runtime behavior).
+- Report and index files were re-read from GitHub; each contained the Wave 220 entry and expected failure diagnosis.
