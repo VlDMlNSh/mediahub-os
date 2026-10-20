@@ -59,7 +59,7 @@ class GeminiPositiveContextProbeTests(unittest.TestCase):
     def test_probe_asserts_both_trusted_dispatch_and_untrusted_pr_paths(self):
         verify = self.controller["jobs"]["assert_probe_context"]
         self.assertEqual(verify["permissions"], {})
-        self.assertEqual(verify["needs"], "probe")
+        self.assertEqual(verify["needs"], ["probe"])
         script = verify["steps"][0]["run"]
         self.assertIn('[[ "$OBSERVED_WORKFLOW_REF" == "$TRUSTED_CONTROLLER_REF" ]]', script)
         self.assertIn('[[ "$OBSERVED_TRUSTED_CONTROLLER" == "true" ]]', script)

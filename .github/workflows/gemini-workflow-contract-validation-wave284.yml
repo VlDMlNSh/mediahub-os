@@ -12,6 +12,9 @@ on:
       - ".github/workflows/gemini-reusable-context-probe-wave284.yml"
       - ".github/workflows/gemini-workflow-contract-validation-wave284.yml"
       - "tests/test_gemini_controller_context_probe_wave284_contract.py"
+      - "tests/test_gemini_controller_positive_context_probe_wave292_contract.py"
+      - "tests/test_gemini_reusable_workflow_contract.py"
+      - "tests/test_gemini_transport_controller_contract.py"
 
 permissions:
   contents: read
@@ -37,5 +40,11 @@ jobs:
           .github/workflows/gemini-controller-context-probe-wave284.yml
           .github/workflows/gemini-reusable-context-probe-wave284.yml
           .github/workflows/gemini-workflow-contract-validation-wave284.yml
-      - name: Run positive and negative caller-context contracts
+      - name: Run legacy caller-context contracts
         run: python -m unittest discover -s tests -p 'test_gemini_controller_context_probe_wave284_contract.py'
+      - name: Run Wave 292 context security contracts
+        run: python -m unittest discover -s tests -p 'test_gemini_controller_positive_context_probe_wave292_contract.py'
+      - name: Run reusable workflow contracts
+        run: python -m unittest discover -s tests -p 'test_gemini_reusable_workflow_contract.py'
+      - name: Run controller transport contracts
+        run: python -m unittest discover -s tests -p 'test_gemini_transport_controller_contract.py'
