@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 274; Alamo Claude router identity and non-paid route guards)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 275; legacy workflow retirement drift and branch safety audit)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7625,3 +7625,14 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - FCC and OmniRoute public descriptions indicate multi-provider and fallback capabilities, so an explicit allowlist and disabled paid/unknown fallback are required. FreeLLMAPI identity and upstream remain unresolved; OpenFlux identity remains ambiguous and is not admitted on name alone.
 - No router/provider calls, credential access, Alamo inspection, tests, dispatch, merge, deployment, qualification or acceptance occurred in this documentation pass. Runtime enforcement remains NOT VERIFIED; Contour A remains NOT_PROVEN / BLOCKED.
 - [Continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md) and [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md) carry the matching handoff.
+
+
+## Wave 275 — legacy workflow retirement drift and branch safety (2026-10-20)
+
+- Dated source audit: [Wave 275 legacy workflow retirement drift audit](../checkpoints/MEDIAHUB-CONTOUR-A-WAVE-275-LEGACY-WORKFLOW-RETIREMENT-DRIFT-AUDIT-2026-10-20.md).
+- The documentation branch contains explicit retirement commits for the old-server-only storage migration workflow (`8d9dc210b1347cc254dfa745221c1d7857ee1019`) and old runner smoke workflow (`5babc50cbf230c72fec2adbdc52c8897cc8ec564`). Both paths remain present on `main`.
+- Current compare at the audit: `main` HEAD `80be45a70732b1d568164571d4273a6397792c3b`; documentation branch diverged, 2,824 ahead / 44 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; compare exposed only 300 file records and is not an exhaustive no-loss review.
+- Created a narrow Draft PR [#422](https://github.com/VlDMlNSh/mediahub-os/pull/422) from `main` that removes only those two legacy workflow paths. At initial read-back its diff was exactly those two deletions; exact-head verification workflows were still in progress. No merge or server/data action.
+- Storage workflow source uses a self-hosted runner, `contents: write`, `rsync --delete`, source-path replacement, backup deletion and a push to `main`; run history and actual host/data state remain unverified. Do not dispatch either legacy workflow.
+- Continuation: [current checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); sequencing evidence in [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- No workflow dispatch, model/provider call, secret access, host inspection, test, merge, deployment, qualification or acceptance occurred in this audit.
