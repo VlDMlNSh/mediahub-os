@@ -2,7 +2,7 @@
 
 ## Status and authority
 
-This addendum records a further explicit owner clarification as a hard target-architecture requirement. It does not approve a particular router repository, authorization method, model/provider, version, or runtime route. It is not evidence of implementation, qualification, deployment, or acceptance.
+This addendum records the explicit owner clarification as a hard target-architecture requirement. The binding requirements are consolidated in the [A0 hybrid dispatch and Alamo Claude routing contract](MEDIAHUB-A0-HYBRID-DISPATCH-AND-ALAMO-CLAUDE-ROUTING-HARD-REQUIREMENTS.md) and the [canonical Wave 273 owner report](../checkpoints/MEDIAHUB-A0-FREELLMAPI-FCC-ALAMO-CLAUDE-HARD-ROUTE-REQUIREMENTS-WAVE-273-2026-10-20.md). The separate [supplemental repository-state note](../checkpoints/MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-FREELLMAPI-CLAUDE-ALAMO-CONSTRAINTS-WAVE-273-2026-10-20.md) records source and status reconciliation, not a competing decision. No specific router repository, authorization method, model/provider, version, or runtime route is approved. This addendum is not evidence of implementation, qualification, deployment, or acceptance.
 
 ## Binding target requirements
 
