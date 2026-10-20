@@ -1,12 +1,14 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 283; owner-directed hard requirements for A0 three-pool routing and Claude free-only route)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 285; A0 task-ingress issuer/approval and authoritative producer boundary trace)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
 - Статус карты: **ИНВЕНТАРИЗАЦИЯ / НЕ ПОЛНАЯ ПРИЁМКА**
 - Назначение: единая точка входа для восстановления дерева MH-01…MH-25 и предотвращения повторного поиска одних и тех же материалов.
+
+- Wave 285 (2026-10-20): [A0 ingress, issuer, approval and producer trace](../checkpoints/MEDIAHUB-A0-INGRESS-ISSUER-APPROVAL-PRODUCER-TRACE-WAVE-285-2026-10-20.md) and [Wave 285 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-285-2026-10-20.md). The plain `approval_state` input is not independently attested by the inspected path; producer/ACL/verifier remain UNKNOWN / NOT PROVEN.
 
 - Wave 283 (2026-10-20): [ASTRA GOLD three-pool routing and Claude free-route hard requirements](MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-HARD-REQUIREMENTS-WAVE-283-2026-10-20.md) and [Wave 283 audit report](../checkpoints/MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-REQUIREMENTS-AUDIT-WAVE-283-2026-10-20.md). Owner-directed target requirement; router and pool admission/qualification remain open.
 
@@ -7735,3 +7737,10 @@ The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee
 - Report: [Wave 284](../checkpoints/MEDIAHUB-GEMINI-CALLER-PROBE-STARTUP-FAILURE-TRIAGE-WAVE-284-2026-10-20.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-284-2026-10-20.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
 - PR #421: `abcfce3f70c4cc56335bf353a51a268d998f41b0`, verify #39459833610 SUCCESS, cloud validation #39459833967 SUCCESS, non-launching probe #39459834572 STARTUP_FAILURE with zero jobs. Leading cause is a caller/callee GITHUB_TOKEN permission mismatch; startup logs were not accessible, so this remains a hypothesis.
 - PR #421 and #426 assign incompatible workflow roles to the same path `.github/workflows/gemini-caller-context-probe.yml`; separate filenames before attempting integration. Keep both draft/unmerged absent independent review. No agent dispatch, merge, deployment, qualification or acceptance.
+
+## Wave 285 — A0 ingress, issuer, approval and producer trace
+
+- Report and field matrix: [Wave 285 A0 ingress, issuer, approval and producer trace](../checkpoints/MEDIAHUB-A0-INGRESS-ISSUER-APPROVAL-PRODUCER-TRACE-WAVE-285-2026-10-20.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-285-2026-10-20.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- On main `80be45a70732b1d568164571d4273a6397792c3b`, `task_ingress.py` blob `59e1254aa61cc8f55f53bd1e179631e81c441393` parses flat JSON from an injected inbox and trusts the shape-checked `approval_state` string; `astra_gateway.py` blob `10985e4ad8f682313d08e7492ecc1856a8bce20f` uses `approved` to pass the sensitive-action gate. Actual writer, inbox ACL and independent approval verifier remain UNKNOWN / NOT PROVEN. This is not proof of exploit or executed operation.
+- Existing typed AuthorizationContext, node/command HMACs, G11 human release approval and cloud-agent task envelope v0.2 are distinct contracts; none is proven to close the local ingress issuer chain. Wave 269 remains proposal-only, GOV-CAP ownership unresolved, and A0 Product State Authority semantics need reconciliation.
+- No runtime change, issuer minting, secret access, provider/model call or agent dispatch. Contour A remains NOT_PROVEN / BLOCKED; Contour B gated.
