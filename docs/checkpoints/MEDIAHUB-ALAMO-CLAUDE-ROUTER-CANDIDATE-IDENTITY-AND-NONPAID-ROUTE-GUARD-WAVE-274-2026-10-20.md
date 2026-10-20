@@ -41,6 +41,17 @@ Performed: public source identity search, current repository ref/file read-back,
 
 Not performed: tests, package installation, router/provider invocation, credential access, host inspection, agent dispatch, merge, deployment, live qualification, or acceptance. Runtime enforcement remains **NOT VERIFIED**; the Alamo route and Contour A remain **NOT_PROVEN / BLOCKED**. Contour B remains gated on Contour A deployment and independent acceptance.
 
+## Write/read-back evidence — Wave 274
+
+- Initial report creation commit: `dd6f6456a42b153aaeef38853421bd3849152428`.
+- Map addendum commit / read-back blob: `004f76541c0d9f6b3dd87af5aa7bf08d9f4bf40e` / `168e5ad76ca9ce453fc576eb851454ef530353ce`.
+- Architecture contract update commit / read-back blob: `e4c4aef22076a79a8580d6b1821c974ab781cd65` / `66aeb9c5521a698fc2ff1faba46c35906ea52bcf`.
+- Canonical map update commit / read-back blob: `ad8dd327e0fd3120b2c5ee395ba4477c5cf84486` / `e3adde9ebf53d46e9a355ece400dedc16b9ee588`. The full map blob was read by SHA because the file endpoint returned empty content; read-back preserved the prior content and added Wave 274.
+- Master roadmap update commit / read-back blob: `744d0aa5e5fa1122dab09c751398932476d4d252` / `8b8d273fc703c769d571abcb7cb3a6af1177c9f3`.
+- Before checkpoint reconciliation, canonical documentation branch HEAD was `744d0aa5e5fa1122dab09c751398932476d4d252`; `main` HEAD was `80be45a70732b1d568164571d4273a6397792c3b`.
+- Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301): OPEN. PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421): OPEN/DRAFT, head `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`, base `80be45a70732b1d568164571d4273a6397792c3b`.
+- Contract and map read-backs confirm the named candidate families and the no-paid/unknown-route boundary. These are documentation identities only, not runtime proof.
+
 ## Next bounded step
 
 Trace the authoritative A0 task-contract writer and trusted issuer/admission lifecycle; map destination, router identity, auth/cost class, upstream graph and fallback restrictions to existing contracts; then add schema/static/mock-only negative tests. Do not use live routers/providers or inspect Alamo until their applicable capability, security, provider-policy and qualification gates pass.
