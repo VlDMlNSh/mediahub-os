@@ -5457,3 +5457,13 @@ Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map
 - Google's official Gemini API/AI Studio availability list does not include Russia and directs users outside the list to Gemini Enterprise Agent Platform; eligibility and terms must be checked separately. Runner egress country and account eligibility were not measured. No model API call or secret access occurred.
 - Next: run an authorized no-secret egress diagnostic on the exact runner class; separately establish provider/account eligibility and dispatch A1/A2/A3 using an authorized path. Do not use routing to evade provider or territorial restrictions.
 - Status: **Contour A NOT PROVEN / BLOCKED**. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 250 — Worker least-privilege PR review (2026-10-20)
+
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-WORKER-LEAST-PRIVILEGE-REVIEW-WAVE-250-2026-10-20.md
+- Current `main`: `1324f2f9e558a99c1d3e06eb9d955c0827214fe2`; canonical docs branch before update: `f02d5b3366e75d3e6851b00e6d27b0c7851867d4`.
+- PR #405 head `59951fb247a6251b1693d5f0bc807c96480f7424`; Astra Verify `39377730257` SUCCESS and Astra Cloud Runtime Validation `39377730292` SUCCESS. It only changes workflow token permission and checkout credential persistence plus a regression assertion; worker source is untouched.
+- Worker blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1` still performs Git add/commit/push and remote SHA verification. No integrated issuer/capability/expiry/revocation/replay check is established. PR #405 is hardening, not artifact-only publication; keep Draft pending a separate publisher and negative tests.
+- Regional note: GitHub App/API dispatch moves the control-plane request, not runner egress; `ubuntu-latest` does not pin a country or fixed egress IP. Contour A remains **NOT PROVEN / BLOCKED**.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md

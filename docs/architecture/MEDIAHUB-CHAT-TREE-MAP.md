@@ -7494,3 +7494,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - Official GitHub docs distinguish dispatch caller from runner. Current A1/A2/A3 use GitHub-hosted `ubuntu-latest`, do not pin a country or static egress IP, and pass a job-scoped GitHub token to the configured GitHub MCP server.
 - Google's published Gemini API/AI Studio availability list does not include Russia; it points users outside the list to Gemini Enterprise Agent Platform, which requires separate eligibility and terms checks. Actual runner egress and account eligibility remain unmeasured; no model API was called and no secret was read.
 - Contour A remains **NOT PROVEN / BLOCKED**; worker issuer/capability and trusted publisher gates remain open.
+
+
+## 20.376 — Wave 250: worker least-privilege PR review (2026-10-20)
+
+- Report: [Wave 250 worker least-privilege review](../checkpoints/MEDIAHUB-WORKER-LEAST-PRIVILEGE-REVIEW-WAVE-250-2026-10-20.md).
+- Refs: `main=1324f2f9e558a99c1d3e06eb9d955c0827214fe2`; canonical docs branch before update `f02d5b3366e75d3e6851b00e6d27b0c7851867d4`.
+- PR #405 head `59951fb247a6251b1693d5f0bc807c96480f7424` has named exact-head checks Astra Verify run `39377730257` SUCCESS and Astra Cloud Runtime Validation run `39377730292` SUCCESS. Combined-status list was empty, not a pass signal by itself.
+- PR #405 changes workflow permissions to `contents: read`, disables persisted checkout credentials in three checkouts, and adds a YAML regression test. It does not change worker code. Worker blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1` still contains direct Git add/commit/push and remote SHA verification (lines 664–680); issuer/capability/replay/revocation validation is not integrated in the reviewed source.
+- Decision: PR #405 is useful defense in depth, not proof of artifact-only worker/publisher separation. Keep Draft; define issuer/capability contracts, remove worker-side publication, validate artifacts in a separate trusted publisher, add negative tests, and inspect host-level credential sources without exposing secrets.
+- Regional boundary remains distinct: API/App dispatch moves the control-plane caller, not the runner's egress. A1/A2/A3 use `ubuntu-latest` without a country pin or fixed egress IP in source. Contour A remains **NOT PROVEN / BLOCKED**.
