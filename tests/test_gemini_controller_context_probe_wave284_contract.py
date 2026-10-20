@@ -34,7 +34,7 @@ class GeminiCallerContextProbeTests(unittest.TestCase):
         self.assertEqual(self.probe["permissions"], {})
         probe_job = self.probe["jobs"]["probe"]
         self.assertEqual(probe_job["permissions"], {})
-        self.assertEqual(probe_job["secrets"], {})
+        self.assertNotIn("secrets", probe_job, "the probe must not forward provider secrets")
         self.assertNotIn("GEMINI_API_KEY", self.probe_source)
         self.assertNotIn("run-gemini-cli", self.probe_source)
         self.assertNotIn("probe_only", probe_job.get("with", {}))
