@@ -401,5 +401,16 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Exact-head [Astra Cloud Runtime Validation #39416621016](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416621016) and [Astra Verify #39416620952](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416620952) both SUCCESS.
 - Canonical map index has been updated by retrieving its actual Git blob after the Contents endpoint returned empty. The map itself is over 1.1 MB; preserve it as a whole and never overwrite it with an empty Contents response.
 - Three Gemini child workflows now use a digest-pinned GitHub MCP image; The official [GitHub Container Registry v0.27.0 version record](https://github.com/orgs/github/packages/container/github-mcp-server/630595547?tag=v0.27.0) confirms that the configured Linux amd64 digest `sha256:cbca61d547beec9b819b26bbfe6ac66ba6b373f1d6b64e8291e346bf524633e2` matches the intended release. Broader independent review remains open.
-- Open: authoritative digest verification, genuine independent review, controlled negative caller-context runtime test, governance-approved integration. No Gemini dispatch, secret access, merge, deployment, or qualification in Wave 256.
+- Open: genuine independent review, controlled negative caller-context runtime test, governance-approved integration, and authorized branch-protection verification. The Linux amd64 digest-to-v0.27.0 mapping is verified against the official GHCR version record. No Gemini dispatch, secret access, merge, deployment, or qualification in Wave 256.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 257 (2026-10-20): caller-guard contract hardening
+
+- Report: [MEDIAHUB-CALLER-GUARD-CONTRACT-HARDENING-WAVE-257-2026-10-20.md](MEDIAHUB-CALLER-GUARD-CONTRACT-HARDENING-WAVE-257-2026-10-20.md), creation commit `bc3825422663f72db445a82701826b777e7f41ed`.
+- PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) head `d8d8997bbfc48d20b08c9d4e6e0a5aecca4411be`, base `main` `80be45a70732b1d568164571d4273a6397792c3b`; Draft/open.
+- Added a test that parses the actual YAML and asserts the exact trusted caller guard is the `engineer` job's `if` condition in all three child workflows. Test blob SHA: `33149b9265f6dd458a7b3460cf7caf6277a981b3`.
+- Exact-head [Astra Cloud Runtime Validation #39417784502](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39417784502) and [Astra Verify #39417784544](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39417784544) both SUCCESS.
+- The GHCR digest/version mapping is verified. Open gates: genuine independent review, controlled negative caller-context runtime test, and authorized branch-protection verification. Branch protection API access returned 403; no assumption made.
+- No Gemini agent dispatch, secret access, merge, deployment, or Contour A qualification.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
