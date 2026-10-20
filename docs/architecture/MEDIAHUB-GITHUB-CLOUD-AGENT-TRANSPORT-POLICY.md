@@ -53,3 +53,14 @@ Implementation proposal: [PR #421](https://github.com/VlDMlNSh/mediahub-os/pull/
 - Bootstrap: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md
 - Governing issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
 - Wave report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CONTOUR-A-GITHUB-TRANSPORT-CONTROLLER-WAVE-217-2026-10-20.md
+
+
+## Owner clarification — autonomous continuation and dispatch posture (Wave 244, 2026-10-20)
+
+The owner clarified that MediaHub OS must continue autonomously and efficiently, including using the available cloud agents as engineering capacity. The prior “dispatch ON HOLD” language is a temporary gate on the unaccepted controller transition, not a project-wide or indefinite prohibition and not a reason to stop independent work. The owner has now authorized routine controller-only cloud-agent runs after the PR #421 controller gates below are satisfied; no separate owner prompt is required for every run.
+
+**Current gate:** PR #421 remains Draft/unmerged and has no independent review recorded at the latest read. Before the first run on the new architecture, obtain genuine independent review, verify the caller-ref guard and secret/permission boundaries, pass a controlled negative caller-context test without launching Gemini, and rerun required checks at the exact latest head. Integrate only through repository/project governance and protection. Then run bounded agent tasks through the single controller with its explicit `confirm: yes` input and record controller/job evidence. This clarification supersedes the earlier requirement for a separate per-run owner authorization after integration, but does not waive the controller gate, review, tests, issuer/capability, budget/provider restrictions, or acceptance requirements.
+
+The only approved route remains GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` → fixed-scope child workflows. Do not launch agents from SentinelX, server/local shell, local CLI, ad-hoc scripts, unrelated workflows, or alternate transports. Never expose `MEDIAHUB_GITHUB_TOKEN` to child/model processes. Do not use `secrets: inherit`; pass only the specific child provider secret. No agent was launched in Wave 244.
+
+Wave report: [MEDIAHUB-CLOUD-AGENT-AUTONOMY-CLARIFICATION-WAVE-244-2026-10-20.md](../checkpoints/MEDIAHUB-CLOUD-AGENT-AUTONOMY-CLARIFICATION-WAVE-244-2026-10-20.md).
