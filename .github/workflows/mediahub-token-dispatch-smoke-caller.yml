@@ -1,0 +1,41 @@
+name: Temporary classic PAT dispatch probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/mediahub-token-dispatch-smoke-caller.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Call workflow_dispatch with classic PAT secret
+        env:
+          GH_TOKEN: ${{ secrets.MEDIAHUB_GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "FAIL: MEDIAHUB_GITHUB_TOKEN secret is empty or unavailable"
+            exit 1
+          fi
+          status=$(curl --silent --show-error --output /tmp/dispatch-response.json --write-out '%{http_code}' \
+            --request POST \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            --header "Content-Type: application/json" \
+            --data '{"ref":"main"}' \
+            "https://api.github.com/repos/VlDMlNSh/mediahub-os/actions/workflows/mediahub-token-dispatch-smoke-target.yml/dispatches")
+          echo "workflow_dispatch_http_status=$status"
+          if [ "$status" = "204" ]; then
+            echo "PASS: MEDIAHUB_GITHUB_TOKEN dispatched the temporary smoke target"
+            exit 0
+          fi
+          echo "FAIL: workflow_dispatch was rejected; response follows (token is not included)"
+          cat /tmp/dispatch-response.json
+          exit 1
