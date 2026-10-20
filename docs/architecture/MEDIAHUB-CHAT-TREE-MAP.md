@@ -7602,8 +7602,10 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 
 ## Wave 273 — explicit FreeLLMAPI candidate gate and Alamo Claude non-paid route boundary (2026-10-20)
 
-- [Wave 273 requirements report](../checkpoints/MEDIAHUB-A0-FREELLMAPI-FCC-ALAMO-CLAUDE-HARD-ROUTE-REQUIREMENTS-WAVE-273-2026-10-20.md).
-- [Wave 273 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-273-2026-10-20.md).
+- Canonical target contract: [A0 hybrid dispatch and Alamo Claude routing hard requirements](MEDIAHUB-A0-HYBRID-DISPATCH-AND-ALAMO-CLAUDE-ROUTING-HARD-REQUIREMENTS.md).
+- Owner hard-requirements report: [Wave 273 FreeLLMAPI/FCC/Alamo Claude constraints](../checkpoints/MEDIAHUB-A0-FREELLMAPI-FCC-ALAMO-CLAUDE-HARD-ROUTE-REQUIREMENTS-WAVE-273-2026-10-20.md).
+- Architecture index: [Wave 273 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-273-2026-10-20.md).
+- Supplemental source/state report: [Wave 273 FreeLLMAPI source reconciliation](../checkpoints/MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-FREELLMAPI-CLAUDE-ALAMO-CONSTRAINTS-WAVE-273-2026-10-20.md).
 - Owner's hard target architecture: ASTRA GOLD A0 decomposes authorized work into bounded dependency-aware subtasks and dispatches to admitted GitHub-hosted cloud workers, admitted user-owned MediaHub destinations and admitted local executors. A0 owns DAG scheduling, queue/claim/lease, retry/cancel/recovery, handoff/fencing, cross-route reconciliation and evidence aggregation; execution completion remains distinct from independent A3 verification.
 - The GitHub-hosted pool must remain independent from Alamo and user-owned devices. Claude Code is exclusively a local executor on Alamo for this target. Prohibited on that route: Anthropic API, paid API auth/credentials/billing or paid API backends through proxies, paid fallback, and silent rerouting.
 - FCC/fcc-claude, FreeLLMAPI and similar routers are named candidates, not approved routes or proof of free authorization. Admission requires exact repo/fork/version/upstream, permitted auth basis, terms/limits, actual cost/billing class, a strict provider/model allowlist, disabled paid routes/fallback, credential handling, egress/data locality and Alamo binding. No provider-control, account eligibility, quota or billing bypass. Unknown route properties fail closed.
