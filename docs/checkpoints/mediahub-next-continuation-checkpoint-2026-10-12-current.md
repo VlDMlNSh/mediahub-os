@@ -5399,3 +5399,14 @@ Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 
 
 
 - Wave 237 (2026-10-20): Git Database API large-map update verified. Canonical map blob `59973971096b716664e7c6cb6286af6fe84e4a1a` was retrieved again by SHA (1,096,561 characters) and checked for the Wave 237 heading and report link. Documentation branch head `00708bed4b8d1f0bc44774a6278bc9f9d5dab36b` was advanced fast-forward-only from expected prior head `0858a11646c807e5c4a1d69828427be7840580dc`. Dated report: [Wave 237 — Git Database API large-map probe](MEDIAHUB-GIT-DATABASE-LARGE-MAP-PROBE-WAVE-237-2026-10-20.md). PR #388 and #404 remain OPEN/Draft with exact-head Astra Verify and Cloud Runtime Validation runs successful; Issue #301 remains OPEN. PAT_DISPATCH REST `workflow_dispatch` remains blocked by HTTP 403. Contour A remains NOT PROVEN / BLOCKED; no merge, deployment, qualification or acceptance performed.
+
+
+## Wave 245 — current refs, Gemini dispatch, and worker/publisher gate (2026-10-20)
+
+- Report: [MEDIAHUB-CONTOUR-A-CURRENT-REFS-GEMINI-DISPATCH-AND-PUBLISHER-GATE-WAVE-245-2026-10-20.md](MEDIAHUB-CONTOUR-A-CURRENT-REFS-GEMINI-DISPATCH-AND-PUBLISHER-GATE-WAVE-245-2026-10-20.md).
+- Main HEAD at audit: `1324f2f9e558a99c1d3e06eb9d955c0827214fe2`; documentation branch head before this update: `3accb666b4f86ce84ff189239a919a51c4ce2a5b`; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Branches diverged (docs +2,558 / main +39 at compare time); no branch integration was attempted.
+- Bootstrap `4a101ab3d7ec766ccbd2d3541f84593e9a406a8b`, checkpoint pre-update `e0ac08c2ab8578ff76c859ba43ff9f81adff9d8f`, Master Roadmap `beef785c787702dc174cf9a5515bac8c9f4b292f`, map pre-update `59973971096b716664e7c6cb6286af6fe84e4a1a`. Large map and checkpoint were read by blob SHA after the Contents wrapper returned empty content for the map.
+- Gemini workflow definitions A1/A2/A3 exist on main, but no dispatch was executed because this connector exposes no workflow-dispatch operation and browser profiles have no recorded GitHub sign-in. No agent run IDs are claimed.
+- PR #375/#388/#400/#404/#405 remain OPEN/Draft/unmerged; exact-head CI success is documented in Wave 245 but heads are 6 commits behind current main and require safe reconciliation before integration. PR #406 is CLOSED/unmerged; temporary files are absent from main.
+- Worker-side publication and missing trusted issuer/capability, replay/revocation, accepted target manifest, R-06, artifact-only handoff, separate publisher, and independent acceptance remain blocking gates. SentinelX has one active Free-plan slot; only `Voktors-Mac-mini.local` is operational; two other enrolled hosts remain user-disabled.
+- No secret values were read or exposed; no worker was dispatched, no host changed, no PR merged, no deployment/qualification/acceptance performed. Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated.
