@@ -50,7 +50,7 @@ Issue #301 receives a linked top-level comment so the requirement is visible fro
 - Compare result before this pass: DIVERGED, docs branch 2,877 ahead / 44 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; compare response was capped at 300 file records. No wholesale merge/rebase was attempted.
 - GitHub returned no branch rulesets. The queried branch payload listed `protected=false`; do not infer required reviews/protections exist.
 - PR #421 / #423 / #425 / #426 are separate OPEN/DRAFT candidates; no independent review was returned for the reviewed candidates. PR #421's current CI regression remains a blocker.
-- All updated docs are to be re-read and their final blob SHAs captured after this report is committed.
+- Final read-back and content-addressed evidence for the primary contract, map, checkpoint update, and roadmap addendum are recorded below and in the latest continuation checkpoint.
 
 ## 5. Checks and no-go actions
 
@@ -65,3 +65,13 @@ Contour A remains **NOT_PROVEN / BLOCKED**. Contour B remains gated on Contour A
 3. Separately diagnose PR #421's failed Astra Verify / caller-context probe, get independent security review, and keep Gemini dispatch blocked until all evidence gates pass.
 
 No route is currently claimed as available, free, installed, qualified or accepted merely because the target requirement is recorded.
+
+
+## 7. Content-addressed evidence from Wave 283 read-back
+
+- Primary hard-requirements contract: blob SHA `d652824d33c1fc423dcc1ef6b1acc51e2a123b2e`; creation commit `3a92731f208eae19aa815260fa84cdb5dc852927`.
+- Canonical map Wave 283 update: blob SHA `bb7506751bc9c338128049cf7a7e4c9a0ed6cd5c`; commit `15b4ce168cff439d388518e81fd2bc5a786d4fa2`.
+- Continuation checkpoint initial Wave 283 update: blob SHA `211de202a4bac3a9ea0e21cbcc4b8225cc2770e2`; commit `2d0f43fff7b0fc1c66d06d11e5145e0a8c43ef38`. A subsequent pointer-only checkpoint commit records the final report blob SHA; see the current checkpoint file for that final pointer.
+- Master Roadmap Wave 283 addendum: blob SHA `091df4829cb0149ca251188b186d52b98fcd9af7`; commit `2ebd92842e02e14d42ab7e0fcf080b3c6ddbb3c5`.
+- Report creation commit before this final evidence edit: `798dcfbe332cb2733850da9d4e4f9209d964134c`; its pre-final blob SHA was `78fa2d77bd5f202eaf096042f106fcf900f12435`. GitHub read-back after this edit supplies the current report blob SHA.
+- No runtime files were edited and no tests/provider/model/host/secret/dispatch/merge/deployment/qualification were performed.
