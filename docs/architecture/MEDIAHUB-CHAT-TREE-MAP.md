@@ -7430,3 +7430,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 
 
 - Wave 215 Gemini result update: A3 created Draft PR #393 (head 93853dd0ad82f59726a56be8d29e472aa3dcf310; report blob dee1e60cf23fd55d5aeafa1f3ed10215e089ea4e). Review comment 6277569380 requested correction of overclaims about explicit subprocess environments and shell-injection immunity; PR #393 remains unaccepted. At last Actions read-back A1 run 39325506829 and A2 run 39325510774 remained in progress; A3 run 39325515053 also reported in progress despite PR creation. See Wave 215 report.
+
+## Wave 228 — proposed source-change bundle boundary (2026-10-20; working proposal)
+
+- Implementation proposal: https://github.com/VlDMlNSh/mediahub-os/pull/399 (Draft, unmerged), code head 723269f9ff2a69cff8ec45fa140f23e4648b3825, based on main 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4.
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/work/contour-a-source-change-bundle-wave228/docs/checkpoints/MEDIAHUB-CONTOUR-A-SOURCE-CHANGE-BUNDLE-WAVE-228-2026-10-20.md (blob 4370ca7c70bf457415609af3a54c4178e0edb237).
+- Proposed schema: architecture/mesh/source-change-bundle.schema.json; structural-only validator: ops/qualification/source_change_bundle.py; 12 focused tests.
+- Local verification: 12 focused tests PASS; full unittest discovery with PYTHONPATH=runtime PASS (438 tests); Draft 2020-12 schema meta-validation and positive/negative fixtures PASS; py_compile and git diff --check PASS. Remote exact-head CI is pending.
+- The candidate bundle is permanently PROPOSED_UNVERIFIED; structural checks are not signature verification, authorization, provenance qualification, or publication permission. No publisher or worker behavior was changed. Direct worker git push, signed issuer/capability admission, replay/freshness, patch digest recomputation, symlink/path semantics and OS/network isolation remain open.
+- Contour A remains NOT_PROVEN / BLOCKED; no worker dispatch, merge, deployment or gate promotion occurred.
