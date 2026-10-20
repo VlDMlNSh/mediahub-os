@@ -5497,3 +5497,13 @@ Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map
 - Exact-head CI is not verified; no local suite or worker dispatch was run. PR creation was not completed. No secret access, merge, deployment, qualification or acceptance occurred.
 - Issuer/capability, expiry/revocation/replay, trusted publisher and clean-checkout revalidation, ambient runner credential/environment isolation and Issue #301 acceptance gates remain open. Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated.
 - Report: [Wave 252](MEDIAHUB-CONTOUR-A-WORKER-ARTIFACT-ONLY-HANDOFF-WAVE-252-2026-10-20.md). Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Wave 218 — binding GitHub cloud-agent transport rule (2026-10-20)
+
+- All future cloud-agent launches MUST use the GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` and child workflows. Controller API dispatch/monitoring uses repository secret `MEDIAHUB_GITHUB_TOKEN`. Direct server/SentinelX/local-CLI/ad-hoc agent launches are prohibited; do not silently switch transports.
+- Normative policy: [MEDIAHUB-GITHUB-CLOUD-AGENT-TRANSPORT-POLICY.md](../architecture/MEDIAHUB-GITHUB-CLOUD-AGENT-TRANSPORT-POLICY.md). Bootstrap section 1B contains the same rule. Report: [Wave 218](MEDIAHUB-GITHUB-CLOUD-AGENT-TRANSPORT-RULE-WAVE-218-2026-10-20.md).
+- Runtime evidence: controller run 39396582084 dispatch step SUCCESS, monitoring step FAILURE; Agent 1 run 39396593650 SUCCESS/PR #413; Agent 2 run 39396596067 FAILURE at actionable-PR validation (Gemini CLI step itself SUCCESS); Agent 3 run 39396598015 SUCCESS/Draft PR #414. Do not mark the batch fully successful.
+- Token value was not read or exposed. Transport rule does not bypass least privilege, issuer/capability, provider policy, review, CI or acceptance gates.
+- Canonical map was not overwritten because the large-file Contents read returned empty content. The map addendum is used for navigation pending a verified full-map edit.
+- Next: read back all changed files and record blob SHAs; inspect Agent 2 logs and independently review PRs #413/#414. Future cloud-agent dispatches remain restricted to the approved controller.
