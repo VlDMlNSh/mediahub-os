@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 279; worker secret-gate regression restoration)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 280; fail-closed generic worker gateway fallback admission fix)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7686,3 +7686,14 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - Report: [Wave 279](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-SECRET-GATE-REGRESSION-RESTORATION-WAVE-279-2026-10-20.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-279-2026-10-20.md).
 - The docs branch had an over-escaped secret-detection regex in `ops/qualification/run_distributed_local_worker.py` (prior blob `42b2d53361bbd26d7fcaed82dfd710d4f09c4e6d`); main's source line is blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1`. The main regression suite `tests/test_worker_security_gate.py` (blob `53098d1755518bc9fcd67a2236d874534aeb8fd5`) was missing from docs and is restored in Draft PR #424.
 - PR #424 changes exactly those two paths on an isolated branch targeting the documentation ref. Head `1538eb2c11f0336186fec0962dec7896a73cab7b`; no PR-triggered runs or reviews were returned at the last check. The fix remains proposed, not integrated; exact-head CI and independent review are required. No mainline change occurred.
+
+
+## Wave 280 — fail-closed generic worker gateway fallback (2026-10-20)
+
+- Report: [Wave 280 generic worker gateway fallback and route-admission fix](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-GENERIC-GATEWAY-FALLBACK-WAVE-280-2026-10-20.md).
+- Source: on `main`, the signed command worker reads `control/commands/{NODE_ID}.json` and validates HMAC/freshness/node/target-HEAD/replay boundaries. Its generic branch nevertheless passed a plain dict into `AstraGatewayRuntime.run_bounded()`, whose contract requires `AstraTaskRequest`; the resulting bounded failure is a dataclass that `publish()` attempts to JSON-serialize. That can fail before the command is marked consumed. The generic path also attempted a host-side cloud-first gateway, which is not an admitted cloud transport under current Contour A policy.
+- [Draft PR #425](https://github.com/VlDMlNSh/mediahub-os/pull/425) removes that implicit fallback and fails closed for `research`, `architecture`, `review`, `documents`, `coding`, and `coding_v2` with `gateway_route_not_admitted` before importing the gateway. It also rejects any future allowed operation without a concrete handler. This does not enable a new execution route.
+- Exact-head CI: Astra Verify [#39453835133](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39453835133) and Astra Cloud Runtime Validation [#39453835149](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39453835149) succeeded. PR #425 remains OPEN/DRAFT/UNMERGED; independent review is not yet evidenced.
+- The HMAC-signed node control-command is distinct from the file-based `mediahub.ai.astra-task` contract. Do not conflate them or infer task issuer/approval authority from command signature alone. The Task Contract's external writer/approval boundary remains to be established.
+- Current `main` remains `80be45a70732b1d568164571d4273a6397792c3b`. The docs branch is highly diverged and the repository compare returns 300 file records; no wholesale sync was performed. PR #423 remains the single legacy-workflow retirement review candidate; PR #422 was closed as its duplicate. PR #421 remains a separate controller-only Gemini transport gate. PR #424 is an independent docs-branch secret-gate regression proposal and is not merged.
+- No live host command, secret read, provider/model call, Gemini dispatch, merge, deployment, release, Contour A qualification or acceptance occurred. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
