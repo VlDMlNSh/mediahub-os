@@ -7702,3 +7702,12 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 ### Wave 279 PR #424 follow-up status (2026-10-20T16:09Z)
 
 The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee2cbfd4a4ef924e871af56f`; its second parent was docs base `4bc4f023422e439ab3f31eb1fd9b8d40955f6d6e`, and the tree was constructed from that base plus the two verified PR paths only. The documentation branch subsequently advanced to `1683707d1ac88e5719716ad5cb0e4d8c68020d70` (Wave 280). PR #424 remains OPEN / DRAFT / UNMERGED; GitHub currently reports `mergeable=false`, with base metadata still at `4bc4...`. No PR-triggered workflow run or review was returned for new head `3c696...`. Do not merge. Next, after the docs base settles, sync the two-path patch to the then-current base and require exact-head tests/CI plus independent review. This follow-up does not affect `main`.
+
+## Wave 281 — Gemini caller-guard gate audit (2026-10-20)
+
+- Report: [Wave 281 Gemini caller-guard gate audit](../checkpoints/MEDIAHUB-CONTOUR-A-GEMINI-CALLER-GUARD-GATE-AUDIT-WAVE-281-2026-10-20.md).
+- PR #421 static contract tests pin the exact caller guard to the actual child job condition, test a non-launching negative caller-context matrix, explicit confirmation, fixed reusable children, explicit per-child secrets, pinned actions/container digest, and reject inherited secrets/direct child dispatch.
+- Exact-head Astra Verify #39425009644 and Astra Cloud Runtime Validation #39425009654 succeeded. PR #421 remains OPEN/DRAFT/UNMERGED with no submitted independent review.
+- The negative context matrix is mock/static evidence only. No actual non-Gemini GitHub Actions caller-context probe has demonstrated GitHub's runtime values inside a reusable-workflow run. Dispatch authorization gate remains PARTIAL/OPEN.
+- Related PRs: #425 generic host-side gateway fallback guard (CI success, review open), #423 old-server workflow retirement (CI success, review open), #424 docs-branch worker secret-regex restoration (separate base, CI not evidenced at last check). PR #422 is closed as an unmerged duplicate of #423.
+- No model/provider invocation, host/secret access, workflow dispatch, merge, deployment, qualification or acceptance occurred. Contour A remains NOT_PROVEN/BLOCKED; Contour B remains gated.
