@@ -10,6 +10,11 @@ CHILD_PATHS = (
     ROOT / ".github/workflows/gemini-agent-3.yml",
 )
 EXPECTED_SECRETS = ("GEMINI_API_KEY", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3")
+TRUSTED_CONTROLLER_REF = "VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main"
+
+
+def caller_ref_allowed(event_name: str, workflow_ref: str) -> bool:
+    return event_name == "workflow_dispatch" and workflow_ref == TRUSTED_CONTROLLER_REF
 
 
 def contract_errors(controller: str, children: list[str]) -> list[str]:
@@ -32,8 +37,8 @@ def contract_errors(controller: str, children: list[str]) -> list[str]:
             errors.append(f"child {index + 1} must not expose workflow_dispatch")
         if "MEDIAHUB_GITHUB_TOKEN" in child or "secrets: inherit" in child:
             errors.append(f"child {index + 1} violates secret isolation")
-        if "/.github/workflows/gemini-batch-dispatch-controller.yml@" not in child:
-            errors.append(f"child {index + 1} must guard execution to the controller workflow ref")
+        if ("github.workflow_ref == '" + TRUSTED_CONTROLLER_REF + "'") not in child:
+            errors.append(f"child {index + 1} must pin the trusted controller ref")
         if EXPECTED_SECRETS[index] not in child:
             errors.append(f"child {index + 1} must declare its explicit provider secret")
     for secret in EXPECTED_SECRETS:
@@ -51,6 +56,16 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
 
     def test_current_contract_is_valid(self):
         self.assertEqual(contract_errors(self.controller, self.children), [])
+
+    def test_negative_fixture_rejects_untrusted_controller_ref(self):
+        trusted = TRUSTED_CONTROLLER_REF
+        untrusted = trusted.replace("@refs/heads/main", "@refs/heads/feature/untrusted")
+        self.assertTrue(caller_ref_allowed("workflow_dispatch", trusted))
+        self.assertFalse(caller_ref_allowed("workflow_dispatch", untrusted))
+        self.assertFalse(caller_ref_allowed("workflow_call", trusted))
+        bad = list(self.children)
+        bad[0] = bad[0].replace(trusted, untrusted)
+        self.assertIn("child 1 must pin the trusted controller ref", contract_errors(self.controller, bad))
 
     def test_negative_fixture_rejects_direct_dispatch(self):
         bad = list(self.children)
