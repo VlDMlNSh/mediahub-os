@@ -50,7 +50,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             ],
         )
         self.assertNotIn('echo "$GH_TOKEN"', self.source)
-        self.assertNotIn("printf '%s' \"$GH_TOKEN\"", self.source)
+        self.assertNotIn('printf \'%s\' "$GH_TOKEN"', self.source)
 
     def test_only_the_three_fixed_child_workflows_are_dispatched(self):
         steps = self.workflow["jobs"]["dispatch-and-verify"]["steps"]
@@ -60,7 +60,8 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             with self.subTest(workflow=workflow):
                 self.assertIn(f'snapshot_latest "{workflow}"', dispatch_source)
                 self.assertIn(f'dispatch_one "{workflow}"', dispatch_source)
-                self.assertIn(f'[{workflow.split(".")[0]}]', monitor_source) if False else None
+        for agent, workflow in zip(("agent1", "agent2", "agent3"), CHILD_WORKFLOWS):
+            self.assertIn(f'[{agent}]="{workflow}"', monitor_source)
         self.assertIn('ref:"main"', dispatch_source)
         self.assertIn('base_ref:"main"', dispatch_source)
         self.assertIn('scope:"contour-a"', dispatch_source)
