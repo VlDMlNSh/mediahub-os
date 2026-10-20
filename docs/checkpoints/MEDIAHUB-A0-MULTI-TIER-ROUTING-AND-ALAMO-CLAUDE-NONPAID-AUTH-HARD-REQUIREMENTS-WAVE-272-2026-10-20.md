@@ -82,3 +82,10 @@ Tests for these constraints should start as source-level/schema/static and mock-
 - Roadmap blob after Wave 272 addition: `7aa82e807b2e1df0c5ae11606bda40ae8aeddebd`; update commit `8743e68bc472bccb9042e599398a362aac865664`.
 - Checkpoint blob after ordering/evidence correction: `c19e1761f22c537c661db861d29f521666161481`; update commit `8dc2c0e202563d9f1560b9aee64635fe240be0b7`.
 - These are documentation Git objects only. They do not establish runtime enforcement, route qualification, system deployment or Contour A acceptance.
+
+
+## Branch and status reconciliation
+
+- Immediately before this final report-only evidence refresh, canonical documentation branch HEAD was `c9c35521b28ee04ed018eb3ed3c49d052d89c246`; `main` HEAD remained `80be45a70732b1d568164571d4273a6397792c3b`.
+- GitHub compare result for `main...docs/mediahub-chat-tree-map-20261012`: `diverged`, docs branch ahead by 2,795 commits and behind by 44, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Compare endpoint returned a bounded 300-file list; this is not a complete source-by-source reconciliation. No merge/rebase was attempted.
+- Issue #301 remains OPEN (last observed update `2026-10-20T14:17:18Z`). PR #421 remains OPEN/DRAFT, head `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`, base `80be45a70732b1d568164571d4273a6397792c3b`; the reviews query returned none. Exact-head workflow runs `39425009654` and `39425009644` returned SUCCESS. Main branch API reported `protected=false`; required protection on the docs branch remains unverified.
