@@ -3,7 +3,21 @@
 Created: 2026-10-12
 Purpose: Resume this exact project state in a new chat when the user sends /next.
 
-## Latest continuation — Wave 280 (2026-10-20)
+## Latest continuation — Wave 281 (2026-10-20)
+
+- Audit report: [Gemini caller-guard gate audit](MEDIAHUB-CONTOUR-A-GEMINI-CALLER-GUARD-GATE-AUDIT-WAVE-281-2026-10-20.md). Report blob SHA after traceability update: `b37a54018cab05d69c1bd7586dd303ff504f3d5a`; report update commit `480e76b80d768f47b34aa89242e6ad1ad1d575df`.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Map update commit `abb08acac46e9e7758226c8d5f521a70f11629a2`; map blob SHA `205c25126e73dc542b671f4235691f7a09745372`.
+- Master Roadmap Wave 281 addendum: blob SHA `57f3b1df5cbf0d042c1f21620aacf9ad2b8cf51d`; update commit `aed34f49314202d5431348704803999bd6964b39`.
+- Current main HEAD remains `80be45a70732b1d568164571d4273a6397792c3b`. PR #421 is OPEN/DRAFT/UNMERGED at `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`; its exact-head Astra Verify #39425009644 and Cloud Runtime Validation #39425009654 succeeded; no submitted independent review was returned.
+- PR #425 is OPEN/DRAFT/UNMERGED at `ce44a47b0d327a5cca9593e529fe97b492ffaa4a`, exact-head checks #39453835133/#39453835149 SUCCESS; no submitted independent review was returned. PR #423 is OPEN/DRAFT/UNMERGED at `ccb302b03ce224059b898d4ac6599e9f46301721`, exact-head checks #39451818611/#39451818985 SUCCESS; no submitted independent review was returned. PR #422 is closed as a duplicate of #423 and unmerged. PR #424 is OPEN/DRAFT on the documentation branch; CI remains unproven at last check.
+- Caller gate assessment: static tests assert the exact trusted controller condition on the actual engineer job and exercise negative simulated contexts. They do not prove GitHub runtime caller context. **Do not dispatch Gemini yet**: independent review, caller/secret-boundary review, a non-launching actual caller-context probe, and governance/protection evidence remain open.
+- The generic host-side gateway fallback has its own fail-closed Draft PR #425. The fix blocks generic worker operations before provider/gateway import and has exact-head CI success; it is proposed, not integrated.
+- No model/provider call, live workflow dispatch, host/secret access, merge, deployment, qualification or acceptance occurred. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- **Next:** design a guarded GitHub Actions probe path whose validation job has no Gemini action step and cannot invoke a provider even if the caller guard is faulty; observe actual reusable-workflow context there, then obtain independent review for #421 and keep all dispatch gates closed until evidenced.
+
+---
+
+## Previous continuation — Wave 280 (2026-10-20)
 
 - Source report: [Worker generic gateway fallback and route-admission fix](MEDIAHUB-CONTOUR-A-WORKER-GENERIC-GATEWAY-FALLBACK-WAVE-280-2026-10-20.md), report blob `fd381958e03d531a8717dea28e79ac9a08bc1141`; report traceability commit `4bfe9e17f13a6de98b09c995bdf0d91184710233`.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 280 entry, blob SHA `017d779e2183dde8bd68f2ea1758b9921feccc94`; map index commit `4e96b4cdea9d188a29ddfc447415c26206c40fda`.
