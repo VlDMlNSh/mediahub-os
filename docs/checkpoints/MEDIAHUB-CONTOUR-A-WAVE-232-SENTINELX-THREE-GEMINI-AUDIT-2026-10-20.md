@@ -71,3 +71,13 @@ This docs branch is still **Draft / non-canonical**. Live comparison shows it DI
 6. Perform clean install, recovery and independent G0–G11 qualification before decommissioning old servers.
 
 Contour A remains **NOT_PROVEN / BLOCKED**; G0–G11 remain blocked, G11 human-only, and Contour B remains gated.
+
+
+## 8. Live PR #404 read-back addendum (2026-10-20)
+
+After the initial review snapshot recorded in Sections 1–7, GitHub showed a newer PR #404 head. Do not use the prior head as the current one:
+- Current Draft PR #404 head: `75ce935bd54003b63086bb990496cee1ddc96d3b` (three commits in PR; base main remains `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`).
+- Latest report blob: `05b9f4ce9f60d287b11ec197d75cb83149ece42f`; the updated report now includes its own independent read-back of agent claims and exact-head CI.
+- Current-head CI: Astra Cloud Runtime Validation run [39371237182](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39371237182) SUCCESS; Astra Verify run [39371237195](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39371237195) SUCCESS. These runs correspond to `75ce935bd54003b63086bb990496cee1ddc96d3b`.
+- The prior head `80b290206d4e6d40f2ff076a389cfb9f477d2f3b` and its successful runs `39370493729` / `39370493773` are historical, not current-head CI.
+- PR #404 remains OPEN / Draft / unmerged. This update supplies live metadata and check results; it does not establish architectural acceptance, production qualification or deployment authority. The separate issuer/capability/replay/revocation and artifact-only publisher blockers remain open.
