@@ -26,6 +26,7 @@ on:
     paths:
       - ".github/workflows/gemini-batch-dispatch-controller.yml"
       - ".github/workflows/gemini-autonomous-engineering.yml"
+      - ".github/workflows/gemini-reusable-context-probe-wave284.yml"
       - ".github/workflows/gemini-agent-2.yml"
       - ".github/workflows/gemini-agent-3.yml"
       - "tests/test_gemini_controller_positive_context_probe_wave292_contract.py"
