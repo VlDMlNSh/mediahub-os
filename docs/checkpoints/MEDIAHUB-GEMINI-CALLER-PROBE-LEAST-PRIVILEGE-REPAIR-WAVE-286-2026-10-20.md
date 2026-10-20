@@ -28,7 +28,7 @@ All run results below reference `3141a44370694d78f76779243adb548318a745d7`:
 - [Astra Cloud Runtime Validation #39462792548](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39462792548): **SUCCESS**.
 - [Dedicated Gemini workflow contract validation #39462792571](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39462792571): **SUCCESS**. This includes actionlint and the isolated positive/negative static contract tests.
 - [Non-launching caller-context probe #39462792657](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39462792657): **SUCCESS**. The workflow observed untrusted PR caller context and the assertion job passed; no Gemini action or provider was invoked.
-- [Astra Verify #39462792590](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39462792590): **IN PROGRESS at the last observation**; compile had completed and broad unit tests were still running. Do not label the full CI set green until this exact-head run reaches a terminal success result.
+- [Astra Verify #39462792590](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39462792590): **SUCCESS**; the broad unit-test job completed successfully at the exact candidate SHA.
 
 The immediately preceding failed contract-validation run [#39462525882](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39462525882) produced a readable actionlint error: an empty `secrets: {}` section is invalid and should be omitted. That mapping was removed and a new exact-head validation passed. Older failure evidence should remain as historical attempt data, not be overwritten by the new result.
 
