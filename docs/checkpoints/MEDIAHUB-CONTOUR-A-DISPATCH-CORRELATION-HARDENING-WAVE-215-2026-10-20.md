@@ -33,7 +33,7 @@ This narrows the identified race but does not establish an immutable correlation
 
 ## Not yet verified
 
-- YAML parser / actionlint result: NOT RUN.
+- Ruby YAML parse: PASS; `bash -n` on both embedded `run` blocks: PASS, using SentinelX host `Voktors-Mac-mini.local` on a temporary copy of controller blob `cb75ca90467775eafb8766fe3bba8871bfcff934`. `actionlint` is not installed on that host (`command -v actionlint` returned no path), so actionlint validation remains NOT RUN.
 - GitHub Actions CI for this controller: NOT VERIFIED.
 - Actual controller invocation: NOT RUN.
 - Current validity of user-reported GitHub API secrets: NOT VERIFIED; values were not accessed.
