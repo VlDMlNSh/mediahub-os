@@ -1680,3 +1680,12 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - PR #426 head `6caf55977260e808a055c8c4b9a04d68eb050d8c`; its Astra Verify #39456720322 and Cloud Runtime Validation #39456720748 succeeded. Both PRs are draft/unmerged, with no submitted independent reviews. Branch-protection status could not be read (API 403).
 - **Next bounded task:** design and implement a separate-path, no-secret, no-provider sentinel workflow with least privilege, while statically asserting the exact guard expression remains on each real child engineer job. Run exact-head checks; keep dispatch/merge/deployment blocked until independent review and governance gates are evidenced.
 - This pass performed source/status inspection and documentation only. No test execution, provider/model invocation, secrets access, host access, workflow dispatch, merge, deployment, qualification, or acceptance. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+
+
+## Wave 293 — exact-head CI repair (2026-10-20)
+
+- Current candidate branch `contour-a/workflow-call-controller-governance-wave243` head: `185f55b63121b1aece7e60f6c087ecfceab2721e`; PR #421 is still open/Draft/unmerged. Canonical documentation branch is `docs/mediahub-chat-tree-map-20261012`; it is not the same as the candidate code branch.
+- Report: [Wave 293 exact-head CI repair](MEDIAHUB-EXACT-HEAD-CI-REPAIR-WAVE-293-2026-10-20.md); map addendum: [Wave 293 addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-293-2026-10-20.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Exact-head CI passed: Astra Verify 39475766199 (453 tests); workflow contract validation 39475766192 (actionlint and 5 Wave 284 + 5 Wave 292 + 12 reusable workflow + 5 transport tests); Cloud Runtime Validation 39475766251; negative probe 39475766469; Wave 292 probe 39475766513. Probe confirms only the untrusted PR path; all model jobs skipped.
+- PR #421/#426 remain open/Draft/unmerged with zero independent reviews and overlapping probe-path changes. Effective branch protection and repository/org Actions policy are still unverified. No trusted positive dispatch, model/provider call, merge, deployment, qualification, or acceptance occurred.
+- **Next bounded step:** resolve PR #421/#426 path overlap and obtain independent security review/effective governance evidence. After reviewed acceptance on `main`, run controller with `mode=probe`, `confirm=no`, and capture positive trusted-context evidence. Keep Contour B gated.

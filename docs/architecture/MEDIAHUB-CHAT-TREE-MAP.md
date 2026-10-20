@@ -7762,3 +7762,12 @@ The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee
 - Exact-head runs: Astra Verify #39462792590 SUCCESS; Gemini workflow contract validation #39462792571 SUCCESS; non-launching caller-context probe #39462792657 SUCCESS; Cloud Runtime Validation #39462792548 SUCCESS.
 - PR #421 remains OPEN/DRAFT/UNMERGED with zero submitted independent reviews. No Gemini dispatch, provider/model call, secret/host access, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED; Contour B gated.
 
+
+
+<!-- Wave 293: exact-head CI repair -->
+## Wave 293 — exact-head CI repair (2026-10-20)
+
+- Report: [MEDIAHUB-EXACT-HEAD-CI-REPAIR-WAVE-293-2026-10-20.md](../checkpoints/MEDIAHUB-EXACT-HEAD-CI-REPAIR-WAVE-293-2026-10-20.md).
+- Addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-293-2026-10-20.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-293-2026-10-20.md).
+- Candidate head `185f55b63121b1aece7e60f6c087ecfceab2721e` remains on unmerged Draft PR #421; not accepted code. Exact-head tests and CI are green, but only the negative PR-context path is proven. Trusted positive dispatch and effective governance remain pending.
+- PR #421/#426 remain unreviewed and overlap on caller-context probe paths; resolve before integration. Contour A remains NOT_PROVEN / BLOCKED; Contour B gated.
