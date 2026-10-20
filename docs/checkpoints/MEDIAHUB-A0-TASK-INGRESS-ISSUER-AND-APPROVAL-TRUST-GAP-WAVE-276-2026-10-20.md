@@ -105,3 +105,6 @@ A follow-up read of the resident service entrypoint narrows runtime reachability
 - No in-repository call site for `FileTaskIngress` was established by the inspected package/runtime files. Code search results were unavailable/empty, so this must not be interpreted as exhaustive proof that no application or external caller exists.
 - Classification refined: **latent admission-contract gap before ingress wiring**, not a verified currently reachable production exploit. The resident service path does not establish active Task Contract intake. The approval field must still not become authority when future API/inbox wiring is implemented.
 
+
+
+- Runtime wiring follow-up commit: 8672be82b8a56c40221114ddcfad78d50d13892e; revised report blob `761dd2fc267260f39f6b8a63ce37f5e846725262`. Resident service not calling the ingress is recorded as a reachability qualifier, not proof no external caller exists.
