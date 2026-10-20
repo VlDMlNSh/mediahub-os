@@ -60,7 +60,7 @@ Tests for these constraints should start as source-level/schema/static and mock-
 - Canonical documentation branch before this wave: `docs/mediahub-chat-tree-map-20261012`; observed Wave 271 commit: `4f19a0f9d4dedb5e6b686f4614218530c5694a26`.
 - `main` HEAD observed: `80be45a70732b1d568164571d4273a6397792c3b`.
 - Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301) is OPEN.
-- PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) is OPEN/DRAFT at head `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581), base `80be45a70732b1d568164571d4273a6397792c3b`; no independent reviews were returned. Exact-head workflow runs [39425009654](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009654) and [39425009644](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009644) reported SUCCESS for that PR head when queried; these do not approve the architecture or waive review/governance gates.
+- PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) is OPEN/DRAFT at head `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`, base `80be45a70732b1d568164571d4273a6397792c3b`; no independent reviews were returned. Exact-head workflow runs [39425009654](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009654) and [39425009644](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009644) reported SUCCESS for that PR head when queried; these do not approve the architecture or waive review/governance gates.
 - This documentation pass did not run tests, invoke providers, inspect Alamo, access secrets, dispatch agents, merge, deploy, qualify or accept the system.
 
 ## Required navigation
@@ -72,3 +72,13 @@ Tests for these constraints should start as source-level/schema/static and mock-
 - PR #421: https://github.com/VlDMlNSh/mediahub-os/pull/421
 
 **Result:** hard target requirements recorded; runtime enforcement NOT VERIFIED; tests NOT RUN; Contour A remains NOT_PROVEN / BLOCKED.
+
+
+## Documentation write/read-back evidence
+
+- Canonical map update was committed through the Git Data API because the Contents API returned an empty body for this 1.12-million-character file: commit `a304d49503acd5a3b595cb23de471b308a5405fe`, resulting map blob `c2b6f7d18f60c826f3471abb4d04aa5ef957d768`. The operation used base tree `bd48baa95a6b16e1d43868b9df2b817795e6904c`, created tree `d8e2f2fbc273ee044711f6e868b0d05b57bf93c2`, and advanced the branch with an expected-head check.
+- Wave 272 map addendum blob: `a8a9bbeaf64db80e6111eccb9f9dea7dafc3987d`; create commit `3f38ccedf06b9d32ff90cce6d6f8a1561fc33298`.
+- Bootstrap blob after hard-requirement insertion: `22116389a05b7f6527340065ee5578ab00e6ffa0`; update commit `ef4b35f706a0c5ed6a99ccec71ffc3b61df9d8a8`.
+- Roadmap blob after Wave 272 addition: `7aa82e807b2e1df0c5ae11606bda40ae8aeddebd`; update commit `8743e68bc472bccb9042e599398a362aac865664`.
+- Checkpoint blob after ordering/evidence correction: `c19e1761f22c537c661db861d29f521666161481`; update commit `8dc2c0e202563d9f1560b9aee64635fe240be0b7`.
+- These are documentation Git objects only. They do not establish runtime enforcement, route qualification, system deployment or Contour A acceptance.
