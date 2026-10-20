@@ -2213,3 +2213,20 @@ This section is the current continuation entry for any new chat receiving `/next
 - Exact bootstrap wheel digest remains consistent with PyPI metadata, but the exact setuptools 84.0.0 file is marked “Uploaded using Trusted Publishing? No”. The Integrity API contract was checked, but the exact per-file provenance response was not retrieved or cryptographically verified. Publisher provenance remains UNVERIFIED; do not close the supply-chain gate.
 - No dependency/lock changes were made. Keep schema candidate PR #350 Draft/unmerged pending independent review and explicit trust disposition. Do not treat hashes alone as publisher identity proof.
 - Next bounded action: retrieve and verify a provenance bundle for the exact wheel if available, or submit a separately reviewed minimal bootstrap dependency/toolchain change with reproducible lock regeneration and fresh exact-head CI. Continue A0 issuer/lifecycle, R-06 authority/privacy and accepted runner/workspace/network manifest work in parallel.
+
+
+## Owner-directed sequencing update — cloud-agent pool before local executor/Jarvis (Wave 260, 2026-10-20)
+
+This is an execution-order update under the existing roadmap, not an architecture/governance approval or a waiver of readiness gates. Detailed evidence and blockers: [Wave 260 cloud-pool sequencing report](MEDIAHUB-CLOUD-POOL-SEQUENCING-WAVE-260-2026-10-20.md).
+
+1. **Close the three-Gemini controller transition**: independent review of caller context, permissions and secret flow; non-invoking negative caller-context test; authorized branch-protection verification; exact-head checks; then governance-compliant integration.
+2. **Run one bounded Gemini batch** through the sole GitHub-hosted controller, with complementary fixed-scope tasks, immutable source refs, quarantined outputs and evidence manifests. Do not remain in a Gemini-only hardening loop after the gates are satisfied.
+3. **Inventory the wider cloud-agent pool** from existing project records and stable upstream projects. Compare candidates against Issue #301 / CAF admission criteria: identity, capability/issuer, model/provider route, quota and budget, data-egress policy, credential injection, expiry/revocation, runtime isolation, immutable provenance and acceptance evidence.
+4. **Admit and integrate incrementally**: one provider/agent at a time, behind the controller and fail-closed route policy. Validate schema/negative fixtures, run controlled tests, prove quota/outage/failure recovery, and keep provider calls and paid fallback within explicit authorization. The inventory phase itself must not invoke providers or access credentials.
+5. **Deploy and independently qualify the cloud pool** before beginning the local-executor/Jarvis architecture work. Report implementation, test, runtime verification, qualification, deployment and acceptance as distinct states.
+6. **Design, qualify and deploy local executors and Jarvis** only after cloud-pool qualification. Preserve the authority split: Jarvis coordinates missions; ASTRA A0 owns ASTRA-internal engineering workflow state; MediaHub Product State Authority alone owns canonical product-state mutation.
+7. **Contour B remains gated** until Contour A is deployed and independently accepted.
+
+Current PR #421 evidence at the time of this update: head `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`; exact-head checks #39425009654 and #39425009644 succeeded; PR remains Draft/open, independent review absent, and branch-protection verification is blocked by API 403. Wave 260 performed no agent dispatch, secret access, merge, deployment or qualification.
+
+Canonical navigation: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
