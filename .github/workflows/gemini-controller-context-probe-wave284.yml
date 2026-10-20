@@ -9,7 +9,7 @@ on:
       - ".github/workflows/gemini-autonomous-engineering.yml"
       - ".github/workflows/gemini-controller-context-probe-wave284.yml"
       - ".github/workflows/gemini-reusable-context-probe-wave284.yml"
-      - "tests/test_gemini_caller_context_probe_contract.py"
+      - "tests/test_gemini_controller_context_probe_wave284_contract.py"
 
 # A reusable observer captures caller context with no credentials or token scope.
 # The caller never invokes a model/provider and never calls a write-capable child.
