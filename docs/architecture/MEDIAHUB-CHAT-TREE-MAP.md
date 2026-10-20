@@ -1,12 +1,14 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 285; A0 task-ingress issuer/approval and authoritative producer boundary trace)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 286; least-privilege Gemini caller-context probe repair; exact-head CI green; PR #421 remains open/draft/unreviewed)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
 - Статус карты: **ИНВЕНТАРИЗАЦИЯ / НЕ ПОЛНАЯ ПРИЁМКА**
 - Назначение: единая точка входа для восстановления дерева MH-01…MH-25 и предотвращения повторного поиска одних и тех же материалов.
+
+- Wave 286 (2026-10-20): [least-privilege Gemini caller-context probe repair](../checkpoints/MEDIAHUB-GEMINI-CALLER-PROBE-LEAST-PRIVILEGE-REPAIR-WAVE-286-2026-10-20.md) and [Wave 286 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-286-2026-10-20.md). Exact-head CI is green at `3141a44370694d78f76779243adb548318a745d7`; PR #421 remains OPEN/DRAFT/UNMERGED and lacks independent review.
 
 - Wave 285 (2026-10-20): [A0 ingress, issuer, approval and producer trace](../checkpoints/MEDIAHUB-A0-INGRESS-ISSUER-APPROVAL-PRODUCER-TRACE-WAVE-285-2026-10-20.md) and [Wave 285 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-285-2026-10-20.md). The plain `approval_state` input is not independently attested by the inspected path; producer/ACL/verifier remain UNKNOWN / NOT PROVEN.
 
@@ -7744,3 +7746,12 @@ The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee
 - On main `80be45a70732b1d568164571d4273a6397792c3b`, `task_ingress.py` blob `59e1254aa61cc8f55f53bd1e179631e81c441393` parses flat JSON from an injected inbox and trusts the shape-checked `approval_state` string; `astra_gateway.py` blob `10985e4ad8f682313d08e7492ecc1856a8bce20f` uses `approved` to pass the sensitive-action gate. Actual writer, inbox ACL and independent approval verifier remain UNKNOWN / NOT PROVEN. This is not proof of exploit or executed operation.
 - Existing typed AuthorizationContext, node/command HMACs, G11 human release approval and cloud-agent task envelope v0.2 are distinct contracts; none is proven to close the local ingress issuer chain. Wave 269 remains proposal-only, GOV-CAP ownership unresolved, and A0 Product State Authority semantics need reconciliation.
 - No runtime change, issuer minting, secret access, provider/model call or agent dispatch. Contour A remains NOT_PROVEN / BLOCKED; Contour B gated.
+
+## Wave 286 — least-privilege Gemini caller-context probe repair
+
+- Report: [Wave 286 probe repair and exact-head CI](../checkpoints/MEDIAHUB-GEMINI-CALLER-PROBE-LEAST-PRIVILEGE-REPAIR-WAVE-286-2026-10-20.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-286-2026-10-20.md); [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Candidate PR #421 branch `contour-a/workflow-call-controller-governance-wave243` HEAD `3141a44370694d78f76779243adb548318a745d7`, based on main `80be45a70732b1d568164571d4273a6397792c3b`. Current changed paths have no overlap with PR #426.
+- Added minimal reusable context observer and uniquely named pull-request probe. Both have no token permissions; the probe forwards no secrets and invokes no Gemini/model/provider action. Added isolated actionlint/static-contract workflow and unique test filename. `.github/workflows/astra-verify.yml` is restored to main blob `ae59d954f1ca6569a8d047589a2a54fd03e47f5b`.
+- Exact-head runs: Astra Verify #39462792590 SUCCESS; Gemini workflow contract validation #39462792571 SUCCESS; non-launching caller-context probe #39462792657 SUCCESS; Cloud Runtime Validation #39462792548 SUCCESS.
+- PR #421 remains OPEN/DRAFT/UNMERGED with zero submitted independent reviews. No Gemini dispatch, provider/model call, secret/host access, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED; Contour B gated.
+
