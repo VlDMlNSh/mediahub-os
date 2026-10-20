@@ -7458,3 +7458,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - No new A1/A2/A3 dispatch was submitted: current GitHub connector has no workflow-dispatch action and neither available browser profile records a GitHub sign-in. No credential-bearing push-triggered workaround was created.
 - Issue #301 remains OPEN; PR #375/#388/#404 remain Draft/unmerged. Main combined-status query returned no status entries; this is not a pass. Source/CI evidence does not satisfy the worker artifact-only publisher boundary, A0 issuer/capability, replay/revocation or independent acceptance gates.
 - Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated.
+
+
+## 20.375 — Wave 247: PR exact-head CI and autonomous-dispatch readiness (2026-10-20)
+
+- Report: [Wave 247 PR exact-head CI and dispatch readiness](../checkpoints/MEDIAHUB-PR-CI-AND-GEMINI-DISPATCH-READINESS-WAVE-247-2026-10-20.md).
+- Current refs: `main=1324f2f9e558a99c1d3e06eb9d955c0827214fe2`; docs branch before this update `577501f8954376b0044de350d6d67e949dfb0fc2`; branches diverged (docs +2,562, main +39, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). No merge/rebase.
+- Exact-head CI verified: PR #375 (`6fb078a...`) and #388 (`815fa4a...`) and #404 (`75ce935...`) have two named checks SUCCESS each; PRs #401/#402/#403 agent research candidates have both named checks `action_required`, not successful CI. All six PRs remain OPEN/Draft/unmerged.
+- Classic `MEDIAHUB_GITHUB_TOKEN` smoke dispatch remains proven only for temporary caller/target runs #39383103249/#39383110978; no A1/A2/A3 dispatch occurred in this wave. Broad PAT was not used in worker/model execution.
+- Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated. Do not merge candidates based on green checks alone; issuer/capability/replay/revocation and independent publisher boundary remain open.

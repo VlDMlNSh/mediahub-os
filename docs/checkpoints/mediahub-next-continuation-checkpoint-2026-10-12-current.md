@@ -5419,3 +5419,13 @@ Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 
 - A1/A2/A3 were not dispatched in this pass: no supported dispatch action is exposed, and neither browser profile has GitHub listed as signed in. No workaround that embeds the broad PAT in a push-triggered workflow was created.
 - Next: use a confirmed authenticated GitHub Actions UI/API path, dispatch all three agents in parallel with distinct bounded tasks, and record exact run IDs/conclusions. Review resulting PRs against current main before considering integration.
 - Current state: **Contour A NOT PROVEN / BLOCKED**. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 247 — PR exact-head CI and dispatch readiness (2026-10-20)
+
+Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-PR-CI-AND-GEMINI-DISPATCH-READINESS-WAVE-247-2026-10-20.md
+
+- Exact-head checks: #375 head `6fb078aad7e8e1bb41916168fdd038dfa4e1022b` SUCCESS/SUCCESS; #388 `815fa4af497a593f321ee692f64f53a12dcad061` SUCCESS/SUCCESS; #404 `75ce935bd54003b63086bb990496cee1ddc96d3b` SUCCESS/SUCCESS. #401 `0d492cd8998ed60be9b6cef2ad40d3e168907aba`, #402 `ccb26d0b65042e3b9d1d87604dc3223cb2a7f9bb`, #403 `7a939d8805d12b2b56d4c0edabcd63c15b4f3c9a` all have `action_required` for both named checks. All remain Draft/unmerged.
+- Classic `MEDIAHUB_GITHUB_TOKEN` was proven only for the temporary smoke target, runs #39383103249/#39383110978. No A1/A2/A3 dispatch in Wave 247; no credential values accessed or placed in model/worker inputs.
+- Next: authorized signed-in dispatch path and a source-bound artifact-only worker/trusted-publisher design. Current state **NOT PROVEN / BLOCKED**.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
