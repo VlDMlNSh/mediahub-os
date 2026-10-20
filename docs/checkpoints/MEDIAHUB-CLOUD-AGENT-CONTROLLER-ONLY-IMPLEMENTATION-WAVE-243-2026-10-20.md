@@ -64,3 +64,11 @@ An earlier CI attempt failed because required reusable-workflow inputs also decl
 - [Binding transport policy](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-GITHUB-CLOUD-AGENT-TRANSPORT-POLICY.md)
 - [Continuation checkpoint](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md)
 - [Governing Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
+
+
+## Final documentation reconciliation / read-back
+
+- The binding policy and Bootstrap were reconciled to distinguish current main (legacy REST dispatch, ON HOLD) from the approved-but-not-yet-integrated Option B proposal in PR #421.
+- Final binding policy blob SHA: `301c100a494646fe376e26a3f39fea5f42590968`.
+- Final Bootstrap blob SHA: `9718e645ce21df2cbdb5ceb2daf1ec5828185227`.
+- These docs explicitly state that Option B approval is implementation-only; even after integration, a separate authorization is required for a live agent run.
