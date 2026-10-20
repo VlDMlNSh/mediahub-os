@@ -17,6 +17,7 @@ on:
       - "architecture/mesh/**"
       - "tests/test_mesh_*.py"
       - "tests/test_p2p_*.py"
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -52,3 +53,42 @@ jobs:
           assert c["operation"] == "health"
           assert len(c["signature"]) == 64
           PY
+
+  gemini_caller_context_probe:
+    name: Non-launching reusable caller-context probe
+    uses: ./.github/workflows/gemini-caller-context-probe.yml
+    permissions: {}
+
+  assert_gemini_caller_context_probe:
+    name: Assert non-controller caller is denied
+    if: always()
+    needs: [gemini_caller_context_probe]
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Require guarded job to be skipped for this caller
+        shell: bash
+        env:
+          GUARDED_RESULT: ${{ needs.gemini_caller_context_probe.outputs.guarded_job_result }}
+          CALLER_EVENT_NAME: ${{ needs.gemini_caller_context_probe.outputs.caller_event_name }}
+          CALLER_WORKFLOW_REF: ${{ needs.gemini_caller_context_probe.outputs.caller_workflow_ref }}
+        run: |
+          set -euo pipefail
+          expected='VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
+          [[ -n "$CALLER_EVENT_NAME" ]]
+          [[ -n "$CALLER_WORKFLOW_REF" ]]
+          if [[ "$GUARDED_RESULT" != "skipped" ]]; then
+            echo "::error::Non-controller caller was not denied (job result: $GUARDED_RESULT)."
+            exit 1
+          fi
+          if [[ "$CALLER_EVENT_NAME" == "workflow_dispatch" && "$CALLER_WORKFLOW_REF" == "$expected" ]]; then
+            echo "::error::Probe unexpectedly used the authorized controller context."
+            exit 1
+          fi
+          {
+            echo "## Non-controller caller was denied"
+            echo
+            echo "- Observed event: $CALLER_EVENT_NAME"
+            echo "- Observed workflow ref: $CALLER_WORKFLOW_REF"
+            echo "- Guarded sentinel job result: $GUARDED_RESULT"
+          } >> "$GITHUB_STEP_SUMMARY"
