@@ -280,3 +280,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Map addendum updated in commit `e6f3634f8ad87abbfc333740959e2e7feafbdc56`, new blob SHA `ef40120b6da2cdcc3d9ff282ef1dac7a8a25d9f0`. Canonical map Contents API returned empty content with blob SHA `baa715602545461fc24afc9e8a8e1d83d9099425`; treat as retrieval limitation, not an empty/missing map.
 - No agent dispatched, workflow triggered, secret read, workflow code changed, merge, deployment or Contour A qualification. Continue independent work while awaiting governance disposition and PR gates.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); map addendum: [current addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md).
+
+
+## Latest continuation — Wave 240 (2026-10-20)
+
+- Report: [MEDIAHUB-CLOUD-AGENT-GOVERNANCE-OPTION-B-REQUEST-WAVE-240-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-GOVERNANCE-OPTION-B-REQUEST-WAVE-240-2026-10-20.md), blob SHA `e30f6448ad1170bbe9af40e7009d4621160aa75e`; create commit `dc9305a9ea1afa14677ce110985b5feff2805661`.
+- Option A was checked first: the connected GitHub API reader rejected Actions permission endpoints as unsupported; `/rulesets` returned an empty list but does not prove effective Actions restrictions or the `MEDIAHUB_GITHUB_TOKEN` principal. No secret value was accessed.
+- Main child workflows A1/A2/A3 still expose `workflow_dispatch`; blob SHAs: `09523d809530ae5b7bf528eab5fa53bc5deaf92d`, `259c8c82b8d90a39e1c90e65390e469b241b5581`, `91b5397001e088dfae2f450ee77c9c23118b5601`. Technical direct-dispatch exclusion remains **NOT PROVEN**.
+- Governance request posted to [Issue #301 comment 6289403478](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6289403478): request explicit approval for Option B, controller-only `workflow_call` reusable jobs, no child `workflow_dispatch`, explicit child-specific provider-secret passing, no `secrets: inherit`, no transport token exposure to children/models, revised evidence correlation, independent review and tests. Request is not approval; no workflow changes were made.
+- Until Option A evidence is provided or Option B is explicitly approved, keep cloud-agent dispatch unused and continue independent work. No agent/workflow launched, no secret read, no merge/deployment/qualification. PR #420's independent review and authorized controlled failure-path test remain open.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Map addendum: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md
