@@ -2496,3 +2496,12 @@ Obtain independent review of PR #425 and retain the fail-closed state until its 
 
 - PR feature head was advanced to merge commit `3c69643812d07d85ee2cbfd4a4ef924e871af56f`, whose second parent is docs base `4bc4f023422e439ab3f31eb1fd9b8d40955f6d6e`; only the two already-reviewed-in-source file blobs were added atop that base tree.
 - Docs branch moved again to `1683707d1ac88e5719716ad5cb0e4d8c68020d70`. GitHub reports PR #424 `mergeable=false`; there are no returned exact-head workflow runs or independent review submissions. Keep Draft and recheck after the target ref settles. No tests are claimed as run.
+
+
+## Wave 281 addendum — Gemini caller-guard gate audit (2026-10-20)
+
+- Audit: [Wave 281 caller-guard gate report](MEDIAHUB-CONTOUR-A-GEMINI-CALLER-GUARD-GATE-AUDIT-WAVE-281-2026-10-20.md); see the [canonical project map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #421 static review confirmed the explicit yes gate, three fixed reusable children, exact controller workflow_ref guard attached to each child engineer job, explicit per-child provider secrets, no secrets inheritance, SHA-pinned actions/container and negative test fixtures. Exact-head Astra Verify #39425009644 and Astra Cloud Runtime Validation #39425009654 succeeded.
+- Gate remains open: PR #421 is OPEN/DRAFT/UNMERGED with no submitted independent review. The existing negative caller-context matrix is mock/static evidence, not a live non-Gemini test of GitHub's runtime context inside a reusable workflow. Do not dispatch Gemini until independent review, caller/secret-boundary review, a non-launching runtime context probe, and governance/protection gates are evidenced.
+- Related proposals remain independent: PR #425 fail-closed generic gateway fallback; PR #423 legacy workflow retirement (PR #422 closed/unmerged as duplicate); PR #424 docs-branch worker secret-regex/test restoration. Do not collapse their bases or scopes.
+- No provider/model call, workflow dispatch, host/secret access, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
