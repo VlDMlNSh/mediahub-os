@@ -2490,3 +2490,9 @@ Trace and source-pin the actual task producer/writer, inbox ACL, and trusted app
 ### Next bounded action
 
 Obtain independent review of PR #425 and retain the fail-closed state until its required checks/review pass. Continue the separate PR #421 caller/secret/negative-context gates. Only after controller and authority gates are accepted should a dedicated, schema-valid, provider-admitted task execution path be designed; do not restore the host-side cloud-first fallback as a shortcut.
+
+
+## Wave 279 — PR #424 synchronization follow-up (2026-10-20)
+
+- PR feature head was advanced to merge commit `3c69643812d07d85ee2cbfd4a4ef924e871af56f`, whose second parent is docs base `4bc4f023422e439ab3f31eb1fd9b8d40955f6d6e`; only the two already-reviewed-in-source file blobs were added atop that base tree.
+- Docs branch moved again to `1683707d1ac88e5719716ad5cb0e4d8c68020d70`. GitHub reports PR #424 `mergeable=false`; there are no returned exact-head workflow runs or independent review submissions. Keep Draft and recheck after the target ref settles. No tests are claimed as run.

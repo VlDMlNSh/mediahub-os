@@ -17,3 +17,8 @@ A source-level regression on the documentation ref has been corrected in an isol
 - Main `tests/test_worker_security_gate.py`: blob `53098d1755518bc9fcd67a2236d874534aeb8fd5`; restored into the PR branch.
 - PR #424 head `1538eb2c11f0336186fec0962dec7896a73cab7b`, base `docs/mediahub-chat-tree-map-20261012`, two changed paths. No PR-triggered workflow runs or review submissions were returned at the last recheck.
 - Next gate: obtain exact-head CI evidence and independent review before considering integration into the docs branch. Any promotion to `main` remains a separate decision. No host/provider/secret operations or live task dispatch occurred.
+
+
+## Post-sync state
+
+PR #424's branch is now at merge commit `3c69643812d07d85ee2cbfd4a4ef924e871af56f` (second parent `4bc4f023422e439ab3f31eb1fd9b8d40955f6d6e`). Documentation base later advanced to `1683707d1ac88e5719716ad5cb0e4d8c68020d70`; PR currently reports `mergeable=false` and no runs/reviews were returned for its new head. Keep it Draft; once the base is stable, align it again and require exact-head tests plus independent review. No tests were claimed as run.

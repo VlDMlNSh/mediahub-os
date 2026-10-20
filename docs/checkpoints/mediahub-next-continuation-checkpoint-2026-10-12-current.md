@@ -705,3 +705,10 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - A full tree diff found an over-escaped secret-detection regex in the docs version of `ops/qualification/run_distributed_local_worker.py`; PR #424 copies the exact regex source line from main and restores `tests/test_worker_security_gate.py`.
 - PR #424: OPEN/DRAFT/UNMERGED, head `1538eb2c11f0336186fec0962dec7896a73cab7b`, base is the docs branch. Read-back confirms exactly two changed paths; no workflow runs or reviews were returned for this head. Do not report tests as passed.
 - Next gate: verify exact-head CI and obtain independent review before integrating into the docs branch. Any mainline promotion is a separate reviewed change; no change to main occurred in this pass.
+
+
+## Wave 279 PR #424 follow-up (2026-10-20)
+
+- The isolated worker secret-gate PR branch was synced with a CAS-protected merge commit `3c69643812d07d85ee2cbfd4a4ef924e871af56f`, using docs base snapshot `4bc4f023422e439ab3f31eb1fd9b8d40955f6d6e` as the second parent and preserving the two-file change set.
+- Docs branch subsequently advanced to `1683707d1ac88e5719716ad5cb0e4d8c68020d70`; current PR #424 metadata says `mergeable=false`, its base SHA is stale at `4bc4...`, and no workflow runs or reviews were returned for head `3c696...`.
+- Keep PR #424 Draft; don't repeat base-sync while docs ref continues advancing. After the base settles, sync once, verify the diff is still the two intended paths, require exact-head CI and independent review. No test execution or pass is claimed.

@@ -37,3 +37,8 @@ This is a narrowly scoped fix to the canonical documentation branch's source/tes
 4. Preserve main-only transport files and do not mix this PR with the two-workflow retirement proposal (#423) or Gemini controller proposal (#421).
 
 Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated on deployment and independent acceptance of Contour A.
+
+
+## Subsequent branch-alignment attempt (2026-10-20T16:09Z)
+
+The initial PR head `1538eb2c11f0336186fec0962dec7896a73cab7b` was advanced safely to merge commit `3c69643812d07d85ee2cbfd4a4ef924e871af56f`. The merge tree is based on documentation-ref snapshot `4bc4f023422e439ab3f31eb1fd9b8d40955f6d6e` plus the exact worker source blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1` and test blob `53098d1755518bc9fcd67a2236d874534aeb8fd5`; a GitHub read-back confirmed the PR still reports only those two changed paths. The docs branch then moved to `1683707d1ac88e5719716ad5cb0e4d8c68020d70`, ahead of that parent snapshot. PR #424 now reports `mergeable=false`; no exact-head workflow runs or independent reviews were returned. This is a synchronization blocker, not a test failure. Keep Draft until the target ref settles, then sync once and require exact-head CI and review.
