@@ -82,3 +82,10 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - PR head commit: `2016c1c99a44cbf9b700d0a1eba777a9964fed09`. Agent 1 workflow SHA `e3de99ec9299b33a9c12e126aba785d55cfb71d9`; Agent 2 SHA `75d9db95a9ccb75e5dfaba373f6d6ac77883fe11`; Agent 3 SHA `b730bfb426450cda45a4252db6b4e370959e2061`.
 - Exact-head CI first observed in progress (runs `39399830230` and `39399830302`); do not treat as pass. No controlled failure-path runtime test yet.
 - Next step: inspect exact-head CI and independent review, correct any workflow issues, and only then consider a controlled failure-path test. No agent re-dispatch, merge, deployment, paid fallback, or qualification in this wave.
+
+
+### Wave 221 CI read-back
+
+- PR #420 exact head `2016c1c99a44cbf9b700d0a1eba777a9964fed09` associated CI runs `39399830230` (job `118551486243`) and `39399830302` (job `118551487161`) both concluded `success`.
+- These do not establish dedicated workflow syntax validation or runtime execution of the new diagnostic step; no controlled failure-path test was run. PR #420 remains unmerged.
+- Report: [Wave 221](MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md).
