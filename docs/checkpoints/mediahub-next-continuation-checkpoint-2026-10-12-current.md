@@ -327,3 +327,11 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - No agent/workflow launched, no secret value read, no merge, deployment, or Contour A qualification.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Map addendum: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md
+
+
+### Wave 243 final policy/bootstrap read-back
+
+- Binding policy final blob SHA: `301c100a494646fe376e26a3f39fea5f42590968`.
+- Bootstrap final blob SHA: `9718e645ce21df2cbdb5ceb2daf1ec5828185227`.
+- Final Wave 243 report blob SHA: `8e416575158d360b3397e9de0fb39ba0d1ecfb42`.
+- Current `main` remains the legacy REST-dispatch implementation and stays ON HOLD. PR #421 is the proposed `workflow_call` design; the governance approval covers implementation only. Even after integration, a separate live-run authorization is required.
