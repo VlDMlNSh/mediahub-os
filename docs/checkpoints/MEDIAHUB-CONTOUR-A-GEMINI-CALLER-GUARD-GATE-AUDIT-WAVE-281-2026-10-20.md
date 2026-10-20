@@ -57,3 +57,11 @@ Design and review a **non-launching** GitHub caller-context probe whose probe jo
 This pass was source/CI metadata review only. It did not dispatch workflows or Gemini, call a model/provider, access host/runtime or secrets, run tests locally, merge, deploy, qualify or accept Contour A. The exact-head CI checks listed above are GitHub Actions evidence; a live non-Gemini caller-context probe and independent review remain unverified.
 
 Contour A remains **NOT_PROVEN / BLOCKED**. Contour B remains gated on Contour A deployment and independent acceptance.
+
+
+## Traceability
+
+- Canonical map Wave 281 entry: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), map update commit `abb08acac46e9e7758226c8d5f521a70f11629a2`.
+- Continuation checkpoint: [current continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Master Roadmap Wave 281 addendum: [Master Development Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), update commit `aed34f49314202d5431348704803999bd6964b39`.
+- Governing tracker: https://github.com/VlDMlNSh/mediahub-os/issues/301
