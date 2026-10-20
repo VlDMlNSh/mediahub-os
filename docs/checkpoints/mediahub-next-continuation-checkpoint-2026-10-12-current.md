@@ -461,3 +461,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - No component installation, provider call, secret access, agent dispatch, deployment or qualification occurred. Registry free-tier labels do not prove current provider entitlements.
 - Next: create source-grounded candidate comparison matrix and define mock-provider proof for the smallest viable orchestration/router/state stack.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 261 (2026-10-20): reuse-ready multi-agent components
+
+- Report: [MEDIAHUB-CLOUD-POOL-READY-COMPONENTS-AND-MULTIAGENT-PLATFORMS-WAVE-261-2026-10-20.md](MEDIAHUB-CLOUD-POOL-READY-COMPONENTS-AND-MULTIAGENT-PLATFORMS-WAVE-261-2026-10-20.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-261-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-261-2026-10-20.md).
+- Registry `ops/qualification/provider_model_registry.json` on `main` has 25 provider records (blob `62328126fd2cd8879a73bb6812adcacd3e2abe84`); registry entries are not runtime entitlement/qualification proof.
+- ECC is resolved by `docs/operations/ASTRA-ECC-INTEGRATION.md` (blob `c707a83777ae5970081bd6bb1e3027c88bbf3fa1`): selectively reuse workflow practices, but do not adopt ECC as dependency or second controller. Router ADR Wave 42 (blob `f445e2ab6b43dfcae275ffa598e44ab18049e504`) remains proposed/gated and has documented fail-open, race, credential-in-URL and missing typed-policy issues. Existing file-backed Agent Fabric claims/leases are not a distributed cloud orchestrator.
+- Direction: evaluate ready-made multi-agent frameworks, provider router, durable state/queue, evidence/audit and corporation role/task/review/budget components; reuse before custom code. Frameworks stay subordinate to issuer/capability and MediaHub authority boundaries.
+- No component install, provider call, agent dispatch, secret access, merge, deployment or qualification occurred. Next: build source-backed component matrix and mock-provider tests, map provider-registry consumers, and prioritize router fail-closed/atomicity/security requirements.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
