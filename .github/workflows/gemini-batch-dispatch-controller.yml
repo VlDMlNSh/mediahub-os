@@ -40,6 +40,25 @@ jobs:
           started_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
           echo "started_at=$started_at" >> "$GITHUB_OUTPUT"
 
+          # Snapshot the latest run ID per child workflow before dispatch.
+          # The monitor uses these baselines and fails closed if more than one
+          # post-baseline candidate exists, rather than silently choosing a run.
+          snapshot_latest() {
+            local workflow="$1"
+            local key="$2"
+            local data id
+            data="$(curl --fail-with-body --silent --show-error \
+              --header "Accept: application/vnd.github+json" \
+              --header "Authorization: Bearer $GH_TOKEN" \
+              --header "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/VlDMlNSh/mediahub-os/actions/workflows/$workflow/runs?per_page=1")"
+            id="$(jq -r '.workflow_runs[0].id // 0' <<<"$data")"
+            echo "baseline_$key=$id" >> "$GITHUB_OUTPUT"
+          }
+          snapshot_latest "gemini-autonomous-engineering.yml" "agent1"
+          snapshot_latest "gemini-agent-2.yml" "agent2"
+          snapshot_latest "gemini-agent-3.yml" "agent3"
+
           dispatch_one() {
             local workflow="$1"
             local task="$2"
@@ -75,6 +94,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           STARTED_AT: ${{ steps.dispatch.outputs.started_at }}
+          BASELINE_AGENT1: ${{ steps.dispatch.outputs.baseline_agent1 }}
+          BASELINE_AGENT2: ${{ steps.dispatch.outputs.baseline_agent2 }}
+          BASELINE_AGENT3: ${{ steps.dispatch.outputs.baseline_agent3 }}
         run: |
           set -euo pipefail
           declare -A workflow_paths=(
@@ -97,10 +119,20 @@ jobs:
                   --header "Authorization: Bearer $GH_TOKEN" \
                   --header "X-GitHub-Api-Version: 2022-11-28" \
                   "https://api.github.com/repos/VlDMlNSh/mediahub-os/actions/workflows/$path/runs?event=workflow_dispatch&per_page=20")"
-                id="$(jq -r --arg since "$STARTED_AT" '[.workflow_runs[] | select(.event == "workflow_dispatch" and .created_at >= $since and .head_branch == "main")] | sort_by(.created_at) | last | .id // empty' <<<"$data")"
-                if [[ -n "$id" ]]; then
+                case "$agent" in
+                  agent1) baseline="$BASELINE_AGENT1" ;;
+                  agent2) baseline="$BASELINE_AGENT2" ;;
+                  agent3) baseline="$BASELINE_AGENT3" ;;
+                esac
+                candidates="$(jq -r --arg since "$STARTED_AT" --argjson baseline "${baseline:-0}" '[.workflow_runs[] | select(.event == "workflow_dispatch" and .created_at >= $since and .head_branch == "main" and .id > $baseline)] | map(.id)' <<<"$data")"
+                count="$(jq 'length' <<<"$candidates")"
+                if [[ "$count" -gt 1 ]]; then
+                  echo "::error::Ambiguous new runs for $agent after baseline $baseline; refusing to guess."
+                  exit 1
+                elif [[ "$count" -eq 1 ]]; then
+                  id="$(jq -r '.[0]' <<<"$candidates")"
                   run_ids[$agent]="$id"
-                  echo "Discovered $agent run: $id"
+                  echo "Correlated $agent run: $id (baseline $baseline)"
                 else
                   all_terminal=false
                   continue
