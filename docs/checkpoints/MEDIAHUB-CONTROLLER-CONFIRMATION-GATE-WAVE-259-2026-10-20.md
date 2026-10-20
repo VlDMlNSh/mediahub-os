@@ -13,10 +13,10 @@ Strengthen the static contract so removal or weakening of the controller's expli
 - PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) remains Draft/open, base `main` `80be45a70732b1d568164571d4273a6397792c3b`.
 
 ## CI
-Exact-head runs were queued when checked:
-- [Astra Cloud Runtime Validation #39425009654](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009654): queued at inspection.
-- [Astra Verify #39425009644](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009644): queued at inspection.
-Previous head `d8d8997bbfc48d20b08c9d4e6e0a5aecca4411be` had both checks SUCCESS, but those results do not qualify the new commit. Exact-head qualification is pending until the two runs complete.
+Exact-head CI has now completed successfully on `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`:
+- [Astra Cloud Runtime Validation #39425009654](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009654): SUCCESS.
+- [Astra Verify #39425009644](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009644): SUCCESS.
+The two runs match the exact current feature head. This confirms CI checks for this commit, not the still-open runtime caller-context, independent-review, branch-protection, merge, or qualification gates.
 
 ## Boundaries and remaining gates
 - This is a static YAML contract test, not a live GitHub Actions caller-context runtime test.
