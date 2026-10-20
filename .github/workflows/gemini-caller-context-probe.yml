@@ -8,27 +8,17 @@ on:
       - ".github/workflows/gemini-agent-3.yml"
       - ".github/workflows/gemini-autonomous-engineering.yml"
       - ".github/workflows/gemini-caller-context-probe.yml"
+      - ".github/workflows/gemini-caller-context-probe-reusable.yml"
       - "tests/test_gemini_caller_context_probe_contract.py"
 
-# The workflow has a read-only ceiling because the reusable child declares
-# contents/issues:read. The assertion job overrides this to no token permissions.
-# probe_only=true and secrets:{} prevent provider/model execution.
-permissions:
-  contents: read
-  issues: read
+# Read-only event-context observation only; no provider or model is called.
+permissions: {}
 
 jobs:
   probe:
-    name: Reusable workflow context observation (probe-only)
-    uses: ./.github/workflows/gemini-agent-2.yml
-    with:
-      task: "Non-launching: observe caller context only. Do not invoke any model, provider, tool, or repository mutation."
-      base_ref: main
-      scope: contour-a
-      probe_only: true
-    permissions:
-      contents: read
-      issues: read
+    name: Reusable caller-context observation (probe-only)
+    uses: ./.github/workflows/gemini-caller-context-probe-reusable.yml
+    permissions: {}
 
   assert_untrusted_context:
     name: Assert actual PR caller context is denied
@@ -37,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      - name: Verify the observed caller ref is the probe workflow, not the trusted controller
+      - name: Verify the observed caller ref is not the trusted controller
         shell: bash
         env:
           OBSERVED_EVENT_NAME: ${{ needs.probe.outputs.caller_event_name }}
@@ -46,9 +36,9 @@ jobs:
           TRUSTED_CONTROLLER_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
         run: |
           set -euo pipefail
-          printf 'Observed caller event: %s\n' "$OBSERVED_EVENT_NAME"
-          printf 'Observed caller workflow ref: %s\n' "$OBSERVED_WORKFLOW_REF"
-          printf 'Trusted-controller predicate: %s\n' "$OBSERVED_TRUSTED_CONTROLLER"
+          printf '%s\n' "Observed caller event: $OBSERVED_EVENT_NAME"
+          printf '%s\n' "Observed caller workflow ref: $OBSERVED_WORKFLOW_REF"
+          printf '%s\n' "Trusted-controller predicate: $OBSERVED_TRUSTED_CONTROLLER"
           [[ "$OBSERVED_EVENT_NAME" == "pull_request" ]]
           [[ "$OBSERVED_WORKFLOW_REF" == *"/.github/workflows/gemini-caller-context-probe.yml@"* ]]
           [[ "$OBSERVED_WORKFLOW_REF" != "$TRUSTED_CONTROLLER_REF" ]]
@@ -60,5 +50,5 @@ jobs:
             printf '%s\n' "Workflow ref: $OBSERVED_WORKFLOW_REF"
             printf '%s\n' "Trusted controller: $OBSERVED_TRUSTED_CONTROLLER"
             printf '%s\n' "Provider secret passed: no"
-            printf '%s\n' "Gemini action invoked: no (probe_only=true; engineer job is ineligible)"
+            printf '%s\n' "Gemini action invoked: no (dedicated probe-only reusable workflow)"
           } >> "$GITHUB_STEP_SUMMARY"
