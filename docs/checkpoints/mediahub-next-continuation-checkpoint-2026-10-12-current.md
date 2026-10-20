@@ -368,3 +368,15 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Remaining: independent review by a different identity; controlled negative caller-context runtime test (the available connector has no workflow-dispatch operation); branch-protection/governance integration; immutable action/container provenance. No agent launch, secret access, merge, deployment, or qualification in this wave.
 - Wave 254 map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-254-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-254-2026-10-20.md).
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 255 (2026-10-20): immutable action refs
+
+- Report: [MEDIAHUB-GEMINI-ACTION-REF-HARDENING-WAVE-255-2026-10-20.md](MEDIAHUB-GEMINI-ACTION-REF-HARDENING-WAVE-255-2026-10-20.md), creation commit `4ba6f63d06e75d700438e038e87246bdfb34add9`.
+- Draft PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) exact head `3ab7258ab69353f7327266fc0508f02fc38716da`, base `main` `80be45a70732b1d568164571d4273a6397792c3b`; 23 ahead / 0 behind.
+- Exact-head [Astra Cloud Runtime Validation #39416070256](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416070256) and [Astra Verify #39416070449](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416070449) completed SUCCESS. Verify steps confirmed actionlint, compile, reusable-workflow contract tests, cloud admission tests and signed-command smoke test.
+- Gemini Agent 3 now uses the same immutable external Action SHAs as the sibling workflows: checkout `11d5960a326750d5838078e36cf38b85af677262`, Gemini CLI action `f77273f4c914e4bf38440cf36a0369cb64a37489`; child blob `3b8d71636575a8746f0391ebee795450bca9b031`.
+- Contract test now requires 40-character immutable refs for external `uses:` actions and includes a negative mutable-ref fixture; test blob `c491d8e94f0e3a5715e9ff32357b4c6ddced8818`.
+- Still open: authoritative OCI digest pin for `ghcr.io/github/github-mcp-server:v0.27.0`; independent review; controlled negative caller-context runtime test; governance-approved integration. No agent launch, secret access, merge, deployment, or qualification in Wave 255.
+- Wave 255 map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-255-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-255-2026-10-20.md).
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
