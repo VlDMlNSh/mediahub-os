@@ -1,7 +1,7 @@
 # MediaHub OS — Worker token authority minimization and GitHub API capability audit (Wave 236)
 
 - Date: 2026-10-20
-- Status: **SOURCE-VERIFIED FINDING; MITIGATION PROPOSED IN DRAFT PR; CI NOT YET EVIDENCED**
+- Status: **SOURCE-VERIFIED FINDING; MITIGATION PROPOSED IN DRAFT PR; EXACT-HEAD CI VERIFIED**
 - Repository: https://github.com/VlDMlNSh/mediahub-os
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Contour A governance: https://github.com/VlDMlNSh/mediahub-os/issues/301
@@ -18,7 +18,7 @@
 - Issue #301 is OPEN (updated `2026-10-20T05:16:07Z`).
 - PR #388 remains OPEN/Draft at `815fa4af497a593f321ee692f64f53a12dcad061`.
 - PR #404 remains OPEN/Draft at `75ce935bd54003b63086bb990496cee1ddc96d3b`; exact-head Astra Verify run `39371237195` and Cloud Runtime Validation `39371237182` are SUCCESS, but the proposal is design-only.
-- PR #405 is OPEN/Draft, base `main` SHA `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`, head `59951fb247a6251b1693d5f0bc807c96480f7424`, 2 commits ahead / 0 behind. At read-back time, the connector returned no PR-triggered workflow runs and combined commit status had no statuses. **No CI pass is claimed for PR #405.**
+- PR #405 is OPEN/Draft, base `main` SHA `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`, head `59951fb247a6251b1693d5f0bc807c96480f7424`, 2 commits ahead / 0 behind. Exact-head Astra Verify run [39377730257](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39377730257) and Astra Cloud Runtime Validation run [39377730292](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39377730292) are both SUCCESS. Astra Verify steps confirmed compile, Cloud admission unit tests and signed-command smoke test passed. Combined commit status API returned no status objects, so workflow run results are the available CI evidence.
 
 ## Primary source finding
 
@@ -51,4 +51,4 @@ Read-back after write:
 
 PR #405 is defense in depth only. `contents: read` plus `persist-credentials: false` reduces the workflow-token path but does not prove direct pushes impossible if a self-hosted runner has ambient Git/SSH credentials. The worker's direct push implementation remains in source. The next architectural step is an accepted trusted admission boundary plus artifact-only worker output and a separately authorized publisher; do not wire PR #400's verifier into execution until issuer/key provenance, expected bindings, cancellation, replay, revocation and recovery semantics are accepted.
 
-Do not merge PR #405 until its CI is exposed and green, exact-head read-back remains correct, and independent security review addresses ambient runner credentials. No worker was dispatched, no provider or secret was accessed, and no merge/deployment/qualification occurred. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+Do not merge PR #405 until its CI is exposed and green, exact-head read-back remains correct, and independent security review addresses ambient runner credentials. Added COMMENT review on PR #405 (review ID `5581284442`), explicitly recording the residual ambient-credential and unintegrated-admission risks. No worker was dispatched, no provider or secret was accessed, and no merge/deployment/qualification occurred. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
