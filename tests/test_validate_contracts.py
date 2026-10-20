@@ -46,6 +46,35 @@ class Draft202012ValidationTests(unittest.TestCase):
         })
         self.assertFalse(validate_contracts.validate_schema(path))
 
+    def _metadata_schema(self, schema_version):
+        return {
+            "$schema": validate_contracts.DRAFT_2020_12,
+            "$id": "https://example.invalid/metadata-schema",
+            "type": "object",
+            "properties": {
+                "schema_id": {"type": "string"},
+                "schema_version": schema_version,
+                "owner": {"type": "string"},
+            },
+        }
+
+    def test_boolean_schema_version_metadata_fails_closed(self):
+        # Boolean subschemas are valid Draft 2020-12, but are not a valid
+        # declaration of the required string-valued metadata version.
+        path = self.write_schema(self._metadata_schema(False))
+        with self.assertRaises(SystemExit):
+            validate_contracts.validate_schema(path)
+
+    def test_non_string_schema_version_const_fails_closed(self):
+        # The JSON Schema meta-schema allows a number-valued const under a
+        # string type; the metadata envelope must reject this contradiction.
+        path = self.write_schema(self._metadata_schema({
+            "type": "string",
+            "const": 42,
+        }))
+        with self.assertRaises(SystemExit):
+            validate_contracts.validate_schema(path)
+
     def test_format_checker_accepts_valid_date_time(self):
         schema = {"type": "string", "format": "date-time"}
         validator = validate_contracts.build_validator(schema)
