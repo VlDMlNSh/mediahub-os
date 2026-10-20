@@ -62,3 +62,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Canonical documentation branch: `docs/mediahub-chat-tree-map-20261012`.
 - Mainline latest commit observed during this pass: `80be45a70732b1d568164571d4273a6397792c3b` (transport-controller contract regression tests; this does not by itself prove child workflow runtime behavior).
 - Report and index files were re-read from GitHub; each contained the Wave 220 entry and expected failure diagnosis.
+
+
+## Wave 221 — agent checkpoint correction pass (2026-10-20)
+
+- Corrected three existing agent draft checkpoints/PR descriptions and re-read the exact files/SHAs:
+  - PR #416 head `1dba44a9a6e63d27d79f24471ee31e82bc075660`: marks the literal `authority.state_authority: A0-ASTRA` field as a governance inconsistency; does not silently reinterpret or mutate the schema.
+  - PR #417 head `58bf18fd74488bb76bd699b1f5b17906a41fc506`: withdraws unsupported provenance-pass claims; candidate commits and license files remain unverified, no component selected.
+  - PR #418 head `550d9f1a35a22de4ae4c8ff1f5350d081b7227e7`: corrects the scope to the GitHub Actions transport/child workflows; records unique-correlation, token-scope and supply-chain risks.
+- All three PRs #416/#417/#418 have exact-head `validate` and `verify` PASS, but remain Draft/not accepted. The passing checks validate the documentation branch, not architecture acceptance or runtime qualification.
+- Wave 221 report addendum is in [runtime qualification report](MEDIAHUB-CONTOUR-A-GITHUB-TRANSPORT-RUNTIME-QUALIFICATION-WAVE-217-2026-10-20.md), current blob SHA pending read-back. Canonical map blob SHA `baa715602545461fc24afc9e8a8e1d83d9099425`; documentation commit `a07fa06ec33704ba6799ca908ce9ffe21225bfac`.
+- Next: formalize a governance/change-control proposal for the qualification schema's contradictory A0 state_authority field; harden controller correlation with a unique batch nonce; pin child action/container dependencies to reviewed immutable refs. Contour A remains NOT_PROVEN / BLOCKED pending remaining G0–G11 gates and independent acceptance.
