@@ -357,3 +357,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Documentation branch drift against main: 2699 ahead / 44 behind; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase attempted.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Wave 253 map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-253-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-253-2026-10-20.md)
+
+
+## Latest continuation — Wave 254 (2026-10-20): autonomous agent gate
+
+- Report: [MEDIAHUB-CLOUD-AGENT-AUTONOMOUS-USE-GATE-WAVE-254-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-AUTONOMOUS-USE-GATE-WAVE-254-2026-10-20.md), creation commit `6cc6ef92fb73bc6bf2110adc1f9e560034c74488`.
+- Owner direction confirms that routine use of three Gemini agents is an intended Contour A capability, not a permanent prohibition: [Issue #301 clarification](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6289835713). The hold applies to the controller security transition only; independent engineering continues.
+- Draft PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421), candidate `897cb35e3260acff0b82507a7f14c0cbdb85f14e`, base `main` `80be45a70732b1d568164571d4273a6397792c3b`, 17 ahead / 0 behind. Exact-head [Astra Cloud Runtime Validation #39415544745](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39415544745) and [Astra Verify #39415544760](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39415544760) completed SUCCESS.
+- Contract tests now reject untrusted controller refs and loose path predicates; test blob `e2db063519c2ffb5e39762ebba5d854837158933`, test commit `897cb35e3260acff0b82507a7f14c0cbdb85f14e`.
+- Remaining: independent review by a different identity; controlled negative caller-context runtime test (the available connector has no workflow-dispatch operation); branch-protection/governance integration; immutable action/container provenance. No agent launch, secret access, merge, deployment, or qualification in this wave.
+- Wave 254 map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-254-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-254-2026-10-20.md).
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
