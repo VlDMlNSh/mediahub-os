@@ -296,3 +296,11 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - PR #421 remains Draft/unmerged and the review API showed no submitted reviews. Existing exact-head CI is recorded at runs [39414529957](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39414529957) and [39414529912](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39414529912). The negative caller-context test remains open. No agent was launched in this wave.
 - Preserve sole route: GitHub-hosted controller `.github/workflows/gemini-batch-dispatch-controller.yml` → fixed-scope children; no SentinelX/server/local CLI/ad-hoc/alternate transport. Never expose `MEDIAHUB_GITHUB_TOKEN`; never use `secrets: inherit`; no bypass of capability, budget, provider, review, or acceptance gates.
 - Wave report: [Wave 244](../checkpoints/MEDIAHUB-CLOUD-AGENT-AUTONOMY-CLARIFICATION-WAVE-244-2026-10-20.md). Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+### Wave 244 final policy/bootstrap reconciliation
+
+- Current binding policy blob SHA: `f6a7598e2565703e04d5836c3684818136913b18`.
+- Current Bootstrap blob SHA: `0738dc5abb5cb8c00819628289bb5d90ae193900`.
+- Owner clarification: routine controller-only runs may proceed after PR #421 passes independent review, exact-head checks, caller-guard/secret-boundary review and controlled negative caller-context test, then integrates through project governance. No separate per-run owner prompt is required after those gates; `confirm: yes` remains mandatory.
+- PR #421 is still Draft/unmerged, so the new workflow_call route is not active on `main` and no agent run is authorized yet by this clarification.
