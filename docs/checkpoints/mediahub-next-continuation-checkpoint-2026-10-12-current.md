@@ -439,3 +439,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Next: verify exact-head CI results; obtain independent review and authorized branch-protection verification; then build a non-invoking negative caller-context runtime test.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 
+
+
+## Wave 260 — cloud-pool-first Contour A sequencing (2026-10-20)
+
+- Owner-directed sequence recorded in [Wave 260 report](MEDIAHUB-CLOUD-POOL-SEQUENCING-WAVE-260-2026-10-20.md), report blob SHA `efedb05abb4298b53b2021ba32e5e49de6a49047`.
+- Map addendum: [Wave 260](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-260-2026-10-20.md), blob SHA `f625684dd8fac33ae131c58d7d7ff96c787599b0`.
+- Intended order: (1) finish the remaining safety/review gates for the three Gemini child workflows and controller; (2) perform one bounded evidence-producing Gemini batch; (3) inventory existing cloud-agent candidates and qualify/admit them incrementally behind the same GitHub-hosted controller; (4) deploy and independently qualify the cloud pool; (5) only then design, qualify and deploy local executors and Jarvis; (6) Contour B only after Contour A deployment and independent acceptance.
+- This changes sequencing emphasis, not authority boundaries. It does not waive Issue #301 gates, provider admission checks, budget restrictions, security controls, independent review or deployment acceptance.
+- Latest verified PR #421 head `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`; exact-head checks #39425009654 and #39425009644 SUCCESS. PR remains Draft/open; independent review absent; branch protection API returns 403. No Gemini dispatch, secret access, merge, deployment or qualification in Wave 260.
+- Next: close PR #421's independent-review and non-invoking caller-context evidence gates, while inventorying cloud-agent candidates from existing source docs without invoking new providers.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
