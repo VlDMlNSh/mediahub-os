@@ -428,3 +428,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Next: obtain genuine independent review and authorized branch-protection verification; then produce a controlled negative caller-context runtime test with no Gemini invocation. Only after these gates pass, consider a bounded live-agent batch.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 
+## Latest continuation — Wave 259 (2026-10-20): explicit controller confirmation gate
+
+- Report: [MEDIAHUB-CONTROLLER-CONFIRMATION-GATE-WAVE-259-2026-10-20.md](MEDIAHUB-CONTROLLER-CONFIRMATION-GATE-WAVE-259-2026-10-20.md), commit `186bc434b7f92627aa010d4fe5b9a1e9ddebaa20`.
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-259-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-259-2026-10-20.md), commit `8e20675c8efb1806dc49254e75c6535b86785629`.
+- Added `test_controller_jobs_are_all_gated_by_explicit_yes` to the contract test suite. Test blob `5e9f9db8e033ab861d8fde93512f040b9f99459e`; feature branch commit `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`.
+- Exact-head [Astra Cloud Runtime Validation #39425009654](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009654) and [Astra Verify #39425009644](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39425009644) were queued at the time of inspection. Do not treat earlier-head CI as proof for this commit.
+- This is static contract hardening, not runtime caller-context evidence. No Gemini agent was launched; no secrets accessed; no merge, deployment, or Contour A qualification.
+- Independent review remains absent; branch-protection verification remains blocked by API 403.
+- Next: verify exact-head CI results; obtain independent review and authorized branch-protection verification; then build a non-invoking negative caller-context runtime test.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
