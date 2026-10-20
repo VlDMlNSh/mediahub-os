@@ -72,12 +72,25 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
     def test_current_contract_is_valid(self):
         self.assertEqual(contract_errors(self.controller, self.children), [])
 
+    def test_trusted_controller_context_matrix(self):
+        trusted = TRUSTED_CONTROLLER_REF
+        self.assertTrue(caller_ref_allowed("workflow_dispatch", trusted))
+
+        untrusted_contexts = (
+            ("workflow_call", trusted),
+            ("push", trusted),
+            ("workflow_dispatch", trusted.replace("@refs/heads/main", "@refs/heads/feature/untrusted")),
+            ("workflow_dispatch", trusted.replace("VlDMlNSh/mediahub-os", "attacker/mediahub-os")),
+            ("workflow_dispatch", trusted.replace("gemini-batch-dispatch-controller.yml", "gemini-agent-2.yml")),
+            ("workflow_dispatch", trusted.replace("@refs/heads/main", "@refs/tags/main")),
+        )
+        for event_name, workflow_ref in untrusted_contexts:
+            with self.subTest(event_name=event_name, workflow_ref=workflow_ref):
+                self.assertFalse(caller_ref_allowed(event_name, workflow_ref))
+
     def test_negative_fixture_rejects_untrusted_controller_ref(self):
         trusted = TRUSTED_CONTROLLER_REF
         untrusted = trusted.replace("@refs/heads/main", "@refs/heads/feature/untrusted")
-        self.assertTrue(caller_ref_allowed("workflow_dispatch", trusted))
-        self.assertFalse(caller_ref_allowed("workflow_dispatch", untrusted))
-        self.assertFalse(caller_ref_allowed("workflow_call", trusted))
         bad = list(self.children)
         bad[0] = bad[0].replace(trusted, untrusted)
         self.assertIn("child 1 must pin the trusted controller ref", contract_errors(self.controller, bad))
