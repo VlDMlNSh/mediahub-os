@@ -3,7 +3,22 @@
 Created: 2026-10-12
 Purpose: Resume this exact project state in a new chat when the user sends /next.
 
-## Latest continuation — Wave 278 (2026-10-20)
+## Latest continuation — Wave 280 (2026-10-20)
+
+- Source report: [Worker generic gateway fallback and route-admission fix](MEDIAHUB-CONTOUR-A-WORKER-GENERIC-GATEWAY-FALLBACK-WAVE-280-2026-10-20.md), report blob `fd381958e03d531a8717dea28e79ac9a08bc1141`; report traceability commit `4bfe9e17f13a6de98b09c995bdf0d91184710233`.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 280 entry, blob SHA `017d779e2183dde8bd68f2ea1758b9921feccc94`; map index commit `4e96b4cdea9d188a29ddfc447415c26206c40fda`.
+- Master Roadmap Wave 280 addendum: blob SHA `bf9dbf346bc6c7473c4f54c7b8cc6a2a8ab1a308`; update commit `4bc4f023422e439ab3f31eb1fd9b8d40955f6d6e`.
+- Current refs: `main` remains `80be45a70732b1d568164571d4273a6397792c3b`; docs branch before checkpoint refresh was `4bc4f023422e439ab3f31eb1fd9b8d40955f6d6e`. Compare remains highly divergent (2,863 ahead / 44 behind at the last comparison; merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`, response limited to 300 file records). Do not wholesale merge/rebase.
+- [PR #425](https://github.com/VlDMlNSh/mediahub-os/pull/425) is OPEN/DRAFT/UNMERGED, head `ce44a47b0d327a5cca9593e529fe97b492ffaa4a`. Exact-head Astra Verify #39453835133 and Astra Cloud Runtime Validation #39453835149 succeeded; independent review remains absent.
+- Source defect: node worker's generic branch passed a dict to `AstraGatewayRuntime.run_bounded()`, whose contract requires `AstraTaskRequest`, then attempted to JSON-publish the failed dataclass result before marking the command consumed. The same fallback instantiated a host-side cloud-first provider route not admitted for cloud agents. PR #425 removes the fallback and fails closed for `research`, `architecture`, `review`, `documents`, `coding`, and `coding_v2` before gateway import. It does not enable a replacement route.
+- [PR #421](https://github.com/VlDMlNSh/mediahub-os/pull/421) remains OPEN/DRAFT/UNMERGED with CI successes, but independent review, caller-guard/secret-boundary review and the non-launching negative context test are open. [PR #423](https://github.com/VlDMlNSh/mediahub-os/pull/423) remains the single OPEN/DRAFT retirement proposal; [PR #422](https://github.com/VlDMlNSh/mediahub-os/pull/422) is closed as its duplicate and was not merged. [PR #424](https://github.com/VlDMlNSh/mediahub-os/pull/424) is the separate documentation-branch secret-gate mirror repair and remains unmerged.
+- Wave 276 Task Ingress remains a latent trust/admission-contract gap before wiring: the resident service does not call `FileTaskIngress` in the inspected source, and external caller/writer/ACL/approval verifier remain unknown. Keep signed node control-command, A0 mission/task envelope and Product State Authority distinct.
+- No live host command, host/secret access, provider/model call, Gemini dispatch, merge, deployment, route qualification or acceptance occurred. CI checks on PR #425 passed; Contour A still **NOT_PROVEN / BLOCKED** and Contour B remains gated.
+- **Next:** obtain independent review of PR #425; keep it Draft/unmerged until required checks and review pass. Continue separate PR #421 controller/secret/caller-context gates. Re-enable no generic host-side gateway shortcut; a new provider-safe executor path must be separately admitted.
+
+---
+
+## Previous continuation — Wave 278 (2026-10-20)
 
 - Wave 278 report: [ASTRA A0 vs Product State Authority cross-contract audit](MEDIAHUB-ASTRA-GOLD-A0-VS-PRODUCT-STATE-AUTHORITY-CROSSWALK-WAVE-278-2026-10-20.md), blob SHA `f712a39a94191e0f7b5a60ad9ba15b6d75e8cd71`.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), blob SHA `be89e71f6fdd69856cc61fadad90c82cd52c07cd`, Wave 278 map commit `876b4f4febbe69951cfb6121a2a468278eecbd78`.
