@@ -7537,3 +7537,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) is still Draft and unmerged. Re-check its moving head and CI before relying on previous run results.
 - Do not treat release-asset checksums or a digest for a different image/version as the MCP container manifest digest. Pin only after the exact `v0.27.0` image digest is independently verified.
 - No Gemini launch, secret access, merge, deployment, or Contour A qualification was performed in Wave 255.
+
+
+## Contour A controller revalidation — Wave 256 (2026-10-20)
+
+- [Wave 256 revalidation report](../checkpoints/MEDIAHUB-CONTROLLER-REVALIDATION-WAVE-256-2026-10-20.md), created in commit `01e1bfa231532b5b4656b4e05ab06fad93e043cc`.
+- PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) moved after Wave 255 to head `d25cad4343126e6f6770247d48abec1c7f6c2b9b`; it remains Draft/unmerged.
+- Exact-head [Cloud Runtime Validation #39416621016](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416621016) and [Astra Verify #39416620952](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416620952) both report SUCCESS.
+- The three child workflows are digest-pinned, but the mapping from `cbca61d547beec9b819b26bbfe6ac66ba6b373f1d6b64e8291e346bf524633e2` to the intended `v0.27.0` release remains unverified. Do not qualify it without authoritative package/version metadata or trusted attestation.
+- Independent review, controlled negative caller-context runtime test, and governance integration remain open. No agent launch, secret access, merge, deployment, or qualification.
