@@ -48,3 +48,10 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - PR head `2016c1c99a44cbf9b700d0a1eba777a9964fed09`; child workflow blob SHAs: Agent 1 `e3de99ec9299b33a9c12e126aba785d55cfb71d9`, Agent 2 `75d9db95a9ccb75e5dfaba373f6d6ac77883fe11`, Agent 3 `b730bfb426450cda45a4252db6b4e370959e2061`.
 - Read-back confirms the new steps and unchanged fail-closed validator. Exact-head CI was in progress when checked; not yet accepted. No agent rerun or merge.
 - Raw stdout/tool arguments are deliberately not copied to the new artifact; it contains only run metadata, booleans, and tool-name success/failure counts. Controlled runtime failure-path validation is still required.
+
+
+### Wave 221 CI result update
+
+- PR #420 exact head `2016c1c99a44cbf9b700d0a1eba777a9964fed09`: associated Astra Cloud Runtime Validation run `39399830230` and Astra Verify run `39399830302` both completed with `success`.
+- These are general repository checks, not dedicated workflow YAML lint or a controlled Gemini failure-path run. The PR remains a proposal; no merge, agent rerun, or qualification.
+- Report updated with exact job IDs and verification boundary.
