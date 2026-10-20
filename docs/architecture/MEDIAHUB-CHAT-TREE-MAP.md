@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 280; fail-closed generic worker gateway fallback admission fix)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 282; exact-head review of fail-closed generic gateway route admission)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7711,3 +7711,13 @@ The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee
 - The negative context matrix is mock/static evidence only. No actual non-Gemini GitHub Actions caller-context probe has demonstrated GitHub's runtime values inside a reusable-workflow run. Dispatch authorization gate remains PARTIAL/OPEN.
 - Related PRs: #425 generic host-side gateway fallback guard (CI success, review open), #423 old-server workflow retirement (CI success, review open), #424 docs-branch worker secret-regex restoration (separate base, CI not evidenced at last check). PR #422 is closed as an unmerged duplicate of #423.
 - No model/provider invocation, host/secret access, workflow dispatch, merge, deployment, qualification or acceptance occurred. Contour A remains NOT_PROVEN/BLOCKED; Contour B remains gated.
+
+
+## Wave 282 — worker generic-gateway route admission (2026-10-20)
+
+- Report: [Wave 282 worker gateway route-admission audit](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-GATEWAY-ROUTE-ADMISSION-WAVE-282-2026-10-20.md).
+- Candidate PR [#425](https://github.com/VlDMlNSh/mediahub-os/pull/425) is OPEN/DRAFT/UNMERGED at `ce44a47b0d327a5cca9593e529fe97b492ffaa4a`, based on main `80be45a70732b1d568164571d4273a6397792c3b`. Exact diff: `astra_github_agent.py` and `tests/test_astra_github_gateway_route_admission.py`.
+- Source and regression test were re-read; the generic `AstraGatewayRuntime().run_bounded({...})` fallback is absent. Six generic language operations fail closed before gateway import, and tests use a mock import interceptor. Exact-head Astra Verify #39453835133 and Astra Cloud Runtime Validation #39453835149 succeeded. No independent review was submitted.
+- Keep #425 Draft/unmerged until independent review. Passing these checks does not qualify live nodes or enable Gemini dispatch; PR #421 has separate caller/secret-boundary and actual non-launching GitHub caller-context requirements.
+- The A0 task ingress issuer/approval gap documented in Wave 276 remains unresolved at source/governance level; this pass did not alter those semantics. No provider call, workflow dispatch, host/secret access, merge, deployment, qualification or acceptance occurred. Contour A remains NOT_PROVEN/BLOCKED; Contour B remains gated.
+- Continuation checkpoint: [current checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); Master Roadmap contains the Wave 282 addendum.
