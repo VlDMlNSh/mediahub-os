@@ -48,6 +48,14 @@ def test_canonical_three_executor_tasks_are_ready_and_disjoint():
     assert all(len(t["boundary"]) == 1 and t["boundary"][0].startswith("docs/operations/") for t in tasks)
 
 
+def test_worker_workflow_uses_read_only_token_without_persisted_credentials():
+    workflow = Path('.github/workflows/astra-distributed-local-worker.yml').read_text(encoding='utf-8')
+    assert 'contents: read' in workflow
+    assert 'contents: write' not in workflow
+    assert workflow.count('persist-credentials: false') == 3
+    assert 'persist-credentials: true' not in workflow
+
+
 def test_worker_workflow_enforces_claude_only_executor_identity():
     workflow = Path('.github/workflows/astra-distributed-local-worker.yml').read_text(encoding='utf-8')
     assert 'test "${ASTRA_EXECUTOR}" = "claude"' in workflow
