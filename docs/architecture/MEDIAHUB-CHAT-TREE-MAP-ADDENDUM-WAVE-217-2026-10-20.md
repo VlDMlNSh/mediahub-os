@@ -279,3 +279,11 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Binding policy updated to blob `e872ce09074c259beee0cbc8e7fbe6def4ef5f06`; Bootstrap updated to blob `beb0de42af395d99acc1c63c8a1293524598cac8`; Wave report: [Wave 243 report](../checkpoints/MEDIAHUB-CLOUD-AGENT-CONTROLLER-ONLY-IMPLEMENTATION-WAVE-243-2026-10-20.md).
 - **Status:** PR remains Draft/unmerged and no independent review is recorded. Independent review must verify reusable-workflow caller context, guard behavior, permission ceiling, and secret flow. A controlled negative caller-context test is still a gate. **No cloud-agent workflow was launched. Dispatch remains ON HOLD** until review/integration gates pass and a separate live-run authorization is recorded.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md) · [Bootstrap](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md) · [Checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md) · [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+
+
+### Wave 243 final policy/bootstrap read-back
+
+- Binding policy final blob SHA: `301c100a494646fe376e26a3f39fea5f42590968`.
+- Bootstrap final blob SHA: `9718e645ce21df2cbdb5ceb2daf1ec5828185227`.
+- Final Wave 243 report blob SHA: `8e416575158d360b3397e9de0fb39ba0d1ecfb42`.
+- Current `main` remains the legacy REST-dispatch implementation and stays ON HOLD. PR #421 is the proposed `workflow_call` design; the governance approval covers implementation only. Even after integration, a separate live-run authorization is required.
