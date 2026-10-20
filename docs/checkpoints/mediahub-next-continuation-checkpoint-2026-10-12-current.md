@@ -472,3 +472,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Direction: evaluate ready-made multi-agent frameworks, provider router, durable state/queue, evidence/audit and corporation role/task/review/budget components; reuse before custom code. Frameworks stay subordinate to issuer/capability and MediaHub authority boundaries.
 - No component install, provider call, agent dispatch, secret access, merge, deployment or qualification occurred. Next: build source-backed component matrix and mock-provider tests, map provider-registry consumers, and prioritize router fail-closed/atomicity/security requirements.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 262 (2026-10-20): GitHub-cloud-only pool / local Jarvis separation
+
+- Report: [MEDIAHUB-GITHUB-CLOUD-ONLY-POOL-AND-LOCAL-JARVIS-BOUNDARY-WAVE-262-2026-10-20.md](MEDIAHUB-GITHUB-CLOUD-ONLY-POOL-AND-LOCAL-JARVIS-BOUNDARY-WAVE-262-2026-10-20.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-262-2026-10-20.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-262-2026-10-20.md).
+- Owner-confirmed boundary: all cloud-pool orchestration, execution, coordination, artifacts and evidence use GitHub-hosted cloud components, initially GitHub Actions + ephemeral GitHub-hosted runners. No self-hosted runners, VPS, user hardware, always-on listener, SentinelX host or local workstation as a pool dependency. External model APIs may be called only as authorized model endpoints from GitHub-hosted jobs; not as alternate orchestration infrastructure.
+- Local servers are reserved exclusively for Jarvis/local compute and are not dependencies of Contour A. Local executor/Jarvis deployment follows cloud-pool deployment and independent acceptance. Contour B remains blocked until Contour A independent acceptance.
+- Issue #301 is OPEN and describes ephemeral GitHub-hosted workers, outbound HTTPS and runtime-only secrets; schema Draft 2020-12 validation/negative fixtures remain open; CAF-Q-001…015 are documentary, not a live scheduler. Controller workflow source blob on main: `99e5a87825aeb239568f96ecef004a102ff3e53b`; PR #421 remained OPEN/Draft at last check. No dispatch authorization was inferred.
+- No workflow/provider call, secret access, server use, installation, merge, deployment or qualification occurred. Next: provider registry consumer census, reusable component matrix filtered to GitHub-hosted-only, and mock-provider/schema/evidence tests; record any GitHub-native capability gap and seek governance before introducing external infrastructure.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
