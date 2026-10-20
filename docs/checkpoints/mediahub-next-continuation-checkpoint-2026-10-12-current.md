@@ -505,3 +505,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Invariants: A0 owns ASTRA queue/claim/lease/recovery for hybrid tasks; Route A needs an explicit local queue owner and authenticated issuer/capability; no dual claim without fencing/handoff; cloud pool must not depend on Mac mini; local-only never silently falls back to cloud; A3 remains independent; no Product State Authority transfer.
 - Next: continue WB-14B/C/D to trace authenticated Jarvis→A0 ingress and typed AuthorizationContext issuer, then produce route responsibility/lifecycle matrix and static negative tests. No dispatch, host inspection, provider call, test execution, merge, deployment or qualification occurred.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+## Wave 265 — A0 multi-tier routing and Alamo local-only Claude (2026-10-20)
+
+- Owner-directed hard requirements: ASTRA GOLD A0 decomposes hybrid missions into bounded dependency-aware subtasks and distributes eligible work among (1) the GitHub-hosted cloud-agent pool, (2) admitted user-owned MediaHub devices/instances, and (3) admitted local executors.
+- Claude is exclusively a local executor on Alamo. Anthropic API/hosted inference and silent cloud fallback are forbidden for Claude work. The exact local runtime/backend is not yet proven; do not equate the Claude Code client with a locally hosted model.
+- A0 owns hybrid queue/claim/lease/dependency/retry/cancel/recovery and cross-route reconciliation. Executors return results/evidence and do not gain ASTRA or Product State Authority. User-owned MediaHub is a distinct destination class with admission, identity, issuer/capability, data locality/egress, budget/quota, revocation, and evidence controls.
+- Cloud pool must not depend on Alamo. A separately retained direct-local Jarvis route needs its own authorization and queue lifecycle and cannot bypass A0 for hybrid missions. No task may be active in multiple routes without explicit handoff/fencing. Unknown authority/destination fails closed.
+- Report: [Wave 265](MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-ALAMO-LOCAL-CLAUDE-REQUIREMENTS-WAVE-265-2026-10-20.md), report creation commit `4a9b08d214550c185e523fa86725f7d6a3b285b5`.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), updated blob SHA `c91681dc08b7233e3d52a14dd722942181178ea7`; map update commit `90fb3e5d92216ff6630f17dc10b7f03f6368c458`.
+- State: target architecture requirement recorded; not implemented/tested/qualified/deployed/accepted. No provider invocation, secret access, host inspection, dispatch, or merge occurred.
+- Next: reconcile accepted A0 ingress/AuthorizationContext and existing mission/task/destination schemas; create static negative fixtures proving Alamo Claude cannot select Anthropic API or cloud fallback.
