@@ -1,18 +1,34 @@
 name: MediaHub Contour A — Gemini GitHub transport batch
 
-run-name: Gemini controller-only batch — Wave 243
+run-name: Gemini controller-only batch — Wave 292
 
 on:
   workflow_dispatch:
     inputs:
+      mode:
+        description: "Use the no-secret caller-context probe by default; agent execution is a separate explicit mode"
+        required: true
+        type: choice
+        options:
+          - "probe"
+          - "agents"
+        default: "probe"
       confirm:
-        description: "Explicitly confirm starting three bounded Gemini jobs"
+        description: "Explicitly confirm starting three bounded Gemini jobs (agents mode only)"
         required: true
         type: choice
         options:
           - "no"
           - "yes"
         default: "no"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/gemini-batch-dispatch-controller.yml"
+      - ".github/workflows/gemini-autonomous-engineering.yml"
+      - ".github/workflows/gemini-agent-2.yml"
+      - ".github/workflows/gemini-agent-3.yml"
+      - "tests/test_gemini_controller_positive_context_probe_wave292_contract.py"
 
 # Caller permissions are the ceiling for reusable workflows. No transport token
 # is needed: child workflows execute as jobs in this same controller run.
@@ -24,7 +40,7 @@ concurrency:
 
 jobs:
   agent1:
-    if: inputs.confirm == 'yes'
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'
     name: Agent 1 — bounded engineering
     uses: ./.github/workflows/gemini-autonomous-engineering.yml
     with:
@@ -44,7 +60,7 @@ jobs:
       issues: read
 
   agent2:
-    if: inputs.confirm == 'yes'
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'
     name: Agent 2 — research and architecture
     uses: ./.github/workflows/gemini-agent-2.yml
     with:
@@ -63,7 +79,7 @@ jobs:
       issues: read
 
   agent3:
-    if: inputs.confirm == 'yes'
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'
     name: Agent 3 — security and verification review
     uses: ./.github/workflows/gemini-agent-3.yml
     with:
@@ -82,8 +98,62 @@ jobs:
       pull-requests: write
       issues: read
 
+  probe:
+    if: >-
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'probe')
+    name: No-secret reusable caller-context probe
+    uses: ./.github/workflows/gemini-autonomous-engineering.yml
+    with:
+      task: "Wave 292 probe only: observe the actual controller caller context. Do not perform engineering work."
+      base_ref: main
+      scope: contour-a
+      probe_only: true
+    permissions: {}
+
+  assert_probe_context:
+    if: always() && (github.event_name == 'pull_request' || inputs.mode == 'probe')
+    name: Assert positive dispatch or negative PR caller context
+    needs: probe
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Assert caller context and emit safe evidence
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          OBSERVED_EVENT_NAME: ${{ needs.probe.outputs.caller_event_name }}
+          OBSERVED_WORKFLOW_REF: ${{ needs.probe.outputs.caller_workflow_ref }}
+          OBSERVED_TRUSTED_CONTROLLER: ${{ needs.probe.outputs.caller_trusted_controller }}
+          TRUSTED_CONTROLLER_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
+        run: |
+          set -euo pipefail
+          printf 'Caller event: %s\\n' "$OBSERVED_EVENT_NAME"
+          printf 'Caller workflow ref: %s\\n' "$OBSERVED_WORKFLOW_REF"
+          printf 'Trusted controller: %s\\n' "$OBSERVED_TRUSTED_CONTROLLER"
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            [[ "$OBSERVED_EVENT_NAME" == "workflow_dispatch" ]]
+            [[ "$OBSERVED_WORKFLOW_REF" == "$TRUSTED_CONTROLLER_REF" ]]
+            [[ "$OBSERVED_TRUSTED_CONTROLLER" == "true" ]]
+          else
+            [[ "$EVENT_NAME" == "pull_request" ]]
+            [[ "$OBSERVED_EVENT_NAME" == "pull_request" ]]
+            [[ "$OBSERVED_WORKFLOW_REF" == *"/.github/workflows/gemini-batch-dispatch-controller.yml@refs/pull/"* ]]
+            [[ "$OBSERVED_TRUSTED_CONTROLLER" == "false" ]]
+          fi
+          {
+            echo "## Non-launching controller caller-context probe"
+            echo
+            echo "- Trigger event: $EVENT_NAME"
+            echo "- Observed caller event: $OBSERVED_EVENT_NAME"
+            echo "- Observed workflow ref: $OBSERVED_WORKFLOW_REF"
+            echo "- Trusted controller: $OBSERVED_TRUSTED_CONTROLLER"
+            echo "- Provider secret mapped to probe: no"
+            echo "- Model/provider job reachable in probe mode: no"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   summarize:
-    if: always() && inputs.confirm == 'yes'
+    if: always() && github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'
     name: Fail-closed batch summary
     needs: [agent1, agent2, agent3]
     runs-on: ubuntu-latest
