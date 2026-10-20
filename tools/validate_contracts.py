@@ -73,8 +73,16 @@ def validate_common_metadata(path: Path, data: dict) -> bool:
 
     schema_version = properties["schema_version"]
 
+    # JSON Schema permits boolean subschemas. The metadata envelope, however,
+    # must explicitly constrain schema_version to a string or string constant.
+    if not isinstance(schema_version, dict):
+        fail(f"{path}: schema_version must be an object schema")
+
     version_type = schema_version.get("type")
     version_const = schema_version.get("const")
+
+    if "const" in schema_version and not isinstance(version_const, str):
+        fail(f"{path}: schema_version const must be a string")
 
     if version_type != "string" and not isinstance(version_const, str):
         fail(f"{path}: schema_version must be a string")
