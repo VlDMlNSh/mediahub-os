@@ -62,3 +62,12 @@ The repository's current report in [PR #404](https://github.com/VlDMlNSh/mediahu
 ## Current-session execution result
 
 No new run was started from this chat session: the GitHub connector exposes no workflow-dispatch mutation, and the available browser profiles have no recorded GitHub sign-in. The controller in PR #408 remains the proposed next step; it must be reviewed and merged under normal repository governance, then invoked through GitHub Actions with `confirm=yes`. Do not claim the historical runs were launched by this session.
+
+
+## Pull-request checks observed during this wave
+
+On controller PR #408 head `8fa1793a720f9fdfdb3aecc5d735963ccf72b002`, the repository reported:
+- [Astra Verify run #39391451564](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39391451564), job #118523694886: `success`.
+- [Astra Cloud Runtime Validation run #39391451551](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39391451551), job #118523694833: `success`.
+
+Both were tied to that exact head SHA. They cover the repository's current verification and runtime-validation suites, but neither executes this new controller or dispatches Gemini. Dedicated actionlint/YAML lint for the new workflow has not been run in this session, and runtime behavior remains unverified until the controller is merged and manually dispatched.
