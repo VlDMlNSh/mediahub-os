@@ -37,14 +37,14 @@ jobs:
       issues: read
     steps:
       - name: Checkout selected base for read-only workspace context
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ inputs.base_ref }}
           persist-credentials: false
 
       - name: Run official Gemini CLI action with GitHub MCP tools
         id: gemini
-        uses: google-github-actions/run-gemini-cli@v0
+        uses: google-github-actions/run-gemini-cli@f77273f4c914e4bf38440cf36a0369cb64a37489 # v0.1.22
         env:
           GEMINI_CLI_TRUST_WORKSPACE: 'true'
           GITHUB_TOKEN: ${{ github.token }}
