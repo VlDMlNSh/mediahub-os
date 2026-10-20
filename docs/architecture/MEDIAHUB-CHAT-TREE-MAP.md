@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 275; legacy workflow retirement drift and branch safety audit)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 276; A0 Task ingress issuer and approval trust-gap audit)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7636,3 +7636,14 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - Storage workflow source uses a self-hosted runner, `contents: write`, `rsync --delete`, source-path replacement, backup deletion and a push to `main`; run history and actual host/data state remain unverified. Do not dispatch either legacy workflow.
 - Continuation: [current checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); sequencing evidence in [Master Development Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
 - No workflow dispatch, model/provider call, secret access, host inspection, test, merge, deployment, qualification or acceptance occurred in this audit.
+
+
+## Wave 276 — A0 Task ingress issuer and approval trust-gap audit (2026-10-20)
+
+- Report: [A0 Task ingress, issuer and approval trust-gap audit](../checkpoints/MEDIAHUB-A0-TASK-INGRESS-ISSUER-AND-APPROVAL-TRUST-GAP-WAVE-276-2026-10-20.md).
+- Source snapshot on `main`: `runtime/mediahub_runtime/task_ingress.py` blob `59e1254aa61cc8f55f53bd1e179631e81c441393`; `runtime/mediahub_runtime/astra_gateway.py` blob `10985e4ad8f682313d08e7492ecc1856a8bce20f`.
+- The inspected local file ingress hard-codes `mediahub.ai.astra-task@1.0.0`, copies a caller-provided `approval_state` string into the runtime request, and does not validate a canonical Task Contract JSON Schema or issuer/approval attestation in the inspected path. The gateway's sensitive-action guard relies on that string equaling `approved`; the current external writer/inbox ACL/approval authority remains unknown. Treat this as a high-priority source-level trust gap, not proof of an exploit or live execution.
+- `runtime/mediahub_runtime/authorization.py` provides a default-deny allowlist over principal, capability and operation, but it is not called by the inspected Task ingress/gateway admission path.
+- Do not create or silently accept a new A0 authority schema. Trace the producer/writer and establish the governing issuer/approval record first; then add fail-closed static/mock-only tests ensuring no executor is called for missing, forged, expired, replayed or scope-mismatched approval evidence.
+- No code/test runtime was executed and no execution, host access, secret access, provider call, dispatch, merge, deployment, qualification or acceptance occurred. Contour A remains NOT_PROVEN / BLOCKED; Contour B is gated on Contour A deployment and independent acceptance.
+- Updated checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); Master Roadmap carries the Wave 276 addendum.
