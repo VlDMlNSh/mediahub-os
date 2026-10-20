@@ -12,7 +12,6 @@ CHILD_PATHS = (
 EXPECTED_SECRETS = ("GEMINI_API_KEY", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3")
 TRUSTED_CONTROLLER_REF = "VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main"
 TRUSTED_GUARD = "github.workflow_ref == '" + TRUSTED_CONTROLLER_REF + "'"
-TRUSTED_CONTROLLER_REF = "VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main"
 
 
 def caller_ref_allowed(event_name: str, workflow_ref: str) -> bool:
@@ -39,8 +38,10 @@ def contract_errors(controller: str, children: list[str]) -> list[str]:
             errors.append(f"child {index + 1} must not expose workflow_dispatch")
         if "MEDIAHUB_GITHUB_TOKEN" in child or "secrets: inherit" in child:
             errors.append(f"child {index + 1} violates secret isolation")
-        if ("github.workflow_ref == '" + TRUSTED_CONTROLLER_REF + "'") not in child:
+        if TRUSTED_GUARD not in child:
             errors.append(f"child {index + 1} must pin the trusted controller ref")
+        if "contains(github.workflow_ref" in child or "startsWith(github.workflow_ref" in child:
+            errors.append(f"child {index + 1} must not use a loose controller-ref predicate")
         if EXPECTED_SECRETS[index] not in child:
             errors.append(f"child {index + 1} must declare its explicit provider secret")
     for secret in EXPECTED_SECRETS:
@@ -92,7 +93,7 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
             "gemini-batch-dispatch-controller.yml@refs/heads/feature/untrusted'",
         )
         self.assertIn(
-            "child 1 must require the exact trusted main controller ref",
+            "child 1 must pin the trusted controller ref",
             contract_errors(self.controller, bad),
         )
 
@@ -104,7 +105,7 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
             "gemini-batch-dispatch-controller.yml@')",
         )
         errors = contract_errors(self.controller, bad)
-        self.assertIn("child 3 must require the exact trusted main controller ref", errors)
+        self.assertIn("child 3 must pin the trusted controller ref", errors)
         self.assertIn("child 3 must not use a loose controller-ref predicate", errors)
 
 
