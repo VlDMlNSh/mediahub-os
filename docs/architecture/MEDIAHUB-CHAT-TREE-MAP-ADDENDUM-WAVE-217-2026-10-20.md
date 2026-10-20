@@ -113,3 +113,12 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Still open: independent PR review and an authorized controlled failure-path test proving sanitized artifact upload after a Gemini action failure. Static CI is not runtime failure-path qualification. Do not redispatch Agent 2; no secret read, merge, deployment or Contour A qualification occurred.
 - Next: independent review, then authorized controlled failure-path test on the approved GitHub-hosted controller/child-workflow transport. Keep PR #420 Draft/unmerged until gates pass.
 - [Canonical project map](MEDIAHUB-CHAT-TREE-MAP.md) · [Bootstrap](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md) · [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md) · [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+
+
+## Wave 227 — cloud-agent single-path transport verification (2026-10-20)
+
+- Report: [Wave 227 transport verification](../checkpoints/MEDIAHUB-CLOUD-AGENT-TRANSPORT-SINGLE-PATH-VERIFICATION-WAVE-227-2026-10-20.md).
+- Re-read canonical transport policy blob `18c27e3f3be100da54b256cdc7d97a36e1fd753e` and Bootstrap blob `d54870c68633c3ff49f992647d46ea5fc7219a05`, including Bootstrap section 1B. The sole permitted cloud-agent launch path is GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` plus its fixed-scope child workflows. Controller dispatch/monitoring uses repository secret `MEDIAHUB_GITHUB_TOKEN`; never expose/pass the token to agents/models. Direct SentinelX/server/local CLI/ad-hoc/alternate transport is prohibited.
+- Governing Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301) already contains owner-directed rule comment [#6287381098](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6287381098) and Wave 226 synchronization comment [#6288415115](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6288415115).
+- Live PR #420 refresh: head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind main `80be45a70732b1d568164571d4273a6397792c3b`; Draft/unmerged; review API returned no submitted reviews. Exact-head CI runs #39402774891 and #39402774885 succeeded. Independent review and authorized controlled failure-path test remain open.
+- This is a binding project policy persisted in GitHub, but not proof that all alternate technical dispatch routes have been disabled by repository controls. No agent dispatch, secret read, merge, deployment, or qualification occurred in Wave 227.
