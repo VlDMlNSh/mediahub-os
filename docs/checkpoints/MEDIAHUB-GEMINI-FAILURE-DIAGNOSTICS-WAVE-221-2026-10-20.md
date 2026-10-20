@@ -62,3 +62,10 @@ Updated branch blob SHAs:
 - Agent 3: `026e59691281c27a43abe21109a8eb62f176fdc3`.
 
 Read-back confirms `job_id` is present and `job_status` absent in each file; the always-run diagnostic step, stop rule, and fail-closed validator remain present. The latest branch commit is `d34c6cd646b59e83d75bf338739722464577dd56`. New associated CI runs [39400178859](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178859) and [39400178898](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178898) were `in_progress` at the last check. Do not reuse earlier green CI as proof for this updated head. PR #420 remains open and unmerged; no independent review or controlled runtime failure test is recorded yet.
+
+
+### CI status refresh
+
+- Astra Cloud Runtime Validation [#39400178859](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178859) is now `success`.
+- Astra Verify [#39400178898](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39400178898) remained `in_progress` on job `118552633193`; compile passed and cloud admission unit tests were still running. Final result not yet observed.
+- These checks are associated with latest branch commit `d34c6cd646b59e83d75bf338739722464577dd56`; neither run is a dedicated workflow linter or controlled Gemini failure-path test.
