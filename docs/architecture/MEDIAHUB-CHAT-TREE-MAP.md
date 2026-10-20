@@ -7448,3 +7448,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - The worker source remains without issuer/capability/signature/replay/revocation checks in that file and retains a direct publication path as recorded in earlier source audits. A0 issuer/capability, replay/revocation, accepted target manifest, R-06, artifact-only worker output, separate trusted publisher and independent acceptance remain open.
 - SentinelX read-only inventory: Free plan limit 1, active 1, parked 0, available 0; only operational host is `Voktors-Mac-mini.local` (agent 0.22.0). `mh-dev-01` and `mh-dev-02` remain user-disabled; no host mutation occurred.
 - Status remains **NOT PROVEN / BLOCKED**; Contour B remains gated.
+
+
+## 20.374 — Wave 246: Gemini dispatch boundary and workflow credential-scope review (2026-10-20)
+
+- Report: [Wave 246 Gemini dispatch and credential-scope review](../checkpoints/MEDIAHUB-GEMINI-DISPATCH-CREDENTIAL-SCOPE-REVIEW-WAVE-246-2026-10-20.md).
+- Revalidated current refs: `main=1324f2f9e558a99c1d3e06eb9d955c0827214fe2`; docs branch before this update `ae45f7af63c9f7d8023cf0109a69029f82175fe5`; refs remain diverged (main 39 ahead, docs 2,561 ahead, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`). No merge/rebase.
+- Read all three A1/A2/A3 workflow definitions by source SHA. They use separate Gemini API secret names, do not reference `MEDIAHUB_GITHUB_TOKEN`, but expose a write-capable per-run `github.token` to the configured GitHub MCP server (`contents: write`, `pull-requests: write`, `issues: read`). `persist-credentials: false` does not remove this explicit MCP token path.
+- No new A1/A2/A3 dispatch was submitted: current GitHub connector has no workflow-dispatch action and neither available browser profile records a GitHub sign-in. No credential-bearing push-triggered workaround was created.
+- Issue #301 remains OPEN; PR #375/#388/#404 remain Draft/unmerged. Main combined-status query returned no status entries; this is not a pass. Source/CI evidence does not satisfy the worker artifact-only publisher boundary, A0 issuer/capability, replay/revocation or independent acceptance gates.
+- Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated.

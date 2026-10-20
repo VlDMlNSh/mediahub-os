@@ -5410,3 +5410,12 @@ Current main observed at 25033753415fcbecdc7b2fe53085ed1bf2e4b8b4. PR #375 = 12 
 - PR #375/#388/#400/#404/#405 remain OPEN/Draft/unmerged; exact-head CI success is documented in Wave 245 but heads are 6 commits behind current main and require safe reconciliation before integration. PR #406 is CLOSED/unmerged; temporary files are absent from main.
 - Worker-side publication and missing trusted issuer/capability, replay/revocation, accepted target manifest, R-06, artifact-only handoff, separate publisher, and independent acceptance remain blocking gates. SentinelX has one active Free-plan slot; only `Voktors-Mac-mini.local` is operational; two other enrolled hosts remain user-disabled.
 - No secret values were read or exposed; no worker was dispatched, no host changed, no PR merged, no deployment/qualification/acceptance performed. Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated.
+
+
+## Wave 246 — Gemini dispatch boundary and credential-scope review (2026-10-20)
+
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-GEMINI-DISPATCH-CREDENTIAL-SCOPE-REVIEW-WAVE-246-2026-10-20.md
+- A1/A2/A3 workflow source SHAs: `09523d809530ae5b7bf528eab5fa53bc5deaf92d`, `259c8c82b8d90a39e1c90e65390e469b241b5581`, `91b5397001e088dfae2f450ee77c9c23118b5601`. All three use separate Gemini API secrets; none references `MEDIAHUB_GITHUB_TOKEN`. Each passes the job's write-capable `github.token` to the GitHub MCP server, with job permissions `contents: write`, `pull-requests: write`, `issues: read`. Checkout credential persistence is disabled but the explicit MCP token path remains.
+- A1/A2/A3 were not dispatched in this pass: no supported dispatch action is exposed, and neither browser profile has GitHub listed as signed in. No workaround that embeds the broad PAT in a push-triggered workflow was created.
+- Next: use a confirmed authenticated GitHub Actions UI/API path, dispatch all three agents in parallel with distinct bounded tasks, and record exact run IDs/conclusions. Review resulting PRs against current main before considering integration.
+- Current state: **Contour A NOT PROVEN / BLOCKED**. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
