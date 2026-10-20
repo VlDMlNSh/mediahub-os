@@ -7427,6 +7427,10 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 
 - Wave 215 Gemini result update: A3 created Draft PR #393 (head 93853dd0ad82f59726a56be8d29e472aa3dcf310; report blob dee1e60cf23fd55d5aeafa1f3ed10215e089ea4e). Review comment 6277569380 requested correction of overclaims about explicit subprocess environments and shell-injection immunity; PR #393 remains unaccepted. At last Actions read-back A1 run 39325506829 and A2 run 39325510774 remained in progress; A3 run 39325515053 also reported in progress despite PR creation. See Wave 215 report.
 
+- Wave 216 (2026-10-20): [parallel Gemini dispatch and output review](../checkpoints/MEDIAHUB-CONTOUR-A-GEMINI-PARALLEL-DISPATCH-WAVE-216-2026-10-20.md). Direct child workflow runs 39394764964 and 39394776486 succeeded but their Draft PRs #409/#410 were sent back for unsupported authority/provenance claims; run 39394786983 failed output validation after free-tier Gemini quota exhaustion. This was not execution of the transport controller.
+
+- Wave 217 (2026-10-20): [GitHub Transport runtime qualification](../checkpoints/MEDIAHUB-CONTOUR-A-GITHUB-TRANSPORT-RUNTIME-QUALIFICATION-WAVE-217-2026-10-20.md). Controller PR #408, input fix #412 and task refresh #415 are merged. Controller blob `99e5a87825aeb239568f96ecef004a102ff3e53b` passed actionlint v1.7.7, YAML semantic assertions and embedded shell syntax; PR checks validate/verify passed for #412 and #415. Controller run 39396854829 was accepted by GitHub but remained pending with no jobs at the last observation; runtime dispatch through `MEDIAHUB_GITHUB_TOKEN` and child-run correlation are not yet verified.
+
 
 ## 20.372 — Large-map Git Database API update and current governance state (Wave 237, 2026-10-20)
 
