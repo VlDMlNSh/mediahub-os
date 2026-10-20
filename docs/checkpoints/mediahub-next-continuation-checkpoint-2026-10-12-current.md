@@ -516,3 +516,15 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), updated blob SHA `c91681dc08b7233e3d52a14dd722942181178ea7`; map update commit `90fb3e5d92216ff6630f17dc10b7f03f6368c458`.
 - State: target architecture requirement recorded; not implemented/tested/qualified/deployed/accepted. No provider invocation, secret access, host inspection, dispatch, or merge occurred.
 - Next: reconcile accepted A0 ingress/AuthorizationContext and existing mission/task/destination schemas; create static negative fixtures proving Alamo Claude cannot select Anthropic API or cloud fallback.
+
+## Wave 266 — Alamo Claude Code FCC authorization boundary (2026-10-20)
+
+- Owner clarification is now explicit: ASTRA GOLD A0 decomposes hybrid missions and routes bounded tasks across the GitHub-hosted cloud pool, admitted user-owned MediaHub devices/instances, and admitted local executors.
+- Claude Code execution for this route is local to Alamo. Anthropic API and paid Anthropic API credential/billing routes are forbidden; no silent cloud fallback.
+- FCC (fcc-claude) and similar specialized routers are candidate non-paid authorization/routing mechanisms only after proving the real upstream, auth/credential class, terms/policy compatibility, cost class, egress and Alamo host identity. “Free” is not proof of authorization and does not permit bypassing provider authentication, terms, limits or access controls.
+- Distinguish executor location from inference location: Claude Code/workspace on Alamo does not prove local model inference. Do not claim a local model without evidence.
+- Wave 266 report: [MEDIAHUB-A0-ALAMO-CLAUDE-FCC-AUTH-BOUNDARY-WAVE-266-2026-10-20.md](MEDIAHUB-A0-ALAMO-CLAUDE-FCC-AUTH-BOUNDARY-WAVE-266-2026-10-20.md).
+- Map addendum: [Wave 266 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-266-2026-10-20.md).
+- Existing routing source on main, blob af3d96fe91055af6ba79eded9c800d28d8c0c5c9, lists CLAUDE_FCC, CLAUDE_OMNIROUTE and CLAUDE_CODE_DIRECT but does not prove Alamo binding, non-paid auth or API exclusion.
+- Next: reconcile A0 ingress and typed issuer/AuthorizationContext with task/destination schemas; add static negative fixtures rejecting Anthropic API/paid credentials for Alamo Claude, unknown FCC/router variants and silent cloud fallback.
+- No provider/API call, secret access, host inspection, dispatch, test, merge, deployment or qualification was performed. Contour A remains NOT_PROVEN / BLOCKED.
