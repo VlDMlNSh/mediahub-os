@@ -29,7 +29,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertEqual(confirm["default"], "no")
         self.assertEqual(
             self.workflow["jobs"]["dispatch-and-verify"]["if"],
-            "${{ inputs.confirm == 'yes' }}",
+            "inputs.confirm == 'yes'",
         )
 
     def test_builtin_github_token_has_no_permissions(self):
