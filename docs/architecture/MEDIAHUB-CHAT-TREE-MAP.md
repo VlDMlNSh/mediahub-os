@@ -1,12 +1,14 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 282; exact-head review of fail-closed generic gateway route admission)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 283; owner-directed hard requirements for A0 three-pool routing and Claude free-only route)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
 - Статус карты: **ИНВЕНТАРИЗАЦИЯ / НЕ ПОЛНАЯ ПРИЁМКА**
 - Назначение: единая точка входа для восстановления дерева MH-01…MH-25 и предотвращения повторного поиска одних и тех же материалов.
+
+- Wave 283 (2026-10-20): [ASTRA GOLD three-pool routing and Claude free-route hard requirements](MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-HARD-REQUIREMENTS-WAVE-283-2026-10-20.md) and [Wave 283 audit report](../checkpoints/MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-REQUIREMENTS-AUDIT-WAVE-283-2026-10-20.md). Owner-directed target requirement; router and pool admission/qualification remain open.
 
 - Wave 279 (2026-10-20): [worker secret-gate regression restoration](../checkpoints/MEDIAHUB-CONTOUR-A-WORKER-SECRET-GATE-REGRESSION-RESTORATION-WAVE-279-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-279-2026-10-20.md).
 
