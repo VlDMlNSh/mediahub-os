@@ -63,3 +63,12 @@ The row definitions above are a **proposed semantic crosswalk for review**, not 
 This was a source/contract cross-read only. No local or CI test was run by this audit; referenced successes are existing GitHub Actions results. No provider/model calls, secret access, host/inbox inspection, workflow dispatch, PR merge, deployment, qualification or acceptance occurred.
 
 **Disposition:** design/semantic reconciliation required; runtime enforcement and Contour A remain **NOT_PROVEN / BLOCKED**. Contour B remains gated on Contour A deployment and independent acceptance.
+
+
+## Traceability and repository record
+
+- Canonical map Wave 278 entry: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), blob SHA `be89e71f6fdd69856cc61fadad90c82cd52c07cd`, update commit `876b4f4febbe69951cfb6121a2a468278eecbd78`.
+- Master Roadmap Wave 278 addendum: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); blob SHA `cbee94b3e3c3fbbec68f4ec090416b72f18eeaa4`, update commit `0729a5454a92a407510367de5446ca389af84880`.
+- Continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-12-current.md](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Governance issue: https://github.com/VlDMlNSh/mediahub-os/issues/301
+- Current proposal/status references: [PR #421](https://github.com/VlDMlNSh/mediahub-os/pull/421) for controller-only Gemini workflow calls; [PR #423](https://github.com/VlDMlNSh/mediahub-os/pull/423) for retirement of old-server workflows. Duplicate [PR #422](https://github.com/VlDMlNSh/mediahub-os/pull/422) is closed and unmerged.
