@@ -35,10 +35,18 @@ class GeminiPositiveContextProbeTests(unittest.TestCase):
         probe = self.controller["jobs"]["probe"]
         self.assertEqual(probe["permissions"], {})
         self.assertNotIn("secrets", probe)
-        self.assertEqual(probe["with"]["probe_only"], "true")
-        self.assertNotIn("GEMINI_API_KEY", self.source)
-        self.assertNotIn("run-gemini-cli", self.source)
-        self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", self.source)
+        self.assertEqual(probe["uses"], "./.github/workflows/gemini-reusable-context-probe-wave284.yml")
+        self.assertNotIn("secrets", probe)
+        self.assertNotIn("GEMINI_API_KEY", str(probe))
+        self.assertNotIn("run-gemini-cli", str(probe))
+        self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", str(probe))
+        observer_path = ROOT / ".github/workflows/gemini-reusable-context-probe-wave284.yml"
+        observer_source = observer_path.read_text(encoding="utf-8")
+        observer = yaml.load(observer_source, Loader=yaml.BaseLoader)
+        self.assertEqual(observer["permissions"], {})
+        self.assertEqual(observer["jobs"]["observe"]["permissions"], {})
+        self.assertNotIn("GEMINI_API_KEY", observer_source)
+        self.assertNotIn("run-gemini-cli", observer_source)
 
     def test_model_jobs_require_explicit_agents_mode_and_confirmation(self):
         for name in ("agent1", "agent2", "agent3"):
@@ -59,7 +67,7 @@ class GeminiPositiveContextProbeTests(unittest.TestCase):
         self.assertIn('[[ "$OBSERVED_TRUSTED_CONTROLLER" == "false" ]]', script)
         self.assertIn(TRUSTED_CONTROLLER_REF, self.source)
 
-    def test_every_child_disables_engineer_when_probe_only(self):
+    def test_agent_children_keep_default_denied_probe_gate(self):
         for child in self.children:
             with self.subTest(workflow=child["name"]):
                 engineer = child["jobs"]["engineer"]

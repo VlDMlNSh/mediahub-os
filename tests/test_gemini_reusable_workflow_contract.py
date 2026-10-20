@@ -164,14 +164,21 @@ class GeminiReusableWorkflowContractTests(unittest.TestCase):
         self.assertEqual(confirm.get("default"), "no")
         self.assertEqual(confirm.get("options"), ["no", "yes"])
         jobs = controller.get("jobs", {})
-        self.assertEqual(set(jobs), {"agent1", "agent2", "agent3", "summarize"})
-        for job_name, job in jobs.items():
+        self.assertEqual(set(jobs), {"agent1", "agent2", "agent3", "probe", "assert_probe_context", "summarize"})
+        for job_name in ("agent1", "agent2", "agent3"):
             with self.subTest(job=job_name):
-                self.assertEqual(
-                    job.get("if", "").replace(" ", ""),
-                    "always()&&inputs.confirm=='yes'" if job_name == "summarize" else "inputs.confirm=='yes'",
-                    "every controller job must fail closed unless the manual confirmation is exactly yes",
-                )
+                condition = jobs[job_name].get("if", "").replace(" ", "")
+                self.assertIn("github.event_name=='workflow_dispatch'", condition)
+                self.assertIn("inputs.mode=='agents'", condition)
+                self.assertIn("inputs.confirm=='yes'", condition)
+        summary_condition = jobs["summarize"].get("if", "").replace(" ", "")
+        self.assertIn("always()&&github.event_name=='workflow_dispatch'", summary_condition)
+        self.assertIn("inputs.mode=='agents'", summary_condition)
+        self.assertIn("inputs.confirm=='yes'", summary_condition)
+        self.assertEqual(jobs["probe"]["permissions"], {})
+        self.assertEqual(jobs["probe"]["uses"], "./.github/workflows/gemini-reusable-context-probe-wave284.yml")
+        self.assertEqual(jobs["assert_probe_context"]["permissions"], {})
+        self.assertEqual(jobs["assert_probe_context"]["needs"], ["probe"])
 
     def test_trusted_caller_guard_is_the_engineer_job_condition(self):
         import yaml

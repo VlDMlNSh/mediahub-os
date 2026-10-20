@@ -28,7 +28,12 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertEqual(confirm["options"], ["no", "yes"])
         self.assertEqual(confirm["default"], "no")
         for job_id, _, _ in CHILD_WORKFLOWS:
-            self.assertEqual(self.workflow["jobs"][job_id]["if"], "inputs.confirm == 'yes'")
+            self.assertEqual(
+                self.workflow["jobs"][job_id]["if"],
+                "github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'",
+            )
+        self.assertEqual(dispatch["inputs"]["mode"]["default"], "probe")
+        self.assertEqual(dispatch["inputs"]["mode"]["options"], ["probe", "agents"])
 
     def test_builtin_github_token_has_no_workflow_level_permissions(self):
         self.assertEqual(self.workflow["permissions"], {})
@@ -59,7 +64,10 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
     def test_aggregate_summary_fails_closed(self):
         summary = self.workflow["jobs"]["summarize"]
         self.assertEqual(summary["needs"], ["agent1", "agent2", "agent3"])
-        self.assertEqual(summary["if"], "always() && inputs.confirm == 'yes'")
+        self.assertEqual(
+            summary["if"],
+            "always() && github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'",
+        )
         step = summary["steps"][0]
         self.assertEqual(step["env"]["AGENT1_RESULT"], chr(36) + "{{ needs.agent1.result }}")
         self.assertEqual(step["env"]["AGENT2_RESULT"], chr(36) + "{{ needs.agent2.result }}")

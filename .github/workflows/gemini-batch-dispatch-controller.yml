@@ -103,12 +103,7 @@ jobs:
       github.event_name == 'pull_request' ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'probe')
     name: No-secret reusable caller-context probe
-    uses: ./.github/workflows/gemini-autonomous-engineering.yml
-    with:
-      task: "Wave 292 probe only: observe the actual controller caller context. Do not perform engineering work."
-      base_ref: main
-      scope: contour-a
-      probe_only: true
+    uses: ./.github/workflows/gemini-reusable-context-probe-wave284.yml
     permissions: {}
 
   assert_probe_context:
@@ -128,9 +123,9 @@ jobs:
           TRUSTED_CONTROLLER_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
         run: |
           set -euo pipefail
-          printf 'Caller event: %s\\n' "$OBSERVED_EVENT_NAME"
-          printf 'Caller workflow ref: %s\\n' "$OBSERVED_WORKFLOW_REF"
-          printf 'Trusted controller: %s\\n' "$OBSERVED_TRUSTED_CONTROLLER"
+          printf 'Caller event: %s\n' "$OBSERVED_EVENT_NAME"
+          printf 'Caller workflow ref: %s\n' "$OBSERVED_WORKFLOW_REF"
+          printf 'Trusted controller: %s\n' "$OBSERVED_TRUSTED_CONTROLLER"
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             [[ "$OBSERVED_EVENT_NAME" == "workflow_dispatch" ]]
             [[ "$OBSERVED_WORKFLOW_REF" == "$TRUSTED_CONTROLLER_REF" ]]
