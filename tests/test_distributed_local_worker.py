@@ -107,7 +107,7 @@ def test_worker_prepares_untrusted_patch_without_direct_publication():
     assert workflow.count("persist-credentials: false") == 3
     assert "persist-credentials: true" not in workflow
     assert workflow.count("Upload untrusted worker patch and manifest") == 3
-    sections = [workflow.split("  mh-dev-01-claude:\\n", 1)[1].split("\\n  mh-dev-02:", 1)[0],
-                workflow.split("  mh-dev-02:\\n", 1)[1].split("\\n  voktors-mac:", 1)[0],
-                workflow.split("  voktors-mac:\\n", 1)[1]]
+    sections = [workflow.split("  mh-dev-01-claude:\n", 1)[1].split("\n  mh-dev-02:", 1)[0],
+                workflow.split("  mh-dev-02:\n", 1)[1].split("\n  voktors-mac:", 1)[0],
+                workflow.split("  voktors-mac:\n", 1)[1]]
     assert all("Upload untrusted worker patch and manifest" in section for section in sections)
