@@ -79,26 +79,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: astra-worker-patch-mac-claude-${{ github.run_id }}
-          path: |
-            astra-distributed-worker-patch.patch
-            astra-distributed-worker-manifest.json
-          if-no-files-found: ignore
-          retention-days: 30
-      - name: Upload untrusted worker patch and manifest
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: astra-worker-patch-mh-dev-02-claude-${{ github.run_id }}
-          path: |
-            astra-distributed-worker-patch.patch
-            astra-distributed-worker-manifest.json
-          if-no-files-found: ignore
-          retention-days: 30
-      - name: Upload untrusted worker patch and manifest
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
           name: astra-worker-patch-mh-dev-01-claude-${{ github.run_id }}
           path: |
             astra-distributed-worker-patch.patch
@@ -146,6 +126,16 @@ jobs:
           path: astra-distributed-worker-result.json
           if-no-files-found: error
           retention-days: 30
+      - name: Upload untrusted worker patch and manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-worker-patch-mh-dev-02-claude-${{ github.run_id }}
+          path: |
+            astra-distributed-worker-patch.patch
+            astra-distributed-worker-manifest.json
+          if-no-files-found: ignore
+          retention-days: 30
 
   voktors-mac:
     if: ${{ inputs.node_id == 'Voktors-Mac-mini.local' && inputs.executor == 'claude' }}
@@ -187,4 +177,14 @@ jobs:
           name: astra-distributed-worker-${{ github.run_id }}
           path: astra-distributed-worker-result.json
           if-no-files-found: error
+          retention-days: 30
+      - name: Upload untrusted worker patch and manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: astra-worker-patch-mac-claude-${{ github.run_id }}
+          path: |
+            astra-distributed-worker-patch.patch
+            astra-distributed-worker-manifest.json
+          if-no-files-found: ignore
           retention-days: 30
