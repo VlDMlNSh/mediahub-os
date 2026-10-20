@@ -101,3 +101,15 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Updated [Wave 225 report](../checkpoints/MEDIAHUB-UPLOAD-ARTIFACT-IMMUTABLE-PIN-WAVE-225-2026-10-20.md): [Astra Cloud Runtime Validation #39402774891](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774891) and [Astra Verify #39402774885](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774885) both completed SUCCESS on exact head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`.
 - Read-back confirmed Agent 2 workflow blob `7a067fd7093a31c243c9e1f0e2caeec701f29c18` contains the full SHA pin and no longer contains `actions/upload-artifact@v4`.
 - Static CI success is not a controlled failure-path test. Independent review and authorized controlled test remain open; PR #420 remains Draft/unmerged.
+
+
+## Wave 226 — GitHub state synchronization audit (2026-10-20)
+
+- Dated audit report: [Wave 226 GitHub synchronization audit](../checkpoints/MEDIAHUB-GITHUB-SYNC-AUDIT-AND-CHECKPOINT-WAVE-226-2026-10-20.md).
+- Refreshed current proposal [PR #420](https://github.com/VlDMlNSh/mediahub-os/pull/420): head c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc, base main at 80be45a70732b1d568164571d4273a6397792c3b, 13 ahead / 0 behind, open Draft/unmerged. No submitted review was found.
+- Exact-head [Astra Cloud Runtime Validation #39402774891](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774891), job 118561301997, and [Astra Verify #39402774885](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774885), job 118561301487, are both completed SUCCESS. Astra Verify's dedicated actionlint v1.7.7, compile, cloud admission unit tests and signed-command smoke test steps all succeeded.
+- The three child workflows are pinned to upstream actions/upload-artifact commit cf430e030ddbb5b0abf93d22962f4752f3646cd9 (upstream v7 ref, verified commit metadata, Node 24). Workflow blobs: Agent 1 89ded6bd650b6f14ab419151762dc3d4f2804a0d; Agent 2 7a067fd7093a31c243c9e1f0e2caeec701f29c18; Agent 3 d0e2e21d15523757293100f10a72e5e85232b7a2; Astra Verify 9b38238e59c45d06bffca5198ef1bd764c5fc467.
+- The canonical map's Contents wrapper returned empty text (blob baa715602545461fc24afc9e8a8e1d83d9099425); it was not overwritten. This addendum is the safe navigation and continuation record.
+- Still open: independent PR review and an authorized controlled failure-path test proving sanitized artifact upload after a Gemini action failure. Static CI is not runtime failure-path qualification. Do not redispatch Agent 2; no secret read, merge, deployment or Contour A qualification occurred.
+- Next: independent review, then authorized controlled failure-path test on the approved GitHub-hosted controller/child-workflow transport. Keep PR #420 Draft/unmerged until gates pass.
+- [Canonical project map](MEDIAHUB-CHAT-TREE-MAP.md) · [Bootstrap](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md) · [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md) · [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
