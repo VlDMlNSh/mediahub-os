@@ -214,3 +214,13 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - PR #420 remains Draft/unmerged at `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind main `80be45a70732b1d568164571d4273a6397792c3b`; exact-head runs `39402774891` and `39402774885` were recorded SUCCESS; review API returned no submitted reviews. These checks do not prove exclusivity or controlled failure-path behavior.
 - No agent dispatch/workflow trigger, secret read, workflow code change, merge, deployment or qualification occurred in Wave 237. Wave 236 options A/B/C remain unaccepted proposals pending governance.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md). Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+
+
+## /next Wave 238 — sole cloud-agent route read-back audit (2026-10-20)
+
+- Report: [Wave 238](MEDIAHUB-CLOUD-AGENT-SOLE-ROUTE-READBACK-WAVE-238-2026-10-20.md).
+- Binding policy remains blob `18c27e3f3be100da54b256cdc7d97a36e1fd753e`; Bootstrap remains blob `77368971b90071812f82c384cdd3be813513a5dc`; controller on main remains blob `99e5a87825aeb239568f96ecef004a102ff3e53b`.
+- Re-read all three child workflows on main: A1 `09523d809530ae5b7bf528eab5fa53bc5deaf92d`, A2 `259c8c82b8d90a39e1c90e65390e469b241b5581`, A3 `91b5397001e088dfae2f450ee77c9c23118b5601`. All still declare `workflow_dispatch`; policy exclusivity is persisted, but technical exclusion of direct invocation remains NOT PROVEN.
+- Wave 236 governance options remain unaccepted proposals; no governance disposition was evidenced in the latest Issue #301 comments read during this pass. Do not change the current REST dispatch architecture without that disposition.
+- No agent dispatched, workflow triggered, secret read, workflow code changed, merge, deployment or Contour A qualification. Continue independent work while awaiting governance disposition.
+- Wave 238 report creation commit: `cd9f421e3a2d95e040d1dc44fc8a9474d6560844`. Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); map addendum: [current addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-217-2026-10-20.md).
