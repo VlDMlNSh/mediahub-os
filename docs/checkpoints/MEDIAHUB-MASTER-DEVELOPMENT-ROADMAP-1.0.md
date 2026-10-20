@@ -2430,3 +2430,11 @@ Evidence read:
 - Authorization seam exists as a default-deny principal/capability/operation allowlist but is not connected to the inspected task ingress/gateway path. The security/trust document is marked PROPOSED ARCHITECTURAL BASELINE; resolve governance before changing accepted runtime authority.
 - Next: trace the `FileTaskIngress` caller/producer and inbox trust boundary. Establish the versioned, governance-approved approval/issuer evidence and verifier, then write negative static/mock-only tests that prove executor-not-called for absent/forged/expired/replayed/scope-mismatched evidence. Do not wire the unaccepted Wave 269 draft into runtime.
 - No runtime tests, provider calls, secret/host access, agent dispatch, merge, deployment, route qualification or acceptance occurred. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated pending Contour A deployment and independent acceptance.
+
+
+### Wave 276 runtime reachability qualification
+
+- Follow-up source review: the resident service entrypoint `runtime/mediahub_runtime/astra_service.py` (`6aa2d09fc8737ccc0ba7f05bd13a15a0ebde7129`) creates `AstraGatewayRuntime` and sleeps; it does not instantiate/call `FileTaskIngress`. The package `__init__.py` exports the ingress (`4ff499f8e489e60e344283ee01e4dad5e72a2646`).
+- No in-repository call site was established in inspected package/runtime files. Search results were empty/unavailable; this is **not** an exhaustive proof that no external application caller exists. Therefore classify the approval trust issue as a **latent admission-contract gap before ingress wiring**, not a verified currently reachable production exploit.
+- If/when ingress is connected to an API or inbox, the authoritative issuer/approval record must be independently authenticated and scope-bound before provider selection or any sensitive operation. Caller-supplied `approval_state="approved"` is not sufficient authority.
+- Updated source report: [Wave 276 Task ingress trust-gap audit](MEDIAHUB-A0-TASK-INGRESS-ISSUER-AND-APPROVAL-TRUST-GAP-WAVE-276-2026-10-20.md).
