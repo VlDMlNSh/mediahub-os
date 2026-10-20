@@ -91,3 +91,19 @@ def test_distributed_selection_allows_one_claim_per_executor_lane():
     assert [t["task_id"] for t in selected] == ["codex-a", "claude-mh1", "claude-mac"]
     assert len({t["node_id"] for t in selected}) == len(selected)
     assert len({t["executor"] for t in selected}) == len(selected)
+
+
+def test_worker_prepares_untrusted_patch_without_direct_publication():
+    source = Path("ops/qualification/run_distributed_local_worker.py").read_text(encoding="utf-8")
+    workflow = Path(".github/workflows/astra-distributed-local-worker.yml").read_text(encoding="utf-8")
+    assert '["git", "push"' not in source
+    assert '["git", "commit"' not in source
+    assert '["git", "diff", "--cached", "--binary", target_sha]' in source
+    assert '"trust_status": "UNTRUSTED_WORKER_OUTPUT"' in source
+    assert 'record["publication_status"] = "NOT_PUBLISHED"' in source
+    assert "patch_sha256" in source
+    assert "permissions:\n  contents: write" not in workflow
+    assert "permissions:\n  contents: read" in workflow
+    assert workflow.count("persist-credentials: false") == 3
+    assert "persist-credentials: true" not in workflow
+    assert workflow.count("Upload untrusted worker patch and manifest") == 3

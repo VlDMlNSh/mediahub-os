@@ -658,26 +658,49 @@ def main() -> int:
                 raise RuntimeError("no_changes")
             record["change_status"] = "NO_CHANGES_REQUIRED"
             record["head_sha"] = target_sha
-            record["push_verification"] = {"status": "NOT_REQUIRED", "branch": branch}
+            record["publication_status"] = "NOT_PUBLISHED"
+            record["patch_artifact"] = {"status": "NO_CHANGES"}
         else:
+            # Worker output is an untrusted patch only. A separate trusted publisher
+            # must independently validate authority, base/ref, paths and patch content.
             if run(["git", "add", "-A"], 30).returncode != 0:
                 raise RuntimeError("git_add_failed")
-            commit = run(["git", "commit", "-m", f"astra distributed: complete {task_id}"], 120)
-            if commit.returncode != 0:
-                raise RuntimeError("git_commit_failed")
-            push = run(["git", "push", "origin", f"HEAD:refs/heads/{branch}"], 180)
-            record["push"] = {"returncode": push.returncode, "stdout": push.stdout[-5000:], "stderr": push.stderr[-5000:]}
-            if push.returncode != 0:
-                raise RuntimeError("git_push_failed")
-            record["head_sha"] = run(["git", "rev-parse", "HEAD"], 30).stdout.strip()
-            remote = run(["git", "ls-remote", "origin", f"refs/heads/{branch}"], 60)
-            if remote.returncode != 0:
-                raise RuntimeError("git_push_verification_failed")
-            remote_sha = remote.stdout.split()[0] if remote.stdout.split() else ""
-            if remote_sha != record["head_sha"]:
-                raise RuntimeError("git_push_sha_mismatch")
-            record["remote_head"] = remote_sha
-            record["push_verification"] = {"status": "PASS", "branch": branch, "remote_sha": remote_sha}
+            patch = run(["git", "diff", "--cached", "--binary", target_sha], 60)
+            if patch.returncode != 0:
+                raise RuntimeError("patch_generation_failed")
+            if not patch.stdout:
+                raise RuntimeError("empty_patch_for_changed_workspace")
+            patch_path = Path(os.environ.get("ASTRA_WORKER_PATCH", "astra-distributed-worker-patch.patch"))
+            manifest_path = Path(os.environ.get("ASTRA_WORKER_MANIFEST", "astra-distributed-worker-manifest.json"))
+            patch_path.write_text(patch.stdout, encoding="utf-8")
+            patch_sha256 = hashlib.sha256(patch.stdout.encode("utf-8")).hexdigest()
+            names = run(["git", "diff", "--cached", "--name-only", "-z", target_sha], 60)
+            if names.returncode != 0:
+                raise RuntimeError("patch_path_enumeration_failed")
+            changed_files = [p for p in names.stdout.split("\0") if p]
+            manifest = {
+                "schema_version": "mediahub.astra.worker-artifact.v1",
+                "trust_status": "UNTRUSTED_WORKER_OUTPUT",
+                "task_id": task_id,
+                "command_id": command_id,
+                "target_sha": target_sha,
+                "node_id": node_id,
+                "executor": executor,
+                "branch": branch,
+                "changed_paths": changed_files,
+                "patch_file": patch_path.name,
+                "patch_sha256": patch_sha256,
+            }
+            manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            record["head_sha"] = target_sha
+            record["publication_status"] = "NOT_PUBLISHED"
+            record["patch_artifact"] = {
+                "status": "PREPARED_UNTRUSTED",
+                "patch_file": patch_path.name,
+                "manifest_file": manifest_path.name,
+                "patch_sha256": patch_sha256,
+                "changed_paths": changed_files,
+            }
 
         record["completed_at"] = int(time.time())
         record["status"] = "PASS"
