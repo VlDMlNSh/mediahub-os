@@ -65,3 +65,11 @@ The documentation branch contains [retirement commit 5babc50](https://github.com
 
 Open a dedicated, reviewable PR based on current `main` that removes only the two retired old-server workflow files. Do not merge until exact-head CI and independent review pass; do not change any runner or server state. Then resume tracing the authoritative A0 Task Contract/issuer lifecycle and static or mock-only negative tests.
 
+
+
+## Traceability
+
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 275 entry.
+- Continuation checkpoint: [mediahub-next-continuation-checkpoint-2026-10-12-current.md](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), Wave 275 addendum.
+- Review-only retirement proposal: [PR #422](https://github.com/VlDMlNSh/mediahub-os/pull/422). This proposal is deliberately separate from the diverged documentation branch and does not merge it.
