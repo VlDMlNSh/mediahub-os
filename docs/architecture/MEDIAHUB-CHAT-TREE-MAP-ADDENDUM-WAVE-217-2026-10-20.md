@@ -287,3 +287,12 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Bootstrap final blob SHA: `9718e645ce21df2cbdb5ceb2daf1ec5828185227`.
 - Final Wave 243 report blob SHA: `8e416575158d360b3397e9de0fb39ba0d1ecfb42`.
 - Current `main` remains the legacy REST-dispatch implementation and stays ON HOLD. PR #421 is the proposed `workflow_call` design; the governance approval covers implementation only. Even after integration, a separate live-run authorization is required.
+
+
+## Wave 244 — owner clarification on cloud-agent autonomy (2026-10-20)
+
+- Owner clarified that the project is authorized to progress autonomously and use cloud agents to accelerate Contour A. The previous “dispatch ON HOLD” language is a temporary controller-transition gate, not a standing ban or a reason to stop independent engineering.
+- Routine cloud-agent dispatch through the controller-only route is authorized after PR #421 passes independent review, exact-head checks, caller-guard/secret-boundary review, and a controlled negative caller-context test, then integrates through project governance. No separate per-run owner prompt is required after those gates; controller `confirm: yes` remains mandatory.
+- PR #421 remains Draft/unmerged and the review API showed no submitted reviews. Existing exact-head CI is recorded at runs [39414529957](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39414529957) and [39414529912](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39414529912). The negative caller-context test remains open. No agent was launched in this wave.
+- Preserve sole route: GitHub-hosted controller `.github/workflows/gemini-batch-dispatch-controller.yml` → fixed-scope children; no SentinelX/server/local CLI/ad-hoc/alternate transport. Never expose `MEDIAHUB_GITHUB_TOKEN`; never use `secrets: inherit`; no bypass of capability, budget, provider, review, or acceptance gates.
+- Wave report: [Wave 244](../checkpoints/MEDIAHUB-CLOUD-AGENT-AUTONOMY-CLARIFICATION-WAVE-244-2026-10-20.md). Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
