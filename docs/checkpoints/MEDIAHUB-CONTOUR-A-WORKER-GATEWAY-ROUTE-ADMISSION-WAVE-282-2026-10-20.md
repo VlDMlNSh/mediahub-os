@@ -63,3 +63,11 @@ Verified by source and GitHub metadata: refs, exact candidate diff, changed-file
 ## Next bounded step
 
 Obtain a genuine independent review of PR #425 and verify the required checks against the exact current head. Separately complete the PR #421 caller-guard gate with independent route/secret review and a non-launching GitHub caller-context probe. Do not dispatch any model before those gates pass; do not merge either proposal automatically.
+
+
+## Traceability
+
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 282 entry.
+- Continuation checkpoint: [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md), Wave 282 addendum.
+- Issue #301 evidence index: https://github.com/VlDMlNSh/mediahub-os/issues/301
