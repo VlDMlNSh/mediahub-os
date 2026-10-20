@@ -1,7 +1,7 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 277; exhaustive branch-tree drift and A0 authority crosswalk)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 278; A0 coordination vs Product State Authority cross-contract crosswalk)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
@@ -7665,3 +7665,15 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - The main-only set includes six Gemini/controller workflow files and `tests/test_worker_security_gate.py`; a secret-detection regex differs between `main` and the docs version of `ops/qualification/run_distributed_local_worker.py`. Review exact blob SHAs in Wave 277 before any path-specific integration.
 - PR #423 proposes deletion of only the two legacy old-host migration workflows. Exact-head Astra Cloud Runtime Validation #39451818985 and Astra Verify #39451818611 reported SUCCESS, but the PR remains Draft/unmerged with no submitted reviews. PR #421 likewise remains Draft/unmerged with exact-head CI success but no independent review; the caller-guard/secret-boundary gate and non-launching negative caller-context test remain open.
 - Existing task ingress/authentication/provider schemas do not establish the full A0 mission issuer, trusted approval, destination admission, DAG and route policy lifecycle. Resolve producer/writer, trusted approval verifier and A0 vs Product State Authority naming before adding an accepted schema. No live route, host action, secret access, agent dispatch, merge, deployment, qualification or acceptance occurred.
+
+
+## Wave 278 — ASTRA A0 vs Product State Authority cross-contract audit (2026-10-20)
+
+- Report: [Wave 278 authority cross-contract audit](../checkpoints/MEDIAHUB-ASTRA-GOLD-A0-VS-PRODUCT-STATE-AUTHORITY-CROSSWALK-WAVE-278-2026-10-20.md).
+- Source-level conflict/ambiguity: the canonical qualification-launch schema (`authority.state_authority: A0-ASTRA`) and the gated hybrid-agent profile repeat the same label, and `test_astra_gold_architecture_drift.py` locks it. The reference architecture calls A0 a “coordination and state authority”, while the unified system model describes A0 as a coordination authority and forbids ASTRA GOLD from silently becoming a domain State Authority.
+- This is recorded as a **governance/semantic ambiguity, not a confirmed runtime bypass**. The label may mean mission/control-plane state or Product State Authority; sources inspected do not provide a sufficiently explicit crosswalk. Do not change the canonical schema, profile or tests piecemeal and do not infer that A0 may bypass the Product State Authority.
+- Existing runtime has a separate `StateAuthority` interface and a `ConsumerBoundary` that preserves canonical state-authority exclusivity. The exact identity/contract for the Product State Authority still must be aligned to the intended owner/governance terms before the next versioned envelope is introduced.
+- Proposal: decide and document separate fields for A0 mission/coordination state and canonical Product State Authority, then update qualification schema, reference architecture, unified model, profile and cross-contract tests atomically in a reviewed PR. Until accepted, preserve current canonical values and block runtime authority changes.
+- PR #421 remains Draft with CI successes but independent review/security-boundary/governance gates absent. PR #423 is the sole draft retirement candidate for the two old-host migration workflows; PR #422 is closed as duplicate. No PR is merged.
+- No local/CI tests run in this audit, no server/secret/provider access, workflow dispatch, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED; Contour B remains gated.
+- Related: [Wave 277 exhaustive tree / A0 authority crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-TREE-DRIFT-AND-A0-AUTHORITY-CROSSWALK-WAVE-277-2026-10-20.md), [Wave 276 task ingress issuer / approval audit](../checkpoints/MEDIAHUB-A0-TASK-INGRESS-ISSUER-AND-APPROVAL-TRUST-GAP-WAVE-276-2026-10-20.md), [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
