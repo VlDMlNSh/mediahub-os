@@ -35,6 +35,11 @@
 
 ## 2. Постоянные архитектурные инварианты
 
+### Binding owner-directed target requirements — Wave 272
+
+For every `/next` that touches ASTRA GOLD A0, hybrid routing, user-owned MediaHub destinations, or the Alamo Claude executor, read and enforce [Wave 272 hard requirements](../checkpoints/MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-ALAMO-CLAUDE-NONPAID-AUTH-HARD-REQUIREMENTS-WAVE-272-2026-10-20.md) and its [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-272-2026-10-20.md). A0 must own bounded DAG decomposition and cross-route task lifecycle; destinations are the admitted GitHub-hosted cloud pool, admitted user-owned MediaHub, and admitted local executors. The cloud pool must not depend on Alamo. Claude/Claude Code is local-executor-only on Alamo: no Anthropic API, paid Anthropic API auth/billing, proxy-mediated paid API, or silent fallback. FCC/equivalent is conditional on proven permitted non-paid authentication, upstream terms, billing/auth class, version, egress, and Alamo binding. These are hard target constraints; source documentation is not proof of runtime enforcement or route qualification.
+
+
 - Product State Authority — единственный источник изменения canonical product state. A0-ASTRA — инженерная координация/очередь/evidence/qualification, а не Product State Authority.
 - Home Assistant Core — единственный authority в домене Smart Home в пределах утверждённых границ.
 - AI, cloud, workflow engine, plugins, adapters, knowledge graph, persistence и observability не становятся State Authority.
