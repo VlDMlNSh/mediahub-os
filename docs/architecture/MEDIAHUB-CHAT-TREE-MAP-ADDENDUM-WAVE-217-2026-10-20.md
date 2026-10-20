@@ -84,3 +84,13 @@ This addendum records the GitHub-hosted controller integration and runtime dispa
 - Added actionlint v1.7.7 to Astra Verify for the three Gemini workflow files. Exact-head [Astra Verify #39401961171](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39401961171) and [Astra Cloud Runtime Validation #39401961153](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39401961153) both completed SUCCESS. The actionlint step and remaining Astra Verify steps passed.
 - Workflow blob SHAs: Astra Verify `9b38238e59c45d06bffca5198ef1bd764c5fc467`; Agent 1 `be6400d2f4d511bf7f12296b6e9505ddc10c9031`; Agent 2 `e46b6c107de41992009c7d960a0849ccc53df1ca`; Agent 3 `991ccecbfe8e5eda5568cd11be1be2daf061fcae`.
 - PR #420 remains Draft/unmerged, with no submitted reviews observed. Still open: independent review, authorized controlled failure-path test for sanitized diagnostic upload, and full-SHA pin review for `actions/upload-artifact@v4`. No Gemini redispatch, merge, deployment, or Contour A acceptance.
+
+
+## Wave 225 — immutable upload-artifact action pin (2026-10-20)
+
+- Report: [Wave 225 immutable pin](../checkpoints/MEDIAHUB-UPLOAD-ARTIFACT-IMMUTABLE-PIN-WAVE-225-2026-10-20.md).
+- PR [#420](https://github.com/VlDMlNSh/mediahub-os/pull/420) replaces the movable `actions/upload-artifact@v4` reference in all three Gemini child workflows with full SHA `cf430e030ddbb5b0abf93d22962f4752f3646cd9`, resolved from the official upstream `v7` tag.
+- Upstream commit metadata identifies v7.0.2 dated 2026-10-07, reports a verified commit signature, and the pinned `action.yml` declares Node 24.
+- Read-back workflow blobs: Agent 1 `89ded6bd650b6f14ab419151762dc3d4f2804a0d`; Agent 2 `7a067fd7093a31c243c9e1f0e2caeec701f29c18`; Agent 3 `d0e2e21d15523757293100f10a72e5e85232b7a2`.
+- PR head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind main `80be45a70732b1d568164571d4273a6397792c3b`. Exact-head Astra Cloud Runtime Validation #39402774891 and Astra Verify #39402774885 were in progress when recorded; no pass is claimed yet.
+- Independent review and authorized controlled failure-path test remain open. PR stays Draft/unmerged; no agent re-dispatch, secret read, deployment, or Contour A qualification.
