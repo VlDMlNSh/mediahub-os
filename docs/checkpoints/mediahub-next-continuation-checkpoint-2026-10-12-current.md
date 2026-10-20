@@ -392,3 +392,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Current read-back blobs: controller `da1d0254a993adcc224d5859a9a97bf609abd710`; Agent 1 `983d3d06303f75f65de15ae2ee7f824403605e76`; Agent 2 `eefcc97f1cf9504218f48fd248f37aa8306cd309`; Agent 3 `4608462d4b59c088bbf962412060e4b1b8a93519`; Astra Verify `a087ccde747cc621f6003226e01abb10e33261dc`; contract tests `063c8f4ab2f3906d0b4f207dac429b921d5710c2`.
 - Remaining: genuine independent review by another identity; controlled negative caller-context runtime test (connector has no workflow-dispatch action); branch-protection/governance integration. No agent launched, no secret read, no merge/deployment/qualification. After gates and integration, routine bounded runs may use the sole controller with `confirm: yes`; no separate per-run owner prompt is required.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 256 (2026-10-20): current-head revalidation
+
+- Report: [MEDIAHUB-CONTROLLER-REVALIDATION-WAVE-256-2026-10-20.md](MEDIAHUB-CONTROLLER-REVALIDATION-WAVE-256-2026-10-20.md), creation commit `01e1bfa231532b5b4656b4e05ab06fad93e043cc`.
+- PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421) moved to head `d25cad4343126e6f6770247d48abec1c7f6c2b9b`, base `main` `80be45a70732b1d568164571d4273a6397792c3b`; it remains Draft/open with no independent review recorded.
+- Exact-head [Astra Cloud Runtime Validation #39416621016](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416621016) and [Astra Verify #39416620952](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39416620952) both SUCCESS.
+- Canonical map index has been updated by retrieving its actual Git blob after the Contents endpoint returned empty. The map itself is over 1.1 MB; preserve it as a whole and never overwrite it with an empty Contents response.
+- Three Gemini child workflows now use a digest-pinned GitHub MCP image; however, the exact digest-to-`v0.27.0` mapping could not be established from available authoritative metadata. Digest provenance remains UNVERIFIED, not qualified.
+- Open: authoritative digest verification, genuine independent review, controlled negative caller-context runtime test, governance-approved integration. No Gemini dispatch, secret access, merge, deployment, or qualification in Wave 256.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
