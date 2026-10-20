@@ -3,7 +3,22 @@
 Created: 2026-10-12
 Purpose: Resume this exact project state in a new chat when the user sends /next.
 
-## Latest continuation — Wave 283 (2026-10-20)
+## Latest continuation — Wave 286 (2026-10-20)
+
+- Report: [least-privilege caller-context probe repair and exact-head CI](MEDIAHUB-GEMINI-CALLER-PROBE-LEAST-PRIVILEGE-REPAIR-WAVE-286-2026-10-20.md), blob SHA `2e20dc96bfac0b086e9fd3b169b68e40fef08bba`.
+- Map addendum: [Wave 286](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-286-2026-10-20.md), blob SHA `413d08f0189c1facada377f4ac71ec497235cbb2`. Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #421 candidate branch `contour-a/workflow-call-controller-governance-wave243` HEAD `3141a44370694d78f76779243adb548318a745d7`, base `main` `80be45a70732b1d568164571d4273a6397792c3b`. The candidate is OPEN/DRAFT/UNMERGED; the review endpoint returned zero submitted independent reviews.
+- Added a minimal reusable observer with no token authority, provider secrets, checkout or provider/model action; replaced the colliding PR caller workflow with a uniquely named non-launching probe; moved validation into a dedicated read-only contract workflow; isolated the test filename; restored `.github/workflows/astra-verify.yml` to the exact `main` blob `ae59d954f1ca6569a8d047589a2a54fd03e47f5b`.
+- No changed-path overlap remains between the current PR #421 and PR #426 file lists. Both remain drafts and must be independently reviewed before integration.
+- Exact-head CI at `3141a44370694d78f76779243adb548318a745d7`: Cloud Runtime Validation #39462792548 SUCCESS; Gemini workflow contract validation #39462792571 SUCCESS; non-launching caller-context probe #39462792657 SUCCESS. Astra Verify #39462792590 was still running during the last observation; confirm its terminal result before calling full CI green.
+- [Wave 284 startup-failure triage](MEDIAHUB-GEMINI-CALLER-PROBE-STARTUP-FAILURE-TRIAGE-WAVE-284-2026-10-20.md) is historical attempt evidence; the first repair attempt failed actionlint on an empty `secrets: {}` mapping, which was subsequently removed.
+- [Wave 285 A0 ingress/issuer/approval trace](MEDIAHUB-A0-INGRESS-ISSUER-APPROVAL-PRODUCER-TRACE-WAVE-285-2026-10-20.md) separately found that a source-level inbox approval string is not itself proof of issuer/signature verification; producer, inbox ACL/runtime binding, authoritative writer and independent verifier remain unproven and require governance-owned resolution.
+- Issue #301 remains OPEN. No Gemini dispatch, manual workflow dispatch, provider/model call, secret or host access, merge, deployment, qualification, or acceptance took place. Contour A remains **NOT_PROVEN / BLOCKED**; Contour B remains gated.
+- **Next:** verify Astra Verify at the exact SHA above; inspect exact failed-step logs if it fails. Then obtain independent security review and repository-protection/governance evidence before any discussion of a controlled dispatch. In parallel, continue Wave 285’s issuer/producer/approval ownership trace and schema semantic negative-fixture plan without changing the accepted authority contract.
+
+---
+
+## Previous continuation — Wave 283 (2026-10-20)
 
 - Primary owner-directed hard-requirements contract: [ASTRA GOLD three-pool routing and Claude free-route constraints](../architecture/MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-HARD-REQUIREMENTS-WAVE-283-2026-10-20.md), contract blob SHA `d652824d33c1fc423dcc1ef6b1acc51e2a123b2e`, creation commit `3a92731f208eae19aa815260fa84cdb5dc852927`.
 - Audit report: [Wave 283 source and status audit](MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-REQUIREMENTS-AUDIT-WAVE-283-2026-10-20.md). It records current PR/CI truth and limitations; final report blob SHA `bf820f2870cce28b69d061e4dfc91376ceb0287b`, verified via GitHub read-back.
