@@ -162,3 +162,13 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Live PR #420: head `c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc`, 13 ahead / 0 behind main `80be45a70732b1d568164571d4273a6397792c3b`; Draft/unmerged; review API returned no submitted reviews. Exact-head CI runs #39402774891 and #39402774885 succeeded.
 - Open gates: genuine independent review and authorized controlled failure-path artifact test. No agent was dispatched, no secret read, no merge/deployment, no Contour A qualification in Wave 227. This policy is persisted and binding, but do not claim alternate routes are technically disabled unless repository-control evidence demonstrates that.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 229 (2026-10-20): single-path transport and bootstrap conflict fix
+
+- Transport policy read-back blob: `18c27e3f3be100da54b256cdc7d97a36e1fd753e`; Bootstrap section 1A was corrected to remove the conflicting direct-child-dispatch instruction. New Bootstrap blob: `77368971b90071812f82c384cdd3be813513a5dc`; update commit: `7e15cc9ba7235703f56ddfc3235e62eaf9b3ef39`.
+- Wave report: [MEDIAHUB-CLOUD-AGENT-SINGLE-PATH-AND-BOOTSTRAP-CONFLICT-FIX-WAVE-229-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-SINGLE-PATH-AND-BOOTSTRAP-CONFLICT-FIX-WAVE-229-2026-10-20.md), blob `c08d1d9e1fa0e11692938b49bde19e058c8ebdc0`, commit `08e5196bd28f42c458ae7eff6539c8f8a82e4ca3`.
+- Map addendum updated and read back; blob `ce2fb12239bbea41031adc611b0aee94e6b62118`, update commit `cf8c48706de2568a0c60107c10732f84f7b7f59e`.
+- Only permitted cloud-agent/API launch route: GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` → fixed-scope child workflows, with controller API calls authenticated by repository secret `MEDIAHUB_GITHUB_TOKEN`. No direct server/SentinelX/local CLI/ad-hoc/alternate transport. Never expose the credential to agents/models. No paid fallback absent explicit governance.
+- This documents binding policy but does not prove all alternate dispatch paths are technically disabled. No agent dispatched and no secret read in this wave. Independent PR #420 review and an authorized controlled failure-path test remain separate gates.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
