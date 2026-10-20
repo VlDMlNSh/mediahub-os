@@ -7504,3 +7504,12 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 - PR #405 changes workflow permissions to `contents: read`, disables persisted checkout credentials in three checkouts, and adds a YAML regression test. It does not change worker code. Worker blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1` still contains direct Git add/commit/push and remote SHA verification (lines 664–680); issuer/capability/replay/revocation validation is not integrated in the reviewed source.
 - Decision: PR #405 is useful defense in depth, not proof of artifact-only worker/publisher separation. Keep Draft; define issuer/capability contracts, remove worker-side publication, validate artifacts in a separate trusted publisher, add negative tests, and inspect host-level credential sources without exposing secrets.
 - Regional boundary remains distinct: API/App dispatch moves the control-plane caller, not the runner's egress. A1/A2/A3 use `ubuntu-latest` without a country pin or fixed egress IP in source. Contour A remains **NOT PROVEN / BLOCKED**.
+
+
+## Wave 251 — Gemini A1/A2/A3 task definition and dispatch state (2026-10-20)
+
+- Report: [Wave 251 — Gemini task definition and dispatch state](../checkpoints/MEDIAHUB-GEMINI-THREE-AGENT-DISPATCH-AND-TASKING-WAVE-251-2026-10-20.md).
+- Main HEAD at review: `1324f2f9e558a99c1d3e06eb9d955c0827214fe2`; canonical docs branch before update: `787d446a87900ddd402ac5caa13aa37cb62923a1`. No merge/rebase.
+- Three independent bounded assignments are documented for A1 (worker/publisher engineering boundary), A2 (regional and dispatch architecture evidence), and A3 (issuer/capability negative-test matrix). All require Draft PRs and prohibit merge/deployment or secret access.
+- No A1/A2/A3 dispatch was issued in this session. The available GitHub connector has no workflow-dispatch operation; browser profiles do not establish an authenticated GitHub session. Prior temporary PAT smoke success is not evidence of these three launches.
+- Launch state: **NOT CONFIRMED / BLOCKED**. Contour A remains **NOT PROVEN / BLOCKED**.

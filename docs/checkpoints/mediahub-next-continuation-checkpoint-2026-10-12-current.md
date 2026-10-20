@@ -5467,3 +5467,12 @@ Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map
 - Worker blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1` still performs Git add/commit/push and remote SHA verification. No integrated issuer/capability/expiry/revocation/replay check is established. PR #405 is hardening, not artifact-only publication; keep Draft pending a separate publisher and negative tests.
 - Regional note: GitHub App/API dispatch moves the control-plane request, not runner egress; `ubuntu-latest` does not pin a country or fixed egress IP. Contour A remains **NOT PROVEN / BLOCKED**.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 251 — Gemini A1/A2/A3 task definition and dispatch state (2026-10-20)
+
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-GEMINI-THREE-AGENT-DISPATCH-AND-TASKING-WAVE-251-2026-10-20.md
+- Tasks are defined for A1 worker/publisher boundary, A2 region/dispatch architecture evidence, A3 issuer/capability security negative tests. All require separate Draft PRs, exact-head CI and diff review; no merge/deployment.
+- No new workflow_dispatch request was issued in this pass. The GitHub connector offers no dispatch action and neither browser profile records GitHub as signed in. The prior temporary PAT smoke target is not equivalent to agent dispatch.
+- Next operational blocker: establish a confirmed authenticated GitHub Actions browser profile or authorized dispatch-capable API integration, then dispatch the three tasks separately and record run IDs/outcomes. Do not pass `MEDIAHUB_GITHUB_TOKEN` to model jobs.
+- Current state: **Contour A NOT PROVEN / BLOCKED**. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
