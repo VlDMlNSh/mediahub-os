@@ -33,12 +33,11 @@ Replaced `actions/upload-artifact@v4` with `actions/upload-artifact@cf430e030ddb
 
 - Independent review of PR #420; no submitted reviews were present at last check.
 - Authorized controlled failure-path test proving the sanitized diagnostic artifact uploads after a Gemini action failure.
-- Exact-head CI and workflow read-back completed successfully.
 - No agent was re-dispatched. No paid fallback, alternate transport, secret read, merge, deployment, or Contour A qualification is claimed.
 
 ## Next step
 
-Observe exact-head CI to terminal state and record the results. Keep PR #420 Draft/unmerged and do not rerun Agent 2 until the outstanding review and controlled-test gates are satisfied.
+Next: obtain independent review and then perform an explicitly authorized controlled failure-path test through the approved GitHub-hosted controller/child-workflow transport. Do not redispatch Agent 2, merge, or claim Contour A qualification before those gates are satisfied.
 
 ## Canonical references
 
