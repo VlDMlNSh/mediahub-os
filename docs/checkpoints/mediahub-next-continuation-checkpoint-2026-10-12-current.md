@@ -98,3 +98,6 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Latest branch commit `d34c6cd646b59e83d75bf338739722464577dd56`; CI runs `39400178859` and `39400178898` were in progress at last check. Earlier successful CI was for the prior head only.
 - No independent review or controlled failure-path runtime test yet. Keep PR #420 unmerged pending checks and review.
 - Report: [MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md](MEDIAHUB-GEMINI-FAILURE-DIAGNOSTICS-WAVE-221-2026-10-20.md).
+
+
+- Latest CI refresh: Astra Cloud Runtime Validation `39400178859` succeeded; Astra Verify `39400178898` was still in progress at last read. Do not claim both checks passed for the updated PR head yet.
