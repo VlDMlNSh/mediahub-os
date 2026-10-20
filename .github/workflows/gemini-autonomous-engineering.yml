@@ -119,14 +119,14 @@ jobs:
           jq -n \
             --arg run_id "$GITHUB_RUN_ID" \
             --arg run_attempt "$GITHUB_RUN_ATTEMPT" \
-            --arg job_status "$GITHUB_JOB" \
+            --arg job_id "$GITHUB_JOB" \
             --arg step_outcome "$GEMINI_STEP_OUTCOME" \
             --arg step_conclusion "$GEMINI_STEP_CONCLUSION" \
             --argjson stdout_present "$has_output" \
             --argjson stdout_valid_json "$valid_json" \
             --argjson response_present "$response_present" \
             --argjson tool_summary "$tool_summary" \
-            '{run_id:$run_id, run_attempt:$run_attempt, job:$job_status, gemini_step_outcome:$step_outcome, gemini_step_conclusion:$step_conclusion, stdout_present:$stdout_present, stdout_valid_json:$stdout_valid_json, response_present:$response_present, tool_summary:$tool_summary}' \
+            '{run_id:$run_id, run_attempt:$run_attempt, job:$job_id, gemini_step_outcome:$step_outcome, gemini_step_conclusion:$step_conclusion, stdout_present:$stdout_present, stdout_valid_json:$stdout_valid_json, response_present:$response_present, tool_summary:$tool_summary}' \
             > "$RUNNER_TEMP/gemini-diagnostic.json"
 
       - name: Upload sanitized Gemini diagnostic metadata
