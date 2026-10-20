@@ -2261,3 +2261,14 @@ Canonical navigation: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub
 - Next: provider-registry consumer census; compare ready-made components with a GitHub-hosted-only filter; build mock-provider/schema/evidence tests and document any native capability gaps.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 263 addendum — Provider registry / cloud-only eligibility (2026-10-20)
+
+Evidence report: [MEDIAHUB-PROVIDER-REGISTRY-CONSUMER-CENSUS-WAVE-263-2026-10-20.md](MEDIAHUB-PROVIDER-REGISTRY-CONSUMER-CENSUS-WAVE-263-2026-10-20.md). Map addendum: [Wave 263 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-263-2026-10-20.md).
+
+**New verified gap, not a governance decision:** the 25-entry `ops/qualification/provider_model_registry.json` catalog (blob `62328126fd2cd8879a73bb6812adcacd3e2abe84`) mixes remote candidates with a localhost Ollama record and inline static bearer value. A separate `profiles/agent-registry.json` catalog (blob `993cbbe1b2b2a88da7d8884a897b404f055981a8`) is not interchangeable with the provider registry. Existing AI provider/adapter schemas (blobs `9537a64bc948b1bea3e2a640670f48e107760a50` and `e0dab7002222451579e649a7d1d29985393d9a42`) are distinct contracts; no evidence yet proves the ops catalog is validated against them or consumed by cloud dispatch.
+
+**Required next action:** build a reproducible repository-wide consumer census and CI-only schema/eligibility negative tests with mock providers. Cloud pool eligibility must deny localhost/private/local records and inline credential values by default. Do not call providers, read secrets, or introduce external queue/router/database. Keep the Wave 262 boundary unchanged: Contour A runs on GitHub-hosted cloud components; servers are reserved for later Jarvis/local compute after independent Contour A acceptance.
+
+Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
