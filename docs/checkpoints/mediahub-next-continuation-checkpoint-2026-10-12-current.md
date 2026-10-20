@@ -141,3 +141,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - The artifact uploader is pinned to upstream-verified Node 24 commit `cf430e030ddbb5b0abf93d22962f4752f3646cd9`. This is static/CI evidence only, not proof of upload during a Gemini action failure.
 - Independent review and an authorized controlled failure-path test remain open. Keep PR #420 Draft/unmerged and do not redispatch Agent 2 before those gates.
 - Report: [Wave 225](MEDIAHUB-UPLOAD-ARTIFACT-IMMUTABLE-PIN-WAVE-225-2026-10-20.md). Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Latest continuation — Wave 226 GitHub synchronization audit (2026-10-20)
+
+- Wave report: [MEDIAHUB-GITHUB-SYNC-AUDIT-AND-CHECKPOINT-WAVE-226-2026-10-20.md](MEDIAHUB-GITHUB-SYNC-AUDIT-AND-CHECKPOINT-WAVE-226-2026-10-20.md).
+- Canonical docs ref: docs/mediahub-chat-tree-map-20261012; this pass recorded the latest PR, exact-head CI evidence and open gates to the report and map addendum. Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md. The map Contents wrapper yielded empty text at blob baa715602545461fc24afc9e8a8e1d83d9099425; it was not overwritten, and the map addendum is the current navigation vehicle.
+- main = 80be45a70732b1d568164571d4273a6397792c3b. PR [#420](https://github.com/VlDMlNSh/mediahub-os/pull/420) = c6b57ee3c8c748b86025f23fbb928cf6e0f2ddcc, 13 ahead / 0 behind, open Draft/unmerged; no submitted review found.
+- Exact-head Astra Cloud Runtime Validation [#39402774891](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774891), job 118561301997, and Astra Verify [#39402774885](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39402774885), job 118561301487, completed SUCCESS. Actionlint v1.7.7, compile, unit tests and signed-command smoke test all passed in Astra Verify.
+- All three Gemini child workflows use full SHA actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9; official v7 ref resolves to the same commit, signature metadata is verified, and the action declares Node 24. See the Wave 226 report for workflow blob SHAs and evidence.
+- Remaining gates: independent review and authorized controlled failure-path artifact test. Do not redispatch Agent 2, merge, deploy or call Contour A qualified before these gates pass. No secrets read or agents dispatched during this wave. Continue using only the approved GitHub-hosted Actions controller/child-workflow transport.
+- Historical note: the Wave 224/225 sections above are immutable historical snapshots; Wave 226 supersedes their current-head and gate status where noted. Contour A remains NOT QUALIFIED / NOT DEPLOYED / NOT INDEPENDENTLY ACCEPTED; Contour B remains blocked.
