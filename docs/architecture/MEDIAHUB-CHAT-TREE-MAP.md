@@ -1,12 +1,14 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 276; A0 Task ingress issuer and approval trust-gap audit)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 277; exhaustive branch-tree drift and A0 authority crosswalk)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
 - Статус карты: **ИНВЕНТАРИЗАЦИЯ / НЕ ПОЛНАЯ ПРИЁМКА**
 - Назначение: единая точка входа для восстановления дерева MH-01…MH-25 и предотвращения повторного поиска одних и тех же материалов.
+
+- Wave 277 (2026-10-20): [exhaustive branch-tree drift and A0 authority crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-TREE-DRIFT-AND-A0-AUTHORITY-CROSSWALK-WAVE-277-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-277-2026-10-20.md).
 
 - Wave 125 (2026-10-18): [Gemini provider-status regression report](../checkpoints/MEDIAHUB-GEMINI-PROVIDER-STATUS-REGRESSION-WAVE-125-2026-10-18.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-125-2026-10-18.md).
 
@@ -7654,3 +7656,12 @@ Source-pinned review confirms the current `AuthorizationContext` carries princip
 - Resident service `runtime/mediahub_runtime/astra_service.py` only instantiates `AstraGatewayRuntime` and waits; it does not call `FileTaskIngress`. The package exports `FileTaskIngress`/ `task_to_contract`, but no call site was established in the inspected runtime files.
 - Therefore the approval issue is recorded as a **latent trust/admission-contract gap before wiring**, not a verified reachable production exploit. External API/inbox callers and ACLs remain unknown; this pass did not exhaustively search every external integration.
 - Wave 276 report and Master Roadmap contain the updated boundary and required future negative-test matrix.
+
+
+### Wave 277 — exhaustive branch-tree drift and A0 authority crosswalk (2026-10-20)
+
+- Report: [Wave 277 tree-drift and A0 authority crosswalk](../checkpoints/MEDIAHUB-CONTOUR-A-TREE-DRIFT-AND-A0-AUTHORITY-CROSSWALK-WAVE-277-2026-10-20.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-277-2026-10-20.md).
+- Full recursive source tree comparison captured `main` at `80be45a70732b1d568164571d4273a6397792c3b` / tree `9ca2461bd2ee3028e43016089cdb39d08802ba52` and the documentation ref at `51d2c0b6e917abb44f11a655aa4c7e68669c4eda` / tree `aac37fffd343fdcb782d6815179386003e065f06`. Compare status was diverged, 2,835 ahead / 44 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. Both recursive trees were complete (`truncated=false`); the comparison found 704 docs-only blobs, 29 main-only blobs, and 14 differing shared-path blobs. Do not wholesale merge/rebase these refs.
+- The main-only set includes six Gemini/controller workflow files and `tests/test_worker_security_gate.py`; a secret-detection regex differs between `main` and the docs version of `ops/qualification/run_distributed_local_worker.py`. Review exact blob SHAs in Wave 277 before any path-specific integration.
+- PR #423 proposes deletion of only the two legacy old-host migration workflows. Exact-head Astra Cloud Runtime Validation #39451818985 and Astra Verify #39451818611 reported SUCCESS, but the PR remains Draft/unmerged with no submitted reviews. PR #421 likewise remains Draft/unmerged with exact-head CI success but no independent review; the caller-guard/secret-boundary gate and non-launching negative caller-context test remain open.
+- Existing task ingress/authentication/provider schemas do not establish the full A0 mission issuer, trusted approval, destination admission, DAG and route policy lifecycle. Resolve producer/writer, trusted approval verifier and A0 vs Product State Authority naming before adding an accepted schema. No live route, host action, secret access, agent dispatch, merge, deployment, qualification or acceptance occurred.
