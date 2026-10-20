@@ -75,7 +75,7 @@ Three Gemini GitHub Actions workflows were dispatched from `main` SHA `250337534
 - A2 OSS/clean-room architecture research: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370202615
 - A3 independent security review: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370217605
 
-Last status read: all three `in_progress`; no result PRs yet. Their results are unverified proposals until artifact, tool success, branch/PR, refs and evidence are read back. The dispatches do not prove the three agents are always-on; they are finite GitHub Actions runs.
+Final status read: all three runs completed `success` and created Draft PRs #401–#403; independent read-back findings and unresolved claims are recorded in §8 below. Their results are unverified proposals until artifact, tool success, branch/PR, refs and evidence are read back. The dispatches do not prove the three agents are always-on; they are finite GitHub Actions runs.
 
 ## 7. Scope and non-claims
 
@@ -83,3 +83,16 @@ Last status read: all three `in_progress`; no result PRs yet. Their results are 
 - No test or qualification result is claimed for this document. Only GitHub metadata/source reads and workflow dispatch/status checks were performed.
 - The clean-room topology is a proposal and is **not accepted, implemented, qualified, deployed or production-authorized**.
 - Contour A remains **NOT_PROVEN / BLOCKED**; G0–G11 remain blocked; G11 is human-only.
+
+
+## 8. Independent read-back of Wave 232 Gemini results
+
+All three runs finished successfully, but the artifacts contain tool failures and the reports are not accepted as authoritative.
+
+- **A1 / PR #403** — report blob `1e59ecb5a37a64bc98d55af1978685858c5b65b3`. Run output records 11 successful and 4 failed tool calls, including an unsupported `update_topic` call, initial PR tool schema error, and a Gemini free-tier input-token quota error. More importantly, its “separately authorized publisher verified” and “fully implemented and tested” assertions are overstated: `astra_github_agent.py` blob `dd2f373bf5f3d69dec951c84e3d53b0e9befab0c` pushes from the worker process to `astra-node/{NODE_ID}`; `ops/qualification/run_distributed_local_worker.py` blob `dfa6bdfc5b2bd728f51ded9bd21b4de9db127cd1` is another direct-push worker path. The workflow blob `f650f2416c19dc75b4a0eeec037661c0c6169910` still grants `contents: write` and sets `persist-credentials: true`. No evidence shows that the standalone `ops/mesh/admission.py::admit_executor()` result is composed into the `astra_github_agent.py` command execution path.
+- **A2 / PR #401** — report blob `b1cfb1e0730f8f94b8f1b4cf29aaa0fd78f89a91`. The shortlist (Cosign, Syft, Trivy, SOPS, age) aligns with existing component references, but the report lacks pinned upstream tags/commit SHAs and dated release evidence needed to reproduce its maintenance/license claims. Harbor is not an accepted component merely because the agent suggests it; keep it reference-only/future-gated until a separate decision and qualification.
+- **A3 / PR #402** — report blob `ee6688c08135521efa48f33a32ddb730334ba407`. It identifies direct push and replay/key lifecycle concerns, but its conclusion “publisher separation validated as artifact-only” contradicts the direct worker push code. The claim that result/telemetry secrets are automatically scrubbed also needs a source-bound sanitizer path and negative tests; it is not accepted from the report alone.
+- Independent review comments were added to PR #403 (comment `6283536354`), PR #402 (`6283537187`) and PR #401 (`6283538001`). All three PRs remain Draft/unmerged. No runtime code, secret, worker, infrastructure or acceptance gate was changed by the agent runs.
+- PR #404 exact-head CI on `80b290206d4e6d40f2ff076a389cfb9f477d2f3b`: Astra Verify run `39370493729` SUCCESS; Astra Cloud Runtime Validation run `39370493773` SUCCESS. These verify existing repository checks on the proposal branch; they do not qualify the proposed clean-room architecture.
+
+Disposition: preserve all three agent PRs as unaccepted research proposals until the corrections are made and the exact source claims are re-verified. Contour A remains `NOT_PROVEN / BLOCKED`; G0–G11 blocked, G11 human-only.
