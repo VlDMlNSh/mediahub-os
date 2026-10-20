@@ -31,9 +31,13 @@ This is the sole approved launch transport for cloud agents in this project. Do 
 
 This rule applies to all future MediaHub OS cloud-agent work and every `/next` wave until changed through explicit owner direction and the project's applicable governance/change-control process. It governs transport only; it does not grant additional product, repository, provider, or deployment authority and does not change Baseline 2.0.
 
-## Current operational status — governance gate (2026-10-20)
+## Current operational status — governance gate (2026-10-20, Wave 243)
 
-The controller → fixed-scope child-workflow chain is the **only policy-authorized cloud-agent/API transport**. This does not mean dispatch is currently cleared to run. Until either (A) repository-administrator evidence proves effective exclusion of direct child dispatch while preserving the existing REST-dispatch contract, or (B) governance explicitly approves the proposed controller-only reusable-workflow redesign, **do not dispatch cloud agents**. Continue independent non-agent work. The available GitHub connection did not expose the required Actions permission settings; all three child workflows on main still declare `workflow_dispatch`, so technical exclusion of direct invocation remains NOT PROVEN. Option B is a request, not an approval. Do not alter the REST-dispatch contract before explicit governance disposition.
+The GitHub-hosted Actions controller is the **only policy-authorized cloud-agent/API entry point**. Option A was not proven because effective Actions restrictions and the `MEDIAHUB_GITHUB_TOKEN` principal permissions could not be verified through the available GitHub connection. The owner explicitly approved Option B for implementation in a separate PR at [Issue #301 comment 6289586838](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6289586838). This approval authorizes design/implementation only; it does **not** authorize agent dispatch, merge, deployment, or Contour A qualification.
+
+Implementation proposal: [PR #421](https://github.com/VlDMlNSh/mediahub-os/pull/421) converts the three child workflows to `workflow_call`, removes direct `workflow_dispatch`, replaces REST child dispatch with controller-called reusable jobs, and explicitly passes only the corresponding provider key. PR #421 is Draft and remains unaccepted pending exact-head CI, independent review, workflow caller-guard verification, positive/negative contract tests, and secret-boundary checks.
+
+**Cloud-agent dispatch remains ON HOLD** until the implementation is independently reviewed, required checks pass, the PR is integrated through the project’s governance gates, and separate authorization for a real agent run is recorded. Do not use the old REST dispatch path or any alternate transport. No cloud agent has been launched as part of Wave 243.
 
 ## Initial runtime evidence (2026-10-20)
 
