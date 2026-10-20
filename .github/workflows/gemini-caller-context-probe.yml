@@ -1,0 +1,59 @@
+name: MediaHub Contour A — non-launching Gemini caller-context probe
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/gemini-agent-2.yml"
+      - ".github/workflows/gemini-agent-3.yml"
+      - ".github/workflows/gemini-autonomous-engineering.yml"
+      - ".github/workflows/gemini-caller-context-probe.yml"
+      - "tests/test_gemini_caller_context_probe_contract.py"
+
+# This probe has no GitHub token permissions and passes no provider secrets.
+permissions: {}
+
+jobs:
+  probe:
+    name: Reusable workflow context observation (probe-only)
+    uses: ./.github/workflows/gemini-agent-2.yml
+    with:
+      task: "Observe caller context only. Do not invoke any model, provider, tool, or repository mutation."
+      base_ref: main
+      scope: contour-a
+      probe_only: true
+    permissions: {}
+    secrets: {}
+
+  assert_untrusted_context:
+    name: Assert actual PR caller context is denied
+    needs: probe
+    if: always()
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Verify the observed caller ref is the probe workflow, not the trusted controller
+        shell: bash
+        env:
+          OBSERVED_EVENT_NAME: ${{ needs.probe.outputs.caller_event_name }}
+          OBSERVED_WORKFLOW_REF: ${{ needs.probe.outputs.caller_workflow_ref }}
+          OBSERVED_TRUSTED_CONTROLLER: ${{ needs.probe.outputs.caller_trusted_controller }}
+          TRUSTED_CONTROLLER_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
+        run: |
+          set -euo pipefail
+          printf 'Observed caller event: %s\n' "$OBSERVED_EVENT_NAME"
+          printf 'Observed caller workflow ref: %s\n' "$OBSERVED_WORKFLOW_REF"
+          printf 'Trusted-controller predicate: %s\n' "$OBSERVED_TRUSTED_CONTROLLER"
+          [[ "$OBSERVED_EVENT_NAME" == "pull_request" ]]
+          [[ "$OBSERVED_WORKFLOW_REF" == *"/.github/workflows/gemini-caller-context-probe.yml@"* ]]
+          [[ "$OBSERVED_WORKFLOW_REF" != "$TRUSTED_CONTROLLER_REF" ]]
+          [[ "$OBSERVED_TRUSTED_CONTROLLER" == "false" ]]
+          {
+            echo "## Non-launching caller-context probe"
+            echo
+            echo "- Event: `$OBSERVED_EVENT_NAME`"
+            echo "- Workflow ref: `$OBSERVED_WORKFLOW_REF`"
+            echo "- Trusted controller: `$OBSERVED_TRUSTED_CONTROLLER`"
+            echo "- Provider secret passed: no"
+            echo "- Gemini action invoked: no (probe_only=true; engineer job is ineligible)"
+          } >> "$GITHUB_STEP_SUMMARY"
