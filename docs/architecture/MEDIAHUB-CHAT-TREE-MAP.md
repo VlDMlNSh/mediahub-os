@@ -1,12 +1,14 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 286; least-privilege Gemini caller-context probe repair; exact-head CI green; PR #421 remains open/draft/unreviewed)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 287; exact-head CI revalidated; trusted-controller positive runtime context remains unproven; PR #421 remains open/draft/unreviewed)
 - Репозиторий: `VlDMlNSh/mediahub-os`
 - Базовая ветка для этой карты: `main`
 - Ветка карты: `docs/mediahub-chat-tree-map-20261012`
 - Статус карты: **ИНВЕНТАРИЗАЦИЯ / НЕ ПОЛНАЯ ПРИЁМКА**
 - Назначение: единая точка входа для восстановления дерева MH-01…MH-25 и предотвращения повторного поиска одних и тех же материалов.
+
+- Wave 287 (2026-10-20): [exact-head and positive-context gap audit](../checkpoints/MEDIAHUB-GEMINI-CONTROLLER-EXACT-HEAD-AND-POSITIVE-CONTEXT-GAP-AUDIT-WAVE-287-2026-10-20.md) and [Wave 287 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-287-2026-10-20.md). Exact-head checks for PR #421 are terminal SUCCESS, but the runtime probe only rejects an untrusted pull-request caller; positive trusted-controller context and independent review remain unproven.
 
 - Wave 286 (2026-10-20): [least-privilege Gemini caller-context probe repair](../checkpoints/MEDIAHUB-GEMINI-CALLER-PROBE-LEAST-PRIVILEGE-REPAIR-WAVE-286-2026-10-20.md) and [Wave 286 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-286-2026-10-20.md). Exact-head CI is green at `3141a44370694d78f76779243adb548318a745d7`; PR #421 remains OPEN/DRAFT/UNMERGED and lacks independent review.
 
