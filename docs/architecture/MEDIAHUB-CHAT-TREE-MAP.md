@@ -7426,3 +7426,13 @@ Latest PR HEAD: `eab691df37b1e9d0a54d67a80c8c558a40d685df`. Contract tests blob 
 
 
 - Wave 215 Gemini result update: A3 created Draft PR #393 (head 93853dd0ad82f59726a56be8d29e472aa3dcf310; report blob dee1e60cf23fd55d5aeafa1f3ed10215e089ea4e). Review comment 6277569380 requested correction of overclaims about explicit subprocess environments and shell-injection immunity; PR #393 remains unaccepted. At last Actions read-back A1 run 39325506829 and A2 run 39325510774 remained in progress; A3 run 39325515053 also reported in progress despite PR creation. See Wave 215 report.
+
+
+## 20.372 — Large-map Git Database API update and current governance state (Wave 237, 2026-10-20)
+
+- Canonical map payload was retrieved completely through Git blob SHA `2187b4ca50792fe073f0979442c0f73432a2f6f9` (1,094,624 characters). The Contents wrapper's empty response was not treated as an empty file.
+- A Git Database API blob round-trip accepted the full UTF-8 payload and returned the same SHA; the dated evidence report is [Wave 237 — Git Database API large-map probe](../checkpoints/MEDIAHUB-GIT-DATABASE-LARGE-MAP-PROBE-WAVE-237-2026-10-20.md).
+- Current refs at audit: `main=8761f734031ef0b880b974cea24c2463e7a22046`; documentation branch was advanced through an explicit fast-forward-only update after verifying its expected previous head. The refs diverge by 2,551 commits ahead / 35 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; do not merge these branches as a side effect of documentation maintenance.
+- PR #388 remains OPEN / Draft / unmerged at `815fa4af497a593f321ee692f64f53a12dcad061`; exact-head Astra Verify run `39375449122` and Astra Cloud Runtime Validation run `39375449153` succeeded. PR #404 remains OPEN / Draft / unmerged at `75ce935bd54003b63086bb990496cee1ddc96d3b`; exact-head Astra Verify run `39371237195` and Astra Cloud Runtime Validation run `39371237182` succeeded.
+- PAT_DISPATCH read/write smoke test succeeded for full roadmap/checkpoint reads and a temporary ref create/delete, but REST `workflow_dispatch` returned HTTP 403. Dispatch authority remains unproven; verify fine-grained Actions: write and repository/organization policy separately. Never expose the PAT to workers or logs.
+- Issue #301 remains OPEN. A0 issuer/capability, replay/revocation, accepted target manifest, R-06 audit/privacy, worker artifact-only output, separate trusted publisher, and independent acceptance remain open gates. Contour A remains **NOT PROVEN / BLOCKED**; Contour B remains gated.
