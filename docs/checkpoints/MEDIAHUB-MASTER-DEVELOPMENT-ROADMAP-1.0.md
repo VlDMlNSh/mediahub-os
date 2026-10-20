@@ -2249,3 +2249,15 @@ Canonical navigation: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub
 - Next: source-backed component comparison matrix, registry consumer census, and mock-provider proof for the smallest safe orchestration/router/state stack.
 
 Canonical navigation: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 262 — GitHub-cloud-only pool; local compute reserved for Jarvis (2026-10-20)
+
+- [Wave 262 report](MEDIAHUB-GITHUB-CLOUD-ONLY-POOL-AND-LOCAL-JARVIS-BOUNDARY-WAVE-262-2026-10-20.md) and [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-262-2026-10-20.md) record the owner's infrastructure boundary.
+- Contour A cloud pool must use GitHub-hosted components for orchestration, job execution, coordination, artifacts and evidence; initial execution plane is GitHub Actions with ephemeral GitHub-hosted runners. No customer-managed server, VPS, self-hosted runner, local workstation or always-on listener may be a pool dependency. External model providers are API endpoints only, invoked from authorized GitHub-hosted jobs under existing policy gates.
+- Servers are reserved for later Jarvis/local compute; local executor/Jarvis phase follows cloud pool deployment and independent operational acceptance. Contour B remains blocked until Contour A acceptance.
+- Prefer GitHub-native facilities. If a durable queue/state requirement cannot be satisfied without external hosted infrastructure, document the gap and obtain governance/change control before adoption. No silent fallback.
+- Wave 262 did not dispatch agents, call providers, access secrets, use servers, install components, merge, deploy or qualify.
+- Next: provider-registry consumer census; compare ready-made components with a GitHub-hosted-only filter; build mock-provider/schema/evidence tests and document any native capability gaps.
+
+Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
