@@ -252,7 +252,7 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 
 ## Latest continuation — Wave 237 (2026-10-20)
 
-- Report: [MEDIAHUB-CLOUD-AGENT-SOLE-ROUTE-SYNC-WAVE-237-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-SOLE-ROUTE-SYNC-WAVE-237-2026-10-20.md); create commit `c67d3ed0fa6cdc2aa671ce5ff8779b2dabfb50d3`.
+- Report: [MEDIAHUB-CLOUD-AGENT-SOLE-ROUTE-SYNC-WAVE-237-2026-10-20.md](MEDIAHUB-CLOUD-AGENT-SOLE-ROUTE-SYNC-WAVE-237-2026-10-20.md); blob SHA `204986d315afb1492322af41bff28e924eb5b596`; create commit `c67d3ed0fa6cdc2aa671ce5ff8779b2dabfb50d3`.
 - Re-read policy blob `18c27e3f3be100da54b256cdc7d97a36e1fd753e`, Bootstrap blob `77368971b90071812f82c384cdd3be813513a5dc`, controller main blob `99e5a87825aeb239568f96ecef004a102ff3e53b`, and three main child workflow blobs A1 `09523d809530ae5b7bf528eab5fa53bc5deaf92d`, A2 `259c8c82b8d90a39e1c90e65390e469b241b5581`, A3 `91b5397001e088dfae2f450ee77c9c23118b5601`.
 - Sole policy-authorized route remains GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` → fixed-scope children, controller-only `MEDIAHUB_GITHUB_TOKEN`. Direct SentinelX/server/local CLI/ad-hoc/alternate transport remains prohibited.
 - Enforcement gap persists: children on `main` still expose `workflow_dispatch`; effective Actions policy and token principal type remain unknown. Do not claim technical exclusivity. Wave 236 governance options A/B/C remain proposals; no controller/child redesign without explicit governance disposition.
