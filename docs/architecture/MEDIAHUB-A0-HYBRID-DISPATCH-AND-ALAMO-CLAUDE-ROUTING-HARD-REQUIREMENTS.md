@@ -68,7 +68,8 @@ These owner-directed requirements govern subsequent design and implementation pr
 ## 6. Navigation and traceability
 
 - Canonical project map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md)
-- Latest clarification report: [Wave 273](../checkpoints/MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-FREELLMAPI-CLAUDE-ALAMO-CONSTRAINTS-WAVE-273-2026-10-20.md)
+- Canonical Wave 273 owner requirements: [FreeLLMAPI/FCC/Alamo Claude hard-route report](../checkpoints/MEDIAHUB-A0-FREELLMAPI-FCC-ALAMO-CLAUDE-HARD-ROUTE-REQUIREMENTS-WAVE-273-2026-10-20.md)
+- Supplemental repository-state reconciliation: [Wave 273 source note](../checkpoints/MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-FREELLMAPI-CLAUDE-ALAMO-CONSTRAINTS-WAVE-273-2026-10-20.md)
 - Prior owner-lock: [Wave 272](../checkpoints/MEDIAHUB-A0-MULTI-TIER-ROUTING-AND-ALAMO-CLAUDE-NONPAID-AUTH-HARD-REQUIREMENTS-WAVE-272-2026-10-20.md)
 - Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301); PR [#421](https://github.com/VlDMlNSh/mediahub-os/pull/421)
 
