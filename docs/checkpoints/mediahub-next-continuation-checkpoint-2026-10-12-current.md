@@ -8,7 +8,7 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 
 
 - Detailed source audit: [A0 Task ingress, issuer and approval trust-gap audit](MEDIAHUB-A0-TASK-INGRESS-ISSUER-AND-APPROVAL-TRUST-GAP-WAVE-276-2026-10-20.md).
-- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 276. Map blob SHA `3906cd3d36467ff60b4b2053a1ad2560eee193fe`; map update commit `56259205b3760737ed7460f62f08e2e33fd730db`.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), Wave 276. Map blob SHA `990623e75fb6f930785c004b8daf48ac6f9c8a0b`; Wave 276 map update commit `4d4f6a429e398933f432f308a66c643c4acdde2f`.
 - Master Roadmap addendum update commit: `6e6b8571709d159cbe7ba1d3aca39a1f4e2a3b1d`; blob SHA `61238dfb616836868e21a5f99993f6d6cae0df07`.
 - Wave 276 report traceability update commit: `b8b7bb9d2697ddca3a7e49e2b0cac56984b68a52`; blob SHA `6d5fe621da9d5ef77945f45763df095846301819`.
 - Current refs rechecked: `main` remains `80be45a70732b1d568164571d4273a6397792c3b`; PR #421 remains OPEN/DRAFT at `84e2d0bbb4163942f5ba010591cb5d3c9d6a7581`; PR #422 remains OPEN/DRAFT at `3735ae534993c279b0d380813bcd1595c79397a3`. Both report success for the two inspected check workflows, but neither has a returned independent review. Neither PR was merged and no Gemini agent was dispatched.
