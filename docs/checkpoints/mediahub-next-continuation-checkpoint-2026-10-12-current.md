@@ -2013,3 +2013,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Exact-main Astra Verify [#39649841150](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649841150) succeeded on `79196054d84b1197cea1447dd1db5ad075302834`. Combined status and commit-workflow-run APIs did not provide an exact-main workflow-contract result; contract validation remains NOT CONFIRMED.
 - PR #432 is merged but the review listing still shows no formal submitted review; branch protection/ruleset API returns 403 to the connected integration. Gemini/Claude/browser remain NOT RUN. Do not enable batch admission or dispatch until exact-main contract CI, independent review, governance, and trusted-main no-secret probe are verified.
 - Full report: [Wave 321 HMAC test regression and repair](MEDIAHUB-HMAC-TEST-REGRESSION-WAVE-321-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+### Wave 323 — Gemini GitHub transport launch readiness (2026-10-21)
+
+- Report: [Wave 323 launch-readiness evidence](MEDIAHUB-GEMINI-DISPATCH-READINESS-WAVE-323-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main HEAD `79196054d84b1197cea1447dd1db5ad075302834`; Astra Verify #39649841150 SUCCESS. Controller run #39650408656 SKIPPED; the source comment was on PR #436, not governing Issue #301. No child Gemini runs or artifacts exist for this pass.
+- Source review confirms the three fixed child workflows use GitHub-hosted `ubuntu-latest`, distinct provider secrets, and one immutable target SHA. No Voktors-Mini/Claude/browser dependency exists in the Gemini controller/children.
+- Voktors-Mini.Dlink host `host_5f7264034bdf0b51` was confirmed operational; `agent-browser` core instructions and offline doctor were run. Browser use was read-only and did not trigger GitHub actions. OmniRoute config is absent and FCC/FreeLLMAPI commands were not found; Claude remains NOT RUN.
+- Latest PR #437 head `531ed07d1fd8ad474587f5af0e4a5f3364461b6d` has no verified exact-head CI or formal review. Secret/variable metadata, effective token scope, trusted-main no-secret probe and branch protection remain NOT VERIFIED. Do not enable/dispatch a live batch until admission gates are supported by evidence.

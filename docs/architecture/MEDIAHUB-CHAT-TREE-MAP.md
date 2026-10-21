@@ -7810,3 +7810,6 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 
 
 - Wave 301 validation update: Draft 2020-12 meta-validation passed for all three v0.2 candidate schemas using jsonschema 4.25.1; raw digests and partial fixture results are in [Wave 301 report](../checkpoints/MEDIAHUB-GEMINI-INDEPENDENT-SCHEMA-AND-GOVERNANCE-REVIEW-WAVE-301-2026-10-21.md). Full positive/negative fixture acceptance remains OPEN; do not promote schemas or dispatch workers.
+
+
+- Wave 323: [Gemini GitHub transport launch readiness and independent browser evidence](../checkpoints/MEDIAHUB-GEMINI-DISPATCH-READINESS-WAVE-323-2026-10-21.md). Controller run #39650408656 was skipped because the source comment was on PR #436, not Issue #301; no child agents ran. Cloud child workflows are source-level isolated to GitHub-hosted runners. Dispatch remains blocked on independent security review, secret/variable metadata, trusted-main probe and governance evidence.
