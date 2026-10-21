@@ -2421,3 +2421,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Controller run `39678989141` remains skipped; owner comment `6326943789` was a report announcement, not literal `/next`. No non-launching probe or Gemini dispatch occurred. No approved Actions-dispatch mutation is exposed by the available connector.
 - Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifacts. SentinelX browser CLI lookup timed out; local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN. Governance, effective token scope and independent security review remain open. No secret reads, trigger, host changes, merge, deployment, qualification or acceptance.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: obtain authorized provider-status evidence for `freebuff-web`, independent controller security review, and governance/token-scope verification. Do not bypass queued checks.
+
+
+## Wave 345 — refreshed main/PR CI state and executor gate (2026-10-22)
+
+- Report: [Wave 345 refreshed CI and dispatch gates](MEDIAHUB-NEXT-REFRESHED-CI-AND-DISPATCH-GATES-WAVE-345-2026-10-22.md), commit `f99d7c34abc3c869955ddef9fbdba83bfb3e7c0b` (blob SHA to be read back).
+- Current main `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. PR #437 HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; PR #441 HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`; PR #442 HEAD `37bda222c699418d5105364a1ceb6ef9f1f81e08` (draft).
+- Main Astra Verify run `39685040842` SUCCESS. Scheduled queue supervisor run `39686595751` and job `119522116279` remain QUEUED. Main suite `107553033246` queued (zero checks), `107553038685` success, `107557209401` queued. PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 suite `107567803806` remain QUEUED with zero check runs; formal reviews empty.
+- Controller issue-comment run `39678989141` remains SKIPPED; trigger comment `6326943789` was a report announcement, not literal `/next`. No successful dispatch or Gemini child runs.
+- SentinelX host `Voktors-Mini.Dlink` ping succeeded. Browser CLI lookup previously timed out; local browser and Claude-FCC/Ollama execution not verified. Gemini Agents 1–3 NOT RUN; no IDs or artifact digests. Governance, token scope, independent controller security review and successful no-secret probe remain NOT VERIFIED.
+- No secret reads, trigger comments, dispatch, host changes, merge, deployment, qualification or acceptance. Status **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: authoritative queued-provider diagnosis, independent security review, and governance/token-scope evidence before any approved no-launch probe.
