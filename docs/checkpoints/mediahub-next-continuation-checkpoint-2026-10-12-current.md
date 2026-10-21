@@ -2191,3 +2191,15 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 
 
 - Wave 335 supplemental verification: current `main` ref independently resolved to `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b` via the commit endpoint, correcting the Wave 335 report's initial limitation statement. Canonical map blob `30b1a0dae214eb61f5009084c4a6be8c30c7c9af` was retrieved via blob API. PR #437 and #441 still have empty exact-head CI/status results and zero formal reviews; Gemini 1–3 NOT RUN. Report supplement: [Wave 335 dispatch/executor recheck](MEDIAHUB-NEXT-GEMINI-DISPATCH-AND-VOKTORS-EXECUTION-WAVE-335-2026-10-21.md).
+
+
+## Latest continuation — Wave 337 (2026-10-22): owner settings and exact-head gate recheck
+
+- Report: [Wave 337](MEDIAHUB-NEXT-OWNER-SETTINGS-AND-EXACT-HEAD-GATE-RECHECK-WAVE-337-2026-10-22.md); map addendum: [Wave 337](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-337-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Independently resolved `main` HEAD: `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob SHA `9453403bba899a2400ee3fb874d32badd034c704`.
+- Owner confirmation of `MEDIAHUB_GITHUB_TOKEN`, `MEDIAHUB_DISPATCH_HMAC_KEY` and `MEDIAHUB_GEMINI_BATCH_ENABLED` is recorded from the latest Issue #301 comment. Do not repeat the same settings request absent contradictory evidence. Effective scope/injection remains NOT VERIFIED; no secret values were read.
+- PR #437 remains OPEN/DRAFT at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head statuses and PR-triggered workflow-run results are empty; formal reviews are zero. PR #439/#440/#441 remain OPEN/DRAFT.
+- Rulesets endpoint returned `[]`; branch-protection endpoint returned 403 for the connected integration, so protection state is UNKNOWN, not absent.
+- Connected GitHub tools expose read-only workflow inspection but no workflow-dispatch write action. No trusted-main no-secret probe or controller run was initiated; Gemini Agents 1–3 remain NOT RUN, with no child run IDs or artifact digests.
+- SentinelX inventory lists only `Voktors-Mini.Dlink` as operational; Alamo is not identified. Claude-FCC-Ollama and agent-browser remain NOT RUN.
+- Status remains **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: obtain exact-head CI and independent review for PR #437; obtain authoritative governance evidence; run the safe no-secret probe through an authorized Actions dispatch route before considering a Gemini batch.
