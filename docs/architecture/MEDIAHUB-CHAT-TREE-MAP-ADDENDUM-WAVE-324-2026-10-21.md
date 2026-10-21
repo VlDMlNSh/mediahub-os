@@ -20,7 +20,7 @@ See [Wave 325 dispatch and executor identity recheck](../checkpoints/MEDIAHUB-NE
 
 ## Wave 326 — exact-SHA CI and skipped-controller reconciliation
 
-See [Wave 324 live Gemini dispatch reconciliation](../checkpoints/MEDIAHUB-NEXT-GEMINI-DISPATCH-RECONCILIATION-WAVE-324-2026-10-21.md).
+See [Wave 324 live Gemini dispatch reconciliation](../checkpoints/MEDIAHUB-NEXT-GEMINI-DISPATCH-RECONCILIATION-WAVE-326-2026-10-21.md).
 
 - Live `main` HEAD remains `79196054d84b1197cea1447dd1db5ad075302834`; controller blob remains `9453403bba899a2400ee3fb874d32badd034c704`.
 - Main Astra Verify [39649841150](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649841150) succeeded. Related contract/Astra Verify/Cloud Runtime runs [39649560873](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649560873), [39649560826](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649560826), [39649560957](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649560957) succeeded on SHA `35493642b04ef546001d561dd95b9819f378c276`, not the current PR #437 head.
