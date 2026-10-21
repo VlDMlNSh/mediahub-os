@@ -96,5 +96,15 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('This /next comment already has a controller run; duplicate dispatch suppressed.', self.source)
         self.assertIn('if source_comment_id:', self.source)
 
+    def test_batch_admission_flag_defaults_closed(self):
+        gate = self.workflow["jobs"]["readiness_gate"]
+        self.assertEqual(gate["permissions"], {})
+        self.assertIn("MEDIAHUB_GEMINI_BATCH_ENABLED", self.source)
+        self.assertIn('BATCH_ENABLED: ${{ vars.MEDIAHUB_GEMINI_BATCH_ENABLED }}', self.source)
+        self.assertIn('needs: readiness_gate', self.source)
+        condition = self.workflow["jobs"]["dispatch_and_monitor"]["if"]
+        self.assertIn("needs.readiness_gate.outputs.enabled == 'true'", condition)
+        self.assertIn('no child dispatch will occur', self.source)
+
 if __name__ == "__main__":
     unittest.main()
