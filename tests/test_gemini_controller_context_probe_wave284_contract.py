@@ -17,7 +17,8 @@ class GeminiCallerContextProbeTests(unittest.TestCase):
         cls.child_sources = [p.read_text(encoding="utf-8") for p in CHILD_PATHS]
         cls.children = [yaml.load(s, Loader=yaml.BaseLoader) for s in cls.child_sources]
     def test_standalone_probe_is_non_launching_and_secret_free(self):
-        self.assertIn("workflow_dispatch", self.probe["on"])
+        self.assertIn("pull_request", self.probe["on"])
+        self.assertNotIn("workflow_dispatch", self.probe["on"])
         self.assertIn("pull_request", self.probe["on"])
         for source in (self.probe_source, self.observer_source):
             self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", source)
