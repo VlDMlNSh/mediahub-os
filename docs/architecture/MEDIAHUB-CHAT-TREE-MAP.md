@@ -1,7 +1,8 @@
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
-- Последнее подтверждённое инкрементальное обновление: 2026-10-20 (Wave 292; default-deny no-secret probe implemented on PR #421; PR-context negative path and exact-head CI pass; trusted positive dispatch pending review/merge)
+- Последнее подтверждённое инкрементальное обновление: 2026-10-21 (Wave 295; static controller/child-guard audit; trusted positive runtime and independent review remain open)
+- Wave 295: [Gemini controller static security review](../checkpoints/MEDIAHUB-GEMINI-CONTROLLER-STATIC-SECURITY-REVIEW-WAVE-295-2026-10-21.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-295-2026-10-21.md). Candidate PR #421 remains unmerged; no-secret probe/caller guards cross-check cleanly and exact-head CI is green, while trusted positive runtime, independent review and governance/protection evidence remain open.
 - Wave 292: [default-deny trusted caller-context probe](../checkpoints/MEDIAHUB-DEFAULT-DENY-TRUSTED-CALLER-CONTEXT-PROBE-WAVE-292-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-292-2026-10-20.md). PR #421 now defaults to a no-secret read-only observer mode; exact-head CI passes and the negative PR caller context is rejected. Trusted positive dispatch remains pending review/merge.
 - Wave 291: [GitHub governance visibility and positive-probe safety audit](../checkpoints/MEDIAHUB-GITHUB-GOVERNANCE-VISIBILITY-AND-POSITIVE-PROBE-SAFETY-WAVE-291-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-291-2026-10-20.md). Rulesets endpoint returned empty; classic branch protection and Actions policy are not readable by the integration. Do not dispatch an unreviewed candidate for positive-context qualification.
 - Wave 290: [caller/child permission matrix and probe evidence](../checkpoints/MEDIAHUB-GEMINI-CALLER-PERMISSION-MATRIX-AND-PROBE-EVIDENCE-WAVE-290-2026-10-20.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-290-2026-10-20.md). Caller/child permission pairs match at source level; repository/org policy remains unverified. Earlier zero-job startup failure remains unexplained; later probe proves only rejection of an untrusted PR caller.
@@ -7771,3 +7772,15 @@ The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee
 - Addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-293-2026-10-20.md](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-293-2026-10-20.md).
 - Candidate head `185f55b63121b1aece7e60f6c087ecfceab2721e` remains on unmerged Draft PR #421; not accepted code. Exact-head tests and CI are green, but only the negative PR-context path is proven. Trusted positive dispatch and effective governance remain pending.
 - PR #421/#426 remain unreviewed and overlap on caller-context probe paths; resolve before integration. Contour A remains NOT_PROVEN / BLOCKED; Contour B gated.
+
+
+<!-- Wave 295: controller static security review -->
+## Wave 295 — Gemini controller static security review (2026-10-21)
+
+- Report: [Gemini controller static security review](../checkpoints/MEDIAHUB-GEMINI-CONTROLLER-STATIC-SECURITY-REVIEW-WAVE-295-2026-10-21.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-295-2026-10-21.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Source refs: main `80be45a70732b1d568164571d4273a6397792c3b`; unmerged PR #421 `185f55b63121b1aece7e60f6c087ecfceab2721e`; candidate controller blob `4cec1aa234fd9ccb0d41533b37248fff079c79c5`; reusable observer `e05759d04f34f52cc7ad1b794b6718585ee2507f`; Wave 292 contract test `e1a229cbfb134d3548df727eab4f644dc221a51f`; validation workflow `b7416b1f41463a075ebb7d1ba147c2291bd64967`.
+- Current exact-head runs #39475766199, #39475766192, #39475766251, #39475766469 and #39475766513 remain SUCCESS. Static audit confirmed default `probe`, explicit `agents` + `confirm=yes` model gating, no-secret observer with empty permissions, and guarded engineer jobs in all three workflow-call children. Negative PR caller is proven; trusted positive dispatch is not.
+- Zero independent reviews on #421 and #426. Effective repository/org Actions policy and protection requirements remain unknown. Fresh changed-path inventory shows no overlap between #421 (11 paths) and #426 (3 paths); this supersedes Wave 293's dated overlap warning without rewriting history.
+- Documentation branch vs main is DIVERGED, 2,921 ahead / 44 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No whole-branch integration.
+- No agent/provider invocation, secret access, workflow dispatch, local test run, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED; Contour B gated.
+- Next: obtain independent security review and authoritative governance/protection evidence. Only after accepted integration run the default no-secret probe to observe trusted context.

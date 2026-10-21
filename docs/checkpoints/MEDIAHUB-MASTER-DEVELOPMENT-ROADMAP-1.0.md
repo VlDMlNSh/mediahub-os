@@ -1,3 +1,15 @@
+## Current execution record — Wave 295 (2026-10-21)
+
+- Report: [Gemini controller static security review](MEDIAHUB-GEMINI-CONTROLLER-STATIC-SECURITY-REVIEW-WAVE-295-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-295-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Exact refs re-read: `main` `80be45a70732b1d568164571d4273a6397792c3b`; PR #421 candidate HEAD `185f55b63121b1aece7e60f6c087ecfceab2721e`, still OPEN/DRAFT/UNMERGED. The documentation branch is not canonical code.
+- Exact-head CI remains green: Astra Verify #39475766199; contract validation #39475766192; Cloud Runtime Validation #39475766251; non-launching caller probe #39475766469; Wave 292 probe #39475766513.
+- Source-level audit confirms controller mode defaults to `probe`, model jobs require explicit `mode=agents` + `confirm=yes`, the no-secret observer has empty permissions, and each child engineer job checks the trusted controller context. Runtime evidence still proves only the negative PR path.
+- #421 and #426 currently have zero submitted independent reviews; effective GitHub org/repository protection settings remain unverified. Current file lists do not overlap (11 paths for #421, 3 for #426), correcting Wave 293's status without altering its historical record.
+- No model/provider invocation, secret access, dispatch, local test execution, merge, deployment, qualification or acceptance occurred. Contour A stays **NOT_PROVEN / BLOCKED**; Contour B remains gated.
+- Next: independent review and authoritative governance/protection evidence; after reviewed integration only, capture trusted positive context using the default no-secret probe.
+
+---
+
 ## Current execution record — Wave 292 (2026-10-20)
 
 - Report: [Wave 292 default-deny trusted caller-context probe](MEDIAHUB-DEFAULT-DENY-TRUSTED-CALLER-CONTEXT-PROBE-WAVE-292-2026-10-20.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-292-2026-10-20.md).

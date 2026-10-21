@@ -1,3 +1,16 @@
+## Latest continuation — Wave 295 (2026-10-21)
+
+- Report: [Wave 295 Gemini controller static security review](MEDIAHUB-GEMINI-CONTROLLER-STATIC-SECURITY-REVIEW-WAVE-295-2026-10-21.md).
+- Map addendum: [Wave 295](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-295-2026-10-21.md).
+- `main` remains `80be45a70732b1d568164571d4273a6397792c3b`; PR #421 is OPEN/DRAFT/UNMERGED at `185f55b63121b1aece7e60f6c087ecfceab2721e`. Exact-head CI runs #39475766199, #39475766192, #39475766251, #39475766469 and #39475766513 remain SUCCESS.
+- Static source recheck found the no-secret probe mode and caller guards consistently connected across the controller, observer and three reusable children. The actual PR probe establishes only the negative `pull_request` caller path; trusted positive `workflow_dispatch` runtime evidence is still missing.
+- Independent review submissions remain zero on #421 and #426. Effective repository/org Actions policy and protection requirements remain unknown; API visibility failure is not evidence that rules are absent.
+- Current file inventories show no changed-path overlap between #421 (11 files) and #426 (3 files), superseding Wave 293's historical overlap warning without rewriting it. Docs branch is 2,921 commits ahead / 44 behind `main`; do not synchronize the entire branch.
+- No Gemini dispatch, secret/provider access, local test execution, merge, deployment, qualification or acceptance. Contour A remains **NOT_PROVEN / BLOCKED**; Contour B remains gated.
+- **Next:** independent security review and authoritative governance/protection evidence; after accepted integration only, run the default no-secret probe.
+
+---
+
 ## Latest continuation — Wave 292 (2026-10-20)
 
 - Report: [Wave 292 default-deny trusted caller-context probe](MEDIAHUB-DEFAULT-DENY-TRUSTED-CALLER-CONTEXT-PROBE-WAVE-292-2026-10-20.md).
