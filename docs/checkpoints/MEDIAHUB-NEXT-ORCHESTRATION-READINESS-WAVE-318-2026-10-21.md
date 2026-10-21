@@ -43,7 +43,7 @@ These runs do not establish that a trusted-main positive dispatch was exercised:
 | Gemini Agent 1 | NOT RUN | No controller run ID for this pass; PR #432 remains unmerged and required governance/security gates are not evidenced. |
 | Gemini Agent 2 | NOT RUN | Same blocker; no child run ID. |
 | Gemini Agent 3 | NOT RUN | Same blocker; no child run ID. |
-| Claude Code on Alamo / server 3 | NOT RUN | SentinelX inventory showed only `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) connected and operational. Its capabilities/help calls timed out. No connected host was verified as Alamo/server 3; the other two enrolled hosts are disabled. |
+| Claude Code on Alamo / server 3 | NOT RUN | SentinelX inventory showed only `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) connected and operational. Capabilities summary/full and ping succeeded for this host; the help-index request timed out. This does not verify Alamo identity. No connected host was verified as Alamo/server 3; the other two enrolled hosts are disabled. |
 | agent-browser on verified Alamo | NOT RUN | Same host identity/capability blocker. The installed skill was read; its actual CLI core instructions were not executed because no verified Alamo host is available. |
 
 Controller run ID: **NONE**. Gemini child run IDs: **NONE**. Claude session/job ID: **NONE**. Shared target SHA for a new agent batch: **NOT ASSIGNED** because no dispatch was admitted. Artifact digests for this pass: **NONE**.
@@ -55,7 +55,7 @@ Controller run ID: **NONE**. Gemini child run IDs: **NONE**. Claude session/job 
 3. Verify HMAC secret presence/separation and the `MEDIAHUB_GEMINI_BATCH_ENABLED` variable through approved non-disclosing controls; never expose secret values.
 4. Record authoritative governance/branch-protection evidence and the accepted runner/workspace/network target manifest.
 5. Complete the ordered Issue #301 gates: A0 issuer/ingress/lease/cancel/recovery and R-06 audit/privacy; standards-compliant JSON Schema Draft 2020-12 validation with format assertions and positive/negative fixtures; semantic reference resolution; independent review.
-6. Decide and implement a supported event bridge if the intended trigger is a ChatGPT `/next` message rather than a GitHub Issue #301 comment. Do not imply this bridge already exists.
+6. The candidate implements an OWNER-only GitHub Issue #301 comment bridge for exact `/next`; a ChatGPT message does not itself create that issue-comment event. A per-chat `/next` flow still needs an authenticated ChatGPT-side action to post the triggering comment after the candidate is reviewed, integrated and enabled.
 7. Independently verify Alamo host identity, capabilities, read/write allowlist and the permitted non-paid Claude Code route; prove paid API routes and paid fallback are disabled before invoking Claude.
 8. Only after the above are accepted, run a non-launching trusted-main probe and separately authorize/qualify a bounded three-agent dispatch. Never treat green static CI or successful probe as runtime acceptance.
 
@@ -63,7 +63,7 @@ Controller run ID: **NONE**. Gemini child run IDs: **NONE**. Claude session/job 
 
 - Re-read current controller source and exact PR metadata.
 - Inspected the latest exact-head workflow run inventory and the controller probe jobs; the agent dispatch job was skipped.
-- Queried SentinelX host inventory. Capability/help requests to the only connected host timed out.
+- Queried SentinelX host inventory; capabilities summary/full and ping succeeded for `Voktors-Mini.Dlink`. The help-index request timed out. No Alamo host was identified.
 - Read the installed agent-browser skill discovery instructions; no browser command or host operation was run.
 - No tests were run locally; the listed GitHub Actions checks are the only test evidence in this pass.
 - No workflow dispatch, child agent, provider/model call, secret read, merge, rebase, cherry-pick, deployment, qualification or acceptance occurred.
@@ -72,3 +72,14 @@ Controller run ID: **NONE**. Gemini child run IDs: **NONE**. Claude session/job 
 
 Perform an exact-head independent security review of PR #432 and reconcile the current workflow/test contracts against its latest source. In parallel, continue non-secret schema validator/fixture work from Issue #301. Keep the controller unmerged and all Gemini/Claude executions NOT RUN until governance, route identity and security gates have evidence.
 
+
+
+## Wave 318 live-state reconciliation — 2026-10-21
+
+A follow-up read after the original Wave 318 snapshot found these additional facts:
+
+- Live `main` HEAD is `1f9fe47f986376a733fb0ddfa5e3b567b2613d5c`; the PR API still reports #432 base SHA `f16e5bae202a78584f273132e7f88c6e25d3142e`. Treat the candidate's base as requiring reconciliation before any integration, despite `mergeable=true` in PR metadata.
+- GitHub's repository Actions variable/secret endpoints are not authorized by the available connector (requests rejected as not-allowed); classic branch-protection endpoint returns 403. Repository rulesets returned an empty list only at repository scope. Accordingly, `MEDIAHUB_GEMINI_BATCH_ENABLED`, `MEDIAHUB_GITHUB_TOKEN`, `MEDIAHUB_DISPATCH_HMAC_KEY`, and all three Gemini provider secret names remain NOT VERIFIED. No secret values were read.
+- The issue-comment bridge and three per-`/next` agent role prompts are present on PR #432; the bridge is absent from the main controller blob `4cec1aa234fd9ccb0d41533b37248fff079c79c5`. The latest exact-head candidate CI remains the five successful runs listed above; the controller run was non-launching and its agent dispatch job was skipped.
+- The routing registry `ops/agent-fabric/providers/local-executor-routing-v2.yaml` remains `ASTRA_GOLD_QUALIFICATION_GATED` (blob `af3d96fe91055af6ba79eded9c800d28d8c0c5c9`). SentinelX Free plan exposes one active slot, occupied by Voktors-Mini.Dlink; `mh-dev-01` and `mh-dev-02` are disabled there, and Desktop Commander reports them offline. No Alamo host is available for local Claude/browser work.
+- Therefore no Gemini controller/child IDs, no Alamo Claude session/job ID and no browser evidence were created. Keep PR #432 Draft/unmerged and leave all dispatch disabled pending independent review, settings/governance evidence, current-base CI and verified Alamo/non-paid-route qualification.
