@@ -44,7 +44,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('base_ref:"main"', dispatch_source)
         self.assertIn('scope:"contour-a"', dispatch_source)
         self.assertIn('git/ref/heads/main', dispatch_source)
-        self.assertIn('^$target_sha', dispatch_source)
+        self.assertIn('target_sha" =~ ^[0-9a-f]{40}', dispatch_source)
         self.assertIn('base_ref:$target_sha', dispatch_source)
         self.assertIn("Immutable source/main SHA", dispatch_source)
         self.assertIn("created_at >= $since", monitor_source)
