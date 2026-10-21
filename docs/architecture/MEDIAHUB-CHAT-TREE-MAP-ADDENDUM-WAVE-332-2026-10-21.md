@@ -8,3 +8,6 @@ Date: 2026-10-21. Detailed evidence: [Wave 332 report](../checkpoints/MEDIAHUB-N
 - Controller expects `MEDIAHUB_DISPATCH_HMAC_KEY`, not `MEDIAHUB_DISPATCH_NMAC_KEY`. Secret values were not read. Gemini Agents 1–3 NOT RUN; no current controller/child IDs or artifact digests.
 - SentinelX inventory confirms host identity but command channel remains intermittent. Full capabilities show agent-browser/claude/ollama/npx not in allowed commands; bounded execution disconnected. Browser core/session and Claude/FCC route NOT RUN.
 - Next: close cloud-controller gates and independently recover/qualify Voktors command execution. Never couple cloud Gemini availability to this physical host.
+
+
+Supplemental live execution recheck: [Wave 332 Gemini and Voktors execution recheck](../checkpoints/MEDIAHUB-NEXT-GEMINI-AND-VOKTORS-EXECUTION-RECHECK-WAVE-332-2026-10-21.md). It confirms GitHub-hosted runners for all three child workflows, no child dispatch, and intermittent SentinelX command-channel failures; see the report for exact SHAs and status.
