@@ -2000,3 +2000,8 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Controller candidate on main includes the Issue #301 owner-only \`/next\` bridge, idempotency suppression, closed-by-default admission variable and three distinct role prompts. No Gemini controller dispatch occurred. PR #437 has no recorded independent review; HMAC secret/variable metadata and branch protection were not verified in this pass.
 - Alamo/Claude and browser NOT RUN: SentinelX only identifies operational \`Voktors-Mini.Dlink\`, not Alamo/server 3. Keep Gemini exclusively on GitHub API transport.
 - Detailed evidence and next gates: [Wave 322 report](MEDIAHUB-HMAC-TEST-REGRESSION-WAVE-321-2026-10-21.md). Canonical map remains [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+### Wave 322 follow-up — exact-head qualification boundary
+- PR #437 advanced from tested head \`7f491729bab024a72dc20f5d7a3e107a4393ba3b\` to latest head \`531ed07d1fd8ad474587f5af0e4a5f3364461b6d\`. The latter adds a guard rejecting unsupported test-fixture override fields. No CI runs were listed for the latest head at check time; prior successful checks must not be attributed to it.
+- Latest PR #437 is still Draft/open/unmerged. No Gemini dispatch; HMAC secret/variable, branch protection, independent review, trusted-main no-secret probe and Alamo host identity remain open.
