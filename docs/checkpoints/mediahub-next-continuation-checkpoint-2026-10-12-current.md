@@ -2104,3 +2104,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Controller requires exact ASCII `MEDIAHUB_DISPATCH_HMAC_KEY`; owner-supplied `MEDIAHUB_DISPATCH_НМАС_KEY` is not equivalent because the HMAC segment contains Cyrillic characters. Verify the exact configured name in GitHub UI without exposing secret values; runtime variable scope, token least privilege and key validity remain NOT VERIFIED.
 - SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) remains in operational inventory, but ping/capabilities/state/help timed out and a read-only command probe disconnected with duplicate-session error. agent-browser core guide/browser session and Claude/FCC execution NOT RUN; no paid fallback or alternate host used.
 - Next: verify exact ASCII secret name and effective variable/token scopes; obtain independent review, exact-head CI and trusted-main no-secret-probe/governance evidence; then, only if all gates pass, run the controller against one shared immutable SHA. Restore SentinelX command-channel stability before any browser/Claude work.
+
+
+## Wave 330 — Gemini dispatch gates and Voktors executor status (2026-10-21)
+
+- Report: [Wave 330 dispatch-gates report](MEDIAHUB-NEXT-GEMINI-DISPATCH-GATES-WAVE-330-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-330-2026-10-21.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Current `main` HEAD `79196054d84b1197cea1447dd1db5ad075302834`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- Controller expects exact secret `MEDIAHUB_DISPATCH_HMAC_KEY`; owner-mentioned `MEDIAHUB_DISPATCH_NMAC_KEY` and Cyrillic-lookalike `MEDIAHUB_DISPATCH_НМАС_KEY` are not equivalent. Values were not read.
+- Controller runs [39667761725](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39667761725), [39667424495](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39667424495), and [39665960179](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39665960179) completed with every job SKIPPED; no child runs/artifacts. Gemini Agents 1–3 NOT RUN.
+- GitHub reports `main.protected=false`; independent review, exact-head CI, effective secret scopes and trusted-main no-secret probe remain open. No dispatch attempted.
+- SentinelX inventory shows Voktors-Mini `host_5f7264034bdf0b51` operational, but capabilities/state/ping timed out or disconnected during this pass. agent-browser core command and Claude/FCC were NOT RUN. No physical server was used for Gemini.
+- Next: correct and metadata-verify the exact HMAC secret name; close review/CI/governance/no-secret-probe gates; restore SentinelX command-channel and revalidate allowlist before browser/Claude work.
