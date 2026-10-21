@@ -2149,3 +2149,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Gemini Agents 1–3 NOT RUN; no current controller/child IDs or artifacts. Dispatch remains blocked pending exact-main CI, independent security review, branch governance, effective secret/variable scope and trusted-main no-secret probe.
 - Controller expects `MEDIAHUB_DISPATCH_HMAC_KEY`, not `MEDIAHUB_DISPATCH_NMAC_KEY`. Values were not read. SentinelX host is identified but commands intermittently disconnect; agent-browser core/session and Claude/FCC free route NOT RUN.
 - Next: close GitHub controller gates, then one controller-authorized batch on a shared immutable SHA. Independently restore and qualify Voktors command execution; never make Gemini dependent on the physical host.
+
+
+## Wave 332 — supplemental live execution recheck (2026-10-21)
+
+- Report: [Gemini and Voktors execution recheck](MEDIAHUB-NEXT-GEMINI-AND-VOKTORS-EXECUTION-RECHECK-WAVE-332-2026-10-21.md); map addendum: [Wave 332](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-332-2026-10-21.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Controller blob `9453403bba899a2400ee3fb874d32badd034c704`; child workflows use GitHub-hosted `ubuntu-latest` and the shared immutable target SHA. Controller run `39670089739` had all four jobs skipped and no artifacts. Gemini Agents 1–3 remain NOT RUN; no child run IDs or digests.
+- PR #437 remains Draft/open at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`, no exact-head checks/statuses or formal reviews. Main governance is reported unprotected; secret metadata and trusted-main no-secret probe remain unverified.
+- SentinelX full capabilities returned once, but command execution/read attempts failed with duplicate-session/disconnect. `agent-browser`, `claude`, `fcc-claude`, `ollama`, and `npx` are absent from allowed command prefixes. Browser and Claude/FCC remain NOT RUN; no host policy changed.
+- Exact secret name mismatch remains: controller expects `MEDIAHUB_DISPATCH_HMAC_KEY`, user supplied `MEDIAHUB_DISPATCH_NMAC_KEY`. No values read. Status **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
