@@ -1865,3 +1865,8 @@ A standalone handoff was added to preserve the active chat context, transport ar
 - Creation commit: `c34dd19adbea1d1b57cc49b1cc94fa6d06724ef1`
 - Controller state at handoff: PR #432 is an unaccepted draft follow-up; PR #431 is a separate earlier repair and must be rechecked before choosing one implementation. Gemini Agent 1–3 remain NOT RUN.
 - Canonical map remains authoritative and unchanged: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 314 — controller audit result (2026-10-21)
+
+Audited PR #432 source at `ea637eb55c87d44f0ce22730588e744c7470ee1d`. The GitHub API transport and separate child HMAC authorization match the canonical architecture; PR #432 remains stronger than #431 but NOT QUALIFIED. A concrete blocking finding: if a later child dispatch POST fails after an earlier POST succeeds, the controller raises immediately before monitoring already accepted children or writing the complete per-agent summary. Fix must record every attempt, continue safe reconciliation/monitoring for accepted child runs, emit a full table on partial failure, and exit nonzero without leaking secrets. Also require independent review of HMAC canonicalization, immutable checkout, least-privilege token scope, trusted-main no-secret probe, and governance evidence. Exact-head runs recorded: #39604609734, #39604609752, #39604609755, #39604609766 (dispatch skipped), #39604609921; these do not substitute for independent security review. No agent dispatch occurred. Full details: [Wave 314 source audit](MEDIAHUB-CONTROLLER-IMPLEMENTATION-COMPARISON-WAVE-313-2026-10-21.md).
