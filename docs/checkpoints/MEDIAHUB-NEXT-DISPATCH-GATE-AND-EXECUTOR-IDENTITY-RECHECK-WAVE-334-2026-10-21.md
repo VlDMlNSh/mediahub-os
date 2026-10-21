@@ -59,3 +59,10 @@ No merge, deployment, provider/model call, secret read, local command, qualifica
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - [PR #437](https://github.com/VlDMlNSh/mediahub-os/pull/437)
 - [PR #440](https://github.com/VlDMlNSh/mediahub-os/pull/440)
+
+
+## Publication read-back
+
+- Draft PR: [#441](https://github.com/VlDMlNSh/mediahub-os/pull/441), head commit `506a14459c69bc9c32648447339080f1aebb8ba9`, open/unmerged. Exact-head status and workflow-run queries are empty; formal review submissions: zero. These empty results do not establish passing CI.
+- Issue #301 status comment: [#6326338592](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326338592). The comment is an evidence report, not a `/next` trigger.
+- Read-back at publication time: report blob `c01a527be2c0be92467bedf9b603696929f22076`; map addendum blob `d1c2823d7770d720e3ee3e4368dce46ed4e87d5f`; checkpoint blob `ed0f97d886a084ce912d1b098d6c01cf76298821`. The following publication-note commit will change the report/checkpoint blob SHAs; final values are recorded in the PR and the terminal read-back.
