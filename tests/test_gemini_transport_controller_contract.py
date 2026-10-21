@@ -109,6 +109,15 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         condition = self.workflow["jobs"]["dispatch_and_monitor"]["if"]
         self.assertIn("needs.readiness_gate.outputs.enabled == 'true'", condition)
         self.assertIn('no child dispatch will occur', self.source)
+    def test_each_next_has_three_distinct_roadmap_driven_roles(self):
+        self.assertIn("Per-/next Agent 1 — bounded implementation.", self.source)
+        self.assertIn("highest-priority open, unblocked next task", self.source)
+        self.assertIn("Per-/next Agent 2 — independent contract and test verification.", self.source)
+        self.assertIn("Do not claim to have reviewed Agent 1 changes created concurrently from this batch.", self.source)
+        self.assertIn("Per-/next Agent 3 — independent security and provenance audit.", self.source)
+        self.assertIn("Never read or output secret values.", self.source)
+        self.assertIn("no merge, deployment, qualification", self.source)
+
 
 if __name__ == "__main__":
     unittest.main()
