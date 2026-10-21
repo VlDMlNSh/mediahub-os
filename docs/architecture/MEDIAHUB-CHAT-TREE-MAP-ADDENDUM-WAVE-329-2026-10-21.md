@@ -9,3 +9,6 @@ Date: 2026-10-21. Report: [Wave 329 Gemini batch admission and Voktors executor 
 - SentinelX lists `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) as operational, but ping/capabilities/state/help timed out and a read-only command probe disconnected due to duplicate session. No allowlist verification, browser CLI guide retrieval, browser session, Claude/FCC execution or paid fallback.
 - Gemini Agents 1–3: NOT RUN. Claude/FCC: NOT RUN. agent-browser: NOT RUN. No qualification or acceptance.
 - Next: verify exact ASCII secret name, variable scope/value, token permissions and governance; then, only after review/exact-head CI/trusted-main probe, consider one controller-only batch on a shared immutable SHA. Separately restore host stability and qualify browser/Claude routes.
+
+
+Owner's latest spelling clarification: `MEDIAHUB_DISPATCH_NMAC_KEY` is ASCII but still does not match the controller's exact `MEDIAHUB_DISPATCH_HMAC_KEY`. Earlier conversation used visually similar Cyrillic characters as well. Verify the exact configured name in GitHub Settings; never expose the value.
