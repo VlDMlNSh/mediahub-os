@@ -95,6 +95,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('SOURCE_COMMENT_ID: ${{ github.event.comment.id }}', self.source)
         self.assertIn('CURRENT_RUN_ID: ${{ github.run_id }}', self.source)
         self.assertIn('This /next comment already has a controller run; duplicate dispatch suppressed.', self.source)
+        self.assertIn('("next-comment-"+source_comment_id)', self.source)
         self.assertIn('if source_comment_id:', self.source)
 
     def test_batch_admission_flag_defaults_closed(self):
