@@ -46,7 +46,14 @@ def make_environment(workflow_file, signed_overrides=None, runtime_overrides=Non
     }
     if signed_overrides:
         values.update(signed_overrides)
-    payload = {field: values[field] for field in SIGNED_FIELDS}
+    payload = {
+        "workflow_file": values["WORKFLOW_FILE"],
+        "dispatch_id": values["DISPATCH_ID"],
+        "target_sha": values["TARGET_SHA"],
+        "task": values["TASK"],
+        "base_ref": values["BASE_REF"],
+        "scope": values["SCOPE"],
+    }
     values["SIGNATURE"] = hmac.new(
         values["HMAC_KEY"].encode(),
         json.dumps(payload, sort_keys=True, separators=(",", ":")).encode(),
