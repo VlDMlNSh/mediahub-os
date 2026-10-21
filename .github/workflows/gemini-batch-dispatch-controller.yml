@@ -56,6 +56,16 @@ jobs:
           started_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
           echo "started_at=$started_at" >> "$GITHUB_OUTPUT"
 
+          # Resolve main once and use that immutable commit for every child checkout.
+          main_ref="$(curl --fail-with-body --silent --show-error \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/VlDMlNSh/mediahub-os/git/ref/heads/main")"
+          target_sha="$(jq -r '.object.sha // empty' <<<"$main_ref")"
+          [[ "$target_sha" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Could not resolve immutable main SHA."; exit 1; }
+          echo "target_sha=$target_sha" >> "$GITHUB_OUTPUT"
+
           # Snapshot the latest run ID per child workflow before dispatch.
           # The monitor uses these baselines and fails closed if more than one
           # post-baseline candidate exists, rather than silently choosing a run.
@@ -79,9 +89,9 @@ jobs:
             local workflow="$1"
             local task="$2"
             local payload code
-            payload="$(jq -cn --arg task "$task" '{
+            payload="$(jq -cn --arg task "$task" --arg target_sha "$target_sha" '{
               ref:"main",
-              inputs:{task:$task,base_ref:"main",scope:"contour-a"}
+              inputs:{task:($task + " Immutable source/main SHA: " + $target_sha + "."),base_ref:$target_sha,scope:"contour-a"}
             }')"
             code="$(curl --silent --show-error --output /tmp/dispatch-response.json --write-out '%{http_code}' \
               --request POST \
@@ -110,6 +120,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MEDIAHUB_GITHUB_TOKEN }}
           STARTED_AT: ${{ steps.dispatch.outputs.started_at }}
+          TARGET_SHA: ${{ steps.dispatch.outputs.target_sha }}
           BASELINE_AGENT1: ${{ steps.dispatch.outputs.baseline_agent1 }}
           BASELINE_AGENT2: ${{ steps.dispatch.outputs.baseline_agent2 }}
           BASELINE_AGENT3: ${{ steps.dispatch.outputs.baseline_agent3 }}
@@ -177,7 +188,9 @@ jobs:
           done
 
           {
-            echo "## Gemini transport batch — Wave 218"
+            echo "## Gemini transport batch — Wave 312"
+            echo
+            echo "- Immutable source/main SHA: ${TARGET_SHA}"
             echo
             echo "| Agent | Run ID | Status | Conclusion |"
             echo "|---|---:|---|---|"
