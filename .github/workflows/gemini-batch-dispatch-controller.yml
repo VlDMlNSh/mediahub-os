@@ -150,12 +150,20 @@ jobs:
                   job["dispatch_status"]="ACCEPTED"
                   print(f"Accepted {wf}; correlation ID {did}; target SHA {target}")
               except Exception as exc:
+                  # Explicit 4xx rejection is definite; transport/5xx outcomes are ambiguous.
                   # Never print upstream exception text; it may contain untrusted data.
-                  # A network/API exception may occur after GitHub accepted the POST.
-                  # Mark the outcome unknown and still reconcile this correlation ID.
-                  job["dispatch_status"]="UNKNOWN"; job["dispatch_error"]=type(exc).__name__
-                  print(f"::error::Dispatch outcome unknown for {wf}; correlation ID {did}; error_type={type(exc).__name__}")
-          pending={j["id"]:j for j in jobs}
+                  match=re.search(r"HTTP (\d{3})",str(exc))
+                  code=int(match.group(1)) if match else None
+                  if code is not None and 400 <= code < 500:
+                      job["dispatch_status"]="FAILED"; job["dispatch_error"]=f"HTTP_{code}"
+                      results[did]={"status":"DISPATCH_FAILED","conclusion":"failure"}
+                      print(f"::error::Dispatch rejected for {wf}; correlation ID {did}; http_status={code}")
+                  else:
+                      job["dispatch_status"]="UNKNOWN"; job["dispatch_error"]=type(exc).__name__
+                      print(f"::error::Dispatch outcome unknown for {wf}; correlation ID {did}; error_type={type(exc).__name__}")
+          # Reconcile accepted and ambiguous attempts. Definite 4xx rejections are
+          # terminal and must not consume the child monitoring window.
+          pending={j["id"]:j for j in jobs if j["dispatch_status"] in ("ACCEPTED","UNKNOWN")}
           deadline=time.time()+32*60
           while pending and time.time()<deadline:
               for did,j in list(pending.items()):
