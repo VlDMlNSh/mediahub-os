@@ -2411,3 +2411,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - SentinelX ping to `host_5f7264034bdf0b51` succeeded; browser CLI lookup had previously timed out. Local Claude/Ollama/browser remain NOT VERIFIED/NOT RUN.
 - Governance, effective token scope, independent controller security review, and no-launch probe remain NOT VERIFIED. No secrets read, host modification, dispatch, merge, deployment, qualification or acceptance.
 - Status: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: independent security review; resolve stalled third-party exact-head checks; verify governance/token scope; only then run the approved non-launching probe.
+
+
+## Wave 344 — queued check-provider isolation (2026-10-22)
+
+- Report: [Wave 344 queued check-provider isolation](MEDIAHUB-NEXT-QUEUED-CHECK-PROVIDER-ISOLATION-WAVE-344-2026-10-22.md), blob SHA `53c6b5e931a91ccedadbcfb03d3ad390fb2b0c2a`, commit `053eba94b5709830e996eecdbf9b377f75c3e301` on noncanonical working branch `docs/mediahub-next-wave340-20261022`.
+- Current main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; PR #437 HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; PR #441 HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`; PR #442 HEAD `c3d5230e002837263c930126cce14899de137052` (draft).
+- Direct REST recheck: PR #437 suite `107496095390`, PR #441 suite `107524023551`, PR #442 suite `107550813359` are all `freebuff-web` / `queued` with zero check runs; each commit status is `pending` with zero legacy statuses. Main also has queued suite `107509764295` from `freebuff-web`, while Astra Verify run `39669337754` succeeded.
+- Controller run `39678989141` remains skipped; owner comment `6326943789` was a report announcement, not literal `/next`. No non-launching probe or Gemini dispatch occurred. No approved Actions-dispatch mutation is exposed by the available connector.
+- Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifacts. SentinelX browser CLI lookup timed out; local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN. Governance, effective token scope and independent security review remain open. No secret reads, trigger, host changes, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: obtain authorized provider-status evidence for `freebuff-web`, independent controller security review, and governance/token-scope verification. Do not bypass queued checks.
