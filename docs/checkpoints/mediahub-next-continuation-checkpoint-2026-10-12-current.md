@@ -2372,3 +2372,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Controller exact source requires literal owner `/next` on Issue #301 or workflow_dispatch `mode=agents` and `confirm=yes`; non-launching `probe` mode exists. No supported workflow-dispatch action was available in the connected GitHub tools, so no dispatch or trigger comment was attempted.
 - SentinelX ping to `Voktors-Mini.Dlink` succeeded; browser/Claude-FCC/Ollama execution remains NOT VERIFIED/NOT RUN. Gemini Agents 1–3 NOT RUN; no child run IDs or artifact digests. No secrets read, merge, deployment, qualification or acceptance.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: independent controller/security review, queued-CI resolution, governance/token-scope proof, then official no-secret probe if an approved dispatch path is available.
+
+
+## Wave 345 — current-main and exact-head CI reconciliation (2026-10-22)
+
+- Report: [Wave 345 current-main and exact-head CI reconciliation](MEDIAHUB-NEXT-CURRENT-MAIN-AND-EXACT-HEAD-CI-RECONCILIATION-WAVE-345-2026-10-22.md), blob SHA `c3a4350c0ebd3b32c6429340a7d950878640e5b8`, report commit `b91bffaa04ed756469a1f88175b21954609fcf32` on working branch `docs/mediahub-next-wave340-20261022`.
+- Main advanced to `f4ad65acdb82d25b93845279361502b6737e1d21` via a checkpoint-only commit. Exact-head Astra Verify run `39685040842` succeeded (job `119516823539`), but external app suite `107553033246` remains QUEUED/zero checks.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and current PR #442 HEAD `f3ad415fda169f2a43542fb1e990f218c83707ac` suite `107553578372` remain QUEUED/zero checks. Formal review lists empty.
+- Governance/token scope/security review remain NOT VERIFIED (branch protection API 403, empty ruleset list inconclusive). Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifact digests. Local Claude-FCC/Ollama and browser NOT VERIFIED/NOT RUN. No secret reads, trigger, dispatch, host mutation, merge or deployment.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: diagnose external check scheduling, obtain independent security review and metadata-only governance/token-scope evidence; do not dispatch agents before gates close.
