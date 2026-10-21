@@ -1,5 +1,5 @@
 name: MediaHub Contour A — Gemini GitHub API dispatch controller
-run-name: MediaHub Gemini controller — ${{ github.event.comment.id || inputs.mode || 'probe' }} — Wave 312
+run-name: MediaHub Gemini controller — ${{ github.event.comment.id && format('next-comment-{0}', github.event.comment.id) || inputs.mode || 'probe' }} — Wave 312
 on:
   workflow_dispatch:
     inputs:
@@ -144,7 +144,7 @@ jobs:
           source_comment_id=os.environ.get("SOURCE_COMMENT_ID","").strip()
           if source_comment_id:
               _,history=call("GET",f"/repos/{repo}/actions/workflows/gemini-batch-dispatch-controller.yml/runs?event=issue_comment&branch=main&per_page=100")
-              duplicates=[r for r in history.get("workflow_runs",[]) if str(r.get("id"))!=os.environ.get("CURRENT_RUN_ID","") and source_comment_id in (r.get("display_title") or "")]
+              duplicates=[r for r in history.get("workflow_runs",[]) if str(r.get("id"))!=os.environ.get("CURRENT_RUN_ID","") and ("next-comment-"+source_comment_id) in (r.get("display_title") or "")]
               if duplicates:
                   print("::notice::This /next comment already has a controller run; duplicate dispatch suppressed.")
                   sys.exit(0)
