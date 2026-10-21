@@ -28,7 +28,7 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 
 ## Launch decision
 
-**Do not start Gemini Agent 1–3 yet.** PR merge integrates the reusable-workflow architecture but does not itself establish the missing independent review, effective repository/org policy, positive trusted-caller runtime proof, or exact-main post-merge checks. Do not use a REST dispatch or alternate transport. The next allowed validation is the default no-secret `mode=probe` on the merged controller, only through the approved controller workflow and only if a verified GitHub Actions dispatch capability is available; this pass did not dispatch it.
+**Do not start Gemini Agent 1–3 yet.** PR #421 integrated a reusable-workflow architecture that conflicts with the required token-backed GitHub API transport. Merge does not establish the missing independent review, effective repository/org policy, trusted-controller runtime proof, or exact-main post-merge checks. Do not dispatch through the currently mismatched controller and do not use an alternate transport. First correct the controller/child workflow contract so the approved controller uses `MEDIAHUB_GITHUB_TOKEN` only for GitHub API dispatch/monitoring; then validate the no-secret probe and exact-main CI before agent-mode execution. This pass did not dispatch it.
 
 ## Other executor lanes
 
