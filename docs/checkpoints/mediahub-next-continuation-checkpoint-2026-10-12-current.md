@@ -1800,3 +1800,14 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - No agent was dispatched; no token value was read or disclosed. Gemini execution remains **NOT RUN / BLOCKED** pending controller/child remediation, independent security review, governance verification, and exact-main CI/probe evidence.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Next bounded step: inspect controller/child contracts and governance, implement the minimum safe GitHub API dispatch/monitoring path using `MEDIAHUB_GITHUB_TOKEN` only in the controller, then test on an isolated branch before any agent-mode dispatch.
+
+## Latest continuation — Wave 312 Gemini GitHub API transport repair (2026-10-21)
+
+- Owner correction applied: Gemini 1–3 use only GitHub Actions/GitHub API transport with `MEDIAHUB_GITHUB_TOKEN` confined to controller dispatch/monitoring. Server 3 / Alamo is reserved for local Claude Code and browser-agent work; never Gemini transport/fallback.
+- Repair PR: [#431](https://github.com/VlDMlNSh/mediahub-os/pull/431), branch `fix/gemini-github-api-transport-wave-312`, current head at this record: `5676bf402c807d069d1374a9321b12743fb72854`. It restores fixed workflow_dispatch children, controller-only token use, a default no-secret probe, explicit `mode=agents` + `confirm=yes`, immutable main SHA propagation to all child checkouts, and fail-closed run correlation.
+- Report: [Wave 312 transport repair](MEDIAHUB-GEMINI-GITHUB-API-TRANSPORT-REPAIR-WAVE-312-2026-10-21.md).
+- Exact-head evidence: Wave 284 contract validation run [39599892953](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892953) **SUCCEEDED**; non-launching caller-context probe [39599892994](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892994) **SUCCEEDED**; Astra Cloud Runtime Validation [39599892899](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892899) **SUCCEEDED**; controller no-secret probe [39599892909](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892909) **SUCCEEDED**, dispatch job skipped. Astra Verify [39599892964](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892964) was running at the last status read; recheck before merge.
+- Formal independent review is not recorded. Direct child-workflow dispatchability is explicitly identified for review; do not claim the security gate is closed.
+- Gemini Agent 1–3: **NOT RUN**. No token value was read or exposed. No merge, deployment, qualification or acceptance.
+- Next: recheck exact-head Astra Verify, obtain independent security review, then follow repository governance. After merge, recheck exact-main CI and default no-secret probe before any agent-mode launch.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
