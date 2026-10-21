@@ -1,3 +1,11 @@
+## Wave 299 — PR #421/#426 probe boundary and owner governance observation (2026-10-21)
+
+- Report: [PR #421/#426 probe integration boundary](MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-299-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- `main` remains `80be45a70732b1d568164571d4273a6397792c3b`. PR #421 head `185f55b63121b1aece7e60f6c087ecfceab2721e` and PR #426 head `6caf55977260e808a055c8c4b9a04d68eb050d8c` remain Draft/Open/Unmerged; no formal submitted reviews visible.
+- The current probe paths are distinct in the inspected refs; complete PR changeset reconciliation is still outstanding. Owner reports no additional rules configured on the three reviewed GitHub settings pages; see [Issue #301 comment](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6314555168). Treat this as owner-reported UI evidence, not proof that all effective classic/org controls are absent.
+- Gate remains **BLOCKED / NOT_PROVEN**. No model/provider dispatch, secret-value access, merge, deployment, qualification, or acceptance.
+- Next ordered implementation work: locate and accept authoritative runner/workspace/network target manifest; locate exact v0.2 schema sources; perform Draft 2020-12 meta-validation with format assertions and positive/negative fixtures; retain immutable provenance and independent review requirements.
+
 ## Wave 299 — PR #421/#426 probe integration boundary (2026-10-21)
 
 - Report: [probe integration boundary](MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-299-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
