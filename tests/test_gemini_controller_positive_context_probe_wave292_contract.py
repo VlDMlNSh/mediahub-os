@@ -41,6 +41,6 @@ class ControllerTransportTests(unittest.TestCase):
         self.assertIn('target=ref["object"]["sha"]', self.source)
         self.assertIn("Shared immutable target SHA", self.source)
         self.assertIn("NOT_COMPLETED_BEFORE_TIMEOUT", self.source)
-        self.assertIn("inputs.mode == 'agents' && inputs.confirm == 'yes'", self.source)
+        self.assertIn("github.ref == 'refs/heads/main' && inputs.mode == 'agents' && inputs.confirm == 'yes'", self.source)
 if __name__ == "__main__":
     unittest.main()
