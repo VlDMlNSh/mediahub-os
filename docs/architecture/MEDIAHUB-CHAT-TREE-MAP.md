@@ -7813,3 +7813,6 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 
 
 - Wave 323: [Gemini GitHub transport launch readiness and independent browser evidence](../checkpoints/MEDIAHUB-GEMINI-DISPATCH-READINESS-WAVE-323-2026-10-21.md). Controller run #39650408656 was skipped because the source comment was on PR #436, not Issue #301; no child agents ran. Cloud child workflows are source-level isolated to GitHub-hosted runners. Dispatch remains blocked on independent security review, secret/variable metadata, trusted-main probe and governance evidence.
+
+
+- Wave 323 follow-up: recent controller runs [#39663039781](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39663039781) and [#39663132307](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39663132307) were SKIPPED because owner comments on Issue #301 contained Wave 322/323 report text rather than the exact `/next` trigger. No Gemini child runs were created; the controller's enablement variable and remaining admission gates are still not verified.

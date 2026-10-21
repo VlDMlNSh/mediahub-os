@@ -4,7 +4,7 @@
 
 **CONTROLLER SOURCE PRESENT / THREE CLOUD WORKFLOWS ISOLATED FROM PHYSICAL HOSTS / NO AGENT DISPATCH / CONTOUR A NOT QUALIFIED.**
 
-This pass prioritized the user's request to achieve three real Gemini cloud-agent runs, but did not bypass existing governance and admission gates. The GitHub controller's configured trigger was examined and the most recent apparent `/next` run was traced to a comment on PR #436, not governing Issue #301; all controller jobs were skipped. No Gemini child run was launched by this pass.
+This pass prioritized the user's request to achieve three real Gemini cloud-agent runs, but did not bypass existing governance and admission gates. The controller's recent issue-comment runs were all skipped. Run #39650408656 came from a comment on PR #436, while the later runs #39663039781 and #39663132307 came from owner comments on Issue #301 whose bodies were Wave 322/323 report text, not the exact `/next` trigger. No Gemini child run was launched by this pass.
 
 - Repository: https://github.com/VlDMlNSh/mediahub-os
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
@@ -34,7 +34,7 @@ The reviewed controller/child workflow source contains no dependency on Voktors-
 ## Live Actions evidence
 
 - [Main Astra Verify run #39649841150](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649841150): `SUCCESS` on main HEAD `79196054d84b1197cea1447dd1db5ad075302834`.
-- [Controller run #39650408656](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39650408656): `SKIPPED`; all four jobs were skipped, no artifacts were produced, and there are no child run IDs.
+- [Controller run #39650408656](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39650408656): `SKIPPED`; its source comment was on PR #436, all four jobs were skipped, and no artifacts were produced. Later [run #39663039781](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39663039781) and [run #39663132307](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39663132307) were also `SKIPPED`: their owner comments were on Issue #301 but contained Wave 322/323 report text rather than the exact `/next` body.
 - The GitHub Actions browser page for run #39650408656 identified its source comment as [PR #436 comment #6323130946](https://github.com/VlDMlNSh/mediahub-os/pull/436#issuecomment-6323130946). The controller requires an exact `/next` comment by the owner on Issue #301 or an explicit trusted `workflow_dispatch` with `mode=agents` and `confirm=yes`. A PR comment does not satisfy that trigger.
 - PR #437 remains Draft/open/unmerged at head `01629874e8b4a10da68a0574ec77ecdfceeda8b9`. Prior checks on earlier head `7f491729bab024a72dc20f5d7a3e107a4393ba3b` must not be attributed to the latest head. No exact-head CI/check-run result or formal submitted review was found for latest head `01629874e8b4a10da68a0574ec77ecdfceeda8b9` (the commit checks endpoint returned zero check runs).
 - No controller run with a successful `dispatch_and_monitor` job was found in the examined recent run list.
