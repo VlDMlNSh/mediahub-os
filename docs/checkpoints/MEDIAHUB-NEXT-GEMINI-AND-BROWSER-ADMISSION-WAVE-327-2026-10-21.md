@@ -82,3 +82,31 @@ The owner reports running the requested local `sudo launchctl kickstart -k syste
 - Gemini Agents 1–3 remain NOT RUN. No run IDs, shared target SHA, artifacts, or artifact digests exist for this pass. No secrets were read. No physical host was used in Gemini transport.
 
 Next bounded step: stabilize SentinelX request handling and obtain successful capabilities plus command execution; verify the two staged allowlist entries are active, then install agent-browser and run its required core setup. Independently, close the exact-head CI/review and non-disclosing governance gates before any controller dispatch.
+
+## Wave 328 latest verification — post-restart (2026-10-21)
+
+This section supersedes the earlier transient observations above where they conflict.
+
+### SentinelX host and tools
+
+- Latest host inventory: `Voktors-Mini.Dlink`, host ID `host_5f7264034bdf0b51`, operational, session `sess_5b8d000f904b`, agent v0.22.0, macOS kernel 23.6.0 / arm64. A few calls overlapped the agent's reconnect and returned `duplicate_session`; subsequent host inventory and full capabilities calls succeeded.
+- Full capabilities still reports the original 95-command allowlist. It does **not** include `npm`, `npm install -g agent-browser`, or `agent-browser`, although the local config file contains the two narrow staged entries. Therefore the allowlist reload is still **NOT VERIFIED / NOT ACTIVE**.
+- `which ollama` returned `/opt/homebrew/bin/ollama`. Direct `ollama list` is denied by the active command allowlist; local model availability and the free-only Claude/FCC route remain NOT VERIFIED.
+- `which claude` previously returned no executable; latest request overlapped a reconnect. Claude CLI readiness remains NOT VERIFIED.
+- `agent-browser` was not found in the last completed binary lookup before this reconnect. A direct install attempt via the approved one-off script runner first failed because the script environment did not include the Node path. A corrected install job was then started with explicit PATH: SentinelX job ID `job_32d4c211bf09`, status **RUNNING at last observation**. This is not evidence of installation success. Do not launch a second install while this job may still be running.
+- A harmless SentinelX script-run probe succeeded and returned `Darwin`, confirming the one-off script channel itself is functional. The install job outcome still needs to be retrieved through SentinelX notifications before continuing. The CLI's required `agent-browser skills get core` has NOT RUN.
+
+### GitHub / Gemini
+
+- Controller source blob: `9453403bba899a2400ee3fb874d32badd034c704`. Source implements a default non-launching `probe` mode, an explicit `agents + confirm=yes` workflow-dispatch mode, and the owner-only `/next` comment route on Issue #301, all fail-closed behind `MEDIAHUB_GEMINI_BATCH_ENABLED`.
+- The source also requires `MEDIAHUB_GITHUB_TOKEN` and a separate `MEDIAHUB_DISPATCH_HMAC_KEY` before child dispatch. This does not prove either secret is configured, scoped correctly, or available to trusted-main runs; values were not read.
+- PR #437 head observed in the current PR response: `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`. The PR-run query and combined status for this SHA are empty; formal review list is empty. Exact-head CI and independent review remain **NOT VERIFIED**. Main commit `1a6e5a16ef9950b72dda04abd69a27f019922489` also returned empty results from the connector's PR-run-only query and combined-status endpoint; these empty results are not a pass.
+- PR #440 remains draft/open/unmerged, observed head `69aa8e98f1aa5c3154be24232fc6bedca00555e5`; its queried CI/status and formal review list are empty.
+- No workflow-dispatch connector is available in this session. The required trusted-main no-secret probe was not run, no `/next` trigger comment was created, and no controller or child workflow was launched. Effective variable/secret metadata and token permission scope remain NOT VERIFIED.
+- Gemini Agents 1–3 remain **NOT RUN**: no controller run ID, child run IDs, shared target SHA, artifacts or artifact digests. No physical host was used for Gemini transport.
+
+### Current next action
+
+1. Retrieve SentinelX notification for job `job_32d4c211bf09` once complete; do not relaunch it.
+2. If installation succeeded, verify `agent-browser --version`, run `agent-browser skills get core`, and perform only a bounded browser readiness check. If it failed, diagnose PATH/permissions/network without broadening the allowlist unnecessarily.
+3. Keep Gemini dispatch blocked until exact-head CI, formal independent security review, effective non-disclosing configuration checks, and the trusted-main no-secret probe have evidence. No launch or acceptance is claimed.
