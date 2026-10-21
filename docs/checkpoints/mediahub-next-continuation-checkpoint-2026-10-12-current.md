@@ -2307,3 +2307,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Main Astra Verify `39669337754` SUCCESS; controller run `39678989141` SKIPPED because owner comment `6326943789` was not literal `/next`.
 - Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifacts. Governance, effective token scope and independent security review remain NOT VERIFIED. SentinelX browser CLI lookup timed out; browser and local Claude-FCC/Ollama remain NOT VERIFIED/NOT RUN.
 - Status **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued checks, independent security review and metadata-only governance/token-scope verification; only then run approved non-launching probe and consider agent dispatch.
+
+
+## Wave 344 — dispatch evidence and exact-head queue recheck (2026-10-22)
+
+- Report: [Wave 344 dispatch evidence and CI queue recheck](MEDIAHUB-NEXT-DISPATCH-EVIDENCE-AND-CI-QUEUE-WAVE-344-2026-10-22.md), blob SHA `634afbc129f069f7661c25e62cb0e5d0321559ee`, commit `f7558d502344b2228562e78a7f5f0c31a9de8729` on working branch.
+- Main remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- Current PR #442 HEAD `185a4e90fbdea6b8bc7754ff5b21c510bcd71b26`; exact-head suite `107549163215` QUEUED with zero check runs. Earlier suite `107544433195` belongs to stale HEAD `5da1dea0b57e70c695ee8b40f28e1d2a96d548d2`. PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED, zero checks. Formal reviews for all three PRs are empty.
+- Controller run `39678989141` is SKIPPED; jobs `119496203777`, `119496205325`, `119496256092`, `119496276607` all SKIPPED; no artifacts. This is not a successful no-launch probe or Gemini dispatch. Main Astra Verify run `39669337754` is SUCCESS; main has other queued/skipped suites.
+- SentinelX host `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51` responds to ping/capabilities; one-host Free limit is full. Browser CLI lookup timed out; browser and local Claude/Ollama remain NOT VERIFIED/NOT RUN.
+- No secrets read, trigger comment, dispatch, host modification, merge, deployment, qualification or acceptance. Governance/effective token scope and independent security review remain NOT VERIFIED.
+- Disposition **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve check-provider scheduling, obtain independent security review, verify governance/token scope, then approved no-launch probe before considering agent dispatch.
