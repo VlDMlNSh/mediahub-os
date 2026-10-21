@@ -16,7 +16,7 @@ The executor boundary is now stated explicitly:
 
 PR: [#431 — Restore token-backed GitHub API transport for three Gemini agents](https://github.com/VlDMlNSh/mediahub-os/pull/431)
 Branch: `fix/gemini-github-api-transport-wave-312`
-Latest head SHA at final verification: `4764c74f6b3373fdb09117d3bc02576a39668a4f`
+Latest verified PR head SHA: `8177cce6859624e7740db204e0c19cb2bcdfe7ca`
 Base SHA: `f16e5bae202a78584f273132e7f88c6e25d3142e` (main at PR creation)
 
 Changed files on PR branch:
@@ -39,10 +39,10 @@ Controller behavior proposed:
 
 Latest observed head `5676bf402c807d069d1374a9321b12743fb72854`:
 
-- [Wave 284 workflow contract validation run 39600173823](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892953): **SUCCEEDED**.
-- [No-launching caller-context probe run 39600173779](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892994): **SUCCEEDED**; PR context was tested without launching Gemini.
-- [Astra Cloud Runtime Validation run 39600173792](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892899): **SUCCEEDED**.
-- [Controller workflow PR run 39600173791](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892909): **SUCCEEDED**; no-secret probe succeeded and dispatch job was skipped.
+- [Wave 284 workflow contract validation run 39600483390](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892953): **SUCCEEDED**.
+- [No-launching caller-context probe run 39600483597](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892994): **SUCCEEDED**; PR context was tested without launching Gemini.
+- [Astra Cloud Runtime Validation run 39600483360](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892899): **SUCCEEDED**.
+- [Controller workflow PR run 39600483335](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892909): **SUCCEEDED**; no-secret probe succeeded and dispatch job was skipped.
 - [Astra Verify run 39599892964](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39599892964): **RUNNING at last check**; do not treat exact-head full verification as complete until terminal conclusion is rechecked.
 - Formal independent PR review: **NOT RECORDED** at last check.
 - No Gemini agent was dispatched. No secret value was read or exposed. No merge, deployment, qualification or acceptance occurred.
