@@ -1,3 +1,16 @@
+## Latest continuation — Wave 313 (2026-10-21): controller comparison and security gates
+
+- Report: [Wave 313 controller comparison](MEDIAHUB-CONTROLLER-IMPLEMENTATION-COMPARISON-WAVE-313-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Current documentation branch HEAD observed before this write: `888a79352be5c4f2701d754cb16e1c75f881864f`; this documentation update creates a newer commit on the canonical documentation branch. Do not confuse that branch with `main`.
+- `main` HEAD/base: `f16e5bae202a78584f273132e7f88c6e25d3142e`.
+- Compared [PR #431](https://github.com/VlDMlNSh/mediahub-os/pull/431), head `8177cce6859624e7740db204e0c19cb2bcdfe7ca`, with [PR #432](https://github.com/VlDMlNSh/mediahub-os/pull/432), head `ea637eb55c87d44f0ce22730588e744c7470ee1d). Decision: #432 is the safer candidate because it adds a separate HMAC-signed input envelope verified by each child before provider/model execution; #431 lacks that boundary. Keep #432 Draft/unmerged pending independent review and governance evidence.
+- Exact-head #432 CI reported SUCCESS: contract validation [#39604609734](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39604609734), Astra Verify [#39604609752](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39604609752), no-secret caller probe [#39604609755](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39604609755), controller probe [#39604609766](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39604609766; dispatch skipped), and Astra Cloud Runtime Validation [#39604609921](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39604609921).
+- Formal independent reviews: none recorded for #431 or #432. Effective token scope, branch protection/governance evidence, and HMAC-secret separation: NOT VERIFIED. Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301) remains governing tracker.
+- Gemini Agent 1/2/3: **NOT RUN**; no controller dispatch ID or child run IDs for this pass. Claude/Alamo and browser agent: NOT RUN. No secrets were read; no agent workflow was dispatched; no merge or local test run occurred.
+- Next: obtain independent security review of exact #432 head; verify effective minimal token permissions, governance/branch protection, and HMAC secret separation without exposing values; then re-evaluate whether the no-secret trusted-main probe is authorized. Do not dispatch Gemini before all gates pass.
+
+---
+
 ## Latest continuation — Wave 312 (2026-10-21): Gemini controller GitHub API transport correction
 
 - Report: [Wave 312 controller transport correction](MEDIAHUB-GEMINI-CONTROLLER-GITHUB-API-DISPATCH-FIX-WAVE-312-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-312-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
