@@ -81,5 +81,18 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertNotIn('print(exc)', self.source)
 
 
+    def test_owner_only_next_comment_bridge_is_scoped_and_idempotent(self):
+        event = self.workflow["on"]["issue_comment"]
+        self.assertEqual(event["types"], ["created"])
+        condition = self.workflow["jobs"]["dispatch_and_monitor"]["if"]
+        self.assertIn("github.event.issue.number == 301", condition)
+        self.assertIn("github.event.issue.pull_request == null", condition)
+        self.assertIn("github.event.comment.body == '/next'", condition)
+        self.assertIn("github.event.comment.author_association == 'OWNER'", condition)
+        self.assertIn('SOURCE_COMMENT_ID: ${{ github.event.comment.id }}', self.source)
+        self.assertIn('CURRENT_RUN_ID: ${{ github.run_id }}', self.source)
+        self.assertIn('This /next comment already has a controller run; duplicate dispatch suppressed.', self.source)
+        self.assertIn('if source_comment_id:', self.source)
+
 if __name__ == "__main__":
     unittest.main()
