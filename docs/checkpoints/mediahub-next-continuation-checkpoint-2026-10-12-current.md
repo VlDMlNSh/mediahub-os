@@ -1969,3 +1969,10 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Minimal syntax-only fix is in Draft PR #434 at head `04442fe0aac243499231b1233e0a84eff0a33ede`, test blob `785618fad51ecf898b35132f6e43b196a18f7eae`; exact-head CI was in progress. Do not merge before exact-head checks pass.
 - Formal review API shows zero submitted reviews for PR #432 despite merge; independent-review gate remains NOT EVIDENCED. SentinelX has only `Voktors-Mini.Dlink` operational; `mh-dev-01` and `mh-dev-02` disabled, and no host is verified as Alamo/server 3. Claude and browser NOT RUN. No Gemini controller/child IDs or artifacts. ChatGPT-to-Issue-comment event bridge remains NOT PROVEN.
 - Next: verify PR #434 exact-head CI, then continue only after independent review/governance and Alamo/free-route identity gates; no controller dispatch during this pass.
+
+
+### Wave 321 follow-up — second HMAC expression corrected
+
+- First repair commit `960a57e6278e28867c5f8ec797f38638a786999e` did not catch a third malformed `next(...)` expression in the replay-case block. The exact-head CI exposed it; it was corrected in the same PR #436 branch.
+- Latest PR #436 head `7c45e920982a69169fc856a1739cb73445be904f`; test blob `01ddae5e1d7fd0e49ffa651da9655a5a5ad7a8d5`; all three matching HMAC expressions were read back and are syntactically closed.
+- Exact-head run [#39649630864](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630864) Cloud Runtime Validation passed. Contract validation [#39649630799](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630799) and Astra Verify [#39649630775](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630775) were in progress at check time. Keep PR open and do not claim repair verified until both are terminal success.
