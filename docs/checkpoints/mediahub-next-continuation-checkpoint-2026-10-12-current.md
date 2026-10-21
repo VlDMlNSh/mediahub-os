@@ -1991,3 +1991,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - After syntax repair, Astra Verify [#39649630775](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630775), job `119394233707`, failed in `test_gemini_child_signed_dispatch_runtime_contract.py`: `make_environment()` indexed canonical lowercase `workflow_file` in an uppercase environment dict, causing 46 fixture errors before negative authorization assertions ran.
 - Corrected fixture payload construction and lowercase-to-uppercase override mapping. Latest observed PR #436 head `95080b43782f9464f05869f08cf7a9f47680a233`; fixture blob `dd9bc5cd3c917414fe55f9d439428f6496e2429d`; HMAC test blob `01ddae5e1d7fd0e49ffa651da9655a5a5ad7a8d5`.
 - At checkpoint time, GitHub Actions/check-runs APIs returned no checks for that exact latest head. Latest candidate remains NOT VERIFIED; do not merge or dispatch until fresh exact-head CI succeeds and independent review/governance gates close.
+
+
+### Wave 322 — current readiness checkpoint (2026-10-21)
+
+- Main HEAD \`79196054d84b1197cea1447dd1db5ad075302834\`; main Astra Verify [#39649841150](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649841150) SUCCESS.
+- PR #437 is Draft/open, HEAD \`7f491729bab024a72dc20f5d7a3e107a4393ba3b\`. Exact-head contract validation [#39649822358](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649822358), Astra Verify [#39649822366](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649822366), and Cloud Runtime Validation [#39649822570](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649822570) all SUCCESS. Child HMAC runtime tests use synthetic credentials only.
+- Controller candidate on main includes the Issue #301 owner-only \`/next\` bridge, idempotency suppression, closed-by-default admission variable and three distinct role prompts. No Gemini controller dispatch occurred. PR #437 has no recorded independent review; HMAC secret/variable metadata and branch protection were not verified in this pass.
+- Alamo/Claude and browser NOT RUN: SentinelX only identifies operational \`Voktors-Mini.Dlink\`, not Alamo/server 3. Keep Gemini exclusively on GitHub API transport.
+- Detailed evidence and next gates: [Wave 322 report](MEDIAHUB-HMAC-TEST-REGRESSION-WAVE-321-2026-10-21.md). Canonical map remains [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
