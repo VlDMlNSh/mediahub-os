@@ -43,6 +43,10 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('ref:"main"', dispatch_source)
         self.assertIn('base_ref:"main"', dispatch_source)
         self.assertIn('scope:"contour-a"', dispatch_source)
+        self.assertIn('git/ref/heads/main', dispatch_source)
+        self.assertIn('^$target_sha', dispatch_source)
+        self.assertIn('base_ref:$target_sha', dispatch_source)
+        self.assertIn("Immutable source/main SHA", dispatch_source)
         self.assertIn("created_at >= $since", monitor_source)
         self.assertIn("refusing to guess", monitor_source)
         self.assertIn('!= "success"', monitor_source)
@@ -55,6 +59,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", source)
             self.assertNotIn("workflow_call", child["on"])
             self.assertIn("secrets." + secret, source)
+            self.assertEqual(child["on"]["workflow_dispatch"]["inputs"]["base_ref"]["type"], "string")
             self.assertNotIn("secrets: inherit", source)
 
     def test_probe_never_dispatches_agents_or_receives_secrets(self):
