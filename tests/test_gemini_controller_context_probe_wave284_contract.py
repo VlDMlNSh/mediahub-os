@@ -64,24 +64,19 @@ class GeminiCallerContextProbeTests(unittest.TestCase):
         self.assertNotIn("GEMINI_API_KEY", self.observer_source)
         self.assertNotIn("run-gemini-cli", self.observer_source)
 
-    def test_every_gemini_child_keeps_its_controller_gate(self):
+    def test_every_gemini_child_is_a_fixed_dispatch_target(self):
         for name, child, secret in self.children:
             with self.subTest(child=name):
-                call = child["on"]["workflow_call"]
-                self.assertEqual(call["inputs"]["probe_only"]["type"], "boolean")
-                self.assertEqual(call["inputs"]["probe_only"]["default"], "false")
-                self.assertEqual(call["secrets"][secret]["required"], "false")
-                self.assertIn("caller_event_name", call["outputs"])
-                self.assertIn("caller_workflow_ref", call["outputs"])
-                self.assertIn("caller_trusted_controller", call["outputs"])
-                jobs = child["jobs"]
-                self.assertEqual(jobs["caller_context"]["permissions"], {})
-                self.assertEqual(jobs["reject_untrusted_caller"]["permissions"], {})
-                self.assertIn("inputs.probe_only != true", jobs["reject_untrusted_caller"]["if"])
-                self.assertIn("inputs.probe_only != true", jobs["engineer"]["if"])
-                self.assertIn("needs.caller_context.outputs.trusted_controller == 'true'", jobs["engineer"]["if"])
-                self.assertEqual(jobs["engineer"]["needs"], ["caller_context", "reject_untrusted_caller"])
-                self.assertIn(TRUSTED_CONTROLLER_REF, jobs["engineer"]["if"])
+                dispatch = child["on"]["workflow_dispatch"]
+                self.assertIn("task", dispatch["inputs"])
+                self.assertEqual(dispatch["inputs"]["base_ref"]["type"], "string")
+                self.assertIn("scope", dispatch["inputs"])
+                source = (ROOT / ".github" / "workflows" / name).read_text(encoding="utf-8")
+                self.assertIn("secrets." + secret, source)
+                self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", source)
+                self.assertNotIn("secrets: inherit", source)
+                self.assertEqual(child["permissions"]["contents"], "read")
+                self.assertIn("ghcr.io/github/github-mcp-server@sha256:", source)
 
     def test_probe_uses_distinct_observer_path_and_pull_request_trigger(self):
         self.assertEqual(
