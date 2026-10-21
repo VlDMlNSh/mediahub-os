@@ -77,7 +77,7 @@ jobs:
             echo "- Gemini reachable in probe mode: no"
           } >> "$GITHUB_STEP_SUMMARY"
   dispatch_and_monitor:
-    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.mode == 'agents' && inputs.confirm == 'yes'
     runs-on: ubuntu-latest
     timeout-minutes: 40
     permissions: {}
