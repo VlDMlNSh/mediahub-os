@@ -2,7 +2,7 @@
 
 ## Disposition
 
-**GEMINI AGENTS 1–3 NOT RUN; CONTROLLER NOT DISPATCHED; ALAMO CLAUDE/AGENT-BROWSER NOT RUN.** This pass refreshed the controller/child workflow source, checked exact-head CI evidence, verified the only operational SentinelX host, and attempted to enable the requested browser CLI within the host's allowlist. The browser setup could not proceed safely because the SentinelX service requires sudo credentials to reload its policy and no passwordless restart is configured. The temporary allowlist edit was reverted. No Gemini transport used the physical server.
+**GEMINI AGENTS 1–3 NOT RUN; CONTROLLER NOT DISPATCHED; ALAMO CLAUDE/AGENT-BROWSER NOT RUN.** This pass refreshed the controller/child workflow source, checked exact-head CI evidence, verified the only operational SentinelX host, and attempted to enable the requested browser CLI within the host's allowlist. The browser setup could not proceed because the SentinelX service requires sudo credentials to reload its policy and no passwordless restart is configured. The narrow allowlist entries `npm install -g agent-browser` and `agent-browser` are now staged in the host config but are not active until the owner-authorized service restart succeeds. No Gemini transport used the physical server.
 
 ## Canonical sources
 
