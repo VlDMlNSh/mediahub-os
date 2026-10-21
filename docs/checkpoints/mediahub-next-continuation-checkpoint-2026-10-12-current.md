@@ -1,3 +1,15 @@
+## Wave 339 — executor channel and exact-head gate recheck (2026-10-22)
+
+- Report: [Wave 339 executor channel recheck](MEDIAHUB-NEXT-EXECUTOR-CHANNEL-RECHECK-WAVE-339-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Candidate target SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 head `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14` and PR #441 head `9f40b90c3106662cfcc337c48f29e4794fa713dc`: status/run/review connector results empty; exact-head CI and independent review remain NOT VERIFIED, not PASS.
+- Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifact digests. No workflow dispatch write action is available through the connected GitHub tools.
+- SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) remains listed operational, but current read-only ping/state/list requests returned `agent_disconnected/read_loop_ended`. No host command completed. Local Ollama runtime/model and agent-browser remain NOT VERIFIED/NOT RUN.
+- Owner authorization and clarification that “Alamo” means local Ollama are already recorded; no owner action is requested by this pass.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: full exact-head Actions evidence and independent review; authoritative governance/token scope; authorized non-launching probe; stable SentinelX session and read-only Ollama/browser preflight.
+
+---
+
 ## Wave 338 — owner authorization and local Ollama recheck (2026-10-22)
 
 - Owner explicitly authorized necessary actions and clarified that prior “Alamo” references mean local Ollama, not a separate hostname. Naming ambiguity resolved; security/governance gates remain mandatory.
