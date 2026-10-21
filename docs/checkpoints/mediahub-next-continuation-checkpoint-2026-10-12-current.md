@@ -1,3 +1,15 @@
+## Latest continuation — Wave 301 (2026-10-21)
+
+- Report: [Gemini independent schema and governance review](MEDIAHUB-GEMINI-INDEPENDENT-SCHEMA-AND-GOVERNANCE-REVIEW-WAVE-301-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-301-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- `main` SHA remains `80be45a70732b1d568164571d4273a6397792c3b`. Canonical documentation branch ref at this pass: `4c7944e22e935f3d34b05ddbd83dd51daa20aa0a`.
+- Gemini Agent 3 run [#39591234636](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39591234636) completed successfully and created report-only Draft [PR #429](https://github.com/VlDMlNSh/mediahub-os/pull/429); report blob `9c752d3ca2c5efdb957ddde758ee0e2e9e37b900`. It is preliminary and not accepted as complete schema review.
+- Read-only Gemini audit [#39591749321](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39591749321) completed successfully against immutable docs commit `4c7944e22e935f3d34b05ddbd83dd51daa20aa0a`; artifact digest `sha256:074afbcf6356651ecc4b2774dfb704b4285816b1b032f5d6e76f9a2407fa0bc7`.
+- Candidate schema blob SHAs: task envelope `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; agent registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`; evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`. All are Draft 2020-12 declarations, but full meta-validation, format checking, positive/negative fixtures and semantic reference resolution remain open. Static scan found zero JSON Schema `$ref` keywords; semantic string references are not automatically resolved.
+- Wave 10 target identity remains UNKNOWN/BLOCKED; Wave 276 A0 issuer/approval evidence remains unresolved if ingress is wired; Wave 06 R-06 acceptance authority remains unestablished.
+- Gate remains **BLOCKED / NOT_PROVEN**. No provider secret-value access, worker/model dispatch beyond the two explicitly requested Gemini review runs, merge, deployment, qualification or acceptance.
+- Next: implement an isolated non-runtime validator/fixture harness pinned to these exact source blobs; keep schemas off `main` until validation and governance gates pass.
+
 ## Latest continuation — Wave 299 (2026-10-21)
 
 - Report: [PR #421/#426 probe integration boundary](MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-299-2026-10-21.md).
