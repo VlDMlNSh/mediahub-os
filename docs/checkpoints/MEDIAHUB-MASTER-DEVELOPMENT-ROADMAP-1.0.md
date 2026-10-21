@@ -1,3 +1,10 @@
+## Wave 297 — Governance visibility recheck (2026-10-21)
+
+- Report: [Wave 297 governance visibility recheck](MEDIAHUB-GOVERNANCE-VISIBILITY-RECHECK-WAVE-297-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-297-2026-10-21.md).
+- Repository rulesets API returned an empty array; org-level rulesets and Actions policy remain inaccessible via this connector, and classic branch-protection API returned 403. No absence claim is justified.
+- PR #421 and #426 have no submitted review records visible through the review API; positive trusted-controller runtime evidence remains absent.
+- No merge, agent execution, deployment, qualification, or acceptance. Next: authoritative governance evidence plus substantive independent review of exact PR #421 HEAD.
+
 ## Current execution record — Wave 295 (2026-10-21)
 
 - Report: [Gemini controller static security review](MEDIAHUB-GEMINI-CONTROLLER-STATIC-SECURITY-REVIEW-WAVE-295-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-295-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
