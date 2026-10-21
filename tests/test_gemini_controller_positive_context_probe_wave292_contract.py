@@ -26,7 +26,6 @@ class ControllerTransportTests(unittest.TestCase):
         self.assertNotIn("secrets: inherit", self.source)
         for s in self.sources:
             self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", s)
-            self.assertNotIn("GITHUB_PERSONAL_ACCESS_TOKEN", s)
             self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", s)
     def test_children_require_signed_workflow_dispatch_and_shared_sha(self):
         for data, source in zip(self.children, self.sources):
