@@ -1,0 +1,119 @@
+name: Cloud-agent schema validation (Wave 94 consolidation candidate)
+
+on:
+  pull_request:
+    paths:
+      - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+      - "requirements/cloud-agent-schema-validation.in"
+      - "requirements/cloud-agent-schema-validation.lock"
+      - "requirements/cloud-agent-lock-generation-bootstrap.lock"
+      - ".github/workflows/cloud-agent-schema-validation.yml"
+      - ".github/workflows/cloud-agent-lock-generation.yml"
+      - "scripts/validate_cloud_agent_*.py"
+      - "tests/fixtures/cloud-agent-schemas/**"
+  push:
+    paths:
+      - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+      - "requirements/cloud-agent-schema-validation.in"
+      - "requirements/cloud-agent-schema-validation.lock"
+      - "requirements/cloud-agent-lock-generation-bootstrap.lock"
+      - ".github/workflows/cloud-agent-schema-validation.yml"
+      - ".github/workflows/cloud-agent-lock-generation.yml"
+      - "scripts/validate_cloud_agent_*.py"
+      - "tests/fixtures/cloud-agent-schemas/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloud-agent-schema-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout immutable event commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install hash-locked validator dependencies
+        run: python -m pip install --disable-pip-version-check --no-input --require-hashes -r requirements/cloud-agent-schema-validation.lock
+
+      - name: Verify environment and source revision
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          python --version
+          python -m pip --version
+          python -m pip check
+          python -m pip freeze
+          mkdir -p artifacts
+          python - <<'PY'
+          import json, os, platform, subprocess, sys
+          from importlib.metadata import version
+          evidence = {
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "event_name": os.environ["GITHUB_EVENT_NAME"],
+              "ref": os.environ["GITHUB_REF"],
+              "commit_sha": os.environ["EXPECTED_SHA"],
+              "run_id": os.environ["RUN_ID"],
+              "run_attempt": os.environ["RUN_ATTEMPT"],
+              "python": sys.version,
+              "platform": platform.platform(),
+              "jsonschema_version": version("jsonschema"),
+              "pip_version": subprocess.check_output([sys.executable, "-m", "pip", "--version"], text=True).strip(),
+          }
+          with open("artifacts/cloud-agent-ci-provenance.json", "w", encoding="utf-8") as handle:
+              json.dump(evidence, handle, indent=2, sort_keys=True)
+              handle.write("\n")
+          print(json.dumps(evidence, indent=2, sort_keys=True))
+          PY
+
+      - name: Validate Draft 2020-12 schemas and regression fixtures
+        run: python scripts/validate_cloud_agent_schemas.py
+
+      - name: Validate cross-artifact semantic fixtures
+        run: python scripts/validate_cloud_agent_semantics.py
+
+      - name: Verify machine-readable reports
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = [
+              Path("artifacts/cloud-agent-schema-validation-report.json"),
+              Path("artifacts/cloud-agent-semantic-validation-report.json"),
+              Path("artifacts/cloud-agent-ci-provenance.json"),
+          ]
+          for path in expected:
+              if not path.is_file():
+                  raise SystemExit(f"Missing required evidence artifact: {path}")
+              data = json.loads(path.read_text(encoding="utf-8"))
+              if path.name != "cloud-agent-ci-provenance.json" and data.get("status") != "PASS":
+                  raise SystemExit(f"Report is not PASS: {path}")
+              print(f"PASS {path} ({path.stat().st_size} bytes)")
+          PY
+          sha256sum artifacts/*.json
+
+      - name: Upload validation reports and provenance
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        with:
+          name: cloud-agent-schema-validation-evidence-${{ github.sha }}-run-${{ github.run_id }}
+          path: artifacts/*.json
+          if-no-files-found: error
+          retention-days: 14
