@@ -2352,3 +2352,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Main Astra Verify `39669337754` succeeded. Governance/token scope/security review remain not verified; branch protection endpoint 403 and empty ruleset list are inconclusive. Review lookup in this pass was rejected due connector argument mismatch, so current reviews not verified.
 - Gemini Agents 1–3 NOT RUN; no run IDs/artifact digests. SentinelX browser CLI lookup timed out in prior pass; local executor remains NOT VERIFIED/NOT RUN. No secret reads, host changes, merge, deployment, qualification or acceptance.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued CI, get independent security review, verify governance/token scope, then use only the approved non-launching probe.
+
+
+## Wave 344 — repeated /next orchestration gate audit (2026-10-22)
+
+- Report: [Wave 344 repeated trigger and orchestration gate audit](MEDIAHUB-NEXT-REPEATED-TRIGGER-AND-ORCHESTRATION-GATE-AUDIT-WAVE-344-2026-10-22.md); report commit `2497d60480b6f9758268b1a7c200882a3bc50ff3` (blob SHA to be read back).
+- Main remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- Controller source confirms the no-secret default `workflow_dispatch` mode is `probe`; agent mode requires explicit `mode=agents` and `confirm=yes`, or the exact owner `/next` comment predicate on Issue #301. Run #39678989141 was skipped because comment #6326943789 was a report announcement, not literal `/next`; multiple nearby issue-comment runs were also skipped.
+- Main Astra Verify run #39669337754 succeeded. Exact-head CI for PR #437/#441/#442 has not been shown to reach terminal success; independent reviews and effective branch governance/token scope remain unverified (branch protection API 403, ruleset listing inconclusive).
+- Gemini Agents 1–3 NOT RUN; no controller/child run IDs, target manifest, or artifact digests. Local Claude-FCC/Ollama and agent-browser NOT RUN/NOT VERIFIED; SentinelX ping/state only, browser CLI lookup timed out. No secrets read, trigger comment posted, workflow dispatch, host modification, merge, deployment, qualification, or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: authorized no-secret probe after confirming it is the intended test route; resolve exact-head CI and independent security/governance gates before any agent dispatch.
