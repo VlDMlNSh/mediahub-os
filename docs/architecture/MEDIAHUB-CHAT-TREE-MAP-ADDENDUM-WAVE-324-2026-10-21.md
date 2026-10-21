@@ -11,3 +11,8 @@ This addendum records the exact current blockers after PR #432 was merged.
 - SentinelX has only Voktors-Mini connected; Alamo/server 3 is not positively identified. Claude and agent-browser on Alamo remain NOT RUN.
 
 Do not treat skipped controller runs or passing general CI as successful agent execution. Proceed only when every gate in the report has evidence.
+
+
+## Wave 325 follow-up
+
+See [Wave 325 dispatch and executor identity recheck](../checkpoints/MEDIAHUB-NEXT-ORCHESTRATION-WAVE-325-2026-10-21.md) and [Wave 325 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-325-2026-10-21.md). Main controller source contains GitHub API dispatch/HMAC/monitoring, but live admission remains blocked by unverified batch variable/secret metadata, branch governance, trusted-main no-secret probe, independent review, and unresolved Alamo host identity. Gemini Agents 1–3, Claude/FCC and agent-browser on Alamo remain NOT RUN.
