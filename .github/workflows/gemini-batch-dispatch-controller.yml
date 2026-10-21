@@ -78,8 +78,33 @@ jobs:
             echo "- Transport/HMAC/provider secrets mapped: no"
             echo "- Gemini reachable in probe mode: no"
           } >> "$GITHUB_STEP_SUMMARY"
-  dispatch_and_monitor:
+  readiness_gate:
     if: >-
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes') ||
+      (github.event_name == 'issue_comment' && github.event.issue.number == 301 && github.event.issue.pull_request == null && github.event.comment.body == '/next' && github.event.comment.author_association == 'OWNER')
+    name: Require explicit batch admission flag
+    runs-on: ubuntu-latest
+    permissions: {}
+    outputs:
+      enabled: ${{ steps.gate.outputs.enabled }}
+    steps:
+      - id: gate
+        shell: bash
+        env:
+          BATCH_ENABLED: ${{ vars.MEDIAHUB_GEMINI_BATCH_ENABLED }}
+        run: |
+          set -euo pipefail
+          if [[ "${BATCH_ENABLED,,}" == "true" ]]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "Batch admission flag is enabled; remaining controller checks still apply."
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Batch admission flag MEDIAHUB_GEMINI_BATCH_ENABLED is not true; no child dispatch will occur."
+          fi
+  dispatch_and_monitor:
+    needs: readiness_gate
+    if: >-
+      needs.readiness_gate.outputs.enabled == 'true' &&
       github.ref == 'refs/heads/main' &&
       (
         (github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes') ||
