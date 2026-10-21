@@ -17,7 +17,7 @@ The exact-head CI initially caught a stale contract assertion expecting `FAILED`
 
 Observed refs:
 - `main` HEAD: `f16e5bae202a78584f273132e7f88c6e25d3142e`.
-- Latest PR #432 HEAD: `2b53167a48a04c5ec83c86b730a8513504e51ee5`, base remains the main SHA above; PR is OPEN/DRAFT/unmerged.
+- Latest PR #432 HEAD: `f9e567b25a775e5513cbfde105671d94378d960f`, base remains the main SHA above; PR is OPEN/DRAFT/unmerged.
 - Canonical documentation branch before this report: `a00bdfcb448eb508027c68237516bef2418727a8`.
 - Formal PR #432 reviews: none observed.
 - Issue #301: OPEN.
@@ -27,27 +27,29 @@ Observed refs:
 PR branch: `fix/gemini-controller-api-dispatch-wave312-final`.
 
 - `.github/workflows/gemini-batch-dispatch-controller.yml`
-  - Latest blob SHA: `14681c8b0b8acb6c52568d49aeb53eb32cfd53fd`.
-  - Commit: `39b00c0d8acee3e2b74c3e69cfd1c065d534aa60`.
-  - Every intended child is recorded before the POST.
-  - API/network exceptions are classified as `UNKNOWN` without printing exception bodies.
-  - Reconciliation monitors every correlation ID, not only POSTs with an observed 204 response.
-  - An unknown dispatch outcome cannot satisfy the final success predicate, even if a child run is found and succeeds.
-  - Full batch summary and nonzero fail-closed outcome remain required on any dispatch/run failure or timeout.
+  - Latest blob SHA: `74ccdf6a88586876c5196367e176ad610aa4c07a`.
+  - Latest controller branch head: `f9e567b25a775e5513cbfde105671d94378d960f`.
+  - Records every intended child before POST; treats explicit non-408 4xx rejections as terminal failures and treats transport/5xx/408 outcomes as ambiguous `UNKNOWN` states.
+  - Reconciles accepted and ambiguous correlation IDs; an unknown outcome never counts as successful dispatch.
+  - Adds an Issue #301 `/next` bridge restricted to exact body `/next`, owner association, non-PR issue, and main ref; replay suppression keys on an exact `next-comment-<comment-id>` marker.
+  - Adds a fail-closed `MEDIAHUB_GEMINI_BATCH_ENABLED` repository-variable admission gate before any controller token/secret mapping to the dispatch job.
+  - Keeps full summary and nonzero fail-closed result for any incomplete batch.
 - `tests/test_gemini_transport_controller_contract.py`
-  - Latest blob SHA: `3dea2dee06fea903167155925d3b8338f513d719`.
-  - Commit: `2b53167a48a04c5ec83c86b730a8513504e51ee5`.
-  - Static contract now checks that ambiguous dispatches are reconciled and recorded as `UNKNOWN`.
+  - Latest blob SHA: `75b8f33054314061db406d7e6d204b3b03ac6666`.
+  - Adds contract checks for ambiguous dispatch reconciliation, exact comment replay marker, and closed-by-default admission gate.
+- `tests/test_gemini_controller_positive_context_probe_wave292_contract.py`
+  - Latest blob SHA: `84a92e514c930c55d411bf74ad390109b7ed0d4b`.
+  - Updated legacy assertion to accept the expanded owner-only `/next` condition.
 
 ## Exact-head CI
 
-All five checks below refer to `2b53167a48a04c5ec83c86b730a8513504e51ee5` and completed successfully:
+All five checks below refer to `f9e567b25a775e5513cbfde105671d94378d960f` and completed successfully:
 
-- [Workflow contract validation #39644795091](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39644795091) — SUCCESS.
-- [Astra Verify #39644795075](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39644795075) — SUCCESS.
-- [Astra Cloud Runtime Validation #39644795068](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39644795068) — SUCCESS.
-- [Controller PR-context probe #39644795115](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39644795115) — SUCCESS; `dispatch_and_monitor` was SKIPPED.
-- [Reusable workflow caller-context probe #39644795211](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39644795211) — SUCCESS; PR caller denied.
+- [Workflow contract validation #39645820543](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39645820543) — SUCCESS.
+- [Astra Verify #39645820464](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39645820464) — SUCCESS.
+- [Astra Cloud Runtime Validation #39645820840](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39645820840) — SUCCESS.
+- [Controller PR-context probe #39645820353](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39645820353) — SUCCESS; `dispatch_and_monitor` was SKIPPED.
+- [Reusable workflow caller-context probe #39645820619](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39645820619) — SUCCESS; PR caller denied.
 
 Prior attempt at head `48ab99c9b56cf778ee7c6e82381b424e68945506` failed because the new contract test still expected the prior `FAILED` marker. The failure was inspected in the workflow logs, the assertion was corrected, and all five checks passed on the subsequent exact head.
 
@@ -55,7 +57,7 @@ Prior attempt at head `48ab99c9b56cf778ee7c6e82381b424e68945506` failed because 
 
 The requested end state requires both the GitHub controller and an event bridge that maps a ChatGPT `/next` turn to a trusted GitHub dispatch. A ChatGPT message is not itself a GitHub Actions event. The available GitHub connector tools in this session can inspect and update repository resources but do not expose a workflow-dispatch operation. No bridge from ChatGPT turn events to GitHub was observed or configured in this pass. Therefore do not claim that a chat `/next` currently triggers the controller automatically.
 
-A future bridge must be owner-only, replay-resistant, scoped to Issue #301 or an explicitly approved integration, use a common immutable target SHA, pass only fixed bounded tasks, and remain fail-closed until all gates are accepted. It must not put `MEDIAHUB_GITHUB_TOKEN` into child workflows, prompts, logs, or artifacts, and must not use `secrets: inherit`.
+A candidate bridge is now implemented on Draft PR #432: an exact `/next` comment on Issue #301 by an OWNER, on a non-PR issue, can enter the controller; it uses a comment-ID marker for replay suppression. A repository variable `MEDIAHUB_GEMINI_BATCH_ENABLED` must be `true` before the secret-bearing dispatch job can run; unset/false skips child dispatch. The bridge is not live until reviewed and merged. The ChatGPT message itself is not a GitHub event; when accepted, the assistant must create the corresponding owner-authored Issue #301 comment for each `/next`, and this comment-authorship/event path must be verified with a no-secret probe. The bridge must not put `MEDIAHUB_GITHUB_TOKEN` into child workflows, prompts, logs, or artifacts, and must not use `secrets: inherit`.
 
 ## Local executor and browser readiness
 
@@ -71,7 +73,7 @@ A future bridge must be owner-only, replay-resistant, scoped to Issue #301 or an
 - Presence and separation of `MEDIAHUB_DISPATCH_HMAC_KEY`, without reading its value: NOT VERIFIED.
 - Branch protection / organization Actions governance: NOT VERIFIED by the available inspection response.
 - Trusted-main no-secret probe: NOT VERIFIED; PR-context probe is not equivalent.
-- ChatGPT `/next` to GitHub dispatch bridge: NOT IMPLEMENTED/NOT VERIFIED.
+- Issue #301 owner-only `/next` bridge: IMPLEMENTED IN DRAFT PR, NOT LIVE/VERIFIED; ChatGPT connector comment authorship and trusted-main issue-comment event context still require a no-secret probe after merge.
 - Gemini Agents 1–3: NOT RUN; no controller run ID or child run IDs for Wave 316.
 - Alamo Claude and browser: NOT RUN; host identity/capabilities not verified.
 
