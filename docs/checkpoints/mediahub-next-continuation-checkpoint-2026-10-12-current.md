@@ -2341,3 +2341,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Controller run `39678989141` is SKIPPED, not a dispatch. Source review confirms a non-launching probe mode and explicit admission conditions, but does not prove runtime secret/configuration, token scope, governance, or independent security review.
 - Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifacts. SentinelX host ping/capabilities were previously available, but browser CLI check timed out; local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN. No secrets read, trigger posted, workflow launched, host modified, merge, deployment, qualification or acceptance.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: diagnose `freebuff-web` queue scheduling; obtain independent security review; verify governance/token scope via metadata-only route; then approved no-launch probe and bounded executor preflight.
+
+
+## Wave 344 — controller admission and exact-head status audit (2026-10-22)
+
+- Report: [Wave 344 controller admission and CI audit](MEDIAHUB-NEXT-CONTROLLER-ADMISSION-AND-CI-AUDIT-WAVE-344-2026-10-22.md), blob SHA `3c6b6adb85b2bf3641e7f2731e968e48aa0aefd8`, commit `c06aa1cb8e6acfd9cfd83c09c9437b3a8179a5ac` on working branch.
+- Main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. Bootstrap `75f30750183efe8c6877368e9f0ada48f8e81ea7`; canonical map `38d8903bc640fd37009f0fc19a11ea7869840dbc`; canonical checkpoint `3bb3ea262c2a30c8f780d36eb61902833325fb29`; roadmap `cea169e55e02903ab9871d51ff643b3da7ef0e8c`.
+- PR #437 suite `107496095390` queued/0 checks; PR #441 suite `107524023551` queued/0 checks; PR #442 current HEAD `c3d5230e002837263c930126cce14899de137052`, suite `107550813359` queued/0 checks. No exact-head workflow run found for PR #442.
+- Controller source confirms probe is non-launching, agent dispatch requires explicit agent-mode confirmation or literal owner `/next` on Issue #301, admission flag true, secrets present, exact immutable target SHA and HMAC. Historical run `39678989141` skipped because its owner comment was a report announcement, not literal `/next`. No new trigger or dispatch.
+- Main Astra Verify `39669337754` succeeded. Governance/token scope/security review remain not verified; branch protection endpoint 403 and empty ruleset list are inconclusive. Review lookup in this pass was rejected due connector argument mismatch, so current reviews not verified.
+- Gemini Agents 1–3 NOT RUN; no run IDs/artifact digests. SentinelX browser CLI lookup timed out in prior pass; local executor remains NOT VERIFIED/NOT RUN. No secret reads, host changes, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued CI, get independent security review, verify governance/token scope, then use only the approved non-launching probe.
