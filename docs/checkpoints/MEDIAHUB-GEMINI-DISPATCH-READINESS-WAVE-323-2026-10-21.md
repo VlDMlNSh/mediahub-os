@@ -36,7 +36,7 @@ The reviewed controller/child workflow source contains no dependency on Voktors-
 - [Main Astra Verify run #39649841150](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649841150): `SUCCESS` on main HEAD `79196054d84b1197cea1447dd1db5ad075302834`.
 - [Controller run #39650408656](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39650408656): `SKIPPED`; all four jobs were skipped, no artifacts were produced, and there are no child run IDs.
 - The GitHub Actions browser page for run #39650408656 identified its source comment as [PR #436 comment #6323130946](https://github.com/VlDMlNSh/mediahub-os/pull/436#issuecomment-6323130946). The controller requires an exact `/next` comment by the owner on Issue #301 or an explicit trusted `workflow_dispatch` with `mode=agents` and `confirm=yes`. A PR comment does not satisfy that trigger.
-- PR #437 remains Draft/open/unmerged at head `531ed07d1fd8ad474587f5af0e4a5f3364461b6d`. Prior checks on earlier head `7f491729bab024a72dc20f5d7a3e107a4393ba3b` must not be attributed to the latest head. No exact-head CI result or formal submitted review was verified for the latest head.
+- PR #437 remains Draft/open/unmerged at head `01629874e8b4a10da68a0574ec77ecdfceeda8b9`. Prior checks on earlier head `7f491729bab024a72dc20f5d7a3e107a4393ba3b` must not be attributed to the latest head. No exact-head CI/check-run result or formal submitted review was found for latest head `01629874e8b4a10da68a0574ec77ecdfceeda8b9` (the commit checks endpoint returned zero check runs).
 - No controller run with a successful `dispatch_and_monitor` job was found in the examined recent run list.
 
 ## Executor status for this pass
