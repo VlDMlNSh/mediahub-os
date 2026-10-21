@@ -2022,3 +2022,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Source review confirms the three fixed child workflows use GitHub-hosted `ubuntu-latest`, distinct provider secrets, and one immutable target SHA. No Voktors-Mini/Claude/browser dependency exists in the Gemini controller/children.
 - Voktors-Mini.Dlink host `host_5f7264034bdf0b51` was confirmed operational; `agent-browser` core instructions and offline doctor were run. Browser use was read-only and did not trigger GitHub actions. OmniRoute config is absent and FCC/FreeLLMAPI commands were not found; Claude remains NOT RUN.
 - Latest PR #437 head `531ed07d1fd8ad474587f5af0e4a5f3364461b6d` has no verified exact-head CI or formal review. Secret/variable metadata, effective token scope, trusted-main no-secret probe and branch protection remain NOT VERIFIED. Do not enable/dispatch a live batch until admission gates are supported by evidence.
+
+
+## Wave 322 — Gemini dispatch gate reconciliation (2026-10-21)
+
+- Report: [Wave 322 Gemini dispatch gate reconciliation](MEDIAHUB-NEXT-GEMINI-DISPATCH-GATES-WAVE-322-2026-10-21.md); map addendum: [Wave 322](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-322-2026-10-21.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Current `main` commit read from GitHub: `79196054d84b1197cea1447dd1db5ad075302834`; active controller blob `9453403bba899a2400ee3fb874d32badd034c704`; controller contract test blob `84a92e514c930c55d411bf74ad390109b7ed0d4b`; Agent 2 workflow blob `fff1820a6b97d379b23674f36bd62227b7d4dec2`.
+- HMAC test fix PR #434 is closed. Its commit records contract validation `39649560873`, Astra Verify `39649560826`, Cloud Runtime Validation `39649560957` as successful at that exact PR head. A fresh combined-status query for the current commit returned no status entries.
+- Gemini Agent 1/2/3: **NOT RUN**. No controller or child run IDs exist for this ChatGPT `/next`; no secrets were read and no batch flag was enabled.
+- Open gates: independent security review; minimum effective `MEDIAHUB_GITHUB_TOKEN` permissions; non-disclosing HMAC/provider-secret configuration verification; governance/protection evidence; trusted-main no-secret probe. Batch admission remains disabled until accepted.
+- SentinelX host inventory lists only Voktors-Mini operational; no connected host positively identifies as Alamo/server 3. SentinelX capabilities/state calls timed out. Claude Code and agent-browser on Alamo: **NOT RUN**; no substitute host used.
+- No dispatch, provider call, local execution, merge, deployment, qualification or acceptance is claimed. See Wave 322 report for evidence and the next gated step.
