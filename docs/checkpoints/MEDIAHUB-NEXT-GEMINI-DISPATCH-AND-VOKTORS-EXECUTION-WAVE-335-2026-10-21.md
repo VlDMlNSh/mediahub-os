@@ -66,3 +66,10 @@ No batch should be dispatched until the listed gates have evidence. If admitted 
 - Draft PR #441 (Wave 334, unaccepted): https://github.com/VlDMlNSh/mediahub-os/pull/441
 - Wave 333 report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-NEXT-DISPATCH-GATE-AND-EXECUTOR-RECHECK-WAVE-333-2026-10-21.md
 - Wave 334 report on working branch: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-next-wave334-20261021/docs/checkpoints/MEDIAHUB-NEXT-DISPATCH-GATE-AND-EXECUTOR-IDENTITY-RECHECK-WAVE-334-2026-10-21.md
+
+
+## Wave 335 supplemental verification — current-ref resolution
+
+A subsequent independent recheck in the same continuation resolved `fetch_commit("main")` to `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b` (https://github.com/VlDMlNSh/mediahub-os/commit/5cac2f27685c88e5e391fcf315d07fc16c6a6b), confirming the previously recorded main SHA. This corrects the earlier statement that a fresh resolution was unavailable; no new controller or child workflow run was initiated. Exact-head CI/status and formal review results remain empty for PR #437 and #441.
+
+The canonical map blob `30b1a0dae214eb61f5009084c4a6be8c30c7c9af` was successfully retrieved through the blob API after the Contents endpoint returned empty content. This confirms map content was available for inspection, without changing the map itself.
