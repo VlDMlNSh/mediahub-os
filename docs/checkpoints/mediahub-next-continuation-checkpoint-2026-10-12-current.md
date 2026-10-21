@@ -1,3 +1,32 @@
+## Latest continuation — Wave 304 validation reuse/ref audit (2026-10-21)
+
+- Report: [Wave 304 — Cloud-agent validation reuse and ref audit](MEDIAHUB-CLOUD-AGENT-VALIDATION-REUSE-AND-REF-AUDIT-WAVE-304-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), canonical branch `docs/mediahub-chat-tree-map-20261012`. The map's full blob `be531c44c7dc17e2ec48c7f8c773120c21ae49cc` was fetched; no canonical-map mutation was made.
+- Correction: Wave 303's limited exact-path and code-search probe did not establish that validation tooling was absent. Prior validated candidate workflows exist on historical/working branches.
+- PR #335 run `39038451255` passed: 3/3 schemas meta-validated, 3/3 positive fixtures passed, 13/13 negative mutations rejected; artifact `12102957938`, digest `sha256:633e1417aa41fc844b5d1c67c3ff2be417a98f72bcc6f055119023565d710e07`.
+- PR #337 run `39041807077` passed with format assertions and representative positive/negative cases; branch workflow blob `bbe4f7e975a7ceb2c9fa7d2901bd484d06cbefc6`.
+- PR #374 exact tested head `3b1fc96beeedcc6cb38c7beeb5809f0004c6ac8a`, run `39222111677` success, artifact `12171314150`, digest `sha256:4aaf3dbe764f22fd4eb0288685d1e069e3e28407c26f37d2e6825a487c7ae675`. PR remains Draft, with no formal review; setuptools 84.0.0 bootstrap publisher provenance remains unverified. Branch is highly divergent from both main and canonical docs; do not whole-branch merge/rebase.
+- Decision: do not build duplicate validation. Next perform independent source/supply-chain review of PR #374, resolve bootstrap wheel publisher provenance, compare intended file set to current target, and choose one clean PR for formal review. A0, R-06, accepted target manifest and dispatch/qualification gates remain open.
+- Current evidence PR #430 remains documentation-only, OPEN/DRAFT/UNMERGED; this report is on the same working branch until reviewed/integrated. No credentials, provider/model call, dispatch, merge, deployment, qualification or acceptance occurred.
+
+## Latest continuation — Wave 303 map-index addendum (2026-10-21)
+
+- Provisional working-branch index aid: [Wave 303 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-303-2026-10-21.md); evidence: [Wave 303 schema-validation scaffold audit](MEDIAHUB-SCHEMA-VALIDATION-SCAFFOLD-AUDIT-WAVE-303-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md) on `docs/mediahub-chat-tree-map-20261012`. The Contents API returns empty content for the large map, but blob `be531c44c7dc17e2ec48c7f8c773120c21ae49cc` was read successfully at 1,159,338 characters. No canonical map write was made in this pass; this addendum remains provisional on PR #430 until reviewed/integrated.
+- Current work PR: [#430](https://github.com/VlDMlNSh/mediahub-os/pull/430), documentation-only, OPEN/DRAFT/UNMERGED. Recheck exact head/checks before any integration. Branches remain diverged; no whole-branch merge/rebase.
+- Schema candidates and gaps remain as stated in Wave 303: immutable blob parse succeeded; full Draft 2020-12 meta-validation, format assertion, positive/negative fixtures, semantic reference resolution and CI evidence remain absent.
+- Next bounded step: enumerate workflow/test tree using exact refs and available repository tree APIs, then implement validation in the existing approved entry point. No credentials, live dispatch, merge, deployment, qualification or acceptance.
+
+## Latest continuation — Wave 303 (2026-10-21)
+
+- Report: [Schema-validation scaffold audit](MEDIAHUB-SCHEMA-VALIDATION-SCAFFOLD-AUDIT-WAVE-303-2026-10-21.md); related [Wave 302 reconciliation](MEDIAHUB-CONTOUR-A-EXACT-HEAD-GATE-RECONCILIATION-WAVE-302-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); canonical branch remains `docs/mediahub-chat-tree-map-20261012`. The Wave 303 report is on the unmerged pass branch / PR #430 and is not canonical acceptance.
+- Re-fetched immutable candidate schema blobs and parsed each as JSON: task `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` (15 required top-level keys); registry `b49b89b8fbdfc180862e3dc78f8198f35e486035` (10); evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a` (13). All declare Draft 2020-12. This is structural inspection only, not meta-validation.
+- Exact paths `pyproject.toml`, `requirements.txt`, and `.github/workflows/verify.yml` were not found on `main`; searches for `jsonschema` and `schema validation test` returned no results. This limited probe does not establish that the repository has no other workflow/test harness.
+- No standards-compliant validator or instance fixtures were run/validated. No positive/negative fixture evidence, format assertion, semantic reference resolution, or CI artifact was produced. No schema promotion, provider credentials, dispatch, merge, deployment, qualification, or acceptance.
+- Gate remains **BLOCKED / NOT_PROVEN**. Next: enumerate existing workflow/test paths and governing contracts from exact refs, then add a pinned isolated Draft 2020-12 meta-validator with format assertion and positive/negative fixtures against immutable blobs, followed by a distinct semantic-reference validation layer.
+- Current evidence PR: [#430](https://github.com/VlDMlNSh/mediahub-os/pull/430), OPEN/DRAFT/UNMERGED until independently reviewed.
+
 ## Latest continuation — Wave 300 (2026-10-21)
 
 - Report: [Independent Gemini source-only review](MEDIAHUB-INDEPENDENT-GEMINI-REVIEW-WAVE-300-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-300-2026-10-21.md).
@@ -1768,3 +1797,24 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Exact-head CI passed: Astra Verify 39475766199 (453 tests); workflow contract validation 39475766192 (actionlint and 5 Wave 284 + 5 Wave 292 + 12 reusable workflow + 5 transport tests); Cloud Runtime Validation 39475766251; negative probe 39475766469; Wave 292 probe 39475766513. Probe confirms only the untrusted PR path; all model jobs skipped.
 - PR #421/#426 remain open/Draft/unmerged with zero independent reviews and overlapping probe-path changes. Effective branch protection and repository/org Actions policy are still unverified. No trusted positive dispatch, model/provider call, merge, deployment, qualification, or acceptance occurred.
 - **Next bounded step:** resolve PR #421/#426 path overlap and obtain independent security review/effective governance evidence. After reviewed acceptance on `main`, run controller with `mode=probe`, `confirm=no`, and capture positive trusted-context evidence. Keep Contour B gated.
+
+
+## Wave 302 — exact-head gate reconciliation (2026-10-21)
+
+- Report: [Wave 302 exact-head gate reconciliation](MEDIAHUB-CONTOUR-A-EXACT-HEAD-GATE-RECONCILIATION-WAVE-302-2026-10-21.md); map addendum: [Wave 302](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-302-2026-10-21.md); [canonical project map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Canonical docs branch HEAD at pass start: `1d525ee6c41807b0f9458a0848ec37c0f7411988`; main: `80be45a70732b1d568164571d4273a6397792c3b`. Compare is diverged 44 ahead / 2,953 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; whole-branch merge/rebase remains unsafe.
+- PR #421 exact head `185f55b63121b1aece7e60f6c087ecfceab2721e`: 11 checks; Verify, validation, cloud validation and negative caller-context probes pass; model-agent jobs and aggregate summary are skipped for untrusted PR context. OPEN/DRAFT/UNMERGED; review endpoint empty.
+- PR #425 exact head `ce44a47b0d327a5cca9593e529fe97b492ffaa4a`: Verify and cloud validation pass; OPEN/DRAFT/UNMERGED; review endpoint empty. Keep generic gateway operations fail-closed.
+- PR #426 exact head `6caf55977260e808a055c8c4b9a04d68eb050d8c`: Verify/cloud validation and no-secret non-launching negative-context assertion pass; OPEN/DRAFT/UNMERGED; review endpoint empty. Keep separate from #421.
+- No positive trusted dispatch, provider/model call, credential access, merge, deployment, qualification or acceptance occurred. CI success in an untrusted PR context is not production launch authorization.
+- Wave 301's three v0.2 schemas still require standards-compliant Draft 2020-12 meta-validation, format assertions, positive/negative fixtures, recorded validator/version and raw-byte digests, plus separate semantic string-reference resolution.
+- The canonical map's Contents API returned empty content; blob response was not safely reconstructable as a complete file. The Wave 302 addendum is proposed but not yet indexed in the canonical map. Do not overwrite the map from partial content.
+- Next: (1) obtain independent security review and effective repository/org protection evidence for #421; (2) continue the schema-validation gate. Contour A remains NOT_PROVEN/BLOCKED; Contour B remains gated.
+
+
+### Wave 302 follow-up — exact v0.2 schema static scan
+
+- Report updated: [Wave 302 exact-head gate reconciliation](MEDIAHUB-CONTOUR-A-EXACT-HEAD-GATE-RECONCILIATION-WAVE-302-2026-10-21.md), current report blob `8cb438322cd2f45eec12378631ecd8f5518b92d1`.
+- Re-fetched and JSON-parsed the three exact schema blobs: Task Envelope `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` (11,213 characters; 15 top-level required keys; one date-time assertion), Agent Registry `b49b89b8fbdfc180862e3dc78f8198f35e486035` (9,282 characters; 10 required keys; three date-time assertions), Evidence Manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a` (11,918 characters; 13 required keys; two date-time assertions).
+- All three declare Draft 2020-12 and parsed as JSON. No actual `$ref` keyword was found. The scan is static only; it is not meta-validation, positive/negative instance validation, semantic reference resolution or acceptance evidence. Format checking still needs an explicitly configured validator and malformed-date fixtures.
+- PR #430 has no check-runs registered on its current HEAD at the last query; independent review remains absent. Keep it Draft and do not merge.
