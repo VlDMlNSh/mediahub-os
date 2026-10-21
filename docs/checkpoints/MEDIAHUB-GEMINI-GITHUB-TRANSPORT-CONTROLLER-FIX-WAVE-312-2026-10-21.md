@@ -19,12 +19,13 @@
 ## Verification evidence
 
 - Corrective PR: https://github.com/VlDMlNSh/mediahub-os/pull/431
-- The final PR head `4764c74f6b3373fdb09117d3bc02576a39668a4f` has completed CI successfully. Runs:
-  - [Controller/probe run 39600173791](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600173791): no-secret probe succeeded; `dispatch-and-verify` was skipped; no Gemini agents launched.
-- [Cloud Runtime Validation 39600173792](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600173792): succeeded.
-- [Astra Verify 39600173765](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600173765): succeeded.
-- [Gemini workflow contract validation 39600173823](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600173823): succeeded.
-- [No-secret caller-context probe 39600173779](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600173779): succeeded; caller-context denial assertion passed.
+- The implementation code was present at `4764c74f6b3373fdb09117d3bc02576a39668a4f`. After documentation-only commits, exact PR head `cf7c42578b81f7212d25db44ed71a9b046b841c2` also completed all triggered checks successfully. Runs:
+  - [Controller/probe run 39600342389](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600342389): no-secret probe succeeded; `dispatch-and-verify` was skipped; no Gemini agents launched.
+- [Cloud Runtime Validation 39600342340](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600342340): succeeded.
+- [Astra Verify 39600342341](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600342341): succeeded.
+- [Gemini workflow contract validation 39600342385](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600342385): succeeded.
+- [No-secret caller-context probe 39600342405](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600342405): succeeded; caller-context denial assertion passed.
+- Earlier exact code-head validation runs are listed in workflow history; latest exact-head CI confirms these checks also pass after the documentation-only updates.
 - No Gemini agent was dispatched by this correction. No secret value was read or exposed. No formal independent security review is yet recorded.
 
 ## Status and next gate
