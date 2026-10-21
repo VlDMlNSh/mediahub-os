@@ -1932,3 +1932,10 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Formal independent PR review remains absent. Existing static tests do not prove runtime HMAC behavior/configuration/effective token permissions. UUID regex `[0-9a-f-]{36}` is looser than canonical UUID validation; add strict UUID and HMAC tamper/missing/wrong-field tests.
 - PR #432 stays OPEN/DRAFT/UNMERGED. Gemini Agent 1/2/3 NOT RUN; no controller/child run IDs. Claude Code and agent-browser on Alamo NOT RUN; host identity/capability and non-paid route remain unverified. ChatGPT `/next` event bridge remains NOT IMPLEMENTED/NOT PROVEN.
 - Next: add secret-free executable HMAC canonicalization/tamper tests and strict UUID validation, run exact-head CI, and obtain separate formal review before any dispatch.
+
+
+### Wave 318 follow-up — authenticated issue-comment event verified, controller bridge still blocked (2026-10-21)
+
+- Non-triggering readiness comment [#6322794891](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6322794891) was created through the connected GitHub issue-comment operation. GitHub metadata verifies user VlDMlNSh, author association OWNER, app chatgpt-codex-connector.
+- GitHub recorded issue_comment workflow run [#39647870697](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647870697) on main; the unrelated Astra chat-control workflow completed SKIPPED. This verifies connector-to-issue-comment-event delivery, not the candidate /next controller or Gemini dispatch. The comment body was a status report, not /next; no agent was dispatched.
+- Wave 318 report and map pointer were updated: [report](MEDIAHUB-NEXT-ORCHESTRATION-READINESS-WAVE-318-2026-10-21.md), [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Main still lacks the candidate controller bridge; PR #432 remains Draft/unmerged and has zero formal reviews. Effective token/HMAC configuration, governance, trusted-main no-secret probe, and Alamo route remain NOT VERIFIED.
