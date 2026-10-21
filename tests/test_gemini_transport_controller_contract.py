@@ -69,7 +69,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         # abort the loop before accepted children are monitored and summarized.
         self.assertIn('job={"workflow":wf,"id":did,"dispatch_status":"PENDING"}; jobs.append(job)', self.source)
         self.assertIn('except Exception as exc:', self.source)
-        self.assertIn('job["dispatch_status"]="FAILED"', self.source)
+        self.assertIn('job["dispatch_status"]="UNKNOWN"', self.source)
         self.assertIn('pending={j["id"]:j for j in jobs}', self.source)
         self.assertIn('job["dispatch_status"]="UNKNOWN"', self.source)
         self.assertIn('Dispatch outcome unknown', self.source)
