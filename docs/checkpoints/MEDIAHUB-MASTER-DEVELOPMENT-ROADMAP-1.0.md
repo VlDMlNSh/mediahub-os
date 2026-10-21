@@ -1,3 +1,11 @@
+## Wave 299 — PR #421/#426 probe integration boundary (2026-10-21)
+
+- Report: [probe integration boundary](MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-299-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Current `main` SHA remains `80be45a70732b1d568164571d4273a6397792c3b`. PR #421 head `185f55b63121b1aece7e60f6c087ecfceab2721e` and PR #426 head `6caf55977260e808a055c8c4b9a04d68eb050d8c` remain Draft/Open/Unmerged. No formal submitted reviews are visible.
+- Source paths are distinct in the inspected refs; this does not prove full PR conflict-free integration. Empty combined commit-status results are not equivalent to a complete Actions check inventory. Effective org/repo branch-protection and Actions policy remain unverified.
+- Gate remains **BLOCKED / NOT_PROVEN**. No model/provider dispatch, provider-secret value access, merge, deployment, qualification, or acceptance.
+- Next action: secure independent review tied to exact #421 head and administrator-visible governance evidence, then reconcile complete changesets/check runs before any no-secret positive-context probe.
+
 ## Wave 298 — Gemini review source trace (2026-10-21)
 
 - Report: [Wave 298 source-to-report trace](MEDIAHUB-GEMINI-REVIEW-SOURCE-TRACE-WAVE-298-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-298-2026-10-21.md).
