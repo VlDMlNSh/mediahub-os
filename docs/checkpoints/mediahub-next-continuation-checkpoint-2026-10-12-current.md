@@ -2085,3 +2085,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) pinged successfully but capability/state calls timed out/disconnected. Diagnosis `host_overloaded` with 32 unanswered calls and 192 reconnects in 24h. agent-browser core skill command, browser session and Claude/FCC execution were NOT RUN; no fallback host/transport was used.
 - Gemini Agents 1–3: NOT RUN; no controller/child run IDs or artifact digests. Claude/FCC and agent-browser: NOT RUN. No qualification or acceptance.
 - Next: exact-head CI and independent review; configure appropriate branch protection/rulesets; verify token scope and secret separation without revealing values; pass trusted-main no-secret probe; only then authorize one controller-only batch on one immutable SHA. Separately reduce Voktors-Mini load, verify capabilities/allowlist, read installed `agent-browser skills get core`, then validate Claude/FCC free routing without paid fallback.
+
+
+## Wave 328 — Gemini transport clarification and Voktors executor (2026-10-21)
+
+- Report: [Wave 328 Gemini transport and Voktors recheck](MEDIAHUB-NEXT-GEMINI-TRANSPORT-AND-VOKTORS-RECHECK-WAVE-328-2026-10-21.md); map entry: [Wave 328 addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-328-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Owner confirms GitHub configuration presence. Controller blob `9453403bba899a2400ee3fb874d32badd034c704` expects exact ASCII names `vars.MEDIAHUB_GEMINI_BATCH_ENABLED`, `secrets.MEDIAHUB_GITHUB_TOKEN`, `secrets.MEDIAHUB_DISPATCH_HMAC_KEY`; verify the HMAC identifier is ASCII exactly, without reading secret values.
+- PR #437 remains OPEN/DRAFT at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head workflow runs/statuses absent and formal reviews count zero. No controller trigger posted; Gemini Agents 1–3 NOT RUN, with no controller/child run IDs or artifact digests.
+- SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) remains listed active, but ping, capabilities and bounded script execution timed out. agent-browser core skill not retrieved and no browser session opened. Earlier successful inventory did not find `claude` or `ollama` on PATH; free Claude/FCC route remains NOT VERIFIED.
+- Next: clear exact-head CI/review/governance and trusted-main no-secret probe; then dispatch only through the GitHub controller against one immutable SHA. Separately restore host connectivity and qualify agent-browser plus the free-only Claude/FCC route.
