@@ -57,3 +57,12 @@ This pass rechecked repository refs, PR #432, its review record, the main-branch
 6. Only after all gates pass, run a controlled first batch and record controller ID, three child IDs/statuses, immutable target SHA, artifact digests and independent verification.
 
 Status is **repair implemented / CI pending / controller integration not qualified / agent dispatch NOT RUN / Contour A NOT ACCEPTED**.
+
+
+## Follow-up correction after the first CI attempt
+
+The first repair commit `960a57e6278e28867c5f8ec797f38638a786999e` fixed the two syntax errors in the primary HMAC interoperability loop, but CI found a third malformed `next(...)` expression in the replay-case block (same test file, line 205). This was a second occurrence of the same defect and was corrected in the same PR branch.
+
+- Latest PR #436 head: `7c45e920982a69169fc856a1739cb73445be904f`.
+- Latest test blob: `01ddae5e1d7fd0e49ffa651da9655a5a5ad7a8d5`; read-back confirmed all three `next(...hmac.new(...))` expressions close correctly.
+- Latest exact-head runs observed: Cloud Runtime Validation [#39649630864](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630864) SUCCESS; workflow contract validation [#39649630799](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630799) and Astra Verify [#39649630775](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630775) were still running when checked. Therefore CI remains pending and the repair is not yet verified.
