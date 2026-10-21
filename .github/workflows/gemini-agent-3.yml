@@ -60,7 +60,7 @@ jobs:
               print("::error::Dispatch HMAC secret missing; fail closed."); sys.exit(2)
           if os.environ.get("EVENT_NAME")!="workflow_dispatch" or os.environ.get("REPOSITORY")!="VlDMlNSh/mediahub-os" or os.environ.get("REF_NAME")!="refs/heads/main":
               print("::error::Child must run from trusted main workflow_dispatch."); sys.exit(2)
-          if not re.fullmatch(r"[0-9a-f]{40}",os.environ.get("TARGET_SHA","")) or not re.fullmatch(r"[0-9a-f-]{36}",os.environ.get("DISPATCH_ID","")):
+          if not re.fullmatch(r"[0-9a-f]{40}",os.environ.get("TARGET_SHA","")) or not re.fullmatch(r"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}",os.environ.get("DISPATCH_ID","")):
               print("::error::Malformed target SHA or dispatch ID."); sys.exit(2)
           if os.environ.get("BASE_REF")!="main" or os.environ.get("SCOPE")!="contour-a":
               print("::error::Input outside allowlist."); sys.exit(2)
