@@ -12,7 +12,7 @@ This addendum links the current admission report without replacing historical ID
 
 - Controller and three child workflow source files exist on main. They use GitHub REST workflow dispatch, a dedicated GitHub API token, a separate HMAC key, a trusted main ref, one shared immutable target SHA, and a batch-admission variable.
 - Effective secret/variable metadata, token scope, authoritative branch governance, exact-head CI for PR #437 and formal independent review remain NOT VERIFIED. No controller dispatch or Gemini child run was started.
-- SentinelX identifies the specified host as `Voktors-Mini.Dlink`, host ID `host_5f7264034bdf0b51`. The command `which agent-browser` returned no executable. Agent-browser CLI setup could not proceed because SentinelX policy reload requires a sudo-enabled service restart, but noninteractive sudo is not configured. The temporary allowlist edit was reverted.
+- SentinelX identifies the specified host as `Voktors-Mini.Dlink`, host ID `host_5f7264034bdf0b51`. The command `which agent-browser` returned no executable. Agent-browser CLI setup could not proceed because SentinelX policy reload requires a sudo-enabled service restart, but noninteractive sudo is not configured. The narrow allowlist entries `npm install -g agent-browser` and `agent-browser` are staged in the host config but are not active until the owner-authorized SentinelX service restart succeeds.
 - `which claude` returned no executable. Ollama discovery timed out; presence is NOT VERIFIED. No physical server was used in the Gemini transport.
 - Gemini Agents 1–3 remain NOT RUN. No controller/child run IDs, shared target SHA, artifact digests, qualification or acceptance are claimed.
 
