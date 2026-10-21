@@ -1976,3 +1976,11 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - First repair commit `960a57e6278e28867c5f8ec797f38638a786999e` did not catch a third malformed `next(...)` expression in the replay-case block. The exact-head CI exposed it; it was corrected in the same PR #436 branch.
 - Latest PR #436 head `7c45e920982a69169fc856a1739cb73445be904f`; test blob `01ddae5e1d7fd0e49ffa651da9655a5a5ad7a8d5`; all three matching HMAC expressions were read back and are syntactically closed.
 - Exact-head run [#39649630864](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630864) Cloud Runtime Validation passed. Contract validation [#39649630799](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630799) and Astra Verify [#39649630775](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630775) were in progress at check time. Keep PR open and do not claim repair verified until both are terminal success.
+
+
+## Wave 321 — latest CI reconciliation (2026-10-21)
+
+- PR #432 merged at `1a6e5a16ef9950b72dda04abd69a27f019922489`; main now has controller API dispatch/HMAC and strict UUIDv4 child authorization.
+- Post-merge CI found syntax defects in `tests/test_gemini_transport_controller_contract.py`; PR #434 fixes them in follow-up commits. Later run on `d5862c939daea07c00136600965bfb2b2336b081`: workflow contracts `39649699990` SUCCESS, runtime validation `39649701394` SUCCESS, Astra Verify `39649700215` FAILURE due to HMAC runtime fixture key mapping/override bugs.
+- PR #434 latest observed head `3bb9448d4899aa73ca1bb5b1114f68e824526c4d`; fixture now maps signed overrides to uppercase environment keys. No runs were available for that head yet, so exact-head CI is PENDING / NOT VERIFIED. Keep PR #434 Draft/unmerged until all exact-head checks pass.
+- Formal PR #432 review API shows zero submitted reviews; independent review is not evidenced. SentinelX only has `Voktors-Mini.Dlink` operational; Alamo/server 3 is not verified and two other hosts are disabled. Gemini/Claude/browser remain NOT RUN. Do not trigger issue-comment `/next` while gates remain open.
