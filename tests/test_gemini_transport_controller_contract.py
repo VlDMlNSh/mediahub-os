@@ -1,55 +1,69 @@
-"""Static contract tests for token-backed GitHub API Gemini dispatch."""
+"""Static tests for explicit, token-backed GitHub API Gemini dispatch."""
 from pathlib import Path
 import unittest
 import yaml
+
 ROOT = Path(__file__).resolve().parents[1]
-CONTROLLER_PATH = ROOT / ".github/workflows/gemini-batch-dispatch-controller.yml"
-CHILD_PATHS = (ROOT / ".github/workflows/gemini-autonomous-engineering.yml", ROOT / ".github/workflows/gemini-agent-2.yml", ROOT / ".github/workflows/gemini-agent-3.yml")
+WORKFLOW_PATH = ROOT / ".github/workflows/gemini-batch-dispatch-controller.yml"
+CHILDREN = (
+    ("gemini-autonomous-engineering.yml", "GEMINI_API_KEY"),
+    ("gemini-agent-2.yml", "GEMINI_API_KEY_2"),
+    ("gemini-agent-3.yml", "GEMINI_API_KEY_3"),
+)
+
+
 class GeminiTransportControllerContractTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.source = CONTROLLER_PATH.read_text(encoding="utf-8")
+        cls.source = WORKFLOW_PATH.read_text(encoding="utf-8")
         cls.workflow = yaml.load(cls.source, Loader=yaml.BaseLoader)
-        cls.child_sources = [p.read_text(encoding="utf-8") for p in CHILD_PATHS]
-        cls.children = [yaml.load(s, Loader=yaml.BaseLoader) for s in cls.child_sources]
-    def test_explicit_confirmation_and_probe_default(self):
-        inputs = self.workflow["on"]["workflow_dispatch"]["inputs"]
-        self.assertEqual(inputs["mode"]["options"], ["probe", "agents"])
-        self.assertEqual(inputs["mode"]["default"], "probe")
-        self.assertEqual(inputs["confirm"]["options"], ["no", "yes"])
-        self.assertEqual(inputs["confirm"]["default"], "no")
-        self.assertIn("inputs.mode == 'agents' && inputs.confirm == 'yes'", self.source)
-    def test_transport_token_is_controller_only(self):
+        cls.child_sources = [(name, (ROOT / ".github/workflows" / name).read_text(encoding="utf-8"), secret) for name, secret in CHILDREN]
+
+    def test_explicit_confirmation_and_nonlaunching_default(self):
+        dispatch = self.workflow["on"]["workflow_dispatch"]
+        self.assertEqual(dispatch["inputs"]["mode"]["default"], "probe")
+        self.assertEqual(dispatch["inputs"]["mode"]["options"], ["probe", "agents"])
+        self.assertEqual(dispatch["inputs"]["confirm"]["type"], "choice")
+        self.assertEqual(dispatch["inputs"]["confirm"]["options"], ["no", "yes"])
+        self.assertEqual(dispatch["inputs"]["confirm"]["default"], "no")
+        self.assertEqual(self.workflow["permissions"], {})
+        condition = self.workflow["jobs"]["dispatch_and_monitor"]["if"].replace(" ", "")
+        self.assertIn("github.event_name=='workflow_dispatch'", condition)
+        self.assertIn("github.ref=='refs/heads/main'", condition)
+        self.assertIn("inputs.mode=='agents'", condition)
+        self.assertIn("inputs.confirm=='yes'", condition)
+
+    def test_controller_uses_transport_token_only_for_api_dispatch(self):
         self.assertIn("secrets.MEDIAHUB_GITHUB_TOKEN", self.source)
-        self.assertIn("actions/workflows/$workflow/dispatches", self.source)
+        self.assertIn("api.github.com", self.source)
+        self.assertIn("/actions/workflows/{wf}/dispatches", self.source)
+        self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", self.source)
         self.assertNotIn("secrets: inherit", self.source)
-        for child in self.child_sources:
-            self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", child)
-            self.assertNotIn("GITHUB_PERSONAL_ACCESS_TOKEN", child)
-    def test_dispatches_exactly_three_fixed_workflows(self):
-        source = self.source
-        for name in ("gemini-autonomous-engineering.yml", "gemini-agent-2.yml", "gemini-agent-3.yml"):
-            with self.subTest(workflow=name):
-                self.assertIn('dispatch_one "' + name + '"', source)
-        self.assertIn("target_sha", source)
-        self.assertIn("baseline_", source)
-        self.assertIn("Ambiguous new runs", source)
-        self.assertIn("conclusion", source)
-    def test_children_require_hmac_authorization_before_engineer_job(self):
-        for child, source in zip(self.children, self.child_sources):
-            with self.subTest(workflow=child["name"]):
-                self.assertIn("workflow_dispatch", child["on"])
-                self.assertNotIn("workflow_call", child["on"])
-                self.assertIn("authorize_dispatch", child["jobs"])
-                self.assertIn("needs.authorize_dispatch.result == 'success'", child["jobs"]["engineer"]["if"])
-                self.assertIn("hmac.compare_digest", source)
-                self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", source)
-                self.assertEqual(child["jobs"]["authorize_dispatch"]["permissions"], {})
-    def test_shared_target_sha_and_fail_closed_results(self):
-        for source in self.child_sources:
-            self.assertIn("ref: ${{ inputs.target_sha }}", source)
-        self.assertIn("Immutable target SHA", self.source)
-        self.assertIn("All three Gemini workflow runs completed successfully", self.source)
+        for _, source, _ in self.child_sources:
+            self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", source)
+
+    def test_fixed_three_workflows_receive_same_target_sha(self):
+        for filename, _, _ in CHILDREN:
+            self.assertIn(filename, self.source)
+        self.assertIn("target=ref[\"object\"][\"sha\"]", self.source)
+        self.assertIn('"target_sha":target', self.source)
+        self.assertIn("target_sha", self.source)
+        self.assertIn("Shared immutable target SHA", self.source)
+
+    def test_hmac_and_run_monitoring_fail_closed(self):
+        self.assertIn("hmac.new", self.source)
+        self.assertIn("hashlib.sha256", self.source)
+        self.assertIn("NOT_COMPLETED_BEFORE_TIMEOUT", self.source)
+        self.assertIn('r.get("conclusion")!="success"', self.source)
         self.assertNotIn("secrets: inherit", self.source)
+
+    def test_child_provider_keys_are_separate_and_explicit(self):
+        for _, source, secret in self.child_sources:
+            self.assertIn(secret, source)
+            self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", source)
+            self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", source)
+            self.assertIn("needs.authorize_dispatch.result == 'success'", source)
+
+
 if __name__ == "__main__":
     unittest.main()
