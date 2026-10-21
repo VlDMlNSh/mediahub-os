@@ -57,3 +57,30 @@ The authoritative handoff [MEDIAHUB-NEW-CHAT-CONTINUATION-MASTER-2026-10-21-WAVE
 4. PR #432's additional `MEDIAHUB_DISPATCH_HMAC_KEY` is an implementation-specific extra prerequisite not documented as verified in the handoff. Its configuration and design must be reviewed; do not assume it is present or authorized. This clarification does not authorize dispatch or secret access.
 
 SentinelX host inventory was checked during this pass. The only connected operational host returned was `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`); the default-host connection is live, but the capabilities call returned a stale-session error. Two other enrolled hosts are disabled. No host is positively identified as Alamo/server 3, so Claude/browser work is **NOT RUN** until that identity and capability state can be verified. No Gemini workflow was dispatched.
+
+
+## Wave 314 — focused source audit of PR #432 (2026-10-21)
+
+Re-read controller and child workflow sources at exact PR head `ea637eb55c87d44f0ce22730588e744c7470ee1d`. PR metadata remains OPEN/DRAFT/unmerged; no formal reviews are recorded. Exact-head runs previously enumerated remain SUCCESS for workflow contract validation (`39604609734`), Astra Verify (`39604609752`), non-launching caller probe (`39604609755`), controller probe (`39604609766`, no child dispatch), and Astra Cloud Runtime Validation (`39604609921`). No Gemini dispatch was performed in this audit.
+
+### Confirmed architecture
+
+- The controller's dispatch job is gated on `workflow_dispatch`, `refs/heads/main`, `mode=agents`, and `confirm=yes`.
+- It reads `MEDIAHUB_GITHUB_TOKEN` and `MEDIAHUB_DISPATCH_HMAC_KEY` only inside the controller dispatch job. Each child receives the signed payload and reads the HMAC secret in an authorization job; provider secrets are used later by the corresponding child model job. No `secrets: inherit` is present in the reviewed controller section.
+- All three child workflows are dispatched by GitHub API with one shared full target SHA, a unique UUID dispatch ID and per-workflow signed payload. Children require trusted `workflow_dispatch` on `refs/heads/main`, validate the SHA/UUID, allowlist base/scope and verify the HMAC before the model job.
+
+### Blocking source finding — partial dispatch is not reconciled
+
+The controller dispatch loop performs POSTs sequentially and immediately raises on an API error. It only appends a job to its in-memory `jobs` list after a successful POST; if the second or third POST fails, one or more earlier child workflows may already be running, while the controller exits before monitoring them or writing the summary table. The final fail-closed conclusion therefore does not provide a complete audit trail for partial batches. Before qualification, change the controller to record each attempt before dispatch, catch and classify per-child dispatch failures without exposing credentials, monitor every successfully accepted child, write a complete per-agent result table even on partial failure, and exit nonzero if any dispatch/run failed. Do not automatically cancel already-running children unless an explicit, reviewed cancellation contract is added.
+
+### Additional unresolved security/operability gates
+
+1. Verify HMAC payload construction is identical in controller and all three children, including UTF-8 and JSON canonicalization; tests must include altered workflow ID, task, target SHA, base, scope, signature, missing key and wrong ref.
+2. Verify target checkout uses the same immutable `target_sha` in each child and no mutable branch checkout is used for code-under-review.
+3. Verify the exact controller/child permissions and that the GitHub App token has only required Actions dispatch/read-run permissions. The GitHub connector cannot expose secret values or prove secret existence; use an approved non-disclosing owner/admin mechanism for configuration checks.
+4. The old Wave 284 contract test was substantially rewritten in #432; exact-head success for the workflow contract validation is recorded, but the suite's semantic coverage and retained historical invariants require review. Passing CI alone is not independent security review.
+5. Trusted `workflow_dispatch` no-secret probe has not been demonstrated on main. The PR-context probe is not a substitute.
+
+### Disposition
+
+PR #432 remains the stronger candidate than #431 due to the child-side signed authorization envelope, but it is **NOT QUALIFIED**. Keep Draft/unmerged and do not dispatch Gemini until partial-dispatch auditability, independent security review, effective token scope, governance and trusted no-secret probe are evidenced. Gemini Agents 1–3 remain **NOT RUN**; Alamo/Claude and @SentinelX browser work remain separate and were not used as Gemini transport.
