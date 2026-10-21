@@ -2362,3 +2362,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Main Astra Verify run #39669337754 succeeded. Exact-head CI for PR #437/#441/#442 has not been shown to reach terminal success; independent reviews and effective branch governance/token scope remain unverified (branch protection API 403, ruleset listing inconclusive).
 - Gemini Agents 1–3 NOT RUN; no controller/child run IDs, target manifest, or artifact digests. Local Claude-FCC/Ollama and agent-browser NOT RUN/NOT VERIFIED; SentinelX ping/state only, browser CLI lookup timed out. No secrets read, trigger comment posted, workflow dispatch, host modification, merge, deployment, qualification, or acceptance.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: authorized no-secret probe after confirming it is the intended test route; resolve exact-head CI and independent security/governance gates before any agent dispatch.
+
+
+## Wave 344 — main HEAD and exact-head CI recheck (2026-10-22)
+
+- Report: [Wave 344 main HEAD and CI recheck](MEDIAHUB-NEXT-MAIN-HEAD-AND-CI-RECHECK-WAVE-344-2026-10-22.md), blob SHA `009afcbd54c5600d36df748fa338ca51cf5714c0`, commit `a08913f002a699233953bbb382e6395ef39ea866` on noncanonical branch `docs/mediahub-next-wave340-20261022`.
+- Main advanced to `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob remains `9453403bba899a2400ee3fb874d32badd034c704`.
+- Main Actions suite `107553038685` and run `39685040842` succeeded; separate provider suite `107553033246` remains queued with zero checks. PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 new HEAD `9eb3c03f025d763544f0048496f1e2f7f83aee28` suite `107552972867` remain queued with zero check runs. All three PRs remain unmerged; #442 remains draft.
+- Controller exact source requires literal owner `/next` on Issue #301 or workflow_dispatch `mode=agents` and `confirm=yes`; non-launching `probe` mode exists. No supported workflow-dispatch action was available in the connected GitHub tools, so no dispatch or trigger comment was attempted.
+- SentinelX ping to `Voktors-Mini.Dlink` succeeded; browser/Claude-FCC/Ollama execution remains NOT VERIFIED/NOT RUN. Gemini Agents 1–3 NOT RUN; no child run IDs or artifact digests. No secrets read, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: independent controller/security review, queued-CI resolution, governance/token-scope proof, then official no-secret probe if an approved dispatch path is available.
