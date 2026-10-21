@@ -7802,3 +7802,6 @@ The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee
 ## Latest index pointer — Wave 301 (2026-10-21)
 
 The current continuation is [Wave 301 — Gemini independent schema and governance review](../checkpoints/MEDIAHUB-GEMINI-INDEPENDENT-SCHEMA-AND-GOVERNANCE-REVIEW-WAVE-301-2026-10-21.md), with [addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-301-2026-10-21.md). This entry supersedes older trailing Wave 300 pointers for continuation purposes. Exact candidate schema SHAs, Gemini run/artifact IDs, and open A0/target/R-06 gates are recorded in the Wave 301 report. Gate remains BLOCKED / NOT_PROVEN.
+
+
+- Wave 301 validation update: Draft 2020-12 meta-validation passed for all three v0.2 candidate schemas using jsonschema 4.25.1; raw digests and partial fixture results are in [Wave 301 report](../checkpoints/MEDIAHUB-GEMINI-INDEPENDENT-SCHEMA-AND-GOVERNANCE-REVIEW-WAVE-301-2026-10-21.md). Full positive/negative fixture acceptance remains OPEN; do not promote schemas or dispatch workers.
