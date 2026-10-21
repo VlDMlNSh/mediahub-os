@@ -82,5 +82,22 @@ class GeminiSignedDispatchContractTests(unittest.TestCase):
         self.assertRegex(source, r"uses:\s+google-github-actions/run-gemini-cli@v0(?:\s|$)")
 
 
+    def test_children_enforce_canonical_uuid4_dispatch_ids(self):
+        pattern = r"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"
+        valid = "123e4567-e89b-42d3-a456-426614174000"
+        invalid_ids = (
+            "------------------------------------",
+            "123e4567-e89b-12d3-a456-426614174000",
+            "123e4567-e89b-42d3-7456-426614174000",
+            "123e4567e89b42d3a456426614174000",
+            "123e4567-e89b-42d3-a456-42661417400Z",
+        )
+        self.assertIsNotNone(re.fullmatch(pattern, valid))
+        for dispatch_id in invalid_ids:
+            with self.subTest(dispatch_id=dispatch_id):
+                self.assertIsNone(re.fullmatch(pattern, dispatch_id))
+        for source in self.sources:
+            self.assertIn(pattern, source)
+
 if __name__ == "__main__":
     unittest.main()
