@@ -2063,3 +2063,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - SentinelX inventory: only `Voktors-Mini.Dlink` operational; Alamo/server 3 not identified. Capabilities read disconnected, then ping succeeded. No remote command was executed; Claude/FCC and agent-browser on Alamo remain NOT RUN. Load `agent-browser skills get core` on the verified Alamo host before any browser command.
 - Next bounded pass: get independent review and exact-head CI for PR #437; obtain non-disclosing evidence for token permissions, HMAC secret and batch variable, and governance/protection; only then consider one approved-controller batch against a single immutable SHA. Separately identify Alamo and verify its allowlist before using Claude/browser.
 - Status: controller implemented; historical CI verified; batch admission blocked; Gemini dispatch NOT RUN; no qualification or acceptance.
+
+
+## Wave 327 — Gemini and Voktors-Mini.Dlink executor recheck (2026-10-21)
+
+- Report: [Wave 327 Gemini/Alamo recheck](MEDIAHUB-NEXT-GEMINI-ALAMO-RECHECK-WAVE-327-2026-10-21.md); map addendum: [Wave 327 map entry](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-327-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main controller blob `9453403bba899a2400ee3fb874d32badd034c704` includes GitHub API/HMAC dispatch, but effective batch variable, secret/permissions metadata, branch governance, independent review and trusted-main no-secret probe remain NOT VERIFIED. No controller trigger posted.
+- PR #437 head `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14` is Draft/open; exact-head CI/status and formal reviews absent. Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifact digests.
+- SentinelX confirms Voktors-Mini.Dlink `host_5f7264034bdf0b51`, macOS arm64. agent-browser native binary exists, but CLI skill retrieval timed out/reconnected; no browser session opened. `claude` and `ollama` were not found on PATH in the successful bounded check. Claude/FCC free route NOT VERIFIED. No allowlist, secret, code or install changes.
+- Next: clear CI/review/governance gates, then controller-only three-agent dispatch on one immutable SHA; separately restore stable host execution and qualify browser/Claude free route without paid fallback.
