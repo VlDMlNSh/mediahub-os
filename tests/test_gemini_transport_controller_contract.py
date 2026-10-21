@@ -137,7 +137,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         controller_lines = self._extract_python_heredoc(controller_run)
         payload_line = next(line for line in controller_lines if "; payload={" in line)
         controller_payload_expr = payload_line.split("; payload=", 1)[1]
-        controller_signature_line = next(line for line in controller_lines if line.startswith("sig=hmac.new(")
+        controller_signature_line = next(line for line in controller_lines if line.startswith("sig=hmac.new("))
 
         fake_key = "contract-test-only-key-not-a-secret"
         target_sha = "a" * 40
@@ -152,7 +152,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
                 child_lines = self._extract_python_heredoc(auth_run)
                 child_key_line = next(line for line in child_lines if line.startswith("key=os.environ.get("))
                 child_payload_line = next(line for line in child_lines if line.startswith("payload={"))
-                child_expected_line = next(line for line in child_lines if line.startswith("expected=hmac.new(")
+                child_expected_line = next(line for line in child_lines if line.startswith("expected=hmac.new("))
                 child_env = child_workflow["jobs"]["authorize_dispatch"]["steps"][0]["env"]
                 self.assertEqual(child_env["WORKFLOW_FILE"], filename)
 
@@ -202,7 +202,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         child_lines = self._extract_python_heredoc(auth_run)
         child_key_line = next(line for line in child_lines if line.startswith("key=os.environ.get("))
         child_payload_line = next(line for line in child_lines if line.startswith("payload={"))
-        child_expected_line = next(line for line in child_lines if line.startswith("expected=hmac.new(")
+        child_expected_line = next(line for line in child_lines if line.startswith("expected=hmac.new("))
         replay_env = {
             "HMAC_KEY": fake_key,
             "WORKFLOW_FILE": filename,
