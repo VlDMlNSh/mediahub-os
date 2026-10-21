@@ -1,3 +1,12 @@
+## Wave 300 — Independent Gemini review and next schema-validation gate (2026-10-21)
+
+- Evidence report: [Independent Gemini source-only review](MEDIAHUB-INDEPENDENT-GEMINI-REVIEW-WAVE-300-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-300-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Gemini run [39591234636](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39591234636) succeeded; artifact blob SHA `9c752d3ca2c5efdb957ddde758ee0e2e9e37b900`. Review is source-only, not formal approval or acceptance.
+- v0.2 schema blob SHAs: task envelope `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`; evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- Draft 2020-12 meta-validation with format assertion, positive/negative fixtures, semantic reference resolution, authoritative runner/workspace/network manifest acceptance, A0 issuer/ingress/lease/cancel/recovery and R-06 audit/privacy acceptance remain open.
+- No provider credentials, implementation dispatch, merge, deployment, qualification or acceptance occurred. Gate remains **BLOCKED / NOT_PROVEN**.
+- Next bounded task: reproducible standards validation and fixtures against exact schema blobs, recording validator version, command, fixture digests and results, without provider credentials or live queue integration.
+
 ## Wave 301 — Gemini schema and governance review (2026-10-21)
 
 - Report: [Gemini independent schema and governance review](MEDIAHUB-GEMINI-INDEPENDENT-SCHEMA-AND-GOVERNANCE-REVIEW-WAVE-301-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-301-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
