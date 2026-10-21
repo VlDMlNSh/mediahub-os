@@ -1,3 +1,11 @@
+## Latest continuation — Wave 307 three-Gemini /next orchestration contract (2026-10-21)
+
+- Report: [Wave 307 orchestration contract](MEDIAHUB-NEXT-THREE-GEMINI-AGENT-ORCHESTRATION-CONTRACT-WAVE-307-2026-10-21.md); provisional [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-307-2026-10-21.md).
+- Read canonical Bootstrap at blob SHA e21423ac619fdc9ef4381cca40b0e3675277c42c. Sections 1A–1C already require per-/next Gemini support, but live dispatch is gated on controller-only transport and PR #421. Clarified the three independent roles: Agent 1 implementation/research; Agent 2 independent contract/test verification; Agent 3 security/governance review.
+- PR #421 remains OPEN/DRAFT by its current issue description. Live dispatch remains BLOCKED until exact-head CI, independent review, caller guard/secret-boundary review, safe negative caller-context test, and governed integration are verified. Issue #301 says the queue is documentary, not a live scheduler.
+- No agent dispatch occurred. Do not claim operational behavior based on this documentation-only change. Project-level instructions are not automatically modified by repository commits.
+- Canonical map remains on docs/mediahub-chat-tree-map-20261012: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md.
+
 ## Latest continuation — Wave 306 exact-wheel attestation check (2026-10-21)
 
 - Report: [Wave 306 — setuptools exact-wheel attestation check](MEDIAHUB-SETUPTOOLS-EXACT-WHEEL-ATTESTATION-CHECK-WAVE-306-2026-10-21.md); provisional [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-306-2026-10-21.md).
