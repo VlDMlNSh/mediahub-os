@@ -1905,6 +1905,8 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 
 
 ### Wave 317 — roadmap-driven per-/next agent task roles (2026-10-21)
+- Full report: [Wave 317 per-/next orchestration and Alamo readiness](MEDIAHUB-NEXT-ORCHESTRATION-AND-ALAMO-READINESS-WAVE-317-2026-10-21.md); [Wave 317 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-317-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Bootstrap now records the gated ChatGPT /next-to-Issue-#301 bridge and Alamo-only Claude route; Bootstrap blob SHA 6a8035d724a3597f78106aefcf151b7026876b42. Do not create trigger comments or enable the batch variable until PR #432 is integrated and all review, secret, governance and trusted-main probe gates pass.
 
 - Latest observed PR #432 head `269b57b8b9c412261c97c4811bd49cbb4122ba03`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`; transport contract test blob `081ba101a1b56553577abd7b469b3c9bf6f31196`.
 - Each batch now assigns Agent 1 one bounded implementation task selected from the canonical map/Bootstrap/checkpoint/Roadmap/Issue #301, Agent 2 independent contract/test verification, and Agent 3 security/provenance audit. All tasks use the same immutable target SHA, draft-only output, no nested dispatch, no merge/deployment/qualification, and no secret-value access.
