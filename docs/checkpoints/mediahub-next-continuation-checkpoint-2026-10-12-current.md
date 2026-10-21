@@ -2431,3 +2431,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Controller issue-comment run `39678989141` remains SKIPPED; trigger comment `6326943789` was a report announcement, not literal `/next`. No successful dispatch or Gemini child runs.
 - SentinelX host `Voktors-Mini.Dlink` ping succeeded. Browser CLI lookup previously timed out; local browser and Claude-FCC/Ollama execution not verified. Gemini Agents 1–3 NOT RUN; no IDs or artifact digests. Governance, token scope, independent controller security review and successful no-secret probe remain NOT VERIFIED.
 - No secret reads, trigger comments, dispatch, host changes, merge, deployment, qualification or acceptance. Status **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: authoritative queued-provider diagnosis, independent security review, and governance/token-scope evidence before any approved no-launch probe.
+
+
+## Wave 345 — authoritative ref and queued-CI gate recheck (2026-10-22)
+
+- Report: [Wave 345 authoritative ref and queued-CI recheck](MEDIAHUB-NEXT-AUTHORITATIVE-REF-AND-QUEUED-CI-WAVE-345-2026-10-22.md), blob SHA `5ef80fd7fcb4d72dba72d37a9c4d7e484b15b5a5`, report commit `5635da6fc7fa457dead539722e354e6cc01426d5` on working branch `docs/mediahub-next-wave340-20261022`.
+- Current main SHA `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`; canonical checkpoint blob `acc19d9554a36db09ece70f47b8f49fd74c7ade1`; roadmap blob `cea169e55e02903ab9871d51ff643b3da7ef0e8c`.
+- PR #437 suite `107496095390`, #441 suite `107524023551`, #442 suite `107568753095`, and main suite `107553033246` remain QUEUED with zero latest check runs. Main Astra Verify `39685040842` succeeded. Scheduled supervisor run `39686595751` remains QUEUED; job `119522116279` has no steps/results yet.
+- Formal reviews are empty for PR #437/#441/#442. Branch-protection endpoint 403; empty rulesets are inconclusive. Gemini Agents 1–3 NOT RUN; no new dispatch, secrets access, host modification, merge or deployment. Local Claude-FCC/Ollama/browser remains NOT VERIFIED/NOT RUN.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: diagnose external check-provider scheduling, obtain independent security review, and prove governance/token scope before approved no-launch probe.
