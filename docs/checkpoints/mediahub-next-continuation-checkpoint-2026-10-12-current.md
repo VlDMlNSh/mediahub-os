@@ -1781,3 +1781,11 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Wave 301's three v0.2 schemas still require standards-compliant Draft 2020-12 meta-validation, format assertions, positive/negative fixtures, recorded validator/version and raw-byte digests, plus separate semantic string-reference resolution.
 - The canonical map's Contents API returned empty content; blob response was not safely reconstructable as a complete file. The Wave 302 addendum is proposed but not yet indexed in the canonical map. Do not overwrite the map from partial content.
 - Next: (1) obtain independent security review and effective repository/org protection evidence for #421; (2) continue the schema-validation gate. Contour A remains NOT_PROVEN/BLOCKED; Contour B remains gated.
+
+
+### Wave 302 follow-up — exact v0.2 schema static scan
+
+- Report updated: [Wave 302 exact-head gate reconciliation](MEDIAHUB-CONTOUR-A-EXACT-HEAD-GATE-RECONCILIATION-WAVE-302-2026-10-21.md), current report blob `8cb438322cd2f45eec12378631ecd8f5518b92d1`.
+- Re-fetched and JSON-parsed the three exact schema blobs: Task Envelope `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` (11,213 characters; 15 top-level required keys; one date-time assertion), Agent Registry `b49b89b8fbdfc180862e3dc78f8198f35e486035` (9,282 characters; 10 required keys; three date-time assertions), Evidence Manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a` (11,918 characters; 13 required keys; two date-time assertions).
+- All three declare Draft 2020-12 and parsed as JSON. No actual `$ref` keyword was found. The scan is static only; it is not meta-validation, positive/negative instance validation, semantic reference resolution or acceptance evidence. Format checking still needs an explicitly configured validator and malformed-date fixtures.
+- PR #430 has no check-runs registered on its current HEAD at the last query; independent review remains absent. Keep it Draft and do not merge.
