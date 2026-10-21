@@ -43,7 +43,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", source)
 
     def test_fixed_three_workflows_receive_same_target_sha(self):
-        for filename, _, _ in CHILDREN:
+        for filename, _ in CHILDREN:
             self.assertIn(filename, self.source)
         self.assertIn("target=ref[\"object\"][\"sha\"]", self.source)
         self.assertIn('"target_sha":target', self.source)
