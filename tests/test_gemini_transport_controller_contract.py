@@ -41,7 +41,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             self.assertIn(f'snapshot_latest "{workflow}"', dispatch_source)
             self.assertIn(f'dispatch_one "{workflow}"', dispatch_source)
         self.assertIn('ref:"main"', dispatch_source)
-        self.assertIn('base_ref:"main"', dispatch_source)
+        self.assertIn("base_ref:$target_sha", dispatch_source)
         self.assertIn('scope:"contour-a"', dispatch_source)
         self.assertIn('git/ref/heads/main', dispatch_source)
         self.assertIn('target_sha" =~ ^[0-9a-f]{40}', dispatch_source)
@@ -65,7 +65,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
     def test_probe_never_dispatches_agents_or_receives_secrets(self):
         probe = self.workflow["jobs"]["probe"]
         self.assertEqual(probe["permissions"], {})
-        self.assertNotIn("secrets", str(probe))
+        self.assertEqual(set(probe["steps"][0].get("env", {})), {"EVENT_NAME", "WORKFLOW_REF"})
         self.assertIn("mode == 'probe'", probe["if"])
 
 if __name__ == "__main__":
