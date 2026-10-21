@@ -2254,3 +2254,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Main Astra Verify run #39669337754 succeeded; controller run #39678989141 was SKIPPED. Governance remains NOT VERIFIED (branch protection endpoint 403; empty ruleset result inconclusive).
 - Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifacts. Local Ollama/Claude-FCC/browser remain NOT VERIFIED/NOT RUN. No secrets read, issue-comment trigger posted, dispatch, host command, merge, deployment, qualification or acceptance.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve exact-head CI and independent security/governance gates; only then consider the literal owner trigger or approved no-launch probe.
+
+
+## Wave 343 — exact-head CI and executor liveness recheck (2026-10-22)
+
+- Report: [Wave 343 exact-head CI and executor liveness](MEDIAHUB-NEXT-EXACT-HEAD-CI-AND-EXECUTOR-LIVENESS-WAVE-343-2026-10-22.md); report commit `fcc4861456c04c0622bf15924d66e3db9c7fbd31` (blob SHA to be verified after read-back).
+- Main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. Canonical map blob `38d8903bc640fd37009f0fc19a11ea7869840dbc` successfully read through blob API (1,165,629 chars); Bootstrap blob `75f30750183efe8c6877368e9f0ada48f8e81ea7`; canonical checkpoint still trails working branch; Master Roadmap blob `cea169e55e02903ab9871d51ff643b3da7ef0e8c`.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 suite `107544433195` remain QUEUED with zero check runs; review lists empty. Main Astra Verify `39669337754` SUCCESS. Controller run `39678989141` and all four jobs SKIPPED because triggering owner comment `6326943789` was a report announcement rather than literal `/next`.
+- SentinelX host `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51`: ping, capabilities, and state succeeded on retry. Read-only `which agent-browser` command timed out after 30 seconds with no result; CLI/browser and local Claude/Ollama remain NOT VERIFIED/NOT RUN. No identical retry.
+- Gemini Agents 1–3 NOT RUN; no child run IDs or artifact digests. Governance, effective token scope, independent security review, and approved non-launching probe remain NOT VERIFIED. No secrets read, trigger comment posted, dispatch, host modification, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued exact-head checks; independent review; metadata-only governance/token-scope verification; then approved non-launching probe and a bounded local executor preflight.
