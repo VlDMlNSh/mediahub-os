@@ -68,3 +68,17 @@
 5. After gates pass, assign one shared immutable target SHA and dispatch Agents 1–3 only through the GitHub Actions controller. Record controller ID, three child run IDs, terminal conclusions, artifacts and digests.
 
 No dispatch, secret access, merge, deployment, qualification or acceptance is claimed.
+
+## Wave 328 follow-up — owner-reported SentinelX restart (2026-10-21)
+
+The owner reports running the requested local `sudo launchctl kickstart -k system/app.sentinelx.core` command. Follow-up verification is **INCOMPLETE**:
+
+- `sentinel_list_hosts` reports `Voktors-Mini.Dlink` operational, host ID `host_5f7264034bdf0b51`, with a new session ID.
+- `sentinel_ping` returned `pong: true`.
+- A subsequent full capabilities request timed out after 60 seconds. A subsequent `which agent-browser` call ended with `agent_disconnected / duplicate_session`, indicating the host reconnected while the request was in flight.
+- Therefore the allowlist reload is NOT VERIFIED, and `agent-browser skills get core` has NOT RUN. No browser automation or Claude/FCC session has started.
+- Controller source review confirms a default non-launching `probe` mode and a separate `agents` mode requiring explicit `confirm=yes`; an exact owner `/next` comment on Issue #301 is also a launch path but is gated by `MEDIAHUB_GEMINI_BATCH_ENABLED`. No workflow-dispatch connector is available in this session, and I did not create a trigger comment or launch the controller.
+- Main controller blob remains `9453403bba899a2400ee3fb874d32badd034c704`. PR #440 remains draft/open/unmerged at the currently observed head `69aa8e98f1aa5c3154be24232fc6bedca00555e5`; its exact-head PR workflow-run query and combined status are empty, and formal review list is empty. CI and independent review remain NOT VERIFIED.
+- Gemini Agents 1–3 remain NOT RUN. No run IDs, shared target SHA, artifacts, or artifact digests exist for this pass. No secrets were read. No physical host was used in Gemini transport.
+
+Next bounded step: stabilize SentinelX request handling and obtain successful capabilities plus command execution; verify the two staged allowlist entries are active, then install agent-browser and run its required core setup. Independently, close the exact-head CI/review and non-disclosing governance gates before any controller dispatch.
