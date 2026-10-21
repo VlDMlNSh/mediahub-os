@@ -2285,3 +2285,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Main Astra Verify run `39669337754` SUCCESS. Controller run `39678989141` SKIPPED because comment `6326943789` was not literal `/next`. No controller or child dispatch IDs.
 - Branch protection API 403 and empty ruleset listing leave governance/effective token scope NOT VERIFIED. Probe was not run because Bootstrap gates are not closed. Gemini 1–3 NOT RUN. Local Claude-FCC/Ollama/browser NOT VERIFIED/NOT RUN; SentinelX read-only browser lookup timed out.
 - No secret reads, trigger comment, dispatch, host modification, merge, deployment, qualification or acceptance. **BLOCKED / NOT QUALIFIED / NOT ACCEPTED.**
+
+
+## Wave 344 — fresh ref, exact-head CI and review gate (2026-10-22)
+
+- Report: [Wave 344 fresh ref, CI and review gate](MEDIAHUB-NEXT-FRESH-REF-CI-AND-REVIEW-GATE-WAVE-344-2026-10-22.md), blob SHA `7dbe95d30d87c8d1aaab4469feb8d8c048d00931`, commit `6a1c9b2a91bd8cc15b9bef23514923cf113430dd` on working branch.
+- Main `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED with zero check runs; reviews empty. PR #442 HEAD `692790bbe5dc8b7ed73848753b56ed094577f639`, suite `107547075568` QUEUED with zero check runs, reviews empty, draft/open/unmerged. Prior PR #442 suite `107544433195` belongs to an older HEAD.
+- Main Astra Verify `39669337754` SUCCESS; controller run `39678989141` SKIPPED because comment `6326943789` was a report announcement, not exact `/next`.
+- SentinelX host `Voktors-Mini.Dlink` ping/state/capabilities responded; read-only browser CLI check timed out. Browser and local Claude/Ollama remain NOT VERIFIED/NOT RUN. Gemini 1–3 NOT RUN; no child run IDs or artifact digests.
+- No secrets read, trigger comment posted, dispatch, host modification, merge, deployment, qualification or acceptance. Governance, token scope, HMAC probe and independent security review remain NOT VERIFIED. Branch protection API 403 is inconclusive.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued CI with provider/admin evidence, independent controller security review, metadata-only governance/token-scope verification, then approved non-launching probe.
