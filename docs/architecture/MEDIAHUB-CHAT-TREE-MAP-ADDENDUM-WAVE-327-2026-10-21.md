@@ -17,3 +17,10 @@ This addendum links the current admission report without replacing historical ID
 - Gemini Agents 1–3 remain NOT RUN. No controller/child run IDs, shared target SHA, artifact digests, qualification or acceptance are claimed.
 
 Next: resolve exact-head CI/review and non-disclosing launch gates; resolve the owner-controlled SentinelX restart path; then run the trusted-main no-secret probe and `agent-browser skills get core` before any provider or child dispatch.
+
+## Wave 328 follow-up — restart command reported by owner
+
+- Owner reports executing the requested SentinelX service restart command.
+- Host listing and ping are responsive, but full capabilities timed out and a follow-up command returned `agent_disconnected / duplicate_session`. The allowlist reload and browser CLI are therefore NOT VERIFIED.
+- No agent-browser core setup, browser session, Claude/FCC session, Gemini controller run, or child run was performed.
+- Details: [Wave 327 report, Wave 328 follow-up section](../checkpoints/MEDIAHUB-NEXT-GEMINI-AND-BROWSER-ADMISSION-WAVE-327-2026-10-21.md).
