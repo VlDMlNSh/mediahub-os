@@ -1,4 +1,4 @@
-"""Static contract tests for the GitHub-hosted Gemini transport controller."""
+"""Static contract tests for the controller-only Gemini reusable-workflow transport."""
 from pathlib import Path
 import unittest
 
@@ -8,9 +8,9 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW_PATH = ROOT / ".github" / "workflows" / "gemini-batch-dispatch-controller.yml"
 CHILD_WORKFLOWS = (
-    "gemini-autonomous-engineering.yml",
-    "gemini-agent-2.yml",
-    "gemini-agent-3.yml",
+    ("agent1", "gemini-autonomous-engineering.yml", "GEMINI_API_KEY"),
+    ("agent2", "gemini-agent-2.yml", "GEMINI_API_KEY_2"),
+    ("agent3", "gemini-agent-3.yml", "GEMINI_API_KEY_3"),
 )
 
 
@@ -27,53 +27,52 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertEqual(confirm["type"], "choice")
         self.assertEqual(confirm["options"], ["no", "yes"])
         self.assertEqual(confirm["default"], "no")
-        self.assertEqual(
-            self.workflow["jobs"]["dispatch-and-verify"]["if"],
-            "inputs.confirm == 'yes'",
-        )
+        for job_id, _, _ in CHILD_WORKFLOWS:
+            self.assertEqual(
+                self.workflow["jobs"][job_id]["if"],
+                "github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'",
+            )
+        self.assertEqual(dispatch["inputs"]["mode"]["default"], "probe")
+        self.assertEqual(dispatch["inputs"]["mode"]["options"], ["probe", "agents"])
 
-    def test_builtin_github_token_has_no_permissions(self):
+    def test_builtin_github_token_has_no_workflow_level_permissions(self):
         self.assertEqual(self.workflow["permissions"], {})
 
-    def test_api_secret_is_used_for_dispatch_and_monitoring(self):
-        steps = self.workflow["jobs"]["dispatch-and-verify"]["steps"]
-        token_bindings = [
-            step["env"]["GH_TOKEN"]
-            for step in steps
-            if "GH_TOKEN" in step.get("env", {})
-        ]
-        self.assertEqual(
-            token_bindings,
-            [
-                "${{ secrets.MEDIAHUB_GITHUB_TOKEN }}",
-                "${{ secrets.MEDIAHUB_GITHUB_TOKEN }}",
-            ],
-        )
-        self.assertNotIn('echo "$GH_TOKEN"', self.source)
-        self.assertNotIn('printf \'%s\' "$GH_TOKEN"', self.source)
+    def test_transport_pat_removed_and_provider_secrets_are_explicit(self):
+        self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", self.source)
+        self.assertNotIn("api.github.com/repos/", self.source)
+        self.assertNotIn("secrets: inherit", self.source)
+        for job_id, _, secret in CHILD_WORKFLOWS:
+            with self.subTest(job=job_id):
+                job = self.workflow["jobs"][job_id]
+                self.assertEqual(job["secrets"], {secret: chr(36) + "{{ secrets." + secret + " }}"})
+                self.assertEqual(job["permissions"], {
+                    "contents": "write",
+                    "pull-requests": "write",
+                    "issues": "read",
+                })
 
-    def test_only_the_three_fixed_child_workflows_are_dispatched(self):
-        steps = self.workflow["jobs"]["dispatch-and-verify"]["steps"]
-        dispatch_source = steps[0]["run"]
-        monitor_source = steps[1]["run"]
-        for workflow in CHILD_WORKFLOWS:
+    def test_only_the_three_fixed_reusable_workflows_are_called(self):
+        for job_id, workflow, _ in CHILD_WORKFLOWS:
             with self.subTest(workflow=workflow):
-                self.assertIn(f'snapshot_latest "{workflow}"', dispatch_source)
-                self.assertIn(f'dispatch_one "{workflow}"', dispatch_source)
-        for agent, workflow in zip(("agent1", "agent2", "agent3"), CHILD_WORKFLOWS):
-            self.assertIn(f'[{agent}]="{workflow}"', monitor_source)
-        self.assertIn('ref:"main"', dispatch_source)
-        self.assertIn('base_ref:"main"', dispatch_source)
-        self.assertIn('scope:"contour-a"', dispatch_source)
+                job = self.workflow["jobs"][job_id]
+                self.assertEqual(job["uses"], "./.github/workflows/" + workflow)
+                self.assertEqual(job["with"]["base_ref"], "main")
+                self.assertEqual(job["with"]["scope"], "contour-a")
+                self.assertIn("Wave 243", job["with"]["task"])
 
-    def test_run_correlation_fails_closed_on_ambiguity_and_failure(self):
-        monitor_source = self.workflow["jobs"]["dispatch-and-verify"]["steps"][1]["run"]
-        self.assertIn("created_at >= $since", monitor_source)
-        self.assertIn(".id > $baseline", monitor_source)
-        self.assertIn('if [[ "$count" -gt 1 ]]', monitor_source)
-        self.assertIn("refusing to guess", monitor_source)
-        self.assertIn('!= "completed"', monitor_source)
-        self.assertIn('!= "success"', monitor_source)
+    def test_aggregate_summary_fails_closed(self):
+        summary = self.workflow["jobs"]["summarize"]
+        self.assertEqual(summary["needs"], ["agent1", "agent2", "agent3"])
+        self.assertEqual(
+            summary["if"],
+            "always() && github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'",
+        )
+        step = summary["steps"][0]
+        self.assertEqual(step["env"]["AGENT1_RESULT"], chr(36) + "{{ needs.agent1.result }}")
+        self.assertEqual(step["env"]["AGENT2_RESULT"], chr(36) + "{{ needs.agent2.result }}")
+        self.assertEqual(step["env"]["AGENT3_RESULT"], chr(36) + "{{ needs.agent3.result }}")
+        self.assertIn("fails closed", step["run"])
 
 
 if __name__ == "__main__":

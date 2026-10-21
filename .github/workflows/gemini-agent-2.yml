@@ -1,7 +1,7 @@
 name: Gemini Agent 2 — Research and Architecture
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       task:
         description: "One bounded engineering task for Gemini; include acceptance criteria and relevant IDs"
@@ -10,27 +10,84 @@ on:
       base_ref:
         description: "Target base branch for the isolated change and Pull Request"
         required: true
-        default: main
-        type: choice
-        options:
-          - main
+        type: string
       scope:
         description: "Authorized contour"
         required: true
-        default: contour-a
-        type: choice
-        options:
-          - contour-a
+        type: string
+      probe_only:
+        description: "Observe the actual caller context without running Gemini"
+        required: false
+        type: boolean
+        default: false
+    secrets:
+      GEMINI_API_KEY_2:
+        required: false
+    outputs:
+      caller_event_name:
+        description: "GitHub event name observed inside this reusable workflow"
+        value: ${{ jobs.caller_context.outputs.event_name }}
+      caller_workflow_ref:
+        description: "GitHub workflow ref observed inside this reusable workflow"
+        value: ${{ jobs.caller_context.outputs.workflow_ref }}
+      caller_trusted_controller:
+        description: "Whether the observed caller matches the pinned controller context"
+        value: ${{ jobs.caller_context.outputs.trusted_controller }}
 
 permissions:
   contents: read
 
-concurrency:
-  group: gemini-autonomous-${{ github.workflow }}-${{ github.run_id }}
-  cancel-in-progress: false
 
 jobs:
+  caller_context:
+    name: Observe caller context without credentials
+    runs-on: ubuntu-latest
+    permissions: {}
+    outputs:
+      event_name: ${{ steps.observe.outputs.event_name }}
+      workflow_ref: ${{ steps.observe.outputs.workflow_ref }}
+      trusted_controller: ${{ steps.observe.outputs.trusted_controller }}
+    steps:
+      - id: observe
+        name: Capture actual reusable-workflow caller context
+        shell: bash
+        env:
+          EXPECTED_CONTROLLER_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
+        run: |
+          set -euo pipefail
+          printf 'event_name=%s\n' "$GITHUB_EVENT_NAME" >> "$GITHUB_OUTPUT"
+          printf 'workflow_ref=%s\n' "$GITHUB_WORKFLOW_REF" >> "$GITHUB_OUTPUT"
+          trusted_controller=false
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" ]]; then
+            trusted_controller=true
+          fi
+          printf 'trusted_controller=%s\n' "$trusted_controller" >> "$GITHUB_OUTPUT"
+
+  reject_untrusted_caller:
+    name: Reject untrusted workflow caller
+    needs: caller_context
+    if: inputs.probe_only != true
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Require the exact controller event and ref
+        shell: bash
+        env:
+          TRUSTED_CONTROLLER: ${{ needs.caller_context.outputs.trusted_controller }}
+        run: |
+          set -euo pipefail
+          if [[ "$TRUSTED_CONTROLLER" != "true" ]]; then
+            echo "::error::Reusable workflow called from an untrusted workflow context."
+            exit 1
+          fi
+
   engineer:
+    needs: [caller_context, reject_untrusted_caller]
+    if: >-
+      inputs.probe_only != true &&
+      needs.caller_context.outputs.trusted_controller == 'true' &&
+      github.event_name == 'workflow_dispatch' &&
+      github.workflow_ref == 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
     name: Bounded Gemini engineering task
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -40,14 +97,14 @@ jobs:
       issues: read
     steps:
       - name: Checkout selected base for read-only workspace context
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ inputs.base_ref }}
           persist-credentials: false
 
       - name: Run official Gemini CLI action with GitHub MCP tools
         id: gemini
-        uses: google-github-actions/run-gemini-cli@v0
+        uses: google-github-actions/run-gemini-cli@f77273f4c914e4bf38440cf36a0369cb64a37489 # v0.1.22
         env:
           GEMINI_CLI_TRUST_WORKSPACE: 'true'
           GITHUB_TOKEN: ${{ github.token }}
@@ -65,7 +122,7 @@ jobs:
               "mcpServers": {
                 "github": {
                   "command": "docker",
-                  "args": ["run", "-i", "--rm", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "ghcr.io/github/github-mcp-server:v0.27.0"],
+                  "args": ["run", "-i", "--rm", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "ghcr.io/github/github-mcp-server@sha256:cbca61d547beec9b819b26bbfe6ac66ba6b373f1d6b64e8291e346bf524633e2"],
                   "includeTools": [
                     "create_branch",
                     "create_or_update_file",
