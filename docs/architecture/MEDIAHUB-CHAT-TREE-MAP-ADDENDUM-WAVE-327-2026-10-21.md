@@ -6,3 +6,6 @@ Date: 2026-10-21. This addendum links the [Wave 327 recheck report](../checkpoin
 - PR #437 remains Draft/open at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head CI/status and formal reviews are absent. Gemini Agents 1–3 remain NOT RUN; no controller/child IDs or artifacts.
 - SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) is active on macOS arm64. Agent-browser binary exists, but core skill retrieval timed out/reconnected; no browser session opened. `claude` and `ollama` were not found on PATH in the successful bounded check. Claude/FCC route remains NOT VERIFIED. No allowlist, secrets, code, install or paid provider changes were made.
 - Continue by clearing GitHub governance/CI gates, then controller-only Gemini dispatch; separately recover host tool stability and qualify browser/Claude free route on Voktors-Mini.Dlink.
+
+
+Follow-up: [Wave 328 — Gemini transport clarification and Voktors executor recheck](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-328-2026-10-21.md) and [detailed report](../checkpoints/MEDIAHUB-NEXT-GEMINI-TRANSPORT-AND-VOKTORS-RECHECK-WAVE-328-2026-10-21.md).
