@@ -53,3 +53,14 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Gemini Agents 1–3: **NOT RUN**.
 - Alamo Claude and browser lanes: **NOT RUN**.
 - Contour A: **NOT QUALIFIED / NOT ACCEPTED**.
+
+## Wave 311 correction — executor boundary and required Gemini transport (2026-10-21)
+
+The prior report accurately described the merged controller source but did not distinguish its current implementation from the owner's required transport architecture clearly enough. Treat that implementation as a **contract mismatch**, not as a replacement architecture.
+
+- Required Gemini route: all three Gemini agents are launched exclusively through GitHub Actions/GitHub API using the repository secret `MEDIAHUB_GITHUB_TOKEN) within the approved controller's GitHub transport layer. The credential must not be exposed to Gemini prompts, model processes, logs, summaries, or artifacts; it is separate from each agent's provider key.
+- Server 3 / Alamo route: local Claude Code only, plus the browser agent on the verified host. It is not a Gemini transport and must not be used as a fallback for GitHub dispatch.
+- Actual merged source observed on `main`: controller uses local reusable `workflow_call` children, claims no transport token is needed, and the child workflows expose `workflow_call`. This does **not** implement the required GitHub API transport architecture.
+- Status: **TRANSPORT IMPLEMENTATION MISMATCH / GEMINI AGENT-MODE NOT RUN**. Do not dispatch until the controller and children are corrected, security-reviewed, and exact-main CI plus the required no-secret transport probe are verified. No token value was read or exposed in this correction.
+- Corrected standing instructions: [Bootstrap](../architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md), blob SHA to be verified after read-back.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
