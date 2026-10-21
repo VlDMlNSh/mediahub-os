@@ -2330,3 +2330,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - SentinelX host `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51` operational and ping succeeds. Browser CLI lookup previously timed out; browser session and local Claude-FCC/Ollama remain NOT VERIFIED/NOT RUN.
 - Gemini Agents 1–3 NOT RUN; no dispatch/child IDs or artifacts. No secrets read, trigger posted, workflow dispatch, host modification, merge or deployment. Status: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
 - Next: investigate stuck check provider; obtain independent controller/security review; verify governance/token scope by authorized metadata-only means; then approved no-launch probe. Prove the local free/no-paid-fallback route before any executor queue work.
+
+
+## Wave 344 — refreshed CI admission and controller source audit (2026-10-22)
+
+- Report: [Wave 344 refreshed CI and controller audit](MEDIAHUB-NEXT-REFRESHED-CI-AND-CONTROLLER-AUDIT-WAVE-344-2026-10-22.md), blob SHA `a0392c581ff58fd4d921d85efd3eecb565258301`, commit `bfde55c59c6c738efe4724e434283b3d34a8bd76` on working branch.
+- Current main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and current PR #442 suite `107550813359` remain QUEUED with zero check runs; all three use app slug `freebuff-web`. Main suite `107509764295` is likewise queued/zero; main suite `107509771694` completed SUCCESS. Root cause of provider queue stall remains unknown.
+- PR #437 HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; PR #441 HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`; PR #442 HEAD `c3d5230e002837263c930126cce14899de137052` (draft, open, unmerged).
+- Controller run `39678989141` is SKIPPED, not a dispatch. Source review confirms a non-launching probe mode and explicit admission conditions, but does not prove runtime secret/configuration, token scope, governance, or independent security review.
+- Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifacts. SentinelX host ping/capabilities were previously available, but browser CLI check timed out; local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN. No secrets read, trigger posted, workflow launched, host modified, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: diagnose `freebuff-web` queue scheduling; obtain independent security review; verify governance/token scope via metadata-only route; then approved no-launch probe and bounded executor preflight.
