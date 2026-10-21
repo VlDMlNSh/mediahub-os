@@ -2168,3 +2168,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Controller expects `MEDIAHUB_DISPATCH_HMAC_KEY`, not `MEDIAHUB_DISPATCH_NMAC_KEY`; no secret values were read. Batch flag and effective credential scope remain unverified. Admission stays blocked pending review/governance/probe gates.
 - SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) intermittently disconnects. `ollama` and `agent-browser` are not registered services in the host policy. No command, install, policy edit, Claude invocation or browser session occurred.
 - Gemini Agents 1–3 NOT RUN; Claude-FCC-Ollama NOT RUN; agent-browser NOT RUN; Contour A remains BLOCKED / NOT QUALIFIED / NOT ACCEPTED.
+
+
+## Latest continuation — Wave 334 (2026-10-21): dispatch gate and executor identity recheck
+
+- Report: [Wave 334](MEDIAHUB-NEXT-DISPATCH-GATE-AND-EXECUTOR-IDENTITY-RECHECK-WAVE-334-2026-10-21.md); map addendum: [Wave 334](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-334-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Re-read Bootstrap blob `75f30750183efe8c6877368e9f0ada48f8e81ea7`, roadmap blob `2826a50678e054dbd1ace5f06585e87e529d5370`, controller blob `9453403bba899a2400ee3fb874d32badd034c704`, and the current checkpoint before appending this entry.
+- PR #437 remains OPEN/DRAFT at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head status and workflow-run queries are empty, formal reviews are zero. Source for the output-validator regression test exists, but execution is NOT VERIFIED.
+- No Gemini controller/child run was launched; Agents 1–3 NOT RUN. No secret values were read. Effective variable/secret scope, HMAC naming/configuration, branch governance and trusted-main no-secret probe remain unverified.
+- SentinelX inventory lists only `Voktors-Mini.Dlink` as operational and does not identify any host as Alamo; Claude-FCC and agent-browser remain NOT RUN. No host command was issued.
+- Last observed `main` HEAD is `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b` from Wave 333; this pass could not independently re-resolve the branch's commit SHA through the available branch-search interface.
+- Status remains **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. No merge, deployment, qualification or acceptance.
