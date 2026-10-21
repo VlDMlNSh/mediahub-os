@@ -83,3 +83,14 @@ A follow-up read after the original Wave 318 snapshot found these additional fac
 - The issue-comment bridge and three per-`/next` agent role prompts are present on PR #432; the bridge is absent from the main controller blob `4cec1aa234fd9ccb0d41533b37248fff079c79c5`. The latest exact-head candidate CI remains the five successful runs listed above; the controller run was non-launching and its agent dispatch job was skipped.
 - The routing registry `ops/agent-fabric/providers/local-executor-routing-v2.yaml` remains `ASTRA_GOLD_QUALIFICATION_GATED` (blob `af3d96fe91055af6ba79eded9c800d28d8c0c5c9`). SentinelX Free plan exposes one active slot, occupied by Voktors-Mini.Dlink; `mh-dev-01` and `mh-dev-02` are disabled there, and Desktop Commander reports them offline. No Alamo host is available for local Claude/browser work.
 - Therefore no Gemini controller/child IDs, no Alamo Claude session/job ID and no browser evidence were created. Keep PR #432 Draft/unmerged and leave all dispatch disabled pending independent review, settings/governance evidence, current-base CI and verified Alamo/non-paid-route qualification.
+
+## Follow-up evidence — authenticated issue-comment event (2026-10-21)
+
+After the report above, a non-triggering readiness-status comment was created on Issue #301 through the connected GitHub issue-comment operation. This is deliberately not a /next trigger.
+
+- Comment: [#6322794891](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6322794891), created 2026-10-21T17:53:54Z.
+- GitHub reports author VlDMlNSh, author_association OWNER, performed_via_github_app chatgpt-codex-connector.
+- GitHub recorded issue_comment workflow run [#39647870697](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647870697) on main at 2026-10-21T17:53:56Z. The existing Astra chat-control workflow completed SKIPPED because the comment did not match its /astra command. This verifies that the connected comment operation can create an owner-associated GitHub issue comment and cause an issue_comment event.
+- This is **not** proof of the candidate /next controller path: main still has the old controller, PR #432 remains Draft/unmerged, and no Gemini child workflow was dispatched. No actual /next trigger comment was posted.
+
+The event bridge is therefore partially verified at the connector-to-GitHub-event layer only. Candidate-controller integration, trusted-main no-secret probe, child dispatch, effective token/HMAC configuration, governance and Alamo remain NOT VERIFIED.
