@@ -79,7 +79,9 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('results[did]={"status":"DISPATCH_FAILED","conclusion":"failure"}', self.source)
         self.assertIn('Dispatch | Run ID | Conclusion', self.source)
         self.assertIn('len(jobs)!=3', self.source)
-        self.assertIn('j["dispatch_status"]!="ACCEPTED"', self.source)
+        self.assertIn('if j["dispatch_status"]=="UNKNOWN":', self.source)
+        self.assertIn('j["dispatch_status"]="RECONCILED"', self.source)
+        self.assertIn('j["dispatch_status"] not in ("ACCEPTED","RECONCILED")', self.source)
         self.assertIn('error_type={type(exc).__name__}', self.source)
         self.assertNotIn('print(exc)', self.source)
 
