@@ -2126,3 +2126,16 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Controller expects exact ASCII `MEDIAHUB_DISPATCH_HMAC_KEY`, not `MEDIAHUB_DISPATCH_NMAC_KEY` nor Cyrillic-lookalike `MEDIAHUB_DISPATCH_НМАС_KEY`. Effective secret/variable metadata and token scope are not exposed by the connected GitHub integration; no secret values were read.
 - SentinelX host is positively identified as `Voktors-Mini.Dlink`, `host_5f7264034bdf0b51`, macOS 14.7.4 ARM64. Ping has succeeded intermittently, but full capability/allowlist reads and bounded script execution repeatedly timed out/disconnected. agent-browser core skill retrieval, browser session and Claude/FCC execution remain NOT RUN.
 - Do not trigger agent mode until governance, exact-head CI, independent review and trusted-main no-secret probe are verified. Restore SentinelX stability and verify the current allowlist before any browser/local executor command. Gemini transport remains GitHub-only and does not depend on this host.
+
+
+## Wave 331 — Gemini dispatch and Voktors executor gates (2026-10-21)
+
+- Report: [Wave 331 dispatch-gates report](MEDIAHUB-NEXT-GEMINI-DISPATCH-GATES-WAVE-331-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-331-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main HEAD `79196054d84b1197cea1447dd1db5ad075302834`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 remains Draft/open at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head check-runs 0, formal reviews 0. GitHub reports `main.protected=false`, required checks disabled and no repository rulesets.
+- Controller run [39665960179](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39665960179) SKIPPED; all four jobs skipped, no artifacts or Gemini child IDs. Gemini Agents 1–3 NOT RUN.
+- Controller expects exact ASCII `MEDIAHUB_DISPATCH_HMAC_KEY`. User-mentioned `MEDIAHUB_DISPATCH_НМАС_KEY` (Cyrillic characters) and `MEDIAHUB_DISPATCH_NMAC_KEY` do not match. Settings metadata and effective token scope remain NOT VERIFIED through the connected integration; no secret values read.
+- SentinelX host `Voktors-Mini.Dlink`, ID `host_5f7264034bdf0b51`, macOS kernel 23.6.0 arm64. Host calls intermittently time out/disconnect. `ollama` resolves to `/opt/homebrew/bin/ollama`; `agent-browser`, `claude`, `fcc-claude` were not found in PATH probes; `find /opt/homebrew/bin -name agent-browser` found no match. Full capabilities show `agent-browser` and `claude` are not allowlisted. Do not bypass allowlist through a shell wrapper.
+- agent-browser core instructions/session and Claude-FCC-Ollama queue NOT RUN. Gemini uses only GitHub-hosted controller/API transport; no server used for cloud-agent dispatch.
+- Next: obtain exact-head CI and independent review; establish branch governance; verify exact ASCII HMAC name and least-privilege token scope; pass trusted-main no-secret probe. Only then consider one immutable-SHA three-child batch. Separately stabilize Voktors-Mini and explicitly qualify the browser/Claude command policy and free-only route.
+- Status: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. No provider call, dispatch, secret read, host policy change, merge or deployment claimed.
