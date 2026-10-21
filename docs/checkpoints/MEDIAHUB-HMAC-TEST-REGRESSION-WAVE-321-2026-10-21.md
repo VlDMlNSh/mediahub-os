@@ -93,3 +93,8 @@ After the syntax errors were corrected, Astra Verify reached the child authoriza
 
 ### Next step
 Independently review PR #437's HMAC canonicalization and child-side fail-closed behavior, verify branch protection and required checks, establish secret/variable presence without reading values, and prove trusted-main non-launching caller context. Only then decide whether the batch admission flag may be enabled. Keep Gemini and Claude routes separate.
+
+
+### Concurrent branch advance after Wave 322 verification
+- PR #437 advanced after the three successful CI runs from \`7f491729bab024a72dc20f5d7a3e107a4393ba3b\` to \`531ed07d1fd8ad474587f5af0e4a5f3364461b6d\` with a further test-only guard rejecting unsupported signed fixture override fields. At the latest check, no workflow runs were yet listed for this new head. Therefore the three green checks are evidence for the previous exact head only, not qualification of the latest PR head.
+- PR #437 remains Draft/open/unmerged. Keep its status distinct: prior head CI VERIFIED; latest head PLANNED/UNVERIFIED pending exact-head CI. Main remains \`79196054d84b1197cea1447dd1db5ad075302834\`.
