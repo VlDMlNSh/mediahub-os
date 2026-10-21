@@ -1,4 +1,11 @@
-## Latest continuation — Wave 313 (2026-10-21): controller comparison and security gates
+
+
+## Wave 313 follow-up — transport boundary clarification
+
+Authoritative continuation master was located at [MEDIAHUB-NEW-CHAT-CONTINUATION-MASTER-2026-10-21-WAVE-312.md](MEDIAHUB-NEW-CHAT-CONTINUATION-MASTER-2026-10-21-WAVE-312.md), blob SHA `09e0310d3d02bcaec1d4af9be02549bb13f385a4`. Gemini Agents 1–3 use only the approved GitHub Actions controller + GitHub API transport with controller-confined `MEDIAHUB_GITHUB_TOKEN`; provider keys remain separately scoped to child model steps. Alamo/server 3 is only for local Claude Code and browser-agent work and is never a Gemini transport/fallback. Browser inspection uses the approved @SentinelX/agent-browser route after host/capability/allowlist verification. PR #432's additional `MEDIAHUB_DISPATCH_HMAC_KEY` is not proven configured and requires explicit security review; do not read or expose secret values.
+
+SentinelX inventory found only `Voktors-Mini.Dlink` connected and operational; its capability request returned a stale-session error. Enrolled hosts `mh-dev-01` and `mh-dev-02` are disabled. No connected host was identified as Alamo/server 3, therefore Claude/browser execution remains **NOT RUN**. No Gemini controller or child runs were dispatched. Keep all launch gates closed pending independent review, effective token-scope/governance evidence, and verified host identity for the separate local executor.
+\n\n## Latest continuation — Wave 313 (2026-10-21): controller comparison and security gates
 
 - Report: [Wave 313 controller comparison](MEDIAHUB-CONTROLLER-IMPLEMENTATION-COMPARISON-WAVE-313-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
 - Current documentation branch HEAD observed before this write: `888a79352be5c4f2701d754cb16e1c75f881864f`; this documentation update creates a newer commit on the canonical documentation branch. Do not confuse that branch with `main`.
