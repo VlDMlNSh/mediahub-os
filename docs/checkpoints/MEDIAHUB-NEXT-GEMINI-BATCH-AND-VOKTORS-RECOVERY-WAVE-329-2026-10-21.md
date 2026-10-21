@@ -53,3 +53,11 @@ The cloud Gemini design remains independent of physical servers; local Claude/br
 4. Restore SentinelX command-channel stability; re-read full capabilities/allowlist; then retrieve the installed agent-browser core guide and qualify the free-only Claude/FCC route separately.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Follow-up verification from the same Wave 329 pass
+
+- Rechecked SentinelX after the initial report: host inventory, ping, summary capabilities and `help(topic=index)` / `help(topic=operations)` did return successfully. The host is `Voktors-Mini.Dlink`, ID `host_5f7264034bdf0b51`, macOS kernel `23.6.0`, ARM64, SentinelX `0.22.0`. This proves control-plane reachability, not command execution readiness.
+- A direct `agent-browser --version` invocation timed out. Background attempts returned failures `job_e0b52555987d` (duplicate_session) and `job_f2c139badedb` (agent did not respond within 10 seconds); notification polling showed no active/running jobs. Thus browser core instructions remain unretrieved and no browser session was opened.
+- The latest controller/PR check still returns no exact-head runs/statuses or formal PR reviews. Gemini Agents 1–3 remain NOT RUN; no controller or child run IDs were created in this pass.
+- This report has now been re-read after creation; current blob SHA is to be captured by the final readback. No host allowlist, workflow, secret or variable was modified.
