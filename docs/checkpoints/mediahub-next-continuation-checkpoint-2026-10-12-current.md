@@ -2111,3 +2111,10 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Gemini Agents 1–3: NOT RUN. Agent-browser and Claude/FCC: NOT RUN. No secrets accessed, no physical-server Gemini transport, no qualification/acceptance.
 - Next: stabilize SentinelX capabilities/exec; verify active allowlist; install agent-browser and run `agent-browser skills get core`; separately close GitHub governance, exact-head CI, independent review, and non-disclosing admission gates before dispatch.
 - Detailed evidence: [Wave 327 report](MEDIAHUB-NEXT-GEMINI-AND-BROWSER-ADMISSION-WAVE-327-2026-10-21.md), including Wave 328 follow-up.
+
+## Wave 328 — executor readiness (2026-10-21)
+
+- Current report: [Wave 328 executor readiness](MEDIAHUB-NEXT-EXECUTOR-READINESS-WAVE-328-2026-10-21.md); map addendum: [Wave 327/328](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-327-2026-10-21.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- SentinelX host `Voktors-Mini.Dlink` is operational but reconnects intermittently. Active capabilities still omit the staged browser commands.
+- Install job `job_32d4c211bf09` failed during reconnect. A later check confirmed `agent-browser=NOT_FOUND`; `agent-browser skills get core` has not run. Ollama executable exists, but its model list is blocked by allowlist. Claude/FCC route is not verified.
+- Gemini controller and Agents 1–3 remain NOT RUN. Exact-head CI, formal review, effective admission metadata and trusted-main no-secret probe remain NOT VERIFIED. No secrets accessed and no physical server used for Gemini transport.
