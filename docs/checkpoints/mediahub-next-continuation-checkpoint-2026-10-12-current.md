@@ -2229,3 +2229,246 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Connected GitHub tools expose read-only workflow inspection but no workflow-dispatch write action. No trusted-main no-secret probe or controller run was initiated; Gemini Agents 1–3 remain NOT RUN, with no child run IDs or artifact digests.
 - SentinelX inventory lists only `Voktors-Mini.Dlink` as operational; Alamo is not identified. Claude-FCC-Ollama and agent-browser remain NOT RUN.
 - Status remains **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: obtain exact-head CI and independent review for PR #437; obtain authoritative governance evidence; run the safe no-secret probe through an authorized Actions dispatch route before considering a Gemini batch.
+
+ 
+## Wave 341 — exact-head Actions evidence and executor gate recheck (2026-10-22)
+
+- Report: [Wave 341 exact-head Actions evidence](MEDIAHUB-NEXT-EXACT-HEAD-ACTIONS-AND-EXECUTOR-RECHECK-WAVE-341-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Report commit `3daef7d84457b7194d123de95d999977a755737c`, report blob SHA `19877ea049f8f90622225f78f5990ab3501195fc`; re-read successfully on noncanonical branch `docs/mediahub-next-wave340-20261022`. Not merged/accepted.
+- Fresh main ref `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 exact HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`: check-suite `107496095390` QUEUED, 0 latest check runs; formal reviews 0. Earlier successful runs are on an older SHA and do not qualify this HEAD.
+- PR #441 exact HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`: check-suite `107524023551` QUEUED, 0 latest check runs; branch-scoped Actions history 0 runs; formal reviews 0.
+- Main exact-head suite `107509764295` is QUEUED with 0 latest check runs. Astra Verify run `39669337754` succeeded on exact main SHA. Controller-related issue_comment run `39678989141` was SKIPPED; no controller success or Gemini child run IDs found.
+- Branch-protection endpoint returned 403; ruleset listing was empty. Governance remains NOT VERIFIED.
+- Gemini Agents 1–3 NOT RUN; no controller run ID, child IDs, shared target evidence or artifact digests. No dispatch performed.
+- SentinelX ping/state/capabilities responded for `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`), macOS 14.7.4 ARM64, agent 0.22.0. Local Ollama/Claude-FCC runtime, approved no-paid-fallback route, and agent-browser remain NOT VERIFIED/NOT RUN; no host commands or browser sessions executed.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve exact-head queued CI; obtain independent security review for PR #437; verify governance and effective token/secret metadata without reading values; run only an approved non-launching trusted-main probe before considering dispatch; qualify local executor separately.
+
+
+## Wave 342 — controller issue-comment trigger diagnosis (2026-10-22)
+
+- Report: [Wave 342 trigger diagnosis](MEDIAHUB-NEXT-CONTROLLER-TRIGGER-DIAGNOSIS-WAVE-342-2026-10-22.md), blob SHA `fa4b1da83160ba285ee9ea64cdb3ea76bbbd8577`, commit `c2317d767184b5fe240f54fb9c5749dd95d1b65e` on noncanonical branch `docs/mediahub-next-wave340-20261022`; not merged/accepted.
+- Main remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob SHA `9453403bba899a2400ee3fb874d32badd034c704`.
+- Exact source condition for issue-comment dispatch requires issue #301, non-PR issue, body exactly `/next`, and author association `OWNER`. Inspected run #39678989141 corresponds to owner comment #6326943789 announcing a report, not literal `/next`; skipped result is therefore expected from the predicate, not a dispatch success.
+- PR #437 suite #107496095390 and PR #441 suite #107524023551 remain QUEUED with zero check runs; formal reviews zero. Draft PR #442 exact-head suite #107543383571 is also QUEUED with zero check runs and no formal reviews.
+- Main Astra Verify run #39669337754 succeeded; controller run #39678989141 was SKIPPED. Governance remains NOT VERIFIED (branch protection endpoint 403; empty ruleset result inconclusive).
+- Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifacts. Local Ollama/Claude-FCC/browser remain NOT VERIFIED/NOT RUN. No secrets read, issue-comment trigger posted, dispatch, host command, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve exact-head CI and independent security/governance gates; only then consider the literal owner trigger or approved no-launch probe.
+
+
+## Wave 343 — exact-head CI and executor liveness recheck (2026-10-22)
+
+- Report: [Wave 343 exact-head CI and executor liveness](MEDIAHUB-NEXT-EXACT-HEAD-CI-AND-EXECUTOR-LIVENESS-WAVE-343-2026-10-22.md); report commit `fcc4861456c04c0622bf15924d66e3db9c7fbd31` (blob SHA to be verified after read-back).
+- Main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. Canonical map blob `38d8903bc640fd37009f0fc19a11ea7869840dbc` successfully read through blob API (1,165,629 chars); Bootstrap blob `75f30750183efe8c6877368e9f0ada48f8e81ea7`; canonical checkpoint still trails working branch; Master Roadmap blob `cea169e55e02903ab9871d51ff643b3da7ef0e8c`.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 suite `107544433195` remain QUEUED with zero check runs; review lists empty. Main Astra Verify `39669337754` SUCCESS. Controller run `39678989141` and all four jobs SKIPPED because triggering owner comment `6326943789` was a report announcement rather than literal `/next`.
+- SentinelX host `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51`: ping, capabilities, and state succeeded on retry. Read-only `which agent-browser` command timed out after 30 seconds with no result; CLI/browser and local Claude/Ollama remain NOT VERIFIED/NOT RUN. No identical retry.
+- Gemini Agents 1–3 NOT RUN; no child run IDs or artifact digests. Governance, effective token scope, independent security review, and approved non-launching probe remain NOT VERIFIED. No secrets read, trigger comment posted, dispatch, host modification, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued exact-head checks; independent review; metadata-only governance/token-scope verification; then approved non-launching probe and a bounded local executor preflight.
+
+
+## Wave 343 — exact-head CI and executor liveness recheck (2026-10-22)
+
+- Report: [Wave 343 exact-head CI and executor liveness](MEDIAHUB-NEXT-EXACT-HEAD-CI-AND-EXECUTOR-LIVENESS-WAVE-343-2026-10-22.md), blob SHA `2a9e3b8cc1db1f28e54104557625214a29ca3fda`, commit `fcc4861456c04c0622bf15924d66e3db9c7fbd31` on working branch.
+- Main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. Canonical map blob `38d8903bc640fd37009f0fc19a11ea7869840dbc` was successfully read through blob API; Bootstrap blob `75f30750183efe8c6877368e9f0ada48f8e81ea7`; canonical checkpoint still trails the working branch; Master Roadmap blob `cea169e55e02903ab9871d51ff643b3da7ef0e8c`.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 suite `107544433195` remain QUEUED with zero check runs; formal review lists empty. Main Astra Verify `39669337754` SUCCESS. Controller run `39678989141` and all four jobs SKIPPED because triggering owner comment `6326943789` was a report announcement rather than literal `/next`.
+- SentinelX host `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51`: ping, capabilities, and state succeeded on retry. Read-only `which agent-browser` command timed out after 30 seconds with no result; CLI/browser and local Claude/Ollama remain NOT VERIFIED/NOT RUN. No identical retry.
+- Gemini Agents 1–3 NOT RUN; no child run IDs or artifact digests. Governance, effective token scope, independent security review, and approved non-launching probe remain NOT VERIFIED. No secrets read, trigger comment posted, dispatch, host modification, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued exact-head checks; independent review; metadata-only governance/token-scope verification; then approved non-launching probe and bounded local executor preflight.
+
+
+## Wave 344 — dispatch gates and PR runtime-contract review (2026-10-22)
+
+- Report: [Wave 344 dispatch gates and PR review](MEDIAHUB-NEXT-DISPATCH-GATES-AND-PR-REVIEW-WAVE-344-2026-10-22.md), blob SHA `4463e8d496ca7b7e9f0c77dd8b75393742449875`, commit `8a28c87b7630e36f5a38a2ad6b498533f8fe39bf` on working branch.
+- Main SHA remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED with zero check runs; no formal reviews. PR #442 advanced to HEAD `aadcf6e0ba321596659e9ef45669110a7b6adf12`, suite `107546185149` QUEUED with zero check runs, draft and unreviewed.
+- Patch-level read of PR #437 found a runtime HMAC/output validation test file, wiring into contract CI, and two syntax corrections in existing contract tests. This was not executed and is not formal review evidence.
+- Main Astra Verify run `39669337754` SUCCESS. Controller run `39678989141` SKIPPED because comment `6326943789` was not literal `/next`. No controller or child dispatch IDs.
+- Branch protection API 403 and empty ruleset listing leave governance/effective token scope NOT VERIFIED. Probe was not run because Bootstrap gates are not closed. Gemini 1–3 NOT RUN. Local Claude-FCC/Ollama/browser NOT VERIFIED/NOT RUN; SentinelX read-only browser lookup timed out.
+- No secret reads, trigger comment, dispatch, host modification, merge, deployment, qualification or acceptance. **BLOCKED / NOT QUALIFIED / NOT ACCEPTED.**
+
+
+## Wave 344 — fresh ref, exact-head CI and review gate (2026-10-22)
+
+- Report: [Wave 344 fresh ref, CI and review gate](MEDIAHUB-NEXT-FRESH-REF-CI-AND-REVIEW-GATE-WAVE-344-2026-10-22.md), blob SHA `7dbe95d30d87c8d1aaab4469feb8d8c048d00931`, commit `6a1c9b2a91bd8cc15b9bef23514923cf113430dd` on working branch.
+- Main `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED with zero check runs; reviews empty. PR #442 HEAD `692790bbe5dc8b7ed73848753b56ed094577f639`, suite `107547075568` QUEUED with zero check runs, reviews empty, draft/open/unmerged. Prior PR #442 suite `107544433195` belongs to an older HEAD.
+- Main Astra Verify `39669337754` SUCCESS; controller run `39678989141` SKIPPED because comment `6326943789` was a report announcement, not exact `/next`.
+- SentinelX host `Voktors-Mini.Dlink` ping/state/capabilities responded; read-only browser CLI check timed out. Browser and local Claude/Ollama remain NOT VERIFIED/NOT RUN. Gemini 1–3 NOT RUN; no child run IDs or artifact digests.
+- No secrets read, trigger comment posted, dispatch, host modification, merge, deployment, qualification or acceptance. Governance, token scope, HMAC probe and independent security review remain NOT VERIFIED. Branch protection API 403 is inconclusive.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued CI with provider/admin evidence, independent controller security review, metadata-only governance/token-scope verification, then approved non-launching probe.
+
+
+## Wave 344 — refreshed PR HEAD and exact-head CI evidence (2026-10-22)
+
+- Report: [Wave 344 refreshed PR HEAD and CI evidence](MEDIAHUB-NEXT-REFRESHED-PR-HEAD-CI-EVIDENCE-WAVE-344-2026-10-22.md), blob SHA `8d5f33c47ddae949f0a1d0db6a4099857f8dccc5`, commit `22994ac55f57e661f2e897ac5d1c551ff81903f7` on working branch.
+- Main SHA remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`.
+- PR #437 exact HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`, suite `107496095390` QUEUED/zero checks. PR #441 exact HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`, suite `107524023551` QUEUED/zero checks.
+- PR #442 HEAD advanced to `4fc7ea9211a7e7e4ebda4e14374cb35f93124439`; current suite `107547755292` QUEUED/zero checks, no workflow runs on that exact SHA. Do not use stale suite `107544433195` for current HEAD.
+- Main Astra Verify `39669337754` SUCCESS; controller run `39678989141` SKIPPED because owner comment `6326943789` was not literal `/next`.
+- Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifacts. Governance, effective token scope and independent security review remain NOT VERIFIED. SentinelX browser CLI lookup timed out; browser and local Claude-FCC/Ollama remain NOT VERIFIED/NOT RUN.
+- Status **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued checks, independent security review and metadata-only governance/token-scope verification; only then run approved non-launching probe and consider agent dispatch.
+
+
+## Wave 344 — dispatch evidence and exact-head queue recheck (2026-10-22)
+
+- Report: [Wave 344 dispatch evidence and CI queue recheck](MEDIAHUB-NEXT-DISPATCH-EVIDENCE-AND-CI-QUEUE-WAVE-344-2026-10-22.md), blob SHA `634afbc129f069f7661c25e62cb0e5d0321559ee`, commit `f7558d502344b2228562e78a7f5f0c31a9de8729` on working branch.
+- Main remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- Current PR #442 HEAD `185a4e90fbdea6b8bc7754ff5b21c510bcd71b26`; exact-head suite `107549163215` QUEUED with zero check runs. Earlier suite `107544433195` belongs to stale HEAD `5da1dea0b57e70c695ee8b40f28e1d2a96d548d2`. PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED, zero checks. Formal reviews for all three PRs are empty.
+- Controller run `39678989141` is SKIPPED; jobs `119496203777`, `119496205325`, `119496256092`, `119496276607` all SKIPPED; no artifacts. This is not a successful no-launch probe or Gemini dispatch. Main Astra Verify run `39669337754` is SUCCESS; main has other queued/skipped suites.
+- SentinelX host `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51` responds to ping/capabilities; one-host Free limit is full. Browser CLI lookup timed out; browser and local Claude/Ollama remain NOT VERIFIED/NOT RUN.
+- No secrets read, trigger comment, dispatch, host modification, merge, deployment, qualification or acceptance. Governance/effective token scope and independent security review remain NOT VERIFIED.
+- Disposition **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve check-provider scheduling, obtain independent security review, verify governance/token scope, then approved no-launch probe before considering agent dispatch.
+
+
+## Wave 344 — current PR head and controller admission gate recheck (2026-10-22)
+
+- Report: [Wave 344 PR head and controller gate recheck](MEDIAHUB-NEXT-PR-HEAD-AND-CONTROLLER-GATE-RECHECK-WAVE-344-2026-10-22.md), commit `4f9b8161b292266907c9a80236c574bd2b6b27ca` (blob SHA to be verified after read-back).
+- Main remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`, suite `107496095390` queued/zero checks/no formal review. PR #441 HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`, suite `107524023551` queued/zero checks/no formal review. PR #442 is draft; latest HEAD `bf024b4d17d0dfa026677c7167c9fe63990a80b2`, current suite `107549943708` queued/zero checks/no formal review. Earlier suite `107544433195` belongs to its superseded head.
+- Main Astra Verify `39669337754` SUCCESS. Controller run `39678989141` SKIPPED; all four jobs skipped. Source predicate requires a literal owner `/next` comment on non-PR Issue #301; comment `6326943789` was a report announcement.
+- Branch protection endpoint 403; ruleset list empty and inconclusive. Governance and token scope remain NOT VERIFIED.
+- SentinelX host `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51` operational and ping succeeds. Browser CLI lookup previously timed out; browser session and local Claude-FCC/Ollama remain NOT VERIFIED/NOT RUN.
+- Gemini Agents 1–3 NOT RUN; no dispatch/child IDs or artifacts. No secrets read, trigger posted, workflow dispatch, host modification, merge or deployment. Status: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
+- Next: investigate stuck check provider; obtain independent controller/security review; verify governance/token scope by authorized metadata-only means; then approved no-launch probe. Prove the local free/no-paid-fallback route before any executor queue work.
+
+
+## Wave 344 — refreshed CI admission and controller source audit (2026-10-22)
+
+- Report: [Wave 344 refreshed CI and controller audit](MEDIAHUB-NEXT-REFRESHED-CI-AND-CONTROLLER-AUDIT-WAVE-344-2026-10-22.md), blob SHA `a0392c581ff58fd4d921d85efd3eecb565258301`, commit `bfde55c59c6c738efe4724e434283b3d34a8bd76` on working branch.
+- Current main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and current PR #442 suite `107550813359` remain QUEUED with zero check runs; all three use app slug `freebuff-web`. Main suite `107509764295` is likewise queued/zero; main suite `107509771694` completed SUCCESS. Root cause of provider queue stall remains unknown.
+- PR #437 HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; PR #441 HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`; PR #442 HEAD `c3d5230e002837263c930126cce14899de137052` (draft, open, unmerged).
+- Controller run `39678989141` is SKIPPED, not a dispatch. Source review confirms a non-launching probe mode and explicit admission conditions, but does not prove runtime secret/configuration, token scope, governance, or independent security review.
+- Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifacts. SentinelX host ping/capabilities were previously available, but browser CLI check timed out; local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN. No secrets read, trigger posted, workflow launched, host modified, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: diagnose `freebuff-web` queue scheduling; obtain independent security review; verify governance/token scope via metadata-only route; then approved no-launch probe and bounded executor preflight.
+
+
+## Wave 344 — controller admission and exact-head status audit (2026-10-22)
+
+- Report: [Wave 344 controller admission and CI audit](MEDIAHUB-NEXT-CONTROLLER-ADMISSION-AND-CI-AUDIT-WAVE-344-2026-10-22.md), blob SHA `3c6b6adb85b2bf3641e7f2731e968e48aa0aefd8`, commit `c06aa1cb8e6acfd9cfd83c09c9437b3a8179a5ac` on working branch.
+- Main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. Bootstrap `75f30750183efe8c6877368e9f0ada48f8e81ea7`; canonical map `38d8903bc640fd37009f0fc19a11ea7869840dbc`; canonical checkpoint `3bb3ea262c2a30c8f780d36eb61902833325fb29`; roadmap `cea169e55e02903ab9871d51ff643b3da7ef0e8c`.
+- PR #437 suite `107496095390` queued/0 checks; PR #441 suite `107524023551` queued/0 checks; PR #442 current HEAD `c3d5230e002837263c930126cce14899de137052`, suite `107550813359` queued/0 checks. No exact-head workflow run found for PR #442.
+- Controller source confirms probe is non-launching, agent dispatch requires explicit agent-mode confirmation or literal owner `/next` on Issue #301, admission flag true, secrets present, exact immutable target SHA and HMAC. Historical run `39678989141` skipped because its owner comment was a report announcement, not literal `/next`. No new trigger or dispatch.
+- Main Astra Verify `39669337754` succeeded. Governance/token scope/security review remain not verified; branch protection endpoint 403 and empty ruleset list are inconclusive. Review lookup in this pass was rejected due connector argument mismatch, so current reviews not verified.
+- Gemini Agents 1–3 NOT RUN; no run IDs/artifact digests. SentinelX browser CLI lookup timed out in prior pass; local executor remains NOT VERIFIED/NOT RUN. No secret reads, host changes, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued CI, get independent security review, verify governance/token scope, then use only the approved non-launching probe.
+
+
+## Wave 344 — repeated /next orchestration gate audit (2026-10-22)
+
+- Report: [Wave 344 repeated trigger and orchestration gate audit](MEDIAHUB-NEXT-REPEATED-TRIGGER-AND-ORCHESTRATION-GATE-AUDIT-WAVE-344-2026-10-22.md); report commit `2497d60480b6f9758268b1a7c200882a3bc50ff3` (blob SHA to be read back).
+- Main remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- Controller source confirms the no-secret default `workflow_dispatch` mode is `probe`; agent mode requires explicit `mode=agents` and `confirm=yes`, or the exact owner `/next` comment predicate on Issue #301. Run #39678989141 was skipped because comment #6326943789 was a report announcement, not literal `/next`; multiple nearby issue-comment runs were also skipped.
+- Main Astra Verify run #39669337754 succeeded. Exact-head CI for PR #437/#441/#442 has not been shown to reach terminal success; independent reviews and effective branch governance/token scope remain unverified (branch protection API 403, ruleset listing inconclusive).
+- Gemini Agents 1–3 NOT RUN; no controller/child run IDs, target manifest, or artifact digests. Local Claude-FCC/Ollama and agent-browser NOT RUN/NOT VERIFIED; SentinelX ping/state only, browser CLI lookup timed out. No secrets read, trigger comment posted, workflow dispatch, host modification, merge, deployment, qualification, or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: authorized no-secret probe after confirming it is the intended test route; resolve exact-head CI and independent security/governance gates before any agent dispatch.
+
+
+## Wave 344 — main HEAD and exact-head CI recheck (2026-10-22)
+
+- Report: [Wave 344 main HEAD and CI recheck](MEDIAHUB-NEXT-MAIN-HEAD-AND-CI-RECHECK-WAVE-344-2026-10-22.md), blob SHA `009afcbd54c5600d36df748fa338ca51cf5714c0`, commit `a08913f002a699233953bbb382e6395ef39ea866` on noncanonical branch `docs/mediahub-next-wave340-20261022`.
+- Main advanced to `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob remains `9453403bba899a2400ee3fb874d32badd034c704`.
+- Main Actions suite `107553038685` and run `39685040842` succeeded; separate provider suite `107553033246` remains queued with zero checks. PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 new HEAD `9eb3c03f025d763544f0048496f1e2f7f83aee28` suite `107552972867` remain queued with zero check runs. All three PRs remain unmerged; #442 remains draft.
+- Controller exact source requires literal owner `/next` on Issue #301 or workflow_dispatch `mode=agents` and `confirm=yes`; non-launching `probe` mode exists. No supported workflow-dispatch action was available in the connected GitHub tools, so no dispatch or trigger comment was attempted.
+- SentinelX ping to `Voktors-Mini.Dlink` succeeded; browser/Claude-FCC/Ollama execution remains NOT VERIFIED/NOT RUN. Gemini Agents 1–3 NOT RUN; no child run IDs or artifact digests. No secrets read, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: independent controller/security review, queued-CI resolution, governance/token-scope proof, then official no-secret probe if an approved dispatch path is available.
+
+
+## Wave 345 — current-main and exact-head CI reconciliation (2026-10-22)
+
+- Report: [Wave 345 current-main and exact-head CI reconciliation](MEDIAHUB-NEXT-CURRENT-MAIN-AND-EXACT-HEAD-CI-RECONCILIATION-WAVE-345-2026-10-22.md), blob SHA `c3a4350c0ebd3b32c6429340a7d950878640e5b8`, report commit `b91bffaa04ed756469a1f88175b21954609fcf32` on working branch `docs/mediahub-next-wave340-20261022`.
+- Main advanced to `f4ad65acdb82d25b93845279361502b6737e1d21` via a checkpoint-only commit. Exact-head Astra Verify run `39685040842` succeeded (job `119516823539`), but external app suite `107553033246` remains QUEUED/zero checks.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and current PR #442 HEAD `f3ad415fda169f2a43542fb1e990f218c83707ac` suite `107553578372` remain QUEUED/zero checks. Formal review lists empty.
+- Governance/token scope/security review remain NOT VERIFIED (branch protection API 403, empty ruleset list inconclusive). Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifact digests. Local Claude-FCC/Ollama and browser NOT VERIFIED/NOT RUN. No secret reads, trigger, dispatch, host mutation, merge or deployment.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: diagnose external check scheduling, obtain independent security review and metadata-only governance/token-scope evidence; do not dispatch agents before gates close.
+
+
+## Wave 346 — exact-head CI and documentation branch recheck (2026-10-22)
+
+- Report: [Wave 346 exact-head CI and governance recheck](MEDIAHUB-NEXT-EXACT-HEAD-CI-AND-GOVERNANCE-WAVE-346-2026-10-22.md), blob SHA `8e84169724d06be7daa474b1a531cefaf3f3c320`, commit `8d6307f0a7377d14e26856885351b37b2265248d` on working branch `docs/mediahub-next-wave340-20261022`.
+- Main SHA `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob SHA `9453403bba899a2400ee3fb874d32badd034c704`; canonical map blob `38d8903bc640fd37009f0fc19a11ea7869840dbc`; Bootstrap blob `75f30750183efe8c6877368e9f0ada48f8e81ea7`; Master Roadmap blob `cea169e55e02903ab9871d51ff643b3da7ef0e8c`; canonical checkpoint blob `3bb3ea262c2a30c8f780d36eb61902833325fb29` remains behind working branch.
+- Main exact-head Astra Verify run `39685040842` SUCCESS; Freebuff suite `107553033246` QUEUED/zero checks. PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED/zero checks. PR #442 HEAD changed during audit; suite `107550813359` belongs to earlier SHA `c3d5230e002837263c930126cce14899de137052`, while a later metadata read returned `ffef2980b82bfc18a9f7018b52863f50a20ee5bd`; current PR #442 exact-head CI is NOT VERIFIED. Review check failed schema validation and must not be treated as evidence of no reviews.
+- Branch-protection endpoint 403; empty ruleset list inconclusive. Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifact digests. SentinelX host ping/capabilities responded, but agent-browser CLI availability remains unverified after prior read-only lookup timeout. No secrets read, trigger posted, dispatch, host mutation, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: verify current PR #442 exact-head CI/reviews; resolve queued provider suites; obtain independent controller/HMAC review and governance/token-scope evidence; then approved no-secret probe before dispatch.
+
+
+## Wave 344 — controller probe-path and dispatch-capability audit (2026-10-22)
+
+- Report: [Wave 344 controller probe-path audit](MEDIAHUB-NEXT-CONTROLLER-PROBE-PATH-AND-DISPATCH-CAPABILITY-WAVE-344-2026-10-22.md), report blob SHA `dd7e234a5c566155bdf43335e53fd18e8650944a`, commit `8105558384956ed6c5ad1ead7c4dc1e8228e7ae9` on noncanonical working branch `docs/mediahub-next-wave340-20261022`.
+- Main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- New finding: controller has a `workflow_dispatch` `mode=probe` default path with empty permissions and no secret mapping, separate from the explicit `mode=agents`/confirmation and owner literal `/next` launch paths. Available GitHub connector actions have no workflow-dispatch operation; no probe was run, and an owner `/next` comment was not used as a substitute.
+- PR #437/#441 remain open and not mergeable, with previously observed queued exact-head suites and no formal reviews. PR #442 remains a draft documentary PR; newer head is not covered by the earlier SHA's suite. Main Astra Verify `39669337754` succeeded; branch protection remains unverified (403).
+- SentinelX host `Voktors-Mini.Dlink` responds to ping/state/capabilities; browser CLI lookup timed out. Gemini Agents 1–3 NOT RUN; local Claude-FCC/Ollama NOT RUN/NOT VERIFIED; no secrets read, trigger, dispatch, host modification, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: authorized non-launching probe route, exact-head CI, independent controller/HMAC review, governance/token-scope evidence, then local executor preflight.
+
+
+## Wave 344 — latest main and queued-check provider recheck (2026-10-22)
+
+- Report: [Wave 344 latest main and queued checks](MEDIAHUB-NEXT-LATEST-MAIN-AND-QUEUED-CHECKS-WAVE-344-2026-10-22.md), commit `a3f7918ab7ef14c188511a1fd29b82771afc9b7c` (verify report blob on read-back).
+- Current main `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob `9453403bba899a2400ee3fb874d32badd034c704). Main Astra Verify run `39685040842` SUCCESS; scheduled Astra queue supervisor `39686595751` QUEUED. Third-party `freebuff-web` suite `107553033246` remains QUEUED with zero check runs.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 suite `107550813359` remain QUEUED with zero check runs; no formal reviews. Exact-SHA check-runs endpoints for all three PR heads returned zero runs.
+- Controller still requires a literal owner `/next` comment on non-PR Issue #301 or explicit workflow-dispatch inputs. The last inspected controller run `39678989141` was SKIPPED; no Gemini child runs/artifacts. No dispatch initiated.
+- SentinelX ping to `host_5f7264034bdf0b51` succeeded; browser CLI lookup had previously timed out. Local Claude/Ollama/browser remain NOT VERIFIED/NOT RUN.
+- Governance, effective token scope, independent controller security review, and no-launch probe remain NOT VERIFIED. No secrets read, host modification, dispatch, merge, deployment, qualification or acceptance.
+- Status: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: independent security review; resolve stalled third-party exact-head checks; verify governance/token scope; only then run the approved non-launching probe.
+
+
+## Wave 344 — queued check-provider isolation (2026-10-22)
+
+- Report: [Wave 344 queued check-provider isolation](MEDIAHUB-NEXT-QUEUED-CHECK-PROVIDER-ISOLATION-WAVE-344-2026-10-22.md), blob SHA `53c6b5e931a91ccedadbcfb03d3ad390fb2b0c2a`, commit `053eba94b5709830e996eecdbf9b377f75c3e301` on noncanonical working branch `docs/mediahub-next-wave340-20261022`.
+- Current main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; PR #437 HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; PR #441 HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`; PR #442 HEAD `c3d5230e002837263c930126cce14899de137052` (draft).
+- Direct REST recheck: PR #437 suite `107496095390`, PR #441 suite `107524023551`, PR #442 suite `107550813359` are all `freebuff-web` / `queued` with zero check runs; each commit status is `pending` with zero legacy statuses. Main also has queued suite `107509764295` from `freebuff-web`, while Astra Verify run `39669337754` succeeded.
+- Controller run `39678989141` remains skipped; owner comment `6326943789` was a report announcement, not literal `/next`. No non-launching probe or Gemini dispatch occurred. No approved Actions-dispatch mutation is exposed by the available connector.
+- Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifacts. SentinelX browser CLI lookup timed out; local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN. Governance, effective token scope and independent security review remain open. No secret reads, trigger, host changes, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: obtain authorized provider-status evidence for `freebuff-web`, independent controller security review, and governance/token-scope verification. Do not bypass queued checks.
+
+
+## Wave 345 — refreshed main/PR CI state and executor gate (2026-10-22)
+
+- Report: [Wave 345 refreshed CI and dispatch gates](MEDIAHUB-NEXT-REFRESHED-CI-AND-DISPATCH-GATES-WAVE-345-2026-10-22.md), commit `f99d7c34abc3c869955ddef9fbdba83bfb3e7c0b` (blob SHA to be read back).
+- Current main `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. PR #437 HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; PR #441 HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`; PR #442 HEAD `37bda222c699418d5105364a1ceb6ef9f1f81e08` (draft).
+- Main Astra Verify run `39685040842` SUCCESS. Scheduled queue supervisor run `39686595751` and job `119522116279` remain QUEUED. Main suite `107553033246` queued (zero checks), `107553038685` success, `107557209401` queued. PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 suite `107567803806` remain QUEUED with zero check runs; formal reviews empty.
+- Controller issue-comment run `39678989141` remains SKIPPED; trigger comment `6326943789` was a report announcement, not literal `/next`. No successful dispatch or Gemini child runs.
+- SentinelX host `Voktors-Mini.Dlink` ping succeeded. Browser CLI lookup previously timed out; local browser and Claude-FCC/Ollama execution not verified. Gemini Agents 1–3 NOT RUN; no IDs or artifact digests. Governance, token scope, independent controller security review and successful no-secret probe remain NOT VERIFIED.
+- No secret reads, trigger comments, dispatch, host changes, merge, deployment, qualification or acceptance. Status **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: authoritative queued-provider diagnosis, independent security review, and governance/token-scope evidence before any approved no-launch probe.
+
+
+## Wave 345 — authoritative ref and queued-CI gate recheck (2026-10-22)
+
+- Report: [Wave 345 authoritative ref and queued-CI recheck](MEDIAHUB-NEXT-AUTHORITATIVE-REF-AND-QUEUED-CI-WAVE-345-2026-10-22.md), blob SHA `5ef80fd7fcb4d72dba72d37a9c4d7e484b15b5a5`, report commit `5635da6fc7fa457dead539722e354e6cc01426d5` on working branch `docs/mediahub-next-wave340-20261022`.
+- Current main SHA `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`; canonical checkpoint blob `acc19d9554a36db09ece70f47b8f49fd74c7ade1`; roadmap blob `cea169e55e02903ab9871d51ff643b3da7ef0e8c`.
+- PR #437 suite `107496095390`, #441 suite `107524023551`, #442 suite `107568753095`, and main suite `107553033246` remain QUEUED with zero latest check runs. Main Astra Verify `39685040842` succeeded. Scheduled supervisor run `39686595751` remains QUEUED; job `119522116279` has no steps/results yet.
+- Formal reviews are empty for PR #437/#441/#442. Branch-protection endpoint 403; empty rulesets are inconclusive. Gemini Agents 1–3 NOT RUN; no new dispatch, secrets access, host modification, merge or deployment. Local Claude-FCC/Ollama/browser remains NOT VERIFIED/NOT RUN.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: diagnose external check-provider scheduling, obtain independent security review, and prove governance/token scope before approved no-launch probe.
+
+
+## Wave 344 — main ref drift and exact-head CI recheck (2026-10-22)
+
+- Report: [Wave 344 main ref drift and CI recheck](MEDIAHUB-NEXT-MAIN-REF-DRIFT-AND-CI-RECHECK-WAVE-344-2026-10-22.md), blob SHA `880d6616381d587e5be774d25b260ba92166c7bf`; report commit `4326087dacb77e496f360c8bdd4da403e9057b08` on working branch.
+- Main ref observed first as `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`, then later in the same pass as `f4ad65acdb82d25b93845279361502b6737e1d21`; correlate commit metadata before inferring cause. Controller blob remained `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED with zero check runs. PR #442 advanced to HEAD `59e0a199889e2c5db5093ff42776439a64208721`, suite `107570082450` QUEUED with zero check runs; still draft and unmerged.
+- Latest main suite #107553033246 queued/zero checks; suite #107557209401 queued/one check; suite #107553038685 completed SUCCESS. Main Astra Verify run #39685040842 SUCCESS; Astra autonomous queue supervisor run #39686595751 QUEUED.
+- Review query attempted with incorrect argument name and did not produce evidence; no claim of current formal review status from this pass. SentinelX host remained listed operational but state call transiently returned `agent_disconnected/read_loop_ended`; no host commands or browser/local executor job ran.
+- Gemini Agents 1–3 NOT RUN; no dispatch/child IDs or artifacts. Governance, effective token scope, independent controller security review, and approved no-launch probe remain NOT VERIFIED. No secrets read, trigger comment, dispatch, merge, or deployment.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: correlate main ref movement, resolve queued exact-head CI, obtain independent security review and governance/token-scope evidence, then only approved non-launching probe.
+
+
+## Wave 345 — main CI stall and executor gates (2026-10-22)
+
+- Report: [Wave 345 main CI stall and executor gates](MEDIAHUB-NEXT-MAIN-CI-STALL-AND-EXECUTOR-GATES-WAVE-345-2026-10-22.md), blob SHA `d86e767768332782a87aeef604f334407586856a`, commit `c71c332b5ad10d4f3ad0c38858ada71d3e211374` on working branch `docs/mediahub-next-wave340-20261022`.
+- Main advanced to `f4ad65acdb82d25b93845279361502b6737e1d21` (Wave 344 checkpoint append); exact-main Astra Verify `39685040842` SUCCESS, scheduled supervisor run `39686595751` still QUEUED. Controller blob `9453403bba899a2400ee3fb874d32badd034c704` unchanged.
+- PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED with zero check runs. PR #442 latest HEAD is `c71c332b5ad10d4f3ad0c38858ada71d3e211374`, exact-head suite `107571609219` QUEUED with zero check runs; draft, unmerged. Branch protection API remains 403; ruleset list empty/inconclusive.
+- Static source review confirms literal owner `/next` trigger plus batch flag, main SHA, GitHub token and HMAC key prerequisites. This is not independent security review or runtime proof. No secret values read, trigger posted, workflow dispatched, or host command completed.
+- Gemini Agents 1–3 NOT RUN, no dispatch/child run IDs or artifact digests. Local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN after a bounded read-only browser CLI lookup timed out.
+- Status: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve freebuff-web queued check provider, get independent security review, verify governance/token scope, then run approved non-launching probe before considering agent dispatch.
+
+
+## Wave 346 — refreshed main and exact-head admission gates (2026-10-22)
+
+- Report: [Wave 346 refreshed main and admission gates](MEDIAHUB-NEXT-REFRESHED-MAIN-AND-ADMISSION-GATES-WAVE-346-2026-10-22.md), blob SHA `9ff592742692a9b36e1f2618ed584d53ee229c08`, commit `64edea71d7f899c127f6200669b7e099d97e6d3e` on working branch `docs/mediahub-next-wave340-20261022`.
+- Main is `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob remains `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 current observed suite `107571675042` remain QUEUED with zero check runs; no formal reviews. PR #442 HEAD at this read was `20fefd5c160665adab8f1b88812519a7d223e314`, draft/unmerged.
+- Main external suite `107553033246` is QUEUED/zero checks; Actions suite `107553038685` SUCCESS; supervisor suite `107557209401` QUEUED. Astra Verify run `39685040842` succeeded; supervisor run `39686595751` remains queued.
+- Controller run `39678989141` remains SKIPPED with four skipped jobs because comment `6326943789` was a report announcement, not literal `/next`. Gemini Agents 1–3 NOT RUN; no child run IDs or artifacts. Local Claude-FCC/Ollama/browser NOT VERIFIED/NOT RUN.
+- Governance, effective token scope, independent controller/HMAC review and external CI scheduling remain NOT VERIFIED. No secret reads, trigger, dispatch, host mutation, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve stalled external CI, obtain independent review and authorized metadata-only governance/token-scope evidence, then only the approved non-launching probe.
