@@ -75,7 +75,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('job["dispatch_status"]="UNKNOWN"', self.source)
         self.assertIn('job["dispatch_status"]="FAILED"', self.source)
         self.assertIn('Dispatch outcome unknown', self.source)
-        self.assertIn('if code is not None and 400 <= code < 500:', self.source)
+        self.assertIn('if code is not None and 400 <= code < 500 and code != 408:', self.source)
         self.assertIn('results[did]={"status":"DISPATCH_FAILED","conclusion":"failure"}', self.source)
         self.assertIn('Dispatch | Run ID | Conclusion', self.source)
         self.assertIn('len(jobs)!=3', self.source)
