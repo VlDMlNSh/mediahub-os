@@ -135,10 +135,11 @@ jobs:
                   print(f"Accepted {wf}; correlation ID {did}; target SHA {target}")
               except Exception as exc:
                   # Never print upstream exception text; it may contain untrusted data.
-                  job["dispatch_status"]="FAILED"; job["dispatch_error"]=type(exc).__name__
-                  results[did]={"status":"DISPATCH_FAILED","conclusion":"failure"}
-                  print(f"::error::Dispatch failed for {wf}; correlation ID {did}; error_type={type(exc).__name__}")
-          pending={j["id"]:j for j in jobs if j["dispatch_status"]=="ACCEPTED"}
+                  # A network/API exception may occur after GitHub accepted the POST.
+                  # Mark the outcome unknown and still reconcile this correlation ID.
+                  job["dispatch_status"]="UNKNOWN"; job["dispatch_error"]=type(exc).__name__
+                  print(f"::error::Dispatch outcome unknown for {wf}; correlation ID {did}; error_type={type(exc).__name__}")
+          pending={j["id"]:j for j in jobs}
           deadline=time.time()+32*60
           while pending and time.time()<deadline:
               for did,j in list(pending.items()):
