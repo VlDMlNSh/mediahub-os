@@ -5233,3 +5233,11 @@ Status: **OWNER-DIRECTED TARGET REQUIREMENT / GOVERNANCE, IMPLEMENTATION AND RUN
 - The previous validation attempt's actionlint failure was traced to an empty `secrets: {}` mapping. It was removed; the succeeding dedicated workflow validates the updated caller and observer. `.github/workflows/astra-verify.yml` is restored to the exact main blob `ae59d954f1ca6569a8d047589a2a54fd03e47f5b`.
 - No Gemini dispatch, provider/model call, secret/host access, merge, deployment, qualification or acceptance. Contour A remains **NOT_PROVEN / BLOCKED**; Contour B remains gated.
 - **Next:** verify terminal Astra Verify status and obtain independent security review/protection evidence before dispatch is even considered. Keep Wave 285 issuer/approval source trace and Wave 286 workflow-guard repair as separate workstreams.
+
+
+## Wave 301 — Draft 2020-12 meta-validation probe (2026-10-21)
+
+- Evidence: [Wave 301 report](MEDIAHUB-GEMINI-INDEPENDENT-SCHEMA-AND-GOVERNANCE-REVIEW-WAVE-301-2026-10-21.md), [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-301-2026-10-21.md), [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- jsonschema 4.25.1 Draft 2020-12 meta-validation passed for the three exact schema blobs. Raw SHA-256 digests and exact blob SHAs are in the report. Preliminary instance fixture generation is incomplete: task positive passes; registry/evidence positives do not yet validate due to generator deficiencies; wrong-version and unknown-property negatives reject. No claim of full schema acceptance.
+- Remaining: explicit fixture suite with format assertions and malformed date-time/SHA/bounds/version/unknown-property cases; semantic resolution; authoritative target manifest acceptance; A0 issuer/ingress/lease/cancel/recovery; R-06 audit/privacy acceptance route. No runtime dispatch, credentials, merge, deployment, qualification or acceptance.
+- Next implementation unit: checked-in, reproducible, non-runtime validation harness pinned to the exact source blobs, then independent review.
