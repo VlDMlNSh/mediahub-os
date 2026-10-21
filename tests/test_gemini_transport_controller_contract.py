@@ -54,7 +54,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn("hmac.new", self.source)
         self.assertIn("hashlib.sha256", self.source)
         self.assertIn("NOT_COMPLETED_BEFORE_TIMEOUT", self.source)
-        self.assertIn('r.get("conclusion")!="success"', self.source)
+        self.assertIn('results.get(j["id"],{}).get("conclusion")!="success"', self.source)
         self.assertNotIn("secrets: inherit", self.source)
 
     def test_child_provider_keys_are_separate_and_explicit(self):
