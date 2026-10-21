@@ -98,3 +98,15 @@ Independently review PR #437's HMAC canonicalization and child-side fail-closed 
 ### Concurrent branch advance after Wave 322 verification
 - PR #437 advanced after the three successful CI runs from \`7f491729bab024a72dc20f5d7a3e107a4393ba3b\` to \`531ed07d1fd8ad474587f5af0e4a5f3364461b6d\` with a further test-only guard rejecting unsupported signed fixture override fields. At the latest check, no workflow runs were yet listed for this new head. Therefore the three green checks are evidence for the previous exact head only, not qualification of the latest PR head.
 - PR #437 remains Draft/open/unmerged. Keep its status distinct: prior head CI VERIFIED; latest head PLANNED/UNVERIFIED pending exact-head CI. Main remains \`79196054d84b1197cea1447dd1db5ad075302834\`.
+
+
+## Superseding state check — fix landed on main outside PR #436 (2026-10-21)
+
+A subsequent ref check supersedes the earlier “latest candidate lacks checks” snapshot. PR #436 was closed unmerged at 18:11:05Z. Main advanced to `79196054d84b1197cea1447dd1db5ad075302834`, whose commit message is `fix: repair Gemini HMAC contract tests`. The main test blobs now contain the syntax and signed-field mapping repairs:
+
+- `tests/test_gemini_transport_controller_contract.py`: blob `01ddae5e1d7fd0e49ffa651da9655a5a5ad7a8d5`; all three HMAC `next(...)` expressions were read back with balanced closing parentheses.
+- `tests/test_gemini_child_signed_dispatch_runtime_contract.py`: blob `64d55eb2a78dd1ea015dae80a838dc44ad592f7e`; it now maps canonical signed field names to uppercase runtime environment keys and applies signed overrides through that mapping.
+- Exact-main Astra Verify succeeded: [run #39649841150](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649841150), whose reported SHA is `79196054d84b1197cea1447dd1db5ad075302834`.
+- The commit/check API returned no combined statuses and no associated PR workflow runs for this SHA, so **exact-main workflow-contract validation is not independently confirmed** by the current evidence. The commit message cites prior PR-head checks, but those are not a substitute for post-merge exact-main checks.
+
+This resolves the syntax and fixture regressions at source level, but does not qualify the controller. PR #432 remains merged without a formal submitted review in the review listing; branch protection/governance API access remains blocked. Gemini children, Claude/Alamo and browser work remain NOT RUN. The batch gate must remain closed until exact-main contract validation, independent security review, effective governance verification and trusted-main no-secret probe are evidenced.
