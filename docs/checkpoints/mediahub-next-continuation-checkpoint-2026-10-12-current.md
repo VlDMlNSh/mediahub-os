@@ -1768,3 +1768,12 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Exact-head CI passed: Astra Verify 39475766199 (453 tests); workflow contract validation 39475766192 (actionlint and 5 Wave 284 + 5 Wave 292 + 12 reusable workflow + 5 transport tests); Cloud Runtime Validation 39475766251; negative probe 39475766469; Wave 292 probe 39475766513. Probe confirms only the untrusted PR path; all model jobs skipped.
 - PR #421/#426 remain open/Draft/unmerged with zero independent reviews and overlapping probe-path changes. Effective branch protection and repository/org Actions policy are still unverified. No trusted positive dispatch, model/provider call, merge, deployment, qualification, or acceptance occurred.
 - **Next bounded step:** resolve PR #421/#426 path overlap and obtain independent security review/effective governance evidence. After reviewed acceptance on `main`, run controller with `mode=probe`, `confirm=no`, and capture positive trusted-context evidence. Keep Contour B gated.
+
+
+## Wave 301 — schema meta-validation follow-up (2026-10-21)
+
+- Report: [Gemini independent schema and governance review, updated with local validator evidence](MEDIAHUB-GEMINI-INDEPENDENT-SCHEMA-AND-GOVERNANCE-REVIEW-WAVE-301-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-301-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Validator: jsonschema 4.25.1 with Draft202012Validator.check_schema; meta-validation passed for exact blobs at docs commit 4c7944e22e935f3d34b05ddbd83dd51daa20aa0a. Raw SHA-256 and Git blob SHA are recorded in the report.
+- Preliminary instance tests are partial only: task minimal positive passed; registry/evidence generated positive fixtures failed due to generic fixture generation. Unknown property and wrong schema version were rejected. Date-time format negative and robust fixture suite remain open.
+- Gate remains BLOCKED / NOT_PROVEN. Target manifest, A0 ingress/issuer/lease/cancel/recovery, R-06 accountable acceptance, semantic-reference resolution, full fixtures, runtime worker and qualification remain open. No credentials, dispatch, merge, deployment, or acceptance.
+- Next: add explicit positive/negative fixtures and a reproducible checked-in validator harness on a dedicated non-runtime branch; run with FormatChecker and record exact outputs/digests.
