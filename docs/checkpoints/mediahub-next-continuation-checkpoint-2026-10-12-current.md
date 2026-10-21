@@ -2143,7 +2143,7 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 
 ## Wave 332 — Transport source reconciliation and executor readiness (2026-10-21)
 
-- Report: [Wave 332](MEDIAHUB-NEXT-TRANSPORT-AND-EXECUTOR-RECONCILIATION-WAVE-332-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-332-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Report: [Wave 332](MEDIAHUB-NEXT-TRANSPORT-AND-EXECUTOR-RECONCILIATION-WAVE-332-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-332-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Supplemental bounded trigger/executor diagnosis: [Wave 332 controller and executor diagnosis](MEDIAHUB-NEXT-CONTROLLER-AND-EXECUTOR-DIAGNOSIS-WAVE-332-2026-10-21.md).
 - Rechecked current main HEAD `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`, controller blob `9453403bba899a2400ee3fb874d32badd034c704`, and PR #437 head `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`. PR remains OPEN/DRAFT; exact-head runs/statuses are empty, formal reviews 0. Last governance evidence remains `main.protected=false`, no rulesets/required checks; governance is not requalified.
 - Corrected contradictory Bootstrap §1A/§1B language to identify the active controller as token-backed GitHub API dispatch/monitoring rather than the historical `workflow_call` proposal. Bootstrap blob SHA after read-back: `75f30750183efe8c6877368e9f0ada48f8e81ea7`.
 - Gemini Agents 1–3 NOT RUN; no current controller/child IDs or artifacts. Dispatch remains blocked pending exact-main CI, independent security review, branch governance, effective secret/variable scope and trusted-main no-secret probe.
