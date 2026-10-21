@@ -1,3 +1,14 @@
+## Latest continuation — Wave 299 (2026-10-21)
+
+- Report: [PR #421/#426 probe integration boundary](MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-299-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Verified main SHA remains `80be45a70732b1d568164571d4273a6397792c3b`.
+- PR #421 remains Draft/Open/Unmerged at `185f55b63121b1aece7e60f6c087ecfceab2721e`; PR #426 remains Draft/Open/Unmerged at `6caf55977260e808a055c8c4b9a04d68eb050d8c`. No submitted reviews are visible for either.
+- Current exact paths differ: #421 calls the Wave 284 observer; #426 introduces a distinct sentinel and Astra Verify wiring. This removes only the claim of a demonstrated same-path collision; full changeset and merge sequencing remain to be checked.
+- The combined commit-status endpoint is empty for #421 head and does not inventory Actions check runs. Existing exact-head CI evidence remains as recorded in Wave 298.
+- Governance/protection state remains unverified due access limits. No agent-mode dispatch, provider secret access, merge, deployment, qualification or acceptance.
+- Next: independent substantive review of exact #421 head and administrator-visible policy evidence; then complete PR-set reconciliation and a separately safe, no-secret positive-context probe after accepted integration.
+
 ## Latest continuation — Wave 298 (2026-10-21)
 
 - Report: [Wave 298 Gemini review source-to-report trace](MEDIAHUB-GEMINI-REVIEW-SOURCE-TRACE-WAVE-298-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-298-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
