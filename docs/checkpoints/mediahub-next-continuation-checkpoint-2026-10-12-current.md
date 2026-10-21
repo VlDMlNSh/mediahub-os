@@ -2243,3 +2243,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Gemini Agents 1–3 NOT RUN; no controller run ID, child IDs, shared target evidence or artifact digests. No dispatch performed.
 - SentinelX ping/state/capabilities responded for `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`), macOS 14.7.4 ARM64, agent 0.22.0. Local Ollama/Claude-FCC runtime, approved no-paid-fallback route, and agent-browser remain NOT VERIFIED/NOT RUN; no host commands or browser sessions executed.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve exact-head queued CI; obtain independent security review for PR #437; verify governance and effective token/secret metadata without reading values; run only an approved non-launching trusted-main probe before considering dispatch; qualify local executor separately.
+
+
+## Wave 342 — controller issue-comment trigger diagnosis (2026-10-22)
+
+- Report: [Wave 342 trigger diagnosis](MEDIAHUB-NEXT-CONTROLLER-TRIGGER-DIAGNOSIS-WAVE-342-2026-10-22.md), blob SHA `fa4b1da83160ba285ee9ea64cdb3ea76bbbd8577`, commit `c2317d767184b5fe240f54fb9c5749dd95d1b65e` on noncanonical branch `docs/mediahub-next-wave340-20261022`; not merged/accepted.
+- Main remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob SHA `9453403bba899a2400ee3fb874d32badd034c704`.
+- Exact source condition for issue-comment dispatch requires issue #301, non-PR issue, body exactly `/next`, and author association `OWNER`. Inspected run #39678989141 corresponds to owner comment #6326943789 announcing a report, not literal `/next`; skipped result is therefore expected from the predicate, not a dispatch success.
+- PR #437 suite #107496095390 and PR #441 suite #107524023551 remain QUEUED with zero check runs; formal reviews zero. Draft PR #442 exact-head suite #107543383571 is also QUEUED with zero check runs and no formal reviews.
+- Main Astra Verify run #39669337754 succeeded; controller run #39678989141 was SKIPPED. Governance remains NOT VERIFIED (branch protection endpoint 403; empty ruleset result inconclusive).
+- Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifacts. Local Ollama/Claude-FCC/browser remain NOT VERIFIED/NOT RUN. No secrets read, issue-comment trigger posted, dispatch, host command, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve exact-head CI and independent security/governance gates; only then consider the literal owner trigger or approved no-launch probe.
