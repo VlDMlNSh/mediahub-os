@@ -2318,3 +2318,15 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - SentinelX host `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51` responds to ping/capabilities; one-host Free limit is full. Browser CLI lookup timed out; browser and local Claude/Ollama remain NOT VERIFIED/NOT RUN.
 - No secrets read, trigger comment, dispatch, host modification, merge, deployment, qualification or acceptance. Governance/effective token scope and independent security review remain NOT VERIFIED.
 - Disposition **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve check-provider scheduling, obtain independent security review, verify governance/token scope, then approved no-launch probe before considering agent dispatch.
+
+
+## Wave 344 — current PR head and controller admission gate recheck (2026-10-22)
+
+- Report: [Wave 344 PR head and controller gate recheck](MEDIAHUB-NEXT-PR-HEAD-AND-CONTROLLER-GATE-RECHECK-WAVE-344-2026-10-22.md), commit `4f9b8161b292266907c9a80236c574bd2b6b27ca` (blob SHA to be verified after read-back).
+- Main remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`, suite `107496095390` queued/zero checks/no formal review. PR #441 HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`, suite `107524023551` queued/zero checks/no formal review. PR #442 is draft; latest HEAD `bf024b4d17d0dfa026677c7167c9fe63990a80b2`, current suite `107549943708` queued/zero checks/no formal review. Earlier suite `107544433195` belongs to its superseded head.
+- Main Astra Verify `39669337754` SUCCESS. Controller run `39678989141` SKIPPED; all four jobs skipped. Source predicate requires a literal owner `/next` comment on non-PR Issue #301; comment `6326943789` was a report announcement.
+- Branch protection endpoint 403; ruleset list empty and inconclusive. Governance and token scope remain NOT VERIFIED.
+- SentinelX host `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51` operational and ping succeeds. Browser CLI lookup previously timed out; browser session and local Claude-FCC/Ollama remain NOT VERIFIED/NOT RUN.
+- Gemini Agents 1–3 NOT RUN; no dispatch/child IDs or artifacts. No secrets read, trigger posted, workflow dispatch, host modification, merge or deployment. Status: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
+- Next: investigate stuck check provider; obtain independent controller/security review; verify governance/token scope by authorized metadata-only means; then approved no-launch probe. Prove the local free/no-paid-fallback route before any executor queue work.
