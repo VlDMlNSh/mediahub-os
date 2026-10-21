@@ -2032,3 +2032,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Formal review listing for PR #437 is empty. Controller's batch variable/secret metadata, trusted-main no-secret probe and governance gates are not verified. Do not comment `/next` on Issue #301 while the controller may dispatch if its variable is enabled.
 - Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifacts. SentinelX has only `Voktors-Mini.Dlink` operational, not verified as Alamo/server 3; `mh-dev-01` and `mh-dev-02` disabled. Claude and agent-browser NOT RUN. No secrets read or provider calls made.
 - Next: get exact-head CI, independent review, metadata-only credential/variable presence checks, trusted-main probe, then a single controlled three-child dispatch against one immutable SHA. Independently identify Alamo and verify allowlist before browser/Claude work.
+
+
+## Wave 324 — launch gate recheck (2026-10-21)
+
+- Report: [Wave 324 Gemini dispatch gate and executor identity audit](MEDIAHUB-GEMINI-DISPATCH-READINESS-WAVE-324-2026-10-21.md); [architecture addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-324-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main HEAD `79196054d84b1197cea1447dd1db5ad075302834`; main Astra Verify #39649841150 SUCCESS. Controller run #39650408656 SKIPPED because the source comment was on PR #436, not Issue #301; no Gemini child runs or artifacts.
+- PR #432 is merged. PR #437 remains Draft/open/unmerged at `01629874e8b4a10da68a0574ec77ecdfceeda8b9`, zero formal reviews; exact-head CI not verified. Controller blob `9453403bba899a2400ee3fb874d32badd034c704`; child blobs and run evidence are in the report.
+- `MEDIAHUB_GEMINI_BATCH_ENABLED`, effective token scope, authoritative branch rules and trusted-main no-secret probe remain NOT VERIFIED. Do not admit a live batch until these gates and Issue #301 product gates are supported by evidence.
+- SentinelX shows only Voktors-Mini connected; Alamo/server 3 is not identified. Claude and agent-browser on Alamo are NOT RUN. No secret values were read.

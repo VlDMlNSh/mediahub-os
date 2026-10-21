@@ -7816,3 +7816,6 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 
 
 - Wave 323 follow-up: recent controller runs [#39663039781](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39663039781) and [#39663132307](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39663132307) were SKIPPED because owner comments on Issue #301 contained Wave 322/323 report text rather than the exact `/next` trigger. No Gemini child runs were created; the controller's enablement variable and remaining admission gates are still not verified.
+
+
+- Wave 324: [Gemini dispatch gate and executor identity audit](../checkpoints/MEDIAHUB-GEMINI-DISPATCH-READINESS-WAVE-324-2026-10-21.md) and [architecture addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-324-2026-10-21.md). Main HEAD `79196054d84b1197cea1447dd1db5ad075302834`; controller run #39650408656 was skipped on a PR comment, no Gemini child runs occurred. Admission remains blocked on independent review, Actions variable/secret metadata, trusted-main probe, branch governance and Alamo identity.
