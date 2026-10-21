@@ -2274,3 +2274,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - SentinelX host `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51`: ping, capabilities, and state succeeded on retry. Read-only `which agent-browser` command timed out after 30 seconds with no result; CLI/browser and local Claude/Ollama remain NOT VERIFIED/NOT RUN. No identical retry.
 - Gemini Agents 1–3 NOT RUN; no child run IDs or artifact digests. Governance, effective token scope, independent security review, and approved non-launching probe remain NOT VERIFIED. No secrets read, trigger comment posted, dispatch, host modification, merge, deployment, qualification or acceptance.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued exact-head checks; independent review; metadata-only governance/token-scope verification; then approved non-launching probe and bounded local executor preflight.
+
+
+## Wave 344 — dispatch gates and PR runtime-contract review (2026-10-22)
+
+- Report: [Wave 344 dispatch gates and PR review](MEDIAHUB-NEXT-DISPATCH-GATES-AND-PR-REVIEW-WAVE-344-2026-10-22.md), blob SHA `4463e8d496ca7b7e9f0c77dd8b75393742449875`, commit `8a28c87b7630e36f5a38a2ad6b498533f8fe39bf` on working branch.
+- Main SHA remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED with zero check runs; no formal reviews. PR #442 advanced to HEAD `aadcf6e0ba321596659e9ef45669110a7b6adf12`, suite `107546185149` QUEUED with zero check runs, draft and unreviewed.
+- Patch-level read of PR #437 found a runtime HMAC/output validation test file, wiring into contract CI, and two syntax corrections in existing contract tests. This was not executed and is not formal review evidence.
+- Main Astra Verify run `39669337754` SUCCESS. Controller run `39678989141` SKIPPED because comment `6326943789` was not literal `/next`. No controller or child dispatch IDs.
+- Branch protection API 403 and empty ruleset listing leave governance/effective token scope NOT VERIFIED. Probe was not run because Bootstrap gates are not closed. Gemini 1–3 NOT RUN. Local Claude-FCC/Ollama/browser NOT VERIFIED/NOT RUN; SentinelX read-only browser lookup timed out.
+- No secret reads, trigger comment, dispatch, host modification, merge, deployment, qualification or acceptance. **BLOCKED / NOT QUALIFIED / NOT ACCEPTED.**
