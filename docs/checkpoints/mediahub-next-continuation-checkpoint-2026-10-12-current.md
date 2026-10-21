@@ -2095,3 +2095,9 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) is online. `which agent-browser` and `which claude` found no executable; Ollama discovery timed out. SentinelX policy reload failed because service restart requires sudo and noninteractive sudo is unavailable. Temporary allowlist additions were reverted. No server was used for Gemini transport.
 - No dispatch, provider call, secret access, merge, deployment, qualification or acceptance was performed.
 - Next: obtain exact-head CI/review and effective admission metadata; run the trusted-main no-secret probe only through the approved controller in probe mode; resolve owner-authorized SentinelX restart, then install/verify agent-browser and inspect the free-only Claude/FCC route before starting any local executor.
+
+### Wave 327 SentinelX browser policy follow-up
+
+- The active host config now has narrowly scoped entries `npm install -g agent-browser` and `agent-browser` staged under `allowed_commands`. Structured edit succeeded, but the running policy has not reloaded because the SentinelX service restart failed: sudo requires a terminal/password.
+- Owner action required: on Voktors-Mini.Dlink, run `sudo launchctl kickstart -k system/app.sentinelx.core` from an authorized Terminal session. After the agent reconnects, verify the new commands with `sentinel_capabilities(detail="full")`; then continue with the requested CLI install/core instructions. Do not use `bash -lc` as a way around the command allowlist.
+- The controller remains untriggered. Gemini Agents 1–3 remain NOT RUN; launch gates remain NOT VERIFIED.
