@@ -202,7 +202,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         child_lines = self._extract_python_heredoc(auth_run)
         child_key_line = next(line for line in child_lines if line.startswith("key=os.environ.get("))
         child_payload_line = next(line for line in child_lines if line.startswith("payload={"))
-        child_expected_line = next(line for line in child_lines if line.startswith("expected=hmac.new(")
+        child_expected_line = next(line for line in child_lines if line.startswith("expected=hmac.new("))
         replay_env = {
             "HMAC_KEY": fake_key,
             "WORKFLOW_FILE": filename,
