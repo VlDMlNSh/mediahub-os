@@ -36,20 +36,22 @@ At latest read-back on the PR branch:
 | `.github/workflows/gemini-autonomous-engineering.yml` | `a4160266e4da8dce00862936c6d4a3a7c17026f5` |
 | `.github/workflows/gemini-agent-2.yml` | `71adf89707c45fbfabdcfdb35fe0381d4583d647` |
 | `.github/workflows/gemini-agent-3.yml` | `507aa2cadefb3e8bdd8d210713c011152b202529` |
-| `tests/test_gemini_controller_context_probe_wave284_contract.py` | `9698ffaf1b5e4b2265a8bc8c35f859e88c2eff19` |
+| `tests/test_gemini_controller_context_probe_wave284_contract.py` | `980d3868a2f9adbac842da7802289f4755f5e083` |
 | `tests/test_gemini_controller_positive_context_probe_wave292_contract.py` | `5ab7799653ec51696939a2115d6e5c02ed18c8f6` |
+| `tests/test_gemini_reusable_workflow_contract.py` | `ec1cd102afa273d67a6a24ac68e5ee47bc09ae1e` |
+| `tests/test_gemini_transport_controller_contract.py` | `5182b5f0e12a37c756342298642d100a9d4edbd0` |
 
 ## CI and verification evidence
 
 - Initial exact-head contract run [39603593758](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39603593758) failed because the legacy Wave 284 test still required `workflow_call`. This exposed a stale test contract; it was updated to assert the signed `workflow_dispatch` gate.
-- Latest known runs against the updated head were still in progress at the last poll:
-  - [Workflow contract validation #39603860379](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39603860379)
-  - [Astra Verify #39603860450](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39603860450)
-  - [Non-launching caller-context probe #39603860536](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39603860536)
-  - [Controller run #39603860537](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39603860537) — `dispatch_and_monitor` was skipped; probe/assertion jobs succeeded.
-  - [Astra Cloud Runtime Validation #39603860791](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39603860791)
-- The actionlint stage succeeded in the initial contract run; its legacy unit-test stage failed as described above. The updated run must finish before CI is considered verified.
-- Formal independent reviews of PR #432: **0 visible** at last check.
+- Exact-head CI for `ea637eb55c87d44f0ce22730588e744c7470ee1d` is terminal **SUCCESS**:
+  - [Workflow contract validation #39604609734](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39604609734) — actionlint and contract suite succeeded.
+  - [Astra Verify #39604609752](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39604609752) — full Python test suite succeeded (444 tests).
+  - [Non-launching caller-context probe #39604609755](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39604609755) — PR context denied as expected.
+  - [Controller run #39604609766](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39604609766) — probe/assertion jobs succeeded; `dispatch_and_monitor` was **SKIPPED**.
+  - [Astra Cloud Runtime Validation #39604609921](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39604609921) — succeeded.
+- Earlier failures were useful contract regressions: stale tests still required `workflow_call` and one test had a tuple-unpacking defect. Those tests were corrected and the full suite is green on the exact latest head.
+- Formal independent reviews of PR #432: **0 visible** at latest check. PR #432 remains Draft and unmerged.
 - Governance and effective repository token permissions are not yet independently verified. Issue #301 remains open.
 
 ## Security prerequisites and blockers
