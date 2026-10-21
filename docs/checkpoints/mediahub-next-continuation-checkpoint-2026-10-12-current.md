@@ -1,3 +1,12 @@
+## Latest continuation — Wave 305 setuptools bootstrap provenance audit (2026-10-21)
+
+- Report: [Wave 305 — setuptools bootstrap publisher-provenance audit](MEDIAHUB-SETUPTOOLS-BOOTSTRAP-PUBLISHER-PROVENANCE-AUDIT-WAVE-305-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), branch `docs/mediahub-chat-tree-map-20261012`; canonical map blob previously read as `be531c44c7dc17e2ec48c7f8c773120c21ae49cc`. No canonical map mutation.
+- PR #374 bootstrap lock pins setuptools 84.0.0 wheel SHA-256 `51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670`; this exactly matches official PyPI's file-detail digest. PyPI reports Trusted Publishing = No and uploader `twine/7.0.0 CPython/3.14.6`. Upstream GitHub v84.0.0 tag/commit is shown signed/verified, but that does not cryptographically bind the PyPI wheel to the upstream source.
+- Finding: byte identity confirmed; publisher/build provenance remains unestablished. This is an evidence gap, not a finding of maliciousness. No dependency change made.
+- PR #374 remains OPEN/DRAFT/UNMERGED, exact tested head `3b1fc96beeedcc6cb38c7beeb5809f0004c6ac8a`, successful run `39222111677`; no formal reviews. Next: verify a file attestation for the exact wheel digest in a credential-free disposable environment; if absent, compare wheel contents against a reproducible build from the verified upstream source or separately justify a stronger-provenance bootstrap replacement.
+- No package installation/execution, credentials, provider/model call, dispatch, merge, deployment, qualification or acceptance occurred. Contour A remains BLOCKED / NOT_PROVEN.
+
 ## Latest continuation — Wave 304 validation reuse/ref audit (2026-10-21)
 
 - Report: [Wave 304 — Cloud-agent validation reuse and ref audit](MEDIAHUB-CLOUD-AGENT-VALIDATION-REUSE-AND-REF-AUDIT-WAVE-304-2026-10-21.md).
