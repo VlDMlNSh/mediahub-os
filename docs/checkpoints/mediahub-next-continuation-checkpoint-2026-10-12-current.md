@@ -1,3 +1,12 @@
+## Latest continuation — Wave 297 (2026-10-21)
+
+- Report: [Wave 297 governance visibility recheck](MEDIAHUB-GOVERNANCE-VISIBILITY-RECHECK-WAVE-297-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-297-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- `main` remains `80be45a70732b1d568164571d4273a6397792c3b`; PR #421 remains OPEN/DRAFT/UNMERGED at `185f55b63121b1aece7e60f6c087ecfceab2721e`.
+- Review API returns no submitted review records for PR #421 and #426. Repository rulesets API returns `[]`, but organization rulesets and Actions policy could not be inspected through the connected fetch layer; classic branch-protection API returns 403. These are visibility limits, not proof that controls are absent.
+- Gemini workflow #39587104292 succeeded on `main`, proving report publication only. It does not satisfy formal independent review or positive trusted-controller runtime evidence.
+- Gate remains **BLOCKED / NOT_PROVEN**. No merge, agent execution, secret access, deployment, qualification or acceptance.
+- Next: obtain authoritative admin-visible governance evidence and a substantive independent review tied to exact PR #421 HEAD before considering the no-secret positive-context probe.
+
 ## Latest continuation — Wave 295 (2026-10-21)
 
 - Report: [Wave 295 Gemini controller static security review](MEDIAHUB-GEMINI-CONTROLLER-STATIC-SECURITY-REVIEW-WAVE-295-2026-10-21.md).
