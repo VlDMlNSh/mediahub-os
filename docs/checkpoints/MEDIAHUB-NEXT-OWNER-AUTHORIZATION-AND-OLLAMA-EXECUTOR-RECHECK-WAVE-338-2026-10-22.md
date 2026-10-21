@@ -53,3 +53,13 @@ No tests, merge, deployment, or acceptance were performed in this pass.
 - [Master Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md)
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - [Controller on main](https://github.com/VlDMlNSh/mediahub-os/blob/main/.github/workflows/gemini-batch-dispatch-controller.yml)
+
+## Publication and read-back evidence
+
+- Report blob SHA: `b64a813a263d3e702eb995a8765f0e4c3a0b5beb`.
+- Continuation checkpoint blob SHA after Wave 338 update: `b5f662bc50da4cdb1b6a845a3dc42b6d0d832736`.
+- Master Roadmap blob SHA after Wave 338 update: `32d0ce471cadccf03a5e313a9a9ae01db7fe0c59`.
+- Canonical map blob SHA after Wave 338 index update: `357c415f257af79d2edae7842739bcdcf7cc0ceb`; Contents API returned empty text, but fetching the blob by SHA returned 1,165,153 characters, beginning with the Wave 338 entry and retaining the canonical map title and prior Wave 333 material.
+- Issue #301 evidence comments: [owner authorization and Ollama clarification](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941), [report publication/status](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326943789).
+- A sandbox clone/test attempt could not reach `github.com` because DNS resolution failed. No local test process ran; CI is not inferred from this failure.
+
