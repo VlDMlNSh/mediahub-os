@@ -11,3 +11,6 @@ Wave 317 refinement: the three child tasks now explicitly select roadmap-driven 
 
 
 Branch hygiene note (2026-10-21): four documentation-only commits were briefly written to main by mistake. They were preserved on [recovery branch](https://github.com/VlDMlNSh/mediahub-os/tree/recovery/wave316-docs-main-misroute-20261021) at `1f9fe47f986376a733fb0ddfa5e3b567b2613d5c`; main was restored with force-with-lease to its prior `f16e5bae202a78584f273132e7f88c6e25d3142e`. Post-repair refs were verified. Details are in the [Wave 316 report](../checkpoints/MEDIAHUB-PARTIAL-DISPATCH-AND-NEXT-READINESS-WAVE-316-2026-10-21.md).
+
+
+Wave 320 follow-up: current PR #432 head is `8a6bc17180ff8027edb5c628f8092a4c527212b5`; all five exact-head CI checks succeeded. Canonical UUIDv4 dispatch-ID validation now has negative fixtures. Two documentation-only advances to main were preserved on recovery branches and main restored to `f16e5bae202a78584f273132e7f88c6e25d3142e`; full provenance is in the [Wave 316–320 report](../checkpoints/MEDIAHUB-PARTIAL-DISPATCH-AND-NEXT-READINESS-WAVE-316-2026-10-21.md). Formal independent review, trusted-main probe, secret/governance evidence and Alamo remain open.
