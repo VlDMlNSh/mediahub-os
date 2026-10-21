@@ -9,3 +9,6 @@ Date: 2026-10-21. Full evidence: [Wave 335 report](../checkpoints/MEDIAHUB-NEXT-
 - SentinelX identified `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`). A bounded read-only script succeeded and found agent-browser at a nonstandard user npm path, but retrieval of the required CLI core instructions timed out/disconnected. Claude/FCC and the local queue remain NOT RUN/NOT QUALIFIED.
 - No physical host was used for Gemini. Failover and E2E are NOT RUN. No secret, host policy, workflow, merge or deployment was changed.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. See the report for next gates and direct evidence.
+
+
+Supplemental verification: `fetch_commit("main")` independently resolved to `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`. The canonical map blob `30b1a0dae214eb61f5009084c4a6be8c30c7c9af` was successfully read via the blob API. No dispatch was initiated; PR #437/#441 exact-head CI/review gaps remain.
