@@ -10,3 +10,6 @@
 - Effective repository/org branch protection and Actions policy remain unverified; a 403 and empty repository-rulesets response are access/scope limitations, not proof that controls are absent.
 - Gate: **BLOCKED / NOT_PROVEN**. Do not run controller `mode=agents`, access provider secret values, merge, deploy, qualify, or accept.
 - Next: obtain substantive independent review on the exact #421 head plus administrator-visible governance evidence; then reconcile complete PR file sets and checks before considering a no-secret positive-context probe.
+
+- Owner-reported settings observation: the three previously linked settings pages show no additional rules configured. Recorded at [Issue #301 comment](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6314555168); this is not treated as a privileged independent snapshot or proof that all classic/org-level controls are absent.
+- No further owner action is requested for Wave 299. Continue with the ordered implementation gates; repository governance observation does not authorize dispatch, credential access, merge, deployment, or qualification.
