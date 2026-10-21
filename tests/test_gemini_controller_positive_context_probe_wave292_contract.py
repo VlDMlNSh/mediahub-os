@@ -1,86 +1,46 @@
-"""Static security contracts for the no-secret trusted-controller probe (Wave 292)."""
+"""Static contracts for signed GitHub API Gemini dispatch (Wave 312)."""
 from pathlib import Path
 import unittest
-
 import yaml
-
 ROOT = Path(__file__).resolve().parents[1]
-CONTROLLER_PATH = ROOT / ".github/workflows/gemini-batch-dispatch-controller.yml"
-CHILD_PATHS = (
-    ROOT / ".github/workflows/gemini-autonomous-engineering.yml",
-    ROOT / ".github/workflows/gemini-agent-2.yml",
-    ROOT / ".github/workflows/gemini-agent-3.yml",
-)
-TRUSTED_CONTROLLER_REF = (
-    "VlDMlNSh/mediahub-os/.github/workflows/"
-    "gemini-batch-dispatch-controller.yml@refs/heads/main"
-)
-
-
-class GeminiPositiveContextProbeTests(unittest.TestCase):
+CONTROLLER = ROOT / ".github/workflows/gemini-batch-dispatch-controller.yml"
+CHILDREN = [ROOT / ".github/workflows/gemini-autonomous-engineering.yml", ROOT / ".github/workflows/gemini-agent-2.yml", ROOT / ".github/workflows/gemini-agent-3.yml"]
+class ControllerTransportTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.source = CONTROLLER_PATH.read_text(encoding="utf-8")
-        cls.controller = yaml.load(cls.source, Loader=yaml.BaseLoader)
-        cls.children = [
-            yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
-            for path in CHILD_PATHS
-        ]
-
-    def test_probe_is_default_and_has_no_secret_or_write_authority(self):
-        inputs = self.controller["on"]["workflow_dispatch"]["inputs"]
-        self.assertEqual(inputs["mode"]["default"], "probe")
-        self.assertEqual(inputs["mode"]["options"], ["probe", "agents"])
-        self.assertEqual(self.controller["permissions"], {})
-        probe = self.controller["jobs"]["probe"]
-        self.assertEqual(probe["permissions"], {})
-        self.assertNotIn("secrets", probe)
-        self.assertEqual(probe["uses"], "./.github/workflows/gemini-reusable-context-probe-wave284.yml")
-        self.assertNotIn("secrets", probe)
-        self.assertNotIn("GEMINI_API_KEY", str(probe))
-        self.assertNotIn("run-gemini-cli", str(probe))
-        self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", str(probe))
-        observer_path = ROOT / ".github/workflows/gemini-reusable-context-probe-wave284.yml"
-        observer_source = observer_path.read_text(encoding="utf-8")
-        observer = yaml.load(observer_source, Loader=yaml.BaseLoader)
-        self.assertEqual(observer["permissions"], {})
-        self.assertEqual(observer["jobs"]["observe"]["permissions"], {})
-        self.assertNotIn("GEMINI_API_KEY", observer_source)
-        self.assertNotIn("run-gemini-cli", observer_source)
-
-    def test_model_jobs_require_explicit_agents_mode_and_confirmation(self):
-        for name in ("agent1", "agent2", "agent3"):
-            condition = self.controller["jobs"][name]["if"]
-            self.assertIn("github.event_name == 'workflow_dispatch'", condition)
-            self.assertIn("inputs.mode == 'agents'", condition)
-            self.assertIn("inputs.confirm == 'yes'", condition)
-        self.assertIn("inputs.mode == 'agents'", self.controller["jobs"]["summarize"]["if"])
-
-    def test_probe_asserts_both_trusted_dispatch_and_untrusted_pr_paths(self):
-        verify = self.controller["jobs"]["assert_probe_context"]
-        self.assertEqual(verify["permissions"], {})
-        self.assertEqual(verify["needs"], "probe")
-        script = verify["steps"][0]["run"]
-        self.assertIn('[[ "$OBSERVED_WORKFLOW_REF" == "$TRUSTED_CONTROLLER_REF" ]]', script)
-        self.assertIn('[[ "$OBSERVED_TRUSTED_CONTROLLER" == "true" ]]', script)
-        self.assertIn('[[ "$OBSERVED_WORKFLOW_REF" == *"/.github/workflows/gemini-batch-dispatch-controller.yml@refs/pull/"* ]]', script)
-        self.assertIn('[[ "$OBSERVED_TRUSTED_CONTROLLER" == "false" ]]', script)
-        self.assertIn(TRUSTED_CONTROLLER_REF, self.source)
-
-    def test_agent_children_keep_default_denied_probe_gate(self):
-        for child in self.children:
-            with self.subTest(workflow=child["name"]):
-                engineer = child["jobs"]["engineer"]
-                self.assertIn("inputs.probe_only != true", engineer["if"])
-                self.assertIn("needs.caller_context.outputs.trusted_controller == 'true'", engineer["if"])
-                self.assertEqual(child["jobs"]["caller_context"]["permissions"], {})
-
-    def test_pr_trigger_is_non_launching_and_covers_contract_paths(self):
-        pr = self.controller["on"]["pull_request"]
-        self.assertIn(".github/workflows/gemini-batch-dispatch-controller.yml", pr["paths"])
-        self.assertIn("tests/test_gemini_controller_positive_context_probe_wave292_contract.py", pr["paths"])
-        self.assertIn("github.event_name == 'pull_request'", self.controller["jobs"]["probe"]["if"])
-
-
+        cls.source = CONTROLLER.read_text()
+        cls.data = yaml.load(cls.source, Loader=yaml.BaseLoader)
+        cls.sources = [p.read_text() for p in CHILDREN]
+        cls.children = [yaml.load(s, Loader=yaml.BaseLoader) for s in cls.sources]
+    def test_probe_default_and_minimal_controller_permissions(self):
+        i = self.data["on"]["workflow_dispatch"]["inputs"]
+        self.assertEqual(i["mode"]["default"], "probe")
+        self.assertEqual(i["confirm"]["default"], "no")
+        self.assertEqual(self.data["permissions"], {})
+        self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", str(self.data["jobs"]["probe"]))
+        self.assertNotIn("GEMINI_API_KEY", str(self.data["jobs"]["probe"]))
+    def test_transport_token_controller_only_and_no_inherit(self):
+        self.assertIn("secrets.MEDIAHUB_GITHUB_TOKEN", self.source)
+        self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", self.source)
+        self.assertIn("/actions/workflows/{wf}/dispatches", self.source)
+        self.assertNotIn("secrets: inherit", self.source)
+        for s in self.sources:
+            self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", s)
+            self.assertNotIn("GITHUB_PERSONAL_ACCESS_TOKEN", s)
+            self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", s)
+    def test_children_require_signed_workflow_dispatch_and_shared_sha(self):
+        for data, source in zip(self.children, self.sources):
+            self.assertIn("workflow_dispatch", data["on"])
+            self.assertNotIn("workflow_call", data["on"])
+            self.assertIn("authorize_dispatch", data["jobs"])
+            self.assertEqual(data["jobs"]["authorize_dispatch"]["permissions"], {})
+            self.assertIn("needs.authorize_dispatch.result == 'success'", data["jobs"]["engineer"]["if"])
+            self.assertIn("inputs.target_sha", str(data["jobs"]["engineer"]["steps"][0]))
+            self.assertIn("hmac.compare_digest", source)
+    def test_shared_target_and_fail_closed_monitor(self):
+        self.assertIn('target=ref["object"]["sha"]', self.source)
+        self.assertIn("Shared immutable target SHA", self.source)
+        self.assertIn("NOT_COMPLETED_BEFORE_TIMEOUT", self.source)
+        self.assertIn("inputs.mode == 'agents' && inputs.confirm == 'yes'", self.source)
 if __name__ == "__main__":
     unittest.main()
