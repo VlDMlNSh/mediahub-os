@@ -64,6 +64,19 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", source)
             self.assertIn("needs.authorize_dispatch.result == 'success'", source)
 
+    def test_partial_dispatch_is_recorded_and_accepted_children_are_reconciled(self):
+        # Every attempt is recorded before POST; individual failures must not
+        # abort the loop before accepted children are monitored and summarized.
+        self.assertIn('job={"workflow":wf,"id":did,"dispatch_status":"PENDING"}; jobs.append(job)', self.source)
+        self.assertIn('except Exception as exc:', self.source)
+        self.assertIn('job["dispatch_status"]="FAILED"', self.source)
+        self.assertIn('pending={j["id"]:j for j in jobs if j["dispatch_status"]=="ACCEPTED"}', self.source)
+        self.assertIn('Dispatch | Run ID | Conclusion', self.source)
+        self.assertIn('len(jobs)!=3', self.source)
+        self.assertIn('j["dispatch_status"]!="ACCEPTED"', self.source)
+        self.assertIn('error_type={type(exc).__name__}', self.source)
+        self.assertNotIn('print(exc)', self.source)
+
 
 if __name__ == "__main__":
     unittest.main()
