@@ -2,19 +2,32 @@
 
 - **Date:** 2026-10-12
 - **Status:** ACCEPTED TARGET ARCHITECTURE — NOT YET RUNTIME-QUALIFIED
-- **Scope:** Mac Pro central node, Mac mini Linux worker, MacBook clients, FCC, FreeLLMAPI, local model service, owned GPU server, MediaHub user-contributed compute, mobile client, and registration-only VPS.
+- **Scope:** target pair of a newly purchased Mac Pro and a Linux Mac mini Mid-2011 development host, the separate Mac mini M2 MediaHub prototype, future GPU/video server, FCC/FreeLLMAPI/local model service, optional user-contributed compute, mobile/client surfaces, and registration-only VPS.
 - **Authority:** This document records the user's accepted target design. It does not claim that any component is deployed, compatible, or qualified.
+
+## 0.1. Deployment phases and hardware authority
+
+This architecture is being designed and tested before the target computer is purchased. Existing connected Linux hosts and the M2 are a temporary test laboratory; their present topology is not the final deployment map.
+
+**Target deployment near the end of October 2026:**
+- **Purchased Mac Pro:** primary target system for MediaHub and developer host #1. After acquisition, record exact generation/model, CPU/GPU, RAM, storage, OS, network interfaces and power/thermal constraints before setting model sizes, service concurrency or production limits.
+- **Mac mini Mid-2011 running Linux, planned 16 GB RAM:** developer host #2 and Linux compatibility/executor node. The user plans 16 GB; Apple’s factory specifications list options up to 8 GB, while OWC independently tested 16 GB (2×8 GB) upgrades for Mid-2011 models. Verify the exact machine’s RAM detection, stability, SSD health, Linux firmware and wired network after acquisition. Do not assume it is a GPU inference server.
+- **Voktors’ Mac mini M2, 8 GB:** first working MediaHub product prototype / staging and acceptance-test device. It may help with temporary tests during development, but it must not remain a permanent ASTRA developer lane in the final topology.
+- **Future GPU/video server:** later optional compute pool for large model inference and media/video processing. It is not a prerequisite for a safe first release and does not become a developer lane or State Authority by default.
+- **MacBook and mobile application:** optional client/approval surfaces, not core servers.
+
+The present queue implementation still maps three test lanes, one of which is the M2, and allows three claims. Before deployment to the target hosts, the queue registry, governance/schema, task node IDs, workflow routing and topology tests must be reconciled with the two-host development target. Begin with at most two simultaneous physical development-host claims. A higher count requires a documented decision and capacity/isolated-worker evidence proving that the Mac Pro can safely host multiple disjoint logical workers or another qualified executor exists.
 
 ## 1. Architectural decisions
 
-1. **Mac Pro is the central infrastructure node.** It hosts the local model service (working name: Alamo), Jarvis/control services, model/API routing, task coordination, monitoring, and the node registry, subject to hardware and runtime validation.
+1. **The purchased Mac Pro is the primary target MediaHub server and developer host #1.** It is the intended home of the local model service (working name: Alamo), Jarvis/control APIs, model/API routing, task coordination, monitoring, and node registry, subject to exact hardware/runtime validation after acquisition.
 2. **Local inference must remain local when local-only mode is selected.** The Claude Code path must not silently fall back to Anthropic's cloud API. The implementation must prove this through configuration inspection and network/evidence checks.
 3. **FCC is a required control/integration layer for the Claude Code path.** Its exact responsibilities and supported configuration must be verified against the pinned FCC release. FCC does not replace Jarvis or become MediaHub's state/authority source.
 4. **FreeLLMAPI is a cloud-model provider path, not the MediaHub authority.** It may expose multiple models/providers according to its actual API, availability, terms, and quotas.
 5. **Alamo is a local inference endpoint on Mac Pro.** It is reached over the private network through a documented, authenticated API. Its actual runtime, protocol, model, and endpoint remain deployment facts to discover.
 6. **Model selection can be manual or policy-driven.** The router may select between approved FreeLLMAPI models, other explicitly configured providers, and Alamo. Routing must respect capability compatibility, privacy mode, availability, quotas, latency, and cost.
 7. **Codex remains a separate cloud-authenticated development path.** Its approved cloud API/subscription authentication is not silently replaced by the Claude Code/FCC/FreeLLMAPI path.
-8. **There are two separate GPU execution pools:**
+8. **The future GPU/video server is an optional compute extension, not a baseline dependency. Where user-contributed compute is later enabled, it is isolated from the operator-owned pool. Separate pools are:**
    - **Pool A — owned GPU server:** trusted, operator-managed hardware providing inference/compute services to Mac Pro.
    - **Pool B — MediaHub user-contributed compute:** untrusted-by-default worker nodes, admitted only through explicit consent, isolation, capability checks, quotas, result verification, and revocation.
 9. **The VPS is restricted to the API-key registration/management workflow.** It is not a general egress proxy, model gateway, media relay, or mandatory transit point for ordinary application traffic.
@@ -23,23 +36,32 @@
 ## 2. Target topology
 
 ```text
-MacBook
-  ├── Claude Desktop / development client
-  └── Codex Desktop ───────────────► approved Codex cloud path
+CURRENT TEST LAB (temporary, not the target deployment map)
+  ├── mh-dev-01 Linux test runner
+  ├── mh-dev-02 Linux test runner
+  └── Mac mini M2 — MediaHub prototype; not a permanent dev lane
 
-Mac mini / Linux
-  └── Claude Code
-        │
-        ▼
-       FCC  (required Claude Code integration/control layer)
+TARGET DEVELOPER / INITIAL DEPLOYMENT HOSTS (after purchase/commissioning)
+  ├── Purchased Mac Pro — primary MediaHub target + developer host #1
+  │     ├── Jarvis/control API, A0 queue/state/evidence
+  │     ├── model routing + Alamo local inference (after qualification)
+  │     └── observability / node registry
+  └── Mac mini Mid-2011 + Linux + planned 16 GB RAM — developer host #2
+        └── bounded Claude Code/Linux executor and compatibility testing
+
+MacBook / mobile application — optional user/client and approval surfaces
+
+Future GPU/video server — optional inference + media-compute pool, added later
+
+   FCC (required Claude Code integration/control layer)
         │
         ▼
    Model-routing boundary
-        ├── FreeLLMAPI ──► available cloud models/providers
+        ├── FreeLLMAPI ──► specifically admitted cloud models/providers
         ├── other explicitly admitted provider adapters
         └── Alamo API ───► Mac Pro local inference
 
-Mac Pro (central infrastructure node)
+Mac Pro (primary target server and developer host #1)
   ├── Jarvis / MediaHub control plane
   ├── authenticated API gateway and model routing
   ├── task scheduler, node registry, queue and job state
@@ -56,7 +78,7 @@ European VPS
       (not in the ordinary model/data traffic path)
 ```
 
-This topology is logical, not a claim that all components are already deployed or that FCC/FreeLLMAPI natively support every arrow. Each integration edge requires a compatibility test.
+This topology is a future target plan, not a claim that the equipment has already been purchased or that components are deployed. Existing lab hardware is used for implementation and test only. FCC/FreeLLMAPI compatibility remains unproven; each integration edge requires a compatibility test.
 
 ## 3. Responsibility boundaries
 
@@ -95,7 +117,7 @@ Free-tier availability is best-effort and must not be represented as unlimited o
 ### Pool A — owned GPU server
 
 - Mac Pro submits jobs to a worker/runtime on the GPU server over an authenticated private API.
-- The GPU server uses its own CPU, RAM, GPU, and VRAM.
+- The future GPU/video server uses its own CPU, RAM, GPU, and VRAM; these resources do not belong to the initial Mac Pro + Linux Mac mini baseline.
 - Results and job telemetry return to the coordinator.
 - Multi-GPU inference on one host may be used when supported by the selected runtime.
 - Splitting one model across separate computers is a later optimization requiring benchmark evidence; it is not assumed to create one transparent VRAM pool.

@@ -103,14 +103,14 @@ Responsibilities:
 
 ### 3.3 Execution plane
 
-Permanent Astra Gold production lanes:
+**Current qualification harness (temporary test-lab mapping, not final hardware topology):**
 - mh-dev-01 -> Claude;
 - mh-dev-02 -> Claude;
-- Voktors-Mac-mini.local -> Claude.
+- Voktors-Mac-mini.local -> Claude (the M2 is the first MediaHub product prototype and must not remain a permanent developer lane after target commissioning).
 
-G-5 permits exactly three active autonomous claims, one per permanent lane.
+The current queue code and G-5 configuration permit three test claims. This reflects the existing lab harness only. The target plan approved on 2026-10-12 has two development hosts: the purchased Mac Pro (developer host #1 / primary MediaHub target) and a Mac mini Mid-2011 running Linux with a planned 16 GB RAM configuration (developer host #2). At target commissioning, node IDs, queue bindings, governance/schema thresholds and topology tests must be reconciled to this hardware. The initial target concurrency ceiling is two physical hosts; raising it requires separately verified isolated logical lanes and capacity evidence. The M2 remains a product prototype, not a target ASTRA developer server. The future GPU/video server is a separate optional compute pool and does not automatically become an executor lane.
 
-Broader executor/transport combinations may remain in historical or separate qualification catalogs, but they are not permanent production lanes and do not alter the three-Claude queue.
+Broader executor/transport combinations may remain in qualification catalogs, but they are not a statement that the target hardware has already been acquired or deployed.
 
 Any contradiction between this mapping and a task, workflow, claim or evidence record is RECONCILIATION_REQUIRED -> BLOCKED.
 

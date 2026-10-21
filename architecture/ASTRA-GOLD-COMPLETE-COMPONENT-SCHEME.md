@@ -145,18 +145,20 @@ All are REVIEW/QUALIFICATION candidates unless independently qualified.
 4. Claude Code + OmniRoute
 5. Claude Code direct/native
 
-23 fresh successful isolated rounds per path = 115 mandatory rounds.
+23 fresh successful isolated rounds per path = 115 mandatory rounds. These five combinations are qualification-test paths and do not replace the three permanent Claude production scheduler lanes.
 
 Per round:
 fresh command ID, exact source SHA, executor identity, provider/transport identity, isolated workspace, exit status, timeout, marker and schema-valid result.
 
 ## 14. Control plane
 
+**Lane mapping note (2026-10-12):** the current repository queue binds `mh-dev-01`, `mh-dev-02`, and `Voktors-Mac-mini.local` as three temporary qualification-harness lanes. That is not the final hardware plan. The intended developer fleet is the purchased Mac Pro plus a Linux Mac mini Mid-2011 (planned 16 GB RAM); the Mac mini M2 is the first MediaHub product prototype and must be removed from the permanent ASTRA developer pool at commissioning. Until the queue, machine-readable G5 thresholds, task IDs, workflow routing and topology tests are reconciled, the target deployment remains BLOCKED. Start the target with two physical-host claims; extra logical lanes require explicit isolation/capacity evidence.
+
 Required:
 command contract, claim/lease, queue progress, duplicate suppression, heartbeat, result publication, stale-claim handling, worker restart, duplicate-controller rejection and replay idempotency.
 
 Concurrency:
-maximum 2 autonomous claims; claims disjoint; shared surfaces serialized.
+maximum 3 autonomous claims, matching the canonical governance contract, qualification schema, reference architecture and topology tests; claims disjoint; shared surfaces serialized.
 
 ## 15. Recovery
 
