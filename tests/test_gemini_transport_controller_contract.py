@@ -70,6 +70,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('job={"workflow":wf,"id":did,"dispatch_status":"PENDING"}; jobs.append(job)', self.source)
         self.assertIn('except Exception as exc:', self.source)
         self.assertIn('job["dispatch_status"]="UNKNOWN"', self.source)
+        self.assertIn("code != 408", self.source)
         self.assertIn('pending={j["id"]:j for j in jobs if j["dispatch_status"] in ("ACCEPTED","UNKNOWN")}', self.source)
         self.assertIn('job["dispatch_status"]="UNKNOWN"', self.source)
         self.assertIn('job["dispatch_status"]="FAILED"', self.source)
