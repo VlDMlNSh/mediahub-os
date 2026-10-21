@@ -2050,3 +2050,16 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - PR #437 HEAD `01629874e8b4a10da68a0574ec77ecdfceeda8b9` is Draft/open/unmerged; exact-head workflow runs and combined statuses returned empty, formal reviews are empty. Status NOT VERIFIED.
 - SentinelX: only `Voktors-Mini.Dlink` active; not verified as Alamo/server 3. `mh-dev-01` and `mh-dev-02` disabled; Free plan has one active slot and zero available. Claude/FCC and agent-browser on Alamo NOT RUN; the CLI-required `agent-browser skills get core` was not run on the wrong host.
 - Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifact digests. Next: resolve Alamo host identity/slot, collect non-secret controller governance evidence, get exact-head PR #437 CI and formal review, then run one governed batch against a shared immutable SHA.
+
+
+## Wave 326 — Gemini batch dispatch gate reconciliation (2026-10-21)
+
+- Report: [Wave 326 Gemini dispatch gate reconciliation](MEDIAHUB-NEXT-GEMINI-DISPATCH-GATES-WAVE-326-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-326-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- `main` HEAD inspected: `79196054d84b1197cea1447dd1db5ad075302834`; controller blob SHA `9453403bba899a2400ee3fb874d32badd034c704`.
+- Historical CI for that main commit: contract validation #39649560873, Astra Verify #39649560826, Cloud Runtime Validation #39649560957 all succeeded. This does not prove model invocation or child dispatch.
+- Controller run #39664593575 was SKIPPED; the triggering `/next` comment #6325024897 was on PR #437, not Issue #301, so the controller's issue/owner guard did not admit a batch. No Gemini child workflows were dispatched.
+- PR #437 current head `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`: no exact-head check-runs and no formal reviews found. PR #438 remains Draft with no formal reviews. Effective token scope, HMAC secret configuration, batch admission variable and branch protection/governance are NOT VERIFIED; branch-protection read returned 403 from the connected GitHub integration.
+- Gemini Agents 1–3: NOT RUN; no child run IDs or artifact digests. Shared target candidate `79196054d84b1197cea1447dd1db5ad075302834` is recorded for planning only, not as dispatch authorization.
+- SentinelX inventory: only `Voktors-Mini.Dlink` operational; Alamo/server 3 not identified. Capabilities read disconnected, then ping succeeded. No remote command was executed; Claude/FCC and agent-browser on Alamo remain NOT RUN. Load `agent-browser skills get core` on the verified Alamo host before any browser command.
+- Next bounded pass: get independent review and exact-head CI for PR #437; obtain non-disclosing evidence for token permissions, HMAC secret and batch variable, and governance/protection; only then consider one approved-controller batch against a single immutable SHA. Separately identify Alamo and verify its allowlist before using Claude/browser.
+- Status: controller implemented; historical CI verified; batch admission blocked; Gemini dispatch NOT RUN; no qualification or acceptance.
