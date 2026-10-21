@@ -2179,3 +2179,5 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - SentinelX inventory lists only `Voktors-Mini.Dlink` as operational and does not identify any host as Alamo; Claude-FCC and agent-browser remain NOT RUN. No host command was issued.
 - Last observed `main` HEAD is `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b` from Wave 333; this pass could not independently re-resolve the branch's commit SHA through the available branch-search interface.
 - Status remains **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. No merge, deployment, qualification or acceptance.
+
+- Publication follow-up: [Draft PR #441](https://github.com/VlDMlNSh/mediahub-os/pull/441), Issue #301 comment [#6326338592](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326338592). At publication read-back, PR #441 exact-head status/runs were empty and formal reviews were zero; do not infer CI success.
