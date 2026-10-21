@@ -9,3 +9,5 @@ Date: 2026-10-21. Detailed evidence: [Wave 334 report](../checkpoints/MEDIAHUB-N
 - SentinelX inventory has only `Voktors-Mini.Dlink` operational; no host is identified as Alamo. No remote command, Claude invocation or browser session was run.
 - Current main HEAD is not freshly re-resolved by the available branch-search connector; Wave 333's last observed HEAD remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. See the report for the exact gates and evidence links.
+
+Publication: [Draft PR #441](https://github.com/VlDMlNSh/mediahub-os/pull/441), head `506a14459c69bc9c32648447339080f1aebb8ba9`; exact-head status/runs empty and formal reviews zero at the time checked. Issue #301 evidence comment: [#6326338592](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326338592). This comment is not a trigger.
