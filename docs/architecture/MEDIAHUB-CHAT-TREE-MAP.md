@@ -7787,3 +7787,6 @@ The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee
 - Documentation branch vs main is DIVERGED, 2,921 ahead / 44 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No whole-branch integration.
 - No agent/provider invocation, secret access, workflow dispatch, local test run, merge, deployment, qualification or acceptance. Contour A remains NOT_PROVEN / BLOCKED; Contour B gated.
 - Next: obtain independent security review and authoritative governance/protection evidence. Only after accepted integration run the default no-secret probe to observe trusted context.
+
+
+- Wave 299: [PR #421/#426 probe integration boundary](../checkpoints/MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-299-2026-10-21.md). The two current probe paths are distinct, but formal reviews and effective governance evidence remain absent/unverified. Gate stays BLOCKED / NOT_PROVEN; do not dispatch agent mode.
