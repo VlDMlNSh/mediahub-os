@@ -24,3 +24,12 @@ Next: resolve exact-head CI/review and non-disclosing launch gates; resolve the 
 - Host listing and ping are responsive, but full capabilities timed out and a follow-up command returned `agent_disconnected / duplicate_session`. The allowlist reload and browser CLI are therefore NOT VERIFIED.
 - No agent-browser core setup, browser session, Claude/FCC session, Gemini controller run, or child run was performed.
 - Details: [Wave 327 report, Wave 328 follow-up section](../checkpoints/MEDIAHUB-NEXT-GEMINI-AND-BROWSER-ADMISSION-WAVE-327-2026-10-21.md).
+
+## Wave 328 — verified post-restart outcome
+
+- Current detailed readiness report: [Wave 328 executor readiness](../checkpoints/MEDIAHUB-NEXT-EXECUTOR-READINESS-WAVE-328-2026-10-21.md).
+- SentinelX host `Voktors-Mini.Dlink` is operational, but full capabilities still omit the staged `npm install -g agent-browser` and `agent-browser` commands; policy reload is NOT VERIFIED.
+- Install job `job_32d4c211bf09` failed during a host reconnect. A subsequent script verified Node/npm versions and confirmed `agent-browser=NOT_FOUND`. `agent-browser skills get core` remains NOT RUN.
+- Ollama binary path is present, but `ollama list` is denied by the active allowlist; model readiness and Claude/FCC free-only route remain NOT VERIFIED.
+- Gemini controller and Agents 1–3 remain NOT RUN. Exact-head CI, formal independent review, effective admission configuration and trusted-main no-secret probe remain NOT VERIFIED.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
