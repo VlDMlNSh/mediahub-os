@@ -1768,3 +1768,16 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Exact-head CI passed: Astra Verify 39475766199 (453 tests); workflow contract validation 39475766192 (actionlint and 5 Wave 284 + 5 Wave 292 + 12 reusable workflow + 5 transport tests); Cloud Runtime Validation 39475766251; negative probe 39475766469; Wave 292 probe 39475766513. Probe confirms only the untrusted PR path; all model jobs skipped.
 - PR #421/#426 remain open/Draft/unmerged with zero independent reviews and overlapping probe-path changes. Effective branch protection and repository/org Actions policy are still unverified. No trusted positive dispatch, model/provider call, merge, deployment, qualification, or acceptance occurred.
 - **Next bounded step:** resolve PR #421/#426 path overlap and obtain independent security review/effective governance evidence. After reviewed acceptance on `main`, run controller with `mode=probe`, `confirm=no`, and capture positive trusted-context evidence. Keep Contour B gated.
+
+
+## Wave 302 — exact-head gate reconciliation (2026-10-21)
+
+- Report: [Wave 302 exact-head gate reconciliation](MEDIAHUB-CONTOUR-A-EXACT-HEAD-GATE-RECONCILIATION-WAVE-302-2026-10-21.md); map addendum: [Wave 302](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-302-2026-10-21.md); [canonical project map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Canonical docs branch HEAD at pass start: `1d525ee6c41807b0f9458a0848ec37c0f7411988`; main: `80be45a70732b1d568164571d4273a6397792c3b`. Compare is diverged 44 ahead / 2,953 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`; whole-branch merge/rebase remains unsafe.
+- PR #421 exact head `185f55b63121b1aece7e60f6c087ecfceab2721e`: 11 checks; Verify, validation, cloud validation and negative caller-context probes pass; model-agent jobs and aggregate summary are skipped for untrusted PR context. OPEN/DRAFT/UNMERGED; review endpoint empty.
+- PR #425 exact head `ce44a47b0d327a5cca9593e529fe97b492ffaa4a`: Verify and cloud validation pass; OPEN/DRAFT/UNMERGED; review endpoint empty. Keep generic gateway operations fail-closed.
+- PR #426 exact head `6caf55977260e808a055c8c4b9a04d68eb050d8c`: Verify/cloud validation and no-secret non-launching negative-context assertion pass; OPEN/DRAFT/UNMERGED; review endpoint empty. Keep separate from #421.
+- No positive trusted dispatch, provider/model call, credential access, merge, deployment, qualification or acceptance occurred. CI success in an untrusted PR context is not production launch authorization.
+- Wave 301's three v0.2 schemas still require standards-compliant Draft 2020-12 meta-validation, format assertions, positive/negative fixtures, recorded validator/version and raw-byte digests, plus separate semantic string-reference resolution.
+- The canonical map's Contents API returned empty content; blob response was not safely reconstructable as a complete file. The Wave 302 addendum is proposed but not yet indexed in the canonical map. Do not overwrite the map from partial content.
+- Next: (1) obtain independent security review and effective repository/org protection evidence for #421; (2) continue the schema-validation gate. Contour A remains NOT_PROVEN/BLOCKED; Contour B remains gated.
