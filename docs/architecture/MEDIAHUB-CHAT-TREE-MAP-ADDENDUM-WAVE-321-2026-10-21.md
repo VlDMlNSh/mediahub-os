@@ -9,3 +9,10 @@ Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md)
 - Formal review API for PR #432 returns zero submitted reviews. Merge does not prove independent review acceptance.
 - Gemini 1–3 and Claude/agent-browser on Alamo remain NOT RUN. Only `Voktors-Mini.Dlink` is operational in SentinelX; Alamo identity/route remains unverified.
 - Next: verify exact-head CI for PR #434, then retain fail-closed agent dispatch until governance, independent review and executor identity gates are proven.
+
+
+## Wave 321 follow-up
+
+- Initial PR #434 syntax-only correction exposed a second missing parenthesis; both HMAC test expression lines were normalized in follow-up commits.
+- The HMAC runtime contract test suite then exposed fixture mapping defects (`SIGNED_FIELDS` lowercase payload names vs uppercase environment names and unnormalized signed overrides). Current PR #434 head `3bb9448d4899aa73ca1bb5b1114f68e824526c4d` has a read-back-confirmed uppercase mapping fix, but no exact-head workflow runs were available at update time.
+- Exact-head CI is pending/not verified; PR #434 remains Draft. No agents were dispatched.
