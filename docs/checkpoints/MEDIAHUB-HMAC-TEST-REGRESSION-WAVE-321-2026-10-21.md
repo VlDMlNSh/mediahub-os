@@ -76,3 +76,20 @@ After the syntax errors were corrected, Astra Verify reached the child authoriza
 - Latest PR #436 head observed: `95080b43782f9464f05869f08cf7a9f47680a233`.
 - Fixture blob: `dd9bc5cd3c917414fe55f9d439428f6496e2429d`; transport test blob remains `01ddae5e1d7fd0e49ffa651da9655a5a5ad7a8d5`.
 - GitHub Actions query and commit-check API returned no runs/checks for latest head at the time of this update. Therefore no CI result is available for the latest candidate; this is **NOT VERIFIED**, not a pass. Earlier exact-head checks on intermediate commits do not qualify the latest head.
+
+
+## Wave 322 — HMAC regression test fixture repair and automation readiness (2026-10-21)
+
+### Verified state
+- Current \`main\` HEAD: \`79196054d84b1197cea1447dd1db5ad075302834\`. Commit message: \`fix: repair Gemini HMAC contract tests\`; it corrects Python compilation and maps canonical signed-field test overrides to the expected environment names. Exact-main Astra Verify run [#39649841150](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649841150) is SUCCESS.
+- Candidate PR #437 remains Draft/open at \`7f491729bab024a72dc20f5d7a3e107a4393ba3b\`, not merged. Its exact-head contract validation [#39649822358](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649822358), Astra Verify [#39649822366](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649822366), and Cloud Runtime Validation [#39649822570](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649822570) all passed. PR adds executable, secret-free HMAC tests against the three child authorization scripts. No formal review was returned by the review-list check.
+- On the latest PR #437 branch, the fixture maps \`workflow_file\`, \`dispatch_id\`, \`target_sha\`, \`task\`, \`base_ref\`, and \`scope\` to the corresponding environment keys before recomputing the test signature. This fixes a false-positive test fixture that had left invalid signed overrides unapplied. The runtime test is synthetic only and does not read repository/provider secrets or dispatch agents.
+- Current main controller blob: \`9453403bba899a2400ee3fb874d32badd034c704\`. It includes the owner-only Issue #301 \`/next\` comment bridge, duplicate-comment suppression and \`MEDIAHUB_GEMINI_BATCH_ENABLED\` fail-closed admission. Three task prompts are distinct: bounded implementation, independent contract/test verification, and security/provenance audit. Controller source and runtime test blob were re-read.
+
+### Qualification boundary
+- Gemini dispatch: **NOT RUN**. A successful test run does not prove that the HMAC secret and repository variable are configured correctly, nor does it satisfy independent security review, trusted-main no-secret probe, branch protection/governance, or runtime provenance gates. Repository secret values were not accessed. Secret/variable metadata access was not established in this pass.
+- Claude on Alamo and browser inspection: **NOT RUN**. SentinelX inventory still exposes only the operational host \`Voktors-Mini.Dlink\` (\`host_5f7264034bdf0b51\`); no host is identified as Alamo/server 3. Do not route Gemini through Alamo.
+- No controller workflow-dispatch was triggered. The admission flag is not enabled by this pass. PR #437 remains Draft until independent review and the residual gates are resolved.
+
+### Next step
+Independently review PR #437's HMAC canonicalization and child-side fail-closed behavior, verify branch protection and required checks, establish secret/variable presence without reading values, and prove trusted-main non-launching caller context. Only then decide whether the batch admission flag may be enabled. Keep Gemini and Claude routes separate.
