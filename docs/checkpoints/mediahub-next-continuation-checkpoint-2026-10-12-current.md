@@ -1811,3 +1811,13 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - Gemini Agent 1–3: **NOT RUN**. No token value was read or exposed. No merge, deployment, qualification or acceptance.
 - Next: recheck exact-head Astra Verify, obtain independent security review, then follow repository governance. After merge, recheck exact-main CI and default no-secret probe before any agent-mode launch.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+## Latest continuation — Wave 312 controller correction (2026-10-21)
+
+- Corrective PR: https://github.com/VlDMlNSh/mediahub-os/pull/431
+- Working branch: `fix/gemini-github-api-transport-wave-312`; latest implementation head when recorded: `4764c74f6b3373fdb09117d3bc02576a39668a4f` (report-only follow-up then committed separately; read PR for current HEAD).
+- Controller restored to GitHub REST workflow dispatch/monitoring using `MEDIAHUB_GITHUB_TOKEN` only inside controller steps. It snapshots one immutable `main` SHA and passes that SHA to all three fixed child workflow dispatches. Child workflows receive only their own provider key; no transport token in children, prompts, logs or artifacts.
+- Explicit default `mode=probe` is no-secret and non-launching. Agent dispatch requires `mode=agents` and `confirm=yes`. Final implementation CI at the recorded code head succeeded: [controller probe 39600173791](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600173791), [Cloud Runtime Validation 39600173792](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600173792), [Astra Verify 39600173765](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600173765), [workflow contract validation 39600173823](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600173823), [negative caller-context probe 39600173779](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39600173779).
+- The PR remains draft pending genuine independent security review and confirmation of effective repository/org governance and token permissions. No Gemini agent-mode was launched; do not dispatch before those gates pass.
+- Wave report: https://github.com/VlDMlNSh/mediahub-os/blob/fix/gemini-github-api-transport-wave-312/docs/checkpoints/MEDIAHUB-GEMINI-GITHUB-TRANSPORT-CONTROLLER-FIX-WAVE-312-2026-10-21.md
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
