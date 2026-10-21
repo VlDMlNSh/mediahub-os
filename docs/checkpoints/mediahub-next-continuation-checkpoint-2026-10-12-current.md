@@ -2461,3 +2461,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Static source review confirms literal owner `/next` trigger plus batch flag, main SHA, GitHub token and HMAC key prerequisites. This is not independent security review or runtime proof. No secret values read, trigger posted, workflow dispatched, or host command completed.
 - Gemini Agents 1–3 NOT RUN, no dispatch/child run IDs or artifact digests. Local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN after a bounded read-only browser CLI lookup timed out.
 - Status: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve freebuff-web queued check provider, get independent security review, verify governance/token scope, then run approved non-launching probe before considering agent dispatch.
+
+
+## Wave 346 — refreshed main and exact-head admission gates (2026-10-22)
+
+- Report: [Wave 346 refreshed main and admission gates](MEDIAHUB-NEXT-REFRESHED-MAIN-AND-ADMISSION-GATES-WAVE-346-2026-10-22.md), blob SHA `9ff592742692a9b36e1f2618ed584d53ee229c08`, commit `64edea71d7f899c127f6200669b7e099d97e6d3e` on working branch `docs/mediahub-next-wave340-20261022`.
+- Main is `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob remains `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 current observed suite `107571675042` remain QUEUED with zero check runs; no formal reviews. PR #442 HEAD at this read was `20fefd5c160665adab8f1b88812519a7d223e314`, draft/unmerged.
+- Main external suite `107553033246` is QUEUED/zero checks; Actions suite `107553038685` SUCCESS; supervisor suite `107557209401` QUEUED. Astra Verify run `39685040842` succeeded; supervisor run `39686595751` remains queued.
+- Controller run `39678989141` remains SKIPPED with four skipped jobs because comment `6326943789` was a report announcement, not literal `/next`. Gemini Agents 1–3 NOT RUN; no child run IDs or artifacts. Local Claude-FCC/Ollama/browser NOT VERIFIED/NOT RUN.
+- Governance, effective token scope, independent controller/HMAC review and external CI scheduling remain NOT VERIFIED. No secret reads, trigger, dispatch, host mutation, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve stalled external CI, obtain independent review and authorized metadata-only governance/token-scope evidence, then only the approved non-launching probe.
