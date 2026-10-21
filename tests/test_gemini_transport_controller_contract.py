@@ -137,7 +137,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         controller_lines = self._extract_python_heredoc(controller_run)
         payload_line = next(line for line in controller_lines if "; payload={" in line)
         controller_payload_expr = payload_line.split("; payload=", 1)[1]
-        controller_signature_line = next(line for line in controller_lines if line.startswith("sig=hmac.new(")
+        controller_signature_line = next(line for line in controller_lines if line.startswith("sig=hmac.new("))
 
         fake_key = "contract-test-only-key-not-a-secret"
         target_sha = "a" * 40
