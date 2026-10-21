@@ -20,8 +20,8 @@ Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MA
 ## Voktors-Mini / SentinelX / agent-browser
 
 - Stable host ID: `host_5f7264034bdf0b51`; hostname `Voktors-Mini.Dlink`; macOS kernel `23.6.0`, ARM64. SentinelX full capability response is available; its command allowlist contains 95 command prefixes and does **not** include `npm`, `npx`, `agent-browser`, `claude`, or `ollama`.
-- Bounded checks: `node` resolves to `/usr/local/bin/node`; `npm` resolves to `/usr/local/bin/npm`; `ollama` resolves to `/opt/homebrew/bin/ollama`. `which agent-browser` and `which claude` both returned exit code 1. An `npx` check timed out and is unresolved.
-- The installed agent-browser skill stub says the required next command is `agent-browser skills get core`, but the executable is not found and is not allowlisted. It was not run. No browser session or UI evidence exists.
+- Bounded checks: `node` resolves to `/usr/local/bin/node`; `npm` resolves to `/usr/local/bin/npm`; `ollama` resolves to `/opt/homebrew/bin/ollama`. `which agent-browser` and `which claude` returned exit code 1 because they are not in the active PATH. The previously recorded bounded script identified agent-browser at `/Users/voktor/.local/npm/lib/node_modules/agent-browser/bin/agent-browser-darwin-arm64`; the required core-instructions retrieval timed out/disconnected. An `npx` check timed out and is unresolved.
+- The installed agent-browser skill stub says the required next command is `agent-browser skills get core`. Although the binary exists at the nonstandard user npm path above, it is not in PATH and the allowlist excludes `agent-browser`; the core command was not run because this would require an explicit policy-approved command path. No browser session or UI evidence exists.
 - The current SentinelX connection has intermittent duplicate-session/timeouts. Claude-FCC-Ollama status, free-only route and independent queue remain NOT VERIFIED / NOT RUN. Do not use `bash -lc` or another wrapper to bypass the command allowlist; do not install packages until a narrow, explicitly authorized path is established.
 
 ## Agent/run ledger
