@@ -2400,3 +2400,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - PR #437/#441 remain open and not mergeable, with previously observed queued exact-head suites and no formal reviews. PR #442 remains a draft documentary PR; newer head is not covered by the earlier SHA's suite. Main Astra Verify `39669337754` succeeded; branch protection remains unverified (403).
 - SentinelX host `Voktors-Mini.Dlink` responds to ping/state/capabilities; browser CLI lookup timed out. Gemini Agents 1–3 NOT RUN; local Claude-FCC/Ollama NOT RUN/NOT VERIFIED; no secrets read, trigger, dispatch, host modification, merge, deployment, qualification or acceptance.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: authorized non-launching probe route, exact-head CI, independent controller/HMAC review, governance/token-scope evidence, then local executor preflight.
+
+
+## Wave 344 — latest main and queued-check provider recheck (2026-10-22)
+
+- Report: [Wave 344 latest main and queued checks](MEDIAHUB-NEXT-LATEST-MAIN-AND-QUEUED-CHECKS-WAVE-344-2026-10-22.md), commit `a3f7918ab7ef14c188511a1fd29b82771afc9b7c` (verify report blob on read-back).
+- Current main `f4ad65acdb82d25b93845279361502b6737e1d21`; controller blob `9453403bba899a2400ee3fb874d32badd034c704). Main Astra Verify run `39685040842` SUCCESS; scheduled Astra queue supervisor `39686595751` QUEUED. Third-party `freebuff-web` suite `107553033246` remains QUEUED with zero check runs.
+- PR #437 suite `107496095390`, PR #441 suite `107524023551`, and PR #442 suite `107550813359` remain QUEUED with zero check runs; no formal reviews. Exact-SHA check-runs endpoints for all three PR heads returned zero runs.
+- Controller still requires a literal owner `/next` comment on non-PR Issue #301 or explicit workflow-dispatch inputs. The last inspected controller run `39678989141` was SKIPPED; no Gemini child runs/artifacts. No dispatch initiated.
+- SentinelX ping to `host_5f7264034bdf0b51` succeeded; browser CLI lookup had previously timed out. Local Claude/Ollama/browser remain NOT VERIFIED/NOT RUN.
+- Governance, effective token scope, independent controller security review, and no-launch probe remain NOT VERIFIED. No secrets read, host modification, dispatch, merge, deployment, qualification or acceptance.
+- Status: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: independent security review; resolve stalled third-party exact-head checks; verify governance/token scope; only then run the approved non-launching probe.
