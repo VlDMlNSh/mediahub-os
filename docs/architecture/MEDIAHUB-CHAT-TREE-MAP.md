@@ -1,3 +1,5 @@
+- Wave 298: [Gemini report source-to-report trace](../checkpoints/MEDIAHUB-GEMINI-REVIEW-SOURCE-TRACE-WAVE-298-2026-10-21.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-298-2026-10-21.md). Source blobs/line references were recorded for PR #421; static claims are partly supported, but positive trusted runtime, formal independent review and governance evidence remain open. Keep candidate unmerged.
+
 - Wave 297: [governance visibility recheck](../checkpoints/MEDIAHUB-GOVERNANCE-VISIBILITY-RECHECK-WAVE-297-2026-10-21.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-297-2026-10-21.md). Repository rulesets are empty at repo scope; organization/Actions policy and classic protection remain unresolved. PR #421 is still open/draft; no formal review or trusted positive runtime evidence.
 # MediaHub — карта дерева архитектурных чатов и доменов
 
