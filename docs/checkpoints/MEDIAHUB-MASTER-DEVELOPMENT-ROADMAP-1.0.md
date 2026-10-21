@@ -1,3 +1,10 @@
+## Wave 298 — Gemini review source trace (2026-10-21)
+
+- Report: [Wave 298 source-to-report trace](MEDIAHUB-GEMINI-REVIEW-SOURCE-TRACE-WAVE-298-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-298-2026-10-21.md).
+- Source blobs and line references for PR #421 were recorded; static design assertions are distinguished from runtime evidence.
+- Gate remains **BLOCKED / NOT_PROVEN**. Gemini report generation does not substitute for formal independent review; positive trusted-controller runtime and authoritative governance remain unresolved.
+- No agent dispatch, secret access, merge, deployment, qualification or acceptance. Next: independent review of exact PR HEAD plus authoritative governance evidence.
+
 ## Wave 297 — Governance visibility recheck (2026-10-21)
 
 - Report: [Wave 297 governance visibility recheck](MEDIAHUB-GOVERNANCE-VISIBILITY-RECHECK-WAVE-297-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-297-2026-10-21.md).
