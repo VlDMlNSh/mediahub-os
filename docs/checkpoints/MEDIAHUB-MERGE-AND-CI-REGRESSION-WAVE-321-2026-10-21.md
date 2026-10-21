@@ -64,3 +64,12 @@ Controller run ID: **NONE**. Three child run IDs: **NONE**. Shared agent target 
 ## Next bounded step
 
 Wait for PR #434 exact-head CI to complete; inspect the specific HMAC contract test result and exact-head compile result. If green, keep the fix PR Draft until governance/independent-review criteria are explicitly resolved. Do not trigger `/next` on Issue #301 while the batch-enable variable and remaining admission gates are not independently evidenced.
+
+
+## Follow-up CI reconciliation — 2026-10-21 18:08 UTC
+
+- PR #434 first syntax correction head `04442fe0aac243499231b1233e0a84eff0a33ede` still failed at a second missing parenthesis in the HMAC replay test (`tests/test_gemini_transport_controller_contract.py:205`). This was found by the next exact-head compile/contract run.
+- Subsequent commit `d5862c939daea07c00136600965bfb2b2336b081` corrected all three `next(...)` expression lines. On that head, workflow contract validation [39649699990](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649699990) passed, Cloud Runtime Validation [39649701394](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649701394) passed, but Astra Verify [39649700215](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649700215) failed in the cloud-admission test suite.
+- Runtime test logs identified fixture bugs in `tests/test_gemini_child_signed_dispatch_runtime_contract.py`: `SIGNED_FIELDS` are lowercase payload keys while `values` uses uppercase environment names; additionally, `signed_overrides` must be uppercased before creating the signed payload, or malformed UUID/base/scope fixtures are not actually applied.
+- The current PR #434 branch has since advanced to head `3bb9448d4899aa73ca1bb5b1114f68e824526c4d`; read-back confirms the fixture now maps `signed_overrides` to uppercase keys. No workflow runs were returned for this latest head at the time of this update. Exact-head CI therefore remains **PENDING / NOT VERIFIED**.
+- PR #434 remains OPEN/DRAFT/UNMERGED. Do not integrate until the current head has green exact-head compile, transport contract, runtime HMAC/negative tests and all required checks.
