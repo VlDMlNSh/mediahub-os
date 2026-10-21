@@ -1,3 +1,4 @@
+- Wave 297: [governance visibility recheck](../checkpoints/MEDIAHUB-GOVERNANCE-VISIBILITY-RECHECK-WAVE-297-2026-10-21.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-297-2026-10-21.md). Repository rulesets are empty at repo scope; organization/Actions policy and classic protection remain unresolved. PR #421 is still open/draft; no formal review or trusted positive runtime evidence.
 # MediaHub — карта дерева архитектурных чатов и доменов
 
 - Дата инвентаризации: 2026-10-12 (базовая инвентаризация)
