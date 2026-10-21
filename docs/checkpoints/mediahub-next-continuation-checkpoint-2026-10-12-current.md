@@ -2041,3 +2041,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - PR #432 is merged. PR #437 remains Draft/open/unmerged at `01629874e8b4a10da68a0574ec77ecdfceeda8b9`, zero formal reviews; exact-head CI not verified. Controller blob `9453403bba899a2400ee3fb874d32badd034c704`; child blobs and run evidence are in the report.
 - `MEDIAHUB_GEMINI_BATCH_ENABLED`, effective token scope, authoritative branch rules and trusted-main no-secret probe remain NOT VERIFIED. Do not admit a live batch until these gates and Issue #301 product gates are supported by evidence.
 - SentinelX shows only Voktors-Mini connected; Alamo/server 3 is not identified. Claude and agent-browser on Alamo are NOT RUN. No secret values were read.
+
+
+## Wave 325 — dispatch and executor identity recheck (2026-10-21)
+
+- Report: [Wave 325 readiness recheck](MEDIAHUB-NEXT-ORCHESTRATION-WAVE-325-2026-10-21.md); map addendum: [Wave 325 map entry](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-325-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main controller blob `9453403bba899a2400ee3fb874d32badd034c704` has GitHub API child dispatch/HMAC/monitoring and the fail-closed `MEDIAHUB_GEMINI_BATCH_ENABLED` gate. Effective variable/secret metadata, branch rules, trusted-main no-secret probe and independent review remain NOT VERIFIED; no live batch was attempted.
+- PR #437 HEAD `01629874e8b4a10da68a0574ec77ecdfceeda8b9` is Draft/open/unmerged; exact-head workflow runs and combined statuses returned empty, formal reviews are empty. Status NOT VERIFIED.
+- SentinelX: only `Voktors-Mini.Dlink` active; not verified as Alamo/server 3. `mh-dev-01` and `mh-dev-02` disabled; Free plan has one active slot and zero available. Claude/FCC and agent-browser on Alamo NOT RUN; the CLI-required `agent-browser skills get core` was not run on the wrong host.
+- Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifact digests. Next: resolve Alamo host identity/slot, collect non-secret controller governance evidence, get exact-head PR #437 CI and formal review, then run one governed batch against a shared immutable SHA.
