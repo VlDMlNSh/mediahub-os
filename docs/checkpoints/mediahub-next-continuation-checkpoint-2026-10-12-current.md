@@ -2440,3 +2440,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - PR #437 suite `107496095390`, #441 suite `107524023551`, #442 suite `107568753095`, and main suite `107553033246` remain QUEUED with zero latest check runs. Main Astra Verify `39685040842` succeeded. Scheduled supervisor run `39686595751` remains QUEUED; job `119522116279` has no steps/results yet.
 - Formal reviews are empty for PR #437/#441/#442. Branch-protection endpoint 403; empty rulesets are inconclusive. Gemini Agents 1–3 NOT RUN; no new dispatch, secrets access, host modification, merge or deployment. Local Claude-FCC/Ollama/browser remains NOT VERIFIED/NOT RUN.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: diagnose external check-provider scheduling, obtain independent security review, and prove governance/token scope before approved no-launch probe.
+
+
+## Wave 344 — main ref drift and exact-head CI recheck (2026-10-22)
+
+- Report: [Wave 344 main ref drift and CI recheck](MEDIAHUB-NEXT-MAIN-REF-DRIFT-AND-CI-RECHECK-WAVE-344-2026-10-22.md), blob SHA `880d6616381d587e5be774d25b260ba92166c7bf`; report commit `4326087dacb77e496f360c8bdd4da403e9057b08` on working branch.
+- Main ref observed first as `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`, then later in the same pass as `f4ad65acdb82d25b93845279361502b6737e1d21`; correlate commit metadata before inferring cause. Controller blob remained `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED with zero check runs. PR #442 advanced to HEAD `59e0a199889e2c5db5093ff42776439a64208721`, suite `107570082450` QUEUED with zero check runs; still draft and unmerged.
+- Latest main suite #107553033246 queued/zero checks; suite #107557209401 queued/one check; suite #107553038685 completed SUCCESS. Main Astra Verify run #39685040842 SUCCESS; Astra autonomous queue supervisor run #39686595751 QUEUED.
+- Review query attempted with incorrect argument name and did not produce evidence; no claim of current formal review status from this pass. SentinelX host remained listed operational but state call transiently returned `agent_disconnected/read_loop_ended`; no host commands or browser/local executor job ran.
+- Gemini Agents 1–3 NOT RUN; no dispatch/child IDs or artifacts. Governance, effective token scope, independent controller security review, and approved no-launch probe remain NOT VERIFIED. No secrets read, trigger comment, dispatch, merge, or deployment.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: correlate main ref movement, resolve queued exact-head CI, obtain independent security review and governance/token-scope evidence, then only approved non-launching probe.
