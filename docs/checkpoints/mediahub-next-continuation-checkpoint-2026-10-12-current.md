@@ -1,3 +1,13 @@
+## Latest continuation — Wave 298 (2026-10-21)
+
+- Report: [Wave 298 Gemini review source-to-report trace](MEDIAHUB-GEMINI-REVIEW-SOURCE-TRACE-WAVE-298-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-298-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Re-read the controller, reusable observer, all three reusable agent workflows, and two contract tests at PR #421 HEAD `185f55b63121b1aece7e60f6c087ecfceab2721e`; recorded exact blob SHAs and source-line references.
+- Static source supports the default `mode=probe`, `confirm=no`, explicit agent confirmation, and exact caller event/ref guard. These are source-level findings, not positive runtime proof.
+- Gemini report's `APPROVE` is not sufficient for the project gate: its claims lack line-linked source evidence; prior successful probes only establish the negative PR path; no formal independent review is visible for #421/#426; organization governance and classic branch protection remain unresolved.
+- `main` remains `80be45a70732b1d568164571d4273a6397792c3b`; PR #421 remains OPEN/DRAFT/UNMERGED at `185f55b63121b1aece7e60f6c087ecfceab2721e`.
+- No provider invocation, secret access, agent-mode dispatch, merge, deployment, qualification, or acceptance.
+- **Next:** obtain substantive independent review tied to exact HEAD and authoritative governance evidence. Only after the accepted integration gate may the no-secret positive-context probe be considered.
+
 ## Latest continuation — Wave 297 (2026-10-21)
 
 - Report: [Wave 297 governance visibility recheck](MEDIAHUB-GOVERNANCE-VISIBILITY-RECHECK-WAVE-297-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-297-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
