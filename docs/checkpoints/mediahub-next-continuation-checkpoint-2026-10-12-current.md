@@ -2005,3 +2005,11 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 ### Wave 322 follow-up — exact-head qualification boundary
 - PR #437 advanced from tested head \`7f491729bab024a72dc20f5d7a3e107a4393ba3b\` to latest head \`531ed07d1fd8ad474587f5af0e4a5f3364461b6d\`. The latter adds a guard rejecting unsupported test-fixture override fields. No CI runs were listed for the latest head at check time; prior successful checks must not be attributed to it.
 - Latest PR #437 is still Draft/open/unmerged. No Gemini dispatch; HMAC secret/variable, branch protection, independent review, trusted-main no-secret probe and Alamo host identity remain open.
+
+
+### Wave 321 superseding state — test repair now on main
+
+- PR #436 closed unmerged. Main HEAD is `79196054d84b1197cea1447dd1db5ad075302834`; the commit message records the HMAC contract test repair. Main transport-test blob `01ddae5e1d7fd0e49ffa651da9655a5a5ad7a8d5`; child runtime fixture blob `64d55eb2a78dd1ea015dae80a838dc44ad592f7e`. Both were read back; the three malformed expressions are now syntactically closed and the child fixture maps canonical signed keys to environment keys.
+- Exact-main Astra Verify [#39649841150](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649841150) succeeded on `79196054d84b1197cea1447dd1db5ad075302834`. Combined status and commit-workflow-run APIs did not provide an exact-main workflow-contract result; contract validation remains NOT CONFIRMED.
+- PR #432 is merged but the review listing still shows no formal submitted review; branch protection/ruleset API returns 403 to the connected integration. Gemini/Claude/browser remain NOT RUN. Do not enable batch admission or dispatch until exact-main contract CI, independent review, governance, and trusted-main no-secret probe are verified.
+- Full report: [Wave 321 HMAC test regression and repair](MEDIAHUB-HMAC-TEST-REGRESSION-WAVE-321-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
