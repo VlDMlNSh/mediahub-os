@@ -1,3 +1,12 @@
+## Latest continuation — Wave 306 exact-wheel attestation check (2026-10-21)
+
+- Report: [Wave 306 — setuptools exact-wheel attestation check](MEDIAHUB-SETUPTOOLS-EXACT-WHEEL-ATTESTATION-CHECK-WAVE-306-2026-10-21.md); provisional [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-306-2026-10-21.md).
+- Official PyPI Integrity API docs specify `GET /integrity/<project>/<version>/<filename>/provenance`. The exact endpoint for `setuptools-84.0.0-py3-none-any.whl` returned HTTP 404 with no provenance object. This supports “no provenance object retrieved for this file,” not a maliciousness conclusion.
+- Lock-pinned SHA-256 remains `51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670`. Digest identity alone does not prove publisher or source-build provenance. Do not promote PR #374 based on current evidence; next is a controlled, credential-free source-to-wheel comparison without executing the candidate wheel.
+- PR #374 remains OPEN; last recorded tested head `3b1fc96beeedcc6cb38c7beeb5809f0004c6ac8a`, successful historical run `39222111677`; no formal reviews returned this pass. PR #430 remains OPEN/DRAFT; recorded head `331813fb4262de86911c726353c7bd47acf43b5b`; exact-head workflow lookup returned no runs and review lookup returned no reviews. Recheck live HEAD/checks before integration.
+- Canonical map remains on `docs/mediahub-chat-tree-map-20261012`, link: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). No canonical map write.
+- Issue #301 remains OPEN. A0 issuer/ingress/lease/cancel/recovery, R-06 authority, accepted target manifest, dispatch authority, independent review, runtime qualification, and Contour A acceptance remain unresolved. No package install/execute, credentials, provider call, dispatch, merge, deployment, qualification or acceptance.
+
 ## Latest continuation — Wave 305 setuptools bootstrap provenance audit (2026-10-21)
 
 - Report: [Wave 305 — setuptools bootstrap publisher-provenance audit](MEDIAHUB-SETUPTOOLS-BOOTSTRAP-PUBLISHER-PROVENANCE-AUDIT-WAVE-305-2026-10-21.md).
