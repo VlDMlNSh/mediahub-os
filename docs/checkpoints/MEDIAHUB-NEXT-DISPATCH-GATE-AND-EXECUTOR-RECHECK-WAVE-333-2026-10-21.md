@@ -56,3 +56,16 @@ The requested name `MEDIAHUB_DISPATCH_NMAC_KEY` is not the name read by the cont
 - [Skipped control-plane run #39670089762](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39670089762)
 - [Canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md)
 
+
+
+## Wave 333 follow-up execution evidence (same date)
+
+A later bounded, read-only SentinelX script did complete on the same host; this supersedes the earlier statement above that no shell command completion was observed in this pass. Host reported `Voktors-Mini.Dlink`, macOS 14.7.4, ARM64. The script PATH is only `/usr/bin:/bin:/usr/sbin:/sbin`. `/usr/local/bin/node` and `/usr/local/bin/npm` exist on disk but are outside that PATH; `/opt/homebrew/bin/ollama` exists on disk but is also outside that PATH. `agent-browser` was not found at `/usr/local/bin/agent-browser`, `/opt/homebrew/bin/agent-browser`, or `~/.local/bin/agent-browser`; no Chrome or Chromium application bundle was found at the standard /Applications paths checked. Running `agent-browser --version` and the required `agent-browser skills get core` returned command-not-found (exit 127). This is a bounded path check, not proof that no browser binary exists anywhere. Claude/FCC route remains NOT VERIFIED.
+
+The host call channel continued to report session rotation/disconnect errors. No package was installed and no allowlist or service policy was changed: current SentinelX policy does not authorize the needed npm/agent-browser/Claude commands, and using a script wrapper to bypass that allowlist would violate the project boundary.
+
+The latest observed controller event was run [#39673475129](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39673475129) at main SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; all four jobs were skipped. Its source comment #6326219239 is a Wave 332 status report, not literal `/next`. Earlier skipped runs #39673088998 and #39670089739 likewise reference status/evidence comments, so they do not validate batch admission, credentials, or agent execution. A ChatGPT chat command still does not itself create an Issue #301 comment.
+
+PR #437 remains OPEN/DRAFT at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`, has zero formal reviews and no workflow runs recorded for that exact head. Compared with current main, its branch has diverged (7 ahead / 5 behind) and needs reconciliation before meaningful exact-head CI. Main is reported unprotected; the branch-protection endpoint was denied (HTTP 403) and readable rulesets were empty, so enforcement could not be independently proven.
+
+Updated disposition: Gemini Agents 1–3 NOT RUN; Claude-FCC-Ollama NOT RUN/NOT VERIFIED; agent-browser NOT RUN; E2E/failover NOT RUN; overall BLOCKED / NOT QUALIFIED / NOT ACCEPTED. No secrets were read and no live dispatch was attempted.
