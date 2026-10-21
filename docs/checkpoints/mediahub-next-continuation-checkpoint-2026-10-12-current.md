@@ -2158,3 +2158,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - PR #437 remains Draft/open at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`, no exact-head checks/statuses or formal reviews. Main governance is reported unprotected; secret metadata and trusted-main no-secret probe remain unverified.
 - SentinelX full capabilities returned once, but command execution/read attempts failed with duplicate-session/disconnect. `agent-browser`, `claude`, `fcc-claude`, `ollama`, and `npx` are absent from allowed command prefixes. Browser and Claude/FCC remain NOT RUN; no host policy changed.
 - Exact secret name mismatch remains: controller expects `MEDIAHUB_DISPATCH_HMAC_KEY`, user supplied `MEDIAHUB_DISPATCH_NMAC_KEY`. No values read. Status **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
+
+
+## Wave 333 — live trigger and executor recheck (2026-10-21)
+
+- Report: [Wave 333 dispatch gate and executor recheck](MEDIAHUB-NEXT-DISPATCH-GATE-AND-EXECUTOR-RECHECK-WAVE-333-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-332-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main HEAD `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. PR #437 remains Draft at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`, with zero exact-head workflow runs and zero formal reviews. Rulesets endpoint returned an empty list; branch-protection endpoint was forbidden to this integration.
+- Controller run [#39670089739](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39670089739) skipped because the triggering comment #6325762950 was a status report, not literal `/next`; no Gemini child runs were launched. Chat `/next` is not wired to the GitHub issue-comment event by any verified bridge in this pass.
+- Controller expects `MEDIAHUB_DISPATCH_HMAC_KEY`, not `MEDIAHUB_DISPATCH_NMAC_KEY`; no secret values were read. Batch flag and effective credential scope remain unverified. Admission stays blocked pending review/governance/probe gates.
+- SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) intermittently disconnects. `ollama` and `agent-browser` are not registered services in the host policy. No command, install, policy edit, Claude invocation or browser session occurred.
+- Gemini Agents 1–3 NOT RUN; Claude-FCC-Ollama NOT RUN; agent-browser NOT RUN; Contour A remains BLOCKED / NOT QUALIFIED / NOT ACCEPTED.
