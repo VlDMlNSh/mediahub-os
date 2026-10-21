@@ -5,6 +5,7 @@
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Governing issue: https://github.com/VlDMlNSh/mediahub-os/issues/301
 - Controller repair PR: https://github.com/VlDMlNSh/mediahub-os/pull/432
+- Provisional map addendum: [Wave 312](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-312-2026-10-21.md)
 - Competing transport PR requiring reconciliation: https://github.com/VlDMlNSh/mediahub-os/pull/431
 
 ## Objective and architecture
