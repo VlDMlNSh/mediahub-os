@@ -6,7 +6,7 @@
 
 - Canonical documentation branch: `docs/mediahub-chat-tree-map-20261012`
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
-- Bootstrap blob SHA: `$(await tools.mcp__GitHub__fetch_file({repository_full_name:repo,path:"docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md",ref:"docs/mediahub-chat-tree-map-20261012"})).result.sha`
+- Bootstrap blob SHA: `c6ae5c09b95e708f547b8eaae1aab3913bf10288`
 - Canonical map blob SHA read-back: `8c526be39a7d58e009862b9eca2f350d3d948d8f` (Contents API returned empty body; not treated as evidence of empty file)
 - Documentation branch HEAD at inspection: `888a79352be5c4f2701d754cb16e1c75f881864f`
 - `main` HEAD/base SHA: `f16e5bae202a78584f273132e7f88c6e25d3142e`
