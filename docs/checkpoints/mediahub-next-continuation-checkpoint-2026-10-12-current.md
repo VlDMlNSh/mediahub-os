@@ -2115,3 +2115,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - GitHub reports `main.protected=false`; independent review, exact-head CI, effective secret scopes and trusted-main no-secret probe remain open. No dispatch attempted.
 - SentinelX inventory shows Voktors-Mini `host_5f7264034bdf0b51` operational, but capabilities/state/ping timed out or disconnected during this pass. agent-browser core command and Claude/FCC were NOT RUN. No physical server was used for Gemini.
 - Next: correct and metadata-verify the exact HMAC secret name; close review/CI/governance/no-secret-probe gates; restore SentinelX command-channel and revalidate allowlist before browser/Claude work.
+
+
+## Wave 330 — Gemini dispatch gate and Voktors execution-channel recheck (2026-10-21)
+
+- Report: [Wave 330 Gemini dispatch and Voktors recheck](MEDIAHUB-NEXT-GEMINI-DISPATCH-AND-VOKTORS-RECHECK-WAVE-330-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-330-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Current main HEAD: `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob SHA `9453403bba899a2400ee3fb874d32badd034c704`. Main reports `protected=false`, required status checks disabled; rulesets listing is empty.
+- Controller run [39669477347](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39669477347) completed SKIPPED with all four jobs skipped and no artifacts. Its source comment was a report, not exact `/next`. [Astra Verify 39669337754](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39669337754) succeeded but is not Gemini child execution evidence.
+- PR #437 remains OPEN/DRAFT at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head checks and formal review remain absent. Gemini Agents 1–3 are NOT RUN; no child IDs or artifacts.
+- Controller expects exact ASCII `MEDIAHUB_DISPATCH_HMAC_KEY`, not `MEDIAHUB_DISPATCH_NMAC_KEY` nor Cyrillic-lookalike `MEDIAHUB_DISPATCH_НМАС_KEY`. Effective secret/variable metadata and token scope are not exposed by the connected GitHub integration; no secret values were read.
+- SentinelX host is positively identified as `Voktors-Mini.Dlink`, `host_5f7264034bdf0b51`, macOS 14.7.4 ARM64. Ping has succeeded intermittently, but full capability/allowlist reads and bounded script execution repeatedly timed out/disconnected. agent-browser core skill retrieval, browser session and Claude/FCC execution remain NOT RUN.
+- Do not trigger agent mode until governance, exact-head CI, independent review and trusted-main no-secret probe are verified. Restore SentinelX stability and verify the current allowlist before any browser/local executor command. Gemini transport remains GitHub-only and does not depend on this host.
