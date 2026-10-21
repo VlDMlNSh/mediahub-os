@@ -120,18 +120,34 @@ jobs:
            ("gemini-autonomous-engineering.yml","Wave 312 Agent 1: bounded implementation against the shared immutable target SHA; preserve Baseline 2.0, historical IDs, issuer/capability boundaries, Product State Authority and provenance. Draft PR only; no merge, deployment, qualification or nested dispatch.","contour-a"),
            ("gemini-agent-2.yml","Wave 312 Agent 2: independent contract and test review against the same target SHA; report exact refs, blob SHAs, gaps and reproducible evidence. Do not claim independence for self-authored work. Draft report/PR only; no merge/deployment/qualification/nested dispatch.","contour-a"),
            ("gemini-agent-3.yml","Wave 312 Agent 3: security audit of token separation, signed dispatch, issuer/capability, provenance and fail-closed behavior against the same target SHA. Report evidence and residual risks. Draft report/PR only; no merge/deployment/qualification/nested dispatch.","contour-a")]
-          started=time.time(); jobs=[]
+          started=time.time(); jobs=[]; results={}
+          # Record each intended dispatch before making the API request. A failed
+          # request must not erase evidence of earlier accepted children.
           for wf,task,scope in tasks:
               did=str(uuid.uuid4()); payload={"workflow_file":wf,"dispatch_id":did,"target_sha":target,"task":task,"base_ref":"main","scope":scope}
               sig=hmac.new(key.encode(),json.dumps(payload,sort_keys=True,separators=(",",":")).encode(),hashlib.sha256).hexdigest()
               inputs={k:str(payload[k]) for k in ("dispatch_id","target_sha","task","base_ref","scope")}; inputs["dispatch_signature"]=sig
-              status,_=call("POST",f"/repos/{repo}/actions/workflows/{wf}/dispatches",{"ref":"main","inputs":inputs})
-              if status!=204: raise RuntimeError(f"Unexpected dispatch status for {wf}: {status}")
-              jobs.append({"workflow":wf,"id":did}); print(f"Accepted {wf}; correlation ID {did}; target SHA {target}")
-          pending={j["id"]:j for j in jobs}; results={}; deadline=time.time()+32*60
+              job={"workflow":wf,"id":did,"dispatch_status":"PENDING"}; jobs.append(job)
+              try:
+                  status,_=call("POST",f"/repos/{repo}/actions/workflows/{wf}/dispatches",{"ref":"main","inputs":inputs})
+                  if status!=204: raise RuntimeError(f"Unexpected dispatch status {status}")
+                  job["dispatch_status"]="ACCEPTED"
+                  print(f"Accepted {wf}; correlation ID {did}; target SHA {target}")
+              except Exception as exc:
+                  # Never print upstream exception text; it may contain untrusted data.
+                  job["dispatch_status"]="FAILED"; job["dispatch_error"]=type(exc).__name__
+                  results[did]={"status":"DISPATCH_FAILED","conclusion":"failure"}
+                  print(f"::error::Dispatch failed for {wf}; correlation ID {did}; error_type={type(exc).__name__}")
+          pending={j["id"]:j for j in jobs if j["dispatch_status"]=="ACCEPTED"}
+          deadline=time.time()+32*60
           while pending and time.time()<deadline:
               for did,j in list(pending.items()):
-                  _,data=call("GET",f"/repos/{repo}/actions/workflows/{j['workflow']}/runs?event=workflow_dispatch&branch=main&per_page=30")
+                  try:
+                      _,data=call("GET",f"/repos/{repo}/actions/workflows/{j['workflow']}/runs?event=workflow_dispatch&branch=main&per_page=30")
+                  except Exception as exc:
+                      j["monitor_error"]=type(exc).__name__
+                      print(f"::warning::Monitoring query failed for {j['workflow']}; correlation ID {did}; error_type={type(exc).__name__}")
+                      continue
                   matches=[r for r in data.get("workflow_runs",[]) if did in (r.get("display_title") or "")]
                   if not matches: continue
                   run=max(matches,key=lambda x:x.get("created_at",""))
@@ -141,11 +157,13 @@ jobs:
                       print(f"Child {j['workflow']} run_id={run['id']} conclusion={run.get('conclusion')}"); del pending[did]
               if pending: time.sleep(10)
           for did,j in pending.items():
-              results[did]={"status":"NOT_COMPLETED_BEFORE_TIMEOUT"}; print(f"Child {j['workflow']} correlation_id={did} NOT_COMPLETED_BEFORE_TIMEOUT")
+              results[did]={"status":"NOT_COMPLETED_BEFORE_TIMEOUT","conclusion":"failure"}
+              print(f"::error::Child {j['workflow']} correlation_id={did} NOT_COMPLETED_BEFORE_TIMEOUT")
           with open(os.environ["GITHUB_STEP_SUMMARY"],"a",encoding="utf-8") as out:
-              out.write("\n## GitHub API child dispatch results\n\n- Shared immutable target SHA: `"+target+"`\n\n| Workflow | Correlation ID | Run ID | Conclusion |\n|---|---|---:|---|\n")
+              out.write("\n## GitHub API child dispatch results\n\n- Shared immutable target SHA: `"+target+"`\n\n| Workflow | Correlation ID | Dispatch | Run ID | Conclusion |\n|---|---|---|---:|---|\n")
               for j in jobs:
-                  r=results.get(j["id"],{}); out.write(f"| {j['workflow']} | `{j['id']}` | {r.get('run_id','NOT FOUND')} | {r.get('conclusion',r.get('status','UNKNOWN'))} |\n")
-          if any(r.get("conclusion")!="success" for r in results.values()):
-              print("::error::At least one child run failed, could not be correlated, or timed out."); sys.exit(1)
+                  r=results.get(j["id"],{})
+                  out.write(f"| {j['workflow']} | `{j['id']}` | {j['dispatch_status']} | {r.get('run_id','NOT FOUND')} | {r.get('conclusion',r.get('status','UNKNOWN'))} |\n")
+          if len(jobs)!=3 or any(j["dispatch_status"]!="ACCEPTED" for j in jobs) or any(results.get(j["id"],{}).get("conclusion")!="success" for j in jobs):
+              print("::error::Batch incomplete: at least one dispatch or child run failed, could not be correlated, or timed out."); sys.exit(1)
           PY
