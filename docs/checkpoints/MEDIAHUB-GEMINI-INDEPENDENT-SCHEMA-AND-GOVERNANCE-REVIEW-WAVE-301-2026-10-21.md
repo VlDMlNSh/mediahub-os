@@ -79,3 +79,19 @@ Next smallest safe implementation step: create a dedicated, non-runtime schema-v
 - [Wave 276 A0 issuer/ingress audit](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-A0-TASK-INGRESS-ISSUER-AND-APPROVAL-TRUST-GAP-WAVE-276-2026-10-20.md)
 - [Wave 06 R-06 governance reconciliation](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-P0-07-R06-AUDIT-PRIVACY-GOVERNANCE-ROUTE-RECONCILIATION-WAVE-06-2026-10-16.md)
 - [Canonical project map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md)
+
+## 6. Follow-up runtime validation probe — 2026-10-21
+
+A bounded local computation on the available SentinelX Mac mini host installed `jsonschema==4.25.1` with format extras into the user Python environment. It did not read credentials, change repository files, or start a persistent service.
+
+The three schema files were fetched from immutable documentation commit `4c7944e22e935f3d34b05ddbd83dd51daa20aa0a`. Draft 2020-12 meta-validation passed for all three exact files using `Draft202012Validator.check_schema`. Raw-byte digests recorded by the validator process:
+
+| Schema | Git blob SHA | Raw-byte SHA-256 | Bytes | Meta-validation |
+|---|---|---|---:|---|
+| Task Envelope | `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` | `a8561b038cd56357be639f0324c4aee2e8ad7c17a9965a14689f0cef7fcb3f9f` | 11213 | PASS |
+| Agent Registry | `b49b89b8fbdfc180862e3dc78f8198f35e486035` | `b976fa4704caff700c3a110ff2741b28ada1866cfcdbb583b9c3919c39049122` | 9282 | PASS |
+| Evidence Manifest | `40c402432fd0f3899d45fde0fa0a8af4d34c593a` | `091e3d8adaf0c347ed800d177abf2438217b3fa4a176cc7b6cee9d4759ac73a2` | 11918 | PASS |
+
+A preliminary generated-minimal-instance probe then passed the task envelope positive case, and the unknown-property and wrong-schema-version negative cases were rejected for all three schemas. However, the generated positive instances for registry and evidence-manifest did **not** validate (registry: 1 error; evidence: 3 errors), because the generic fixture generator did not yet correctly satisfy all constraints such as unique-item arrays. These are fixture-generator failures, not evidence that the schemas themselves are invalid. No date-time format-negative result is claimed from this probe. Therefore instance-fixture acceptance remains OPEN.
+
+Reproducibility caveat: this was a one-off host computation, not yet a checked-in validation harness or CI job. Next step is to create explicit, reviewable positive fixtures for all three schemas plus targeted negative fixtures (malformed date-time, malformed SHA, bounds violation, unknown property, wrong version), rerun with `FormatChecker`, and commit the harness and exact results on a dedicated non-runtime branch. Do not promote schemas or dispatch workers based on meta-validation alone.
