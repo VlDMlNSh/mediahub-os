@@ -8,6 +8,7 @@ import hmac
 import json
 import os
 import subprocess
+import tempfile
 import unittest
 
 import yaml
@@ -220,6 +221,96 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
                     'r"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"',
                     script,
                 )
+
+
+    def test_child_output_validator_accepts_only_actionable_pr_results(self):
+        valid_output = {
+            "response": "bounded result",
+            "stats": {
+                "tools": {
+                    "byName": {
+                        "mcp_github_get_file_contents": {"success": 1},
+                        "mcp_github_create_pull_request": {"success": 1},
+                    }
+                }
+            },
+        }
+        invalid_outputs = (
+            ("malformed-json", "{", "not valid JSON"),
+            (
+                "empty-response",
+                json.dumps({**valid_output, "response": "  \n"}),
+                "empty response",
+            ),
+            (
+                "no-successful-tools",
+                json.dumps({
+                    "response": "result",
+                    "stats": {"tools": {"byName": {
+                        "mcp_github_get_file_contents": {"success": 0},
+                        "mcp_github_create_pull_request": {"success": 0},
+                    }}},
+                }),
+                "without a successful tool call",
+            ),
+            (
+                "no-pr-creation",
+                json.dumps({
+                    "response": "result",
+                    "stats": {"tools": {"byName": {
+                        "mcp_github_get_file_contents": {"success": 1},
+                    }}},
+                }),
+                "did not successfully create a Pull Request",
+            ),
+        )
+        for relative_path in CHILD_WORKFLOWS:
+            workflow_path = ROOT / relative_path
+            workflow = yaml.load(
+                workflow_path.read_text(encoding="utf-8"),
+                Loader=yaml.BaseLoader,
+            )
+            validator = next(
+                step["run"]
+                for step in workflow["jobs"]["engineer"]["steps"]
+                if step.get("name") == "Validate Gemini produced an actionable PR result"
+            )
+            with self.subTest(workflow=workflow_path.name, case="valid"):
+                with tempfile.TemporaryDirectory() as temporary:
+                    output_path = Path(temporary) / "gemini-artifacts" / "stdout.log"
+                    output_path.parent.mkdir()
+                    output_path.write_text(json.dumps(valid_output), encoding="utf-8")
+                    result = subprocess.run(
+                        ["bash", "-euo", "pipefail", "-c", validator],
+                        cwd=temporary,
+                        text=True,
+                        capture_output=True,
+                        timeout=5,
+                        check=False,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertIn("successfully created a Pull Request", result.stdout)
+            failure_cases = (
+                ("missing-output", None, "missing or empty"),
+                *invalid_outputs,
+            )
+            for case, output, expected_message in failure_cases:
+                with self.subTest(workflow=workflow_path.name, case=case):
+                    with tempfile.TemporaryDirectory() as temporary:
+                        output_path = Path(temporary) / "gemini-artifacts" / "stdout.log"
+                        if output is not None:
+                            output_path.parent.mkdir()
+                            output_path.write_text(output, encoding="utf-8")
+                        result = subprocess.run(
+                            ["bash", "-euo", "pipefail", "-c", validator],
+                            cwd=temporary,
+                            text=True,
+                            capture_output=True,
+                            timeout=5,
+                            check=False,
+                        )
+                        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                        self.assertIn(expected_message, result.stdout + result.stderr)
 
 
 if __name__ == "__main__":
