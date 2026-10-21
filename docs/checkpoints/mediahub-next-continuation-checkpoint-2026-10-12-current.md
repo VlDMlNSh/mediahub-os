@@ -1790,3 +1790,13 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - No agent dispatch was made. Gemini 1–3 **NOT RUN**; Claude on Alamo **NOT RUN**; browser lane **NOT RUN**. SentinelX inventory shows only `host_5f7264034bdf0b51` operational (`Voktors-Mini.Dlink`), not positively identified as Alamo/server 3; two other hosts are disabled. No secrets, provider calls, host mutation, deployment, qualification or acceptance.
 - The canonical map itself was not changed and remains authoritative: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md.
 - Next: verify current main exact-head CI and effective repository/org governance; obtain genuine independent security review; then run only the default no-secret trusted-caller probe if permitted. Do not select `mode=agents` until these gates are evidenced. Contour A remains **NOT QUALIFIED / NOT ACCEPTED**.
+
+## Latest continuation — Wave 311 transport-boundary correction (2026-10-21)
+
+- Owner correction acknowledged: **Gemini 1–3 use GitHub Actions/GitHub API transport with repository secret `MEDIAHUB_GITHUB_TOKEN` inside the approved controller; server 3/Alamo is reserved for local Claude Code and browser-agent work only.** Never use Alamo/SentinelX as Gemini transport or fallback.
+- Updated [Bootstrap](../architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md) to state this boundary and block dispatch until implementation matches the contract.
+- Controller source on `main` is still mismatched: it uses reusable `workflow_call` children and explicitly says no transport token is needed. The three child workflows do not currently expose the required `workflow_dispatch` API target. This is an implementation defect to fix, not an alternate architecture to accept.
+- Updated [Wave 310 reconciliation report](MEDIAHUB-PR421-MERGE-RECONCILIATION-AND-CONTROLLER-LAUNCH-GATE-WAVE-310-2026-10-21.md) with the correction and explicit status.
+- No agent was dispatched; no token value was read or disclosed. Gemini execution remains **NOT RUN / BLOCKED** pending controller/child remediation, independent security review, governance verification, and exact-main CI/probe evidence.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+- Next bounded step: inspect controller/child contracts and governance, implement the minimum safe GitHub API dispatch/monitoring path using `MEDIAHUB_GITHUB_TOKEN` only in the controller, then test on an isolated branch before any agent-mode dispatch.
