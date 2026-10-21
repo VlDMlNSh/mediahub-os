@@ -1934,3 +1934,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Exact-head CI IDs 39648235100, 39648235554, 39648235456, 39648235621, 39648235821 were still running/queued at report time. Controller probe's `dispatch_and_monitor` was skipped; no agent dispatch was launched.
 - Gemini Agents 1–3, Claude Code and agent-browser remain NOT RUN. Formal independent review, effective token scope, HMAC configuration and governance remain gates. Alamo identity/capabilities/non-paid route unverified.
 - Next: confirm terminal exact-head CI, obtain formal review, verify permission and route gates. Keep PR unmerged and do not dispatch until qualified.
+
+
+## Wave 320 — strict dispatch UUID validation (2026-10-21)
+
+- Report: [Wave 320 UUID validation](MEDIAHUB-GEMINI-UUID-VALIDATION-WAVE-320-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-320-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- On branch `fix/gemini-controller-api-dispatch-wave312-final`, all three Gemini child workflows changed dispatch ID validation from broad `[0-9a-f-]{36}` to canonical lowercase UUIDv4 with version and RFC variant checks. Added valid/invalid fixtures in `tests/test_gemini_reusable_workflow_contract.py`.
+- Workflow blobs: `155a02159912ca371e6f826c51325ca269857aad`, `fff1820a6b97d379b23674f36bd62227b7d4dec2`, `781df56e8aa7c75ba453c08378611857862b2e44`; test blob `65bc0c4b9a7eb58a71bb1b8123cf1ff4305f52af`.
+- These blobs were read back and confirmed. Exact post-change PR head and CI remain PENDING/NOT VERIFIED; earlier successful runs predate this change. PR #432 remains OPEN/DRAFT/UNMERGED; formal independent review absent. Gemini/Claude/browser NOT RUN.
+- Next: re-read actual PR head and exact-head CI, fix failures, add executable HMAC canonicalization/tamper tests, and preserve fail-closed dispatch.
