@@ -17,7 +17,7 @@ The exact-head CI initially caught a stale contract assertion expecting `FAILED`
 
 Observed refs:
 - `main` HEAD: `f16e5bae202a78584f273132e7f88c6e25d3142e`.
-- Latest PR #432 HEAD: `87f2d416364e624ecb2b26f86b493c4d68735458`, base remains the main SHA above; PR is OPEN/DRAFT/unmerged.
+- Latest PR #432 HEAD: `269b57b8b9c412261c97c4811bd49cbb4122ba03`, base remains the main SHA above; PR is OPEN/DRAFT/unmerged.
 - Canonical documentation branch before this report: `a00bdfcb448eb508027c68237516bef2418727a8`.
 - Formal PR #432 reviews: none observed.
 - Issue #301: OPEN.
@@ -27,15 +27,15 @@ Observed refs:
 PR branch: `fix/gemini-controller-api-dispatch-wave312-final`.
 
 - `.github/workflows/gemini-batch-dispatch-controller.yml`
-  - Latest blob SHA: `24c37be6f46865aced634ea0b2d04952e9bdee3b`.
-  - Latest controller branch head: `87f2d416364e624ecb2b26f86b493c4d68735458`.
+  - Latest blob SHA: `9453403bba899a2400ee3fb874d32badd034c704`.
+  - Latest controller branch head: `269b57b8b9c412261c97c4811bd49cbb4122ba03`.
   - Records every intended child before POST; treats explicit non-408 4xx rejections as terminal failures and treats transport/5xx/408 outcomes as ambiguous `UNKNOWN` states.
   - Reconciles accepted and ambiguous correlation IDs; an unknown outcome never counts as successful dispatch.
   - Adds an Issue #301 `/next` bridge restricted to exact body `/next`, owner association, non-PR issue, and main ref; replay suppression keys on an exact `next-comment-<comment-id>` marker.
   - Adds a fail-closed `MEDIAHUB_GEMINI_BATCH_ENABLED` repository-variable admission gate before any controller token/secret mapping to the dispatch job.
   - Keeps full summary and nonzero fail-closed result for any incomplete batch.
 - `tests/test_gemini_transport_controller_contract.py`
-  - Latest blob SHA: `2806962ef90a892b49288cadf56925b60d39e224`.
+  - Latest blob SHA: `081ba101a1b56553577abd7b469b3c9bf6f31196`.
   - Adds contract checks for ambiguous dispatch reconciliation, exact comment replay marker, and closed-by-default admission gate.
 - `tests/test_gemini_controller_positive_context_probe_wave292_contract.py`
   - Latest blob SHA: `84a92e514c930c55d411bf74ad390109b7ed0d4b`.
@@ -43,13 +43,13 @@ PR branch: `fix/gemini-controller-api-dispatch-wave312-final`.
 
 ## Exact-head CI
 
-All five checks below refer to `87f2d416364e624ecb2b26f86b493c4d68735458` and completed successfully:
+All five checks below refer to `269b57b8b9c412261c97c4811bd49cbb4122ba03` and completed successfully:
 
-- [Workflow contract validation #39646172941](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39646172941) — SUCCESS.
-- [Astra Verify #39646173254](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39646173254) — SUCCESS.
-- [Astra Cloud Runtime Validation #39646173261](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39646173261) — SUCCESS.
-- [Controller PR-context probe #39646173269](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39646173269) — SUCCESS; `dispatch_and_monitor` was SKIPPED.
-- [Reusable workflow caller-context probe #39646173087](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39646173087) — SUCCESS; PR caller denied.
+- [Workflow contract validation #39647070718](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647070718) — SUCCESS.
+- [Astra Verify #39647070683](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647070683) — SUCCESS.
+- [Astra Cloud Runtime Validation #39647070609](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647070609) — SUCCESS.
+- [Controller PR-context probe #39647070682](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647070682) — SUCCESS; `dispatch_and_monitor` was SKIPPED.
+- [Reusable workflow caller-context probe #39647070781](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647070781) — SUCCESS; PR caller denied.
 
 Prior attempt at head `48ab99c9b56cf778ee7c6e82381b424e68945506` failed because the new contract test still expected the prior `FAILED` marker. The failure was inspected in the workflow logs, the assertion was corrected, and all five checks passed on the subsequent exact head.
 
@@ -88,3 +88,8 @@ A candidate bridge is now implemented on Draft PR #432: an exact `/next` comment
 ## Provenance limits
 
 Controller and test files were re-read from the PR branch after the final edits; their blob SHAs are recorded above. The exact-head CI statuses were queried from GitHub. No agent-mode workflow was dispatched, no secret values were read, no PR was merged, and no local executor was run. This report does not claim qualification, deployment, or acceptance.
+
+
+## Wave 317 role-task refinement (same Draft PR)
+
+The controller task payloads now assign three distinct roadmap-driven roles per admitted /next batch: Agent 1 selects and performs one bounded implementation task; Agent 2 independently verifies contracts/tests without claiming review of concurrent Agent 1 work; Agent 3 audits security, least privilege, quota/fallback policy and provenance. Each is constrained to draft evidence/PR work, no merge/deployment/qualification and no nested dispatch. Latest branch head for this refinement is `269b57b8b9c412261c97c4811bd49cbb4122ba03`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`; test blob `081ba101a1b56553577abd7b469b3c9bf6f31196`. Exact-head CI all SUCCESS: [contract validation #39647070718](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647070718), [Astra Verify #39647070683](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647070683), [Cloud Runtime Validation #39647070609](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647070609), [controller probe #39647070682](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647070682; child dispatch skipped), [caller-context probe #39647070781](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39647070781).
