@@ -2101,3 +2101,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - The active host config now has narrowly scoped entries `npm install -g agent-browser` and `agent-browser` staged under `allowed_commands`. Structured edit succeeded, but the running policy has not reloaded because the SentinelX service restart failed: sudo requires a terminal/password.
 - Owner action required: on Voktors-Mini.Dlink, run `sudo launchctl kickstart -k system/app.sentinelx.core` from an authorized Terminal session. After the agent reconnects, verify the new commands with `sentinel_capabilities(detail="full")`; then continue with the requested CLI install/core instructions. Do not use `bash -lc` as a way around the command allowlist.
 - The controller remains untriggered. Gemini Agents 1–3 remain NOT RUN; launch gates remain NOT VERIFIED.
+
+### Wave 328 — SentinelX restart follow-up (2026-10-21)
+
+- Owner reports running `sudo launchctl kickstart -k system/app.sentinelx.core` on Voktors-Mini.Dlink.
+- Verification: host listing showed the host operational on a new session; `sentinel_ping` returned pong. Full capabilities then timed out after 60 seconds, and a subsequent `which agent-browser` request ended with `agent_disconnected / duplicate_session`. Do not treat the allowlist reload or CLI installation as successful.
+- Controller blob remains `9453403bba899a2400ee3fb874d32badd034c704`. Controller probe mode is non-launching; agents mode requires explicit confirmation. No workflow-dispatch tool was available in this session, and no trigger comment was created.
+- PR #440 remains draft/open/unmerged at head `69aa8e98f1aa5c3154be24232fc6bedca00555e5`; exact-head CI/status and formal review remain unverified.
+- Gemini Agents 1–3: NOT RUN. Agent-browser and Claude/FCC: NOT RUN. No secrets accessed, no physical-server Gemini transport, no qualification/acceptance.
+- Next: stabilize SentinelX capabilities/exec; verify active allowlist; install agent-browser and run `agent-browser skills get core`; separately close GitHub governance, exact-head CI, independent review, and non-disclosing admission gates before dispatch.
+- Detailed evidence: [Wave 327 report](MEDIAHUB-NEXT-GEMINI-AND-BROWSER-ADMISSION-WAVE-327-2026-10-21.md), including Wave 328 follow-up.
