@@ -1,3 +1,11 @@
+## Latest continuation — Wave 303 map-index addendum (2026-10-21)
+
+- Provisional working-branch index aid: [Wave 303 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-303-2026-10-21.md); evidence: [Wave 303 schema-validation scaffold audit](MEDIAHUB-SCHEMA-VALIDATION-SCAFFOLD-AUDIT-WAVE-303-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md) on `docs/mediahub-chat-tree-map-20261012`. The Contents API returns empty content for the large map, but blob `be531c44c7dc17e2ec48c7f8c773120c21ae49cc` was read successfully at 1,159,338 characters. No canonical map write was made in this pass; this addendum remains provisional on PR #430 until reviewed/integrated.
+- Current work PR: [#430](https://github.com/VlDMlNSh/mediahub-os/pull/430), documentation-only, OPEN/DRAFT/UNMERGED. Recheck exact head/checks before any integration. Branches remain diverged; no whole-branch merge/rebase.
+- Schema candidates and gaps remain as stated in Wave 303: immutable blob parse succeeded; full Draft 2020-12 meta-validation, format assertion, positive/negative fixtures, semantic reference resolution and CI evidence remain absent.
+- Next bounded step: enumerate workflow/test tree using exact refs and available repository tree APIs, then implement validation in the existing approved entry point. No credentials, live dispatch, merge, deployment, qualification or acceptance.
+
 ## Latest continuation — Wave 303 (2026-10-21)
 
 - Report: [Schema-validation scaffold audit](MEDIAHUB-SCHEMA-VALIDATION-SCAFFOLD-AUDIT-WAVE-303-2026-10-21.md); related [Wave 302 reconciliation](MEDIAHUB-CONTOUR-A-EXACT-HEAD-GATE-RECONCILIATION-WAVE-302-2026-10-21.md).
