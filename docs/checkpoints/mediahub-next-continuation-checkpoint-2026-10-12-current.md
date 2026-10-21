@@ -2050,3 +2050,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - PR #437 HEAD `01629874e8b4a10da68a0574ec77ecdfceeda8b9` is Draft/open/unmerged; exact-head workflow runs and combined statuses returned empty, formal reviews are empty. Status NOT VERIFIED.
 - SentinelX: only `Voktors-Mini.Dlink` active; not verified as Alamo/server 3. `mh-dev-01` and `mh-dev-02` disabled; Free plan has one active slot and zero available. Claude/FCC and agent-browser on Alamo NOT RUN; the CLI-required `agent-browser skills get core` was not run on the wrong host.
 - Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifact digests. Next: resolve Alamo host identity/slot, collect non-secret controller governance evidence, get exact-head PR #437 CI and formal review, then run one governed batch against a shared immutable SHA.
+
+## Wave 325 follow-up — child output-validator regression coverage (2026-10-21)
+
+- Report: [Gemini child output-validator negative coverage](MEDIAHUB-GEMINI-OUTPUT-VALIDATOR-NEGATIVE-COVERAGE-WAVE-325-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Wave 325 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-325-2026-10-21.md).
+- Updated existing draft [PR #437](https://github.com/VlDMlNSh/mediahub-os/pull/437) with commit [e7e99c2](https://github.com/VlDMlNSh/mediahub-os/commit/e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14). Added secret-free tests that extract and execute all three child workflow output validators against valid and invalid synthetic fixtures.
+- Test blob SHA after read-back: `43016c501e80ea665e6707f7e2381e9918aededc`.
+- Exact-head CI query for the new head returned no PR workflow runs/statuses. CI is **NOT VERIFIED**; no passing-test claim. Local execution was blocked by unavailable outbound DNS/repository checkout.
+- Gemini Agents 1–3 remain **NOT RUN**; no controller run ID, child run IDs, shared dispatch target or artifact digests. No secret values accessed and no controller dispatch made.
+- Remaining gates: exact-head CI and job logs; independent formal security review; non-disclosing effective secret/variable metadata; branch governance; trusted-main no-secret probe; verified Alamo/server 3 identity and approved free-only Claude/browser route.
