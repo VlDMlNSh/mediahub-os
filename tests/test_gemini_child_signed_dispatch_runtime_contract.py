@@ -153,6 +153,13 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("Malformed target SHA or dispatch ID", result.stdout)
 
+    def test_unsupported_signed_fixture_override_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "Unsupported signed field: attacker_controlled"):
+            make_environment(
+                CHILD_WORKFLOWS[0].split("/")[-1],
+                signed_overrides={"attacker_controlled": "value"},
+            )
+
     def test_non_allowlisted_base_and_scope_are_rejected_even_when_signed(self):
         cases = (
             {"base_ref": "feature/unsafe"},
