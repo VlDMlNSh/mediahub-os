@@ -40,7 +40,7 @@ The controller's non-launching context probe is available through `workflow_disp
 ## Voktors-Mini / SentinelX
 
 - SentinelX identifies the host as `Voktors-Mini.Dlink`, ID `host_5f7264034bdf0b51`, macOS 14.7.4 ARM64, agent `0.22.0`; ping and a full capability response succeeded during this pass.
-- The full allowlist contains 95 command prefixes but does not include `agent-browser`, `claude`, `ollama`, `fcc-claude`, or `npx`. A bounded read-only PATH check reported all five as `NOT_FOUND_IN_PATH`.
+- The full allowlist contains 95 command prefixes but does not include `agent-browser`, `claude`, `ollama`, `fcc-claude`, or `npx`. A bounded read-only PATH check reported all five as `NOT_FOUND_IN_PATH`. A subsequent file check confirmed the Ollama binary exists at `/opt/homebrew/bin/ollama`, but it is not on the script PATH; a read-only `launchctl list` query found no Ollama/Claude/agent-browser service entry. Runtime version and service health were not tested because the executable is not allowlisted.
 - Subsequent SentinelX calls again hit `duplicate_session`/timeouts; service status also could not be verified because the configured `sudo launchctl` path requires an interactive password.
 - The agent-browser skill stub was read. Its mandatory next step is `agent-browser skills get core` on the host. That command was **not** run because the binary is absent and not allowlisted. No browser session or UI test was run.
 - Claude-fcc-Ollama was not invoked. The free-only route and paid-fallback exclusion are not qualified. No allowlist edits or package installs were attempted.
