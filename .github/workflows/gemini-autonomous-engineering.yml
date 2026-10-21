@@ -1,93 +1,79 @@
-name: Gemini Autonomous Engineering Dispatch
-
+name: MediaHub Gemini Agent 1 — Bounded Engineering
+run-name: MediaHub Gemini Agent 1 — Bounded Engineering — ${{ inputs.dispatch_id }}
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
+      dispatch_id:
+        description: "Controller-generated unique correlation ID"
+        required: true
+        type: string
+      target_sha:
+        description: "Shared immutable target commit SHA"
+        required: true
+        type: string
       task:
-        description: "One bounded engineering task for Gemini; include acceptance criteria and relevant IDs"
+        description: "Controller-signed bounded task"
         required: true
         type: string
       base_ref:
-        description: "Target base branch for the isolated change and Pull Request"
+        description: "Allowlisted PR base"
         required: true
         type: string
       scope:
-        description: "Authorized contour"
+        description: "Allowlisted contour"
         required: true
         type: string
-      probe_only:
-        description: "Observe the actual caller context without running Gemini"
-        required: false
-        type: boolean
-        default: false
-    secrets:
-      GEMINI_API_KEY:
-        required: false
-    outputs:
-      caller_event_name:
-        description: "GitHub event name observed inside this reusable workflow"
-        value: ${{ jobs.caller_context.outputs.event_name }}
-      caller_workflow_ref:
-        description: "GitHub workflow ref observed inside this reusable workflow"
-        value: ${{ jobs.caller_context.outputs.workflow_ref }}
-      caller_trusted_controller:
-        description: "Whether the observed caller matches the pinned controller context"
-        value: ${{ jobs.caller_context.outputs.trusted_controller }}
+      dispatch_signature:
+        description: "Controller HMAC signature, not a credential"
+        required: true
+        type: string
 
 permissions:
   contents: read
 
-
 jobs:
-  caller_context:
-    name: Observe caller context without credentials
-    runs-on: ubuntu-latest
-    permissions: {}
-    outputs:
-      event_name: ${{ steps.observe.outputs.event_name }}
-      workflow_ref: ${{ steps.observe.outputs.workflow_ref }}
-      trusted_controller: ${{ steps.observe.outputs.trusted_controller }}
-    steps:
-      - id: observe
-        name: Capture actual reusable-workflow caller context
-        shell: bash
-        env:
-          EXPECTED_CONTROLLER_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
-        run: |
-          set -euo pipefail
-          printf 'event_name=%s\n' "$GITHUB_EVENT_NAME" >> "$GITHUB_OUTPUT"
-          printf 'workflow_ref=%s\n' "$GITHUB_WORKFLOW_REF" >> "$GITHUB_OUTPUT"
-          trusted_controller=false
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" ]]; then
-            trusted_controller=true
-          fi
-          printf 'trusted_controller=%s\n' "$trusted_controller" >> "$GITHUB_OUTPUT"
-
-  reject_untrusted_caller:
-    name: Reject untrusted workflow caller
-    needs: caller_context
-    if: inputs.probe_only != true
+  authorize_dispatch:
+    name: Verify controller signature before provider credentials
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      - name: Require the exact controller event and ref
+      - name: Verify signed payload and allowlisted inputs
         shell: bash
         env:
-          TRUSTED_CONTROLLER: ${{ needs.caller_context.outputs.trusted_controller }}
+          HMAC_KEY: ${{ secrets.MEDIAHUB_DISPATCH_HMAC_KEY }}
+          WORKFLOW_FILE: gemini-autonomous-engineering.yml
+          DISPATCH_ID: ${{ inputs.dispatch_id }}
+          TARGET_SHA: ${{ inputs.target_sha }}
+          TASK: ${{ inputs.task }}
+          BASE_REF: ${{ inputs.base_ref }}
+          SCOPE: ${{ inputs.scope }}
+          SIGNATURE: ${{ inputs.dispatch_signature }}
+          EVENT_NAME: ${{ github.event_name }}
+          REPOSITORY: ${{ github.repository }}
+          REF_NAME: ${{ github.ref }}
         run: |
           set -euo pipefail
-          if [[ "$TRUSTED_CONTROLLER" != "true" ]]; then
-            echo "::error::Reusable workflow called from an untrusted workflow context."
-            exit 1
-          fi
+          python3 - <<'PY'
+          import hashlib,hmac,json,os,re,sys
+          key=os.environ.get("HMAC_KEY","")
+          if not key:
+              print("::error::Dispatch HMAC secret missing; fail closed."); sys.exit(2)
+          if os.environ.get("EVENT_NAME")!="workflow_dispatch" or os.environ.get("REPOSITORY")!="VlDMlNSh/mediahub-os" or os.environ.get("REF_NAME")!="refs/heads/main":
+              print("::error::Child must run from trusted main workflow_dispatch."); sys.exit(2)
+          if not re.fullmatch(r"[0-9a-f]{40}",os.environ.get("TARGET_SHA","")) or not re.fullmatch(r"[0-9a-f-]{36}",os.environ.get("DISPATCH_ID","")):
+              print("::error::Malformed target SHA or dispatch ID."); sys.exit(2)
+          if os.environ.get("BASE_REF")!="main" or os.environ.get("SCOPE")!="contour-a":
+              print("::error::Input outside allowlist."); sys.exit(2)
+          payload={"workflow_file":os.environ["WORKFLOW_FILE"],"dispatch_id":os.environ["DISPATCH_ID"],"target_sha":os.environ["TARGET_SHA"],"task":os.environ["TASK"],"base_ref":os.environ["BASE_REF"],"scope":os.environ["SCOPE"]}
+          expected=hmac.new(key.encode(),json.dumps(payload,sort_keys=True,separators=(",",":")).encode(),hashlib.sha256).hexdigest()
+          if not hmac.compare_digest(expected,os.environ.get("SIGNATURE","")):
+              print("::error::Invalid controller signature; provider/model step blocked."); sys.exit(2)
+          print("Signed controller dispatch verified; credential values are not logged.")
+          PY
 
   engineer:
-    needs: [caller_context, reject_untrusted_caller]
-    if: >-
-      inputs.probe_only != true &&
-      needs.caller_context.outputs.trusted_controller == 'true' &&
-      github.event_name == 'workflow_dispatch' &&
-      github.workflow_ref == 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
+    needs: authorize_dispatch
+    if: needs.authorize_dispatch.result == 'success'
     name: Bounded Gemini engineering task
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -99,7 +85,7 @@ jobs:
       - name: Checkout selected base for read-only workspace context
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ${{ inputs.base_ref }}
+          ref: ${{ inputs.target_sha }}
           persist-credentials: false
 
       - name: Run official Gemini CLI action with GitHub MCP tools
@@ -146,6 +132,7 @@ jobs:
             Do not install software, run tests or qualification, invoke additional models/providers, use credentials outside configured secrets, inspect host/runtime, alter infrastructure, run migrations, or change secrets.
             The PR must include evidence, queue/task ID, exact files and refs, acceptance criteria, known gaps, and verification status.
 
+            Immutable target SHA: ${{ inputs.target_sha }}
             Authorized contour: ${{ inputs.scope }}
             Base ref: ${{ inputs.base_ref }}
             Bounded task:
