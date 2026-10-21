@@ -1,3 +1,15 @@
+## Latest continuation — Wave 300 (2026-10-21)
+
+- Report: [Independent Gemini source-only review](MEDIAHUB-INDEPENDENT-GEMINI-REVIEW-WAVE-300-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-300-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- `main` baseline checked by Gemini: `80be45a70732b1d568164571d4273a6397792c3b`; GEMINI.md blob SHA `4c431143aa5c46776e80893bf3c0e5f202e3b76d`.
+- Gemini workflow run [39591234636](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39591234636) succeeded. Source artifact: [wave-300-security-contract-review.md](https://github.com/VlDMlNSh/mediahub-os/blob/wave-300-security-review/recovery/wave-300-security-contract-review.md), blob SHA `9c752d3ca2c5efdb957ddde758ee0e2e9e37b900`.
+- Review is source-only, not a formal approving review or acceptance. The report does not demonstrate Draft 2020-12 validation/format assertions, positive/negative fixtures, complete CAF-Q trace, or runtime admission.
+- Exact v0.2 schema blobs: task `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`; evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`.
+- Issue #301 comment records the review: https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6314773971.
+- Gate remains **BLOCKED / NOT_PROVEN**. No credential access, implementation dispatch, merge, deployment, qualification or acceptance.
+- Next: standards-compliant Draft 2020-12 meta-validation with format assertion and positive/negative fixtures, then semantic reference resolution. Do not connect the validation pass to provider credentials or a live queue.
+
 ## Latest continuation — Wave 301 (2026-10-21)
 
 - Report: [Gemini independent schema and governance review](MEDIAHUB-GEMINI-INDEPENDENT-SCHEMA-AND-GOVERNANCE-REVIEW-WAVE-301-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-301-2026-10-21.md).
