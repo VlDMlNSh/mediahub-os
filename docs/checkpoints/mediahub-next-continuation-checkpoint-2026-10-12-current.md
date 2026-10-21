@@ -2085,3 +2085,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) pinged successfully but capability/state calls timed out/disconnected. Diagnosis `host_overloaded` with 32 unanswered calls and 192 reconnects in 24h. agent-browser core skill command, browser session and Claude/FCC execution were NOT RUN; no fallback host/transport was used.
 - Gemini Agents 1–3: NOT RUN; no controller/child run IDs or artifact digests. Claude/FCC and agent-browser: NOT RUN. No qualification or acceptance.
 - Next: exact-head CI and independent review; configure appropriate branch protection/rulesets; verify token scope and secret separation without revealing values; pass trusted-main no-secret probe; only then authorize one controller-only batch on one immutable SHA. Separately reduce Voktors-Mini load, verify capabilities/allowlist, read installed `agent-browser skills get core`, then validate Claude/FCC free routing without paid fallback.
+
+## Wave 327 — Gemini dispatch and browser admission attempt (2026-10-21)
+
+- Report: [Gemini and browser admission evidence](MEDIAHUB-NEXT-GEMINI-AND-BROWSER-ADMISSION-WAVE-327-2026-10-21.md); map addendum: [Wave 327](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-327-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Controller blob on main: `9453403bba899a2400ee3fb874d32badd034c704`; Agent 1 workflow blob: `155a02159912ca371e6f826c51325ca269857aad`; Agent 2: `fff1820a6b97d379b23674f36bd62227b7d4dec2`; Agent 3: `781df56e8aa7c75ba453c08378611857862b2e44`.
+- PR #437 head `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head CI remains NOT VERIFIED; formal independent review is not recorded.
+- Controller and Gemini Agents 1–3 remain NOT RUN; no controller run ID, child run IDs, shared target SHA or artifact digests. Effective secret/variable metadata, token scope and trusted-main no-secret probe remain NOT VERIFIED.
+- SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) is online. `which agent-browser` and `which claude` found no executable; Ollama discovery timed out. SentinelX policy reload failed because service restart requires sudo and noninteractive sudo is unavailable. Temporary allowlist additions were reverted. No server was used for Gemini transport.
+- No dispatch, provider call, secret access, merge, deployment, qualification or acceptance was performed.
+- Next: obtain exact-head CI/review and effective admission metadata; run the trusted-main no-secret probe only through the approved controller in probe mode; resolve owner-authorized SentinelX restart, then install/verify agent-browser and inspect the free-only Claude/FCC route before starting any local executor.
