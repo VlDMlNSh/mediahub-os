@@ -1,3 +1,15 @@
+## Latest continuation — Wave 312 (2026-10-21): Gemini controller GitHub API transport correction
+
+- Report: [Wave 312 controller transport correction](MEDIAHUB-GEMINI-CONTROLLER-GITHUB-API-DISPATCH-FIX-WAVE-312-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-312-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Draft implementation PR: [#432](https://github.com/VlDMlNSh/mediahub-os/pull/432), branch `fix/gemini-controller-api-dispatch-wave312-final`, latest head `17e5609671441cbf6dfa964ec29fabb2a9f7b338`, base `f16e5bae202a78584f273132e7f88c6e25d3142e`.
+- Controller now defines GitHub API `workflow_dispatch` for three independent child workflows using `MEDIAHUB_GITHUB_TOKEN` only inside the controller. A separate `MEDIAHUB_DISPATCH_HMAC_KEY` signs the task envelope; children verify before model/provider execution and checkout the same immutable target SHA. Default remains non-launching `probe`.
+- Exact blobs and CI history are in the Wave 312 report. Initial contract run #39603593758 failed because the legacy Wave 284 test still expected `workflow_call`; the test was updated to assert signed child dispatch. Updated exact-head runs #39603860379, #39603860450, #39603860536, #39603860537 and #39603860791 were in progress at the last recorded poll.
+- No Gemini Agent 1/2/3 child runs were dispatched; all three statuses **NOT RUN**. No secret values were accessed. Formal independent review and effective governance/token-scope evidence remain absent. PR stays Draft/unmerged.
+- New secret prerequisite: configure `MEDIAHUB_DISPATCH_HMAC_KEY` separately from `MEDIAHUB_GITHUB_TOKEN` only after the code/security gates are accepted. Verify the transport token has minimum required Actions write and Contents read permissions.
+- Next: finish exact-head CI, fix remaining failures, secure formal independent review and governance evidence, then run the non-launching no-secret trusted-context probe only after accepted integration. Do not launch agent mode before these gates pass.
+
+---
+
 ## Latest continuation — Wave 300 (2026-10-21)
 
 - Report: [Independent Gemini source-only review](MEDIAHUB-INDEPENDENT-GEMINI-REVIEW-WAVE-300-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-300-2026-10-21.md).
