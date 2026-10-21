@@ -2181,7 +2181,7 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 
 ## Wave 335 — Gemini dispatch and Voktors execution recheck (2026-10-21)
 
-- Report: [Wave 335](MEDIAHUB-NEXT-GEMINI-DISPATCH-AND-VOKTORS-EXECUTION-WAVE-335-2026-10-21.md); map addendum: [Wave 335](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-335-2026-10-21.md).
+- Report: [Wave 335](MEDIAHUB-NEXT-GEMINI-DISPATCH-AND-VOKTORS-EXECUTION-WAVE-335-2026-10-21.md); map addendum: [Wave 335](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-335-2026-10-21.md). Supplemental bounded recheck: [Wave 335 PATH/dispatch follow-up](MEDIAHUB-NEXT-GEMINI-AND-VOKTORS-RECHECK-WAVE-335-2026-10-21.md).
 - Controller blob `9453403bba899a2400ee3fb874d32badd034c704` expects exact `MEDIAHUB_DISPATCH_HMAC_KEY`, `MEDIAHUB_GITHUB_TOKEN`, and `vars.MEDIAHUB_GEMINI_BATCH_ENABLED`. User-provided `MEDIAHUB_DISPATCH_NMAC_KEY` differs; effective Actions metadata/scopes remain unverified. No secret values were read.
 - PR #437 head `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14` and Draft PR #441 head `9f40b90c3106662cfcc337c48f29e4794fa713dc` had no reported exact-head workflow runs/statuses and zero formal reviews. Last independently observed main SHA remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; current HEAD was not freshly resolved by the connector.
 - Gemini Agents 1–3 NOT RUN; no controller/child IDs, task reports, or artifact digests. No trigger comment or dispatch was created.
