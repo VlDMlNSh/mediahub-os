@@ -49,3 +49,18 @@
 ## 5. Limitations
 
 This pass was read-only against GitHub source and status APIs. It did not run local tests or modify runtime code. The canonical map's Contents API response was empty; the blob API returned a large tail-oriented representation beginning at Wave 298, so it was not safe to reconstruct and overwrite the canonical map from that response. The report and continuation checkpoint are therefore submitted as an isolated documentation proposal; the canonical map must not be rewritten from partial content.
+
+
+## 6. Follow-up static scan of exact v0.2 schema blobs
+
+Re-fetched all three schema files from the canonical documentation branch and parsed them as JSON. This is a JSON syntax/static keyword scan only; it is **not** JSON Schema meta-validation or instance validation.
+
+| Schema | Blob SHA | UTF-8 text length returned | Required top-level properties | `format: date-time` occurrences |
+|---|---|---:|---:|---:|
+| Task Envelope v0.2 | `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` | 11,213 characters | 15 | 1 |
+| Agent Registry v0.2 | `b49b89b8fbdfc180862e3dc78f8198f35e486035` | 9,282 characters | 10 | 3 |
+| Execution Evidence Manifest v0.2 | `40c402432fd0f3899d45fde0fa0a8af4d34c593a` | 11,918 characters | 13 | 2 |
+
+Each declares Draft 2020-12. Across the three parsed schema objects, no actual `$ref` keyword was found. Descriptive properties named `*_ref` are not JSON Schema references and must be semantically resolved by separate tooling. The Task Envelope's second `format` occurrence is an ordinary schema property named `format` under output metadata, not a JSON Schema format assertion; the registry has three date-time assertions and the evidence manifest has two. A validator must explicitly enable format assertion/checking and test malformed timestamps.
+
+Static traversal also counted constraints such as `pattern`, `minimum`, `maximum`, `enum`, `const` and `additionalProperties`; counts are not evidence that those constraints behave correctly. No standards validator, positive/negative fixture suite, raw-byte digest computation or semantic resolver was run in this pass.
