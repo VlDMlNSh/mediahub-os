@@ -2451,3 +2451,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Review query attempted with incorrect argument name and did not produce evidence; no claim of current formal review status from this pass. SentinelX host remained listed operational but state call transiently returned `agent_disconnected/read_loop_ended`; no host commands or browser/local executor job ran.
 - Gemini Agents 1–3 NOT RUN; no dispatch/child IDs or artifacts. Governance, effective token scope, independent controller security review, and approved no-launch probe remain NOT VERIFIED. No secrets read, trigger comment, dispatch, merge, or deployment.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: correlate main ref movement, resolve queued exact-head CI, obtain independent security review and governance/token-scope evidence, then only approved non-launching probe.
+
+
+## Wave 345 — main CI stall and executor gates (2026-10-22)
+
+- Report: [Wave 345 main CI stall and executor gates](MEDIAHUB-NEXT-MAIN-CI-STALL-AND-EXECUTOR-GATES-WAVE-345-2026-10-22.md), blob SHA `d86e767768332782a87aeef604f334407586856a`, commit `c71c332b5ad10d4f3ad0c38858ada71d3e211374` on working branch `docs/mediahub-next-wave340-20261022`.
+- Main advanced to `f4ad65acdb82d25b93845279361502b6737e1d21` (Wave 344 checkpoint append); exact-main Astra Verify `39685040842` SUCCESS, scheduled supervisor run `39686595751` still QUEUED. Controller blob `9453403bba899a2400ee3fb874d32badd034c704` unchanged.
+- PR #437 suite `107496095390` and PR #441 suite `107524023551` remain QUEUED with zero check runs. PR #442 latest HEAD is `c71c332b5ad10d4f3ad0c38858ada71d3e211374`, exact-head suite `107571609219` QUEUED with zero check runs; draft, unmerged. Branch protection API remains 403; ruleset list empty/inconclusive.
+- Static source review confirms literal owner `/next` trigger plus batch flag, main SHA, GitHub token and HMAC key prerequisites. This is not independent security review or runtime proof. No secret values read, trigger posted, workflow dispatched, or host command completed.
+- Gemini Agents 1–3 NOT RUN, no dispatch/child run IDs or artifact digests. Local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN after a bounded read-only browser CLI lookup timed out.
+- Status: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve freebuff-web queued check provider, get independent security review, verify governance/token scope, then run approved non-launching probe before considering agent dispatch.
