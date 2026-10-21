@@ -11,3 +11,8 @@ Date: 2026-10-21. Detailed evidence: [Wave 332 report](../checkpoints/MEDIAHUB-N
 
 
 Supplemental live execution recheck: [Wave 332 Gemini and Voktors execution recheck](../checkpoints/MEDIAHUB-NEXT-GEMINI-AND-VOKTORS-EXECUTION-RECHECK-WAVE-332-2026-10-21.md). It confirms GitHub-hosted runners for all three child workflows, no child dispatch, and intermittent SentinelX command-channel failures; see the report for exact SHAs and status.
+
+
+## Wave 333 — live trigger and executor recheck
+
+Evidence: [Wave 333 report](../checkpoints/MEDIAHUB-NEXT-DISPATCH-GATE-AND-EXECUTOR-RECHECK-WAVE-333-2026-10-21.md). Main HEAD `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. Run [#39670089739](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39670089739) skipped because comment #6325762950 was a status report, not literal `/next`; no Gemini child runs. PR #437 remains Draft at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`, with zero exact-head workflow runs and no formal reviews. Controller reads `MEDIAHUB_DISPATCH_HMAC_KEY`; the similarly named `MEDIAHUB_DISPATCH_NMAC_KEY` is not used. SentinelX is intermittent; `ollama` and `agent-browser` are not registered services. Gemini, local Claude and browser remain NOT RUN.
