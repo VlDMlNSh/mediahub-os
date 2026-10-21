@@ -1984,3 +1984,10 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Post-merge CI found syntax defects in `tests/test_gemini_transport_controller_contract.py`; PR #434 fixes them in follow-up commits. Later run on `d5862c939daea07c00136600965bfb2b2336b081`: workflow contracts `39649699990` SUCCESS, runtime validation `39649701394` SUCCESS, Astra Verify `39649700215` FAILURE due to HMAC runtime fixture key mapping/override bugs.
 - PR #434 latest observed head `3bb9448d4899aa73ca1bb5b1114f68e824526c4d`; fixture now maps signed overrides to uppercase environment keys. No runs were available for that head yet, so exact-head CI is PENDING / NOT VERIFIED. Keep PR #434 Draft/unmerged until all exact-head checks pass.
 - Formal PR #432 review API shows zero submitted reviews; independent review is not evidenced. SentinelX only has `Voktors-Mini.Dlink` operational; Alamo/server 3 is not verified and two other hosts are disabled. Gemini/Claude/browser remain NOT RUN. Do not trigger issue-comment `/next` while gates remain open.
+
+
+### Wave 321 follow-up — HMAC runtime fixture contract
+
+- After syntax repair, Astra Verify [#39649630775](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630775), job `119394233707`, failed in `test_gemini_child_signed_dispatch_runtime_contract.py`: `make_environment()` indexed canonical lowercase `workflow_file` in an uppercase environment dict, causing 46 fixture errors before negative authorization assertions ran.
+- Corrected fixture payload construction and lowercase-to-uppercase override mapping. Latest observed PR #436 head `95080b43782f9464f05869f08cf7a9f47680a233`; fixture blob `dd9bc5cd3c917414fe55f9d439428f6496e2429d`; HMAC test blob `01ddae5e1d7fd0e49ffa651da9655a5a5ad7a8d5`.
+- At checkpoint time, GitHub Actions/check-runs APIs returned no checks for that exact latest head. Latest candidate remains NOT VERIFIED; do not merge or dispatch until fresh exact-head CI succeeds and independent review/governance gates close.
