@@ -1,3 +1,14 @@
+## Latest continuation — Wave 304 validation reuse/ref audit (2026-10-21)
+
+- Report: [Wave 304 — Cloud-agent validation reuse and ref audit](MEDIAHUB-CLOUD-AGENT-VALIDATION-REUSE-AND-REF-AUDIT-WAVE-304-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), canonical branch `docs/mediahub-chat-tree-map-20261012`. The map's full blob `be531c44c7dc17e2ec48c7f8c773120c21ae49cc` was fetched; no canonical-map mutation was made.
+- Correction: Wave 303's limited exact-path and code-search probe did not establish that validation tooling was absent. Prior validated candidate workflows exist on historical/working branches.
+- PR #335 run `39038451255` passed: 3/3 schemas meta-validated, 3/3 positive fixtures passed, 13/13 negative mutations rejected; artifact `12102957938`, digest `sha256:633e1417aa41fc844b5d1c67c3ff2be417a98f72bcc6f055119023565d710e07`.
+- PR #337 run `39041807077` passed with format assertions and representative positive/negative cases; branch workflow blob `bbe4f7e975a7ceb2c9fa7d2901bd484d06cbefc6`.
+- PR #374 exact tested head `3b1fc96beeedcc6cb38c7beeb5809f0004c6ac8a`, run `39222111677` success, artifact `12171314150`, digest `sha256:4aaf3dbe764f22fd4eb0288685d1e069e3e28407c26f37d2e6825a487c7ae675`. PR remains Draft, with no formal review; setuptools 84.0.0 bootstrap publisher provenance remains unverified. Branch is highly divergent from both main and canonical docs; do not whole-branch merge/rebase.
+- Decision: do not build duplicate validation. Next perform independent source/supply-chain review of PR #374, resolve bootstrap wheel publisher provenance, compare intended file set to current target, and choose one clean PR for formal review. A0, R-06, accepted target manifest and dispatch/qualification gates remain open.
+- Current evidence PR #430 remains documentation-only, OPEN/DRAFT/UNMERGED; this report is on the same working branch until reviewed/integrated. No credentials, provider/model call, dispatch, merge, deployment, qualification or acceptance occurred.
+
 ## Latest continuation — Wave 303 map-index addendum (2026-10-21)
 
 - Provisional working-branch index aid: [Wave 303 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-303-2026-10-21.md); evidence: [Wave 303 schema-validation scaffold audit](MEDIAHUB-SCHEMA-VALIDATION-SCAFFOLD-AUDIT-WAVE-303-2026-10-21.md).
