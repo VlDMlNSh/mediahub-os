@@ -2021,7 +2021,7 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Main HEAD `79196054d84b1197cea1447dd1db5ad075302834`; Astra Verify #39649841150 SUCCESS. Controller run #39650408656 SKIPPED; the source comment was on PR #436, not governing Issue #301. No child Gemini runs or artifacts exist for this pass.
 - Source review confirms the three fixed child workflows use GitHub-hosted `ubuntu-latest`, distinct provider secrets, and one immutable target SHA. No Voktors-Mini/Claude/browser dependency exists in the Gemini controller/children.
 - Voktors-Mini.Dlink host `host_5f7264034bdf0b51` was confirmed operational; `agent-browser` core instructions and offline doctor were run. Browser use was read-only and did not trigger GitHub actions. OmniRoute config is absent and FCC/FreeLLMAPI commands were not found; Claude remains NOT RUN.
-- Latest PR #437 head `531ed07d1fd8ad474587f5af0e4a5f3364461b6d` has no verified exact-head CI or formal review. Secret/variable metadata, effective token scope, trusted-main no-secret probe and branch protection remain NOT VERIFIED. Do not enable/dispatch a live batch until admission gates are supported by evidence.
+- Latest PR #437 head `01629874e8b4a10da68a0574ec77ecdfceeda8b9` has zero check runs returned by the commit checks endpoint and no formal review. Secret/variable metadata, effective token scope, trusted-main no-secret probe and branch protection remain NOT VERIFIED. Do not enable/dispatch a live batch until admission gates are supported by evidence.
 
 
 ## Wave 323 — per-/next orchestration readiness (2026-10-21)
