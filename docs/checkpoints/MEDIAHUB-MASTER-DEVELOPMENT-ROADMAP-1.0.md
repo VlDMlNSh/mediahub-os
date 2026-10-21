@@ -1,3 +1,13 @@
+## Wave 332 — Transport source reconciliation and executor readiness (2026-10-21)
+
+- Evidence report: [Wave 332](MEDIAHUB-NEXT-TRANSPORT-AND-EXECUTOR-RECONCILIATION-WAVE-332-2026-10-21.md); map addendum: [Wave 332](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-332-2026-10-21.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main HEAD checked `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`; Bootstrap blob corrected/read back as `75f30750183efe8c6877368e9f0ada48f8e81ea7`.
+- PR #437 remains Draft/open, exact-head workflow runs/statuses empty and reviews zero. Gemini Agents 1–3 NOT RUN; no new controller/child IDs or artifacts. Governance, effective Actions secret/variable scopes and trusted-main no-secret probe remain open.
+- Controller expects `MEDIAHUB_DISPATCH_HMAC_KEY`, not `MEDIAHUB_DISPATCH_NMAC_KEY`; no secret values read. Voktors SentinelX command channel is unstable; browser and Claude/FCC remain NOT RUN.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: close controller gates before dispatch; separately restore and qualify local host execution.
+
+---
+
 ## Wave 300 — Independent Gemini review and next schema-validation gate (2026-10-21)
 
 - Evidence report: [Independent Gemini source-only review](MEDIAHUB-INDEPENDENT-GEMINI-REVIEW-WAVE-300-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-300-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
