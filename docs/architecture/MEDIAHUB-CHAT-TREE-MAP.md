@@ -7790,3 +7790,5 @@ The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee
 
 
 - Wave 299: [PR #421/#426 probe integration boundary](../checkpoints/MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-299-2026-10-21.md). The two current probe paths are distinct, but formal reviews and effective governance evidence remain absent/unverified. Gate stays BLOCKED / NOT_PROVEN; do not dispatch agent mode.
+
+- Wave 299 owner follow-up: owner reports no additional rules configured on the three reviewed GitHub settings pages; see [Issue #301 comment](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6314555168). This observation is not a substitute for an administrator-level snapshot of all effective classic/org policy. [Wave 299 report](../checkpoints/MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md).
