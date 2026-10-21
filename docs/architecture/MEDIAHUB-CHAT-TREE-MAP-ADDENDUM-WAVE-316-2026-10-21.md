@@ -8,3 +8,6 @@ A candidate owner-only Issue #301 `/next` bridge is implemented in Draft PR #432
 
 
 Wave 317 refinement: the three child tasks now explicitly select roadmap-driven bounded implementation, independent contract/test verification, and independent security/provenance audit. Latest head `269b57b8b9c412261c97c4811bd49cbb4122ba03`; all five exact-head CI checks passed. This remains Draft/unmerged; no agent-mode dispatch occurred.
+
+
+Branch hygiene note (2026-10-21): four documentation-only commits were briefly written to main by mistake. They were preserved on [recovery branch](https://github.com/VlDMlNSh/mediahub-os/tree/recovery/wave316-docs-main-misroute-20261021) at `1f9fe47f986376a733fb0ddfa5e3b567b2613d5c`; main was restored with force-with-lease to its prior `f16e5bae202a78584f273132e7f88c6e25d3142e`. Post-repair refs were verified. Details are in the [Wave 316 report](../checkpoints/MEDIAHUB-PARTIAL-DISPATCH-AND-NEXT-READINESS-WAVE-316-2026-10-21.md).
