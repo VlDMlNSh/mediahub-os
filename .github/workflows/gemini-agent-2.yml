@@ -8,12 +8,10 @@ on:
         required: true
         type: string
       base_ref:
-        description: "Target base branch for the isolated change and Pull Request"
+        description: "Immutable commit SHA to use for the isolated workspace checkout"
         required: true
         default: main
-        type: choice
-        options:
-          - main
+        type: string
       scope:
         description: "Authorized contour"
         required: true
