@@ -1,0 +1,86 @@
+{
+  "schema_version": "mediahub.cloud-agent-task-envelope.v0.2",
+  "task_id": "CAF-Q-017",
+  "task_type": "source_audit",
+  "authority": {
+    "contour": "A",
+    "admission_contract_ref": "issue://301",
+    "requester_identity_ref": "identity://owner-reviewer",
+    "authorization_ref": "authorization://schema-fixture"
+  },
+  "source": {
+    "repository": "VlDMlNSh/mediahub-os",
+    "ref": "docs/mediahub-chat-tree-map-20261012",
+    "commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "scope": {
+    "allowed_paths": [
+      "docs/checkpoints/"
+    ],
+    "forbidden_paths": [
+      ".github/workflows/"
+    ],
+    "deliverable": "Validate schema fixture only; do not execute provider calls.",
+    "max_changed_files": 0
+  },
+  "data_policy": {
+    "classification": "public",
+    "purpose": "offline schema validation fixture",
+    "egress_policy_ref": "policy://fixture-public-only",
+    "retention_policy_ref": "retention://ephemeral-fixture"
+  },
+  "routing": {
+    "authorized_destinations": [
+      {
+        "provider_id": "google",
+        "model_id": "gemini-3.5-flash-lite",
+        "authorization_ref": "authorization://fixture",
+        "eligibility_evidence_ref": "evidence://fixture",
+        "data_policy_revision": "fixture-policy-v1",
+        "quota_bucket": "fixture-only"
+      }
+    ],
+    "fallback_mode": "disabled"
+  },
+  "budget": {
+    "max_attempts": 1,
+    "max_duration_seconds": 60,
+    "max_input_bytes": 10000,
+    "max_output_bytes": 10000,
+    "cost_ceiling_minor_units": 0
+  },
+  "deadline": "2027-01-01T00:00:00Z",
+  "retry": {
+    "retryable_classes": [
+      "transient_5xx"
+    ],
+    "backoff_profile": "none",
+    "idempotency_key": "fixture-idempotency-key-0001"
+  },
+  "output": {
+    "format": "markdown_report",
+    "max_artifacts": 1,
+    "artifact_classification": "internal",
+    "write_mode": "read_only"
+  },
+  "review": {
+    "independent_review_required": true,
+    "required_checks": [
+      "schema-validation"
+    ],
+    "promotion_authority_ref": "review://not-authorized-for-promotion"
+  },
+  "evidence": {
+    "manifest_schema": "mediahub.cloud-agent-evidence-manifest.v0.2",
+    "required_fields": [
+      "source_sha",
+      "artifact_sha256",
+      "run_id"
+    ]
+  },
+  "semantic_validation": {
+    "profile_id": "mediahub.cloud-agent-semantic-validation.v0.2",
+    "profile_revision": "fixture-profile-v1",
+    "policy_bundle_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+}
