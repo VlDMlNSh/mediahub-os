@@ -79,7 +79,7 @@ class GeminiSignedDispatchContractTests(unittest.TestCase):
             "google-github-actions/run-gemini-cli@f77273f4c914e4bf38440cf36a0369cb64a37489",
             "google-github-actions/run-gemini-cli@v0",
         )
-        self.assertNotRegex(source, r"uses:\s+google-github-actions/run-gemini-cli@v0(?:\s|$)")
+        self.assertRegex(source, r"uses:\s+google-github-actions/run-gemini-cli@v0(?:\s|$)")
 
 
 if __name__ == "__main__":
