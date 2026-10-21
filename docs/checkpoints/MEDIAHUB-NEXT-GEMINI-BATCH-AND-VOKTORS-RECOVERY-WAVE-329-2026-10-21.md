@@ -61,3 +61,8 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - A direct `agent-browser --version` invocation timed out. Background attempts returned failures `job_e0b52555987d` (duplicate_session) and `job_f2c139badedb` (agent did not respond within 10 seconds); notification polling showed no active/running jobs. Thus browser core instructions remain unretrieved and no browser session was opened.
 - The latest controller/PR check still returns no exact-head runs/statuses or formal PR reviews. Gemini Agents 1–3 remain NOT RUN; no controller or child run IDs were created in this pass.
 - This report has now been re-read after creation; current blob SHA is to be captured by the final readback. No host allowlist, workflow, secret or variable was modified.
+
+
+### Owner spelling clarification
+
+The latest user message spells the requested identifier as ASCII `MEDIAHUB_DISPATCH_NMAC_KEY` (not Cyrillic). This still differs from the controller's exact `MEDIAHUB_DISPATCH_HMAC_KEY`. No secret metadata/value can be read through the connected integration. Verify the exact name in GitHub Settings and add the controller-expected ASCII name if it is missing; do not display or transmit its value.
