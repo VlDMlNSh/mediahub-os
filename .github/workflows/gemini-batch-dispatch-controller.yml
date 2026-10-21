@@ -30,6 +30,9 @@ on:
       - ".github/workflows/gemini-agent-2.yml"
       - ".github/workflows/gemini-agent-3.yml"
       - "tests/test_gemini_transport_controller_contract.py"
+      - "tests/test_gemini_reusable_workflow_contract.py"
+      - "tests/test_gemini_controller_positive_context_probe_wave292_contract.py"
+      - "tests/test_gemini_controller_context_probe_wave284_contract.py"
 
 permissions: {}
 
