@@ -46,3 +46,9 @@ Keep #421 and #426 Draft/unmerged. First obtain a substantive independent review
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - [Wave 298 source trace](MEDIAHUB-GEMINI-REVIEW-SOURCE-TRACE-WAVE-298-2026-10-21.md)
 - [Canonical project map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md)
+
+## Owner-reported settings observation
+
+The repository owner reports that the three linked settings pages (branch protection, repository rulesets, Actions settings) show no additional rules configured. This is captured as owner-reported UI observation, not as an independently collected screenshot or privileged API snapshot. It should not be overstated as proof that classic branch protection, organization policy, required checks, or all Actions restrictions are absent. See [Issue #301 owner-state addendum](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6314555168).
+
+This closes the loop on the owner's response; no further owner action is requested in this wave. The Contour A implementation gates still stand independently of repository rule configuration.
