@@ -203,6 +203,11 @@ jobs:
                   run=max(matches,key=lambda x:x.get("created_at",""))
                   if run.get("created_at","")<time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime(started-5)): continue
                   if run.get("status")=="completed":
+                      # If the POST response was lost but the child run is now
+                      # correlated by its unique dispatch ID, record reconciliation.
+                      if j["dispatch_status"]=="UNKNOWN":
+                          j["dispatch_status"]="RECONCILED"
+                          print(f"Reconciled ambiguous dispatch for {j['workflow']} using child run {run['id']}")
                       results[did]={"run_id":run["id"],"url":run.get("html_url"),"status":run["status"],"conclusion":run.get("conclusion")}
                       print(f"Child {j['workflow']} run_id={run['id']} conclusion={run.get('conclusion')}"); del pending[did]
               if pending: time.sleep(10)
@@ -214,6 +219,6 @@ jobs:
               for j in jobs:
                   r=results.get(j["id"],{})
                   out.write(f"| {j['workflow']} | `{j['id']}` | {j['dispatch_status']} | {r.get('run_id','NOT FOUND')} | {r.get('conclusion',r.get('status','UNKNOWN'))} |\n")
-          if len(jobs)!=3 or any(j["dispatch_status"]!="ACCEPTED" for j in jobs) or any(results.get(j["id"],{}).get("conclusion")!="success" for j in jobs):
+          if len(jobs)!=3 or any(j["dispatch_status"] not in ("ACCEPTED","RECONCILED") for j in jobs) or any(results.get(j["id"],{}).get("conclusion")!="success" for j in jobs):
               print("::error::Batch incomplete: at least one dispatch or child run failed, could not be correlated, or timed out."); sys.exit(1)
           PY
