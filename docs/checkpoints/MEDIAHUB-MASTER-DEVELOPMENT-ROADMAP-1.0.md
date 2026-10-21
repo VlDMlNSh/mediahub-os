@@ -1,3 +1,11 @@
+## Wave 301 — Gemini schema and governance review (2026-10-21)
+
+- Report: [Gemini independent schema and governance review](MEDIAHUB-GEMINI-INDEPENDENT-SCHEMA-AND-GOVERNANCE-REVIEW-WAVE-301-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-301-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Gemini Agent 3 run #39591234636 completed; report-only Draft PR #429 head `cc6d5d7894d3eb565226f4a5b99a9c6166651ed9`. A separate read-only Gemini audit run #39591749321 completed against immutable docs commit `4c7944e22e935f3d34b05ddbd83dd51daa20aa0a`, artifact digest `sha256:074afbcf6356651ecc4b2774dfb704b4285816b1b032f5d6e76f9a2407fa0bc7`.
+- Exact v0.2 schema candidate blob SHAs: task envelope `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a`; agent registry `b49b89b8fbdfc180862e3dc78f8198f35e486035`; evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a`. No standards-compliant Draft 2020-12 meta-validation, format assertions, positive/negative fixtures or semantic reference-resolution evidence yet. A static scan found no JSON Schema `$ref` keywords; string references remain an external semantic-validation obligation.
+- Target manifest remains UNKNOWN/BLOCKED; A0 issuer/ingress and R-06 audit/privacy acceptance remain open. Gate **BLOCKED / NOT_PROVEN**. No runtime dispatch, secret-value access, merge, deployment, qualification or acceptance.
+- Next: implement an isolated validator and positive/negative fixture harness tied to the exact candidate blobs, without promoting candidate schemas to `main` or invoking worker/provider routes.
+
 ## Wave 299 — PR #421/#426 probe boundary and owner governance observation (2026-10-21)
 
 - Report: [PR #421/#426 probe integration boundary](MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-299-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
