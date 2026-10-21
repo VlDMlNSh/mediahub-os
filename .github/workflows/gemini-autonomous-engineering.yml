@@ -1,93 +1,34 @@
 name: Gemini Autonomous Engineering Dispatch
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       task:
         description: "One bounded engineering task for Gemini; include acceptance criteria and relevant IDs"
         required: true
         type: string
       base_ref:
-        description: "Target base branch for the isolated change and Pull Request"
+        description: "Immutable commit SHA to check out; pull requests must target main"
         required: true
+        default: main
         type: string
       scope:
         description: "Authorized contour"
         required: true
-        type: string
-      probe_only:
-        description: "Observe the actual caller context without running Gemini"
-        required: false
-        type: boolean
-        default: false
-    secrets:
-      GEMINI_API_KEY:
-        required: false
-    outputs:
-      caller_event_name:
-        description: "GitHub event name observed inside this reusable workflow"
-        value: ${{ jobs.caller_context.outputs.event_name }}
-      caller_workflow_ref:
-        description: "GitHub workflow ref observed inside this reusable workflow"
-        value: ${{ jobs.caller_context.outputs.workflow_ref }}
-      caller_trusted_controller:
-        description: "Whether the observed caller matches the pinned controller context"
-        value: ${{ jobs.caller_context.outputs.trusted_controller }}
+        default: contour-a
+        type: choice
+        options:
+          - contour-a
 
 permissions:
   contents: read
 
+concurrency:
+  group: gemini-autonomous-${{ github.workflow }}-${{ github.run_id }}
+  cancel-in-progress: false
 
 jobs:
-  caller_context:
-    name: Observe caller context without credentials
-    runs-on: ubuntu-latest
-    permissions: {}
-    outputs:
-      event_name: ${{ steps.observe.outputs.event_name }}
-      workflow_ref: ${{ steps.observe.outputs.workflow_ref }}
-      trusted_controller: ${{ steps.observe.outputs.trusted_controller }}
-    steps:
-      - id: observe
-        name: Capture actual reusable-workflow caller context
-        shell: bash
-        env:
-          EXPECTED_CONTROLLER_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
-        run: |
-          set -euo pipefail
-          printf 'event_name=%s\n' "$GITHUB_EVENT_NAME" >> "$GITHUB_OUTPUT"
-          printf 'workflow_ref=%s\n' "$GITHUB_WORKFLOW_REF" >> "$GITHUB_OUTPUT"
-          trusted_controller=false
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" ]]; then
-            trusted_controller=true
-          fi
-          printf 'trusted_controller=%s\n' "$trusted_controller" >> "$GITHUB_OUTPUT"
-
-  reject_untrusted_caller:
-    name: Reject untrusted workflow caller
-    needs: caller_context
-    if: inputs.probe_only != true
-    runs-on: ubuntu-latest
-    permissions: {}
-    steps:
-      - name: Require the exact controller event and ref
-        shell: bash
-        env:
-          TRUSTED_CONTROLLER: ${{ needs.caller_context.outputs.trusted_controller }}
-        run: |
-          set -euo pipefail
-          if [[ "$TRUSTED_CONTROLLER" != "true" ]]; then
-            echo "::error::Reusable workflow called from an untrusted workflow context."
-            exit 1
-          fi
-
   engineer:
-    needs: [caller_context, reject_untrusted_caller]
-    if: >-
-      inputs.probe_only != true &&
-      needs.caller_context.outputs.trusted_controller == 'true' &&
-      github.event_name == 'workflow_dispatch' &&
-      github.workflow_ref == 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
     name: Bounded Gemini engineering task
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -141,7 +82,7 @@ jobs:
             Start with a low-cost repository connectivity check: call mcp_github_get_file_contents for owner VlDMlNSh, repo mediahub-os, path GEMINI.md, ref main. Use this successful file-read operation as the connectivity check. Keep the tool sequence limited to operations exposed by the configured allowlist. Skip user-identity lookup; it is unnecessary for repository-scoped Actions tokens.
             Read GEMINI.md from main and the named recovery checkpoint from docs/mediahub-chat-tree-map-20261012. Use the project map, bootstrap, and Master Roadmap only when a specific decision requires them; avoid loading large documents wholesale or repeating the same failed request.
             Baseline 2.0 is canonical; Baseline 1.0 is historical. Preserve historical IDs. Product State Authority remains the only canonical MediaHub product-state mutation authority. Keep Contour A separate from Contour B.
-            Perform exactly one bounded documentation/evidence pass. Create a dedicated branch from the selected base ref, add or update one concise checkpoint, and open a Pull Request to that same base ref. Never merge or deploy.
+            Perform exactly one bounded documentation/evidence pass. Create a dedicated branch from the checked-out immutable source SHA, add or update one concise checkpoint, and open a Pull Request with base branch main. The input base_ref is a commit SHA for checkout, not a valid Pull Request base branch. Never merge or deploy.
             On a tool error, record the exact error and stop repeated guessing. If remaining tools work, publish a concise blocker checkpoint and open a PR. Never fabricate successful calls, commits, or verification.
             Do not install software, run tests or qualification, invoke additional models/providers, use credentials outside configured secrets, inspect host/runtime, alter infrastructure, run migrations, or change secrets.
             The PR must include evidence, queue/task ID, exact files and refs, acceptance criteria, known gaps, and verification status.

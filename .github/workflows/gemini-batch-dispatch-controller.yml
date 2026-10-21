@@ -1,12 +1,12 @@
 name: MediaHub Contour A — Gemini GitHub transport batch
 
-run-name: Gemini controller-only batch — Wave 292
+run-name: Gemini GitHub API transport batch — Wave 312
 
 on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "Use the no-secret caller-context probe by default; agent execution is a separate explicit mode"
+        description: "Default to a no-secret probe; agents mode dispatches the three fixed Gemini workflows through GitHub API"
         required: true
         type: choice
         options:
@@ -14,169 +14,231 @@ on:
           - "agents"
         default: "probe"
       confirm:
-        description: "Explicitly confirm starting three bounded Gemini jobs (agents mode only)"
+        description: "Explicitly confirm starting three bounded Gemini runs"
         required: true
         type: choice
         options:
           - "no"
           - "yes"
         default: "no"
+
   pull_request:
     branches: [main]
     paths:
       - ".github/workflows/gemini-batch-dispatch-controller.yml"
       - ".github/workflows/gemini-autonomous-engineering.yml"
-      - ".github/workflows/gemini-reusable-context-probe-wave284.yml"
       - ".github/workflows/gemini-agent-2.yml"
       - ".github/workflows/gemini-agent-3.yml"
+      - "tests/test_gemini_transport_controller_contract.py"
+      - "tests/test_gemini_reusable_workflow_contract.py"
       - "tests/test_gemini_controller_positive_context_probe_wave292_contract.py"
+      - "tests/test_gemini_controller_context_probe_wave284_contract.py"
 
-# Caller permissions are the ceiling for reusable workflows. No transport token
-# is needed: child workflows execute as jobs in this same controller run.
 permissions: {}
 
 concurrency:
-  group: mediahub-gemini-controller-batch
+  group: mediahub-gemini-transport-batch
   cancel-in-progress: false
 
 jobs:
-  agent1:
+  dispatch-and-verify:
     if: github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'
-    name: Agent 1 — bounded engineering
-    uses: ./.github/workflows/gemini-autonomous-engineering.yml
-    with:
-      task: >-
-        Wave 243 / agent-1: perform one bounded, evidence-backed Contour A
-        engineering task. Read the canonical map, bootstrap, checkpoint and
-        Master Roadmap as needed; preserve Baseline 2.0, authority boundaries,
-        and provenance. Create one isolated Draft PR only. No merge, deployment,
-        qualification, additional model calls, or workflow dispatch.
-      base_ref: main
-      scope: contour-a
-    secrets:
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-    permissions:
-      contents: write
-      pull-requests: write
-      issues: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Dispatch the three fixed-scope agents
+        id: dispatch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.MEDIAHUB_GITHUB_TOKEN }}
+          CONFIRM: ${{ inputs.confirm }}
+        run: |
+          set -euo pipefail
+          [[ "$CONFIRM" == "yes" ]] || { echo "::error::Explicit confirmation is required."; exit 1; }
+          [[ -n "${GH_TOKEN:-}" ]] || { echo "::error::MEDIAHUB_GITHUB_TOKEN repository secret is not available."; exit 1; }
+          started_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          echo "started_at=$started_at" >> "$GITHUB_OUTPUT"
 
-  agent2:
-    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'
-    name: Agent 2 — research and architecture
-    uses: ./.github/workflows/gemini-agent-2.yml
-    with:
-      task: >-
-        Wave 243 / agent-2: perform one bounded Contour A research/architecture
-        task with exact source refs and blob SHAs. Separate verified facts from
-        hypotheses; create one isolated Draft PR only. No merge, deployment,
-        qualification, additional model calls, or workflow dispatch.
-      base_ref: main
-      scope: contour-a
-    secrets:
-      GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
-    permissions:
-      contents: write
-      pull-requests: write
-      issues: read
+          # Resolve main once and use that immutable commit for every child checkout.
+          main_ref="$(curl --fail-with-body --silent --show-error \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/VlDMlNSh/mediahub-os/git/ref/heads/main")"
+          target_sha="$(jq -r '.object.sha // empty' <<<"$main_ref")"
+          [[ "$target_sha" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Could not resolve immutable main SHA."; exit 1; }
+          echo "target_sha=$target_sha" >> "$GITHUB_OUTPUT"
 
-  agent3:
-    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'
-    name: Agent 3 — security and verification review
-    uses: ./.github/workflows/gemini-agent-3.yml
-    with:
-      task: >-
-        Wave 243 / agent-3: perform one bounded security and verification review
-        of Contour A with exact source refs, blob SHAs, test evidence, and open
-        risks. Do not claim independent review of work you authored. Create one
-        isolated Draft PR only. No merge, deployment, qualification, additional
-        model calls, or workflow dispatch.
-      base_ref: main
-      scope: contour-a
-    secrets:
-      GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
-    permissions:
-      contents: write
-      pull-requests: write
-      issues: read
+          # Snapshot the latest run ID per child workflow before dispatch.
+          # The monitor uses these baselines and fails closed if more than one
+          # post-baseline candidate exists, rather than silently choosing a run.
+          snapshot_latest() {
+            local workflow="$1"
+            local key="$2"
+            local data id
+            data="$(curl --fail-with-body --silent --show-error \
+              --header "Accept: application/vnd.github+json" \
+              --header "Authorization: Bearer $GH_TOKEN" \
+              --header "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/VlDMlNSh/mediahub-os/actions/workflows/$workflow/runs?per_page=1")"
+            id="$(jq -r '.workflow_runs[0].id // 0' <<<"$data")"
+            echo "baseline_$key=$id" >> "$GITHUB_OUTPUT"
+          }
+          snapshot_latest "gemini-autonomous-engineering.yml" "agent1"
+          snapshot_latest "gemini-agent-2.yml" "agent2"
+          snapshot_latest "gemini-agent-3.yml" "agent3"
+
+          dispatch_one() {
+            local workflow="$1"
+            local task="$2"
+            local payload code
+            payload="$(jq -cn --arg task "$task" --arg target_sha "$target_sha" '{
+              ref:"main",
+              inputs:{task:($task + " Immutable source/main SHA: " + $target_sha + "."),base_ref:$target_sha,scope:"contour-a"}
+            }')"
+            code="$(curl --silent --show-error --output /tmp/dispatch-response.json --write-out '%{http_code}' \
+              --request POST \
+              --header "Accept: application/vnd.github+json" \
+              --header "Authorization: Bearer $GH_TOKEN" \
+              --header "X-GitHub-Api-Version: 2022-11-28" \
+              --header "Content-Type: application/json" \
+              --data "$payload" \
+              "https://api.github.com/repos/VlDMlNSh/mediahub-os/actions/workflows/$workflow/dispatches")"
+            if [[ "$code" != "204" ]]; then
+              echo "::error::Dispatch failed for $workflow (HTTP $code). Response body suppressed from logs."
+              exit 1
+            fi
+            echo "Accepted workflow dispatch: $workflow"
+          }
+
+          dispatch_one "gemini-autonomous-engineering.yml" \
+            "Wave 312 / Agent 1: perform one bounded Contour A engineering task against immutable main SHA and cite exact paths/blob SHAs. Create one isolated Draft PR only. No merge, deployment, qualification, additional model calls, or workflow dispatch."
+          dispatch_one "gemini-agent-2.yml" \
+            "Wave 312 / Agent 2: independently research architecture and component provenance for one bounded Contour A task against immutable main SHA. Cite exact paths/blob SHAs and separate facts from unknowns. Create one isolated Draft PR only. No merge, deployment, or further dispatch."
+          dispatch_one "gemini-agent-3.yml" \
+            "Wave 312 / Agent 3: independently review controller and child workflow security, token isolation, run correlation, permissions, provenance and tests against immutable main SHA. Report evidence and residual risks; create one isolated Draft PR only. No merge, deployment, or further dispatch."
+
+      - name: Find and monitor all three workflow runs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.MEDIAHUB_GITHUB_TOKEN }}
+          STARTED_AT: ${{ steps.dispatch.outputs.started_at }}
+          TARGET_SHA: ${{ steps.dispatch.outputs.target_sha }}
+          BASELINE_AGENT1: ${{ steps.dispatch.outputs.baseline_agent1 }}
+          BASELINE_AGENT2: ${{ steps.dispatch.outputs.baseline_agent2 }}
+          BASELINE_AGENT3: ${{ steps.dispatch.outputs.baseline_agent3 }}
+        run: |
+          set -euo pipefail
+          declare -A workflow_paths=(
+            [agent1]="gemini-autonomous-engineering.yml"
+            [agent2]="gemini-agent-2.yml"
+            [agent3]="gemini-agent-3.yml"
+          )
+          declare -A run_ids=()
+          declare -A statuses=()
+          declare -A conclusions=()
+          deadline=$((SECONDS + 2100))
+
+          while (( SECONDS < deadline )); do
+            all_terminal=true
+            for agent in agent1 agent2 agent3; do
+              path="${workflow_paths[$agent]}"
+              if [[ -z "${run_ids[$agent]:-}" ]]; then
+                data="$(curl --fail-with-body --silent --show-error \
+                  --header "Accept: application/vnd.github+json" \
+                  --header "Authorization: Bearer $GH_TOKEN" \
+                  --header "X-GitHub-Api-Version: 2022-11-28" \
+                  "https://api.github.com/repos/VlDMlNSh/mediahub-os/actions/workflows/$path/runs?event=workflow_dispatch&per_page=20")"
+                case "$agent" in
+                  agent1) baseline="$BASELINE_AGENT1" ;;
+                  agent2) baseline="$BASELINE_AGENT2" ;;
+                  agent3) baseline="$BASELINE_AGENT3" ;;
+                esac
+                candidates="$(jq -r --arg since "$STARTED_AT" --argjson baseline "${baseline:-0}" '[.workflow_runs[] | select(.event == "workflow_dispatch" and .created_at >= $since and .head_branch == "main" and .id > $baseline)] | map(.id)' <<<"$data")"
+                count="$(jq 'length' <<<"$candidates")"
+                if [[ "$count" -gt 1 ]]; then
+                  echo "::error::Ambiguous new runs for $agent after baseline $baseline; refusing to guess."
+                  exit 1
+                elif [[ "$count" -eq 1 ]]; then
+                  id="$(jq -r '.[0]' <<<"$candidates")"
+                  run_ids[$agent]="$id"
+                  echo "Correlated $agent run: $id (baseline $baseline)"
+                else
+                  all_terminal=false
+                  continue
+                fi
+              fi
+
+              run="$(curl --fail-with-body --silent --show-error \
+                --header "Accept: application/vnd.github+json" \
+                --header "Authorization: Bearer $GH_TOKEN" \
+                --header "X-GitHub-Api-Version: 2022-11-28" \
+                "https://api.github.com/repos/VlDMlNSh/mediahub-os/actions/runs/${run_ids[$agent]}")"
+              status="$(jq -r '.status' <<<"$run")"
+              conclusion="$(jq -r '.conclusion // ""' <<<"$run")"
+              statuses[$agent]="$status"
+              conclusions[$agent]="$conclusion"
+              if [[ "$status" != "completed" ]]; then
+                all_terminal=false
+              fi
+              printf '%s run=%s status=%s conclusion=%s\n' "$agent" "${run_ids[$agent]}" "$status" "${conclusion:-pending}"
+            done
+
+            if [[ "$all_terminal" == "true" ]]; then
+              break
+            fi
+            sleep 20
+          done
+
+          {
+            echo "## Gemini transport batch — Wave 312"
+            echo
+            echo "- Immutable source/main SHA: ${TARGET_SHA}"
+            echo
+            echo "| Agent | Run ID | Status | Conclusion |"
+            echo "|---|---:|---|---|"
+            for agent in agent1 agent2 agent3; do
+              echo "| $agent | ${run_ids[$agent]:-not-found} | ${statuses[$agent]:-not-found} | ${conclusions[$agent]:-not-found} |"
+            done
+            echo
+            echo "Run links:"
+            for agent in agent1 agent2 agent3; do
+              if [[ -n "${run_ids[$agent]:-}" ]]; then
+                echo "- $agent: https://github.com/VlDMlNSh/mediahub-os/actions/runs/${run_ids[$agent]}"
+              fi
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          for agent in agent1 agent2 agent3; do
+            if [[ -z "${run_ids[$agent]:-}" ]]; then
+              echo "::error::No matching run found for $agent before timeout."
+              exit 1
+            fi
+            if [[ "${statuses[$agent]:-}" != "completed" || "${conclusions[$agent]:-}" != "success" ]]; then
+              echo "::error::$agent did not complete successfully."
+              exit 1
+            fi
+          done
+          echo "All three Gemini workflow runs completed successfully. Review artifacts and PRs separately before accepting agent output."
 
   probe:
-    if: >-
-      github.event_name == 'pull_request' ||
-      (github.event_name == 'workflow_dispatch' && inputs.mode == 'probe')
-    name: No-secret reusable caller-context probe
-    uses: ./.github/workflows/gemini-reusable-context-probe-wave284.yml
-    permissions: {}
-
-  assert_probe_context:
-    if: always() && (github.event_name == 'pull_request' || inputs.mode == 'probe')
-    name: Assert positive dispatch or negative PR caller context
-    needs: probe
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'probe')
+    name: No-secret controller probe
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      - name: Assert caller context and emit safe evidence
+      - name: Emit non-sensitive controller context
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
-          OBSERVED_EVENT_NAME: ${{ needs.probe.outputs.caller_event_name }}
-          OBSERVED_WORKFLOW_REF: ${{ needs.probe.outputs.caller_workflow_ref }}
-          OBSERVED_TRUSTED_CONTROLLER: ${{ needs.probe.outputs.caller_trusted_controller }}
-          TRUSTED_CONTROLLER_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
+          WORKFLOW_REF: ${{ github.workflow_ref }}
         run: |
           set -euo pipefail
-          printf 'Caller event: %s\n' "$OBSERVED_EVENT_NAME"
-          printf 'Caller workflow ref: %s\n' "$OBSERVED_WORKFLOW_REF"
-          printf 'Trusted controller: %s\n' "$OBSERVED_TRUSTED_CONTROLLER"
-          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            [[ "$OBSERVED_EVENT_NAME" == "workflow_dispatch" ]]
-            [[ "$OBSERVED_WORKFLOW_REF" == "$TRUSTED_CONTROLLER_REF" ]]
-            [[ "$OBSERVED_TRUSTED_CONTROLLER" == "true" ]]
-          else
-            [[ "$EVENT_NAME" == "pull_request" ]]
-            [[ "$OBSERVED_EVENT_NAME" == "pull_request" ]]
-            [[ "$OBSERVED_WORKFLOW_REF" == *"/.github/workflows/gemini-batch-dispatch-controller.yml@refs/pull/"* ]]
-            [[ "$OBSERVED_TRUSTED_CONTROLLER" == "false" ]]
-          fi
           {
-            echo "## Non-launching controller caller-context probe"
+            echo "## Gemini GitHub transport controller probe"
             echo
-            echo "- Trigger event: $EVENT_NAME"
-            echo "- Observed caller event: $OBSERVED_EVENT_NAME"
-            echo "- Observed workflow ref: $OBSERVED_WORKFLOW_REF"
-            echo "- Trusted controller: $OBSERVED_TRUSTED_CONTROLLER"
-            echo "- Provider secret mapped to probe: no"
-            echo "- Model/provider job reachable in probe mode: no"
+            echo "- Event: $EVENT_NAME"
+            echo "- Workflow ref: $WORKFLOW_REF"
+            echo "- Provider/GitHub transport secrets mapped to this job: none"
+            echo "- Agent dispatch performed: no"
           } >> "$GITHUB_STEP_SUMMARY"
-
-  summarize:
-    if: always() && github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == 'yes'
-    name: Fail-closed batch summary
-    needs: [agent1, agent2, agent3]
-    runs-on: ubuntu-latest
-    permissions: {}
-    steps:
-      - name: Record reusable-workflow conclusions
-        shell: bash
-        env:
-          AGENT1_RESULT: ${{ needs.agent1.result }}
-          AGENT2_RESULT: ${{ needs.agent2.result }}
-          AGENT3_RESULT: ${{ needs.agent3.result }}
-        run: |
-          set -euo pipefail
-          {
-            echo "## Gemini controller-only batch"
-            echo
-            echo "- Controller run ID: ${GITHUB_RUN_ID}"
-            echo "- Controller workflow ref: ${GITHUB_WORKFLOW_REF}"
-            echo
-            echo "| Child workflow | Job conclusion |"
-            echo "|---|---|"
-            echo "| gemini-autonomous-engineering.yml | ${AGENT1_RESULT} |"
-            echo "| gemini-agent-2.yml | ${AGENT2_RESULT} |"
-            echo "| gemini-agent-3.yml | ${AGENT3_RESULT} |"
-          } >> "${GITHUB_STEP_SUMMARY}"
-          if [[ "${AGENT1_RESULT}" != "success" || "${AGENT2_RESULT}" != "success" || "${AGENT3_RESULT}" != "success" ]]; then
-            echo "::error::At least one reusable child workflow did not succeed; batch fails closed."
-            exit 1
-          fi
-          echo "All three reusable child workflows succeeded. Their jobs and artifacts are attached to controller run ${GITHUB_RUN_ID}; review outputs independently."
