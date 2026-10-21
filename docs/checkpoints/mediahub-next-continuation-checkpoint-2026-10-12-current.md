@@ -1833,3 +1833,15 @@ Purpose: Resume this exact project state in a new chat when the user sends /next
 - The PR remains draft pending genuine independent security review and confirmation of effective repository/org governance and token permissions. No Gemini agent-mode was launched; do not dispatch before those gates pass.
 - Wave report: https://github.com/VlDMlNSh/mediahub-os/blob/fix/gemini-github-api-transport-wave-312/docs/checkpoints/MEDIAHUB-GEMINI-GITHUB-TRANSPORT-CONTROLLER-FIX-WAVE-312-2026-10-21.md
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## New-chat continuation master — Wave 312 (2026-10-21)
+
+A standalone handoff was added to preserve the active chat context, transport architecture, competing controller PR state, exact last-checked SHAs, CI/review gaps, executor NOT RUN statuses, and ordered next steps:
+
+- [MediaHub New-Chat Continuation Master — Wave 312](MEDIAHUB-NEW-CHAT-CONTINUATION-MASTER-2026-10-21-WAVE-312.md)
+- Direct link: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-NEW-CHAT-CONTINUATION-MASTER-2026-10-21-WAVE-312.md
+- Master file blob SHA: `09e0310d3d02bcaec1d4af9be02549bb13f385a4`
+- Creation commit: `c34dd19adbea1d1b57cc49b1cc94fa6d06724ef1`
+- Controller state at handoff: PR #432 is an unaccepted draft follow-up; PR #431 is a separate earlier repair and must be rechecked before choosing one implementation. Gemini Agent 1–3 remain NOT RUN.
+- Canonical map remains authoritative and unchanged: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
