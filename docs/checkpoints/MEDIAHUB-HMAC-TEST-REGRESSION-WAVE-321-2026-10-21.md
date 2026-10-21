@@ -66,3 +66,13 @@ The first repair commit `960a57e6278e28867c5f8ec797f38638a786999e` fixed the two
 - Latest PR #436 head: `7c45e920982a69169fc856a1739cb73445be904f`.
 - Latest test blob: `01ddae5e1d7fd0e49ffa651da9655a5a5ad7a8d5`; read-back confirmed all three `next(...hmac.new(...))` expressions close correctly.
 - Latest exact-head runs observed: Cloud Runtime Validation [#39649630864](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630864) SUCCESS; workflow contract validation [#39649630799](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630799) and Astra Verify [#39649630775](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630775) were still running when checked. Therefore CI remains pending and the repair is not yet verified.
+
+
+## Follow-up fixture failure found by Astra Verify
+
+After the syntax errors were corrected, Astra Verify reached the child authorization runtime tests and found a second independent test-harness defect: `make_environment()` declared lowercase canonical signed fields (`workflow_file`, `dispatch_id`, etc.) but indexed a dictionary containing uppercase environment names (`WORKFLOW_FILE`, `DISPATCH_ID`, etc.). This caused KeyError before the negative event/ref assertions could execute. The fixture was corrected to build the canonical signed payload from the uppercase runtime environment values and to map lowercase signed overrides onto their corresponding environment fields.
+
+- Failing evidence: Astra Verify [#39649630775](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39649630775), job `119394233707`; the run reported 460 tests with 46 errors, all rooted in missing `workflow_file` key.
+- Latest PR #436 head observed: `95080b43782f9464f05869f08cf7a9f47680a233`.
+- Fixture blob: `dd9bc5cd3c917414fe55f9d439428f6496e2429d`; transport test blob remains `01ddae5e1d7fd0e49ffa651da9655a5a5ad7a8d5`.
+- GitHub Actions query and commit-check API returned no runs/checks for latest head at the time of this update. Therefore no CI result is available for the latest candidate; this is **NOT VERIFIED**, not a pass. Earlier exact-head checks on intermediate commits do not qualify the latest head.
