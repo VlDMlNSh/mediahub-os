@@ -1923,3 +1923,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - ChatGPT conversation `/next` is not a GitHub Issue #301 comment. The workflow's issue-comment trigger does not establish an event bridge from this chat; per-chat automatic dispatch remains NOT IMPLEMENTED/NOT PROVEN.
 - Open gates: independent review of exact #432 head; effective minimal token scope; non-disclosing verification of HMAC secret separation and enablement variable; governance/branch protection; accepted runner/workspace/network target manifest; A0 issuer/ingress/lease/cancel/recovery and R-06; standards-compliant Draft 2020-12 schema validation/fixtures; Alamo identity/capability and approved non-paid Claude route. No secrets read, agent dispatch, provider call, local tests, merge or deployment occurred.
 - Next: independent exact-head security review and source/test reconciliation; continue non-secret schema validation while all agent dispatch remains fail-closed.
+
+
+## Wave 319 — source-bound review of PR #432 (2026-10-21)
+
+- Review report: [Wave 319 PR #432 source-bound security review](MEDIAHUB-PR432-SOURCE-SECURITY-REVIEW-WAVE-319-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-319-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Inspected head `269b57b8b9c412261c97c4811bd49cbb4122ba03`, controller blob `9453403bba899a2400ee3fb874d32badd034c704`. Source review observed controller-only transport token, shared immutable SHA, HMAC signed payload, provider job dependency on authorization success, fail-closed partial/ambiguous dispatch handling, and non-launching probe default.
+- Formal independent PR review remains absent. Existing static tests do not prove runtime HMAC behavior/configuration/effective token permissions. UUID regex `[0-9a-f-]{36}` is looser than canonical UUID validation; add strict UUID and HMAC tamper/missing/wrong-field tests.
+- PR #432 stays OPEN/DRAFT/UNMERGED. Gemini Agent 1/2/3 NOT RUN; no controller/child run IDs. Claude Code and agent-browser on Alamo NOT RUN; host identity/capability and non-paid route remain unverified. ChatGPT `/next` event bridge remains NOT IMPLEMENTED/NOT PROVEN.
+- Next: add secret-free executable HMAC canonicalization/tamper tests and strict UUID validation, run exact-head CI, and obtain separate formal review before any dispatch.
