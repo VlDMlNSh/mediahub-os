@@ -44,9 +44,24 @@ def make_environment(workflow_file, signed_overrides=None, runtime_overrides=Non
         "REPOSITORY": "VlDMlNSh/mediahub-os",
         "REF_NAME": "refs/heads/main",
     }
-    if signed_overrides:
-        values.update(signed_overrides)
-    payload = {field: values[field] for field in SIGNED_FIELDS}
+    # Test overrides use canonical signed-field names; translate them to
+    # the child's uppercase environment-variable names before signing.
+    env_names = {
+        "workflow_file": "WORKFLOW_FILE",
+        "dispatch_id": "DISPATCH_ID",
+        "target_sha": "TARGET_SHA",
+        "task": "TASK",
+        "base_ref": "BASE_REF",
+        "scope": "SCOPE",
+    }
+    for field, value in (signed_overrides or {}).items():
+        if field not in env_names:
+            raise ValueError(f"Unsupported signed field: {field}")
+        values[env_names[field]] = value
+    payload = {
+        field: values[env_names[field]]
+        for field in SIGNED_FIELDS
+    }
     values["SIGNATURE"] = hmac.new(
         values["HMAC_KEY"].encode(),
         json.dumps(payload, sort_keys=True, separators=(",", ":")).encode(),
