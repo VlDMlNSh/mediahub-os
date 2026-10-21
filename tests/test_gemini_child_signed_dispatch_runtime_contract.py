@@ -45,7 +45,7 @@ def make_environment(workflow_file, signed_overrides=None, runtime_overrides=Non
         "REF_NAME": "refs/heads/main",
     }
     if signed_overrides:
-        values.update(signed_overrides)
+        values.update({key.upper(): value for key, value in signed_overrides.items()})
     payload = {field: values[field.upper()] for field in SIGNED_FIELDS}
     values["SIGNATURE"] = hmac.new(
         values["HMAC_KEY"].encode(),
