@@ -7797,3 +7797,8 @@ The patch branch was advanced with a two-parent merge commit `3c69643812d07d85ee
 
 
 - Wave 300: [Independent Gemini source-only review](../checkpoints/MEDIAHUB-INDEPENDENT-GEMINI-REVIEW-WAVE-300-2026-10-21.md) and [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-300-2026-10-21.md). Run 39591234636 succeeded; artifact blob SHA `9c752d3ca2c5efdb957ddde758ee0e2e9e37b900`. Review is not formal approval/acceptance. Draft 2020-12 validation/fixtures, semantic resolution, authoritative target manifest, A0 lifecycle and R-06 acceptance remain open. No provider credentials, implementation dispatch, merge, deployment or qualification.
+
+
+## Latest index pointer — Wave 301 (2026-10-21)
+
+The current continuation is [Wave 301 — Gemini independent schema and governance review](../checkpoints/MEDIAHUB-GEMINI-INDEPENDENT-SCHEMA-AND-GOVERNANCE-REVIEW-WAVE-301-2026-10-21.md), with [addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-301-2026-10-21.md). This entry supersedes older trailing Wave 300 pointers for continuation purposes. Exact candidate schema SHAs, Gemini run/artifact IDs, and open A0/target/R-06 gates are recorded in the Wave 301 report. Gate remains BLOCKED / NOT_PROVEN.
