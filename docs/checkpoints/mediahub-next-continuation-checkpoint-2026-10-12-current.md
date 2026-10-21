@@ -2072,3 +2072,16 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - PR #437 head `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14` is Draft/open; exact-head CI/status and formal reviews absent. Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifact digests.
 - SentinelX confirms Voktors-Mini.Dlink `host_5f7264034bdf0b51`, macOS arm64. agent-browser native binary exists, but CLI skill retrieval timed out/reconnected; no browser session opened. `claude` and `ollama` were not found on PATH in the successful bounded check. Claude/FCC free route NOT VERIFIED. No allowlist, secret, code or install changes.
 - Next: clear CI/review/governance gates, then controller-only three-agent dispatch on one immutable SHA; separately restore stable host execution and qualify browser/Claude free route without paid fallback.
+
+
+## Wave 328 — Gemini dispatch and Voktors-Mini executor blockers (2026-10-21)
+
+- Report: [Wave 328 dispatch/executor blockers](MEDIAHUB-NEXT-GEMINI-AND-VOKTORS-DISPATCH-BLOCKERS-WAVE-328-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-328-2026-10-21.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Current `main` HEAD `79196054d84b1197cea1447dd1db5ad075302834`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 remains Draft/open at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head check-runs returned 0 and formal review list is empty. PR #438 also remains Draft/open without formal reviews.
+- GitHub reports `main` unprotected, with required status checks disabled. This is a governance blocker.
+- Controller run [39665960179](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39665960179) was SKIPPED; all four jobs were skipped. Its trigger comment was a Wave 327 report, not a comment with body exactly `/next`. No Gemini child IDs or artifacts exist for this pass.
+- Owner states `MEDIAHUB_DISPATCH_HMAC_KEY` and `MEDIAHUB_GEMINI_BATCH_ENABLED` exist in GitHub. Their effective runtime values, `MEDIAHUB_GITHUB_TOKEN` least privilege and secret separation remain NOT VERIFIED; no secret values were read.
+- SentinelX host `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`) pinged successfully but capability/state calls timed out/disconnected. Diagnosis `host_overloaded` with 32 unanswered calls and 192 reconnects in 24h. agent-browser core skill command, browser session and Claude/FCC execution were NOT RUN; no fallback host/transport was used.
+- Gemini Agents 1–3: NOT RUN; no controller/child run IDs or artifact digests. Claude/FCC and agent-browser: NOT RUN. No qualification or acceptance.
+- Next: exact-head CI and independent review; configure appropriate branch protection/rulesets; verify token scope and secret separation without revealing values; pass trusted-main no-secret probe; only then authorize one controller-only batch on one immutable SHA. Separately reduce Voktors-Mini load, verify capabilities/allowlist, read installed `agent-browser skills get core`, then validate Claude/FCC free routing without paid fallback.
