@@ -1,3 +1,13 @@
+## Latest continuation — Wave 303 (2026-10-21)
+
+- Report: [Schema-validation scaffold audit](MEDIAHUB-SCHEMA-VALIDATION-SCAFFOLD-AUDIT-WAVE-303-2026-10-21.md); related [Wave 302 reconciliation](MEDIAHUB-CONTOUR-A-EXACT-HEAD-GATE-RECONCILIATION-WAVE-302-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); canonical branch remains `docs/mediahub-chat-tree-map-20261012`. The Wave 303 report is on the unmerged pass branch / PR #430 and is not canonical acceptance.
+- Re-fetched immutable candidate schema blobs and parsed each as JSON: task `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` (15 required top-level keys); registry `b49b89b8fbdfc180862e3dc78f8198f35e486035` (10); evidence manifest `40c402432fd0f3899d45fde0fa0a8af4d34c593a` (13). All declare Draft 2020-12. This is structural inspection only, not meta-validation.
+- Exact paths `pyproject.toml`, `requirements.txt`, and `.github/workflows/verify.yml` were not found on `main`; searches for `jsonschema` and `schema validation test` returned no results. This limited probe does not establish that the repository has no other workflow/test harness.
+- No standards-compliant validator or instance fixtures were run/validated. No positive/negative fixture evidence, format assertion, semantic reference resolution, or CI artifact was produced. No schema promotion, provider credentials, dispatch, merge, deployment, qualification, or acceptance.
+- Gate remains **BLOCKED / NOT_PROVEN**. Next: enumerate existing workflow/test paths and governing contracts from exact refs, then add a pinned isolated Draft 2020-12 meta-validator with format assertion and positive/negative fixtures against immutable blobs, followed by a distinct semantic-reference validation layer.
+- Current evidence PR: [#430](https://github.com/VlDMlNSh/mediahub-os/pull/430), OPEN/DRAFT/UNMERGED until independently reviewed.
+
 ## Latest continuation — Wave 300 (2026-10-21)
 
 - Report: [Independent Gemini source-only review](MEDIAHUB-INDEPENDENT-GEMINI-REVIEW-WAVE-300-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-300-2026-10-21.md).
