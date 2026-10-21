@@ -45,3 +45,15 @@
 - PR metadata, branch refs, file contents and Actions run metadata were read from GitHub during Wave 313.
 - No code was changed in either controller PR by this pass; no PR was merged; no workflow was dispatched; no tests were run locally.
 - This report is evidence of comparison and gate status, not qualification, release or acceptance.
+
+
+## Architecture clarification — authoritative continuation master
+
+The authoritative handoff [MEDIAHUB-NEW-CHAT-CONTINUATION-MASTER-2026-10-21-WAVE-312.md](MEDIAHUB-NEW-CHAT-CONTINUATION-MASTER-2026-10-21-WAVE-312.md) was located on the canonical documentation branch (blob SHA `09e0310d3d02bcaec1d4af9be02549bb13f385a4`). It explicitly establishes the following non-negotiable transport boundary:
+
+1. Gemini Agents 1–3 are dispatched only through the approved GitHub Actions controller using GitHub API transport and repository secret `MEDIAHUB_GITHUB_TOKEN`. The token is transport-only, remains controller-confined, and must never be passed to children, model prompts, shell arguments, logs or artifacts. Never use `secrets: inherit`.
+2. Gemini provider credentials are separate and scoped to their respective child model steps. Alamo/server 3 is not Gemini transport and must not be used as fallback for Gemini.
+3. Alamo/server 3 is reserved for local Claude Code and browser-agent work; use only an approved free/non-paid Claude route after verifying host identity, capabilities and allowlist. Browser inspection must use the approved @SentinelX/agent-browser route, not a Gemini dispatch path.
+4. PR #432's additional `MEDIAHUB_DISPATCH_HMAC_KEY` is an implementation-specific extra prerequisite not documented as verified in the handoff. Its configuration and design must be reviewed; do not assume it is present or authorized. This clarification does not authorize dispatch or secret access.
+
+SentinelX host inventory was checked during this pass. The only connected operational host returned was `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`); the default-host connection is live, but the capabilities call returned a stale-session error. Two other enrolled hosts are disabled. No host is positively identified as Alamo/server 3, so Claude/browser work is **NOT RUN** until that identity and capability state can be verified. No Gemini workflow was dispatched.
