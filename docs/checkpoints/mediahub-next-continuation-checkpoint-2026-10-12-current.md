@@ -2,6 +2,18 @@
 
 - Report: [PR #421/#426 probe integration boundary](MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-299-2026-10-21.md).
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Current `main`: `80be45a70732b1d568164571d4273a6397792c3b`.
+- PR #421: OPEN/DRAFT/UNMERGED, head `185f55b63121b1aece7e60f6c087ecfceab2721e`; PR #426: OPEN/DRAFT/UNMERGED, head `6caf55977260e808a055c8c4b9a04d68eb050d8c`. No submitted formal reviews are visible for either.
+- Current probe paths differ: #421 calls Wave 284 observer; #426 adds a separate sentinel plus Astra Verify wiring. This does not prove full changeset integration is conflict-free.
+- Owner reports no additional rules configured on the three previously linked settings pages; record: [Issue #301 comment](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6314555168). This is owner-reported UI evidence, not a privileged snapshot proving all classic/org policy absent.
+- The combined-status endpoint returned no entries for #421 head and is not a full Actions inventory; Wave 298 records the exact-head workflow runs. Effective policy state remains only partially verified.
+- Gate remains **BLOCKED / NOT_PROVEN**. No agent-mode dispatch, provider secret-value access, merge, deployment, qualification, or acceptance.
+- Next: advance ordered implementation work by locating the authoritative target manifest and the three v0.2 schemas; run Draft 2020-12 meta-validation, format assertions, and positive/negative fixtures once exact source refs are established. Keep all dispatch/credential/merge/deployment gates separate.
+
+## Latest continuation — Wave 299 (2026-10-21)
+
+- Report: [PR #421/#426 probe integration boundary](MEDIAHUB-PR421-PR426-PROBE-INTEGRATION-BOUNDARY-WAVE-299-2026-10-21.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-299-2026-10-21.md).
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
 - Verified main SHA remains `80be45a70732b1d568164571d4273a6397792c3b`.
 - PR #421 remains Draft/Open/Unmerged at `185f55b63121b1aece7e60f6c087ecfceab2721e`; PR #426 remains Draft/Open/Unmerged at `6caf55977260e808a055c8c4b9a04d68eb050d8c`. No submitted reviews are visible for either.
 - Current exact paths differ: #421 calls the Wave 284 observer; #426 introduces a distinct sentinel and Astra Verify wiring. This removes only the claim of a demonstrated same-path collision; full changeset and merge sequencing remain to be checked.
