@@ -1,3 +1,15 @@
+## Wave 338 — owner authorization and Ollama executor recheck (2026-10-22)
+
+- Owner authorization and clarification are recorded in [Issue #301 Wave 338 comment](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941): “Alamo” means local Ollama, not a separate host-name requirement.
+- Checkpoint: [Wave 338 continuation entry](mediahub-next-continuation-checkpoint-2026-10-12-current.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Candidate target SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`.
+- PR #437 exact head `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14` and PR #441 exact head `9f40b90c3106662cfcc337c48f29e4794fa713dc`: available status/run/review queries returned empty; exact-head CI and independent review remain NOT VERIFIED. Branch protection/governance and effective token scope/injection remain UNKNOWN/NOT VERIFIED.
+- Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifact digests. No workflow-dispatch write action is available through the connected GitHub tools; no batch-triggering issue comment was posted.
+- SentinelX lists Voktors-Mini.Dlink (`host_5f7264034bdf0b51`) operational, but host execution was blocked by safety controls and subsequent host calls disconnected. No local commands completed; Ollama model/runtime and agent-browser remain NOT VERIFIED/NOT RUN.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: exact-head CI, independent security review, authoritative governance/token-scope evidence, authorized no-secret probe, then read-only Ollama/browser preflight.
+
+---
+
 ## Wave 332 — Transport source reconciliation and executor readiness (2026-10-21)
 
 - Evidence report: [Wave 332](MEDIAHUB-NEXT-TRANSPORT-AND-EXECUTOR-RECONCILIATION-WAVE-332-2026-10-21.md); map addendum: [Wave 332](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-332-2026-10-21.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
