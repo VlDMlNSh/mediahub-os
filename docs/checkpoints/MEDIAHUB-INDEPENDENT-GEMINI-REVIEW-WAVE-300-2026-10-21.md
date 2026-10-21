@@ -30,7 +30,7 @@ The independently read-back schema candidates on the documentation branch are:
 | Schema | Blob SHA | Current disposition |
 |---|---|---|
 | [Task Envelope v0.2](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CLOUD-AGENT-TASK-ENVELOPE-SCHEMA-V0.2-WAVE-16-2026-10-16.json) | `6f3cd3d40b2c5fe3f21bb6085536769fbef8322a` | Candidate only |
-| [Agent Registry v0.2](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json) | `b49b89b8b2b2a88da7d8884a897b404f055981a8` | Candidate only; canonical read-back SHA is `b49b89b8fbdfc180862e3dc78f8198f35e486035` |
+| [Agent Registry v0.2](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CLOUD-AGENT-REGISTRY-SCHEMA-V0.2-WAVE-16-2026-10-16.json) | `b49b89b8fbdfc180862e3dc78f8198f35e486035` | Candidate only |
 | [Evidence Manifest v0.2](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-CLOUD-AGENT-EVIDENCE-MANIFEST-SCHEMA-V0.2-WAVE-16-2026-10-16.json) | `40c402432fd0f3899d45fde0fa0a8af4d34c593a` | Candidate only |
 
 All three schemas declare Draft 2020-12 and carry date-time format annotations; no local `$ref` entries were found by the bounded structural scan. Their `$id` values point to mutable branch URLs rather than immutable commit/blob URLs. Runtime consumers must therefore bind schema identity to the exact blob SHA, not treat `$id` as immutable provenance.
