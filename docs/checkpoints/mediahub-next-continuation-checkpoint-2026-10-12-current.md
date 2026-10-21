@@ -2296,3 +2296,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - SentinelX host `Voktors-Mini.Dlink` ping/state/capabilities responded; read-only browser CLI check timed out. Browser and local Claude/Ollama remain NOT VERIFIED/NOT RUN. Gemini 1–3 NOT RUN; no child run IDs or artifact digests.
 - No secrets read, trigger comment posted, dispatch, host modification, merge, deployment, qualification or acceptance. Governance, token scope, HMAC probe and independent security review remain NOT VERIFIED. Branch protection API 403 is inconclusive.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued CI with provider/admin evidence, independent controller security review, metadata-only governance/token-scope verification, then approved non-launching probe.
+
+
+## Wave 344 — refreshed PR HEAD and exact-head CI evidence (2026-10-22)
+
+- Report: [Wave 344 refreshed PR HEAD and CI evidence](MEDIAHUB-NEXT-REFRESHED-PR-HEAD-CI-EVIDENCE-WAVE-344-2026-10-22.md), blob SHA `8d5f33c47ddae949f0a1d0db6a4099857f8dccc5`, commit `22994ac55f57e661f2e897ac5d1c551ff81903f7` on working branch.
+- Main SHA remains `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`.
+- PR #437 exact HEAD `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`, suite `107496095390` QUEUED/zero checks. PR #441 exact HEAD `9f40b90c3106662cfcc337c48f29e4794fa713dc`, suite `107524023551` QUEUED/zero checks.
+- PR #442 HEAD advanced to `4fc7ea9211a7e7e4ebda4e14374cb35f93124439`; current suite `107547755292` QUEUED/zero checks, no workflow runs on that exact SHA. Do not use stale suite `107544433195` for current HEAD.
+- Main Astra Verify `39669337754` SUCCESS; controller run `39678989141` SKIPPED because owner comment `6326943789` was not literal `/next`.
+- Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifacts. Governance, effective token scope and independent security review remain NOT VERIFIED. SentinelX browser CLI lookup timed out; browser and local Claude-FCC/Ollama remain NOT VERIFIED/NOT RUN.
+- Status **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve queued checks, independent security review and metadata-only governance/token-scope verification; only then run approved non-launching probe and consider agent dispatch.
