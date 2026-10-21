@@ -37,7 +37,7 @@ These runs created no Gemini child runs and do not demonstrate model invocation,
 ## SentinelX / Voktors-Mini / agent-browser / Claude
 
 - SentinelX inventory lists `Voktors-Mini.Dlink`, host ID `host_5f7264034bdf0b51`, agent `0.22.0`, as operational in the inventory.
-- During this pass, capability/state/ping requests then returned timeout or `agent_disconnected` (`read_loop_ended`). Therefore the live command allowlist and execution channel could not be revalidated.
+- SentinelX initially returned timeout/`agent_disconnected` (`read_loop_ended`) for capability/state/ping calls. A later ping succeeded (`pong: true`, agent `0.22.0`), but repeated `detail=full` capability requests still timed out/disconnected. Therefore the live command allowlist could not be revalidated; no remote command was executed.
 - As allowlist/capability evidence is unavailable, `agent-browser skills get core` was **not** run remotely and no browser command/session was started.
 - Claude-fcc-Ollama / FCC was not invoked. No route qualification proves allowed non-paid authentication, upstream terms, cost class, egress, or paid-fallback exclusion.
 - No server was used to transport or execute Gemini. Cloud/server independence is supported by workflow source design, but failover has not been dynamically tested.
