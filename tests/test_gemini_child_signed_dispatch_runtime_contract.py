@@ -54,6 +54,8 @@ def make_environment(workflow_file, signed_overrides=None, runtime_overrides=Non
             "scope": "SCOPE",
         }
         for field, value in signed_overrides.items():
+            if field not in env_names:
+                raise ValueError(f"Unsupported signed field: {field}")
             values[env_names[field]] = value
     payload = {
         "workflow_file": values["WORKFLOW_FILE"],
