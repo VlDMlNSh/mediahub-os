@@ -77,4 +77,4 @@ The existing controller contains fixed task prompts for generic implementation, 
 - PR #483 formal independent review: NOT VERIFIED.
 - Contour A / production supervisor: NOT QUALIFIED / NOT ACCEPTED.
 
-Next: independently verify the parser fix on exact PR head; then add the same benchmark fixture and compare the three orchestration candidates before selecting a production component. Do not merge this research branch or install dependencies before review.
+Next: build the same deterministic, non-secret benchmark fixture for LangGraph, CrewAI and Microsoft Agent Framework, then compare recovery, auditability, dependency footprint, license and integration cost. Do not merge this research branch or install dependencies before review.
