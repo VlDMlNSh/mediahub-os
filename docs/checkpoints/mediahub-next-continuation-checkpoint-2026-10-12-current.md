@@ -2449,3 +2449,11 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - PR #489 exact head `219724adc95f24fbb74a36e4816ffd44e8638892`: Astra Cloud Runtime Validation run [39840474749](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39840474749) SUCCESS; Astra Verify [39840474441](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39840474441) was still IN PROGRESS at last read. Combined status was empty; do not treat it as PASS. No provider API call was run.
 
 - Official DeepSeek docs were rechecked during this wave: use `deepseek-flash` for current V4.1 Flash; registry had legacy aliases and a trial/free-like classification. A separate draft PR #489 updates the model registry to `deepseek-flash` and `paid_api`; its CI/status and focused test execution remain NOT VERIFIED.
+
+
+## Wave 387 final CI refresh — DeepSeek (2026-10-22)
+
+- PR #489 exact head `219724adc95f24fbb74a36e4816ffd44e8638892`, open Draft/unmerged. [Astra Cloud Runtime Validation #39840474749](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39840474749) **SUCCESS**; [Astra Verify #39840474441](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39840474441) **SUCCESS** including compile, Cloud admission unit tests, signed-command smoke test. The dedicated registry test file exists at blob `b89c4b0dd0053376ea505b156fc0861b1f3fb656`, but the workflow output does not separately identify that test by name.
+- Independent PR review: **NOT VERIFIED** (review list empty). Credential presence: **NOT VERIFIED**. No key was supplied or changed; no live provider request or paid inference was run. DeepSeek remains **NOT QUALIFIED**.
+- Next: owner must ensure `DEEPSEEK_API_KEY` exists in GitHub Actions repository secrets and `MEDIAHUB_DEEPSEEK_MODEL=deepseek-flash` in repository variables, then confirm runner `mh-dev-02` is admitted and authorized. Use only the approved qualification path and budget cap; complete 23 fresh isolated rounds and independent review before moving to the next executor.
+- Report: [Wave 387 DeepSeek assessment](MEDIAHUB-DEEPSEEK-CLOUD-POOL-WAVE-387-2026-10-22.md); registry change [PR #489](https://github.com/VlDMlNSh/mediahub-os/pull/489); docs evidence [PR #488](https://github.com/VlDMlNSh/mediahub-os/pull/488); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
