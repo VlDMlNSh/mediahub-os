@@ -2440,9 +2440,11 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 
 ## Wave 387 — DeepSeek cloud pool admission assessment (2026-10-22)
 
-- Report: [DeepSeek cloud pool admission assessment](MEDIAHUB-DEEPSEEK-CLOUD-POOL-WAVE-387-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Report: [DeepSeek cloud pool admission assessment](MEDIAHUB-DEEPSEEK-CLOUD-POOL-WAVE-387-2026-10-22.md); model registry follow-up [PR #489](https://github.com/VlDMlNSh/mediahub-os/pull/489); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
 - Source review on main SHA `11d04d2f2687e9ba9215e4b67af2e450516960bb` confirmed DeepSeek is already registered in the cloud authorization baseline, orchestrator, provider registry, auth probe, and unit tests. No duplicate adapter was added.
 - Secret name is contractually `DEEPSEEK_API_KEY`; model variable is `MEDIAHUB_DEEPSEEK_MODEL`. No secret value was supplied or accessed. Current tool surface has no repository-secret write or workflow-dispatch action; live auth/model discovery/inference **NOT RUN**.
 - A3 path remains `NOT_PROVEN`: current CI status queries returned empty results (**NOT VERIFIED**), and the contract requires 23 fresh isolated rounds plus independent review and isolation/timeout/replay/recovery evidence. No paid request or workflow dispatch occurred.
 - Next: owner adds the secret in GitHub Settings without sharing it in chat; verify the admitted `mh-dev-02` runner and model/cost; run the approved qualification route against one immutable SHA. Do not promote DeepSeek or proceed to the next executor before independent qualification.
 - Report/source evidence: see linked report for blob SHAs and detailed statuses.
+
+- Official DeepSeek docs were rechecked during this wave: use `deepseek-flash` for current V4.1 Flash; registry had legacy aliases and a trial/free-like classification. A separate draft PR #489 updates the model registry to `deepseek-flash` and `paid_api`; its CI/status and focused test execution remain NOT VERIFIED.
