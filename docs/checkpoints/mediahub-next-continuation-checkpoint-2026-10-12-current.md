@@ -1,3 +1,16 @@
+## Wave 351 — recovered Claude/FCC/Ollama history (2026-10-22)
+
+- Report: [Wave 351 evidence recovery](MEDIAHUB-NEXT-CLAUDE-FCC-OLLAMA-HISTORICAL-EVIDENCE-WAVE-351-2026-10-22.md); map addendum: [Wave 351](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-351-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Recovered historical positives: 2026-10-02 inventory records Claude Code 2.1.282, running OmniRoute 3.8.50 and running Ollama 0.34.4 on Voktors-Mini.Dlink (blob `567ea108f5faee9d9176cb475ac8534ef19eb25d`). 2026-09-28 GitHub transport health records Voktors-Mini.Dlink PASS/self-reexec-v1 at worker SHA `cd7a83c6b6b8d6065a157274e79e315e2aa5012c0f8ee9466de92980570b9e1a` (checkpoint blob `18ca4708d67456fc6be8953cfe411fff8c007d67`).
+- Existing three-Claude 23-wave workflow and bounded local worker are present and reused; no rebuild. Owner reports successful prior Claude-fcc-Ollama and agent-browser work; no duplicate task performed.
+- Exact historical successful Claude workflow run ID/artifact digest was not located by repo code search. Workflow code's existence is not itself run evidence. Registry still says AUTHORIZED / QUALIFICATION PENDING pending fresh exact-SHA three-lane evidence, independent review, aggregate PASS and soak.
+- Current runtime gap is distinct: last bounded check found Ollama client but no reachable server. Historical positive evidence retained; current availability NOT VERIFIED.
+- PR #437 remains open/draft at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head statuses/workflow runs/reviews still return empty: CI/review NOT VERIFIED. PR #443 is merged at `909d2ba6caeb2a84508978925126a074f3a934da`.
+- No Gemini batch, local task, provider call or owner trigger executed. Gemini remains exclusively on approved GitHub controller; Mac remains separate local lane.
+- Status: **HISTORICAL EVIDENCE RECOVERED / CURRENT CLAUDE QUALIFICATION NOT VERIFIED / CURRENT GEMINI BATCH NOT RUN / NOT ACCEPTED**.
+
+---
+
 ## Wave 350 — PR #433 merged; recheck current gates (2026-10-22)
 
 - Report: [Wave 350](MEDIAHUB-NEXT-POST-PR433-MERGE-RECONCILIATION-WAVE-350-2026-10-22.md); map addendum: [Wave 350](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-350-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
