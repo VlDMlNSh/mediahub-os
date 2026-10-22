@@ -1,0 +1,9 @@
+# Canonical map addendum — Wave 358 local Claude route comparison (2026-10-22)
+
+- Full evidence: [Wave 358 local Claude route comparison](../checkpoints/MEDIAHUB-NEXT-LOCAL-CLAUDE-ROUTE-COMPARISON-WAVE-358-2026-10-22.md); [canonical map](MEDIAHUB-CHAT-TREE-MAP.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Selected for next qualification iteration: FCC as primary Claude-compatible gateway; OmniRoute as secondary broader provider router. This is not acceptance of autonomous Claude execution.
+- Added active local OmniRoute provider `ollama-local` at `127.0.0.1:11434/v1`; OmniRoute now has two active local connections, Ollama and llama.cpp. No external provider connection was active; no external API or paid fallback was used.
+- Fresh local inference: FCC → Ollama pinned `anthropic/ollama/qwen2.5-coder:1.5b` returned HTTP 200 and exact marker in 0.50 s. OmniRoute → Ollama returned exact marker in 0.806 s; OmniRoute → llama.cpp exact live GGUF model ID returned exact marker in 3.832 s.
+- Claude Code tool execution remains NOT VERIFIED: 1.5B model emitted JSON-looking Read call as plain text; qwen3:4b timed out in a bounded attempt; OmniRoute Claude request rejected unsupported thinking; existing llama.cpp Claude alias exceeded the 32,768-token context.
+- Catalog breadth: FCC documentation lists 25 provider backends; OmniRoute v3.8.50 catalog has 352 provider definitions and 14 local provider types. Catalog availability is not proof that external free routes are configured or quota-qualified. Do not add an external route without a verified free-tier, quota, expiry, and no-paid-fallback contract.
+- All listeners remained loopback-only. Repo worktree stayed clean at `2e23f9a99e655369672340329c4c1b6de25f1576`. [Wave 358 report](../checkpoints/MEDIAHUB-NEXT-LOCAL-CLAUDE-ROUTE-COMPARISON-WAVE-358-2026-10-22.md).
