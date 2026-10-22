@@ -8,7 +8,7 @@
 
 ## Owner direction
 
-Alamo runs on `Voktors-Mini.Dlink`, the Mac mini 2018. The owner asked to replace all repository references to “Mac Pro” with “Mac mini 2018”. Exact phrase checks over GitHub's returned 100 candidate paths found three source files with literal matches; all three have been updated on this branch. Finish a branch-wide exact-string check before calling the repository sweep complete.
+Alamo runs on `Voktors-Mini.Dlink`, the Mac mini 2018. The owner asked to replace all repository references to “legacy hardware label” with “Mac mini 2018”. Exact phrase checks over GitHub's returned 100 candidate paths found three source files with literal matches; all three have been updated on this branch. Finish a branch-wide exact-string check before calling the repository sweep complete.
 
 ## Agent dispatch status
 
