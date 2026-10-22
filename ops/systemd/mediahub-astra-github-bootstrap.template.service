@@ -1,0 +1,23 @@
+[Unit]
+Description=MediaHub Astra GitHub Transport (parameterized)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mediahub
+Group=mediahub
+Environment=ASTRA_GITHUB_REPO=VlDMlNSh/mediahub-os
+Environment=ASTRA_GITHUB_REMOTE=git@github.com:VlDMlNSh/mediahub-os.git
+Environment=ASTRA_GITHUB_BRANCH=main
+Environment=ASTRA_WORKTREE=/home/mediahub/astra-work
+Environment=ASTRA_STATE_DIR=/var/lib/mediahub-astra
+Environment=ASTRA_NODE_ID=REPLACE_WITH_NODE_ID
+ExecStart=/bin/bash -lc 'exec /home/mediahub/astra-work/ops/astra-github-bootstrap.sh'
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
