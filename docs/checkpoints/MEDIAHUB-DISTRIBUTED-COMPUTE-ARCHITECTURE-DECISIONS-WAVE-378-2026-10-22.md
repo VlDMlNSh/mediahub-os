@@ -130,3 +130,14 @@ Hardware-specific resource thresholds and provider-specific quotas remain OPEN u
 - Qualification: **NOT QUALIFIED**.
 - Acceptance: **NOT ACCEPTED**.
 - Canonical map remains on the separate documentation branch. This proposal must not be described as canonical until the documentation PR is reviewed, its required checks are verified and it is merged.
+
+
+---
+
+## Wave 378 consolidation supplement — hardware, privacy and operations (2026-10-22)
+
+The initial decision record is supplemented by the complete owner-directed reference architecture: [Consolidated hardware, privacy, backup, update and operations architecture](../architecture/MEDIAHUB-DISTRIBUTED-ARCHITECTURE-HARDWARE-PRIVACY-OPERATIONS-WAVE-378-2026-10-22.md), [machine-readable decision state](../context/MEDIAHUB-ARCHITECTURE-DECISIONS-WAVE-378.json), and [consolidation evidence report](MEDIAHUB-ARCHITECTURE-CONSOLIDATION-REPORT-WAVE-378-2026-10-22.md).
+
+The owner selected strict local-first privacy; encrypted backups on owner-controlled nodes with separated keys, integrity checks and restore tests; and staged updates with compatibility/provenance checks, mandatory gates, controlled activation and rollback. The hardware profile is recorded with explicit uncertainty: Mac mini 2018 has six CPU cores but unverified RAM; Mac mini 2011 has four CPU cores and 16 GB RAM on Linux; Voktors-Mini.Dlink is historically macOS ARM64 but current executor qualification is NOT VERIFIED; the approximately 100,000 RUB media server specification remains a candidate, not a purchase or qualified configuration.
+
+No implementation, runtime verification, qualification or acceptance is implied.
