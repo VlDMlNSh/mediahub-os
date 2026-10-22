@@ -1,0 +1,114 @@
+name: OpenRouter GitHub-hosted catalog auth probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_catalog_check:
+        description: "Authorize one non-inference GET request to OpenRouter /models (no chat completion)"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openrouter-catalog-auth-probe-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    if: ${{ github.ref == 'refs/heads/main' && inputs.confirm_catalog_check == true }}
+    name: One bounded OpenRouter catalog GET
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      MEDIAHUB_OPENROUTER_MODEL: ${{ vars.MEDIAHUB_OPENROUTER_MODEL }}
+      MEDIAHUB_TARGET_SHA: ${{ github.sha }}
+    steps:
+      - name: Verify auth and discover free Qwen catalog entries (no inference)
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +x
+          mkdir -p .probe-evidence
+          python3 - <<'PY'
+          import json
+          import os
+          import time
+          import urllib.error
+          import urllib.request
+
+          evidence = {
+              "schema": "mediahub.openrouter.catalog-auth-probe.v1",
+              "target_sha": os.environ.get("MEDIAHUB_TARGET_SHA", ""),
+              "runner": "GitHub-hosted ubuntu-latest",
+              "request_count": 0,
+              "request_kind": "GET /api/v1/models; no inference",
+              "configured_model": os.environ.get("MEDIAHUB_OPENROUTER_MODEL", "").strip(),
+              "credential_present": bool(os.environ.get("OPENROUTER_API_KEY", "").strip()),
+              "secret_values": "SUPPRESSED",
+              "status": "BLOCKED",
+          }
+          key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+          model = evidence["configured_model"]
+          if not key:
+              evidence["reason"] = "credential_missing"
+          elif model != "openrouter/free":
+              evidence["reason"] = "unexpected_model_configuration"
+          else:
+              request = urllib.request.Request(
+                  "https://openrouter.ai/api/v1/models",
+                  headers={"Authorization": "Bearer " + key, "Accept": "application/json"},
+                  method="GET",
+              )
+              started = time.monotonic()
+              evidence["request_count"] = 1
+              try:
+                  with urllib.request.urlopen(request, timeout=20) as response:
+                      payload = json.loads(response.read().decode("utf-8"))
+                      entries = payload.get("data", [])
+                      if not isinstance(entries, list):
+                          raise ValueError("invalid_catalog_schema")
+                      qwen_free = sorted({
+                          item.get("id", "") for item in entries
+                          if isinstance(item, dict)
+                          and "qwen" in item.get("id", "").lower()
+                          and item.get("id", "").endswith(":free")
+                      })
+                      evidence.update({
+                          "http_status": response.status,
+                          "latency_seconds": round(time.monotonic() - started, 3),
+                          "catalog_model_count": len(entries),
+                          "qwen_free_model_ids": qwen_free[:30],
+                          "qwen_free_model_count": len(qwen_free),
+                          "status": "AUTH_SUCCESS" if 200 <= response.status < 300 else "BLOCKED",
+                      })
+              except urllib.error.HTTPError as exc:
+                  evidence.update({
+                      "http_status": exc.code,
+                      "latency_seconds": round(time.monotonic() - started, 3),
+                      "reason": "http_error",
+                  })
+              except Exception as exc:
+                  evidence.update({
+                      "latency_seconds": round(time.monotonic() - started, 3),
+                      "reason": type(exc).__name__,
+                  })
+          with open(".probe-evidence/openrouter-catalog-probe.json", "w", encoding="utf-8") as handle:
+              json.dump(evidence, handle, sort_keys=True)
+          print("OPENROUTER_CATALOG_EVIDENCE=" + json.dumps(evidence, sort_keys=True))
+          if evidence["status"] != "AUTH_SUCCESS":
+              raise SystemExit(2)
+          PY
+      - name: Upload sanitized catalog evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openrouter-catalog-probe-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .probe-evidence/openrouter-catalog-probe.json
+          if-no-files-found: error
+          retention-days: 7
