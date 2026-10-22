@@ -63,3 +63,11 @@ Host: `host_5f7264034bdf0b51`, `Voktors-Mini.Dlink`, macOS 14.7.4 arm64. Current
 - [Master Roadmap](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md)
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - [PR #454](https://github.com/VlDMlNSh/mediahub-os/pull/454)
+
+
+## Documentation integrity / read-back note
+
+- During the Wave 368 map index update, the large-file fetch wrapper returned an incomplete body. The resulting working-branch map blob `aab19e603936453c8ecbc1395e407b4af19ee15b` contained only the Wave 368 append (489 characters). This was detected during read-back before acceptance/integration.
+- Restored the complete prior map content from verified blob `a7e5da501781dfe817829ba456642d258f713d3a` (1,175,678 characters; includes Wave 367), appended the Wave 368 index line, and wrote restored map blob `b290ccfee725542dc8174092abadbfe26dcd70ae` (1,176,167 characters).
+- Read-back of the restored blob confirms both Wave 367 and Wave 368 entries and the original map content. This recovery is on the unmerged working branch only; canonical branch was not modified.
+- PR #454 latest head after restoration: `74503e3920ec5ab89c0907c9116104da74c43e08`; combined status response empty = exact-head CI NOT VERIFIED.
