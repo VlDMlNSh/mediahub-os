@@ -1,3 +1,13 @@
+## Wave 394 — Gemini controller trigger recheck (2026-10-22)
+
+- Report: [Wave 394 controller trigger and gate recheck](MEDIAHUB-NEXT-GEMINI-CONTROLLER-TRIGGER-RECHECK-WAVE-394-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-394-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main SHA `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; controller blob SHA `28874450099e70b0f9d276600e6452c1b8e1b1a6`.
+- Run [39849991202](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39849991202) SKIPPED because the triggering comment [6350710036](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6350710036) was a status report rather than exact `/next`. All jobs skipped; effective batch admission variable remains NOT VERIFIED in this run.
+- PR #437 merged at `7cbbc0025ce01b8c476d512cfc5e12dc35fd952c`. PR #441 open/unmerged; exact-head checks and independent review NOT VERIFIED. Gemini Agents 1–3 NOT RUN; Contour A NOT ACCEPTED.
+- Next: close controller governance, trusted-main probe, PR #441 CI/review gates; then use the exact approved trigger without bypassing the controller.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
