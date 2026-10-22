@@ -1,3 +1,14 @@
+## Wave 366 — Claude Code GitHub-hosted runner / ECC profile (2026-10-22)
+
+- Report: [Claude Code GitHub-hosted ECC profile investigation](MEDIAHUB-CLAUDE-CODE-GITHUB-HOSTED-ECC-PROFILE-WAVE-366-2026-10-22.md); governing [Issue #496](https://github.com/VlDMlNSh/mediahub-os/issues/496); parent [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Existing [ASTRA ECC policy](https://github.com/VlDMlNSh/mediahub-os/blob/main/docs/operations/ASTRA-ECC-INTEGRATION.md), blob `c707a83777ae5970081bd6bb1e3027c88bbf3fa1`, rejects ECC as a dependency/second controller and permits selective ECC-derived guidance only. Any full install requires explicit policy reconciliation.
+- GitHub-hosted ephemeral workers are compatible with Issue #301's target architecture, but no Claude cloud workflow, provider route, pinned upstream ECC source, or exact compatible action was verified in this pass.
+- No model/provider call, host access, secret access, workflow dispatch, tests, merge, deployment, qualification or acceptance. Status: **DOCUMENTED / PLANNED / NOT DISPATCHED / NOT QUALIFIED / NOT ACCEPTED**.
+- Dedicated candidate branch: `docs/claude-ecc-cloud-runner-wave-366-2026-10-22`. This is not the canonical documentation branch until reviewed/integrated.
+- Next: verify upstream ECC and official Claude Code GitHub Actions contracts at immutable refs; implement only a minimal, opt-in, non-launching contract/profile proposal after source verification.
+
+---
+
 ## Wave 351 — recovered Claude/FCC/Ollama history (2026-10-22)
 
 - Report: [Wave 351 evidence recovery](MEDIAHUB-NEXT-CLAUDE-FCC-OLLAMA-HISTORICAL-EVIDENCE-WAVE-351-2026-10-22.md); map addendum: [Wave 351](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-351-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
