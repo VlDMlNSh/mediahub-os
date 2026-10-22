@@ -1,3 +1,13 @@
+## Wave 356 — PR #437 CI recovery and local executor evidence (2026-10-22)
+
+- Report: [Wave 356 PR #437 CI recovery and local executor evidence](../checkpoints/MEDIAHUB-NEXT-PR437-CI-RECOVERY-AND-LOCAL-EXECUTOR-WAVE-356-2026-10-22.md); [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- PR #437 head `2e23f9a99e655369672340329c4c1b6de25f1576`, base/main `909d2ba6caeb2a84508978925126a074f3a934da`, mergeable, ahead 11 / behind 0. Exact-head contract validation [39757948715](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39757948715), no-secret probe [39757948751](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39757948751), cloud runtime [39757948849](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39757948849), and Astra Verify [39757948759](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39757948759) all PASS. Probe launch/readiness jobs skipped as expected; no Gemini children dispatched.
+- Formal independent review remains NOT VERIFIED. Gemini batch NOT RUN. Contour A NOT ACCEPTED.
+- Local Ollama/FCC inference verified on loopback-only routes with cloud/fallback disabled; Claude-Code tool execution remains NOT VERIFIED after hallucinated output/stalled tool-enabled calls. Three direct local endpoint samples: 3252.6 ms cold, 82.3 ms warm, 81.6 ms warm.
+- Status: **CI VERIFIED / REVIEW NOT VERIFIED / GEMINI BATCH NOT RUN / LOCAL TOOL EXECUTION NOT VERIFIED / NOT ACCEPTED**.
+
+---
+
 ## Wave 349 — historical evidence reused; remaining work narrowed (2026-10-22)
 
 - Report: [reconciled effort and controller trigger coverage](../checkpoints/MEDIAHUB-NEXT-RECONCILED-EFFORT-AND-TRIGGER-COVERAGE-WAVE-349-2026-10-22.md); [Wave 349 addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-349-2026-10-22.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
