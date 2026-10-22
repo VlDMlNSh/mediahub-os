@@ -2456,3 +2456,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Controller run `39773148250` remains probe-only: probe/assert jobs succeeded, readiness/dispatch skipped, no child IDs or artifacts. Current admission variable value and effective token scope NOT VERIFIED. No workflow_dispatch write action available in connected tools; Gemini 1–3 NOT RUN.
 - SentinelX package install is confirmed (`sentinelx-cloud-core 0.23.30`, protocol `1.13.2`), but connected host `host_5f7264034bdf0b51` still reports runtime `0.22.0`, two file-operation paths and two writable paths. Service restart BLOCKED because sudo requires an interactive password; runtime config reload NOT VERIFIED. Owner authorization does not override host authentication or tool policy; no bypass attempted.
 - Local Claude/browser NOT RUN. Contour A NOT QUALIFIED / NOT ACCEPTED. Working branch remains unmerged; canonical map not yet changed on the canonical branch.
+
+
+## Wave 368 — SentinelX post-restart runtime reconciliation (2026-10-22)
+
+- Report: [Wave 368 post-restart runtime reconciliation](MEDIAHUB-NEXT-SENTINELX-POST-RESTART-RUNTIME-RECONCILIATION-WAVE-368-2026-10-22.md); [Wave 368 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-368-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- SentinelX host `host_5f7264034bdf0b51` is reachable and ping succeeds, but runtime still reports `0.22.0`. Read-only metadata query confirms installed core `0.23.30`, protocol `1.13.2`, and distribution path `/Users/voktor/sentinelx/.venv/lib/python3.12/site-packages`.
+- Config SHA-256 remains `898725a1939383514101db2a0c68325182a8342d5393362068bc12a47618d50d`; the project path exists in on-disk config at line 456, but effective runtime policy still lists only workspace and config.yaml. Runtime reload NOT VERIFIED. Service status returned a sudo-required error for `is-active` and a duplicate-session error; no further restart attempted.
+- Main SHA `cae0134dadf67eaa02828c43bc81cd8c71284f75`; controller blob `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`. Historical controller run `39773148250` remains probe-only; Gemini 1–3 NOT RUN. PR #441 remains non-mergeable; PR #454 current head `4f7ca451304eb36d6bba85556a6d07ca7af79729`, exact-head CI/review NOT VERIFIED.
+- Local Claude/browser NOT RUN; Contour A NOT QUALIFIED / NOT ACCEPTED. Working branch unmerged; canonical map not updated on canonical branch.
