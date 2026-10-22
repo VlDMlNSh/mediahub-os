@@ -1,3 +1,15 @@
+## Wave 349 — reconciled effort and controller trigger coverage (2026-10-22)
+
+- Report: [Wave 349](MEDIAHUB-NEXT-RECONCILED-EFFORT-AND-TRIGGER-COVERAGE-WAVE-349-2026-10-22.md); map addendum: [Wave 349](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-349-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Reused historic evidence rather than rebuilding: three successful Gemini child workflow runs from Wave 213 and five successful candidate controller/probe runs from Waves 317–318. Owner reports prior manual execution of all three agents and real browser-agent work; browser execution is recorded as owner-reported historical work, not duplicated.
+- Corrected estimate: 1.5–3.5 active hours expected to reach the first current controller-owned Gemini batch; 4–6 h contingency if an actual gate/source defect appears. This supersedes Wave 346's 12–25 h and narrows Wave 348's 3–6 h based on reuse of historical results. Local executor task, if still required, is separate and conditionally estimated at 0.5–1.5 h after runtime reconnect.
+- PR #443 [controller trigger coverage](https://github.com/VlDMlNSh/mediahub-os/pull/443) created, head `66f8cfc1bbd83bbb686ee8a1bbcea9589b182590`. Controller blob `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`; validation workflow blob `9f362069cdb5a7c200d93e2057e3f0d338bb81c0`; regression test blob `918192c6887775ccd6d800c1c44198b513c4db8b`.
+- Initial PR #443 runs: controller probe `39748357615` queued; contract validation `39748357460`, Astra Verify `39748357515`, Cloud Runtime Validation `39748357531` in progress. Status/review not yet verified. Do not infer PASS until terminal results and independent review.
+- Current correlated controller→three-child batch NOT RUN. No secrets read, no /next trigger comment posted, no provider call or local job. Prior browser work not repeated. Current local Ollama evidence remains client-only/no reachable server.
+- Disposition: **IMPLEMENTED IN PR / CI RUNNING / CURRENT BATCH NOT RUN / NOT ACCEPTED**.
+
+---
+
 ## Wave 348 — revised remaining effort estimate (2026-10-22)
 
 - **Correction:** Wave 346's 12–25 h estimate is superseded as a central estimate; it double-counted existing controller/bridge/CI work and summed worst-case maxima. Wave 213 documents historical successful executions of all three Gemini workflows; Waves 317/318 document five successful controller candidate CI/probe runs and issue-comment event evidence. Those do not equal a current successful batch.
