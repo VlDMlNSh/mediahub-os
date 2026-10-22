@@ -2449,3 +2449,11 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Next: resolve local tool-call/thinking compatibility, complete one read-only Claude Code task with a real Read invocation and file-derived answer, then assess external free-tier routes one at a time with quota and no-paid-fallback evidence. Gemini was not dispatched.
 - Documentation commits: report `d203a800353501fac0a994e6798a68e234ef8d98`; map addendum `496f6c168acf7ed17591c0b4a6e998fad6b402c9`.
 
+
+
+## Wave 386 — Markdown link integrity repair (2026-10-22)
+
+- Report: [Wave 386 link integrity repair](MEDIAHUB-NEXT-MARKDOWN-LINK-INTEGRITY-WAVE-386-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- In PR #485 working branch `docs/user-mediahub-compute-context-wave-362-20261022`, repaired malformed Wave 362 requirements-proposal and map-addendum links in the Master Roadmap and current continuation checkpoint. No architecture requirement or authority contract changed.
+- Roadmap blob after repair: `79a45cfc734592e454616362033db0f37f8ffb35`; checkpoint blob after repair before this index append: `b629dfd45440f32179601e2757e7af72c162e79c`.
+- Status: patch is in the open PR #485 working branch, not canonical until accepted/merged. Exact-head CI and independent review must be refreshed after the last commit; absence is NOT VERIFIED, not PASS. No agents dispatched.
