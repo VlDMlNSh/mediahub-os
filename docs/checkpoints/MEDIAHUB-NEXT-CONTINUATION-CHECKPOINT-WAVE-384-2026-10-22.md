@@ -34,4 +34,4 @@ Date: 2026-10-22
 
 ## Next step
 
-Verify the parser fix and exact-head CI on PR #483, then benchmark the three orchestration candidates using one deterministic non-secret task fixture. Only after the controller contract can safely accept task-specific signed assignments and mandatory gates pass should topic-specific tasks be dispatched through the approved controller.
+PR #483 exact-head CI is now VERIFIED PASS; next build a deterministic, non-secret benchmark fixture and compare LangGraph, CrewAI and Microsoft Agent Framework. Only after the controller contract can safely accept task-specific signed assignments and mandatory gates pass should topic-specific tasks be dispatched through the approved controller.
