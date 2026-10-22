@@ -12,6 +12,10 @@ INTERVAL=max(15,int(os.environ.get("ASTRA_POLL_SECONDS","30")))
 ROOT=Path(os.environ.get("ASTRA_WORKTREE","/opt/mediahub/astra-worktree"))
 STATE=Path(os.environ.get("ASTRA_STATE_DIR","/var/lib/mediahub-astra"))
 OPERATIONS={"health","research","architecture","review","documents","coding","coding_v2","qualification","execution_backend_qualification","pre_soak_evidence","timezone_sync","autonomous_qualification_queue","autonomous_gold_mission","reconcile_controller_processes","codex_diagnostic","codex_config_isolation","codex_process_diagnostic","codex_cleanup_stale_probes","codex_provider_diagnostic","codex_gateway_diagnostic","provider_model_qualification","local_component_inventory","local_component_qualification","local_ai_capability_qualification","dual_local_executor_23wave"}
+# Generic natural-language tasks must not fall through to a host-side cloud-first gateway.
+# These operations require the approved GitHub-hosted controller route; until a provider-safe,
+# source-pinned bridge is qualified, this worker rejects them before importing any gateway.
+UNADMITTED_GENERIC_GATEWAY_OPERATIONS=frozenset({"research","architecture","review","documents","coding","coding_v2"})
 RUNNING_AGENT_SHA=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 AGENT_ID=os.environ.get('ASTRA_AGENT_ID','A0-ASTRA')
 WORKER_ID=os.environ.get('ASTRA_WORKER_ID',f"{AGENT_ID}:{os.getpid()}")
@@ -862,21 +866,12 @@ def execute(cmd):
         if result.returncode!=0: payload["status"]="BLOCKED"
         return payload
     if operation not in OPERATIONS: raise ValueError("unsupported operation")
-    configured=os.environ.get("ASTRA_RUNTIME_ROOT","").strip()
-    candidates=[Path(configured)] if configured else []
-    candidates.extend([ROOT/"runtime",Path("/opt/mediahub/astra/runtime"),Path("/home/mediahub/dev/mediahub-os-autonomous/runtime"),Path("/Users/voktor/astra-work/runtime")])
-    runtime_root=None
-    for candidate in candidates:
-        if (candidate/"mediahub_runtime"/"astra_gateway.py").exists(): runtime_root=candidate; break
-    if runtime_root is None: raise ModuleNotFoundError("mediahub_runtime runtime root not found; checked: "+", ".join(str(p) for p in candidates))
-    runtime_root=str(runtime_root.resolve()); package_dir=Path(runtime_root)/"mediahub_runtime"
-    if not package_dir.is_dir() or not (package_dir/"__init__.py").is_file(): raise ModuleNotFoundError("mediahub_runtime package is incomplete at "+str(package_dir))
-    if runtime_root not in sys.path: sys.path.insert(0,runtime_root)
-    os.environ["PYTHONPATH"]=runtime_root+(os.pathsep+os.environ["PYTHONPATH"] if os.environ.get("PYTHONPATH") else "")
-    importlib.invalidate_caches()
-    try: from mediahub_runtime.astra_gateway import AstraGatewayRuntime
-    except ModuleNotFoundError as exc: raise ModuleNotFoundError("mediahub_runtime import failed; runtime_root="+runtime_root+"; package_dir="+str(package_dir)+"; sys_executable="+sys.executable) from exc
-    return AstraGatewayRuntime().run_bounded({"task_id":cmd.get("command_id","github-task"),"title":cmd.get("title",operation),"description":cmd.get("description",""),"capability":operation})
+    if operation in UNADMITTED_GENERIC_GATEWAY_OPERATIONS:
+        # Never convert these commands into an implicit provider/API call from a
+        # server-side worker. Use only the approved GitHub-hosted controller route.
+        raise RuntimeError("gateway_route_not_admitted")
+    # Fail closed if a future operation is added without a concrete handler.
+    raise RuntimeError("operation_handler_not_implemented")
 
 def main():
     STATE.mkdir(parents=True,exist_ok=True)
