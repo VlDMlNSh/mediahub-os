@@ -33,3 +33,12 @@
 
 ## Status
 **ALAMO HOST IDENTITY CLARIFIED / DOCS PR OPEN / NON-LAUNCHING PROBE VERIFIED / GEMINI BATCH NOT RUN / LOCAL CLAUDE NOT RUN / CONTOUR A NOT ACCEPTED.**
+
+## Post-creation verification update (2026-10-22)
+
+- PR #450 head `ceb2972adb85dfc4020ba774a6526368807b910f` was confirmed by GitHub Actions run metadata as the exact head for:
+  - [Astra Cloud Runtime Validation #39774620018](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39774620018): **SUCCESS**.
+  - [Astra Verify #39774620444](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39774620444): **SUCCESS**.
+- PR #450 combined status endpoint returned no status entries; formal review endpoint returned an empty list. The two workflow runs are positive exact-head evidence, but independent review/effective branch protection remain **NOT VERIFIED**. PR is open/unmerged.
+- PR #451 head `712284a38b86d6b5c8bb76b3fb5fce5b11ccbe52`: combined status and PR workflow-run query returned empty; formal review endpoint returned empty. Exact-head CI/review **NOT VERIFIED**; PR is open/unmerged.
+- Main remained at `7cbbc0025ce01b8c476d512cfc5e12dc35fd952c` at the last ref query in this pass.
