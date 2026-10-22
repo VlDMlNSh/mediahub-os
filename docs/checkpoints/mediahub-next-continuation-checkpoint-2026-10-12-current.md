@@ -1,3 +1,13 @@
+## Wave 348 — revised remaining effort estimate (2026-10-22)
+
+- **Correction:** Wave 346's 12–25 h estimate is superseded as a central estimate; it double-counted existing controller/bridge/CI work and summed worst-case maxima. Wave 213 documents historical successful executions of all three Gemini workflows; Waves 317/318 document five successful controller candidate CI/probe runs and issue-comment event evidence. Those do not equal a current successful batch.
+- **Revised estimate:** **3–6 active engineering hours** for the first current qualified end-to-end cycle, with **6–10 h contingency** if current HMAC tests, trusted-main/governance checks, or local routing require fixes. Calendar estimate **0.5–2 working days** due to review/runtime availability. After acceptance target **5–10 minutes per /next** for orchestration/triage, unmeasured.
+- **Still open:** current PR #437 exact-head CI and formal review not verified; trusted-main positive probe and current controller→three-child run not evidenced; local Ollama server is unreachable and Claude/agent-browser not found on PATH. No current batch or local bounded task ran in Wave 348.
+- Full evidence and calculation: [Wave 348 revised estimate](../checkpoints/MEDIAHUB-NEXT-REVISED-EFFORT-ESTIMATE-WAVE-348-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Disposition: **PARTIALLY IMPLEMENTED / LIVE AGENT BATCH NOT VERIFIED / LOCAL ROUTE NOT QUALIFIED**.
+
+---
+
 ## Wave 347 — controller trigger coverage and local executor recheck (2026-10-22)
 
 - Report: [Wave 347 controller trigger and local executor recheck](MEDIAHUB-NEXT-CONTROLLER-TRIGGER-AND-LOCAL-EXECUTOR-RECHECK-WAVE-347-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
