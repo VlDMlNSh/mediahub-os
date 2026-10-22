@@ -22,12 +22,12 @@ Date: 2026-10-22
 - Agent 1 candidate integration research: PLANNED / NOT DISPATCHED.
 - Agent 2 independent license and test-matrix verification: PLANNED / NOT DISPATCHED.
 - Agent 3 security/provenance audit: PLANNED / NOT DISPATCHED.
-- Reason: controller prompts are currently fixed generic role tasks; the proposed topic-specific tasks require a reviewed controller contract update. Current PR #483 exact-head CI after the package-parser fix and independent review are NOT VERIFIED. Do not trigger the controller until the applicable gates are proven.
+- Reason: controller prompts are currently fixed generic role tasks; the proposed topic-specific tasks require a reviewed controller contract update. PR #483 exact-head CI after the package-parser fix is VERIFIED PASS; formal independent review remains NOT VERIFIED. Do not trigger the controller until the applicable gates are proven.
 
 ## Related engineering state
 
 - PR #483: https://github.com/VlDMlNSh/mediahub-os/pull/483; latest observed head 9d55150cc6ec5fdff14a6c6b798faf30601c8b22.
-- Earlier exact-head Astra Verify run 39815854894 failed test_workflow_runs_only_installed_test_tools because pinned package specifiers were not normalized by the test helper. The helper was updated to strip version/extras when collecting pip targets; a fresh exact-head CI result is still required.
+- Earlier Astra Verify run 39815854894 failed test_workflow_runs_only_installed_test_tools because pinned package specifiers were not normalized. The helper fix was verified on PR #483 head 9d55150cc6ec5fdff14a6c6b798faf30601c8b22: Astra Verify run [39816945698](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39816945698), job 119957782575, completed with 469 tests OK; Cloud Runtime Validation run [39816945791](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39816945791), job 119957784151, completed successfully with 12 tests passed. This does not substitute for formal independent review.
 - Formal independent review of PR #483: NOT VERIFIED.
 - Production GitHub-hosted durable supervisor, task-specific signed Gemini routing and local worker lease/result protocol: NOT IMPLEMENTED / NOT VERIFIED.
 - Contour A: NOT QUALIFIED / NOT ACCEPTED.
