@@ -7,7 +7,7 @@ Date: 2026-10-23
 
 ## Current refs checked
 - `main` HEAD: `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`.
-- Canonical docs branch HEAD before Wave 396 writes was refreshed during this pass; see the resulting branch ref and blob SHAs recorded after read-back.
+- Canonical docs branch HEAD before Wave 396 writes: `062bb337de8faae5e6b12d8a3c5fde90cc013e4d`.
 - Canonical map blob: `f04873c9cbbf1ba8d45ccbfd3f6afc8cee916a41`. The Contents API returns empty content for this large file; the map itself was not rewritten.
 - PR #335 remains open/draft/unmerged, head `44e2bc7c735ad7f70294d66de8e08eb1da612e0d`, base ref `docs/mediahub-chat-tree-map-20261012`; mergeable `true`, merge state `clean`, zero formal review submissions.
 - PR #335 check `Draft 2020-12 meta-validation and fixtures` completed SUCCESS on run `39044583119`, job `117430670270`.
