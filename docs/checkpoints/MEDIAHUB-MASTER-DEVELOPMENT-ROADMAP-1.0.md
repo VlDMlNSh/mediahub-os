@@ -11,7 +11,7 @@
 
 ## Wave 350 — PR #433 merged; recheck current gates (2026-10-22)
 
-- Report: [Wave 350](MEDIAHUB-NEXT-POST-PR433-MERGE-RECONCILIATION-WAVE-350-2026-10-22.md); map addendum: [Wave 350](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-350-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Report: [Wave 350](MEDIAHUB-NEXT-POST-PR433-MERGE-RECONCILIATION-WAVE-350-2026-10-22.md); map addendum: [Wave 350](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-CLAUDE-OLLAMA-WAVE-350-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
 - PR #433 merged at `79196054d84b1197cea1447dd1db5ad075302834`; its exact merge-commit status and workflow wrappers returned empty, so post-merge CI is NOT VERIFIED by those endpoints.
 - PR #443 merged at `909d2ba6caeb2a84508978925126a074f3a934da`. Main controller blob `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`; validation workflow blob `9f362069cdb5a7c200d93e2057e3f0d338bb81c0`. Its four PR-head CI runs succeeded in Wave 349.
 - PR #437 remains open/draft at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head combined status, workflow-run query and formal reviews returned empty. CI and independent review NOT VERIFIED.
@@ -5362,4 +5362,4 @@ Status: **OWNER-DIRECTED TARGET REQUIREMENT / GOVERNANCE, IMPLEMENTATION AND RUN
 - Reconciled native Claude Code→Ollama implementation history at commit `5b6c04587b73092859b26a0d058ab9d2a0d4094b` and MH-25 historical proxy/API PASS. The same records explicitly keep headless-marker/full runtime qualification gated; historical evidence is not fresh exact-SHA acceptance.
 - Current SentinelX read-only attempt disconnected; no model invocation or host mutation. Retrieve exact prior successful Actions run/artifact IDs before deciding which local checks truly need rerunning.
 - PR #443 merged; tested PR-head contract validation, controller no-secret probe, Astra Verify and Cloud Runtime Validation succeeded; no child Gemini runs were dispatched. PR #437 remains open with CI/review NOT VERIFIED. No current Gemini batch, no secret access, no acceptance.
-- Evidence: [Wave 350 report](MEDIAHUB-NEXT-HISTORICAL-CLAUDE-OLLAMA-EVIDENCE-RECONCILIATION-WAVE-350-2026-10-22.md), [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-350-2026-10-22.md), [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Evidence: [Wave 350 report](MEDIAHUB-NEXT-HISTORICAL-CLAUDE-OLLAMA-EVIDENCE-RECONCILIATION-WAVE-350-2026-10-22.md), [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-CLAUDE-OLLAMA-WAVE-350-2026-10-22.md), [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
