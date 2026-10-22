@@ -1,3 +1,12 @@
+## Wave 397 — recovered Gemini controller batch evidence (2026-10-23)
+
+- Report: [Wave 397 exact Gemini batch evidence](../checkpoints/MEDIAHUB-GEMINI-DISPATCH-RECOVERY-WAVE-397-2026-10-23.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-397-2026-10-23.md); [checkpoint addendum](../checkpoints/mediahub-next-continuation-checkpoint-wave-397-2026-10-23.md).
+- Historical controller run [39809515516](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39809515516) dispatched three children on target SHA `11d04d2f2687e9ba9215e4b67af2e450516960bb`: Agent 1 run 39809549381 SUCCEEDED / PR #479; Agent 2 run 39809552897 SUCCEEDED / PR #480; Agent 3 run 39809555931 FAILED at actionable-PR validation following HTTP 503s and failed PR-creation calls.
+- Controller batch concluded FAILURE (2/3 child workflow successes). PRs #479 and #480 are open/unmerged, no formal reviews, and exact-head CI NOT VERIFIED. Agent 3's claim of a published PR is not corroborated by tool telemetry.
+- Current main HEAD at recheck: `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`. This historical batch is not current-head verification or Contour A acceptance. No new dispatch in Wave 397.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](../checkpoints/MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [continuation checkpoint addendum](../checkpoints/mediahub-next-continuation-checkpoint-wave-392-2026-10-22.md).
