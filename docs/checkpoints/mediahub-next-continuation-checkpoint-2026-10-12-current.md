@@ -2379,3 +2379,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Re-read the October 2 hybrid inventory blob `567ea108f5faee9d9176cb475ac8534ef19eb25d`: Claude Code 2.1.282, running OmniRoute 3.8.50 and running Ollama 0.34.4 were historically observed on Voktors-Mini.Dlink. The October 2 local qualification result blob `3b284dd211414da816af8fc4ac8addbc810a928d` explicitly scopes itself to repository-local fail-closed tests, not live runtime qualification. User-reported successful Claude-OmniRoute/Ollama work is retained; exact run ID/artifact digest remains NOT LOCATED.
 - Historical Gemini individual runs/artifacts remain documented; they are not a current controller-owned batch. No controller dispatch and no local invocation occurred. Current SentinelX channel is still NOT VERIFIED after prior disconnection result.
 - Current status: **GEMINI BATCH NOT RUN / LOCAL CURRENT EXECUTION NOT VERIFIED / CONTOUR A NOT ACCEPTED**.
+
+
+## Wave 355 — controller trigger repair and Mac executor recheck (2026-10-22)
+
+- Report: [Wave 355](MEDIAHUB-NEXT-CONTROLLER-TRIGGER-REPAIR-AND-MAC-RECHECK-WAVE-355-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Identified that PR #437 changed the contract-validation workflow and two tests while the controller path filter on its branch did not list them. Updated controller on the PR branch to match trusted `main`: commit `5bf128bb357fced3283631b6b066021cc23b9d19`, blob `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`. This is unmerged; after the commit exact-head statuses/workflow-run lookup remained empty and PR mergeability remained false. Trigger repair is IMPLEMENTED / CI NOT VERIFIED.
+- SentinelX host answered ping and a bounded read-only script ran. Ollama CLI 0.34.4 exists at `/opt/homebrew/bin/ollama`, but no server is running/reachable on loopback. Claude, FCC launcher and agent-browser were not found in checked paths. Browser CLI was not invoked because its installed `skills get core` instructions could not be retrieved without the executable. No model call, installation or service mutation occurred.
+- Historical October 2 Claude/OmniRoute inventory and owner-reported prior execution remain preserved; current runtime is BLOCKED, not historically disproven.
+- Current status: **GEMINI AGENTS 1–3 NOT RUN / CONTROLLER CI NOT VERIFIED / LOCAL CLAUDE-OLLAMA BLOCKED / CONTOUR A NOT ACCEPTED**.
