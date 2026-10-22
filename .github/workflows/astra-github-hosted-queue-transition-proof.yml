@@ -1,0 +1,60 @@
+name: Astra GitHub-hosted queue transition proof
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/astra-github-hosted-queue-transition-proof.yml"
+      - "runtime/mediahub_runtime/autonomous_queue.py"
+      - "tests/test_autonomous_queue.py"
+      - "docs/checkpoints/MEDIAHUB-AUTONOMOUS-QUEUE-TASK-TRANSITION-WAVE-382-2026-10-22.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: astra-github-hosted-queue-transition-proof-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  queue-transition:
+    name: Verify QUEUE-A -> QUEUE-B -> IDLE on GitHub-hosted runner
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      PYTHONPATH: runtime:.
+      ASTRA_QUEUE_STATE_DIR: ${{ runner.temp }}/astra-queue-transition-proof
+    steps:
+      - name: Checkout immutable workflow target
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Record hosted execution identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "runner_os=$RUNNER_OS"
+          echo "runner_arch=$RUNNER_ARCH"
+          echo "target_sha=$GITHUB_SHA"
+          [[ "$RUNNER_OS" == "Linux" ]]
+          [[ "$GITHUB_SHA" =~ ^[0-9a-f]{40}$ ]]
+          ! env | cut -d= -f1 | grep -E '^(MEDIAHUB_GITHUB_TOKEN|MEDIAHUB_DISPATCH_HMAC_KEY|ASTRA_NODE_HMAC_KEY_)'
+
+      - name: Install pinned test dependency
+        shell: bash
+        run: python3 -m pip install --disable-pip-version-check --no-input pytest==8.3.5
+
+      - name: Run queue state-transition contract tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pytest -q tests/test_autonomous_queue.py
+          echo "queue_transition_test=PASS" >> "$GITHUB_STEP_SUMMARY"
+          echo "execution_mode=github-hosted-isolated-test" >> "$GITHUB_STEP_SUMMARY"
+          echo "real_cloud_agent_dispatch=NOT_RUN" >> "$GITHUB_STEP_SUMMARY"
+          echo "local_executor_dispatch=NOT_RUN" >> "$GITHUB_STEP_SUMMARY"
+          echo "secrets_used=NONE" >> "$GITHUB_STEP_SUMMARY"

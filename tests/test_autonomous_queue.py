@@ -358,3 +358,69 @@ def test_permanent_executor_pool_matches_canonical_three_lane_topology():
         "Voktors-Mac-mini.local": "claude",
     }
     assert autonomous_queue.bounded_worker_count(3) == 3
+
+def test_autonomous_queue_switches_to_next_task_after_verified_completion(
+    monkeypatch, tmp_path: Path, capsys
+):
+    """Exercise two real queue cycles with a deterministic remote-worker double."""
+    task_dir = tmp_path / "tasks"
+    task_dir.mkdir()
+    state = tmp_path / "state"
+    target = "c" * 40
+    common = {
+        "status": "READY",
+        "priority": "P0",
+        "node_id": "Voktors-Mac-mini.local",
+        "executor": "claude",
+        "verifier": "claude",
+        "independent_verifier_process": True,
+        "boundary": ["docs/operations"],
+        "dependencies": [],
+    }
+    for task_id in ("QUEUE-A", "QUEUE-B"):
+        (task_dir / f"{task_id}.json").write_text(
+            json.dumps({**common, "task_id": task_id, "mission": f"Transition test {task_id}"}),
+            encoding="utf-8",
+        )
+
+    monkeypatch.setattr(autonomous_queue, "TASK_DIR", task_dir)
+    monkeypatch.setattr(autonomous_queue, "STATE", state)
+    monkeypatch.setattr(autonomous_queue, "MAX_WORKERS", 3)
+    monkeypatch.delenv("ASTRA_TARGET_SHA", raising=False)
+
+    class Head:
+        returncode = 0
+        stdout = target + "\\n"
+        stderr = ""
+
+    monkeypatch.setattr(autonomous_queue, "run", lambda *args, **kwargs: Head())
+    dispatched = []
+
+    def verified_remote_worker(task, base_sha):
+        task_id = task["task_id"]
+        dispatched.append(task_id)
+        completed_dir = state / "completed"
+        completed_dir.mkdir(parents=True, exist_ok=True)
+        (completed_dir / f"{task_id}.json").write_text(
+            json.dumps({"task_id": task_id, "status": "VERIFIED", "base_sha": base_sha}),
+            encoding="utf-8",
+        )
+        return {"task_id": task_id, "status": "VERIFIED", "base_sha": base_sha}
+
+    monkeypatch.setattr(autonomous_queue, "process_task_remote", verified_remote_worker)
+
+    assert autonomous_queue.main() == 0
+    first = json.loads(capsys.readouterr().out)
+    assert first["status"] == "PASS"
+    assert first["selected_tasks"] == ["QUEUE-A"]
+
+    assert autonomous_queue.main() == 0
+    second = json.loads(capsys.readouterr().out)
+    assert second["status"] == "PASS"
+    assert second["selected_tasks"] == ["QUEUE-B"]
+
+    assert autonomous_queue.main() == 0
+    third = json.loads(capsys.readouterr().out)
+    assert third["status"] == "IDLE"
+    assert third["reason"] == "no_ready_tasks"
+    assert dispatched == ["QUEUE-A", "QUEUE-B"]
