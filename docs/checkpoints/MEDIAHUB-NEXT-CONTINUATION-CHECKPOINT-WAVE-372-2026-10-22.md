@@ -50,3 +50,13 @@ Reconcile the controller and child run terminal states, fetch each job's logs/ar
 - Controller run [39794516227](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794516227) was still QUEUED at recheck; no jobs/child correlation were visible yet. Earlier controller [39794162629](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162629) and earlier children [39794196387](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794196387), [39794199351](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794199351), [39794202994](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794202994) also remained QUEUED. Do not claim a second batch ran until the controller publishes exact correlation IDs and terminal statuses.
 - PR #458 has five observed exact-head checks passed; #456/#457/#459 are action_required; #460 has no returned runs; #461 has a failed Astra Verify job because the base main still contains malformed direct-provider smoke workflow YAML. See Wave 372 report.
 - Protection/review gates remain NOT VERIFIED. No merge or deployment. Local executor remains NOT RUN / NOT VERIFIED while the owner is away.
+
+
+## Agent-run follow-up
+
+- Controller resolved target SHA `b33ab31674bfa9595a8f2ba5a570dbc1eb3686b2`; controller run `39794162629` is still `in_progress`.
+- Agent 1 run `39794196387` is `completed/success`; artifact `12432172600` SHA-256 `fc84e029c4e3d6785d2f1d0fc7e16e4d4d3b4ffef073f4aeaa2f71a44d9f9ce4`; PR [#463](https://github.com/VlDMlNSh/mediahub-os/pull/463), head `20bddc34c7715aef63e14270bf2aacba2f1cc2c4`.
+- Agent 2 run `39794199351` remains `in_progress`; artifact `12433610309` SHA-256 `ecb5176f7c9a90d5bced7a8bc5994a677b3918a844b0c476ac58899ac02f8f8b`; PR [#462](https://github.com/VlDMlNSh/mediahub-os/pull/462), head `2f0d5aa45442237952ec035c29cec4cdb43d2caa`.
+- Agent 3 run `39794202994` remains `in_progress`; artifact `12433515999` SHA-256 `1b37c391e70d66349b3994471bff0aacd8f8489e26473f9bfea0eb86f7a5c8f3`; PR [#465](https://github.com/VlDMlNSh/mediahub-os/pull/465), head `34191bc578364a5c2bea0af7b964415e31ee6667`.
+- Exact-head check-runs queries for #462, #463 and #465 returned zero entries. CI **NOT VERIFIED**; empty results are not PASS. All three PRs remain open/unmerged.
+- Agent logs report a Gemini CLI stderr JSON warning, while each engineer output-validation step reported success. Keep both facts in evidence; do not overstate either.
