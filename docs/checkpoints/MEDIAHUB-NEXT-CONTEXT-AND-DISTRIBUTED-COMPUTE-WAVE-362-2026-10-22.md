@@ -27,6 +27,12 @@
 - Master roadmap: MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md
 - Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
 
+## Pull request tracking
+
+- Draft PR: [#485 — user MediaHub compute and compact context](https://github.com/VlDMlNSh/mediahub-os/pull/485).
+- PR is open and unmerged; independent review and CI are not yet verified.
+- Canonical documentation branch remains docs/mediahub-chat-tree-map-20261012; this branch is an unaccepted proposal.
+
 ## Evidence and limitations
 
 - Bootstrap was read from the repository; its existing protocol already requires Wave 272/273 constraints for A0/user MediaHub/local route changes.
