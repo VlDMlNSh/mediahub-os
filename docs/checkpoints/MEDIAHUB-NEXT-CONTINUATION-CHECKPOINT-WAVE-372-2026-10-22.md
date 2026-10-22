@@ -42,3 +42,11 @@ Reconcile the controller and child run terminal states, fetch each job's logs/ar
 - PR #458 exact-head CI has five completed/success checks on `afd6dcd901da44b4cdb5d155f96dce172adb3c55`; independent review and governance gates remain separate.
 - PR #456, #457, #459, #460, #461 and #464 exact-head check-runs queries returned zero entries; record as **CI NOT VERIFIED**, not PASS.
 - Documentation PR #464 remains OPEN / DRAFT. Do not merge while required checks/reviews and the terminal Gemini batch evidence are missing.
+
+
+## Wave 372 dispatch follow-up — second /next request (2026-10-22)
+
+- New Issue #301 owner comment: [6343014895](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6343014895).
+- Controller run [39794516227](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794516227) was still QUEUED at recheck; no jobs/child correlation were visible yet. Earlier controller [39794162629](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162629) and earlier children [39794196387](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794196387), [39794199351](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794199351), [39794202994](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794202994) also remained QUEUED. Do not claim a second batch ran until the controller publishes exact correlation IDs and terminal statuses.
+- PR #458 has five observed exact-head checks passed; #456/#457/#459 are action_required; #460 has no returned runs; #461 has a failed Astra Verify job because the base main still contains malformed direct-provider smoke workflow YAML. See Wave 372 report.
+- Protection/review gates remain NOT VERIFIED. No merge or deployment. Local executor remains NOT RUN / NOT VERIFIED while the owner is away.
