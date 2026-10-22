@@ -1,0 +1,10 @@
+# Wave 349 — effort reconciliation and trigger coverage
+
+Date: 2026-10-22. Detailed evidence: [Wave 349 report](../checkpoints/MEDIAHUB-NEXT-RECONCILED-EFFORT-AND-TRIGGER-COVERAGE-WAVE-349-2026-10-22.md). Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md) on [the canonical documentation branch](https://github.com/VlDMlNSh/mediahub-os/tree/docs/mediahub-chat-tree-map-20261012).
+
+- Wave 348 supersedes the incorrect 12–25 active-hour central estimate with 3–6 h expected remaining active effort. Wave 349 narrows expected remaining active effort to **1.5–3.5 h for the first current controller-owned Gemini batch**, reusing historical three-child success, candidate controller/probe runs and owner-reported prior browser work; contingency 4–6 h if a real gate/source defect appears.
+- Historical Gemini child runs: [Agent 1](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370191589), [Agent 2](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370202615), [Agent 3](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370217605), all recorded on source SHA `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`. These are historical successes, not a current correlated batch.
+- [PR #443](https://github.com/VlDMlNSh/mediahub-os/pull/443) implements controller PR path coverage plus a regression test. Head `66f8cfc1bbd83bbb686ee8a1bbcea9589b182590`; controller blob `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`; validation workflow blob `9f362069cdb5a7c200d93e2057e3f0d338bb81c0`; test blob `918192c6887775ccd6d800c1c44198b513c4db8b`.
+- Exact-head runs: contract validation `39748357460` SUCCESS; no-secret controller probe `39748357615` SUCCESS (readiness/dispatch skipped as expected); Astra Verify `39748357515` SUCCESS; Cloud Runtime Validation `39748357531` SUCCESS. The regression test passed. Formal independent review remains NOT VERIFIED.
+- No current Gemini batch was dispatched. No secrets read. Prior browser work is recorded as owner-reported and not repeated. Current local Ollama evidence remains client-only/no reachable server.
+- Status: **CI VERIFIED / INDEPENDENT REVIEW NOT VERIFIED / CURRENT BATCH NOT RUN / NOT ACCEPTED**.
