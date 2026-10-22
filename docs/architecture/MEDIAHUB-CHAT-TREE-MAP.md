@@ -1,3 +1,14 @@
+## Wave 347 — controller trigger coverage and local executor recheck (2026-10-22)
+
+- Report: [Wave 347 controller trigger and local executor recheck](MEDIAHUB-NEXT-CONTROLLER-TRIGGER-AND-LOCAL-EXECUTOR-RECHECK-WAVE-347-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- New concrete gap: PR #437 changes `.github/workflows/gemini-workflow-contract-validation-wave284.yml`, `tests/test_gemini_child_signed_dispatch_runtime_contract.py`, and `tests/test_gemini_transport_controller_contract.py`; none are included in the controller's `pull_request.paths` filter. The controller's PR-triggered no-secret probe therefore is not configured to run for this change set.
+- PR #437/#441 exact-head CI/status and formal review endpoints remain empty; treat CI/review as NOT VERIFIED. No controller or Gemini child workflow was dispatched because mandatory gates remain unproven.
+- SentinelX host `host_5f7264034bdf0b51` reappeared operational; ping and summary capabilities succeeded. A bounded read-only script completed, confirming macOS ARM64 and `/opt/homebrew/bin/ollama` client 0.34.4, but Ollama server is not running/reachable and no model inventory was obtained. `claude` and `agent-browser` were not found on PATH. A follow-up inventory attempt disconnected during session rollover. No service was started and no package installed.
+- Gemini 1–3 NOT RUN; local executor NOT QUALIFIED; no tests, merge, deployment, qualification or acceptance. **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
+- Next: fix controller PR trigger coverage in a bounded reviewed change; obtain exact-head CI and independent review; verify trusted-main probe and governance/token scope; stabilize SentinelX and qualify Ollama/Claude/browser route before running the authorized three-agent batch.
+
+---
+
 ## Wave 346 — recurring /next orchestration effort estimate (2026-10-22)
 
 - Report: [Recurring agent readiness and effort estimate](MEDIAHUB-NEXT-RECURRING-AGENT-READINESS-AND-EFFORT-ESTIMATE-WAVE-346-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
