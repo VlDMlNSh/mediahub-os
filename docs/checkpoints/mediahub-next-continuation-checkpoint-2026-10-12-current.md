@@ -1,3 +1,15 @@
+## Wave 378 — owner architecture decisions consolidated (2026-10-22)
+
+- Architecture record: [Owner Architecture Decisions and Consolidated Target Design](../architecture/MEDIAHUB-OWNER-ARCHITECTURE-DECISIONS-AND-TARGET-DESIGN-2026-10-22.md).
+- Report: [Wave 378 architecture consolidation](MEDIAHUB-ARCHITECTURE-CONSOLIDATION-CHAT-WAVE-378-2026-10-22.md); map addendum: [Wave 378](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-ARCHITECTURE-WAVE-378-2026-10-22.md).
+- Owner-confirmed: strict local-first privacy; encrypted backups on user-owned nodes with separated keys, integrity checks and periodic restore tests; staged updates with provenance/compatibility gates, controlled activation and rollback.
+- Main HEAD at authoring start: `11d04d2f2687e9ba9215e4b67af2e450516960bb`; canonical documentation branch HEAD: `937b6fa164d0e89e5e5781bf8c236e4fb862ad56`.
+- PR #485 is an overlapping open draft for user-owned compute and must be reconciled, not treated as accepted. Combined status results for related draft heads were empty: NOT VERIFIED, not PASS. Branch protection could not be read (HTTP 403): NOT VERIFIED.
+- Documentation proposal only. No runtime implementation, secret access, agent dispatch, local host operation, deployment, qualification or acceptance occurred.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+---
+
 ## Wave 356 — PR #437 exact-head CI repair and local FCC→Ollama route probe (2026-10-22)
 
 - Report: [Wave 356 exact-head CI and local route evidence](MEDIAHUB-NEXT-PR437-CI-REPAIR-AND-LOCAL-ROUTE-PROBE-WAVE-356-2026-10-22.md); [Wave 356 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-356-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
