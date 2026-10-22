@@ -16,6 +16,30 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 MARKER = "MEDIAHUB_DISTRIBUTED_LOCAL_EXECUTOR_OK"
 VERDICT_MARKER = "ASTRA_VERDICT: PASS"
+CHILD_ENV_ALLOWLIST = frozenset({
+    "PATH", "HOME", "USER", "LOGNAME", "SHELL", "LANG", "LC_ALL", "LC_CTYPE",
+    "TMPDIR", "TMP", "TEMP", "TERM", "NO_COLOR", "CI",
+    "SSL_CERT_FILE", "SSL_CERT_DIR", "REQUESTS_CA_BUNDLE", "CURL_CA_BUNDLE",
+})
+FCC_ENV_ALLOWLIST = frozenset({
+    "MODEL", "HOST", "PORT", "OLLAMA_BASE_URL", "HTTP_READ_TIMEOUT",
+    "PROVIDER_MAX_CONCURRENCY", "PROVIDER_PROGRESS_TIMEOUT", "PROVIDER_RATE_LIMIT",
+    "PROXY_AUTH_ENABLED", "REASONING_POLICY", "ANTHROPIC_AUTH_TOKEN",
+})
+
+
+def child_environment(
+    explicit: dict[str, str] | None = None,
+    *,
+    explicit_allowlist: frozenset[str] | set[str] = frozenset(),
+) -> dict[str, str]:
+    """Build a minimal environment; copy explicit values only when their keys are authorized."""
+    env = {key: value for key, value in os.environ.items() if key in CHILD_ENV_ALLOWLIST}
+    if explicit:
+        env.update({key: explicit[key] for key in explicit_allowlist if key in explicit})
+    return env
+
+
 NODE_CONFIG = {
     "mh-dev-01": {
         "user": "mediahub-runner",
@@ -117,8 +141,7 @@ def start_fcc(env_file: Path, model: str, server_path: str | None = None) -> tup
     env_updates = load_env_file(env_file)
     if env_updates.get("MODEL") != "ollama/" + model:
         raise RuntimeError("fcc_model_binding_mismatch")
-    env = os.environ.copy()
-    env.update(env_updates)
+    env = child_environment(env_updates, explicit_allowlist=FCC_ENV_ALLOWLIST)
     env["FCC_ENV_FILE"] = str(env_file)
     host = env_updates.get("HOST", "127.0.0.1")
     port = env_updates.get("PORT", "8093")
@@ -159,8 +182,7 @@ def exec_codex(prompt: str, writable: bool, model: str, timeout: int) -> dict:
             '[features]\nmulti_agent = false\napps = false\ntool_search = false\nplugins = false\n',
             encoding="utf-8",
         )
-        env = os.environ.copy()
-        env["CODEX_HOME"] = home
+        env = child_environment({"CODEX_HOME": home}, explicit_allowlist={"CODEX_HOME"})
         sandbox = os.environ.get("ASTRA_CODEX_SANDBOX_MODE", "").strip() if writable else "read-only"
         if writable and sandbox not in {"workspace-write", "danger-full-access"}:
             sandbox = "workspace-write"
@@ -194,8 +216,7 @@ def exec_claude(prompt: str, model: str, timeout: int, env_file: Path, max_token
     claude = shutil.which("claude")
     if not claude:
         raise RuntimeError("claude_cli_missing")
-    env = os.environ.copy()
-    env.update(env_updates)
+    env = child_environment(env_updates, explicit_allowlist=FCC_ENV_ALLOWLIST)
     env["ANTHROPIC_BASE_URL"] = f"http://{host}:{port}"
     env["ANTHROPIC_AUTH_TOKEN"] = token
     env["ANTHROPIC_API_KEY"] = token
@@ -611,9 +632,7 @@ def main() -> int:
             raise RuntimeError("task_boundary_violation")
 
         test_paths = [str(x) for x in task.get("test_paths", [])]
-        test_env = os.environ.copy()
-        test_env["PYTHONPATH"] = str(ROOT / "runtime") + os.pathsep + str(ROOT) + os.pathsep + test_env.get("PYTHONPATH", "")
-        test_env = os.environ.copy()
+        test_env = child_environment()
         existing_pythonpath = test_env.get("PYTHONPATH", "")
         test_env["PYTHONPATH"] = os.pathsep.join(
             p for p in [str(ROOT / "runtime"), str(ROOT), existing_pythonpath] if p
