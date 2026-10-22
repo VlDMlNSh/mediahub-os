@@ -5363,3 +5363,37 @@ Status: **OWNER-DIRECTED TARGET REQUIREMENT / GOVERNANCE, IMPLEMENTATION AND RUN
 - Current SentinelX read-only attempt disconnected; no model invocation or host mutation. Retrieve exact prior successful Actions run/artifact IDs before deciding which local checks truly need rerunning.
 - PR #443 merged; tested PR-head contract validation, controller no-secret probe, Astra Verify and Cloud Runtime Validation succeeded; no child Gemini runs were dispatched. PR #437 remains open with CI/review NOT VERIFIED. No current Gemini batch, no secret access, no acceptance.
 - Evidence: [Wave 350 report](MEDIAHUB-NEXT-HISTORICAL-CLAUDE-OLLAMA-EVIDENCE-RECONCILIATION-WAVE-350-2026-10-22.md), [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-CLAUDE-OLLAMA-WAVE-350-2026-10-22.md), [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+---
+
+## Wave 378 — architecture consolidation, hardware, privacy and operations (2026-10-22)
+
+- Full design proposal: [MediaHub distributed architecture — hardware, privacy and operations](../architecture/MEDIAHUB-DISTRIBUTED-ARCHITECTURE-HARDWARE-PRIVACY-OPERATIONS-WAVE-378-2026-10-22.md).
+- Owner-decision record: [Wave 378 distributed compute decisions](MEDIAHUB-DISTRIBUTED-COMPUTE-ARCHITECTURE-DECISIONS-WAVE-378-2026-10-22.md).
+- Map addendum: [Wave 378](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-378-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Machine-readable state: [Wave 378 architecture decisions](../context/MEDIAHUB-ARCHITECTURE-DECISIONS-WAVE-378.json).
+- Evidence report: [Wave 378 consolidation](MEDIAHUB-ARCHITECTURE-CONSOLIDATION-REPORT-WAVE-378-2026-10-22.md).
+
+### Architecture decisions captured
+
+1. Strict local-first privacy: user media and detailed operational logs stay on owner-controlled nodes; outbound data requires explicit task-level authorization.
+2. Encrypted backups on own nodes, keys separated from backup storage, integrity checks and periodic restore drills.
+3. Staged updates with automatic compatibility/provenance checks, mandatory gates, controlled activation and rollback.
+4. GitHub engineering coordination separated from the local media queue; hybrid protected outbound/private networking; hybrid observability.
+5. Adaptive resource scheduling P0–P3 and fail-closed recovery using lease/fencing, prior output, idempotency and executor compatibility.
+6. Model registry/manifests in GitHub and approved local artifact replication, without large model weights in ordinary Git history.
+
+### Hardware assumptions to validate
+
+Mac mini 2018: six CPU cores, RAM unknown. Mac mini 2011: four CPU cores, 16 GB RAM, Linux. Voktors-Mini.Dlink: historical macOS ARM64; current executor runtime NOT VERIFIED and no Gemini transport allowed. Candidate future media server (about 100,000 RUB): Ryzen 5 5600, RTX 3060 12 GB VRAM, 32 GB RAM with possible 64 GB upgrade, 1 TB NVMe and compatible cooling/power/platform. Candidate hardware is not a purchase decision or qualification. Benchmark actual media/model workloads before setting numeric resource thresholds.
+
+### Bounded implementation sequence
+
+- Reconcile issuer/capability, A0 lifecycle, R-06 privacy/audit, queue/lease/cancel/recovery and data-egress contracts first.
+- Inventory and qualify actual nodes and model/runtime compatibility.
+- Add schema and negative-fixture tests for privacy/egress, queue lifecycle, recovery/idempotency and evidence manifests.
+- Run backup/key recovery and staged update/rollback drills before production use.
+- Qualify Contour A using immutable target SHAs, approved controller routes, exact-head CI, independent review and artifact digests. Keep Contour B blocked until Contour A is deployed and independently accepted.
+
+Status: architecture/documentation only; implementation, runtime verification, qualification and acceptance are not implied.
