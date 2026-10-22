@@ -5,6 +5,8 @@
 - Canonical documentation branch: `docs/mediahub-chat-tree-map-20261012`
 - Code base / immutable review target: `11d04d2f2687e9ba9215e4b67af2e450516960bb`
 - Controller source blob on base: `28874450099e70b0f9d276600e6452c1b8e1b1a6`
+- PR: [#482](https://github.com/VlDMlNSh/mediahub-os/pull/482)
+- PR head SHA: `cd76cc9c58a192aaae3f38a2ea6a34b5f32ea460`
 
 ## Problem statement
 
@@ -14,31 +16,36 @@ Wave 379 demonstrated that each child workflow had a unique signed `dispatch_id`
 
 On branch `fix/gemini-dispatch-unique-branches-wave381-20261022`:
 
-- Agent 1 prompt now requires `contour-a/agent-1-${{ inputs.dispatch_id }}`.
-- Agent 2 prompt now requires `contour-a/agent-2-${{ inputs.dispatch_id }}`.
-- Agent 3 prompt now requires `contour-a/agent-3-${{ inputs.dispatch_id }}`.
+- Agent 1 prompt requires `contour-a/agent-1-${{ inputs.dispatch_id }}`.
+- Agent 2 prompt requires `contour-a/agent-2-${{ inputs.dispatch_id }}`.
+- Agent 3 prompt requires `contour-a/agent-3-${{ inputs.dispatch_id }}`.
 - Each prompt prohibits branch reuse across dispatches and requires the dispatch ID in the PR body.
-- Added `test_child_branch_names_are_unique_per_signed_dispatch` to the existing `tests/test_gemini_transport_controller_contract.py`, which is already in the controller contract validation path filter and test command.
+- Added `test_child_branch_names_are_unique_per_signed_dispatch` to `tests/test_gemini_transport_controller_contract.py`, already covered by the controller contract validation workflow.
 
 The controller's signed payload and HMAC schema are unchanged. No new task input, provider route, secret, permission, workflow dispatch path, merge authority or deployment authority was added. This is a prompt-level guardrail with a static contract test, not a cryptographic enforcement of the model's chosen branch name.
 
-## Verification status
+## Exact-head verification evidence
 
-- Changes were written through GitHub Contents API and are awaiting PR exact-head CI.
-- The changed files must be re-read from the branch and blob SHAs recorded before claiming source verification.
-- No local test execution is claimed in this environment.
-- No Gemini controller or child workflow was dispatched by this pass.
+PR #482 head `cd76cc9c58a192aaae3f38a2ea6a34b5f32ea460` has the following workflow results:
+
+- [Astra Verify run 39812234965](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39812234965): job 119941296295 completed / success.
+- [Gemini workflow contract validation run 39812235006](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39812235006): job 119941296681 completed / success. Logs show the transport-controller contract suite ran 12 tests and returned OK; signed-dispatch runtime contract suite ran 11 tests and returned OK; trigger-path suite ran 2 tests and returned OK.
+- [Astra Cloud Runtime Validation run 39812235012](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39812235012): job 119941296879 completed / success.
+- [Controller no-secret PR probe run 39812234998](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39812234998): probe/assertion jobs succeeded; admission and dispatch jobs were skipped as expected. No Gemini child workflow was launched.
+- [Reusable workflow caller-context probe run 39812235105](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39812235105): observation and denial assertion completed / success.
+
+The combined-status endpoint returned an empty statuses array; the workflow-run evidence above is the available exact-head CI evidence. Formal PR review submissions are empty and independent review remains NOT VERIFIED. GitHub reports the PR mergeable, but it is not merged.
+
+## Acceptance status and limits
+
+- Static workflow/controller contract CI: PASS for the listed runs.
+- HMAC payload, admission flag, allowlists, permissions and provider routing: unchanged in this patch.
+- Actual model compliance with the requested branch name: NOT VERIFIED until a later authorized runtime dispatch produces matching branches/PRs.
+- Independent review and acceptance: NOT VERIFIED.
+- No local test execution is claimed.
 - No secret was read, no server was operated, and no PR was merged.
-- CI, independent review, runtime behavior and acceptance: NOT VERIFIED until evidence arrives.
-
-## Acceptance criteria
-
-1. Existing HMAC payload/authorizer interoperability tests remain unchanged and pass.
-2. The new contract test confirms all three child prompts use role-specific branch prefixes plus signed dispatch ID.
-3. Existing controller trigger-path coverage includes the modified child workflows and test file.
-4. Exact-head CI passes; a reviewer independently confirms that no authority, credential, or dispatch-gate boundary changed.
-5. Subsequent runtime evidence confirms branches and PRs actually use the requested unique names; prompt assertions alone do not prove model compliance.
+- No Gemini controller or child workflow was dispatched by this pass.
 
 ## Next step
 
-Open a PR and wait for exact-head CI/review. Do not rerun the three-agent controller until the branch-isolation change is verified; do not treat a passing static prompt test as runtime qualification.
+Obtain independent review of PR #482. Do not rerun the three-agent controller until review/merge governance permits it; a passing static prompt test does not constitute runtime qualification.
