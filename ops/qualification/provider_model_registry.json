@@ -395,16 +395,15 @@
       ],
       "base_url": "https://api.deepseek.com/v1",
       "models": [
-        "deepseek-chat",
-        "deepseek-reasoner"
+        "deepseek-flash"
       ],
       "capabilities": [
         "coding",
         "reasoning",
         "general"
       ],
-      "cost_class": "trial",
-      "persistence_class": "trial"
+      "cost_class": "paid_api",
+      "persistence_class": "api"
     },
     {
       "id": "gemini-1",
