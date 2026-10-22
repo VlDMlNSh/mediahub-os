@@ -36,3 +36,13 @@ Keep the existing UI local-only. For approved ephemeral GitHub-hosted jobs, prov
 
 ## Next step
 Complete any remaining upstream deployment/release-note and credential lifecycle audit without deploying. Submit the documentation PR for exact-head CI and independent review. Remote deployment stays blocked unless a compliant private-access architecture and storage controls are explicitly qualified and accepted.
+
+
+## Wave 369 update — source/docs audit (2026-10-23)
+- Report: [Wave 369 FCC remote-access source audit](MEDIAHUB-FCC-REMOTE-ACCESS-SOURCE-AUDIT-WAVE-369-2026-10-23.md).
+- Current candidate PR #500 head before Wave 369: `7907ec0158e366686e5f48d165ccb53ec919dd65`; combined status had zero contexts, PR workflow query had zero runs, reviews empty: **CI/independent review NOT VERIFIED**.
+- Pinned README/test/security source supports the existing local-only decision. Upstream tests were inspected, not run. Release-note retrieval remains NOT VERIFIED.
+- Decision unchanged: keep remote Admin/key entry BLOCKED; no public port, guard weakening, deployment, or provider calls. Canonical map is linked above and unchanged.
+
+## Next step
+Keep PR #500 draft pending exact-head CI and independent review. Continue the next independently actionable Contour A gate under Issue #301; do not bypass the approved Gemini controller.
