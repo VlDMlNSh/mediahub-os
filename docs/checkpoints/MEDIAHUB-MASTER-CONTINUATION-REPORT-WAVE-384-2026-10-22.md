@@ -15,8 +15,8 @@ Preserve the current chat's new standing request and architecture direction in t
 
 ## Evidence
 
-- Context file update commit: 183a79414e633e1ea7ba1c79bb7600c31cd11249.
-- Updated context blob SHA at write time: 4e303956018c24f6a5841c5165b33321182c560b. Must read back before claiming final document integrity.
+- Context extension commit: 183a79414e633e1ea7ba1c79bb7600c31cd11249; subsequent evidence updates: b09d86a3c472b8c26abe3baba8bddbc87cf6fbf3 and 028a8472eb386078831bb652ce10e4b84e1fa5be.
+- The short continuation command had a malformed leftover suffix on first read-back; corrected in commit f415116835db51fec79a68f8b448b0b3a589267a. Final read-back must confirm current context blob SHA.
 - CI fix commit: https://github.com/VlDMlNSh/mediahub-os/commit/9d55150cc6ec5fdff14a6c6b798faf30601c8b22.
 - PR #483: https://github.com/VlDMlNSh/mediahub-os/pull/483.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md.
@@ -33,3 +33,10 @@ Preserve the current chat's new standing request and architecture direction in t
 
 Read back the updated master context and this report, refresh PR #474/#483 exact-head CI and reviews, then perform one bounded pass: confirm the CI fix outcome and begin a source-backed comparative audit of mature orchestration projects. Do not merge or claim acceptance without required evidence.
 
+
+
+## Final integrity correction
+
+- Short `/next` command repaired as a whole line; correction commit: https://github.com/VlDMlNSh/mediahub-os/commit/f415116835db51fec79a68f8b448b0b3a589267a.
+- Corrected context blob SHA: `3e9f00cb860f2b963ddb11952c5417ef81abc60a` (verify with a fresh read-back).
+- PR #474 remains open/unmerged and has no recorded formal review; its current exact-head CI/review acceptance is NOT VERIFIED.
