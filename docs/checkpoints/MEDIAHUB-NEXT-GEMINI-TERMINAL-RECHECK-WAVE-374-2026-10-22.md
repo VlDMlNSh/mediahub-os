@@ -34,18 +34,18 @@ All three child workflow runs use workflow-definition HEAD `b33ab31674bfa9595a8f
 
 Artifact metadata reports all three artifacts unexpired. Artifact existence and workflow success are execution evidence; artifact contents still require review against the task contract and exact target SHA.
 
-### Controller discrepancy
+### Controller terminal status
 
 - Parent controller: [39794516227](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794516227), target workflow-definition HEAD `b33ab31674bfa9595a8f2ba5a570dbc1eb3686b2`.
-- Latest API snapshot still says parent `in_progress` with null conclusion.
-- Job `dispatch_and_monitor` (119885198704) is also reported `in_progress` with null conclusion, although its dispatch/monitor step and visible `Complete job` step both report `completed / success`.
-- Therefore parent controller terminal state is `NOT VERIFIED`. Do not rerun the batch merely to clear this UI/API discrepancy. Investigate the Actions run lifecycle/runner finalization and record a terminal result if it resolves.
+- A later recheck at 2026-10-22T14:53:37Z reports parent `completed / success`. The prior apparent lifecycle discrepancy has resolved; do not redispatch this batch.
+- At the prior snapshot, job `dispatch_and_monitor` (119885198704) was inconsistently reported `in_progress` despite its visible dispatch/monitor and completion steps reporting `completed / success`. Preserve this as a transient API/UI inconsistency, not as a current controller blocker.
+- The child logs include a nonfatal warning that Gemini CLI stderr was not valid JSON; the post-run output validator nevertheless completed successfully and reported non-empty JSON, successful tool operations, and a successful PR result. This validates workflow output shape/operation accounting, not the semantic correctness of the artifact content.
 
 ## Agent PRs and exact-head CI
 
-- [PR #467](https://github.com/VlDMlNSh/mediahub-os/pull/467), head `a91d6cab3060c234df36e5543bd45a05ed381290): open; exact-head check-runs returned `total_count=0`; formal PR reviews returned empty. Its own report says independent human review remains pending. Status: `NOT VERIFIED`.
+- [PR #467](https://github.com/VlDMlNSh/mediahub-os/pull/467), head `a91d6cab3060c234df36e5543bd45a05ed381290`): open; exact-head check-runs returned `total_count=0`; formal PR reviews returned empty. Its own report says independent human review remains pending. Status: `NOT VERIFIED`.
 - [PR #468](https://github.com/VlDMlNSh/mediahub-os/pull/468), head `72227210428721b8cd5af6815ab779581fc3779f`: open; exact-head check-runs returned `total_count=0`. Its evidence explicitly marks mh-dev-02 runtime, three-node scheduler/fencing/recovery, and PRE-SOAK as blocked. Status: `NOT VERIFIED`; the static isolated test claims are not live runtime qualification.
-- [PR #469](https://github.com/VlDMlNSh/mediahub-os/pull/469), head `d035c1fc12e40dfe9a4099d8fb35abf5fbe21f6e): open; exact-head check-runs returned `total_count=0`. Its description says no tests or qualification were executed; it is a documentation/evidence alignment pass. Status: `NOT VERIFIED`.
+- [PR #469](https://github.com/VlDMlNSh/mediahub-os/pull/469), head `d035c1fc12e40dfe9a4099d8fb35abf5fbe21f6e`): open; exact-head check-runs returned `total_count=0`. Its description says no tests or qualification were executed; it is a documentation/evidence alignment pass. Status: `NOT VERIFIED`.
 - None of these PRs was merged in this pass. No formal reviews were returned for #467/#468; absence of review records is not approval.
 
 ## FreeLLMAPI qualification
@@ -66,7 +66,7 @@ Artifact metadata reports all three artifacts unexpired. Artifact existence and 
 
 - PR #458 merge and main verify: `SUCCESS`.
 - Three Gemini child workflows: `SUCCEEDED` at workflow/job level; task-result correctness: `NOT VERIFIED` pending artifact/content review.
-- Controller parent terminal state: `NOT VERIFIED`.
+- Controller parent terminal state: `SUCCESS` (later recheck; previous inconsistent in-progress snapshot resolved).
 - Agent PR CI/review/qualification: `NOT VERIFIED`.
 - FreeLLMAPI Live Qualification: `NOT VERIFIED`.
 - Claude/Ollama on third server: `NOT RUN` in this pass; previous host allowlist/path and tool-runtime gates remain unresolved.
@@ -74,7 +74,7 @@ Artifact metadata reports all three artifacts unexpired. Artifact existence and 
 
 ## Next bounded step
 
-1. Obtain terminal controller status and reconcile the parent/job lifecycle discrepancy without redispatch.
+1. Controller is terminal success; no redispatch is needed. Continue by reviewing agent outputs and exact-head CI.
 2. Read the three artifact payloads or agent output summaries and map claims to exact source blobs/tests.
 3. Recheck FreeLLMAPI run 39797189239 and its jobs.
 4. Run or enable exact-head CI for #467–#469 through the repository's approved workflow paths; independently review before any merge.
