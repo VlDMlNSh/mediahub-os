@@ -23,3 +23,11 @@ Workflow completion is not equivalent to output verification, runtime qualificat
 ## Next step
 
 Recheck controller/qualification runs, read and verify artifact payloads against exact source SHAs, obtain exact-head CI and independent reviews for PRs #467–#469, and update the checkpoint with the resulting evidence. Contour B remains gated until Contour A has been deployed and independently accepted.
+
+
+## Follow-up recheck — 2026-10-22
+
+- Parent Gemini controller 39794516227 is terminal `completed / success`; all three child runs 39796606536, 39796609924, 39796613574 are `completed / success` with artifact digests recorded in the Wave 374 report. No redispatch is needed.
+- FreeLLMAPI qualification 39797189239 remains `pending` with no jobs returned. Its workflow requires a self-hosted Linux x64 `mediahub-control` runner, asserts `mh-dev-01` / `mediahub-runner`, and reads a local key file. Runner unavailability is plausible but the exact scheduler reason is not verified. Do not claim qualification or trigger server-side action while the owner has no local terminal access.
+- Exact-head checks/reviews for agent PRs #467–#469 and docs PR #470 remain absent at the latest read; integration is not authorized.
+- Full evidence: [Wave 374 terminal recheck](../checkpoints/MEDIAHUB-NEXT-GEMINI-TERMINAL-RECHECK-WAVE-374-2026-10-22.md). Canonical map remains unchanged until docs PR review/merge.
