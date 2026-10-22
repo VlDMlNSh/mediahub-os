@@ -1,0 +1,24 @@
+name: oss-runtime
+
+on:
+  pull_request:
+    paths:
+      - 'oss/**'
+  push:
+    branches: [main]
+    paths:
+      - 'oss/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: oss
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+      - run: go test ./...
+      - run: go vet ./...
