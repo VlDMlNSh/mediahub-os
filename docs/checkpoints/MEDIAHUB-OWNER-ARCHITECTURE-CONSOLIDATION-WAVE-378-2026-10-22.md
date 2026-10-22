@@ -2,7 +2,11 @@
 
 **Status:** Documentation prepared on a separate working branch. PROPOSED; not implemented, qualified, or accepted.  
 **Working branch:** `docs/owner-architecture-decisions-wave-378-20261022`  
-**Starting canonical docs HEAD:** `937b6fa164d0e89e5e5781bf8c236e4fb862ad56`
+**Starting canonical docs HEAD:** `937b6fa164d0e89e5e5781bf8c236e4fb862ad56`  
+**Review PR:** [#487](https://github.com/VlDMlNSh/mediahub-os/pull/487) — open draft, not merged.  
+**Architecture document blob SHA:** `edf403511406ddd1dc11944f2701fa66b9f82fd7`.  
+**Report blob SHA before this evidence update:** `a3e9f304425e5619f774a15324c5459acd3d9b3e`.  
+**Initial document commit:** `3af8ca13423cae7f1c136edd237b0a517468ef93`; second document commit / branch HEAD at PR creation: `139b592e4106c6c1f82acee5d2caeb00b0b984ec`.
 
 ## Work performed
 Consolidated this conversation’s architecture decisions into [the owner architecture decision record](../architecture/MEDIAHUB-OWNER-ARCHITECTURE-DECISIONS-WAVE-378-2026-10-22.md): authority boundaries; Contour A/B; task queues/protocol/lifecycle; model registry/routing; adaptive resource control; retries/recovery; hybrid observability; local-first privacy; encrypted backups and restore drills; staged updates/rollback; hardware assumptions; rollout gates.
@@ -18,7 +22,8 @@ Consolidated this conversation’s architecture decisions into [the owner archit
 
 ## Validation and blockers
 - Read Bootstrap, checkpoint, Master Roadmap, Baseline 2.0 and canonical map by exact blob SHA.
-- Created a separate working branch; no change to `main` or the canonical docs branch.
+- Created a separate working branch; no change to `main` or the canonical docs branch. PR #487 is open as a draft and remains unmerged.
+- Exact-head workflow-run lookup for PR head `139b592e4106c6c1f82acee5d2caeb00b0b984ec` returned no runs; review lookup returned no reviews. CI and independent review are NOT VERIFIED, not PASS.
 - Reconcile overlap with PR #485 and normative contracts before merging.
 - A0 issuer/ingress/lease/cancel/recovery and R-06 audit/privacy gates remain open.
 - Full schema validation/negative fixtures and independent review remain open.
