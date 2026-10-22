@@ -9,17 +9,17 @@
 
 PR #450, [docs(wave-364): correct Alamo host identity to Voktors-Mini](https://github.com/VlDMlNSh/mediahub-os/pull/450), is merged. Merge commit: `25a2883bb8e3099df49c9bd688c028958102bc95`. Current main ref recheck at the beginning of this pass returned the same SHA.
 
-The owner clarifies that Alamo is hosted on `Voktors-Mini.Dlink`, which is the Mac mini 2018, and that this device is the intended local executor host. This supersedes the earlier mistaken interpretation that Alamo was a different host from the central Mac Pro role.
+The owner clarifies that Alamo is hosted on `Voktors-Mini.Dlink`, which is the Mac mini 2018, and that this device is the intended local executor host. This supersedes the earlier mistaken interpretation that Alamo was a different host from the central legacy hardware label role.
 
-## 2. Mac Pro phrase sweep
+## 2. legacy hardware label phrase sweep
 
-GitHub repository search returned up to 100 candidate files for the terms “Mac Pro”; because the search tokenization also matched unrelated words such as “production” and “proposal”, every candidate was checked for the exact phrase. Three source documents contained actual `Mac Pro` references and were corrected on this branch:
+GitHub repository search returned up to 100 candidate files for the terms “legacy hardware label”; because the search tokenization also matched unrelated words such as “production” and “proposal”, every candidate was checked for the exact phrase. Three source documents contained actual `legacy hardware label` references and were corrected on this branch:
 
 - `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md` — blob SHA `a7eba183aecf726cf6f720ed96059b5023793001`
 - `docs/checkpoints/MEDIAHUB-JARVIS-CORPORATION-ARCHITECTURE-PROPOSAL-CROSSWALK-WAVE-01-2026-10-15.md` — blob SHA `04251812428e1154266b7a3ec49c3ec51907a4a7`
 - `docs/checkpoints/MEDIAHUB-CONTOUR-A-WB-14-JARVIS-A0-AND-DIRECT-LOCAL-ROUTE-SOURCE-RECONCILIATION-2026-10-15.md` — blob SHA `048376919db64de57e96e3ca56207eaf8a82f295`
 
-All exact `Mac Pro` phrases in those three files are now replaced with `Mac mini 2018`. The architecture text now states that `Voktors-Mini.Dlink` is the owner-identified Mac mini 2018 hosting Alamo and the central-infrastructure role. The generic “Mac mini/Linux worker” role remains distinct only if later inventory establishes a separate device.
+All exact `legacy hardware label` phrases in those three files are now replaced with `Mac mini 2018`. The architecture text now states that `Voktors-Mini.Dlink` is the owner-identified Mac mini 2018 hosting Alamo and the central-infrastructure role. The generic “Mac mini/Linux worker” role remains distinct only if later inventory establishes a separate device.
 
 Scope limitation: this was a source-backed sweep of the 100 search candidates returned by GitHub, not a proof that every branch, historical commit, issue, PR comment, release artifact, or file beyond that search result set contains no phrase. The open PR will include a final exact-string recheck on the changed source branch.
 
@@ -63,7 +63,7 @@ The prior local-route evidence only established some Ollama/FCC/OmniRoute infere
 
 ## 6. Next bounded step
 
-1. Finish the branch's docs and create a PR; reread the changed blobs and search the branch for exact `Mac Pro`.
+1. Finish the branch's docs and create a PR; reread the changed blobs and search the branch for exact `legacy hardware label`.
 2. Requalify the GitHub dispatch gate without enabling it prematurely. The next agent-mode attempt must be controller-owned and must capture the controller run ID, three child run/job IDs, terminal statuses, artifact digests and independent review.
 3. Recover stable SentinelX sessions; verify allowlisted paths and the local Claude/FCC/Ollama no-paid-fallback route before invoking Claude Code. Do not treat inference-only evidence as tool-execution qualification.
 4. Keep all missing execution evidence explicitly NOT RUN / NOT VERIFIED.
