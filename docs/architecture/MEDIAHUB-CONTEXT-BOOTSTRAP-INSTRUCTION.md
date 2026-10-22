@@ -6,6 +6,19 @@
 - Baseline 2.0: `docs/checkpoints/mediahub-functional-baseline-2.0.md` в `main`.
 - Назначение: восстановление релевантного контекста по первичным документам и предотвращение действий без проверки зависимостей.
 
+## Wave 362 — mandatory user MediaHub compute and context requirements
+
+For every `/next` affecting ASTRA GOLD A0, GitHub Supervisor, user-owned MediaHub compute, model loading/quantization, installer storage or project context recovery, read and reconcile:
+
+- [Wave 362 architecture requirements](MEDIAHUB-A0-USER-MEDIAHUB-DISTRIBUTED-COMPUTE-AND-MODEL-LOADING-REQUIREMENTS-WAVE-362-2026-10-22.md)
+- [Wave 362 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-362-2026-10-22.md)
+- [Machine-readable context state](../context/MEDIAHUB-CONTEXT-STATE.json)
+- [Wave 362 report](../checkpoints/MEDIAHUB-NEXT-CONTEXT-AND-DISTRIBUTED-COMPUTE-WAVE-362-2026-10-22.md)
+
+Binding responsibility model: ChatGPT or Jarvis may originate a large task; ASTRA GOLD A0 decomposes it and routes bounded subtasks across admitted cloud executors, user-owned MediaHub compute nodes and qualified local executors. GitHub Supervisor provides execution/control-plane primitives and does not replace A0 as the decomposition/routing authority.
+
+User MediaHub compute participation requires explicit admission, owner consent, scoped issuer/capability, resource/data-route quotas, revocation and auditable receipts. The model strategy may combine quantization with selective/streamed loading or offload only where the chosen model/runtime supports it. Installer storage must be a visible, bounded allocation/quota for model assets, cache and temporary task data; do not infer permission to repartition disks or consume unbounded space. Quantization is not itself selective loading. Treat all Wave 362 content as design requirements until implementation, tests, independent review and qualification are evidenced.
+
 ## 1. Обязательный протокол перед КАЖДЫМ действием
 
 Перед любым чтением с последствиями, изменением файла, Git-операцией, созданием PR, запуском команды, установкой, тестом, квалификацией, деплоем или изменением инфраструктуры:

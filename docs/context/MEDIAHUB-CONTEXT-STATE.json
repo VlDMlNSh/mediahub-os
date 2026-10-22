@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "project": "MediaHub OS",
+  "updated_on": "2026-10-22",
+  "status": "PROPOSED_CANONICAL_CONTEXT_STATE",
+  "canonical_sources": {
+    "repository": "https://github.com/VlDMlNSh/mediahub-os",
+    "map": "docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md",
+    "bootstrap": "docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md",
+    "checkpoint": "docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md",
+    "master_roadmap": "docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md",
+    "issue_301": "https://github.com/VlDMlNSh/mediahub-os/issues/301"
+  },
+  "objectives": {
+    "contour_a": "Qualify a verifiable autonomous engineering environment with GitHub-hosted control/execution infrastructure, safe routing, resumable quotas, secret isolation and provenance.",
+    "contour_b": "Do not begin until Contour A is deployed and independently accepted."
+  },
+  "architecture_invariants": [
+    "Large tasks may originate from ChatGPT or Jarvis.",
+    "ASTRA GOLD A0 decomposes large tasks into a dependency graph and routes subtasks among admitted cloud workers, user-owned MediaHub compute nodes, and qualified local executors.",
+    "GitHub Supervisor supplies execution/control-plane capabilities such as queueing, dispatch, monitoring, recovery and evidence collection; it does not replace A0 as the decomposition/routing authority.",
+    "User-owned MediaHub are compute resources, not automatically subordinate product-state authorities.",
+    "Product State Authority remains distinct from Jarvis and ASTRA GOLD A0.",
+    "Issuer/capability, consent, least privilege, data boundaries, quota policy and revocation are mandatory.",
+    "Quantization and selective/streamed model loading are distinct mechanisms and may be combined when the chosen model/runtime supports them.",
+    "A user MediaHub reserves an explicit, user-visible disk budget at installation for authorized model assets, cache and temporary task data; the exact quota is configurable and must not silently consume unbounded storage.",
+    "Only task-required model components should be resident in RAM/VRAM when supported by the selected model architecture/runtime; disk-backed weights or offloading can reduce memory requirements but may reduce throughput.",
+    "Model selection must be based on task quality, runtime compatibility, license/terms, disk/RAM/VRAM, bandwidth, latency, energy and quota, not model size alone.",
+    "No secrets in prompts, model context, logs, artifacts or repository documents.",
+    "Gemini dispatch exclusively uses the approved GitHub Actions controller and its gates; no alternate transport or paid fallback."
+  ],
+  "workstreams": {
+    "user_mediahub_compute": "DESIGN_REQUIREMENTS_RECORDED_IMPLEMENTATION_NOT_VERIFIED",
+    "a0_task_decomposition_and_three_pool_routing": "EXISTING_REQUIREMENTS_REQUIRE_SOURCE_RECONCILIATION",
+    "github_supervisor": "IMPLEMENTATION_AND_QUALIFICATION_IN_PROGRESS",
+    "compact_context_checkpoint": "PROPOSED_IN_REVIEW",
+    "contour_a_acceptance": "NOT_ACCEPTED"
+  },
+  "statuses": {
+    "latest_documentation_change": "PROPOSED_IN_OPEN_DRAFT_PR_485",
+    "runtime_implementation": "NOT_VERIFIED",
+    "tests": "NOT_RUN_FOR_WAVE_362",
+    "qualification": "NOT_QUALIFIED",
+    "acceptance": "NOT_ACCEPTED"
+  },
+  "evidence": [
+    {
+      "kind": "source",
+      "ref": "docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md",
+      "status": "READ",
+      "note": "Contains binding Wave 272/273 requirements and controller governance; reconcile before implementation."
+    },
+    {
+      "kind": "source",
+      "ref": "docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md",
+      "blob_sha": "ba5731256321251b6a92b35d51f5bd0f2c1d4e86",
+      "status": "READ_VIA_BLOB",
+      "note": "Contents API returned empty content; blob retrieval returned the map."
+    },
+    {
+      "kind": "issue",
+      "ref": "https://github.com/VlDMlNSh/mediahub-os/issues/301",
+      "status": "OPEN",
+      "note": "Contour A umbrella; controller dispatch and qualification gates remain governed separately."
+    }
+  ],
+  "blockers": [
+    "This context state is a proposal until its PR is reviewed and merged.",
+    "User MediaHub onboarding, storage reservation, model transfer, runtime streaming/offload and resource admission are not proven implemented by this document.",
+    "Exact model/runtime, model license, minimum hardware profiles, disk quotas, eviction policy and task data residency remain design decisions.",
+    "Current executor/controller qualification gates must be checked afresh before dispatch or local execution."
+  ],
+  "next_action": {
+    "id": "MH-W362-001",
+    "description": "Review and merge the bounded architecture/context PR after schema and contract checks; then derive implementation tasks from existing A0 contracts.",
+    "status": "PLANNED",
+    "acceptance_criteria": [
+      "JSON parses and passes a versioned schema validator.",
+      "The architecture contract is reconciled with current A0 and user MediaHub contracts.",
+      "Map, checkpoint, roadmap and Bootstrap link to the dated evidence.",
+      "No implementation, runtime qualification or acceptance is claimed without independent evidence."
+    ]
+  },
+  "tracking": {
+    "pull_request": 485,
+    "pull_request_url": "https://github.com/VlDMlNSh/mediahub-os/pull/485",
+    "state": "OPEN",
+    "draft": true,
+    "merge_status": "NOT MERGED",
+    "branch": "docs/user-mediahub-compute-context-wave-362-20261022",
+    "canonical_base": "docs/mediahub-chat-tree-map-20261012"
+  }
+}
