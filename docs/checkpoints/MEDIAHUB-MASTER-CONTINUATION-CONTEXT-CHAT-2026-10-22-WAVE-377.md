@@ -6,7 +6,7 @@
 
 Скопируй целиком:
 
-`/next — продолжай MediaHub OS строго по master-контексту https://github.com/VlDMlNSh/mediahub-os/blob/docs/master-chat-context-wave-377-20261022/docs/checkpoints/MEDIAHUB-MASTER-CONTINUATION-CONTEXT-CHAT-2026-10-22-WAVE-377.md. Сначала прочитай этот документ целиком и все связанные предыдущие master-контексты/Wave 376, затем заново проверь актуальные GitHub refs/HEAD/SHA, canonical map, Bootstrap, checkpoint, Master Roadmap, Issue #301, PR #458, #467–#473, exact-head CI/reviews, controller/child runs/artifacts, FreeLLMAPI qualification и доступность исполнителей. Учитывай: PR #458 слит, Astra Verify на main подтверждён SUCCESS; Wave 376 Gemini controller и все 3 child workflow завершились SUCCESS с artifacts, но это не доказывает семантическую корректность/приёмку; FreeLLMAPI qualification ранее оставалась PENDING/NOT VERIFIED; PR #467–#469 и docs PR #470–#473 нельзя считать принятыми без актуальных доказательств. Работай только в рамках утверждённых governance/security gates; Gemini запускай исключительно через .github/workflows/gemini-batch-dispatch-controller.yml и не повторяй dispatch без обоснования. Пользователь явно указал, что работает только с третьим сервером — не требуй от него действий на mh-dev-01 и не направляй Gemini на сервер 3. Пока пользователь не у домашнего терминала, продолжай cloud-only и не запускай Claude локально. Выполни один ограниченный проверяемый шаг, перечитай изменённые файлы и SHA, создай датированный отчёт и обнови checkpoint/map при необходимости. Не заявляй VERIFIED/QUALIFIED/ACCEPTED без доказательств.`
+`/next — продолжай MediaHub OS по этому master-контексту: https://github.com/VlDMlNSh/mediahub-os/blob/docs/master-chat-context-wave-377-20261022/docs/checkpoints/MEDIAHUB-MASTER-CONTINUATION-CONTEXT-CHAT-2026-10-22-WAVE-377.md. Прочитай документ целиком и предыдущие связанные контексты; затем перепроверь актуальные refs/HEAD/SHA, canonical map, Bootstrap, checkpoint, Master Roadmap, Issue #301, открытые PR и exact-head CI. В каждом /next подготовь три отдельные дополнительные задачи облачным Gemini исполнителям только через утверждённый controller и только после проверки всех gates; не запускай повторный/дублирующий batch и не утверждай, что задачи переданы без доказательства run/child IDs. Продолжай формирование GitHub-hosted supervisor и исследуй зрелые GitHub-проекты для переиспользования лучших компонентов, а не копирования целых систем. Выполни один ограниченный проверяемый шаг, запиши отчёт и SHA; статусы и блокеры указывай точно.`ектность/приёмку; FreeLLMAPI qualification ранее оставалась PENDING/NOT VERIFIED; PR #467–#469 и docs PR #470–#473 нельзя считать принятыми без актуальных доказательств. Работай только в рамках утверждённых governance/security gates; Gemini запускай исключительно через .github/workflows/gemini-batch-dispatch-controller.yml и не повторяй dispatch без обоснования. Пользователь явно указал, что работает только с третьим сервером — не требуй от него действий на mh-dev-01 и не направляй Gemini на сервер 3. Пока пользователь не у домашнего терминала, продолжай cloud-only и не запускай Claude локально. Выполни один ограниченный проверяемый шаг, перечитай изменённые файлы и SHA, создай датированный отчёт и обнови checkpoint/map при необходимости. Не заявляй VERIFIED/QUALIFIED/ACCEPTED без доказательств.`
 
 ## Канонические источники — перечитать в начале каждого /next
 
@@ -109,3 +109,70 @@ Immutable target / workflow-definition SHA: `b33ab31674bfa9595a8f2ba5a570dbc1eb3
 - PR создан на canonical docs branch и явно помечен как рабочий, пока не слит.
 
 До выполнения всех четырёх пунктов не заявлять о завершённом сохранении.
+
+
+## Wave 384 — continuation from this chat (2026-10-22)
+
+### User's new standing request: three parallel cloud-agent tasks per /next
+
+The user asks that each /next additionally distribute three development-related tasks to three cloud executors to improve throughput, in addition to the main work of this chat. This is a standing request, but it does not authorize bypassing existing governance.
+
+- Roles should be complementary and independently bounded: (1) implementation/research, (2) independent contract/test review, (3) security/provenance review.
+- All Gemini execution must use only .github/workflows/gemini-batch-dispatch-controller.yml; never invoke child workflows or provider endpoints directly.
+- Before dispatch: re-read current controller contract; establish one immutable target SHA; prepare bounded task packets, inputs, forbidden actions and acceptance criteria; confirm exact secret/variable names and all gates; check active runs to prevent duplicate batches.
+- The current child workflow contract has a task input signed together with dispatch metadata, but verify the live controller actually accepts and forwards distinct task text for each role before claiming bespoke tasks were assigned. Record controller run ID, three child run/job IDs, terminal statuses, artifact digests, and independent verification. If a batch is blocked, record NOT RUN and the exact blocker; continue safe work independently.
+- Never route Gemini through the Mac mini. Local executor remains a separate authorized track on third host only; preserve Astra Gold A0, Jarvis and MediaHub Product State Authority separation.
+
+### User's requested target architecture
+
+The user wants Astra Gold A0 to receive tasks; a supervisor/control plane hosted on GitHub should distribute work to cloud agents and the local executor and manage the queue. GitHub should own orchestration/control-plane logic, while only the local execution component and Jarvis remain on the approved third server.
+
+Intended separation:
+- Astra Gold A0 authenticates/authorizes task envelopes and constrains issuer, capability, scope, immutable target SHA, expiry, budget, provider policy and cancellation identity.
+- GitHub-hosted supervisor manages queue state, dependency graph, leases, retries/timeouts, cancellation, routing, result collection and audit.
+- Gemini/cloud agents execute only through approved signed controller workflows.
+- Local worker is execution-only on Voktors-Mini.Dlink, SentinelX host ID host_5f7264034bdf0b51; do not operate mh-dev-01 or mh-dev-02. Do not use server 3 for Gemini.
+- Jarvis stays separate and does not acquire Astra A0 or Product State Authority privileges.
+- GitHub Actions runners are ephemeral: workflow files alone do not provide a permanently running supervisor or transactional durable queue. GitHub artifacts/issues alone are not a durable lease/locking database. Durable state, fencing/idempotency, recovery and worker protocol remain open design requirements.
+
+### Mature-project reuse strategy requested by user
+
+The user explicitly does not want entire repositories blindly installed or copied. Desired approach: compare mature open-source projects, then reuse only the strongest compatible code, tested patterns, and architectural mechanisms under a single MediaHub contract, with license/provenance and supply-chain review.
+
+Initial candidates mentioned in this chat (preliminary research shortlist, NOT approved dependencies):
+- [LangGraph](https://github.com/langchain-ai/langgraph) — stateful graph workflows, checkpoint/recovery patterns.
+- [CrewAI](https://github.com/crewAIInc/crewAI) — role-based agent team/task coordination.
+- [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) — multi-agent workflow patterns and handoff/checkpointing.
+- [Temporal](https://github.com/temporalio/temporal) — durable execution/retries/recovery concepts; full deployment is separate infrastructure and cannot simply be installed into GitHub Actions as a permanent service.
+- [Langfuse](https://github.com/langfuse/langfuse) — traces/observability/evaluation, not an orchestrator.
+- [promptfoo](https://github.com/promptfoo/promptfoo) — agent/LLM testing and red-team evaluation, not a task dispatcher.
+
+These were a first-pass candidate list only; do a fresh repository and documentation audit before selecting. Compare license, active maintenance, release maturity, security posture, dependency footprint, durability semantics, GitHub Actions compatibility, self-hosting requirements, extension APIs, provenance and integration cost. Avoid creating competing queues/identity systems. Prefer adapting a small set of well-supported components rather than combining full frameworks.
+
+### Wave 383 / PR #483 — hosted queue-transition test and CI regression
+
+- PR: https://github.com/VlDMlNSh/mediahub-os/pull/483
+- Branch: test/autonomous-queue-task-transition-wave382-20261022
+- Base main SHA recorded by PR: 11d04d2f2687e9ba9215e4b67af2e450516960bb.
+- Earlier head: 8fe5e4a8d2aa5575336a1284f9ec07a3f66e1c43; queue proof workflow blob SHA a21140fff67a5634cf5db43c482b0860764222e9; Astra contract workflow blob SHA 109b350d24ba7b3e92d3fd0c6ed33d4acc0dff04.
+- Hosted workflow astra-github-hosted-queue-transition-proof.yml uses an ephemeral GitHub-hosted Ubuntu runner, read-only contents permissions, pinned checkout action, pinned pytest dependency, and explicitly records real_cloud_agent_dispatch=NOT_RUN, local_executor_dispatch=NOT_RUN, secrets_used=NONE. This is deterministic queue state-machine test evidence only, not a real supervisor or worker dispatch.
+- Astra Verify run [39815854894](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39815854894) initially failed in tests/test_repo_hygiene.py::TestWorkflowDependencyTests::test_workflow_runs_only_installed_test_tools. The test parser did not normalize pinned package syntax pytest==8.3.5 and incorrectly reported that the two workflows did not install pytest.
+- A narrow parser fix was committed as [9d55150cc6ec5fdff14a6c6b798faf30601c8b22](https://github.com/VlDMlNSh/mediahub-os/commit/9d55150cc6ec5fdff14a6c6b798faf30601c8b22), message: test(ci): normalize pinned package names in workflow hygiene check. It normalizes package names from ==, >=, and extras before checking install coverage.
+- Post-fix test file blob SHA: 25d3cea1456b1e86c4833a22b5027f651f74f182.
+- At the last observed read, Astra Verify run 39815854894 was still in_progress, now associated with PR head 9d55150cc6ec5fdff14a6c6b798faf30601c8b22; do not claim the fix passed until exact-head run/job reaches a successful terminal state. PR #483 remains open/unmerged; do not merge without exact-head CI and required review.
+- Report: https://github.com/VlDMlNSh/mediahub-os/blob/test/autonomous-queue-task-transition-wave382-20261022/docs/checkpoints/MEDIAHUB-GITHUB-HOSTED-ASTRA-CONTROL-PLANE-WAVE-383-2026-10-22.md
+- Working map addendum: https://github.com/VlDMlNSh/mediahub-os/blob/test/autonomous-queue-task-transition-wave382-20261022/docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-383-2026-10-22.md
+- Wave 383 checkpoint: https://github.com/VlDMlNSh/mediahub-os/blob/test/autonomous-queue-task-transition-wave382-20261022/docs/checkpoints/MEDIAHUB-NEXT-CONTINUATION-CHECKPOINT-WAVE-383-2026-10-22.md
+- The existing queue supervisor run 39806527991 was previously queued on a self-hosted runner label resolving to mh-dev-01. Recheck current state, but do not operate that host; it violates the user's third-server-only scope.
+
+### Next required actions
+
+1. Read this master context and its archived prior context; re-read Bootstrap, canonical map, canonical checkpoint, Master Roadmap, Issue #301, current Gemini controller and child contracts.
+2. Refresh main, canonical documentation branch, PR #474 (this context document), PR #483, exact-head runs/statuses/reviews, Issue #301, and any active controller/child runs.
+3. Confirm whether commit 9d55150cc6ec5fdff14a6c6b798faf30601c8b22 passes exact-head CI; read back changed file SHA and logs. Do not merge PR #483 if checks or reviews remain NOT VERIFIED.
+4. Prepare three complementary Gemini task packets against one immutable SHA, but dispatch only if current controller forwards role-specific signed tasks and every governance/secret/route gate passes. Avoid duplicates; record all run/job/artifact evidence.
+5. Perform a fresh comparative audit of the candidate projects above and any stronger alternatives. Produce a matrix covering capability, maturity, license, security, maintenance, deployment model, GitHub-hosted feasibility and integration risk. Recommend reuse of components/patterns, not whole-system replacement.
+6. Continue extracting the GitHub-hosted supervisor/control-plane boundary from the existing queue runtime. Define durable state, leases/fencing/idempotency, recovery, cancellation and local-worker protocol before claiming autonomous orchestration.
+7. After any change, reread all modified files, record commit/blob SHA, check exact-head CI, create a dated report and update checkpoint/map as warranted. Keep working branches clearly distinguished from canonical documentation.
+
+Canonical map (always include in handoffs): https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
