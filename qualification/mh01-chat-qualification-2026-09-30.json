@@ -1,0 +1,30 @@
+{
+  "schema": "mediahub.mh01-chat-qualification-request.v2",
+  "status": "QUEUED_FOR_AUTONOMOUS_QUALIFICATION",
+  "chat": "MH-1",
+  "qualification_scope": "architecture-chat-governance",
+  "base": "main",
+  "target_commit": "816787335cad4b84c1cb8f08a2acb5f54b245a9a",
+  "target_tree": "d711ff94a57a0e10f23ef2dda440d66119ac6aa1",
+  "transport": "GitHub Transport only",
+  "desktop_commander": "PROHIBITED",
+  "fresh_evidence_required": true,
+  "duplicate_run_policy": "do_not_create_duplicate_pending_run",
+  "production_authorization": false,
+  "merge_authorization": false,
+  "queue_reference": "issue-114",
+  "supersedes": "PR-119",
+  "gates": [
+    "durable_charter",
+    "scope_non_scope",
+    "authority_boundaries",
+    "cross_mh_handoff",
+    "system_invariants",
+    "explicit_gaps",
+    "exact_revision_binding",
+    "no_secrets",
+    "github_transport_only",
+    "no_duplicate_run",
+    "fresh_evidence"
+  ]
+}
