@@ -75,3 +75,9 @@ Host: `Voktors-Mini.Dlink`, Remote Desktop Commander device ID `e264f341-2e21-4d
 Obtain independent formal review for PR #437 and authoritative, non-secret governance/admission evidence. Then re-evaluate a trusted-main, non-launching controller probe through the approved GitHub Actions controller. Only after all documented gates pass may the controller dispatch a batch of three Gemini children. In parallel, execute a bounded read-only task through the local FCC CLI with captured task/session evidence; do not equate the successful HTTP route probe with agent execution.
 
 Related records: [Wave 355](MEDIAHUB-NEXT-CONTROLLER-TRIGGER-REPAIR-AND-MAC-RECHECK-WAVE-355-2026-10-22.md), [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md), [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+
+
+## Additional local CLI attempt (same wave)
+
+- A bounded read-only review was attempted through `fcc-claude` on the same immutable worktree. With `qwen2.5-coder:3b`, the CLI returned a raw JSON-looking `Read` tool-call request as plain output instead of executing the tool. The FCC model route was then changed on the loopback-only server to `ollama/qwen3:4b` with `MODEL_FALLBACKS` unset and `REASONING_POLICY=off`; the CLI call reached the local Ollama endpoint (HTTP 200) but did not produce a review result before the bounded session was stopped. No files were modified by the CLI session; worktree remained clean at `2e23f9a99e655369672340329c4c1b6de25f1576`.
+- Classification: local FCC→Ollama transport **VERIFIED**; local CLI tool-execution / autonomous review **NOT VERIFIED**. This remains distinct from the user's historical report of prior successful Claude-fcc-Ollama work.
