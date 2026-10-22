@@ -2410,3 +2410,16 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Independent formal review remains NOT VERIFIED (zero reviews/threads); no controller-owned batch was launched. Issue #301 gates remain open.
 - On Voktors-Mini.Dlink, Ollama is loopback-only with cloud disabled; FCC maps all Claude aliases to local `ollama/qwen2.5-coder:3b`, no model fallbacks, and binds only `127.0.0.1:8082`. An inference smoke test returned `LOCAL_FCC_OLLAMA_OK`. Direct loopback benchmark on the existing Qwen2.5-Coder 1.5B endpoint returned 3/3 valid HTTP 200 responses at 3252.6 ms cold, 82.3 ms and 81.6 ms warm. These results do not qualify Claude-Code tool execution: tool-enabled model output was unreliable/hallucinated or stalled and terminated.
 - Current status: **PR CI VERIFIED / REVIEW NOT VERIFIED / GEMINI BATCH NOT RUN / LOCAL INFERENCE VERIFIED / LOCAL TOOL EXECUTION NOT VERIFIED / CONTOUR A NOT ACCEPTED**.
+
+
+## Wave 357 — OmniRoute local inference and Claude Code qualification boundary (2026-10-22)
+
+- Report: [Wave 357 local inference and Claude Code qualification](MEDIAHUB-NEXT-OMNIROUTE-LOCAL-INFERENCE-AND-CLAUDE-CODE-QUALIFICATION-WAVE-357-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-357-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Recovered 442 historical OmniRoute request logs (2026-10-07): 24 HTTP 200, 408 HTTP 504, 8 HTTP 499, 2 HTTP 502; historical route was local `llama-cpp`, with substantial timeout risk.
+- Current OmniRoute 3.8.50 is running on explicit loopback `127.0.0.1:20128`; health endpoints returned HTTP 200. A pinned local llama.cpp chat returned exact marker `OMNIROUTE_LOCAL_PROBE_OK_20261022` in 5.481 s; call log confirms HTTP 200, provider `llama-cpp`, 4.524 s.
+- Active OmniRoute provider inventory contains only `llama-cpp` at `127.0.0.1:8081`; no active Ollama provider connection exists. Ollama itself is available on `127.0.0.1:11434`, but OmniRoute→Ollama is **NOT CONFIGURED**.
+- Claude Code through OmniRoute did not complete a tool-using task. Existing alias reached local llama.cpp but failed with context size 42,236 tokens against a 32,768-token local context. No repo files changed. Claude Code tool execution remains **NOT VERIFIED**.
+- FCC→Ollama HTTP transport remains historically verified from Wave 356; FCC CLI autonomous task remains **NOT VERIFIED**. Do not mark either executor fully qualified on transport evidence alone.
+- OmniRoute is **NOT PROMOTED** as standard Claude work route. Next: configure a separate local Ollama provider through the supported OmniRoute interface, pin a local model with no cloud fallback, solve the context limit, and complete a read-only Claude Code task with tool execution and matching provider/model call-log evidence.
+- No secrets read, no Gemini dispatch, no public listener opened. Canonical documentation commit for this wave: report commit `b989b6e03b0437aa4ce53ab791d1fb2302d8d717`; map addendum commit `fdffbc54c646413dc31d067960aa777723b91751`.
+
