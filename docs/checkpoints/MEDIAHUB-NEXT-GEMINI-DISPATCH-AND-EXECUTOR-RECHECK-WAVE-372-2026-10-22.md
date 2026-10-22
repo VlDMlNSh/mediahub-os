@@ -116,3 +116,11 @@ The three child runs have now produced draft PRs and `gemini-output` artifacts. 
 - Astra control-plane run [39794162713](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162713) ended **SKIPPED**. No separate Astra chat-control-plane execution is claimed.
 - A separate open documentation PR [#466](https://github.com/VlDMlNSh/mediahub-os/pull/466) was created by an agent during the batch; its claim that the current dispatch was not run conflicts with the observed run IDs above. Treat that statement as stale/incorrect for this exact invocation until corrected through a reviewed update. Its other findings require independent verification.
 - The agent PRs are evidence submissions only. Do not merge, deploy, qualify or accept Contour A on this evidence alone.
+
+
+## Latest poll at 14:28:29Z
+
+- Agent 2 run [39794199351](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794199351) has now reached `completed/success`; Agent 1 remains `completed/success`; Agent 3 [39794202994](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794202994) remains `in_progress`; controller [39794162629](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162629) remains `in_progress`.
+- The controller monitor has not reached a terminal conclusion, so the complete batch remains **NOT VERIFIED** at the parent level.
+- PR #466 is a separate parallel Wave 372 gate-reconciliation pass. Its statement that its own pass did not dispatch is not evidence against the run records in this report; however, its wave-level disposition conflicts with this invocation. Reconcile the two reports before merging either documentation PR.
+- Exact-head CI and reviews remain **NOT VERIFIED** for agent PRs #462, #463, #465 and documentation PR #464. Do not merge.
