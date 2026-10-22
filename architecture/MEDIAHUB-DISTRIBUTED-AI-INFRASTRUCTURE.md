@@ -2,13 +2,13 @@
 
 - **Date:** 2026-10-12
 - **Status:** ACCEPTED TARGET ARCHITECTURE — NOT YET RUNTIME-QUALIFIED
-- **Scope:** Mac Pro central node, Mac mini Linux worker, MacBook clients, FCC, FreeLLMAPI, local model service, owned GPU server, MediaHub user-contributed compute, mobile client, and registration-only VPS.
+- **Scope:** Mac mini 2018 central node, Mac mini Linux worker, MacBook clients, FCC, FreeLLMAPI, local model service, owned GPU server, MediaHub user-contributed compute, mobile client, and registration-only VPS.
 - **Authority:** This document records the user's accepted target design. It does not claim that any component is deployed, compatible, or qualified.
-- **Authoritative host identity correction (Wave 364, 2026-10-22): Alamo is the local inference service hosted on `Voktors-Mini.Dlink` (macOS). Mac Pro remains a separate central-infrastructure role; it is not the Alamo host. This identity correction does not qualify Alamo's runtime, API, model, route, or production readiness.
+- **Authoritative host identity correction (Wave 364, 2026-10-22): Alamo is the local inference service hosted on `Voktors-Mini.Dlink` (macOS), identified by the owner as the Mac mini 2018 host. Alamo and the central-infrastructure role therefore refer to the same physical Mac mini 2018 unless future inventory evidence distinguishes separate devices. This identity correction does not qualify Alamo's runtime, API, model, route, or production readiness.
 
 ## 1. Architectural decisions
 
-1. **Mac Pro is the central infrastructure node.** It hosts Jarvis/control services, model/API routing, task coordination, monitoring, and the node registry, subject to hardware and runtime validation. The separate local inference service named Alamo runs on `Voktors-Mini.Dlink`.
+1. **Mac mini 2018 is the central infrastructure node.** It hosts Jarvis/control services, model/API routing, task coordination, monitoring, and the node registry, subject to hardware and runtime validation. The local inference service named Alamo runs on `Voktors-Mini.Dlink` (Mac mini 2018).
 2. **Local inference must remain local when local-only mode is selected.** The Claude Code path must not silently fall back to Anthropic's cloud API. The implementation must prove this through configuration inspection and network/evidence checks.
 3. **FCC is a required control/integration layer for the Claude Code path.** Its exact responsibilities and supported configuration must be verified against the pinned FCC release. FCC does not replace Jarvis or become MediaHub's state/authority source.
 4. **FreeLLMAPI is a cloud-model provider path, not the MediaHub authority.** It may expose multiple models/providers according to its actual API, availability, terms, and quotas.
@@ -16,7 +16,7 @@
 6. **Model selection can be manual or policy-driven.** The router may select between approved FreeLLMAPI models, other explicitly configured providers, and Alamo. Routing must respect capability compatibility, privacy mode, availability, quotas, latency, and cost.
 7. **Codex remains a separate cloud-authenticated development path.** Its approved cloud API/subscription authentication is not silently replaced by the Claude Code/FCC/FreeLLMAPI path.
 8. **There are two separate GPU execution pools:**
-   - **Pool A — owned GPU server:** trusted, operator-managed hardware providing inference/compute services to Mac Pro.
+   - **Pool A — owned GPU server:** trusted, operator-managed hardware providing inference/compute services to Mac mini 2018.
    - **Pool B — MediaHub user-contributed compute:** untrusted-by-default worker nodes, admitted only through explicit consent, isolation, capability checks, quotas, result verification, and revocation.
 9. **The VPS is restricted to the API-key registration/management workflow.** It is not a general egress proxy, model gateway, media relay, or mandatory transit point for ordinary application traffic.
 10. **The mobile developer application connects to Jarvis over a private mesh/P2P network.** Mesh membership alone does not grant shell or administrative privileges.
@@ -38,9 +38,9 @@ Mac mini / Linux
    Model-routing boundary
         ├── FreeLLMAPI ──► available cloud models/providers
         ├── other explicitly admitted provider adapters
-        └── Alamo API ───► Voktors-Mini.Dlink local inference
+        └── Alamo API ───► Voktors-Mini.Dlink (Mac mini 2018) local inference
 
-Mac Pro (central infrastructure node)
+Mac mini 2018 / Voktors-Mini.Dlink (central infrastructure and Alamo host)
   ├── Jarvis / MediaHub control plane
   ├── authenticated API gateway and model routing
   ├── task scheduler, node registry, queue and job state
@@ -69,7 +69,7 @@ This topology is logical, not a claim that all components are already deployed o
 | Alamo | Local inference endpoint hosted on Voktors-Mini.Dlink (macOS) | An assumed compatible endpoint before its API/runtime is verified |
 | Model router | Selects only admitted models compatible with the task and policy | A mechanism to bypass provider rules, quotas, or user privacy choices |
 | Codex | Separate cloud development workflow using its supported authentication | A component silently redirected to the local model or unrelated gateway |
-| Owned GPU worker | Executes admitted jobs on operator-controlled hardware | An implicit shared-memory device for Mac Pro |
+| Owned GPU worker | Executes admitted jobs on operator-controlled hardware | An implicit shared-memory device for Mac mini 2018 |
 | User-contributed worker | Executes explicitly consented, isolated and bounded jobs | A trusted authority, unrestricted host executor, or holder of unrelated secrets |
 | Mesh networking | Private node reachability | Application authorization |
 | VPS | Narrow registration/management workflow for API keys | General proxy or transit for inference and ordinary application traffic |
@@ -95,7 +95,7 @@ Free-tier availability is best-effort and must not be represented as unlimited o
 
 ### Pool A — owned GPU server
 
-- Mac Pro submits jobs to a worker/runtime on the GPU server over an authenticated private API.
+- Mac mini 2018 submits jobs to a worker/runtime on the GPU server over an authenticated private API.
 - The GPU server uses its own CPU, RAM, GPU, and VRAM.
 - Results and job telemetry return to the coordinator.
 - Multi-GPU inference on one host may be used when supported by the selected runtime.
@@ -110,7 +110,7 @@ Free-tier availability is best-effort and must not be represented as unlimited o
 - Results require validation; workers cannot self-assert qualification or become authorities.
 - Node failure, stale heartbeat, policy violation, or inconsistent results trigger quarantine/revocation and an auditable state transition.
 
-Remote RAM, disk, CPU, and GPU are consumed by executing jobs on the remote node or through explicit network services. They do not automatically become ordinary local RAM, disk, or VRAM on Mac Pro.
+Remote RAM, disk, CPU, and GPU are consumed by executing jobs on the remote node or through explicit network services. They do not automatically become ordinary local RAM, disk, or VRAM on Mac mini 2018.
 
 ## 6. Network and security requirements
 
@@ -125,7 +125,7 @@ Remote RAM, disk, CPU, and GPU are consumed by executing jobs on the remote node
 
 ## 7. Integration and qualification sequence
 
-1. **Inventory current state:** identify exact Mac Pro/macOS/hardware, Alamo model/runtime/API on Voktors-Mini.Dlink, Mac mini environment, FCC release, FreeLLMAPI release/API, Claude Code version, ports, and existing configuration.
+1. **Inventory current state:** identify exact Mac mini 2018/macOS/hardware, Alamo model/runtime/API on Voktors-Mini.Dlink, Mac mini environment, FCC release, FreeLLMAPI release/API, Claude Code version, ports, and existing configuration.
 2. **FCC compatibility:** pin a release and verify its supported Claude Code integration, configuration format, lifecycle, and provider-routing capabilities.
 3. **FreeLLMAPI adapter:** verify authentication, supported API protocol, model discovery, rate-limit behavior, quota reporting, and provider terms.
 4. **Alamo adapter:** verify authenticated private endpoint, request/response format, context limits, tool/function calling, streaming, and health checks.
@@ -149,7 +149,7 @@ The architecture is not considered implemented until evidence demonstrates all a
 - [ ] Local-only mode fails closed and no request is sent to Anthropic/cloud providers.
 - [ ] Cloud routing reports the actual provider/model and respects quotas/errors.
 - [ ] Codex authentication remains separate from this route.
-- [ ] Mac Pro and worker APIs require service-level authentication.
+- [ ] Mac mini 2018 and worker APIs require service-level authentication.
 - [ ] Owned GPU worker is measured and recovers from a simulated outage.
 - [ ] User-contributed workers have consent, isolation, quota, verification, and revocation tests before admission.
 - [ ] Mobile access can be revoked independently of mesh membership.
