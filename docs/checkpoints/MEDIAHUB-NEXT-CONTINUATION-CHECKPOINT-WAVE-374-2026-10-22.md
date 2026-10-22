@@ -16,15 +16,15 @@ Canonical checkpoint remains authoritative: [mediahub-next-continuation-checkpoi
 - Gemini Agent 1 run 39796606536: `completed / success`; artifact 12434585216, SHA-256 `96a1bdfce9bff0becb5f5687dd49a56198ea98e34bd45b5a62653f65ccf32010`.
 - Gemini Agent 2 run 39796609924: `completed / success`; artifact 12433742517, SHA-256 `067a30ce8519cd076da4c2ddeb75c33fbedd82637ed15d77c609eb799076dbc2`.
 - Gemini Agent 3 run 39796613574: `completed / success`; artifact 12432709691, SHA-256 `145b28b740200b551dab039a9a069dab1f06d2663e85fdba38e3104c9489a6d9`.
-- Parent controller run 39794516227: `in_progress` with null conclusion despite dispatch/monitor step success; `NOT VERIFIED`.
+- Parent controller run 39794516227: later rechecked as `completed / success`; prior API/UI lifecycle discrepancy resolved. No redispatch needed.
 - FreeLLMAPI qualification run 39797189239: `pending`, no jobs returned; `NOT VERIFIED`.
 - PR #467, #468, #469: open, exact-head check-runs count 0 at observed heads; do not merge.
 - Third-server Claude/Ollama: `NOT RUN` in this pass; no local terminal required or used.
 
 ## Next actions
 
-1. Reconcile controller run terminal-state anomaly without duplicate dispatch.
-2. Retrieve/inspect the three Gemini artifact payloads and compare output claims with immutable source and test evidence.
+1. Controller terminal status is now success; continue without redispatch.
+2. Retrieve/inspect the three Gemini artifact payloads and compare output claims with immutable source and test evidence; workflow logs show a nonfatal stderr JSON warning, while output validation passed.
 3. Recheck FreeLLMAPI run and jobs until terminal; do not assume provider qualification.
 4. Establish exact-head CI and independent reviews for #467–#469.
 5. Continue Issue #301 ordered gates: A0 issuer/ingress/lease/cancel/recovery and R-06 authority; authoritative target manifest; Draft 2020-12 schemas and positive/negative fixtures; first read-only worker with independent provenance.
