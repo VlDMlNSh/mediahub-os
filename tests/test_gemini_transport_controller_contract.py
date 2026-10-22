@@ -105,6 +105,18 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('("next-comment-"+source_comment_id)', self.source)
         self.assertIn('if source_comment_id:', self.source)
 
+    def test_child_branch_names_are_unique_per_signed_dispatch(self):
+        expected = {
+            "gemini-autonomous-engineering.yml": "contour-a/agent-1-${{ inputs.dispatch_id }}",
+            "gemini-agent-2.yml": "contour-a/agent-2-${{ inputs.dispatch_id }}",
+            "gemini-agent-3.yml": "contour-a/agent-3-${{ inputs.dispatch_id }}",
+        }
+        for filename, source, _ in self.child_sources:
+            with self.subTest(workflow=filename):
+                self.assertIn(expected[filename], source)
+                self.assertIn("Do not reuse a branch from another dispatch.", source)
+                self.assertIn("Include the dispatch ID in the PR body.", source)
+
     def test_batch_admission_flag_defaults_closed(self):
         gate = self.workflow["jobs"]["readiness_gate"]
         self.assertEqual(gate["permissions"], {})
