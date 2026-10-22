@@ -18,3 +18,11 @@ Date: 2026-10-22
 - Recommended disposition: keep Admin UI local-only; use approved job-scoped GitHub Actions secret injection for authorized ephemeral execution, subject to [Issue #296](https://github.com/VlDMlNSh/mediahub-os/issues/296) provider/quota/route gates. Persistent remote FCC UI remains **BLOCKED / NOT QUALIFIED** without a separately accepted security/architecture exception.
 
 - **Current continuation checkpoint:** [Wave 368 — FCC remote-access decision](../checkpoints/MEDIAHUB-NEXT-CONTINUATION-WAVE-368-2026-10-23.md).
+
+
+## Wave 369 — bounded source/docs follow-up (2026-10-23)
+- Report: [Wave 369 FCC remote-access source audit](../checkpoints/MEDIAHUB-FCC-REMOTE-ACCESS-SOURCE-AUDIT-WAVE-369-2026-10-23.md).
+- Pinned FCC README describes the normal local `fcc-server` Admin flow; tests assert loopback pass and remote client/non-local Origin 403. Tests were inspected, not run; release-note status NOT VERIFIED.
+- PR #500 exact-head status had zero contexts and zero PR workflow runs, and no formal reviews: **NOT VERIFIED**. Keep draft.
+- Remote Admin UI and remote production-key entry remain BLOCKED. Do not expose port 8082, spoof headers/client identity, weaken the loopback guard, or build a replacement UI.
+- Canonical map remains unchanged; this addendum is still on the non-canonical candidate branch pending review/merge.
