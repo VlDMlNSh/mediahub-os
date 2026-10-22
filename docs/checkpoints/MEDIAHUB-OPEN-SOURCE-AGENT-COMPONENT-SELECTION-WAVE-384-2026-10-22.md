@@ -73,7 +73,7 @@ The existing controller contains fixed task prompts for generic implementation, 
 - Framework selected for production: NONE.
 - Component copied or installed: NONE.
 - Three research agents: PLANNED / NOT DISPATCHED.
-- PR #483 exact-head CI after the latest hygiene-test fix: NOT VERIFIED; latest observed earlier run failed test_workflow_runs_only_installed_test_tools because the repository hygiene parser did not normalize pinned direct package versions. The parser fix was committed on the PR branch; a new exact-head CI result must be observed.
+- PR #483 exact-head CI after the hygiene-test parser fix: VERIFIED PASS on head 9d55150cc6ec5fdff14a6c6b798faf30601c8b22. Astra Verify run [39816945698](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39816945698), job 119957782575, completed with 469 tests OK; Cloud Runtime Validation run [39816945791](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39816945791), job 119957784151, completed successfully with 12 admission/failover tests passed. This is CI evidence only, not independent review or acceptance.
 - PR #483 formal independent review: NOT VERIFIED.
 - Contour A / production supervisor: NOT QUALIFIED / NOT ACCEPTED.
 
