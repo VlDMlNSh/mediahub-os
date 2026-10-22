@@ -15,7 +15,8 @@ class ControllerTransportTests(unittest.TestCase):
     def test_probe_default_and_minimal_controller_permissions(self):
         i = self.data["on"]["workflow_dispatch"]["inputs"]
         self.assertEqual(i["mode"]["default"], "probe")
-        self.assertEqual(i["confirm"]["default"], "no")
+        self.assertEqual(i["confirm"]["type"], "boolean")
+        self.assertEqual(i["confirm"]["default"], "false")
         self.assertEqual(self.data["permissions"], {})
         self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", str(self.data["jobs"]["probe"]))
         self.assertNotIn("GEMINI_API_KEY", str(self.data["jobs"]["probe"]))
@@ -42,7 +43,7 @@ class ControllerTransportTests(unittest.TestCase):
         self.assertIn("NOT_COMPLETED_BEFORE_TIMEOUT", self.source)
         condition = self.data["jobs"]["dispatch_and_monitor"]["if"]
         self.assertIn("github.ref == 'refs/heads/main'", condition)
-        self.assertIn("inputs.mode == 'agents' && inputs.confirm == 'yes'", condition)
+        self.assertIn("inputs.mode == 'agents' && inputs.confirm == true", condition)
         self.assertIn("github.event.comment.author_association == 'OWNER'", condition)
         self.assertIn("github.event.comment.body == '/next'", condition)
 if __name__ == "__main__":

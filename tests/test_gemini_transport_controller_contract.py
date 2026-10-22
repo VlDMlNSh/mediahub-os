@@ -29,15 +29,14 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         dispatch = self.workflow["on"]["workflow_dispatch"]
         self.assertEqual(dispatch["inputs"]["mode"]["default"], "probe")
         self.assertEqual(dispatch["inputs"]["mode"]["options"], ["probe", "agents"])
-        self.assertEqual(dispatch["inputs"]["confirm"]["type"], "choice")
-        self.assertEqual(dispatch["inputs"]["confirm"]["options"], ["no", "yes"])
-        self.assertEqual(dispatch["inputs"]["confirm"]["default"], "no")
+        self.assertEqual(dispatch["inputs"]["confirm"]["type"], "boolean")
+        self.assertEqual(dispatch["inputs"]["confirm"]["default"], "false")
         self.assertEqual(self.workflow["permissions"], {})
         condition = self.workflow["jobs"]["dispatch_and_monitor"]["if"].replace(" ", "")
         self.assertIn("github.event_name=='workflow_dispatch'", condition)
         self.assertIn("github.ref=='refs/heads/main'", condition)
         self.assertIn("inputs.mode=='agents'", condition)
-        self.assertIn("inputs.confirm=='yes'", condition)
+        self.assertIn("inputs.confirm==true", condition)
 
     def test_controller_uses_transport_token_only_for_api_dispatch(self):
         self.assertIn("secrets.MEDIAHUB_GITHUB_TOKEN", self.source)
