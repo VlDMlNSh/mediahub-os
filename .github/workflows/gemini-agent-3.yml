@@ -129,7 +129,7 @@ jobs:
             Baseline 2.0 is canonical; Baseline 1.0 is historical. Preserve historical IDs. Product State Authority remains the only canonical MediaHub product-state mutation authority. Keep Contour A separate from Contour B.
             Prioritize least privilege, secret-flow review, quota/error semantics, data-egress boundaries, acceptance criteria, and independent review of source evidence. Do not claim tests or runtime verification unless the task explicitly authorizes them and evidence exists.
             Perform exactly one bounded documentation/evidence pass. Create a dedicated branch from the selected base ref, add or update one concise checkpoint, and open a Pull Request to that same base ref. Never merge or deploy.
-            On a tool error, record the exact error and stop repeated guessing. If remaining tools work, publish a concise blocker checkpoint and open a PR. Never fabricate successful calls, commits, or verification.
+            Tool-error stop rule: if any GitHub MCP call fails, record the exact tool name and error, do not repeat that call, do not try aliases or tools outside the allowlist, and stop further repository reads. If the remaining allowed write tools are demonstrably usable, publish one concise blocker checkpoint and open a PR; otherwise stop and report the blocker. Never fabricate successful calls, commits, or verification.
             Do not install software, run tests or qualification, invoke additional models/providers, use credentials outside configured secrets, inspect host/runtime, alter infrastructure, run migrations, or change secrets.
             The PR must include evidence, queue/task ID, exact files and refs, acceptance criteria, known gaps, and verification status.
 
@@ -140,6 +140,50 @@ jobs:
             Base ref: ${{ inputs.base_ref }}
             Bounded task:
             ${{ inputs.task }}
+
+      - name: Emit sanitized Gemini diagnostic metadata
+        if: always()
+        continue-on-error: true
+        shell: bash
+        env:
+          GEMINI_STEP_OUTCOME: ${{ steps.gemini.outcome }}
+          GEMINI_STEP_CONCLUSION: ${{ steps.gemini.conclusion }}
+        run: |
+          set -uo pipefail
+          output="gemini-artifacts/stdout.log"
+          has_output=false
+          valid_json=false
+          response_present=false
+          tool_summary='{}'
+          if [[ -s "$output" ]]; then
+            has_output=true
+            if jq -e . "$output" >/dev/null 2>&1; then
+              valid_json=true
+              response_present="$(jq -r '(.response // "" | tostring | gsub("[[:space:]]"; "") | length) > 0' "$output" 2>/dev/null || echo false)"
+              tool_summary="$(jq -c '{tools: [(.stats.tools.byName // {}) | to_entries[]? | {name: .key, success: (.value.success // 0), failure: (.value.failure // 0)}]}' "$output" 2>/dev/null || echo '{}')"
+            fi
+          fi
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg job_id "$GITHUB_JOB" \
+            --arg step_outcome "$GEMINI_STEP_OUTCOME" \
+            --arg step_conclusion "$GEMINI_STEP_CONCLUSION" \
+            --argjson stdout_present "$has_output" \
+            --argjson stdout_valid_json "$valid_json" \
+            --argjson response_present "$response_present" \
+            --argjson tool_summary "$tool_summary" \
+            '{run_id:$run_id, run_attempt:$run_attempt, job_id:$job_id, gemini_step_outcome:$step_outcome, gemini_step_conclusion:$step_conclusion, stdout_present:$stdout_present, stdout_valid_json:$stdout_valid_json, response_present:$response_present, tool_summary:$tool_summary}' \
+            > "$RUNNER_TEMP/gemini-diagnostic.json"
+
+      - name: Upload sanitized Gemini diagnostic metadata
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: gemini-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/gemini-diagnostic.json
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Validate Gemini produced an actionable PR result
         if: success()
