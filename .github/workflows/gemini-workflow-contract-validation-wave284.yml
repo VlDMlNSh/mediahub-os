@@ -15,6 +15,8 @@ on:
       - "tests/test_gemini_controller_positive_context_probe_wave292_contract.py"
       - "tests/test_gemini_reusable_workflow_contract.py"
       - "tests/test_gemini_transport_controller_contract.py"
+      - "tests/test_gemini_controller_trigger_path_coverage_contract.py"
+      - "tests/test_gemini_child_signed_dispatch_runtime_contract.py"
 
 permissions:
   contents: read
