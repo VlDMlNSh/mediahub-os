@@ -1,0 +1,38 @@
+name: Agentic Preflight
+
+on:
+  push:
+    branches:
+      - 'ops/**'
+      - 'implementation/**'
+      - 'security/**'
+      - 'verification/**'
+      - 'qualification/**'
+      - 'release/**'
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Runtime and repository preflight
+        shell: bash
+        run: |
+          bash tools/agentic_preflight.sh
+
+      - name: Emit provenance
+        shell: bash
+        run: |
+          echo "workflow=${GITHUB_WORKFLOW}"
+          echo "run_id=${GITHUB_RUN_ID}"
+          echo "sha=${GITHUB_SHA}"
+          echo "ref=${GITHUB_REF}"
