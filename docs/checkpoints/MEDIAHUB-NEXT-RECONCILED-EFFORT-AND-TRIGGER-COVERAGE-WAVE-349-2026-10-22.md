@@ -99,3 +99,8 @@ PR #443 head `66f8cfc1bbd83bbb686ee8a1bbcea9589b182590` was rechecked after the 
 - PR #443 remains open and unmerged. Its mergeability API field was false at the snapshot; no merge was attempted. The PR probe is a negative-path test and does not qualify trusted-main agent dispatch.
 
 Updated disposition: **PR #443 CI VERIFIED / INDEPENDENT REVIEW NOT VERIFIED / CURRENT GEMINI BATCH NOT RUN / NOT ACCEPTED**.
+
+
+## Publication hygiene note
+
+During publication, the Wave 349 map addendum was briefly created on `main` because the first create-file call omitted the explicit documentation-branch selector. This was immediately corrected by deleting that exact file from `main` (cleanup commit `839574c73ba51a29ecfba178ed0494fc8837896e`) and recreating it on `docs/mediahub-chat-tree-map-20261012` (commit `af606c5467d4eaa1fc834a7c1efd2ea158133226`, blob `701dc6248034633f07351349dc2094737a7c1e1c)). Read-back confirms the addendum exists on the canonical docs branch. No other content was intentionally written to `main` in this pass; its history includes the temporary add/delete pair, which is disclosed here.
