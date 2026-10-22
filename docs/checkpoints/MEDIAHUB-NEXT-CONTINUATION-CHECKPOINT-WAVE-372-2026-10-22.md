@@ -60,3 +60,12 @@ Reconcile the controller and child run terminal states, fetch each job's logs/ar
 - Agent 3 run `39794202994` remains `in_progress`; artifact `12433515999` SHA-256 `1b37c391e70d66349b3994471bff0aacd8f8489e26473f9bfea0eb86f7a5c8f3`; PR [#465](https://github.com/VlDMlNSh/mediahub-os/pull/465), head `34191bc578364a5c2bea0af7b964415e31ee6667`.
 - Exact-head check-runs queries for #462, #463 and #465 returned zero entries. CI **NOT VERIFIED**; empty results are not PASS. All three PRs remain open/unmerged.
 - Agent logs report a Gemini CLI stderr JSON warning, while each engineer output-validation step reported success. Keep both facts in evidence; do not overstate either.
+
+
+## Agent outputs — latest reconciliation
+
+- Agent 1 run [39794196387](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794196387) is run-level `completed/success`; evidence PR [#463](https://github.com/VlDMlNSh/mediahub-os/pull/463), head `20bddc34c7715aef63e14270bf2aacba2f1cc2c4`, artifact digest `sha256:fc84e029c4e3d6785d2f1d0fc7e16e4d4d3b4ffef073f4aeaa2f71a44d9f9ce4`.
+- Agent 2 [39794199351](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794199351) and Agent 3 [39794202994](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794202994) remain `IN PROGRESS` on latest run-level read. Their evidence PRs are [#462](https://github.com/VlDMlNSh/mediahub-os/pull/462) and [#465](https://github.com/VlDMlNSh/mediahub-os/pull/465), with artifact digests recorded in the Wave 372 report.
+- Parent controller [39794162629](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162629) is still `IN PROGRESS`; no terminal monitor result. Astra control-plane [39794162713](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162713) is `SKIPPED`.
+- Exact-head CI/reviews for #462, #463 and #465 are `NOT VERIFIED`. Do not merge or accept these reports without independent review.
+- Separate PR [#466](https://github.com/VlDMlNSh/mediahub-os/pull/466) has a stale/conflicting statement that the current dispatch did not run; the run IDs above prove it did.
