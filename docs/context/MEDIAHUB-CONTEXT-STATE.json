@@ -37,7 +37,7 @@
     "contour_a_acceptance": "NOT_ACCEPTED"
   },
   "statuses": {
-    "latest_documentation_change": "PROPOSED_IN_BRANCH",
+    "latest_documentation_change": "PROPOSED_IN_OPEN_DRAFT_PR_485",
     "runtime_implementation": "NOT_VERIFIED",
     "tests": "NOT_RUN_FOR_WAVE_362",
     "qualification": "NOT_QUALIFIED",
@@ -80,5 +80,14 @@
       "Map, checkpoint, roadmap and Bootstrap link to the dated evidence.",
       "No implementation, runtime qualification or acceptance is claimed without independent evidence."
     ]
+  },
+  "tracking": {
+    "pull_request": 485,
+    "pull_request_url": "https://github.com/VlDMlNSh/mediahub-os/pull/485",
+    "state": "OPEN",
+    "draft": true,
+    "merge_status": "NOT MERGED",
+    "branch": "docs/user-mediahub-compute-context-wave-362-20261022",
+    "canonical_base": "docs/mediahub-chat-tree-map-20261012"
   }
 }
