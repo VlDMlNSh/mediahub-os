@@ -1,0 +1,60 @@
+{
+  "schema": "mediahub.agent-verification.v1",
+  "agent_id": "gemini-agent-2",
+  "contour": "contour-a",
+  "target_sha": "b33ab31674bfa9595a8f2ba5a570dbc1eb3686b2",
+  "base_ref": "main",
+  "timestamp": "2026-10-22T00:00:00Z",
+  "mappings": {
+    "next_step_acceptance_criteria": [
+      {
+        "criterion": "mh-dev-02 fresh health",
+        "source_path": "ops/node/mh-dev-02-mesh-check.sh",
+        "contract_path": "architecture/STATE-HA-INTEGRATION-CONTRACT.md",
+        "test_path": "tests/test_mesh_runtime_contract.py",
+        "status": "BLOCKED",
+        "gap": "Requires runtime execution evidence on mh-dev-02 with schema v2 compatibility"
+      },
+      {
+        "criterion": "mh-dev-02 runtime E2E",
+        "source_path": "ops/qualification/run_distributed_local_worker.py",
+        "contract_path": "architecture/SECURITY-TRUST-AUTHORIZATION-CONTRACT.md",
+        "test_path": "tests/test_distributed_local_worker.py",
+        "status": "BLOCKED",
+        "gap": "Execution backend verification pending active worker runtime"
+      },
+      {
+        "criterion": "Mac runtime E2E",
+        "source_path": "astra_github_agent.py",
+        "contract_path": "architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml",
+        "test_path": "tests/test_distributed_verification.py",
+        "status": "PASS",
+        "gap": "Mac attestation contract passes in isolation; E2E live worker runtime requires coordination"
+      },
+      {
+        "criterion": "three-node scheduler/fencing/recovery qualification",
+        "source_path": "ops/astra_orchestrator.py",
+        "contract_path": "architecture/ASTRA-GOLD-COMPLETE-COMPONENT-SCHEME.md",
+        "test_path": "tests/test_distributed_verification.py",
+        "status": "BLOCKED",
+        "gap": "Requires all 3 nodes (mh-dev-01, mh-dev-02, Voktors-Mac-mini.local) to report fresh signed HMAC attestations"
+      },
+      {
+        "criterion": "PRE-SOAK evidence gate",
+        "source_path": "qualification/transport-gate-2026-09-27.json",
+        "contract_path": "architecture/ASTRA-GOLD-QUALIFICATION-BLUEPRINT.yaml",
+        "test_path": "tests/test_astra_gold_soak_pin.py",
+        "status": "STOP",
+        "gap": "Gated by transport-gate status BLOCKED on mh-dev-02"
+      }
+    ]
+  },
+  "reproducible_checks": [
+    {
+      "command": "pytest tests/test_distributed_verification.py tests/test_distributed_local_worker.py tests/test_mesh_runtime_contract.py",
+      "expected_outcome": "All unit tests pass",
+      "status": "VERIFIED_STATIC"
+    }
+  ],
+  "notes": "Independent contract and test verification by Agent 2 (Contour A). No merge or deployment performed."
+}
