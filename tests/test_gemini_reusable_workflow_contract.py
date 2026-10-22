@@ -34,12 +34,13 @@ class GeminiSignedDispatchContractTests(unittest.TestCase):
     def test_probe_is_default_and_agent_dispatch_is_main_only(self):
         inputs = self.controller["on"]["workflow_dispatch"]["inputs"]
         self.assertEqual(inputs["mode"]["default"], "probe")
-        self.assertEqual(inputs["confirm"]["default"], "no")
+        self.assertEqual(inputs["confirm"]["type"], "boolean")
+        self.assertEqual(inputs["confirm"]["default"], "false")
         self.assertEqual(self.controller["permissions"], {})
         condition = self.controller["jobs"]["dispatch_and_monitor"]["if"]
         self.assertIn("github.ref == 'refs/heads/main'", condition)
         self.assertIn("inputs.mode == 'agents'", condition)
-        self.assertIn("inputs.confirm == 'yes'", condition)
+        self.assertIn("inputs.confirm == true", condition)
         self.assertEqual(self.controller["jobs"]["probe"]["permissions"], {})
 
     def test_all_children_require_hmac_before_provider_execution(self):
