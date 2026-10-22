@@ -1,3 +1,14 @@
+## Wave 393 — Contour A controller gate recheck (2026-10-22)
+
+- Report: [Wave 393 controller gate recheck](MEDIAHUB-NEXT-CONTOUR-A-CONTROLLER-GATE-WAVE-393-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-393-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main SHA `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; controller blob `28874450099e70b0f9d276600e6452c1b8e1b1a6`.
+- Main exact-SHA checks: generic verify SUCCESS (run 39846843270/job 120062258254); OpenRouter catalog GET SUCCESS (run 39847014875/job 120062857263). Neither is a controller-specific trusted-main no-secret probe.
+- Current controller source uses REST dispatch/monitoring, controller-only token mapping and separate HMAC; children still expose `workflow_dispatch` and have signed-dispatch contracts. Effective repository restrictions and credential scope are not proven by source inspection.
+- Trusted-main no-secret probe NOT VERIFIED; independent security review NOT VERIFIED; effective governance/secret metadata NOT VERIFIED; Gemini Agents 1–3 NOT RUN; Contour A NOT ACCEPTED.
+- PR #437 merged; Wave 356 open status is historical. Next: obtain a current trusted-main non-launching probe, independent security review, and authorized evidence of effective governance/secret metadata before agent mode.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).

@@ -1,3 +1,14 @@
+## Wave 393 — Contour A controller gate recheck (2026-10-22)
+
+- Current main HEAD observed: `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; controller blob `28874450099e70b0f9d276600e6452c1b8e1b1a6`.
+- Controller source and child workflows read back. REST dispatch/monitoring and signed child authorization are implemented, but effective governance/secret metadata and a current trusted-main no-secret probe are NOT VERIFIED.
+- Exact-main visible checks: generic verify SUCCESS (run 39846843270); OpenRouter catalog GET SUCCESS (run 39847014875). These do not qualify the Gemini controller.
+- PR #437 merged. Gemini Agents 1–3 NOT RUN in this pass; Contour A NOT ACCEPTED.
+- Next bounded gate: trusted-main non-launching probe + independent security review + authorized governance/secret-scope evidence. Do not launch agent mode until all gates close.
+- Detailed evidence: [Wave 393 report](MEDIAHUB-NEXT-CONTOUR-A-CONTROLLER-GATE-WAVE-393-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+---
+
 ## Wave 351 — recovered Claude/FCC/Ollama history (2026-10-22)
 
 - Report: [Wave 351 evidence recovery](MEDIAHUB-NEXT-CLAUDE-FCC-OLLAMA-HISTORICAL-EVIDENCE-WAVE-351-2026-10-22.md); map addendum: [Wave 351](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-351-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
