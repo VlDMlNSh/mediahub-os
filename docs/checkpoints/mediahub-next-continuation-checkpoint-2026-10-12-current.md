@@ -1,3 +1,14 @@
+## Wave 349 terminal update — PR #443 CI evidence (2026-10-22)
+
+- Wave 349 report: [reconciled effort and trigger coverage](MEDIAHUB-NEXT-RECONCILED-EFFORT-AND-TRIGGER-COVERAGE-WAVE-349-2026-10-22.md); map addendum: [Wave 349](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-349-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #443 head `66f8cfc1bbd83bbb686ee8a1bbcea9589b182590`: contract validation [39748357460](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39748357460) SUCCESS; controller no-secret probe [39748357615](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39748357615) SUCCESS with readiness/dispatch skipped as expected on pull_request; Astra Verify [39748357515](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39748357515) SUCCESS; Cloud Runtime Validation [39748357531](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39748357531) SUCCESS.
+- Regression test step explicitly completed successfully in job `119722364440`; probe and caller-context assertion jobs `119722365829` and `119722399614` succeeded. No child workflow dispatch occurred.
+- Formal PR #443 reviews remain zero: **INDEPENDENT REVIEW NOT VERIFIED**. PR remains open/unmerged; do not infer acceptance.
+- Reconciled estimate remains **1.5–3.5 active hours** to first current controller-owned batch, with **4–6 h contingency** for observed defects. This reuses historical Gemini and candidate probe results and owner-reported browser work.
+- Current controller → three-child batch: NOT RUN. Secret values not read. No owner /next trigger posted. Contour A remains **PARTIALLY IMPLEMENTED / NOT ACCEPTED**.
+
+---
+
 ## Wave 349 — reconciled effort and controller trigger coverage (2026-10-22)
 
 - Report: [Wave 349](MEDIAHUB-NEXT-RECONCILED-EFFORT-AND-TRIGGER-COVERAGE-WAVE-349-2026-10-22.md); map addendum: [Wave 349](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-349-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
