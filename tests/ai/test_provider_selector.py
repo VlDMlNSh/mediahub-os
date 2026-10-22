@@ -1,90 +1,59 @@
 import unittest
+from pathlib import Path
 
 
-class StubProvider:
-    def __init__(self, provider_id, availability):
-        self.provider_id = provider_id
-        self.availability = availability
+ROOT = Path(__file__).resolve().parents[2]
+ROUTER = ROOT / ".github" / "ai" / "model-router.yml"
+CONTROLLER = ROOT / ".github" / "workflows" / "gemini-batch-dispatch-controller.yml"
 
 
-class ProviderSelector:
-    """Minimal deterministic selector contract test fixture.
+class ExecutorRoutingPolicyTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.router = ROUTER.read_text(encoding="utf-8")
+        cls.controller = CONTROLLER.read_text(encoding="utf-8")
 
-    Runtime implementation is intentionally kept outside State Authority and
-    credentials are not part of the selector input.
-    """
-
-    def __init__(self, providers, fallback_provider_id):
-        self.providers = providers
-        self.fallback_provider_id = fallback_provider_id
-
-    def select(self):
-        for provider in self.providers:
-            if provider.availability == "available":
-                return provider.provider_id
-        fallback = next(
-            provider
-            for provider in self.providers
-            if provider.provider_id == self.fallback_provider_id
+    def test_gemini_cloud_transport_is_controller_only(self):
+        self.assertIn(
+            "permitted_cloud_agent_transport: .github/workflows/gemini-batch-dispatch-controller.yml",
+            self.router,
         )
-        if fallback.availability == "available":
-            return fallback.provider_id
-        raise RuntimeError("NO_PROVIDER_AVAILABLE")
+        self.assertIn("permitted_cloud_agent_transport_only: true", self.router)
+        self.assertIn("secrets.MEDIAHUB_GITHUB_TOKEN", self.controller)
+        self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", self.controller)
 
+    def test_claude_is_local_ollama_only(self):
+        self.assertIn("local_claude_runtime: ollama", self.router)
+        self.assertIn("local_claude_host: Alamo", self.router)
+        self.assertIn("local_claude_only: true", self.router)
 
-class ProviderSelectorContractTests(unittest.TestCase):
-    def test_primary_is_selected_when_available(self):
-        selector = ProviderSelector(
-            [
-                StubProvider("openai-api", "available"),
-                StubProvider("anthropic", "available"),
-                StubProvider("openrouter-free", "available"),
-            ],
-            "openrouter-free",
-        )
-        self.assertEqual(selector.select(), "openai-api")
+    def test_paid_and_unapproved_fallbacks_are_disabled(self):
+        self.assertIn("paid_fallback: false", self.router)
+        self.assertIn("unknown_route_behavior: fail_closed", self.router)
+        for forbidden in (
+            "api.openai.com",
+            "api.anthropic.com",
+            "generativelanguage.googleapis.com",
+            "openrouter.ai",
+            "OPENAI_API_KEY",
+            "ANTHROPIC_API_KEY",
+            "GEMINI_API_KEY",
+            "OPENROUTER_API_KEY",
+        ):
+            self.assertNotIn(forbidden, self.router)
 
-    def test_fallback_is_selected_when_primary_unavailable(self):
-        selector = ProviderSelector(
-            [
-                StubProvider("openai-api", "unavailable"),
-                StubProvider("anthropic", "unavailable"),
-                StubProvider("openrouter-free", "available"),
-            ],
-            "openrouter-free",
-        )
-        self.assertEqual(selector.select(), "openrouter-free")
+    def test_direct_provider_smoke_workflows_are_absent(self):
+        for path in (
+            ".github/workflows/mediahub-openai-smoke.yml",
+            ".github/workflows/mediahub-anthropic-smoke.yml",
+            ".github/workflows/mediahub-gemini-smoke.yml",
+            ".github/workflows/mediahub-openrouter-smoke.yml",
+        ):
+            self.assertFalse((ROOT / path).exists(), path)
 
-    def test_fail_closed_when_all_providers_are_unavailable(self):
-        selector = ProviderSelector(
-            [
-                StubProvider("openai-api", "unavailable"),
-                StubProvider("anthropic", "unavailable"),
-                StubProvider("openrouter-free", "unavailable"),
-            ],
-            "openrouter-free",
-        )
-        with self.assertRaisesRegex(RuntimeError, "^NO_PROVIDER_AVAILABLE$"):
-            selector.select()
-
-    def test_unknown_provider_state_is_not_selected(self):
-        selector = ProviderSelector(
-            [
-                StubProvider("openai-api", "unknown"),
-                StubProvider("openrouter-free", "available"),
-            ],
-            "openrouter-free",
-        )
-        self.assertEqual(selector.select(), "openrouter-free")
-
-    def test_selector_has_no_credential_or_endpoint_input(self):
-        selector = ProviderSelector(
-            [StubProvider("openai-api", "available")],
-            "openrouter-free",
-        )
-        self.assertEqual(selector.select(), "openai-api")
-        self.assertFalse(hasattr(selector, "api_key"))
-        self.assertFalse(hasattr(selector, "endpoint"))
+    def test_unknown_routes_fail_closed_and_human_release_gate_remains(self):
+        self.assertIn("unknown_route_behavior: fail_closed", self.router)
+        self.assertIn("production_authorization: human", self.router)
 
 
 if __name__ == "__main__":
