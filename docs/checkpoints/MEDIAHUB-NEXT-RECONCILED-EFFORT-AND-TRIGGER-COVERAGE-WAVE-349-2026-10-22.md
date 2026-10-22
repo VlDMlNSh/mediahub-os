@@ -85,3 +85,17 @@ Next: poll PR #443 runs to terminal state; address only observed failures; obtai
 - [PR #443](https://github.com/VlDMlNSh/mediahub-os/pull/443)
 - [PR #437](https://github.com/VlDMlNSh/mediahub-os/pull/437)
 - [PR #441](https://github.com/VlDMlNSh/mediahub-os/pull/441)
+
+
+## Post-run terminal read-back (2026-10-22)
+
+PR #443 head `66f8cfc1bbd83bbb686ee8a1bbcea9589b182590` was rechecked after the initial queued/in-progress snapshot:
+
+- Contract validation run [39748357460](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39748357460): **completed / success**. Job `119722364440` passed YAML/actionlint, legacy context contracts, Wave 292 security contracts, reusable workflow contracts, transport contracts, and the new trigger-path regression test.
+- Controller no-secret probe [39748357615](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39748357615): **completed / success**. Probe job `119722365829` and caller-context assertion `119722399614` passed. Readiness gate and dispatch job were **skipped**, as expected for pull_request; no Gemini children were dispatched.
+- Astra Verify [39748357515](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39748357515): **completed / success**, job `119722364614`.
+- Cloud Runtime Validation [39748357531](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39748357531): **completed / success**, job `119722364962`.
+- Combined status endpoint still returned an empty list; workflow-run/job evidence above is the positive CI evidence. Formal PR review endpoint still returned zero submitted reviews; independent review is **NOT VERIFIED**.
+- PR #443 remains open and unmerged. Its mergeability API field was false at the snapshot; no merge was attempted. The PR probe is a negative-path test and does not qualify trusted-main agent dispatch.
+
+Updated disposition: **PR #443 CI VERIFIED / INDEPENDENT REVIEW NOT VERIFIED / CURRENT GEMINI BATCH NOT RUN / NOT ACCEPTED**.
