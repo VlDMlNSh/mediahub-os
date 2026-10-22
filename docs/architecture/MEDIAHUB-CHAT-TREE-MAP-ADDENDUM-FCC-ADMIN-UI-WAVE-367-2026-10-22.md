@@ -16,3 +16,5 @@ Date: 2026-10-22
 - Pinned upstream test `tests/api/test_admin.py`, blob `889d6c16d8625a4cdb08baf5ea6f17564a607e77`, asserts loopback Admin requests succeed and a remote client returns 403; a separate test asserts a public Origin returns 403. Tests were inspected but not executed in this pass.
 - No upstream-supported authenticated remote-admin mode was found in the inspected source/docs. A client-side tunnel would still require a reachable persistent host and is not qualified against [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301). Header/client spoofing or weakening the loopback guard is rejected.
 - Recommended disposition: keep Admin UI local-only; use approved job-scoped GitHub Actions secret injection for authorized ephemeral execution, subject to [Issue #296](https://github.com/VlDMlNSh/mediahub-os/issues/296) provider/quota/route gates. Persistent remote FCC UI remains **BLOCKED / NOT QUALIFIED** without a separately accepted security/architecture exception.
+
+- **Current continuation checkpoint:** [Wave 368 — FCC remote-access decision](../checkpoints/MEDIAHUB-NEXT-CONTINUATION-WAVE-368-2026-10-23.md).
