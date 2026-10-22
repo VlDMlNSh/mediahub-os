@@ -1,3 +1,14 @@
+## Wave 351 — recovered Claude/FCC/Ollama history (2026-10-22)
+
+- Report: [Wave 351 evidence recovery](MEDIAHUB-NEXT-CLAUDE-FCC-OLLAMA-HISTORICAL-EVIDENCE-WAVE-351-2026-10-22.md); map addendum: [Wave 351](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-351-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Historical host evidence records Claude Code 2.1.282, running OmniRoute 3.8.50 and running Ollama 0.34.4 on Voktors-Mini.Dlink. Historical GitHub transport health records PASS/self-reexec-v1 and exact worker SHA `cd7a83c6b6b8d6065a157274e79e315e2aa5012c0f8ee9466de92980570b9e1a`.
+- Existing [three-Claude 23-wave workflow](https://github.com/VlDMlNSh/mediahub-os/blob/main/.github/workflows/mh25-three-claude-23wave.yml) and [distributed local worker](https://github.com/VlDMlNSh/mediahub-os/blob/main/ops/qualification/run_distributed_local_worker.py) are reused, not rebuilt. Owner reports prior successful Claude-fcc-Ollama and agent-browser execution; no duplicate task performed.
+- Exact historical successful Claude workflow run ID/artifact digest remains unlocated in this repo search. The current qualification registry remains AUTHORIZED / QUALIFICATION PENDING pending fresh exact-SHA three-lane evidence, independent review, aggregate PASS and soak. Current bounded runtime check could not reach the Ollama server.
+- Gemini routing remains exclusively the approved GitHub controller. The Mac executor is a separate local route and never transports Gemini.
+- Status: **HISTORICAL EVIDENCE RECOVERED / CURRENT CLAUDE QUALIFICATION NOT VERIFIED / CURRENT GEMINI BATCH NOT RUN / NOT ACCEPTED**.
+
+---
+
 ## Wave 350 — PR #433 merged; recheck current gates (2026-10-22)
 
 - Report: [Wave 350](MEDIAHUB-NEXT-POST-PR433-MERGE-RECONCILIATION-WAVE-350-2026-10-22.md); map addendum: [Wave 350](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-350-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
