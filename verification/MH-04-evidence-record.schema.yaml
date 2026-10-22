@@ -1,0 +1,68 @@
+schema_version: "1.0"
+status: PROPOSED
+purpose: >-
+  Canonical schema for reproducible MH-04 verification evidence. The schema
+  records observations only and grants no mutation or acceptance authority.
+
+record:
+  test_id: required
+  contract: required
+  verification_target: required
+  git_sha: required
+  branch: required
+  environment:
+    runtime: required
+    platform: required
+    dependency_lock: required
+  execution:
+    command: required
+    started_at: required
+    completed_at: required
+    exit_code: required
+  input:
+    command_id: required
+    correlation_id: required
+    source_identity: required
+    authorization_context: required
+    target: required
+    operation: required
+    concurrency_context: optional
+  observation:
+    pre_state: required
+    post_state: required
+    state_version_before: optional
+    state_version_after: optional
+    authorization_result: required
+    validation_result: required
+    mutation_result: required
+    emitted_events: required
+    rejection_reason: optional
+    failure_class: optional
+  evidence:
+    stdout_reference: required
+    stderr_reference: optional
+    structured_result_reference: required
+    artifact_hash: required
+    reproducibility_reference: required
+  assessment:
+    result: required
+    reviewer: required
+    review_basis: required
+    unknowns: required
+    contradictions: required
+    blockers: required
+
+allowed_result_values:
+  - NOT_VERIFIED
+  - TESTED
+  - QUALIFIED
+  - BLOCKED
+
+rules:
+  - evidence_is_observational
+  - evidence_cannot_mutate_canonical_state
+  - missing_execution_evidence_means_NOT_VERIFIED
+  - test_pass_does_not_equal_QUALIFIED
+  - reviewer_must_be_independent_for_security_cases
+  - no_record_can_grant_implementation_authorization
+  - no_record_can_change_contract_or_invariant_semantics

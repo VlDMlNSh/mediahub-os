@@ -1,0 +1,104 @@
+schema_version: "1.0"
+status: PLANNING
+repository: VlDMlNSh/mediahub-os
+canonical_branch: recovery/full-functional-spec
+planning_branch: dev/mh04-foundation-contract
+canonical_sha: 0adb60e35d8822c927b6dd5a5a34643115c4d068
+
+principle: "EVIDENCE > CLAIMS"
+
+engineering_hours:
+  min: 1860
+  max: 3040
+  note: "Planning range; excludes impossible-to-predict vendor/hardware surprises."
+
+human_hours:
+  realistic_min: 180
+  realistic_max: 350
+  optimized_min: 120
+  optimized_max: 220
+  note: "Human retains product, governance, acceptance, security and physical qualification authority."
+
+calendar_scenarios:
+  conservative:
+    active_agents: "2-3"
+    calendar: "12-18 months"
+  standard:
+    active_agents: "6-10"
+    calendar: "6-10 months"
+  aggressive:
+    active_agents: "10-15"
+    calendar: "4-6 months to RC, followed by qualification"
+
+stages:
+  P0_governance_architecture: {hours: "20-40", parallelization: low}
+  P1_foundation_state_authority: {hours: "120-180", parallelization: medium}
+  P2_runtime_security_identity: {hours: "140-220", parallelization: medium}
+  P3_device_smart_home_automation: {hours: "220-350", parallelization: high}
+  P4_storage_media: {hours: "250-400", parallelization: high}
+  P5_surveillance: {hours: "180-300", parallelization: high}
+  P6_network_cluster_ecosystem: {hours: "180-300", parallelization: high}
+  P7_ai_assistant_kg_rag_twin: {hours: "250-450", parallelization: high}
+  P8_ui_ios_installer_appliance: {hours: "250-400", parallelization: high}
+  P9_recovery_update_migration_qualification: {hours: "250-400", parallelization: medium}
+
+recommended_agents:
+  - Master Architect
+  - Foundation
+  - Security
+  - Identity
+  - Device
+  - Automation
+  - Storage
+  - Media
+  - Surveillance
+  - Network Cluster
+  - AI Intelligence
+  - UI iOS
+  - OS Installer
+  - QA Evidence
+  - Red Team
+  - Release
+
+operating_set:
+  recommended_active_agents: "8-12"
+  note: "All agents operate under one Master Control Point and cannot self-accept architecture or production readiness."
+
+critical_paths:
+  authority: "P0 -> P1 -> P2 -> cross-domain verification"
+  devices: "P1 -> P2 -> P3 -> integration qualification"
+  media: "P1 -> P4 -> P5 -> recovery qualification"
+  product: "P1 -> P8 -> appliance qualification"
+  intelligence: "P1+P2 -> P7"
+  network: "P1+P2 -> P6"
+  convergence: "all tracks -> integration -> security -> recovery -> hardware qualification -> acceptance -> freeze -> release"
+
+acceleration_mechanisms:
+  - contract_to_test_generation
+  - automated_evidence_packets
+  - hardware_in_the_loop
+  - reference_appliance
+  - CI_test_matrix
+  - continuous_red_team
+  - staged_release_candidates
+  - automated_traceability
+
+mandatory_release_gates:
+  - forensic_baseline
+  - archive_audit
+  - architecture_reconciliation
+  - master_architecture_acceptance
+  - state_authority
+  - persistence
+  - security_verification
+  - functional_verification
+  - frontend
+  - media
+  - surveillance
+  - intelligence_plane
+  - recovery
+  - bootable_os
+  - ci_verification
+  - hardware_qualification
+  - release_qualification
+  - explicit_production_authorization
