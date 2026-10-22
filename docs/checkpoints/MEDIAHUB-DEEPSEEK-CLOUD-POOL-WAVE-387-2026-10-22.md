@@ -53,3 +53,10 @@ Status: **IMPLEMENTATION PRESENT / CREDENTIAL NOT VERIFIED / LIVE EXECUTION NOT 
 - Independent review / Contour A acceptance: **NOT VERIFIED / NOT ACCEPTED**
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Follow-up found during Wave 387 — stale model IDs
+
+A live official-docs check found the repository registry still listed `deepseek-chat` and `deepseek-reasoner`, which are legacy model aliases according to the provider changelog. The current documented model ID for DeepSeek-V4.1-Flash-1017 is `deepseek-flash`; the provider labels this a paid API and pricing varies by peak/off-peak time. Sources: [official model/pricing page](https://api-docs.deepseek.com/quick_start/pricing/) and [official changelog](https://api-docs.deepseek.com/updates/?release=deepseek-coder).
+
+A separate source-bound fix is proposed in [PR #489](https://github.com/VlDMlNSh/mediahub-os/pull/489): provider registry model list and cost classification refresh plus a regression test. The branch read-back confirmed the retired aliases are absent and the expected new model/cost metadata are present. Exact-head status/workflow-run queries returned empty lists; CI remains **NOT VERIFIED**. PR #489 is open, draft, unmerged. The focused test has not been executed in this session.
