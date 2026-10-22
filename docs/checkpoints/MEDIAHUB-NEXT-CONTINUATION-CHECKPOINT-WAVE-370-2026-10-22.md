@@ -14,7 +14,7 @@ This is an additive checkpoint overlay on a working branch, not a replacement of
 - Agent 3: run 39786592525 completed/success; signature-verification job 119851331802 and task job 119851375985 completed/success; artifact 12429865886, sha256:df8b0dabeb29166ff69d2e7099dad25ce219182e6c7602d1402e75dbb2ef424c; PR #456. Exact-head CI for PR #456 remains NOT VERIFIED (zero check runs returned).
 
 ## Do not repeat
-- Do not dispatch another Gemini batch while controller run 39786556843 remains nonterminal.
+- Do not repeat the completed Gemini batch; all four specified runs are terminal success. A new dispatch requires a new justified task and fresh admission/gate checks.
 - Do not use a physical server for Gemini. Claude-fcc-Ollama and agent-browser remain separate and NOT RUN / NOT QUALIFIED on Voktors-Mini.Dlink.
 - Do not merge PR #458 until branch protection and required review/governance gates are verified. Do not merge PRs #456/#457 while their exact-head CI is unverified.
 - No secret values were read or changed.
