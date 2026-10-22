@@ -4,6 +4,15 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
+AGENTS = ROOT / ".github" / "agents"
+ROUTER = ROOT / ".github" / "ai" / "model-router.yml"
+CONTROLLER = ROOT / ".github" / "workflows" / "gemini-batch-dispatch-controller.yml"
+FORBIDDEN_DIRECT_WORKFLOWS = (
+    ".github/workflows/mediahub-openai-smoke.yml",
+    ".github/workflows/mediahub-anthropic-smoke.yml",
+    ".github/workflows/mediahub-gemini-smoke.yml",
+    ".github/workflows/mediahub-openrouter-smoke.yml",
+)
 REQUIRED_AGENTS = {
     "mediahub-architect.md": ("State Authority", "machine-checkable acceptance criteria"),
     "mediahub-implementer.md": ("State Authority", "regression"),
@@ -11,8 +20,6 @@ REQUIRED_AGENTS = {
     "mediahub-security.md": ("secrets", "privilege"),
     "mediahub-release.md": ("human production authorization", "rollback"),
 }
-ROUTER = ROOT / ".github" / "ai" / "model-router.yml"
-WORKFLOW = ROOT / ".github" / "workflows" / "mediahub-openrouter-smoke.yml"
 
 
 def fail(message: str) -> None:
@@ -26,50 +33,55 @@ def require(condition: bool, message: str) -> None:
 
 
 for filename, needles in REQUIRED_AGENTS.items():
-    path = ROOT / ".github" / "agents" / filename
+    path = AGENTS / filename
     require(path.is_file(), f"missing agent file: {path}")
     text = path.read_text(encoding="utf-8")
     for needle in needles:
         require(needle in text, f"{filename}: missing required contract text: {needle}")
 
-require(ROUTER.is_file(), f"AI router configuration missing: {ROUTER}")
+require(ROUTER.is_file(), f"AI router policy missing: {ROUTER}")
 router_text = ROUTER.read_text(encoding="utf-8")
 for needle in (
-    "fallback_must_be_free: true",
-    "production_use_requires_review: true",
-    "never_store_credentials_in_repo: true",
-    "required_before_merge: true",
+    "mode: policy_only",
+    "direct_provider_api_calls: false",
+    "permitted_cloud_agent_transport: .github/workflows/gemini-batch-dispatch-controller.yml",
+    "permitted_cloud_agent_transport_only: true",
+    "local_claude_runtime: ollama",
+    "local_claude_host: Alamo",
+    "local_claude_only: true",
+    "paid_fallback: false",
+    "unknown_route_behavior: fail_closed",
     "independent_review_required: true",
+    "runtime_qualification_required: true",
     "production_authorization: human",
-    "model: openrouter/free",
-    "endpoint: https://openrouter.ai/api/v1",
 ):
-    require(needle in router_text, f"router: missing required contract: {needle}")
+    require(needle in router_text, f"router: missing required policy: {needle}")
+
+for forbidden in (
+    "api.openai.com",
+    "api.anthropic.com",
+    "generativelanguage.googleapis.com",
+    "openrouter.ai",
+    "OPENAI_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "GEMINI_API_KEY",
+    "OPENROUTER_API_KEY",
+    "TABITOKEN_API_KEY",
+):
+    require(forbidden not in router_text, f"router contains unadmitted provider route or credential name: {forbidden}")
+
+require(CONTROLLER.is_file(), "approved Gemini controller workflow missing")
+controller_text = CONTROLLER.read_text(encoding="utf-8")
+require("secrets.MEDIAHUB_GITHUB_TOKEN" in controller_text, "controller transport credential binding missing")
+require("secrets.MEDIAHUB_DISPATCH_HMAC_KEY" in controller_text, "controller HMAC binding missing")
+
+for relative in FORBIDDEN_DIRECT_WORKFLOWS:
+    require(not (ROOT / relative).exists(), f"unapproved direct-provider workflow still exists: {relative}")
 
 for pattern in (
     r"sk-[A-Za-z0-9_-]{12,}",
-    r"OPENROUTER_API_KEY\s*:",
     r"Authorization\s*:\s*Bearer",
-    r"api[_-]?key\s*:\s*['\"]",
 ):
     require(not re.search(pattern, router_text, re.IGNORECASE), f"router contains secret-like material: {pattern}")
 
-require(WORKFLOW.is_file(), "OpenRouter smoke workflow missing")
-workflow_text = WORKFLOW.read_text(encoding="utf-8")
-for needle in (
-    "permissions:\n  contents: read",
-    "OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}",
-    "OPENROUTER_ENDPOINT: https://openrouter.ai/api/v1",
-    "OPENROUTER_MODEL: openrouter/free",
-    '"max_tokens":4',
-    "content = (message.get('content') or '').strip()",
-):
-    require(needle in workflow_text, f"workflow: missing required security contract: {needle}")
-
-require("inputs:" not in workflow_text, "workflow must not accept arbitrary inputs")
-require("inputs.endpoint" not in workflow_text, "workflow endpoint must not be operator-controlled")
-require("set -x" not in workflow_text, "workflow must not enable shell tracing")
-require("echo $OPENROUTER_API_KEY" not in workflow_text, "workflow must not print API key")
-require("echo \"$OPENROUTER_API_KEY\"" not in workflow_text, "workflow must not print API key")
-
-print(f"AI_FACTORY_CHECK=PASS router={ROUTER.relative_to(ROOT)} agents={len(REQUIRED_AGENTS)}")
+print(f"AI_FACTORY_CHECK=PASS agents={len(REQUIRED_AGENTS)} approved_controller_only=true")
