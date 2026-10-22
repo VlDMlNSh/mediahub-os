@@ -1,7 +1,7 @@
 ## Wave 362 — user MediaHub compute, selective model loading and compact context (2026-10-22)
 
-- Requirements proposal: [User MediaHub distributed compute and model loading]../architecture/MEDIAHUB-A0-USER-MEDIAHUB-DISTRIBUTED-COMPUTE-AND-MODEL-LOADING-REQUIREMENTS-WAVE-362-2026-10-22.md.
-- Map addendum: [Wave 362]../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-362-2026-10-22.md.
+- Requirements proposal: [User MediaHub distributed compute and model loading](../architecture/MEDIAHUB-A0-USER-MEDIAHUB-DISTRIBUTED-COMPUTE-AND-MODEL-LOADING-REQUIREMENTS-WAVE-362-2026-10-22.md).
+- Map addendum: [Wave 362](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-362-2026-10-22.md).
 - Compact machine-readable context proposal: [MEDIAHUB-CONTEXT-STATE.json](../context/MEDIAHUB-CONTEXT-STATE.json).
 - Large tasks may originate from ChatGPT or Jarvis. ASTRA GOLD A0 decomposes and routes bounded subtasks across admitted cloud workers, user-owned MediaHub compute nodes and qualified local executors. GitHub Supervisor provides execution/control-plane services; it does not replace A0 as decomposition/routing authority.
 - User-owned MediaHub are compute contributors only within explicit admission, owner consent, issuer/capability, quotas, privacy/data-egress, revocation and evidence rules.
