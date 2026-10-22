@@ -1,3 +1,14 @@
+## Wave 349 — historical evidence reused; remaining work narrowed (2026-10-22)
+
+- Report: [reconciled effort and controller trigger coverage](../checkpoints/MEDIAHUB-NEXT-RECONCILED-EFFORT-AND-TRIGGER-COVERAGE-WAVE-349-2026-10-22.md); [Wave 349 addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-349-2026-10-22.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Reused historical evidence: Gemini child runs [39370191589](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370191589), [39370202615](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370202615), [39370217605](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39370217605) on source SHA `25033753415fcbecdc7b2fe53085ed1bf2e4b8b4`; five earlier controller/probe runs are listed in the Wave 349 report. Owner-reported browser task is historical and not repeated.
+- [PR #443](https://github.com/VlDMlNSh/mediahub-os/pull/443) adds controller PR trigger coverage and a regression contract. Head `66f8cfc1bbd83bbb686ee8a1bbcea9589b182590`; contract validation run 39748357460, no-secret probe 39748357615, Astra Verify 39748357515 and Cloud Runtime Validation 39748357531 all SUCCESS. Regression test passed; dispatch skipped on pull_request as expected.
+- Formal independent review remains NOT VERIFIED; PR #443 is open/unmerged. Current controller-owned three-child batch remains NOT RUN. No secrets read, no dispatch trigger posted.
+- Corrected remaining active effort: **1.5–3.5 h expected**, **4–6 h contingency only if a real gate/source defect appears**. This supersedes Wave 346's 12–25 h and narrows Wave 348's estimate by reusing historical successes.
+- Status: **CI VERIFIED / REVIEW NOT VERIFIED / CURRENT BATCH NOT RUN / NOT ACCEPTED**.
+
+---
+
 ## Wave 347 — controller trigger coverage and local executor recheck (2026-10-22)
 
 - Report: [Wave 347 controller trigger and local executor recheck](MEDIAHUB-NEXT-CONTROLLER-TRIGGER-AND-LOCAL-EXECUTOR-RECHECK-WAVE-347-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
