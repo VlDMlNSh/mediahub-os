@@ -28,3 +28,11 @@ PRs #456 and #457 are evidence-only reports and have no exact-head check runs re
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 
 Disposition: controller and Agents 1–3 SUCCEEDED at workflow/job level; no agent change accepted; PR #458 exact-head checks green; PRs #456/#457 exact-head CI NOT VERIFIED; Contour A NOT QUALIFIED / NOT ACCEPTED.
+
+## Wave 371 — PR #458 independent routing review (2026-10-22)
+
+- Report: [Wave 371 independent PR #458 review](../checkpoints/MEDIAHUB-NEXT-PR458-INDEPENDENT-ROUTING-REVIEW-WAVE-371-2026-10-22.md).
+- PR #458 exact-head SHA `afd6dcd901da44b4cdb5d155f96dce172adb3c55` has five successful checks; source-level review supports controller-only Gemini routing and fail-closed policy, but does not qualify runtime.
+- Reviews and review threads were empty; classic branch-protection API returned 403. Required approval/protection remains NOT VERIFIED, so merge is blocked pending an authorized check.
+- Runs 39786556843/39786584867/39786587768/39786592525 are terminal success on target SHA `1c22d82c1750aebe0c5571e088d9c0adc012c42f`; no repeat dispatch.
+- Canonical map is unchanged; this is a working-branch addendum only. Contour A remains NOT QUALIFIED / NOT ACCEPTED.
