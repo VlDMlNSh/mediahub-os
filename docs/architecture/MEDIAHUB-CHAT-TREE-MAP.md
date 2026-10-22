@@ -1,3 +1,18 @@
+## Wave 345 — exact-head evidence and Gemini transport audit (2026-10-22)
+
+- Report: [Wave 345 exact-head and transport audit](MEDIAHUB-NEXT-EXACT-HEAD-AND-TRANSPORT-AUDIT-WAVE-345-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Latest observed repository-scoped commit search result: `f4ad65acdb82d25b93845279361502b6737e1d21` (Wave 344 checkpoint-only commit); this is not an independently fetched refs/heads/main ref.
+- Controller on main blob SHA `9453403bba899a2400ee3fb874d32badd034c704`; canonical map blob SHA `38d8903bc640fd37009f0fc19a11ea7869840dbc`; Bootstrap blob SHA `75f30750183efe8c6877368e9f0ada48f8e81ea7`; Master Roadmap blob SHA `cea169e55e02903ab9871d51ff643b3da7ef0e8c`.
+- PR #437 observed head `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; PR #441 observed head `9f40b90c3106662cfcc337c48f29e4794fa713dc`. Combined status, PR-triggered run and formal review connectors returned empty results for both; exact-head CI/review remain **NOT VERIFIED**, not PASS.
+- Static patch review of PR #437 confirms HMAC fixture repair and new secret-free child authorization runtime tests wired into the contract validation workflow. Tests were not executed in this pass.
+- Controller defines three role-specific HMAC-signed child tasks; readiness requires `MEDIAHUB_GEMINI_BATCH_ENABLED=true` and nonempty `MEDIAHUB_GITHUB_TOKEN` and `MEDIAHUB_DISPATCH_HMAC_KEY`. Owner-reported settings are recorded in Issue #301; actual secret values were not read. Effective token scope/governance remain NOT VERIFIED.
+- No workflow dispatch action is exposed in the connected GitHub tools used in this pass. No probe or agent dispatch attempted; Gemini 1–3 NOT RUN, no run IDs or artifacts.
+- SentinelX lists `Voktors-Mini.Dlink` / `host_5f7264034bdf0b51` as operational, but ping/capabilities failed with `agent_disconnected/read_loop_ended`; local command, Ollama, Claude and browser qualification remain NOT VERIFIED / NOT RUN.
+- No tests, merge, deployment, qualification or acceptance performed. Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
+- Next: obtain authoritative exact-head CI and independent security review; verify effective token scope/governance; then run only the authorized no-secret probe through the approved controller. Separately restore stable SentinelX read-only access before local executor preflight.
+
+---
+
 - Wave 339 (2026-10-22): [executor channel and exact-head gate recheck](../checkpoints/MEDIAHUB-NEXT-EXECUTOR-CHANNEL-RECHECK-WAVE-339-2026-10-22.md). Candidate target SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. PR #437/#441 exact-head CI/review NOT VERIFIED. Gemini 1–3 NOT RUN. SentinelX read-only calls disconnected; Ollama and agent-browser NOT VERIFIED/NOT RUN. **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
 
 - Wave 338 (2026-10-22): [owner authorization and local Ollama executor recheck](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md#wave-338--owner-authorization-and-local-ollama-recheck-2026-10-22); [Issue #301 evidence comment](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941). Owner clarified “Alamo” means local Ollama. Main target SHA `5cac2f27685c88e5e5e391fcf315d07fc16c6a6b`; controller blob `9453403bba899a2400ee3fb874d32badd034c704`. PR #437/#441 exact-head CI/review NOT VERIFIED; governance/token scope UNKNOWN/NOT VERIFIED; Gemini Agents 1–3 NOT RUN. SentinelX lists Voktors-Mini.Dlink operational but execution request was blocked and later calls disconnected; Ollama model/runtime and agent-browser NOT VERIFIED/NOT RUN. **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
