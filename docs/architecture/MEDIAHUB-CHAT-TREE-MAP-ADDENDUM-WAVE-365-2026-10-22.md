@@ -5,9 +5,9 @@ This is a working-branch addendum, not a replacement for the canonical map on `d
 ## Owner-confirmed hardware identity
 
 - Alamo is hosted on `Voktors-Mini.Dlink`, identified by the owner as the Mac mini 2018.
-- This corrects the earlier interpretation that Alamo was separate from the Mac Pro central role.
+- This corrects the earlier interpretation that Alamo was separate from the superseded hardware label central role.
 - See merged [PR #450](https://github.com/VlDMlNSh/mediahub-os/pull/450), merge commit `25a2883bb8e3099df49c9bd688c028958102bc95`.
-- The current working branch corrects the exact `Mac Pro` phrase in three source documents. The final branch-wide search and exact-head CI remain required before acceptance.
+- The current working branch corrects the exact superseded hardware label in three source documents. The final branch-wide search and exact-head CI remain required before acceptance.
 
 ## Four-executor lane status
 
