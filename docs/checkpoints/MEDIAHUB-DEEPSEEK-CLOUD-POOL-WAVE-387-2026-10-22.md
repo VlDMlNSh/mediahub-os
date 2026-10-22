@@ -68,3 +68,15 @@ A separate source-bound fix is proposed in [PR #489](https://github.com/VlDMlNSh
 - Astra Cloud Runtime Validation run [39840474749](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39840474749): **SUCCESS**; job `120039845740`, contract validation and cloud runtime tests completed successfully.
 - Astra Verify run [39840474441](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39840474441): **IN PROGRESS** at last read; job `120039843941`, still installing test dependencies; compile, cloud admission unit tests and signed-command smoke test were pending. The focused DeepSeek registry test is therefore **not yet verified as executed**.
 - Combined status endpoint returned an empty list, so it is not treated as a pass. No provider secret was used and no live DeepSeek inference was run.
+
+
+## Final exact-head CI refresh (2026-10-22)
+
+PR #489 exact head `219724adc95f24fbb74a36e4816ffd44e8638892` remains open, Draft, and unmerged. Current workflow evidence:
+
+- [Astra Cloud Runtime Validation #39840474749](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39840474749): **SUCCESS**, job `120039845740`; contract validation and cloud runtime tests passed.
+- [Astra Verify #39840474441](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39840474441): **SUCCESS**, job `120039843941`; compile, Cloud admission unit tests, and Signed command smoke test all completed successfully.
+- Focused test file `tests/test_deepseek_model_registry.py`, blob `b89c4b0dd0053376ea505b156fc0861b1f3fb656`, is present in the exact PR head. The workflow's aggregate unit-test pass is verified; the output does not isolate this new test by name, so its individual execution is not separately proven.
+- PR review API returned no reviews. Independent review remains **NOT VERIFIED**. Combined status list was empty; workflow run conclusions above are the available CI evidence.
+- Official DeepSeek docs were rechecked: the model-list endpoint and current changelog identify `deepseek-flash` as the current Flash model ID; legacy `deepseek-chat` and `deepseek-reasoner` were scheduled for discontinuation. Sources: [model list](https://api-docs.deepseek.com/api/list-models/), [changelog](https://api-docs.deepseek.com/updates/?release=deepseek-coder).
+- Credential configuration remains **NOT VERIFIED**. No key was supplied to this session, no secret was created/changed, no live auth/model discovery/inference was executed, and no paid API request was made. DeepSeek remains **NOT QUALIFIED** pending secret confirmation, admitted runner, live bounded probe, 23 fresh isolated rounds, independent review, and remaining A3 gates.
