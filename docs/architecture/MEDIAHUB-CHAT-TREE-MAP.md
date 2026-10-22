@@ -1,3 +1,12 @@
+## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
+
+- Report: [Wave 392 OpenRouter catalog authentication evidence](../checkpoints/MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [continuation checkpoint addendum](../checkpoints/mediahub-next-continuation-checkpoint-wave-392-2026-10-22.md).
+- PR #492 merged at main SHA `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`. Workflow blob SHA `356bc73120819f8a23df731dc97141740e345de1`.
+- Run [39847014875](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39847014875) and job `120062857263` SUCCEEDED. Artifact `12454669532`, digest `sha256:8e95e32e1ebe6d36ae4047424c9a3de12af00c8cc9bd7b37c7533a3db36defe1`, confirms one catalog GET, HTTP 200 / AUTH_SUCCESS, 468 models and zero Qwen IDs ending `:free`; no inference.
+- Catalog authentication VERIFIED for one request; inference and provider qualification NOT VERIFIED; Issue #301 gates remain separate; Contour A NOT ACCEPTED.
+
+---
+
 ## Wave 356 — PR #437 CI recovery and local executor evidence (2026-10-22)
 
 - Report: [Wave 356 PR #437 CI recovery and local executor evidence](../checkpoints/MEDIAHUB-NEXT-PR437-CI-RECOVERY-AND-LOCAL-EXECUTOR-WAVE-356-2026-10-22.md); [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).

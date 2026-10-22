@@ -1,3 +1,13 @@
+## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
+
+- Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #492 merged at main SHA `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; workflow blob SHA `356bc73120819f8a23df731dc97141740e345de1`.
+- Run [39847014875](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39847014875) and job `120062857263` SUCCEEDED. Artifact `12454669532`, digest `sha256:8e95e32e1ebe6d36ae4047424c9a3de12af00c8cc9bd7b37c7533a3db36defe1`, reports HTTP 200 / AUTH_SUCCESS, one catalog GET, 468 catalog models and zero Qwen IDs ending `:free`; no inference.
+- Status: catalog authentication VERIFIED for one request; Qwen free-model filter returned zero; inference NOT RUN; provider qualification NOT VERIFIED; Gemini controller dispatch NOT RUN; Contour A NOT ACCEPTED.
+- Next: reconcile the model registry and free-model selection policy against existing/public evidence. Do not repeat the GET or perform inference without separate authorization.
+
+---
+
 ## Wave 356 — PR #437 exact-head CI repair and local FCC→Ollama route probe (2026-10-22)
 
 - Report: [Wave 356 exact-head CI and local route evidence](MEDIAHUB-NEXT-PR437-CI-REPAIR-AND-LOCAL-ROUTE-PROBE-WAVE-356-2026-10-22.md); [Wave 356 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-356-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
