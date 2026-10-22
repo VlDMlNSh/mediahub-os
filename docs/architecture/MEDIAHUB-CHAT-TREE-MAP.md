@@ -7882,3 +7882,13 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 
 
 - Wave 324: [Gemini dispatch gate and executor identity audit](../checkpoints/MEDIAHUB-GEMINI-DISPATCH-READINESS-WAVE-324-2026-10-21.md) and [architecture addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-324-2026-10-21.md). Main HEAD `79196054d84b1197cea1447dd1db5ad075302834`; controller run #39650408656 was skipped on a PR comment, no Gemini child runs occurred. Admission remains blocked on independent review, Actions variable/secret metadata, trusted-main probe, branch governance and Alamo identity.
+
+
+## Wave 378 — owner-directed hardware, privacy and operations architecture (2026-10-22)
+
+- Consolidated architecture: [hardware, privacy, backup, updates and operations](MEDIAHUB-DISTRIBUTED-ARCHITECTURE-HARDWARE-PRIVACY-OPERATIONS-WAVE-378-2026-10-22.md).
+- Decision record: [distributed compute architecture decisions](../checkpoints/MEDIAHUB-DISTRIBUTED-COMPUTE-ARCHITECTURE-DECISIONS-WAVE-378-2026-10-22.md).
+- Machine-readable decision snapshot: [Wave 378 architecture decisions JSON](../context/MEDIAHUB-ARCHITECTURE-DECISIONS-WAVE-378.json).
+- Evidence/status report: [Wave 378 documentation and read-back report](../checkpoints/MEDIAHUB-ARCHITECTURE-CONSOLIDATION-REPORT-WAVE-378-2026-10-22.md).
+- Status: owner decisions documented; hardware sizing remains provisional where marked; implementation, runtime verification, qualification and acceptance are separate and are not implied by this index entry.
+- This index entry is proposed in the working documentation PR and is not canonical until the PR is reviewed, required checks are verified and it is merged.

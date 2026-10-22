@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "record_id": "MH-ARCH-WAVE-378-2026-10-22",
+  "updated_date": "2026-10-22",
+  "status": "PROPOSED_NOT_ACCEPTED",
+  "canonical_navigation": "https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md",
+  "main_head_observed": "11d04d2f2687e9ba9215e4b67af2e450516960bb",
+  "canonical_docs_base": "937b6fa164d0e89e5e5781bf8c236e4fb862ad56",
+  "related_pr": 486,
+  "owner_decisions": {
+    "privacy": "STRICT_LOCAL_FIRST; user media and detailed local logs stay on owner-controlled nodes; outbound data requires explicit task-level authorization",
+    "backup": "encrypted backups on owner-controlled nodes; keys separated from backup storage; integrity verification and periodic restore tests",
+    "updates": "staged updates with automatic compatibility/provenance checks, mandatory gates, controlled activation and rollback",
+    "queues": "GitHub engineering queue/control/evidence separated from local media queue",
+    "networking": "protected outbound by default; private node-to-node transfer only for explicitly authorized tasks; no public inbound by default",
+    "observability": "detailed operational telemetry local; minimized source-bound engineering evidence in GitHub",
+    "recovery": "check lease/fencing, existing output, idempotency and replacement-executor compatibility before retry",
+    "scheduling": "adaptive resource management; P0 interactive, P1 normal user, P2 background engineering, P3 batch/maintenance",
+    "models": "catalog/manifests in GitHub; approved weights locally replicated to suitable nodes; large weights excluded from ordinary Git history"
+  },
+  "hardware": {
+    "mac_mini_2018": {
+      "known_cpu_cores": 6,
+      "ram_gb": null,
+      "planned_role": "home coordination/Jarvis-related light orchestration",
+      "status": "PARTIAL_INVENTORY"
+    },
+    "mac_mini_2011": {
+      "known_cpu_cores": 4,
+      "ram_gb": 16,
+      "os": "Linux",
+      "planned_role": "background builds/tests/light jobs",
+      "status": "PLANNING_PROFILE"
+    },
+    "voktors_mini_dlink": {
+      "os_architecture_historical": "macOS ARM64",
+      "planned_role": "separate local executor lane",
+      "status": "CURRENT_RUNTIME_NOT_VERIFIED",
+      "gemini_transport_allowed": false
+    },
+    "future_media_server": {
+      "budget_rub_approx": 100000,
+      "candidate": {
+        "cpu": "AMD Ryzen 5 5600",
+        "gpu": "NVIDIA RTX 3060 12 GB VRAM",
+        "ram_gb": 32,
+        "ram_upgrade_target_gb": 64,
+        "nvme_tb": 1
+      },
+      "status": "CANDIDATE_NOT_PURCHASED_NOT_QUALIFIED"
+    }
+  },
+  "constraints": [
+    "Functional Baseline 2.0 remains the accepted immutable functional reference",
+    "Jarvis does not replace ASTRA GOLD A0 for complex engineering decomposition",
+    "GitHub Supervisor/controller does not replace ASTRA GOLD A0",
+    "MediaHub Product State Authority remains sole canonical product-state mutation authority",
+    "No direct Gemini dispatch; approved controller and mandatory gates only",
+    "No implicit paid fallback, provider eligibility, free quota, fixed egress or region assumptions",
+    "Contour B only after Contour A deployment and independent acceptance",
+    "Documentation is not implementation, verification, qualification or acceptance"
+  ],
+  "open_items": [
+    "Verify RAM/storage of Mac mini 2018",
+    "Revalidate exact identity/capabilities/current runtime of Voktors-Mini.Dlink before local work",
+    "Finalize and price-check future media-server parts before purchase",
+    "Benchmark actual model/media workloads before numeric scheduling thresholds",
+    "Define retention periods and recovery point/time objectives",
+    "Any offsite/cloud backup requires a separate explicit data-egress decision"
+  ]
+}

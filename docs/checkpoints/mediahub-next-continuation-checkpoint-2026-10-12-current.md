@@ -2436,3 +2436,29 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Next: resolve local tool-call/thinking compatibility, complete one read-only Claude Code task with a real Read invocation and file-derived answer, then assess external free-tier routes one at a time with quota and no-paid-fallback evidence. Gemini was not dispatched.
 - Documentation commits: report `d203a800353501fac0a994e6798a68e234ef8d98`; map addendum `496f6c168acf7ed17591c0b4a6e998fad6b402c9`.
 
+
+
+---
+
+## Wave 378 — full architecture and hardware context consolidation (2026-10-22)
+
+- Architecture proposal: [consolidated hardware, privacy, backup, updates and operations](../architecture/MEDIAHUB-DISTRIBUTED-ARCHITECTURE-HARDWARE-PRIVACY-OPERATIONS-WAVE-378-2026-10-22.md).
+- Decision record: [distributed compute decisions](MEDIAHUB-DISTRIBUTED-COMPUTE-ARCHITECTURE-DECISIONS-WAVE-378-2026-10-22.md).
+- Map addendum: [Wave 378](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-378-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Machine-readable state: [Wave 378 architecture decisions](../context/MEDIAHUB-ARCHITECTURE-DECISIONS-WAVE-378.json).
+- Report: [architecture consolidation evidence](MEDIAHUB-ARCHITECTURE-CONSOLIDATION-REPORT-WAVE-378-2026-10-22.md).
+
+### Owner-selected decisions
+
+Strict local-first privacy; explicit task-level authorization for data egress; encrypted backups on owner-controlled nodes with separated keys, integrity checks and periodic restore tests; staged updates with automatic compatibility/provenance checks, mandatory gates, controlled activation and rollback; separated GitHub engineering and local media queues; hybrid outbound/private networking; hybrid observability; adaptive recovery based on lease/result/idempotency/compatibility; adaptive P0–P3 resource policy.
+
+### Hardware inventory and uncertainty
+
+- Mac mini 2018: six CPU cores reported; RAM unknown; intended for home coordination/Jarvis-related light orchestration only until inventoried.
+- Mac mini 2011: four CPU cores, 16 GB RAM, Linux; candidate for background builds/tests/light jobs, not hardware-qualified by this record.
+- Voktors-Mini.Dlink: historical macOS ARM64 record; current local runtime/executor qualification NOT VERIFIED; Gemini must never be routed through this host.
+- Future media server: approximately 100,000 RUB budget; Ryzen 5 5600 / RTX 3060 12 GB / 32 GB RAM upgradeable to 64 GB / 1 TB NVMe is only a candidate specification, not a purchase or performance qualification.
+
+### Status and next action
+
+Documentation-only. Runtime implementation and tests were not run by this architecture pass. No model inference, media processing, Gemini dispatch, secret access, server operation, merge, deployment, qualification or acceptance is claimed. Related open PRs #474 and #485 must be reconciled before integration; exact-head CI/review for the updated PR must be checked. Next: read back all changed blobs, validate JSON/links, record final SHA evidence and run only the repository's permitted checks.
