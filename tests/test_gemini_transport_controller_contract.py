@@ -105,6 +105,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('("next-comment-"+source_comment_id)', self.source)
         self.assertIn('if source_comment_id:', self.source)
 
+    # Branch identity must include the signed per-child dispatch UUID, not just the role.
     def test_child_branch_names_are_unique_per_signed_dispatch(self):
         expected = {
             "gemini-autonomous-engineering.yml": "contour-a/agent-1-${{ inputs.dispatch_id }}",
