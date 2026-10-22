@@ -77,3 +77,12 @@ Reconcile the controller and child run terminal states, fetch each job's logs/ar
 - The controller has not yet published a terminal monitor conclusion. Do not call the whole batch complete.
 - PR #466 is a separate parallel Wave 372 governance pass; reconcile its pass-specific no-dispatch statement with this invocation's run evidence before merging docs.
 - Exact-head CI and formal reviews remain NOT VERIFIED for #462/#463/#465/#464.
+
+
+## Latest recheck — owner governance clarification
+
+- Rulesets UI reports none and Rulesets API is empty. Classic branch protection endpoint remains inaccessible (HTTP 403), so protection/required-review state is **NOT VERIFIED**.
+- PR #458 is technically mergeable, with five passed exact-head checks and no review submissions/threads returned. It remains **NOT MERGED** pending verification of the classic protection/review gates.
+- Agent 1 run `39794196387` success; Agent 2 run `39794199351` success; Agent 3 run `39794202994` in progress; parent controller `39794162629` in progress; Astra control-plane run `39794162713` skipped.
+- The controller accepts exact `/next` triggers but has no arbitrary signed per-request task-focus input. Current batch ran fixed role prompts; do not represent a custom additional task as dispatched.
+- Continue cloud-only while the owner is away from Terminal.
