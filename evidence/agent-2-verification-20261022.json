@@ -1,0 +1,59 @@
+{
+  "schema": "mediahub.astra.verification-checkpoint.v1",
+  "captured_at_utc": "2026-10-22T00:00:00Z",
+  "agent_id": "gemini-agent-2",
+  "role": "Research & Architecture",
+  "contour": "contour-a",
+  "target_sha": "11d04d2f2687e9ba9215e4b67af2e450516960bb",
+  "base_ref": "main",
+  "status": "PASS",
+  "files_reviewed": [
+    {
+      "path": "GEMINI.md",
+      "blob_sha": "4c431143aa5c46776e80893bf3c0e5f202e3b76d"
+    },
+    {
+      "path": "tests/test_astra_github_agent_contract.py",
+      "blob_sha": "7dc0b70c9b5c3e0ef664749d5527b71740cb1656"
+    },
+    {
+      "path": "evidence/transport-health-current.json",
+      "blob_sha": "c1d63bb5fa5b4d6be0763eff2893fb157324999a"
+    }
+  ],
+  "contract_test_mapping": {
+    "model_capability_routing": {
+      "contract": "G4 model capability routing & transport isolation",
+      "test": "tests/test_astra_github_agent_contract.py::AstraTransportContractTests::test_g4_model_capability_routing",
+      "status": "PASS"
+    },
+    "direct_claude_transport": {
+      "contract": "Direct Claude uses isolated FCC transport without bare CLI flags",
+      "test": "tests/test_astra_github_agent_contract.py::AstraTransportContractTests::test_g4_direct_claude_uses_isolated_fcc_transport",
+      "status": "PASS"
+    },
+    "command_authentication": {
+      "contract": "Command auth uses node-specific HMAC key and validates exact command schema",
+      "test": "tests/test_astra_github_agent_contract.py::AstraTransportContractTests::test_command_auth_uses_node_specific_key",
+      "status": "PASS"
+    },
+    "target_head_enforcement": {
+      "contract": "Autonomous mission requires exact target head SHA without ancestor merge fallback",
+      "test": "tests/test_astra_github_agent_contract.py::AstraTransportContractTests::test_autonomous_mission_requires_exact_target_head",
+      "status": "PASS"
+    },
+    "secret_suppression": {
+      "contract": "Published results enforce SUPPRESSED marker for sensitive credentials",
+      "test": "tests/test_astra_github_agent_contract.py::AstraTransportContractTests::test_published_result_carries_secret_suppression_marker",
+      "status": "PASS"
+    }
+  },
+  "reproducible_checks": [
+    "pytest tests/test_astra_github_agent_contract.py"
+  ],
+  "known_gaps": [
+    "Independent check only: concurrent Agent 1 changes are intentionally excluded from this verification checkpoint.",
+    "Runtime execution and hardware qualification on external nodes (mh-dev-01, mh-dev-02, Voktors-Mini.Dlink) require dedicated runner infrastructure and live secrets, kept out-of-scope for non-secret static contract verification."
+  ],
+  "secret_values": "SUPPRESSED"
+}
