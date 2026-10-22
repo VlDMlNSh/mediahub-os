@@ -2436,3 +2436,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Next: resolve local tool-call/thinking compatibility, complete one read-only Claude Code task with a real Read invocation and file-derived answer, then assess external free-tier routes one at a time with quota and no-paid-fallback evidence. Gemini was not dispatched.
 - Documentation commits: report `d203a800353501fac0a994e6798a68e234ef8d98`; map addendum `496f6c168acf7ed17591c0b4a6e998fad6b402c9`.
 
+
+## Wave 389 — GitHub-hosted DeepSeek one-shot probe (2026-10-22)
+
+- Report: [Wave 389 GitHub-hosted DeepSeek probe](MEDIAHUB-DEEPSEEK-GITHUB-HOSTED-PROBE-WAVE-389-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Owner clarified cloud execution must use GitHub Transport only, without physical servers as executors. One DeepSeek inference request is authorized with a $0.01 ceiling; secret/model variable are owner-reported configured, but secret presence was not independently inspected.
+- PR #489 is merged at ce99b1d51e6fa420a32dafb70b65ae65fed5017e. Main registry blob 8c0f95d33a6fc85128b3a7aa37157c2dca74bbca now uses deepseek-flash / paid_api; legacy model aliases are absent.
+- Dedicated GitHub-hosted workflow PR [#490](https://github.com/VlDMlNSh/mediahub-os/pull/490), head 3b9add632a6d2b62024afd1d7a1d5d2efa4b2e60, adds a single-request, no-retry/no-redirect/no-fallback probe on ubuntu-latest, guarded to main plus explicit confirm_request=true. Workflow blob b4e81310c7a6d15c9b3b18c27b3587afd447859a; test blob 2e76b3a9ffc2e6994201b004489de8b839c1755e.
+- Exact-head CI: Astra Cloud Runtime Validation [#39842162125](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39842162125) SUCCESS; Astra Verify [#39842162475](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39842162475) SUCCESS, 471 tests OK. This verifies PR CI only, not live provider execution.
+- PR #490 remains Draft/Open/Unmerged with no formal review. Inference NOT RUN, request count 0, authentication/model response NOT VERIFIED, provider NOT QUALIFIED / NOT ACCEPTED. No physical server or self-hosted executor used. Connected GitHub tools expose no workflow-dispatch write action; no browser dispatch was attempted.
+- Next: independent security review, merge PR #490 only after gates pass, then dispatch on main with confirm_request=true, inspect sanitized evidence artifact, and keep A3 qualification separate (23-round ladder still required).
