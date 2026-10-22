@@ -286,7 +286,7 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
                         check=False,
                     )
                     self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-                    self.assertIn("successfully created a Pull Request", result.stdout)
+                    self.assertIn("recorded a successful Pull Request", result.stdout)
             failure_cases = (
                 ("missing-output", None, "missing or empty"),
                 *invalid_outputs,
