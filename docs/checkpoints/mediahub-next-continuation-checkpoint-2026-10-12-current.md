@@ -2423,3 +2423,16 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - OmniRoute is **NOT PROMOTED** as standard Claude work route. Next: configure a separate local Ollama provider through the supported OmniRoute interface, pin a local model with no cloud fallback, solve the context limit, and complete a read-only Claude Code task with tool execution and matching provider/model call-log evidence.
 - No secrets read, no Gemini dispatch, no public listener opened. Canonical documentation commit for this wave: report commit `b989b6e03b0437aa4ce53ab791d1fb2302d8d717`; map addendum commit `fdffbc54c646413dc31d067960aa777723b91751`.
 
+
+## Wave 358 — local Claude route comparison and provider inventory (2026-10-22)
+
+- Report: [Wave 358 route comparison](MEDIAHUB-NEXT-LOCAL-CLAUDE-ROUTE-COMPARISON-WAVE-358-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-358-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Host `Voktors-Mini.Dlink`, SentinelX host `host_5f7264034bdf0b51`, RDM device `e264f341-2e21-4dfc-9f97-9b95cd08bcd3`. SentinelX capability discovery passed; its bounded exec timed out, so RDM was used for actual route probes. Repo worktree stayed clean at `2e23f9a99e655369672340329c4c1b6de25f1576`.
+- Added active local OmniRoute `ollama-local` provider connection `b93485b9-434a-4cf3-b344-21bad449244a`, upstream `127.0.0.1:11434/v1`; two active local provider connections now exist: Ollama and llama.cpp. Loopback listeners remain `127.0.0.1:8081`, `:8082`, `:20128`, `:11434`.
+- FCC configuration is fail-closed to local Ollama: `MODEL=ollama/qwen3:4b`, all three Claude tiers map to the same local model, `MODEL_FALLBACKS` empty, reasoning off. Fresh FCC `/v1/messages` test pinned to `anthropic/ollama/qwen2.5-coder:1.5b` returned HTTP 200 and exact marker in 0.50 s.
+- OmniRoute `ollama/qwen2.5-coder:1.5b` returned the exact marker (call log HTTP 200, provider `ollama`, 570 ms); exact live llama.cpp GGUF model ID returned the exact marker in 3.832 s. A shortened llama.cpp model alias failed active-catalog validation; use the exact live model ID for smoke tests.
+- Claude Code tool execution is still NOT VERIFIED: 1.5B emitted a JSON-looking Read tool request as plain text; qwen3:4b timed out under the 30 s bound; OmniRoute rejected a thinking request unsupported by qwen2.5-coder:1.5b; the existing llama.cpp Claude alias exceeded the local 32,768-token context. Do not promote either gateway to an accepted autonomous worker.
+- Decision for next qualification iteration: **FCC primary Claude-compatible gateway candidate; OmniRoute secondary broad provider router**. FCC supports a narrower catalog (25 documented provider backends); OmniRoute has a 352-provider catalog and 14 local provider types. These are catalog definitions, not active/qualified routes. No external free provider was configured or called; no paid fallback used.
+- Next: resolve local tool-call/thinking compatibility, complete one read-only Claude Code task with a real Read invocation and file-derived answer, then assess external free-tier routes one at a time with quota and no-paid-fallback evidence. Gemini was not dispatched.
+- Documentation commits: report `d203a800353501fac0a994e6798a68e234ef8d98`; map addendum `496f6c168acf7ed17591c0b4a6e998fad6b402c9`.
+
