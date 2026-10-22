@@ -5355,3 +5355,11 @@ Status: **OWNER-DIRECTED TARGET REQUIREMENT / GOVERNANCE, IMPLEMENTATION AND RUN
 - jsonschema 4.25.1 Draft 2020-12 meta-validation passed for the three exact schema blobs. Raw SHA-256 digests and exact blob SHAs are in the report. Preliminary instance fixture generation is incomplete: task positive passes; registry/evidence positives do not yet validate due to generator deficiencies; wrong-version and unknown-property negatives reject. No claim of full schema acceptance.
 - Remaining: explicit fixture suite with format assertions and malformed date-time/SHA/bounds/version/unknown-property cases; semantic resolution; authoritative target manifest acceptance; A0 issuer/ingress/lease/cancel/recovery; R-06 audit/privacy acceptance route. No runtime dispatch, credentials, merge, deployment, qualification or acceptance.
 - Next implementation unit: checked-in, reproducible, non-runtime validation harness pinned to the exact source blobs, then independent review.
+
+
+## Wave 350 — reuse historical Claude-FCC-Ollama evidence (2026-10-22)
+
+- Reconciled native Claude Code→Ollama implementation history at commit `5b6c04587b73092859b26a0d058ab9d2a0d4094b` and MH-25 historical proxy/API PASS. The same records explicitly keep headless-marker/full runtime qualification gated; historical evidence is not fresh exact-SHA acceptance.
+- Current SentinelX read-only attempt disconnected; no model invocation or host mutation. Retrieve exact prior successful Actions run/artifact IDs before deciding which local checks truly need rerunning.
+- PR #443 merged; tested PR-head contract validation, controller no-secret probe, Astra Verify and Cloud Runtime Validation succeeded; no child Gemini runs were dispatched. PR #437 remains open with CI/review NOT VERIFIED. No current Gemini batch, no secret access, no acceptance.
+- Evidence: [Wave 350 report](MEDIAHUB-NEXT-HISTORICAL-CLAUDE-OLLAMA-EVIDENCE-RECONCILIATION-WAVE-350-2026-10-22.md), [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-350-2026-10-22.md), [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
