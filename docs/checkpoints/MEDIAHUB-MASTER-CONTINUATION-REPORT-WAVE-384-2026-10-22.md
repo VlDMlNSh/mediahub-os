@@ -26,7 +26,7 @@ Preserve the current chat's new standing request and architecture direction in t
 - Master-context update: committed on working branch; NOT CANONICAL until PR merge.
 - PR #474 is the existing working PR for this context branch; refresh its head, CI, and review status before acceptance.
 - PR #483 remains open/unmerged. The hosted queue test is not a real cloud-agent dispatch and does not implement a production durable supervisor.
-- At the last observed run read, Astra Verify run 39815854894 was in progress against updated PR head 9d55150cc6ec5fdff14a6c6b798faf30601c8b22. Post-fix CI is NOT VERIFIED until terminal result and job evidence are collected.
+- Run 39815854894 failed on earlier SHA 8fe5e4a8d2aa5575336a1284f9ec07a3f66e1c43 and does not verify the fix. Post-fix exact-head evidence is now available: [Astra Verify 39816945698](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39816945698) SUCCESS, job 119957782575; [Astra Cloud Runtime Validation 39816945791](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39816945791) SUCCESS, job 119957784151; both target 9d55150cc6ec5fdff14a6c6b798faf30601c8b22. PR #483 remains open/unmerged; successful workflows do not replace required review/acceptance.
 - No Gemini batch was dispatched in this pass; controller/secret/gate validation is required before future dispatch. No local server command was executed.
 
 ## Next step
