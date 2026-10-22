@@ -1,0 +1,56 @@
+name: MediaHub Gemini provider smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Verify Gemini API provider boundary
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_ENDPOINT: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent
+      GEMINI_MODEL: gemini-3.6-flash
+    steps:
+      - name: Verify secret is configured
+        shell: bash
+        run: |
+          test -n "${GEMINI_API_KEY:-}" || { echo 'GEMINI_API_KEY is not configured'; exit 1; }
+
+      - name: Run bounded Gemini inference probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          payload=$(python3 - <<'PY'
+import json
+print(json.dumps({
+    'contents': [{'parts': [{'text': 'Return exactly OK.'}]}],
+}))
+PY
+)
+          response=$(curl --fail-with-body --silent --show-error \
+            --connect-timeout 10 --max-time 45 \
+            -H 'Content-Type: application/json' \
+            -H "x-goog-api-key: ${GEMINI_API_KEY}" \
+            -d "${payload}" \
+            "${GEMINI_ENDPOINT}")
+          python3 - <<'PY' "${response}"
+import json, sys
+payload = json.loads(sys.argv[1])
+text = ''
+for candidate in payload.get('candidates', []):
+    content = candidate.get('content', {})
+    for part in content.get('parts', []):
+        value = part.get('text')
+        if isinstance(value, str) and value.strip():
+            text = value.strip()
+            break
+    if text:
+        break
+assert text, 'Gemini returned empty inference content'
+print(f"gemini_inference=PASS selected_model={payload.get('model', 'gemini-3.6-flash')}")
+PY
