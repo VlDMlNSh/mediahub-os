@@ -6,7 +6,8 @@
 - Code base / immutable review target: `11d04d2f2687e9ba9215e4b67af2e450516960bb`
 - Controller source blob on base: `28874450099e70b0f9d276600e6452c1b8e1b1a6`
 - PR: [#482](https://github.com/VlDMlNSh/mediahub-os/pull/482)
-- PR head SHA: `cd76cc9c58a192aaae3f38a2ea6a34b5f32ea460`
+- Initial code-only CI target SHA: `cd76cc9c58a192aaae3f38a2ea6a34b5f32ea460`.
+- Follow-up documentation commits advanced the PR head; final-head CI must be checked against the latest PR head.
 
 ## Problem statement
 
@@ -26,7 +27,7 @@ The controller's signed payload and HMAC schema are unchanged. No new task input
 
 ## Exact-head verification evidence
 
-PR #482 head `cd76cc9c58a192aaae3f38a2ea6a34b5f32ea460` has the following workflow results:
+Initial code-only PR #482 head `cd76cc9c58a192aaae3f38a2ea6a34b5f32ea460` had the following successful workflow results. Because documentation-only commits later advanced the PR head, these runs are historical evidence for that source-equivalent state, not final-head verification:
 
 - [Astra Verify run 39812234965](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39812234965): job 119941296295 completed / success.
 - [Gemini workflow contract validation run 39812235006](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39812235006): job 119941296681 completed / success. Logs show the transport-controller contract suite ran 12 tests and returned OK; signed-dispatch runtime contract suite ran 11 tests and returned OK; trigger-path suite ran 2 tests and returned OK.
@@ -34,7 +35,7 @@ PR #482 head `cd76cc9c58a192aaae3f38a2ea6a34b5f32ea460` has the following workfl
 - [Controller no-secret PR probe run 39812234998](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39812234998): probe/assertion jobs succeeded; admission and dispatch jobs were skipped as expected. No Gemini child workflow was launched.
 - [Reusable workflow caller-context probe run 39812235105](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39812235105): observation and denial assertion completed / success.
 
-The combined-status endpoint returned an empty statuses array; the workflow-run evidence above is the available exact-head CI evidence. Formal PR review submissions are empty and independent review remains NOT VERIFIED. GitHub reports the PR mergeable, but it is not merged.
+The combined-status endpoint returned an empty statuses array; the workflow-run evidence above is the available exact-head CI evidence. Formal PR review submissions are empty and independent review remains NOT VERIFIED. GitHub reports the PR mergeable, but it is not merged. Final-head CI remains NOT VERIFIED until checks run against the latest head SHA.
 
 ## Acceptance status and limits
 
