@@ -34,3 +34,11 @@ Reconcile the controller and child run terminal states, fetch each job's logs/ar
 - Local executor: **NOT RUN / NOT VERIFIED**
 - Contour A: **NOT ACCEPTED**
 - Contour B: **NOT STARTED**
+
+
+## Follow-up verification
+
+- Latest recheck still shows controller run `39794162629`, all three child run records `39794196387`, `39794199351`, `39794202994`, and Astra chat control-plane run `39794162713` as `QUEUED`. Cause is **NOT VERIFIED**.
+- PR #458 exact-head CI has five completed/success checks on `afd6dcd901da44b4cdb5d155f96dce172adb3c55`; independent review and governance gates remain separate.
+- PR #456, #457, #459, #460, #461 and #464 exact-head check-runs queries returned zero entries; record as **CI NOT VERIFIED**, not PASS.
+- Documentation PR #464 remains OPEN / DRAFT. Do not merge while required checks/reviews and the terminal Gemini batch evidence are missing.
