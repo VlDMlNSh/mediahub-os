@@ -33,3 +33,12 @@ This addendum records a new evidence snapshot without overwriting the canonical 
 - Earlier controller run [39794162629](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162629) and child runs [39794196387](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794196387), [39794199351](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794199351), [39794202994](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794202994) also remained QUEUED; causal association to the new comment is NOT VERIFIED.
 - Exact-head CI: PR #458 5/5 success; PR #456/#457/#459 action_required; PR #460 no runs returned; PR #461 Astra Verify failed due malformed smoke workflow YAML still present on main. Branch-protection/required-review gates remain NOT VERIFIED.
 - Do not infer a fresh batch succeeded until controller/child run IDs, terminal statuses, artifacts and digests are collected.
+
+
+## Agent result follow-up
+
+- Shared target SHA in controller/agent logs: `b33ab31674bfa9595a8f2ba5a570dbc1eb3686b2`.
+- Agent 1 run [39794196387](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794196387) is `completed/success`; artifact `12432172600`, digest `sha256:fc84e029c4e3d6785d2f1d0fc7e16e4d4d3b4ffef073f4aeaa2f71a44d9f9ce4`; PR [#463](https://github.com/VlDMlNSh/mediahub-os/pull/463), head `20bddc34c7715aef63e14270bf2aacba2f1cc2c4`.
+- Agent 2 run [39794199351](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794199351) remained `in_progress`; artifact `12433610309`, digest `sha256:ecb5176f7c9a90d5bced7a8bc5994a677b3918a844b0c476ac58899ac02f8f8b`; PR [#462](https://github.com/VlDMlNSh/mediahub-os/pull/462), head `2f0d5aa45442237952ec035c29cec4cdb43d2caa`.
+- Agent 3 run [39794202994](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794202994) remained `in_progress`; artifact `12433515999`, digest `sha256:1b37c391e70d66349b3994471bff0aacd8f8489e26473f9bfea0eb86f7a5c8f3`; PR [#465](https://github.com/VlDMlNSh/mediahub-os/pull/465), head `34191bc578364a5c2bea0af7b964415e31ee6667`.
+- Parent controller [39794162629](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162629) remained `in_progress`. Exact-head check-runs queries for #462/#463/#465 returned zero; CI **NOT VERIFIED**. No merge, qualification, deployment or acceptance.
