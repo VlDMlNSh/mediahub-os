@@ -97,3 +97,12 @@ Persist operator-provided configuration, previously collected evidence, routing 
 - [PR #437](https://github.com/VlDMlNSh/mediahub-os/pull/437)
 - [PR #441](https://github.com/VlDMlNSh/mediahub-os/pull/441)
 - [Wave 361 report](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-NEXT-GEMINI-BATCH-ADMISSION-RECHECK-WAVE-361-2026-10-22.md)
+
+
+## PR publication and exact-head verification (2026-10-22)
+
+- PR [#444](https://github.com/VlDMlNSh/mediahub-os/pull/444) opened against canonical documentation branch `docs/mediahub-chat-tree-map-20261012`; it is open and unmerged. Initial head SHA: `5e9ad018889ba3c3e805b161352d8126db096920`.
+- After the initial publication, the exact-head combined-status query returned an empty list, the PR-triggered workflow-run query returned zero runs, and the formal review API returned zero submitted reviews. These are **NOT VERIFIED**, not PASS; PR #444 is not yet merge-ready based on available evidence.
+- The PR creation response reported `mergeable=false`; recheck this after any new commits.
+- Persistent operational context was also saved through SentinelX context storage: context ID `sentinelx_context_sxc_H95AZN19`, short ID `sxc_H95AZN19`, revision 1. Resume phrase: `Retoma sentinelx_context_sxc_H95AZN19`. This stores knowledge, not authorization; revalidate host and GitHub state every time.
+- Current controller probe, three-agent batch, Claude execution and agent-browser remain **NOT RUN**. No owner-provided setting was changed.
