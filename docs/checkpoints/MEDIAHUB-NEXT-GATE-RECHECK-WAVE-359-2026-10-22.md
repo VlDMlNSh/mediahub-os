@@ -47,3 +47,10 @@ Wave 358 report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat
 4. Separately resolve approved local executor identity and model/tool compatibility; require a real executed `Read` and file-derived result before qualification.
 
 Final disposition: **LISTED CI VERIFIED / INDEPENDENT REVIEW NOT VERIFIED / GEMINI BATCH NOT RUN / LOCAL CLAUDE TOOL EXECUTION NOT VERIFIED / CONTOUR A NOT ACCEPTED**. No trigger, secret access, dispatch, merge, deployment, qualification or acceptance occurred.
+
+## Publication read-back
+
+- Report created in commit `62d241db6ccd5430085e7ea74ad09abfa7b1b45f`; initial read-back blob SHA `f45a29997ee5937abae3c321dc4719bb57edc9c8`.
+- Map addendum created in commit `e40ab480990b7f4c8128c216f16ffe295a399ec2`; read-back blob SHA `9ad60c43536e664e75054a92036db2bda8bffc58`.
+- Canonical checkpoint prior blob SHA `89a8721f3509212b4e38e4d5bdd55560ba629fa9`. Updating the 428 KB checkpoint through the connected Contents operation was blocked by the tool's safety layer; read-back confirms it remains unchanged and does not yet contain Wave 359. This is an explicit documentation follow-up, not a successful checkpoint update.
+- Canonical map blob SHA `ba5731256321251b6a92b35d51f5bd0f2c1d4e86`; the Contents API returns an empty body for this large file, so body read-back remains NOT VERIFIED.
