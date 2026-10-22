@@ -41,3 +41,17 @@ Review against PR #485 and canonical contracts. If reconciled, choose one bounde
 - [Master Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md)
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - [Overlapping PR #485](https://github.com/VlDMlNSh/mediahub-os/pull/485)
+
+
+## Follow-up reconciliation and final read-back — 2026-10-22
+
+- A duplicate architecture/report pair was detected during integration review and removed; the PR now keeps one authoritative architecture record and one dated report. Links in the map addendum, Bootstrap, checkpoint, roadmap and canonical map were aligned to these retained files.
+- Retained architecture blob SHA: `edf403511406ddd1dc11944f2701fa66b9f82fd7`.
+- Map addendum blob SHA after link alignment: `bd8ca6fb5f8a986ea535a03b2e1ce6716f80597e`.
+- Bootstrap blob SHA after link alignment: `9c887d6562ba79940adf4fbb16bf900d9e009f77`.
+- Continuation checkpoint blob SHA after link alignment: `bb8212ef72641583752b7b019e3589a552db7acf`.
+- Master Roadmap blob SHA after link alignment: `9f502997f41859371b7cff450a35ae4309878459`.
+- Canonical map blob SHA after index/link alignment: `8620f4cf724ee837910f48a605c27350aa74e706`. Read-back by blob SHA returned 1,176,506 characters; Wave 378 is indexed first and prior Wave 356 content remains present.
+- Branch head before this report update: `c82d10c86d74bb0df9fc2ffc84e766a692c55702`.
+- PR #487 remains open/draft/unmerged. Exact-head Actions-run lookup and combined-status endpoint returned empty results; formal review list is empty. CI and independent review remain **NOT VERIFIED**.
+- No controller dispatch, child run, secret access, local host command, deployment, merge, runtime test or acceptance occurred.
