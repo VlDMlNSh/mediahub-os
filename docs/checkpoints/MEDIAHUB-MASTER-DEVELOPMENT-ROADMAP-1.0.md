@@ -1,3 +1,13 @@
+## Wave 349 terminal update — trigger coverage CI verified (2026-10-22)
+
+- Report: [Wave 349](MEDIAHUB-NEXT-RECONCILED-EFFORT-AND-TRIGGER-COVERAGE-WAVE-349-2026-10-22.md); map addendum: [Wave 349](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-349-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #443 head `66f8cfc1bbd83bbb686ee8a1bbcea9589b182590`: contract validation 39748357460, no-secret controller probe 39748357615, Astra Verify 39748357515, Cloud Runtime Validation 39748357531 all completed successfully. The new trigger-coverage regression test passed; on `pull_request`, controller readiness and dispatch jobs were skipped as expected.
+- Formal independent review remains NOT VERIFIED; PR #443 remains open/unmerged. No current Gemini batch was dispatched.
+- Remaining active effort estimate: **1.5–3.5 h** to first current controller-owned batch, with **4–6 h contingency** for observed defects. Historical three-agent success and prior browser work are reused, not rebuilt.
+- Disposition: **CI VERIFIED / INDEPENDENT REVIEW NOT VERIFIED / CURRENT BATCH NOT RUN / NOT ACCEPTED**.
+
+---
+
 ## Wave 349 — reconciled effort and controller trigger coverage (2026-10-22)
 
 - Report: [Wave 349](MEDIAHUB-NEXT-RECONCILED-EFFORT-AND-TRIGGER-COVERAGE-WAVE-349-2026-10-22.md); map addendum: [Wave 349](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-349-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
