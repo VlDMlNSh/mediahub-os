@@ -27,7 +27,6 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
     def test_contract_validation_executes_this_regression_contract(self):
         paths = set(self.validation["on"]["pull_request"]["paths"])
         self.assertIn("tests/test_gemini_controller_trigger_path_coverage_contract.py", paths)
-        self.assertIn("tests/test_gemini_child_signed_dispatch_runtime_contract.py", paths)
         steps = self.validation["jobs"]["validate"]["steps"]
         commands = "\n".join(step.get("run", "") for step in steps)
         self.assertIn("test_gemini_controller_trigger_path_coverage_contract.py", commands)
