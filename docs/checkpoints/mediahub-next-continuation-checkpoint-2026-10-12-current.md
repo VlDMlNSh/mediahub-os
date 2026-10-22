@@ -1,3 +1,13 @@
+## Wave 397 — recovered Gemini controller batch evidence (2026-10-23)
+
+- Report: [Wave 397 exact Gemini batch evidence](MEDIAHUB-GEMINI-DISPATCH-RECOVERY-WAVE-397-2026-10-23.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-397-2026-10-23.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Historical controller run [39809515516](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39809515516), target SHA `11d04d2f2687e9ba9215e4b67af2e450516960bb`, recorded three accepted child dispatches. Agent 1 [39809549381] and Agent 2 [39809552897] SUCCEEDED and published evidence PRs #479/#480. Agent 3 [39809555931] FAILED at PR-result validation after HTTP 503 high-demand errors and failed PR-creation calls. Controller overall FAILED, 2/3 children successful.
+- PR #479 head `63a9eb4800b716ec495cd0085e10ccf93eb0e967`, PR #480 head `0dd20858ae56d9edc635fd7440036aeb3336c119`; both open/unmerged, exact-head CI and formal reviews NOT VERIFIED.
+- Current main HEAD `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; historical batch target is stale relative to main. No new dispatch in this pass.
+- Status: **HISTORICAL DISPATCH VERIFIED / BATCH FAILED / CURRENT QUALIFICATION NOT VERIFIED / CONTOUR A NOT ACCEPTED**.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
