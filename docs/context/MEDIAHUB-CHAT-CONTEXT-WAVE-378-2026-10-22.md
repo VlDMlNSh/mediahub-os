@@ -41,9 +41,10 @@ Claude/FCC/Ollama is separate and only on confirmed server 3 after exact Sentine
 No Gemini or Claude task was dispatched in this Wave 378 pass.
 
 ## Next pass
-1. Refresh live main/docs branch/PR refs and Issue #301; read Bootstrap, map, checkpoint, roadmap, Baseline 2.0, controller and authority/privacy contracts.
-2. Inspect all PR #487 changed files and links; reconcile the duplicate architecture records and overlap with #485.
-3. Compare current schema/fixture SHAs to historical Wave 81 evidence; reuse evidence if identical, otherwise test only the delta on immutable SHA with tool/version and artifact digests.
-4. Do not dispatch agents while mandatory gates remain open. Record missing evidence as NOT VERIFIED, not PASS.
-5. After edits, reread each file, record commit/blob SHAs and exact-head CI/review; update dated report/checkpoint/map as needed. Do not merge or claim VERIFIED/QUALIFIED/ACCEPTED without evidence.
+1. Live snapshot taken 2026-10-22: canonical docs base SHA `937b6fa164d0e89e5e5781bf8c236e4fb862ad56`; PR #487 head `a70ff9c2ed21721151fa6bc89d6b9904ec9cd69f`, #486 head `c519257887208e08b85d9f56e9ccafd1e8c10b9c`, #485 head `d0806eb52c66d230f89cb6cb615ce09d665bc4fc`. All three remain open/draft/unmerged.
+2. Reconciliation report: [Wave 385 PR overlap and gate reconciliation](../checkpoints/MEDIAHUB-NEXT-PR-OVERLAP-AND-GATE-RECONCILIATION-WAVE-385-2026-10-22.md). The current #487 changed-file list has one detailed architecture record; the earlier claim of a second `...AND-TARGET-DESIGN...` file is stale (path fetch returned 404). #485/#486/#487 share map, Bootstrap, checkpoint and Roadmap updates and must be content-reconciled before merge.
+3. Exact-head combined-status and PR-triggered workflow-run lookups are empty for all three heads; formal review lists are empty. CI/review NOT VERIFIED; effective branch governance NOT VERIFIED. No merge and no agent dispatch.
+4. Current schema/fixture SHAs were not established in this pass; equivalence to Wave 81 evidence is NOT VERIFIED. Locate authoritative paths and compare immutable blobs before deciding whether to reuse or rerun validation.
+5. Next bounded step: reconcile #485/#486/#487 into one integration branch, preserve their distinct detailed requirements, update shared navigation files once, then require exact-head CI, independent review and governance evidence. Do not dispatch agents while mandatory gates remain open.
+6. After each edit, re-read affected files, record commit/blob SHAs and exact-head CI/review. Do not claim VERIFIED/QUALIFIED/ACCEPTED without evidence.
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
