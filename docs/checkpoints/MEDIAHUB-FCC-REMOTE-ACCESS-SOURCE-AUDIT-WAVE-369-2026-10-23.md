@@ -31,7 +31,7 @@ Job-scoped GitHub Actions secret injection is a separate possible credential-del
 - Pinned README, security guard and test source: **READ / VERIFIED**.
 - Upstream test execution: **NOT RUN**.
 - Release notes: **NOT VERIFIED** (connector retrieval unavailable).
-- PR #500 exact-head combined status at `7907ec0158e366686e5f48d165ccb53ec919dd65`: status endpoint returned `pending` with zero status contexts; PR-triggered workflow query returned zero runs; formal review list was empty. CI and independent review are **NOT VERIFIED**, not PASS.
+- PR #500 candidate head checked during this pass: `6380b80a9b41315935d926a964ba5d1e0ab3f1ee`: status endpoint returned `pending` with zero status contexts; PR-triggered workflow query returned zero runs; formal review list was empty. CI and independent review are **NOT VERIFIED**, not PASS.
 - No workflow dispatch, secret-value read, provider/model call, deployment, port exposure, merge, qualification, or acceptance occurred.
 
 ## Next step
