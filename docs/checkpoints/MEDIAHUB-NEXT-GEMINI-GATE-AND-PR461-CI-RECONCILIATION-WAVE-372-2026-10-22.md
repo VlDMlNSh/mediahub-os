@@ -90,3 +90,9 @@ The errors also break workflow path/source hygiene checks. This is consistent wi
 - [PR #459](https://github.com/VlDMlNSh/mediahub-os/pull/459) · [PR #460](https://github.com/VlDMlNSh/mediahub-os/pull/460) · [PR #461](https://github.com/VlDMlNSh/mediahub-os/pull/461)
 - [Canonical map](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md)
 - [Previous Wave 371 review](https://github.com/VlDMlNSh/mediahub-os/blob/docs/next-wave-370-gemini-batch-reconciliation-20261022/docs/checkpoints/MEDIAHUB-NEXT-PR458-INDEPENDENT-ROUTING-REVIEW-WAVE-371-2026-10-22.md)
+
+
+## Wave 372 document overlays
+
+- [Wave 372 continuation checkpoint overlay](MEDIAHUB-NEXT-CONTINUATION-CHECKPOINT-WAVE-372-2026-10-22.md)
+- [Wave 372 canonical-map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-372-2026-10-22.md)
