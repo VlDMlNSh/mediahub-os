@@ -13,7 +13,7 @@
 
 ## Wave 350 — PR #433 merged; recheck current gates (2026-10-22)
 
-- Report: [Wave 350](MEDIAHUB-NEXT-POST-PR433-MERGE-RECONCILIATION-WAVE-350-2026-10-22.md); map addendum: [Wave 350](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-350-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Report: [Wave 350](MEDIAHUB-NEXT-POST-PR433-MERGE-RECONCILIATION-WAVE-350-2026-10-22.md); map addendum: [Wave 350](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-CLAUDE-OLLAMA-WAVE-350-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
 - PR #433 merged at `79196054d84b1197cea1447dd1db5ad075302834`; its exact merge-commit status and workflow wrappers returned empty, so post-merge CI is NOT VERIFIED by those endpoints.
 - PR #443 merged at `909d2ba6caeb2a84508978925126a074f3a934da`. Main controller blob `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`; validation workflow blob `9f362069cdb5a7c200d93e2057e3f0d338bb81c0`. Its four PR-head CI runs succeeded in Wave 349.
 - PR #437 remains open/draft at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head combined status, workflow-run query and formal reviews returned empty. CI and independent review NOT VERIFIED.
@@ -2339,9 +2339,9 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 
 ## Latest continuation — Wave 350 (2026-10-22): reuse historical Claude-FCC-Ollama evidence
 
-- Report: [Wave 350 historical Claude/Ollama evidence reconciliation](MEDIAHUB-NEXT-HISTORICAL-CLAUDE-OLLAMA-EVIDENCE-RECONCILIATION-WAVE-350-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-350-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Report: [Wave 350 historical Claude/Ollama evidence reconciliation](MEDIAHUB-NEXT-HISTORICAL-CLAUDE-OLLAMA-EVIDENCE-RECONCILIATION-WAVE-350-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-CLAUDE-OLLAMA-WAVE-350-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
 - Historical native Claude Code → Ollama implementation commit: `5b6c04587b73092859b26a0d058ab9d2a0d4094b`; historical MH-25 checkpoint records local Claude/FCC inference PASS at proxy/API level. The same checkpoint distinguishes the headless Claude marker as BLOCKED/PENDING. Reuse the historical baseline; do not restart implementation from zero or promote it to current exact-SHA qualification.
 - Historical 23-wave run is not confirmed by the available Actions endpoint; exact successful run/artifact IDs still need retrieval. Current SentinelX read-only command returned `agent_disconnected/duplicate_session`; no runtime call/model invocation occurred.
 - Current main HEAD: `909d2ba6caeb2a84508978925126a074f3a934da`. PR #443 is merged; its tested PR-head contract validation (#39748357460), no-secret controller probe (#39748357615), Astra Verify (#39748357515) and Cloud Runtime Validation (#39748357531) succeeded. The PR probe did not dispatch children.
-- PR #437 remains open at `e7e99c2fe5f090df3a731b0a1f7f3cb5335bd14`; status/run queries returned empty and formal reviews are zero, therefore exact-head CI/review remain NOT VERIFIED. Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifacts.
+- PR #437 remains open at `e7e99c2fe5f090df3a731b0a1a7f3fcb5335bd14`; status/run queries returned empty and formal reviews are zero, therefore exact-head CI/review remain NOT VERIFIED. Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifacts.
 - No secrets read. Physical host is not part of Gemini transport. Overall BLOCKED / NOT QUALIFIED / NOT ACCEPTED.
