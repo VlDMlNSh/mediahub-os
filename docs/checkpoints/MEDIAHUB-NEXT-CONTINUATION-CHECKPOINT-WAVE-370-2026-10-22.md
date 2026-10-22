@@ -29,3 +29,14 @@ Controller and all child runs are terminal success; do not repeat dispatch. Repo
 - Master Roadmap: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md
 - Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
 - Wave 370 report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/next-wave-370-gemini-batch-reconciliation-20261022/docs/checkpoints/MEDIAHUB-NEXT-GEMINI-BATCH-RECONCILIATION-WAVE-370-2026-10-22.md
+
+## Wave 371 — independent PR #458 routing review (2026-10-22)
+
+- Report: [PR #458 independent routing review](MEDIAHUB-NEXT-PR458-INDEPENDENT-ROUTING-REVIEW-WAVE-371-2026-10-22.md); report commit `0ab45d9588a40a81449324dcca98e4c5a62c672c`.
+- Current `main` HEAD rechecked: `b33ab31674bfa9595a8f2ba5a570dbc1eb3686b2`.
+- PR #458 head `afd6dcd901da44b4cdb5d155f96dce172adb3c55`: five exact-head checks completed/success.
+- Source-level review supports the direction of the policy-only/fail-closed router and removal of direct-provider smoke workflows; runtime qualification is not established by static checks.
+- PR #458 review API and review-thread API returned no reviews/threads. Classic branch protection endpoint returned HTTP 403; empty rulesets response is inconclusive. Required review/protection gates remain NOT VERIFIED; do not merge.
+- Gemini runs 39786556843/39786584867/39786587768/39786592525 are all terminal completed/success against target `1c22d82c1750aebe0c5571e088d9c0adc012c42f`. Do not duplicate the dispatch.
+- Next: establish branch protection and required review/status rules through an authorized GitHub administrative/UI route, then satisfy the gates and recheck exact-head CI. Contour A remains NOT QUALIFIED / NOT ACCEPTED.
+- Canonical map remains unchanged on `docs/mediahub-chat-tree-map-20261012`; this is a working-branch overlay, not canonical acceptance.
