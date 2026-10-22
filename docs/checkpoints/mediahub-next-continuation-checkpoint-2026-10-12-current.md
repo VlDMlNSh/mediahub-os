@@ -2355,3 +2355,9 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - PR #443 merged at `909d2ba6caeb2a84508978925126a074f3a934da`. PR #437 remains open/draft at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head status endpoint empty and formal reviews zero, so CI/review NOT VERIFIED. No dispatch performed.
 - Remaining active effort estimate: Gemini current qualified batch 1.5–3.5 h expected, 4–6 h if contingency required; separate local Claude run 0.5–1.5 h after authorized host channel recovers. Combined 2–5 h expected, roughly 4.5–7.5 h if Gemini contingency is needed; wall-clock review/runtime waits excluded. Full assumptions and done criteria in Wave 352 report.
 - No secret values read, no provider/workflow/local invocation, no browser work repeated. Status: **HISTORICAL EVIDENCE REUSED / CURRENT GEMINI BATCH NOT RUN / CURRENT CLAUDE QUALIFICATION NOT VERIFIED / NOT ACCEPTED**.
+
+
+## Wave 352 follow-up — local host disconnected at call time (2026-10-22)
+
+- Registry listed `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`, agent 0.22.0) operational, but both bounded ping and summary capabilities returned `agent_disconnected/read_loop_ended`. Current command-channel availability is **NOT VERIFIED**; no shell command/model invocation attempted. Reuse existing local implementation after reconnection; no reinstall or allowlist changes.
+- Updated report: [Wave 352](MEDIAHUB-NEXT-OMNIROUTE-CLAUDE-RUNTIME-AND-GEMINI-EFFORT-WAVE-352-2026-10-22.md). Estimate remains Gemini 1.5–3.5 h expected (4–6 h contingency), local Claude lane 0.5–1.5 h after reconnect, combined 2–5 h expected; see report for scope.
