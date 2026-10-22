@@ -71,3 +71,11 @@ The canonical map is too large for the available repository fetch response; prio
 - Local executor: **NOT RUN / NOT VERIFIED**.
 - Contour A: **NOT ACCEPTED**.
 - Contour B: **NOT STARTED**.
+
+
+## Wave 372 follow-up — exact-head CI recheck
+
+- Controller and child run records remained `QUEUED` on the latest read: controller `39794162629`, Agent 1 `39794196387`, Agent 2 `39794199351`, Agent 3 `39794202994`. The related Astra chat control-plane run `39794162713` was also queued. Cause of the queue delay is **NOT VERIFIED**.
+- Direct GitHub check-runs query for PR #458 head `afd6dcd901da44b4cdb5d155f96dce172adb3c55` returned five exact-head checks, all `completed/success`: [AI factory policy](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39788642163), [validate](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39788641998), [approved executor routing](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39788642094), [Astra agent boundary](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39788641874), and [verify](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39788641841). This does not replace independent review or governance approval.
+- Direct check-runs queries returned zero check runs for PR #456 head `b60c951c3f9f86b812b375ec457d89b2d26b32d4`, PR #457 head `c92f82f253f1e24b503ac7c7ab35cd24c1d60745`, PR #459 head `c1b1561ac88bf9cd3d8345795e2ac7eb9f5916fb`, PR #460 head `97a1a6f444fda0d3f4680425d676c0e36277e2dd`, PR #461 head `e2882966e40f88784515e0eb3a3d70e638c4488a`, and documentation PR #464 head `9aa5d5aec6b0c46343791c48b021744a4742f276`. These heads are **CI NOT VERIFIED**; an empty response is not PASS.
+- PR #464 is OPEN / DRAFT, based on canonical documentation branch SHA `937b6fa164d0e89e5e5781bf8c236e4fb862ad56`; no merge performed.
