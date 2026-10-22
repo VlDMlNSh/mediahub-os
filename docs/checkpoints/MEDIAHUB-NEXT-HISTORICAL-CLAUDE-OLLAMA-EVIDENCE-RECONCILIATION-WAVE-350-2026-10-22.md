@@ -17,6 +17,8 @@ Honor the owner's correction that Claude-fcc-Ollama had previously been launched
 5. **Current code contract:** [current local Claude qualification workflow](https://github.com/VlDMlNSh/mediahub-os/blob/main/.github/workflows/astra-local-claude-qualification.yml), blob `7f7dc2d65481e2cc80a1db94b41a1e60ed117ffd`, still has a bounded marker-based check and emits a structured artifact with target SHA, command ID, transport/model identity, exit status and output digest. It targets the Linux `mh-dev-02` self-hosted runner; it is not the separate macOS SentinelX session.
 6. **Current host channel:** SentinelX listed `Voktors-Mini.Dlink`, host ID `host_5f7264034bdf0b51`, as operational with a new session ID. A bounded read-only inventory attempt returned `agent_disconnected / duplicate_session`; no fresh Ollama/Claude command result was obtained. No model was invoked, no files/services/policies changed, and no paid fallback was used.
 
+Map addendum: [Wave 350 Claude/Ollama evidence](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-CLAUDE-OLLAMA-WAVE-350-2026-10-22.md).
+
 ## Current Gemini controller status
 
 - Current `main` HEAD resolved from repository commit search: `909d2ba6caeb2a84508978925126a074f3a934da` (merge of PR #443).
