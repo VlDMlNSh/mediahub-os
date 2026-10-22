@@ -1,3 +1,15 @@
+## Wave 350 — PR #433 merged; recheck current gates (2026-10-22)
+
+- Report: [Wave 350](MEDIAHUB-NEXT-POST-PR433-MERGE-RECONCILIATION-WAVE-350-2026-10-22.md); map addendum: [Wave 350](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-350-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #433 merged at `79196054d84b1197cea1447dd1db5ad075302834`; its exact merge-commit status and workflow wrappers returned empty, so post-merge CI is NOT VERIFIED by those endpoints.
+- PR #443 merged at `909d2ba6caeb2a84508978925126a074f3a934da`. Main controller blob `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`; validation workflow blob `9f362069cdb5a7c200d93e2057e3f0d338bb81c0`. Its four PR-head CI runs succeeded in Wave 349.
+- PR #437 remains open/draft at `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head combined status, workflow-run query and formal reviews returned empty. CI and independent review NOT VERIFIED.
+- Historical three-agent manual runs and prior browser work are reused; no repeat setup. No controller batch, child run or secret read in this pass.
+- Next: obtain real exact-head CI and independent review for PR #437; only then re-evaluate trusted-main probe and execute one controller-owned batch. Do not post Issue #301 `/next` while gates are unresolved.
+- Status: **PR #433 MERGED / PR #443 MERGED / PR #437 VERIFICATION BLOCKED / CURRENT BATCH NOT RUN / NOT ACCEPTED**.
+
+---
+
 ## Wave 349 terminal update — PR #443 CI evidence (2026-10-22)
 
 - Wave 349 report: [reconciled effort and trigger coverage](MEDIAHUB-NEXT-RECONCILED-EFFORT-AND-TRIGGER-COVERAGE-WAVE-349-2026-10-22.md); map addendum: [Wave 349](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-349-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
