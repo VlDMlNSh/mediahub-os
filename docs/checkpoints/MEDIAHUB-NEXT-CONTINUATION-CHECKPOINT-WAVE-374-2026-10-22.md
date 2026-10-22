@@ -31,3 +31,11 @@ Canonical checkpoint remains authoritative: [mediahub-next-continuation-checkpoi
 6. Keep Contour B gated until Contour A deployment and independent acceptance are evidenced.
 
 This overlay is a working documentation change, not canonical until merged into `docs/mediahub-chat-tree-map-20261012`.
+
+
+## Follow-up recheck — 2026-10-22T18:17+03:00
+
+- Controller 39794516227: `completed / success`; child runs 39796606536, 39796609924, 39796613574: each `completed / success`. No redispatch.
+- FreeLLMAPI run 39797189239 remains `pending`, no jobs returned. Workflow blob `708ddeffc4664fd03f5ca6475a117348cf3666dc` requires self-hosted Linux x64 `mediahub-control`, asserts host `mh-dev-01` and user `mediahub-runner`, and reads a local key file. Exact runner scheduler cause remains `NOT VERIFIED`; wait for eligible runner/owner access instead of repeating dispatch.
+- Artifacts exist with digests in the report, but payload content has not been independently inspected. Agent PRs #467–#469 and docs PR #470 have no exact-head check-runs at observed heads; do not merge.
+- Local Claude/Ollama remains `NOT RUN`; no local terminal/host work was attempted. Contour A remains unqualified; Contour B remains gated.
