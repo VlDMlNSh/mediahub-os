@@ -24,3 +24,12 @@ This addendum indexes the owner-selected architecture decisions for model catalo
 1. Finalize privacy, telemetry redaction, retention and evidence-publication policy.
 2. Define node-loss recovery, backup/restore, model update/rollback and disconnected-operation semantics.
 3. Consolidate decisions into a conflict-checked architecture and acceptance matrix.
+
+
+## Consolidated hardware, privacy and operations references
+
+- [Full architecture proposal](MEDIAHUB-DISTRIBUTED-ARCHITECTURE-HARDWARE-PRIVACY-OPERATIONS-WAVE-378-2026-10-22.md)
+- [Machine-readable decision snapshot](../context/MEDIAHUB-ARCHITECTURE-DECISIONS-WAVE-378.json)
+- [Dated evidence report](../checkpoints/MEDIAHUB-ARCHITECTURE-CONSOLIDATION-REPORT-WAVE-378-2026-10-22.md)
+
+Owner-selected policies now recorded: strict local-first data egress; encrypted owner-node backups with separated keys and restore tests; staged updates with compatibility/provenance gates and rollback. Hardware profiles distinguish known inventory from candidate sizing. See the full architecture for node roles, model placement, quotas, recovery, disconnected operation, evidence and acceptance criteria.
