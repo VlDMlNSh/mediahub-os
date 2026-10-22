@@ -2436,3 +2436,32 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Next: resolve local tool-call/thinking compatibility, complete one read-only Claude Code task with a real Read invocation and file-derived answer, then assess external free-tier routes one at a time with quota and no-paid-fallback evidence. Gemini was not dispatched.
 - Documentation commits: report `d203a800353501fac0a994e6798a68e234ef8d98`; map addendum `496f6c168acf7ed17591c0b4a6e998fad6b402c9`.
 
+
+
+## Wave 366 — executor admission and SentinelX recheck (2026-10-22)
+
+- Report: [Wave 366 executor admission and SentinelX recheck](MEDIAHUB-NEXT-EXECUTOR-ADMISSION-AND-SENTINELX-RECHECK-WAVE-366-2026-10-22.md); draft PR [#454](https://github.com/VlDMlNSh/mediahub-os/pull/454).
+- Live `main` ref observed at `cae0134dadf67eaa02828c43bc81cd8c71284f75`. Controller blob on main remains `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`.
+- Run [39773148250](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39773148250) is a successful non-launching probe on old SHA `7cbbc0025ce01b8c476d512cfc5e12dc35fd952c`; jobs `119805409315` and `119805451915` succeeded, while `119805411025` and `119805411677` were skipped. No child runs or artifacts exist for that run.
+- PR #441 is open and mergeable=false; #444, #445, and #453 are open and mergeable=true; #450 is merged. Combined status lists returned empty for #441/#444/#445/#453, so exact-head CI remains NOT VERIFIED.
+- SentinelX host `host_5f7264034bdf0b51` is Voktors-Mini.Dlink (Mac mini 2018, macOS 14.7.4 arm64, agent 0.22.0). Ping, capabilities summary/full, and state succeeded, but the repo path `/Users/voktor/dev/mediahub-pr437-sync` is outside file_ops allowlist. A subsequent list returned `agent_disconnected/read_loop_ended`. No Claude or browser task was run in this pass.
+- Gemini Agents 1–3: NOT RUN (connected GitHub tools expose no workflow_dispatch action; probe skipped admission/dispatch). Claude local task: BLOCKED/NOT RUN (file_ops allowlist and session instability). SentinelX report IDs/statuses: NOT VERIFIED; do not file duplicates.
+- Next: owner-authorized GitHub Actions dispatch via the existing controller after confirming its admission variable/secrets contract; owner approval for narrowly scoped repository file_ops access; recover existing SentinelX report IDs/statuses; resolve #441 and verify exact-head checks. No PASS, qualification, or acceptance claimed.
+
+
+## Wave 367 — controller admission and SentinelX restart blocker (2026-10-22)
+
+- Report: [Wave 367 controller and SentinelX recheck](MEDIAHUB-NEXT-CONTROLLER-AND-SENTINELX-RESTART-BLOCKER-WAVE-367-2026-10-22.md); [Wave 367 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-367-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main SHA observed: `cae0134dadf67eaa02828c43bc81cd8c71284f75`; controller blob SHA `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`. PR #454 remains OPEN/DRAFT at `2220c06616ab67b20b8ce190326717ab23f88573`; exact-head combined status empty = NOT VERIFIED. PR #441 reports `mergeable=false`.
+- Controller run `39773148250` remains probe-only: probe/assert jobs succeeded, readiness/dispatch skipped, no child IDs or artifacts. Current admission variable value and effective token scope NOT VERIFIED. No workflow_dispatch write action available in connected tools; Gemini 1–3 NOT RUN.
+- SentinelX package install is confirmed (`sentinelx-cloud-core 0.23.30`, protocol `1.13.2`), but connected host `host_5f7264034bdf0b51` still reports runtime `0.22.0`, two file-operation paths and two writable paths. Service restart BLOCKED because sudo requires an interactive password; runtime config reload NOT VERIFIED. Owner authorization does not override host authentication or tool policy; no bypass attempted.
+- Local Claude/browser NOT RUN. Contour A NOT QUALIFIED / NOT ACCEPTED. Working branch remains unmerged; canonical map not yet changed on the canonical branch.
+
+
+## Wave 368 — SentinelX post-restart runtime reconciliation (2026-10-22)
+
+- Report: [Wave 368 post-restart runtime reconciliation](MEDIAHUB-NEXT-SENTINELX-POST-RESTART-RUNTIME-RECONCILIATION-WAVE-368-2026-10-22.md); [Wave 368 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-368-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- SentinelX host `host_5f7264034bdf0b51` is reachable and ping succeeds, but runtime still reports `0.22.0`. Read-only metadata query confirms installed core `0.23.30`, protocol `1.13.2`, and distribution path `/Users/voktor/sentinelx/.venv/lib/python3.12/site-packages`.
+- Config SHA-256 remains `898725a1939383514101db2a0c68325182a8342d5393362068bc12a47618d50d`; the project path exists in on-disk config at line 456, but effective runtime policy still lists only workspace and config.yaml. Runtime reload NOT VERIFIED. Service status returned a sudo-required error for `is-active` and a duplicate-session error; no further restart attempted.
+- Main SHA `cae0134dadf67eaa02828c43bc81cd8c71284f75`; controller blob `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`. Historical controller run `39773148250` remains probe-only; Gemini 1–3 NOT RUN. PR #441 remains non-mergeable; PR #454 current head `4f7ca451304eb36d6bba85556a6d07ca7af79729`, exact-head CI/review NOT VERIFIED.
+- Local Claude/browser NOT RUN; Contour A NOT QUALIFIED / NOT ACCEPTED. Working branch unmerged; canonical map not updated on canonical branch.
