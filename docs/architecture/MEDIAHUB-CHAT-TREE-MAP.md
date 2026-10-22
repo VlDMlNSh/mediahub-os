@@ -7882,3 +7882,6 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 
 
 - Wave 324: [Gemini dispatch gate and executor identity audit](../checkpoints/MEDIAHUB-GEMINI-DISPATCH-READINESS-WAVE-324-2026-10-21.md) and [architecture addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-324-2026-10-21.md). Main HEAD `79196054d84b1197cea1447dd1db5ad075302834`; controller run #39650408656 was skipped on a PR comment, no Gemini child runs occurred. Admission remains blocked on independent review, Actions variable/secret metadata, trusted-main probe, branch governance and Alamo identity.
+
+
+- Wave 367 (2026-10-22): [controller admission and SentinelX restart blocker](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-367-2026-10-22.md). Main SHA `cae0134dadf67eaa02828c43bc81cd8c71284f75`; Gemini child batch NOT RUN (probe only, dispatch skipped); SentinelX packages installed but runtime still reports `0.22.0`, restart BLOCKED by interactive sudo requirement. PR #454 branch only; exact-head CI NOT VERIFIED. This working-branch map update is not canonical until PR #454 is reviewed and merged.
