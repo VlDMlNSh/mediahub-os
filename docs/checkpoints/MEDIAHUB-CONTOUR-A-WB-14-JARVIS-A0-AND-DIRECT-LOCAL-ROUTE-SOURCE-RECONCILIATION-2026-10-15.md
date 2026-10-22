@@ -5,7 +5,7 @@
 - Status: **READ-ONLY SOURCE RECONCILIATION / PARTIAL / DECISIONS OPEN / NOT IMPLEMENTED / NOT QUALIFIED**
 - Purpose: split the next continuation into small bounded work packages and execute the first source-reconciliation pass against WB13-R01…R12.
 - No normative source was modified in the original WB-14 pass. No tests, qualification, model/provider calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, merge, rebase or cherry-pick occurred in that original pass.
-- **Wave 364 owner clarification (2026-10-22): Alamo is hosted on `Voktors-Mini.Dlink` (macOS), not Mac Pro. This resolves host identity only; runtime/profile, provider/egress mode, media backend, capacity and autonomous-route qualification remain unverified.**
+- **Wave 364 owner clarification (2026-10-22): Alamo is hosted on `Voktors-Mini.Dlink` (Mac mini 2018, macOS). This resolves host identity only; runtime/profile, provider/egress mode, media backend, capacity and autonomous-route qualification remain unverified.**
 
 ## 1. Small-request decomposition
 
