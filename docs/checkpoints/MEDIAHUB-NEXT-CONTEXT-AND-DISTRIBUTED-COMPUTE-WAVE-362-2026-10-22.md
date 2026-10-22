@@ -30,7 +30,7 @@
 ## Evidence and limitations
 
 - Bootstrap was read from the repository; its existing protocol already requires Wave 272/273 constraints for A0/user MediaHub/local route changes.
-- Canonical map blob SHA read: ba5731256321251b6a92b35d51f5bd0f2c1d4e86. The Contents API returned an empty body; the blob endpoint returned the map. The map is very large, so this candidate adds a dated map addendum and attempts to add a direct index in the map itself.
+- Canonical map blob SHA read: ba5731256321251b6a92b35d51f5bd0f2c1d4e86. The Contents API returned an empty body; the blob endpoint returned the map. The map is very large, so this candidate adds a dated map addendum and prepends a direct Wave 362 index while preserving the full map body; read-back via blob verified the resulting map length and index.
 - Issue #301 remains open and governs Contour A qualification.
 - No runtime code, installer, model runtime or worker was changed. No model was selected. No tests or benchmarks were run in this documentation pass.
 - No Gemini controller, child workflow or local executor was launched in this pass.
