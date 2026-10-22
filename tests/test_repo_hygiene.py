@@ -323,7 +323,8 @@ class TestWorkflowDependencyTests(unittest.TestCase):
                     continue
                 if token.startswith("-"):
                     continue
-                provided.add(token.lower())
+                # Normalize direct package specs (e.g. pytest==8.3.5) just like requirements-file entries.
+                provided.add(token.split(">=")[0].split("==")[0].split("[")[0].strip().lower())
         return provided
 
     def test_workflow_runs_only_installed_test_tools(self):
