@@ -1,0 +1,46 @@
+{
+  "schema": "mediahub.reference-dev-tool-manifest.v1",
+  "host_profile": "mh-dev-01",
+  "os": "Ubuntu 24.04 LTS",
+  "required": {
+    "node": "22.x LTS",
+    "python": "3.12.x",
+    "git": true,
+    "openssh": true,
+    "openssl": true,
+    "gpg": true,
+    "jq": true,
+    "ripgrep": true,
+    "fd-find": true,
+    "shellcheck": true,
+    "shfmt": true,
+    "pre-commit": true,
+    "age": true,
+    "pytest": true,
+    "pytest-cov": true,
+    "bandit": true,
+    "pip-audit": true
+  },
+  "optional_security_scanners": [
+    "trivy",
+    "syft",
+    "grype",
+    "semgrep",
+    "hadolint",
+    "actionlint",
+    "zizmor",
+    "gitleaks"
+  ],
+  "installation_policy": {
+    "system_packages": "interactive_admin_only",
+    "python": "isolated_venv",
+    "secrets": "never_in_repo_or_agent_context",
+    "network_services": "disabled_by_default",
+    "heavy_local_models": "prohibited_without_measured_need"
+  },
+  "authority": {
+    "development": true,
+    "independent_qualification": false,
+    "production_release": false
+  }
+}
