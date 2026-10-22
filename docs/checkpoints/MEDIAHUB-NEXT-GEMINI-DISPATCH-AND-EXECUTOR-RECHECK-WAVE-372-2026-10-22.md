@@ -124,3 +124,12 @@ The three child runs have now produced draft PRs and `gemini-output` artifacts. 
 - The controller monitor has not reached a terminal conclusion, so the complete batch remains **NOT VERIFIED** at the parent level.
 - PR #466 is a separate parallel Wave 372 gate-reconciliation pass. Its statement that its own pass did not dispatch is not evidence against the run records in this report; however, its wave-level disposition conflicts with this invocation. Reconcile the two reports before merging either documentation PR.
 - Exact-head CI and reviews remain **NOT VERIFIED** for agent PRs #462, #463, #465 and documentation PR #464. Do not merge.
+
+
+## Latest owner-provided branch-governance clarification and run status
+
+- Owner reports the repository UI says “You haven't created any rulesets.” The GitHub Rulesets API also returned an empty list. This confirms there are no visible repository rulesets in that query; it does **not** prove classic branch protection is absent. The classic `/branches/main/protection` endpoint still returns HTTP 403 `Resource not accessible by integration`.
+- PR #458 is technically mergeable at head `afd6dcd901da44b4cdb5d155f96dce172adb3c55`, base `main` at `b33ab31674bfa9595a8f2ba5a570dbc1eb3686b2`, with five exact-head checks `completed/success`. It is not a draft and GitHub reports `mergeable: true`. However, no review submissions or review threads were returned. Because classic branch-protection/required-review state remains **NOT VERIFIED**, PR #458 is **READY BY CI / GOVERNANCE NOT VERIFIED** and was not merged in this pass.
+- Latest child-run recheck: Agent 1 `39794196387` = `completed/success`; Agent 2 `39794199351` = `completed/success` (updated 14:28:29Z); Agent 3 `39794202994` = `in_progress`; controller `39794162629` = `in_progress`. Astra chat control-plane run `39794162713` = `completed/skipped`. Agent 3 and parent controller terminal outcomes remain **NOT VERIFIED**.
+- A per-`/next` arbitrary additional task cannot currently be injected into the controller's signed role payload. This batch was triggered by the exact `/next` comment, but the three agents used the controller's fixed role prompts; no claim is made that an individually authored task was delivered to them. Do not bypass the controller. Implement and review a signature-bound task-focus field before using arbitrary per-request task additions.
+- Owner is away from the local Terminal. Continue cloud-only; do not invoke Claude/Ollama or request Terminal execution until the owner returns and local host gates are requalified.
