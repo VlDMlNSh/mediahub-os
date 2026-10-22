@@ -25,3 +25,11 @@ This addendum records a new evidence snapshot without overwriting the canonical 
 - Branch protection/required review configuration remains **NOT VERIFIED**.
 - Do not infer execution success from a queued run record, a workflow-level success alone, or a PR description.
 - Keep Contour B blocked until Contour A has deployment and independent acceptance evidence.
+
+
+## Wave 372 dispatch follow-up — second /next request (2026-10-22)
+
+- Issue #301 comment [6343014895](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6343014895) triggered controller run [39794516227](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794516227), observed QUEUED with no jobs exposed at the latest read.
+- Earlier controller run [39794162629](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162629) and child runs [39794196387](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794196387), [39794199351](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794199351), [39794202994](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794202994) also remained QUEUED; causal association to the new comment is NOT VERIFIED.
+- Exact-head CI: PR #458 5/5 success; PR #456/#457/#459 action_required; PR #460 no runs returned; PR #461 Astra Verify failed due malformed smoke workflow YAML still present on main. Branch-protection/required-review gates remain NOT VERIFIED.
+- Do not infer a fresh batch succeeded until controller/child run IDs, terminal statuses, artifacts and digests are collected.
