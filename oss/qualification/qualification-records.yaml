@@ -1,0 +1,97 @@
+schema_version: 1
+policy: fail-closed
+records:
+  - id: home-assistant-core
+    upstream: https://github.com/home-assistant/core
+    version: 2026.9.1
+    status: target-gated
+    authority: smart-home-domain-only
+    evidence:
+      provenance: true
+      license: true
+      sbom: false
+      vulnerability: false
+      adapter: true
+      functional: true
+      negative: true
+      degraded: false
+      recovery: false
+      rollback: false
+      independent-review: false
+  - id: postgresql
+    upstream: https://www.postgresql.org/
+    version: 18.6
+    status: target-gated
+    authority: mediahub-state-authority
+    evidence:
+      provenance: true
+      license: true
+      sbom: false
+      vulnerability: false
+      adapter: true
+      functional: true
+      negative: true
+      degraded: false
+      recovery: false
+      rollback: false
+      independent-review: false
+  - id: opentelemetry
+    upstream: https://opentelemetry.io/
+    version: null
+    status: current-foundation
+    authority: non-authoritative-observability
+    evidence: {}
+  - id: prometheus
+    upstream: https://prometheus.io/
+    version: null
+    status: current-foundation
+    authority: non-authoritative-observability
+    evidence: {}
+  - id: cosign
+    upstream: https://github.com/sigstore/cosign
+    version: null
+    status: current-foundation
+    authority: supply-chain-verification
+    evidence: {}
+  - id: syft
+    upstream: https://github.com/anchore/syft
+    version: null
+    status: current-foundation
+    authority: supply-chain-evidence
+    evidence: {}
+  - id: trivy
+    upstream: https://github.com/aquasecurity/trivy
+    version: null
+    status: current-foundation
+    authority: vulnerability-evidence
+    evidence: {}
+  - id: restic
+    upstream: https://github.com/restic/restic
+    version: null
+    status: target-gated
+    authority: backup-mechanics
+    evidence: {}
+  - id: rauc
+    upstream: https://github.com/rauc/rauc
+    version: null
+    status: target-gated
+    authority: production-ota
+    evidence: {}
+  - id: ffmpeg
+    upstream: https://ffmpeg.org/
+    version: null
+    status: current-foundation
+    authority: bounded-media-processing
+    evidence: {}
+  - id: sops
+    upstream: https://github.com/getsops/sops
+    version: null
+    status: current-foundation
+    authority: secret-configuration
+    evidence: {}
+  - id: age
+    upstream: https://github.com/FiloSottile/age
+    version: null
+    status: current-foundation
+    authority: encryption
+    evidence: {}
