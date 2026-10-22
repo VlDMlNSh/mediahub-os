@@ -1,3 +1,14 @@
+## Wave 340 — controller secret-name contract and executor channel recheck (2026-10-22)
+
+- Report: [Wave 340 controller secret contract and executor recheck](MEDIAHUB-NEXT-CONTROLLER-SECRET-CONTRACT-AND-EXECUTOR-RECHECK-WAVE-340-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Controller on main blob SHA `9453403bba899a2400ee3fb874d32badd034c704` reads `secrets.MEDIAHUB_DISPATCH_HMAC_KEY`; task specification names `MEDIAHUB_DISPATCH_NMAC_KEY`. This identifier mismatch is confirmed in source, but actual secret presence cannot be verified read-only. Do not silently alias/rename; fail-closed dispatch behavior remains.
+- SentinelX ping and bounded read-only script succeeded on `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`, macOS 14.7.4 ARM64, agent 0.22.0). Ollama binary exists at `/opt/homebrew/bin/ollama`; no version/model/route qualification was run. `agent-browser` and `claude` were not found on the minimal PATH. Capabilities/help timed out.
+- Gemini 1–3 NOT RUN; no controller/child run IDs or artifact digests. No dispatch, tests, merge, deployment, qualification or acceptance.
+- Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: resolve canonical secret identifier through reviewed contract, exact-head CI + independent security review, authorized no-secret probe, then qualify local Ollama/Claude route and browser CLI.
+- Report commit SHA: `607fec7b05deb356e2932263c65333e1b5686023`.
+
+---
+
 ## Wave 339 — executor channel and exact-head gate recheck (2026-10-22)
 
 - Report: [Wave 339 executor channel recheck](MEDIAHUB-NEXT-EXECUTOR-CHANNEL-RECHECK-WAVE-339-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
