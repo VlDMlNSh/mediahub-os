@@ -2448,3 +2448,15 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Next: resolve local tool-call/thinking compatibility, complete one read-only Claude Code task with a real Read invocation and file-derived answer, then assess external free-tier routes one at a time with quota and no-paid-fallback evidence. Gemini was not dispatched.
 - Documentation commits: report `d203a800353501fac0a994e6798a68e234ef8d98`; map addendum `496f6c168acf7ed17591c0b4a6e998fad6b402c9`.
 
+
+
+## Wave 385 — PR overlap and gate reconciliation (2026-10-22)
+
+- Report: [Wave 385 reconciliation](MEDIAHUB-NEXT-PR-OVERLAP-AND-GATE-RECONCILIATION-WAVE-385-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Inspected #485 head `d0806eb52c66d230f89cb6cb615ce09d665bc4fc`, #486 head `c519257887208e08b85d9f56e9ccafd1e8c10b9c`, and #487 head `a70ff9c2ed21721151fa6bc89d6b9904ec9cd69f`; all remain open draft PRs against docs base `937b6fa164d0e89e5e5781bf8c236e4fb862ad56`.
+- All three change the shared canonical map, Bootstrap, checkpoint and Master Roadmap. Do not merge separately without content reconciliation. Preserve unique node-admission/model-loading (#485), distributed-compute (#486), and consolidated authority/privacy/lifecycle (#487) content.
+- #487 contains one detailed architecture record. The earlier context claim that a second `...AND-TARGET-DESIGN...` file exists is stale; the path returned 404 and is not in the current changed-file list.
+- Combined statuses, PR-triggered workflow-run lookups and formal review lists are empty for all three exact heads: CI/review **NOT VERIFIED**. Effective branch governance remains **NOT VERIFIED**.
+- Current schema/fixture blob SHAs were not established in this pass; equivalence to historical Wave 81 evidence remains **NOT VERIFIED**. Issue #301 gates remain open.
+- Gemini batch and local Claude task: **NOT RUN**. No secrets read, merge, runtime mutation, deployment, qualification or acceptance.
+- Next: reconcile #485/#486/#487 shared files in one integration branch, then obtain exact-head CI, independent review and governance evidence. Locate authoritative schema/fixture paths and compare immutable SHAs before reusing historical validation evidence.
