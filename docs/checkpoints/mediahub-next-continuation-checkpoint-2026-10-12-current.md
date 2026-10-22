@@ -2335,3 +2335,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Connected GitHub tools expose read-only workflow inspection but no workflow-dispatch write action. No trusted-main no-secret probe or controller run was initiated; Gemini Agents 1–3 remain NOT RUN, with no child run IDs or artifact digests.
 - SentinelX inventory lists only `Voktors-Mini.Dlink` as operational; Alamo is not identified. Claude-FCC-Ollama and agent-browser remain NOT RUN.
 - Status remains **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: obtain exact-head CI and independent review for PR #437; obtain authoritative governance evidence; run the safe no-secret probe through an authorized Actions dispatch route before considering a Gemini batch.
+
+
+## Latest continuation — Wave 350 (2026-10-22): reuse historical Claude-FCC-Ollama evidence
+
+- Report: [Wave 350 historical Claude/Ollama evidence reconciliation](MEDIAHUB-NEXT-HISTORICAL-CLAUDE-OLLAMA-EVIDENCE-RECONCILIATION-WAVE-350-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-350-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Historical native Claude Code → Ollama implementation commit: `5b6c04587b73092859b26a0d058ab9d2a0d4094b`; historical MH-25 checkpoint records local Claude/FCC inference PASS at proxy/API level. The same checkpoint distinguishes the headless Claude marker as BLOCKED/PENDING. Reuse the historical baseline; do not restart implementation from zero or promote it to current exact-SHA qualification.
+- Historical 23-wave run is not confirmed by the available Actions endpoint; exact successful run/artifact IDs still need retrieval. Current SentinelX read-only command returned `agent_disconnected/duplicate_session`; no runtime call/model invocation occurred.
+- Current main HEAD: `909d2ba6caeb2a84508978925126a074f3a934da`. PR #443 is merged; its tested PR-head contract validation (#39748357460), no-secret controller probe (#39748357615), Astra Verify (#39748357515) and Cloud Runtime Validation (#39748357531) succeeded. The PR probe did not dispatch children.
+- PR #437 remains open at `e7e99c2fe5f090df3a731b0a1f7f3cb5335bd14`; status/run queries returned empty and formal reviews are zero, therefore exact-head CI/review remain NOT VERIFIED. Gemini Agents 1–3 NOT RUN; no controller/child IDs or artifacts.
+- No secrets read. Physical host is not part of Gemini transport. Overall BLOCKED / NOT QUALIFIED / NOT ACCEPTED.
