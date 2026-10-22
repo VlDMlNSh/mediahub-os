@@ -24,3 +24,15 @@ Date: 2026-10-23
 
 ## Next step
 Obtain independent review of PR #335, reconcile it with the current canonical docs branch, then rerun and inspect a fresh exact-head artifact. Independently close Issue #301 A0 issuer/admission and R-06 audit/privacy gates before operational dispatch. Contour A remains NOT ACCEPTED.
+
+
+---
+
+## Wave 397 — launch-time and dispatch-readiness recheck (2026-10-23)
+
+- Report: [Wave 397 launch ETA and readiness gates](MEDIAHUB-CONTOUR-A-LAUNCH-ETA-AND-READINESS-WAVE-397-2026-10-23.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-397-2026-10-23.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Current `main`: `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`. Approved controller read-back confirms a 40-minute combined dispatch/monitor timeout and required names `vars.MEDIAHUB_GEMINI_BATCH_ENABLED`, `secrets.MEDIAHUB_GITHUB_TOKEN`, `secrets.MEDIAHUB_DISPATCH_HMAC_KEY`. No secret values read; effective settings not verified.
+- PR #437 is merged. PR #335 remains OPEN/DRAFT/UNMERGED at `44e2bc7c735ad7f70294d66de8e08eb1da612e0d`; formal reviews empty and combined status endpoint returned no statuses, so independent review/current-head CI are NOT VERIFIED.
+- A0 `AUTHORITY_REFERENCES_UNRESOLVED` remains OPEN P0. Gemini Agents 1–3 NOT RUN; no controller/child run IDs or artifacts created in this pass. Contour A NOT ACCEPTED.
+- Estimate: no responsible launch ETA while governance/review gates remain open. Once all gates are closed, budget up to 40 minutes for controller dispatch/monitoring, plus independent artifact review.
+- Next: close/disposition A0 P0 and R-06 gates; independently review/reconcile PR #335, rerun validation at exact current head, then use approved no-secret readiness checks before dispatch.
