@@ -1,0 +1,90 @@
+name: Cloud Agent Schema Validation
+
+on:
+  push:
+    branches:
+      - test/cloud-agent-schema-validation-20261017
+    paths:
+      - ".github/workflows/cloud-agent-schema-validation.yml"
+      - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+      - "requirements-cloud-agent-schema-validation.txt"
+      - "scripts/validate_cloud_agent_*.py"
+      - "tests/fixtures/cloud-agent-schemas/**"
+  pull_request:
+    branches:
+      - docs/mediahub-chat-tree-map-20261012
+    paths:
+      - ".github/workflows/cloud-agent-schema-validation.yml"
+      - "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-*-SCHEMA-V0.2-WAVE-16-2026-10-16.json"
+      - "requirements-cloud-agent-schema-validation.txt"
+      - "scripts/validate_cloud_agent_*.py"
+      - "tests/fixtures/cloud-agent-schemas/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloud-agent-schema-validation-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-v0-2-schemas:
+    name: Draft 2020-12 meta-validation and fixtures
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout immutable source revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38
+        with:
+          python-version: "3.12"
+
+      - name: Verify dependency and source provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual_sha="$(git rev-parse HEAD)"
+          [[ "$actual_sha" == "$GITHUB_SHA" ]] || { echo "::error::Checkout SHA differs from event SHA."; exit 2; }
+          echo "source_commit_sha=$actual_sha" >> "$GITHUB_STEP_SUMMARY"
+          echo "python_version=$(python3 --version)" >> "$GITHUB_STEP_SUMMARY"
+          echo "workflow_blob_sha=$(git rev-parse "${GITHUB_SHA}:.github/workflows/cloud-agent-schema-validation.yml")" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install exact-version schema validator dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv .venv
+          .venv/bin/python -m pip install --disable-pip-version-check --no-input -r requirements-cloud-agent-schema-validation.txt
+
+      - name: Meta-validate schemas and exercise positive/negative fixtures
+        id: validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          .venv/bin/python scripts/validate_cloud_agent_schemas.py
+
+      - name: Validate cross-schema semantic invariants
+        id: semantic
+        shell: bash
+        run: |
+          set -euo pipefail
+          .venv/bin/python scripts/validate_cloud_agent_semantics.py
+
+      - name: Upload machine-readable schema and semantic evidence
+        if: always() && (hashFiles('artifacts/cloud-agent-schema-validation-report.json') != '' || hashFiles('artifacts/cloud-agent-semantic-validation-report.json') != '')
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        with:
+          name: cloud-agent-schema-and-semantic-validation-${{ github.run_id }}
+          path: |
+            artifacts/cloud-agent-schema-validation-report.json
+            artifacts/cloud-agent-semantic-validation-report.json
+          if-no-files-found: warn
+          retention-days: 14

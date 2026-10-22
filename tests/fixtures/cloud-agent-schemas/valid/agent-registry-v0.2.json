@@ -1,0 +1,70 @@
+{
+  "schema_version": "mediahub.cloud-agent-registry-record.v0.2",
+  "agent_id": "CAF-AGENT-READONLY",
+  "status": "proposed",
+  "identity": {
+    "agent_class": "source_audit",
+    "provider_id": "google",
+    "model_id": "gemini-3.5-flash-lite",
+    "workflow_ref": "refs/heads/main/.github/workflows/gemini-readonly-audit.yml",
+    "workflow_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "capabilities": {
+    "task_types": [
+      "source_audit"
+    ],
+    "allowed_paths": [
+      "docs/checkpoints/"
+    ],
+    "forbidden_paths": [
+      ".github/workflows/"
+    ],
+    "data_classes": [
+      "public"
+    ],
+    "max_changed_files": 0,
+    "effects": [
+      "read_only"
+    ]
+  },
+  "provider_routes": [
+    {
+      "provider_id": "google",
+      "model_id": "gemini-3.5-flash-lite",
+      "data_classes": [
+        "public"
+      ],
+      "purpose": "schema-fixture-only",
+      "policy_ref": "policy://fixture",
+      "authorization_ref": "authorization://fixture",
+      "paid_fallback": false
+    }
+  ],
+  "execution": {
+    "max_concurrency": 1,
+    "max_attempts": 1,
+    "timeout_seconds": 60,
+    "max_input_bytes": 10000,
+    "max_output_bytes": 10000,
+    "isolated_workspace_required": true
+  },
+  "authorization": {
+    "issuer_contract_ref": "issuer://fixture-not-admitted",
+    "grant_ref": "grant://fixture-not-admitted",
+    "review_ref": "review://fixture",
+    "scope_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "lifecycle": {
+    "issued_at": "2026-10-17T10:00:00Z",
+    "expires_at": "2027-01-01T00:00:00Z",
+    "revocation_ref": "revocation://fixture",
+    "last_reviewed_at": "2026-10-17T10:00:00Z"
+  },
+  "evidence": [
+    {
+      "kind": "source_review",
+      "ref": "evidence://schema-fixture",
+      "sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  ]
+}

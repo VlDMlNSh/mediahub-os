@@ -1,0 +1,145 @@
+[
+  {
+    "id": "task-missing-task-id",
+    "schema": "task-envelope",
+    "fixture": "task-envelope-v0.2.json",
+    "op": "remove",
+    "path": [
+      "task_id"
+    ]
+  },
+  {
+    "id": "task-bad-date-time-format",
+    "schema": "task-envelope",
+    "fixture": "task-envelope-v0.2.json",
+    "op": "set",
+    "path": [
+      "deadline"
+    ],
+    "value": "not-a-date"
+  },
+  {
+    "id": "task-unknown-root-property",
+    "schema": "task-envelope",
+    "fixture": "task-envelope-v0.2.json",
+    "op": "set",
+    "path": [
+      "unexpected_property"
+    ],
+    "value": true
+  },
+  {
+    "id": "task-duplicate-allowed-path",
+    "schema": "task-envelope",
+    "fixture": "task-envelope-v0.2.json",
+    "op": "set",
+    "path": [
+      "scope",
+      "allowed_paths"
+    ],
+    "value": [
+      "docs/checkpoints/",
+      "docs/checkpoints/"
+    ]
+  },
+  {
+    "id": "registry-missing-expiry",
+    "schema": "agent-registry",
+    "fixture": "agent-registry-v0.2.json",
+    "op": "remove",
+    "path": [
+      "lifecycle",
+      "expires_at"
+    ]
+  },
+  {
+    "id": "registry-malformed-workflow-sha",
+    "schema": "agent-registry",
+    "fixture": "agent-registry-v0.2.json",
+    "op": "set",
+    "path": [
+      "identity",
+      "workflow_sha"
+    ],
+    "value": "not-a-git-sha"
+  },
+  {
+    "id": "registry-zero-concurrency",
+    "schema": "agent-registry",
+    "fixture": "agent-registry-v0.2.json",
+    "op": "set",
+    "path": [
+      "execution",
+      "max_concurrency"
+    ],
+    "value": 0
+  },
+  {
+    "id": "registry-unknown-nested-property",
+    "schema": "agent-registry",
+    "fixture": "agent-registry-v0.2.json",
+    "op": "set",
+    "path": [
+      "identity",
+      "unexpected"
+    ],
+    "value": "denied"
+  },
+  {
+    "id": "manifest-missing-execution",
+    "schema": "evidence-manifest",
+    "fixture": "evidence-manifest-v0.2.json",
+    "op": "remove",
+    "path": [
+      "execution"
+    ]
+  },
+  {
+    "id": "manifest-malformed-resolved-sha",
+    "schema": "evidence-manifest",
+    "fixture": "evidence-manifest-v0.2.json",
+    "op": "set",
+    "path": [
+      "source",
+      "resolved_sha"
+    ],
+    "value": "bad-sha"
+  },
+  {
+    "id": "manifest-invalid-started-at",
+    "schema": "evidence-manifest",
+    "fixture": "evidence-manifest-v0.2.json",
+    "op": "set",
+    "path": [
+      "execution",
+      "started_at"
+    ],
+    "value": "yesterday"
+  },
+  {
+    "id": "manifest-too-few-schema-refs",
+    "schema": "evidence-manifest",
+    "fixture": "evidence-manifest-v0.2.json",
+    "op": "set",
+    "path": [
+      "schema_refs"
+    ],
+    "value": [
+      {
+        "name": "task_envelope",
+        "version": "0.2",
+        "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    ]
+  },
+  {
+    "id": "manifest-unknown-root-property",
+    "schema": "evidence-manifest",
+    "fixture": "evidence-manifest-v0.2.json",
+    "op": "set",
+    "path": [
+      "untrusted_addition"
+    ],
+    "value": 1
+  }
+]
