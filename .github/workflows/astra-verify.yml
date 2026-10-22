@@ -40,6 +40,8 @@ jobs:
         run: python -m compileall -q .
       - name: Cloud admission unit tests
         run: python -m unittest discover -s tests -p 'test_*.py'
+      - name: Worker run correlation regression tests
+        run: python -m unittest discover -s tests -p 'test_worker_run_correlation.py' -v
       - name: Signed command smoke test
         env:
           ASTRA_COMMAND_HMAC_KEY: smoke-test-key

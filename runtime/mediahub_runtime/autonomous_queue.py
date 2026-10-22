@@ -11,6 +11,7 @@ import re
 import subprocess
 import tempfile
 import time
+from datetime import datetime
 from pathlib import Path
 
 from .agent_fabric import AgentClaim, ClaimStore
@@ -55,7 +56,58 @@ def safe_task_id(task_id: str) -> str:
     return value
 
 
-def worktree_path(task_id: str) -> Path:    return STATE / "worktrees" / safe_task_id(task_id)
+def select_correlated_workflow_run(
+    rows: list[dict],
+    *,
+    command_id: str,
+    task_id: str,
+    node_id: str,
+    executor: str,
+    dispatched_after: float,
+) -> dict | None:
+    """Return exactly one fresh run whose title exactly binds every dispatch field.
+
+    The GitHub run title is correlation metadata, not an authorization proof.
+    Ambiguous or missing matches fail closed; callers must separately validate
+    run metadata and the worker's signed command envelope.
+    """
+    if not isinstance(command_id, str) or not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", command_id):
+        raise ValueError("invalid_command_id")
+    if not isinstance(task_id, str) or not task_id or not re.fullmatch(r"[A-Za-z0-9._-]+", task_id):
+        raise ValueError("invalid_task_id")
+    if not isinstance(node_id, str) or not node_id or not re.fullmatch(r"[A-Za-z0-9._-]+", node_id):
+        raise ValueError("invalid_node_id")
+    if executor != "claude":
+        raise ValueError("invalid_executor")
+
+    expected_title = f"Astra distributed worker / {command_id} / {task_id} / {node_id} / {executor}"
+    matches = []
+    for row in rows:
+        if not isinstance(row, dict) or row.get("displayTitle") != expected_title:
+            continue
+        created_at = row.get("createdAt")
+        if not isinstance(created_at, str):
+            continue
+        try:
+            created = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if created.tzinfo is None:
+            continue
+        if created.timestamp() < dispatched_after:
+            continue
+        database_id = row.get("databaseId")
+        if not isinstance(database_id, int) or isinstance(database_id, bool) or database_id <= 0:
+            continue
+        matches.append(row)
+
+    if len(matches) > 1:
+        raise RuntimeError("ambiguous_remote_worker_run")
+    return matches[0] if matches else None
+
+
+def worktree_path(task_id: str) -> Path:
+    return STATE / "worktrees" / safe_task_id(task_id)
 
 
 def load_tasks() -> list[dict]:
@@ -304,10 +356,15 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
     try:
         store.acquire(claim)
         task_json = json.dumps(task_payload, sort_keys=True, separators=(",", ":"))
+        command_id = str(os.environ.get("ASTRA_COMMAND_ID", ""))
+        if not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", command_id):
+            record["error"] = "invalid_command_id"
+            return record
+        dispatch_started_at = time.time()
         dispatch = run([
             "gh", "workflow", "run", ".github/workflows/astra-distributed-local-worker.yml",
             "--ref", "main",
-            "-f", f"command_id={os.environ.get('ASTRA_COMMAND_ID', '')}",
+            "-f", f"command_id={command_id}",
             "-f", f"target_sha={expected_base_sha}",
             "-f", f"task_id={task_key}",
             "-f", f"node_id={node_id}",
@@ -320,7 +377,6 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
 
         run_id = None
         deadline = time.time() + max(300, int(os.environ.get("ASTRA_REMOTE_WORKER_WAIT_SECONDS", "2400")))
-        run_title_bits = [os.environ.get("ASTRA_COMMAND_ID", ""), task_key, node_id, executor]
         while time.time() < deadline:
             listed = run([
                 "gh", "run", "list", "--workflow", "astra-distributed-local-worker.yml",
@@ -331,13 +387,20 @@ def process_task_remote(task: dict, expected_base_sha: str) -> dict:
                     rows = json.loads(listed.stdout or "[]")
                 except Exception:
                     rows = []
-                matches = [
-                    row for row in rows
-                    if all(bit in str(row.get("displayTitle", "")) for bit in run_title_bits)
-                ]
-                if matches:
-                    matches.sort(key=lambda row: row.get("createdAt", ""), reverse=True)
-                    run_id = int(matches[0]["databaseId"])
+                try:
+                    match = select_correlated_workflow_run(
+                        rows,
+                        command_id=command_id,
+                        task_id=task_key,
+                        node_id=node_id,
+                        executor=executor,
+                        dispatched_after=dispatch_started_at,
+                    )
+                except (ValueError, RuntimeError) as exc:
+                    record["error"] = str(exc)
+                    return record
+                if match is not None:
+                    run_id = match["databaseId"]
                     break
             time.sleep(5)
         if not run_id:
