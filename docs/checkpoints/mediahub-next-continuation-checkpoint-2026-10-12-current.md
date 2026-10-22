@@ -1,3 +1,14 @@
+## Wave 356 — PR #437 exact-head CI repair and local FCC→Ollama route probe (2026-10-22)
+
+- Report: [Wave 356 exact-head CI and local route evidence](MEDIAHUB-NEXT-PR437-CI-REPAIR-AND-LOCAL-ROUTE-PROBE-WAVE-356-2026-10-22.md); [Wave 356 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-356-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #437 current head `2e23f9a99e655369672340329c4c1b6de25f1576`, base/main `909d2ba6caeb2a84508978925126a074f3a934da`, mergeable=true but open/unmerged. Follow-up fixed a test assertion mismatch discovered by the first exact-head run.
+- Exact-head CI: contract validation [39757948715](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39757948715) SUCCESS (job 119754631139, including all child HMAC and trigger-path tests); Astra Verify [39757948759](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39757948759) SUCCESS (job 119754631035); Cloud Runtime Validation [39757948849](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39757948849) SUCCESS; PR-context no-secret probe [39757948751](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39757948751) SUCCESS, with live dispatch/admission skipped as expected for pull_request.
+- Formal review endpoint still empty; independent review NOT VERIFIED. Trusted-main live probe, effective governance/secret-variable metadata and controller-owned three-child batch remain NOT RUN/NOT VERIFIED. Do not dispatch until mandatory gates close.
+- On `Voktors-Mini.Dlink`, loopback FCC→Ollama request probe returned HTTP 200, valid Anthropic response shape and exact marker in 7,872.7 ms; upstream log points to 127.0.0.1:11434. This is transport evidence only, not a completed autonomous Claude task. Local full validator test could not run on Mac because jq is absent; hosted CI ran it successfully after the assertion fix. Historical owner-reported Claude/Ollama/browser work remains preserved.
+- Current status: **CONTRACT CI VERIFIED / ASTRA VERIFY VERIFIED / LOCAL FCC→OLLAMA ROUTE PROBED / FORMAL REVIEW NOT VERIFIED / GEMINI BATCH NOT RUN / CONTOUR A NOT ACCEPTED**.
+
+---
+
 ## Wave 351 — recovered Claude/FCC/Ollama history (2026-10-22)
 
 - Report: [Wave 351 evidence recovery](MEDIAHUB-NEXT-CLAUDE-FCC-OLLAMA-HISTORICAL-EVIDENCE-WAVE-351-2026-10-22.md); map addendum: [Wave 351](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-351-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
