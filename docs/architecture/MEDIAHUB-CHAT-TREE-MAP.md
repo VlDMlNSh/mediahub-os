@@ -1,7 +1,7 @@
 ## Wave 378 — owner architecture decisions consolidated (2026-10-22)
 
-- Architecture record: [Owner Architecture Decisions and Consolidated Target Design](MEDIAHUB-OWNER-ARCHITECTURE-DECISIONS-AND-TARGET-DESIGN-2026-10-22.md).
-- Report: [Wave 378 architecture consolidation](../checkpoints/MEDIAHUB-ARCHITECTURE-CONSOLIDATION-CHAT-WAVE-378-2026-10-22.md); map addendum: [Wave 378](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-ARCHITECTURE-WAVE-378-2026-10-22.md).
+- Architecture record: [Owner Architecture Decisions and Consolidated Target Design](MEDIAHUB-OWNER-ARCHITECTURE-DECISIONS-WAVE-378-2026-10-22.md).
+- Report: [Wave 378 architecture consolidation](../checkpoints/MEDIAHUB-OWNER-ARCHITECTURE-CONSOLIDATION-WAVE-378-2026-10-22.md); map addendum: [Wave 378](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-ARCHITECTURE-WAVE-378-2026-10-22.md).
 - Owner-confirmed: strict local-first privacy; encrypted backups on user-owned nodes with separated keys, integrity checks and periodic restore tests; staged updates with provenance/compatibility gates and rollback.
 - Main HEAD at authoring start: `11d04d2f2687e9ba9215e4b67af2e450516960bb`; canonical documentation branch HEAD at start: `937b6fa164d0e89e5e5781bf8c236e4fb862ad56`.
 - PR #485 remains an overlapping open draft and must be reconciled, not treated as accepted. Related draft CI/review status is NOT VERIFIED where results are empty. Branch protection was inaccessible (HTTP 403), NOT VERIFIED.
