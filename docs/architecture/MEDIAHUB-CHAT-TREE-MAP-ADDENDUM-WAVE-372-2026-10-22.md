@@ -58,3 +58,12 @@ This addendum records a new evidence snapshot without overwriting the canonical 
 - Agent 2 run `39794199351` is now `completed/success`; Agent 1 `39794196387` is `completed/success`; Agent 3 `39794202994` and parent controller `39794162629` remain `in_progress`.
 - Parent controller has not reached terminal monitoring conclusion. Agent PRs #462/#463/#465 remain open/unmerged and exact-head CI/reviews remain NOT VERIFIED.
 - PR #466 is a separate concurrent Wave 372 gate-reconciliation report. Reconcile its pass-specific “no dispatch” statement with this invocation's controller/child run records before merging documentation.
+
+
+## Owner governance clarification and latest run state
+
+- Owner UI reports no repository rulesets; Rulesets API is empty. Classic branch-protection endpoint remains HTTP 403, so required review/protection configuration is still **NOT VERIFIED**.
+- PR #458: head `afd6dcd901da44b4cdb5d155f96dce172adb3c55`, base SHA `b33ab31674bfa9595a8f2ba5a570dbc1eb3686b2`, mergeable=true, five exact-head checks passed, no review submissions/threads returned. Status: **READY BY CI / GOVERNANCE NOT VERIFIED**; not merged.
+- Latest Gemini status: Agent 1 success, Agent 2 success, Agent 3 in progress, parent controller in progress, Astra chat control-plane run skipped. Parent/Agent 3 terminal status remains unverified.
+- The current controller does not accept an arbitrary per-`/next` task-focus field. This run used fixed role prompts; dynamic task injection requires a reviewed signature-bound controller extension, not direct child dispatch.
+- Owner is away from Terminal; no local executor was invoked.
