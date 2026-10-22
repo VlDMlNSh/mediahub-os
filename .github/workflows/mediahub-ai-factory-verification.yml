@@ -6,7 +6,8 @@ on:
       - '.github/agents/**'
       - '.github/copilot-instructions.md'
       - '.github/ai/**'
-      - '.github/workflows/mediahub-openrouter-smoke.yml'
+      - '.github/workflows/gemini-batch-dispatch-controller.yml'
+      - '.github/workflows/mediahub-ai-factory-verification.yml'
       - 'scripts/verify_ai_factory.py'
   workflow_dispatch:
 
