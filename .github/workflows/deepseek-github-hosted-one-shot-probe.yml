@@ -1,0 +1,180 @@
+name: DeepSeek GitHub-hosted one-shot inference probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_request:
+        description: "Authorize exactly one bounded DeepSeek inference request (budget cap $0.01)"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deepseek-github-hosted-one-shot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    if: ${{ github.ref == 'refs/heads/main' && inputs.confirm_request == true }}
+    name: One bounded DeepSeek inference request
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    env:
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      MEDIAHUB_DEEPSEEK_MODEL: ${{ vars.MEDIAHUB_DEEPSEEK_MODEL }}
+      MEDIAHUB_TARGET_SHA: ${{ github.sha }}
+    steps:
+      - name: Execute exactly one bounded request and write sanitized evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +x
+          mkdir -p .probe-evidence
+          python3 - <<'PY'
+          import json
+          import os
+          import sys
+          import time
+          import urllib.error
+          import urllib.request
+
+          EVIDENCE = ".probe-evidence/deepseek-probe.json"
+          BUDGET_USD = 0.01
+          MODEL = "deepseek-flash"
+          MAX_OUTPUT_TOKENS = 8
+
+          evidence = {
+              "schema": "mediahub.deepseek.github-hosted-one-shot-probe.v1",
+              "target_sha": os.environ.get("MEDIAHUB_TARGET_SHA", ""),
+              "model": os.environ.get("MEDIAHUB_DEEPSEEK_MODEL", ""),
+              "runner": "GitHub-hosted ubuntu-latest",
+              "endpoint": "https://api.deepseek.com/chat/completions",
+              "request_count": 0,
+              "budget_cap_usd": BUDGET_USD,
+              "pricing_basis": "conservative peak rates: input $0.30/M tokens, output $1.20/M tokens",
+              "status": "BLOCKED",
+              "reason": "preflight_not_completed",
+              "captured_at_unix": int(time.time()),
+              "secret_values": "SUPPRESSED",
+              "response_content": "SUPPRESSED",
+          }
+
+          def finish(exit_code):
+              with open(EVIDENCE, "w", encoding="utf-8") as f:
+                  json.dump(evidence, f, sort_keys=True, indent=2)
+                  f.write("\n")
+              summary = {k: evidence.get(k) for k in (
+                  "schema", "target_sha", "model", "runner", "request_count",
+                  "http_status", "prompt_tokens", "completion_tokens",
+                  "estimated_cost_usd", "budget_cap_usd", "status", "reason",
+                  "request_id", "secret_values", "response_content"
+              ) if k in evidence}
+              print("DEEPSEEK_ONE_SHOT_EVIDENCE=" + json.dumps(summary, sort_keys=True))
+              raise SystemExit(exit_code)
+
+          key = os.environ.get("DEEPSEEK_API_KEY", "")
+          model = os.environ.get("MEDIAHUB_DEEPSEEK_MODEL", "")
+          if not key:
+              evidence["reason"] = "credential_missing"
+              finish(2)
+          if model != MODEL:
+              evidence["reason"] = "model_variable_mismatch"
+              finish(2)
+          if os.environ.get("GITHUB_REF") != "refs/heads/main":
+              evidence["reason"] = "not_main_ref"
+              finish(2)
+          target_sha = evidence["target_sha"]
+          if len(target_sha) != 40 or any(c not in "0123456789abcdef" for c in target_sha):
+              evidence["reason"] = "invalid_target_sha"
+              finish(2)
+
+          body = json.dumps({
+              "model": MODEL,
+              "messages": [{"role": "user", "content": "Reply with OK."}],
+              "max_tokens": MAX_OUTPUT_TOKENS,
+              "stream": False,
+              "thinking": {"type": "disabled"},
+          }, separators=(",", ":")).encode("utf-8")
+          request = urllib.request.Request(
+              "https://api.deepseek.com/chat/completions",
+              data=body,
+              headers={
+                  "Authorization": "Bearer " + key,
+                  "Content-Type": "application/json",
+                  "Accept": "application/json",
+              },
+              method="POST",
+          )
+
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+
+          # One POST only: no retries, no model discovery, no fallback, no redirects.
+          opener = urllib.request.build_opener(NoRedirect)
+          evidence["request_count"] = 1
+          try:
+              with opener.open(request, timeout=20) as response:
+                  evidence["http_status"] = int(response.status)
+                  payload = json.loads(response.read().decode("utf-8"))
+          except urllib.error.HTTPError as exc:
+              evidence["http_status"] = int(exc.code)
+              evidence["reason"] = "http_error"
+              finish(1)
+          except (urllib.error.URLError, TimeoutError, OSError):
+              evidence["reason"] = "network_or_timeout_error"
+              finish(1)
+          except (UnicodeDecodeError, json.JSONDecodeError):
+              evidence["reason"] = "invalid_json_response"
+              finish(1)
+
+          usage = payload.get("usage")
+          choices = payload.get("choices")
+          if not isinstance(usage, dict) or not isinstance(choices, list) or not choices:
+              evidence["reason"] = "response_missing_usage_or_choice"
+              finish(1)
+          try:
+              prompt_tokens = int(usage["prompt_tokens"])
+              completion_tokens = int(usage["completion_tokens"])
+          except (KeyError, TypeError, ValueError):
+              evidence["reason"] = "invalid_usage_fields"
+              finish(1)
+          evidence["prompt_tokens"] = prompt_tokens
+          evidence["completion_tokens"] = completion_tokens
+          evidence["total_tokens"] = int(usage.get("total_tokens", prompt_tokens + completion_tokens))
+          evidence["request_id"] = str(payload.get("id", ""))[:160]
+          evidence["estimated_cost_usd"] = round(
+              (prompt_tokens * 0.30 + completion_tokens * 1.20) / 1_000_000, 9
+          )
+
+          choice = choices[0] if isinstance(choices[0], dict) else {}
+          message = choice.get("message", {}) if isinstance(choice, dict) else {}
+          content = message.get("content") if isinstance(message, dict) else None
+          if evidence["http_status"] != 200 or not isinstance(content, str) or not content.strip():
+              evidence["reason"] = "inference_response_not_usable"
+              finish(1)
+          if completion_tokens > MAX_OUTPUT_TOKENS:
+              evidence["reason"] = "output_token_limit_exceeded"
+              finish(1)
+          if evidence["estimated_cost_usd"] > BUDGET_USD:
+              evidence["reason"] = "estimated_cost_exceeds_budget"
+              finish(1)
+
+          evidence["status"] = "PASS"
+          evidence["reason"] = "single_inference_response_validated"
+          finish(0)
+          PY
+
+      - name: Upload sanitized evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deepseek-one-shot-probe-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .probe-evidence/deepseek-probe.json
+          if-no-files-found: warn
+          retention-days: 7
