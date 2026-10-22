@@ -65,3 +65,9 @@ The Gemini estimate assumes historical transport and prior successful child exec
 - Overall Contour A acceptance: **NOT ACCEPTED**.
 
 No secret values were read. No workflow was dispatched, no host service started, no local model invoked, and no browser task repeated during this pass.
+
+
+## Wave 352 follow-up — live SentinelX reconnect result (2026-10-22)
+
+- SentinelX host registry lists `Voktors-Mini.Dlink`, host ID `host_5f7264034bdf0b51`, agent `0.22.0`, connected timestamp `2026-10-22T09:08:33.511522+00:00`, operational=true at list time. Bounded `sentinel_ping` and `sentinel_capabilities(detail=summary)` then both failed `agent_disconnected / read_loop_ended` (hub request IDs `hreq_15ae01dc4214449a` and `hreq_9744f2fb60854759`). This establishes registry presence but not an executable live session. No runtime commands or model calls were made.
+- Updated local lane estimate remains 0.5–1.5 active hours after reconnection; current access failure may add external waiting. Do not reinstall or change allowlists based on this result.
