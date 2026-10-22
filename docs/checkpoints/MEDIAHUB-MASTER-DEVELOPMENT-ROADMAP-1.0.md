@@ -5363,3 +5363,10 @@ Status: **OWNER-DIRECTED TARGET REQUIREMENT / GOVERNANCE, IMPLEMENTATION AND RUN
 - Current SentinelX read-only attempt disconnected; no model invocation or host mutation. Retrieve exact prior successful Actions run/artifact IDs before deciding which local checks truly need rerunning.
 - PR #443 merged; tested PR-head contract validation, controller no-secret probe, Astra Verify and Cloud Runtime Validation succeeded; no child Gemini runs were dispatched. PR #437 remains open with CI/review NOT VERIFIED. No current Gemini batch, no secret access, no acceptance.
 - Evidence: [Wave 350 report](MEDIAHUB-NEXT-HISTORICAL-CLAUDE-OLLAMA-EVIDENCE-RECONCILIATION-WAVE-350-2026-10-22.md), [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-CLAUDE-OLLAMA-WAVE-350-2026-10-22.md), [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Wave 367 — FCC Admin UI remote-access qualification (2026-10-22)
+
+- Tracker: [Issue #499 — Qualify safe remote access to the existing FCC Admin UI](https://github.com/VlDMlNSh/mediahub-os/issues/499). Report candidate: [Wave 367 FCC Admin UI remote-access qualification](MEDIAHUB-FCC-ADMIN-UI-REMOTE-ACCESS-QUALIFICATION-WAVE-367-2026-10-22.md); map addendum candidate: [Wave 367 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-FCC-ADMIN-UI-WAVE-367-2026-10-22.md).
+- Source audit: FCC upstream main commit `3d2ae2306752dbdf504714a5489bcfcf69b2d04a`; Admin security blob `f389104b5f53ba4d505433dfeace1423c3ae3088`; Admin routes blob `fa2abc40bb7841027de43592050126ce7869053f`. The Admin UI/API enforce loopback-only access; remote access/deployment is **BLOCKED / NOT QUALIFIED** as-is. Preserve upstream guard; do not expose port 8082 or create a replacement UI.
+- Relation to #301/#296: a persistent remote Admin UI is distinct from GitHub-hosted ephemeral worker execution and requires separate hosting, secret persistence, egress and security qualification. No tests, deployment, provider/model calls, secret access, merge or acceptance were performed.
