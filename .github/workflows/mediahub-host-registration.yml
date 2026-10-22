@@ -1,0 +1,23 @@
+name: MediaHub host registration
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".mediahub/hosts/*.json"
+      - "contracts/astra/host-registration.schema.json"
+      - "tools/validate_host_registration.py"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate host registrations
+        run: python3 tools/validate_host_registration.py

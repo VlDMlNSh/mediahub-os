@@ -1,0 +1,19 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://mediahub.local/contracts/astra/astra-task.schema.json",
+  "title":"MediaHub Astra Task",
+  "type":"object",
+  "additionalProperties":false,
+  "properties":{
+    "schema_id":{"const":"mediahub.ai.astra-task"},
+    "schema_version":{"type":"string","const":"1.0.0"},
+    "owner":{"type":"string","const":"mediahub-ai"},
+    "request_id":{"type":"string","minLength":1},
+    "session_id":{"type":"string","minLength":1},
+    "user_command":{"type":"string","minLength":1},
+    "context_refs":{"type":"array","items":{"type":"string"}},
+    "approval_state":{"enum":["not_required","pending","approved","rejected"]},
+    "client":{"type":"object","additionalProperties":false,"properties":{"platform":{"type":"string"},"version":{"type":"string"}}}
+  },
+  "required":["schema_id","schema_version","owner","request_id","session_id","user_command","approval_state"]
+}

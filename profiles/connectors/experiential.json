@@ -1,0 +1,14 @@
+{
+  "schema_id": "mediahub.connector.experiential",
+  "schema_version": "1.0.0",
+  "id": "experiential",
+  "enabled": true,
+  "tier": "local",
+  "capabilities": ["routing", "openai_compatible"],
+  "endpoint": "http://127.0.0.1:8000/v1",
+  "upstream": "local-first",
+  "credential_source": "runtime-only",
+  "credentials_in_repository": false,
+  "cloud_credentials_in_host": false,
+  "paid_resource_provisioning": "disabled"
+}

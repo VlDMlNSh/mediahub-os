@@ -1,0 +1,8 @@
+{
+  "schema_id": "mediahub.ai.astra-ui-state-machine",
+  "schema_version": "1.0.0",
+  "states": ["idle", "submitting", "planning", "executing", "awaiting_approval", "validating", "completed", "failed"],
+  "terminal_states": ["completed", "failed"],
+  "approval_transition": "executing -> awaiting_approval -> executing",
+  "default_entry": "idle"
+}

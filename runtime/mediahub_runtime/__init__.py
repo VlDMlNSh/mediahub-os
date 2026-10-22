@@ -1,7 +1,32 @@
 """MediaHub OS runtime foundation."""
 
-from .authorization import AuthorizationContext, AuthorizationDecision, AuthorizationPolicy
-from .consumer_boundary import ConsumerBoundary, ConsumerBoundaryError, ConsumerTransaction, OperationRequest
+from .cloud_orchestrator import (
+    CloudFirstOrchestrator,
+    CloudOrchestratorError,
+    OrchestrationDecision,
+    ProviderRoute,
+)
+from .astra_gateway import (
+    AgentRegistry,
+    AstraEvent,
+    AstraEvidence,
+    AstraGatewayError,
+    AstraGatewayRuntime,
+    AstraTaskRequest,
+    AstraTaskResult,
+    OllamaExecutor,
+)
+from .authorization import (
+    AuthorizationContext,
+    AuthorizationDecision,
+    AuthorizationPolicy,
+)
+from .consumer_boundary import (
+    ConsumerBoundary,
+    ConsumerBoundaryError,
+    ConsumerTransaction,
+    OperationRequest,
+)
 from .coordination_service import (
     CoordinationRequest,
     CoordinationResult,
@@ -33,12 +58,47 @@ from .lifecycle import LifecycleState, LifecycleStateMachine
 from .lifecycle_service import LifecycleRequest, LifecycleService
 from .proposals import Proposal, ProposalAuthority
 from .state import StateAuthority
+from .task_ingress import FileTaskIngress, TaskIngressError, task_to_contract
+from .harness import HarnessError, HarnessPolicy, HarnessResult, MediaHubHarness
+from .worker_router import ClaudeCodeWorker, WorkerDecision, WorkerRouter, WorkerRouterError
+from .task_queue import FileTaskQueue, QueueLease, TaskQueueError
+from .lineage import LineageError, TaskEvidenceLineage, canonical_json, sha256_json
+from .autonomous_task import (
+    AutonomousEvidence,
+    AutonomousTaskError,
+    AutonomousTaskPolicy,
+    AutonomousTaskResult,
+    BoundedAutonomousTask,
+)
 
 __all__ = [
+    "AgentRegistry",
+    "AstraEvent",
+    "AstraEvidence",
+    "AstraGatewayError",
+    "AstraGatewayRuntime",
+    "AstraTaskRequest",
+    "AstraTaskResult",
     "AuthorizationContext",
     "AuthorizationDecision",
-    "AuthorizationPolicy",
     "AuthorizationDenied",
+    "AuthorizationPolicy",
+    "FileTaskQueue",
+    "QueueLease",
+    "TaskQueueError",
+    "LineageError",
+    "TaskEvidenceLineage",
+    "canonical_json",
+    "sha256_json",
+    "AutonomousEvidence",
+    "AutonomousTaskError",
+    "AutonomousTaskPolicy",
+    "AutonomousTaskResult",
+    "BoundedAutonomousTask",
+    "ClaudeCodeWorker",
+    "WorkerDecision",
+    "WorkerRouter",
+    "WorkerRouterError",
     "CanonicalState",
     "Checkpoint",
     "ConsumerBoundary",
@@ -49,8 +109,13 @@ __all__ = [
     "CoordinationServiceError",
     "DiagnosticEvent",
     "ExpiredProposal",
+    "FileTaskIngress",
     "Generation",
     "GenerationMismatch",
+    "HarnessError",
+    "HarnessPolicy",
+    "HarnessResult",
+    "MediaHubHarness",
     "InMemoryStateAuthority",
     "IntegrityFailure",
     "InvalidCheckpoint",
@@ -61,6 +126,11 @@ __all__ = [
     "LifecycleState",
     "LifecycleStateMachine",
     "MalformedState",
+    "OllamaExecutor",
+    "CloudFirstOrchestrator",
+    "CloudOrchestratorError",
+    "OrchestrationDecision",
+    "ProviderRoute",
     "OperationRequest",
     "Proposal",
     "ProposalAuthority",
@@ -69,8 +139,15 @@ __all__ = [
     "SelfTestFailure",
     "StaleTransaction",
     "StateAuthority",
+    "TaskIngressError",
+    "TinyFishConnector",
+    "TinyFishConnectorError",
+    "TinyFishRun",
     "Transaction",
     "make_event",
     "sanitize_fields",
+    "task_to_contract",
     "validate_generation_compatibility",
 ]
+
+from .connectors import TinyFishConnector, TinyFishConnectorError, TinyFishRun

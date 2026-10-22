@@ -45,7 +45,7 @@ class LifecycleStateMachine:
         allowed = _TRANSITIONS.get(self._state, set())
         if target not in allowed:
             raise InvalidStateTransition(
-                "transition {} -> {} is not permitted".format(self._state.value, target.value)
+                f"transition {self._state.value} -> {target.value} is not permitted"
             )
         self._state = target
         return self._state

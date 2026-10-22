@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://contracts/astra/host-registration.schema.json",
+  "title": "MediaHub Host Registration",
+  "description": "Location-independent host registration mediated by GitHub.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {"type": "string", "const": "mediahub.astra.host-registration"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "owner": {"type": "string", "const": "mediahub-ai"},
+    "registration_id": {"type": "string", "minLength": 1},
+    "host_id": {"type": "string", "minLength": 1},
+    "repo": {"type": "string", "minLength": 1},
+    "transport": {"enum": ["github_poll", "github_actions"]},
+    "approval_state": {"enum": ["pending", "approved"]},
+    "location_binding": {"const": "none"},
+    "credentials_in_repository": {"const": false}
+  },
+  "required": [
+    "schema_id", "schema_version", "owner", "registration_id",
+    "host_id", "repo", "transport", "approval_state"
+  ]
+}

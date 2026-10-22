@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mediahub://contracts/astra/cloud-service-registration.schema.json",
+  "title": "MediaHub Cloud Service Registration",
+  "description": "Non-secret registration intent executed through GitHub.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {"type": "string", "const": "mediahub.astra.cloud-service-registration"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "owner": {"type": "string", "const": "mediahub-ai"},
+    "registration_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,128}$"},
+    "provider_id": {"type": "string", "minLength": 1},
+    "auth_method": {"enum": ["github_oidc", "github_secret"]},
+    "github_environment": {"type": "string", "minLength": 1},
+    "approval_state": {"enum": ["pending", "approved"]},
+    "paid_resources": {"type": "boolean", "const": false}
+  },
+  "required": [
+    "schema_id", "schema_version", "owner", "registration_id",
+    "provider_id", "auth_method", "github_environment",
+    "approval_state", "paid_resources"
+  ]
+}

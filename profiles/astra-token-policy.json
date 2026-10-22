@@ -1,0 +1,17 @@
+{
+  "schema_id": "mediahub.ai.astra-token-policy",
+  "schema_version": "1.0.0",
+  "objective": "minimize_token_and_context_cost",
+  "default_model": "qwen2.5-coder:3b",
+  "max_output_tokens": 1200,
+  "max_context_tokens": 12000,
+  "temperature": 0.1,
+  "reasoning_mode": "minimal",
+  "summary_before_handoff": true,
+  "deduplicate_context": true,
+  "send_only_relevant_files": true,
+  "reuse_cached_results": true,
+  "prefer_tools_over_prose": true,
+  "stop_on_acceptance": true,
+  "escalation_policy": "only_when_local_insufficient"
+}

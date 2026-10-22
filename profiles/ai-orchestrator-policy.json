@@ -1,0 +1,19 @@
+{
+  "schema_id": "mediahub.ai.orchestrator-policy",
+  "schema_version": "1.0.0",
+  "mode": "cloud_first",
+  "human_approval_required_for": [
+    "host_install",
+    "credential_change",
+    "production_deploy",
+    "destructive_action"
+  ],
+  "default_execution": "cloud_orchestrator",
+  "external_providers": "enabled_if_credentialed",
+  "local_providers": "extension",
+  "least_privilege": true,
+  "audit_all_tasks": true,
+  "max_parallel_agents": 2,
+  "require_evidence": true,
+  "fail_closed": true
+}

@@ -1,9 +1,9 @@
 """Deterministic in-memory State Authority implementation for P0-04."""
 
-from dataclasses import dataclass, field
-from types import MappingProxyType
 import math
 import threading
+from dataclasses import dataclass, field
+from types import MappingProxyType
 
 from .authorization import AuthorizationContext, AuthorizationPolicy
 from .errors import AuthorizationDenied, GenerationMismatch, RuntimeInvariantError
@@ -149,7 +149,14 @@ class InMemoryStateAuthority(StateAuthority):
     OP_SNAPSHOT = "snapshot"
     OP_RESTORE = "restore"
 
-    def __init__(self, generation, initial_payload=None, authorization_policy=None, integrity_validator=None, self_test=None):
+    def __init__(
+        self,
+        generation,
+        initial_payload=None,
+        authorization_policy=None,
+        integrity_validator=None,
+        self_test=None,
+    ):
         if not isinstance(generation, Generation):
             raise TypeError("generation must be a Generation")
         initial_payload = {} if initial_payload is None else initial_payload
@@ -157,16 +164,22 @@ class InMemoryStateAuthority(StateAuthority):
         try:
             initial_version = int(generation.state_version)
         except (TypeError, ValueError) as exc:
-            raise ValueError("generation.state_version must be an integer string") from exc
+            raise ValueError(
+                "generation.state_version must be an integer string"
+            ) from exc
         if initial_version < 0:
             raise ValueError("generation.state_version must be non-negative")
         self._policy = authorization_policy or AuthorizationPolicy()
-        self._integrity_validator = integrity_validator or (lambda payload, _generation: True)
+        self._integrity_validator = integrity_validator or (
+            lambda payload, _generation: True
+        )
         self._self_test = self_test or (lambda payload, _generation: True)
         self._validate_integrity(initial_payload, generation)
         self._generation = generation
         self._state_version = initial_version
-        self._canonical = CanonicalState(_freeze(initial_payload), generation, initial_version, True)
+        self._canonical = CanonicalState(
+            _freeze(initial_payload), generation, initial_version, True
+        )
         self._transactions = {}
         self._next_transaction_id = 1
         self._next_checkpoint_id = 1
@@ -198,7 +211,12 @@ class InMemoryStateAuthority(StateAuthority):
         with self._lock:
             payload = self._canonical.payload
             if key is None:
-                return CanonicalState(payload, self._canonical.generation, self._state_version, self._canonical.integrity_valid)
+                return CanonicalState(
+                    payload,
+                    self._canonical.generation,
+                    self._state_version,
+                    self._canonical.integrity_valid,
+                )
             if not isinstance(key, str) or not isinstance(payload, MappingProxyType):
                 raise KeyError(key)
             return payload[key]
@@ -208,9 +226,15 @@ class InMemoryStateAuthority(StateAuthority):
             self._authorize(context, self.OP_BEGIN)
             candidate = _thaw(self._canonical.payload) if payload is None else payload
             _validate_value(candidate)
-            transaction_id = "tx-{}".format(self._next_transaction_id)
+            transaction_id = f"tx-{self._next_transaction_id}"
             self._next_transaction_id += 1
-            tx = Transaction(transaction_id, context, self._generation, self._state_version, candidate)
+            tx = Transaction(
+                transaction_id,
+                context,
+                self._generation,
+                self._state_version,
+                candidate,
+            )
             self._transactions[transaction_id] = tx
             return tx
 
@@ -225,9 +249,17 @@ class InMemoryStateAuthority(StateAuthority):
             self._authorize(transaction._context, self.OP_COMMIT)
             if transaction._generation.generation_id != self._generation.generation_id:
                 raise GenerationMismatch("transaction generation is stale")
-            if transaction._generation.binary_version != self._generation.binary_version:
-                raise GenerationMismatch("transaction binary generation is incompatible")
-            if transaction._generation.schema_version != self._generation.schema_version:
+            if (
+                transaction._generation.binary_version
+                != self._generation.binary_version
+            ):
+                raise GenerationMismatch(
+                    "transaction binary generation is incompatible"
+                )
+            if (
+                transaction._generation.schema_version
+                != self._generation.schema_version
+            ):
                 raise GenerationMismatch("transaction schema is incompatible")
             if transaction._state_version != self._state_version:
                 raise StaleTransaction("transaction targets stale canonical revision")
@@ -243,7 +275,9 @@ class InMemoryStateAuthority(StateAuthority):
                 str(new_version),
                 self._generation.integrity_reference,
             )
-            new_canonical = CanonicalState(_freeze(candidate), new_generation, new_version, True)
+            new_canonical = CanonicalState(
+                _freeze(candidate), new_generation, new_version, True
+            )
             self._canonical = new_canonical
             self._generation = new_generation
             self._state_version = new_version
@@ -257,21 +291,21 @@ class InMemoryStateAuthority(StateAuthority):
                 raise InvalidTransaction("invalid transaction")
             if self._transactions.get(transaction.transaction_id) is not transaction:
                 if transaction.status == Transaction.ABORTED:
-                    return None
+                    return
                 raise InvalidTransaction("unknown transaction")
             if transaction.status != Transaction.ACTIVE:
-                return None
+                return
             self._authorize(transaction._context, self.OP_ABORT)
             transaction._status = Transaction.ABORTED
             self._transactions.pop(transaction.transaction_id, None)
-            return None
+            return
 
     def snapshot(self, context):
         with self._lock:
             self._authorize(context, self.OP_SNAPSHOT)
             state = self._canonical
             checkpoint = Checkpoint(
-                checkpoint_id="cp-{}".format(self._next_checkpoint_id),
+                checkpoint_id=f"cp-{self._next_checkpoint_id}",
                 payload=state.payload,
                 generation=state.generation,
                 state_version=state.state_version,
@@ -284,17 +318,29 @@ class InMemoryStateAuthority(StateAuthority):
     def restore(self, snapshot_reference, context):
         with self._lock:
             self._authorize(context, self.OP_RESTORE)
-            if not isinstance(snapshot_reference, Checkpoint) or snapshot_reference._authority_token is not self._authority_token:
+            if (
+                not isinstance(snapshot_reference, Checkpoint)
+                or snapshot_reference._authority_token is not self._authority_token
+            ):
                 raise InvalidCheckpoint("checkpoint is not owned by this authority")
             if not snapshot_reference.integrity_valid:
                 raise InvalidCheckpoint("checkpoint integrity is invalid")
             candidate = _thaw(snapshot_reference.payload)
             _validate_value(candidate)
-            if snapshot_reference.generation.generation_id != self._generation.generation_id:
+            if (
+                snapshot_reference.generation.generation_id
+                != self._generation.generation_id
+            ):
                 raise GenerationMismatch("checkpoint generation is incompatible")
-            if snapshot_reference.generation.binary_version != self._generation.binary_version:
+            if (
+                snapshot_reference.generation.binary_version
+                != self._generation.binary_version
+            ):
                 raise GenerationMismatch("checkpoint binary generation is incompatible")
-            if snapshot_reference.generation.schema_version != self._generation.schema_version:
+            if (
+                snapshot_reference.generation.schema_version
+                != self._generation.schema_version
+            ):
                 raise GenerationMismatch("checkpoint schema is incompatible")
             self._validate_integrity(candidate, snapshot_reference.generation)
             self._run_self_test(candidate, snapshot_reference.generation)
@@ -307,7 +353,9 @@ class InMemoryStateAuthority(StateAuthority):
                 str(new_version),
                 self._generation.integrity_reference,
             )
-            self._canonical = CanonicalState(_freeze(candidate), new_generation, new_version, True)
+            self._canonical = CanonicalState(
+                _freeze(candidate), new_generation, new_version, True
+            )
             self._generation = new_generation
             self._state_version = new_version
             return self.read()

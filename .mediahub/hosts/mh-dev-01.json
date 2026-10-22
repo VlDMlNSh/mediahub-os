@@ -1,0 +1,11 @@
+{
+  "schema_id": "mediahub.astra.host-registration",
+  "schema_version": "1.0.0",
+  "registration_id": "mh-dev-01-github",
+  "host_id": "ce4e0915-3e19-4fb8-a73a-88b3c33c12ac",
+  "repo": "VlDMlNSh/mediahub-os",
+  "transport": "github_poll",
+  "approval_state": "approved",
+  "location_binding": "none",
+  "credentials_in_repository": false
+}
