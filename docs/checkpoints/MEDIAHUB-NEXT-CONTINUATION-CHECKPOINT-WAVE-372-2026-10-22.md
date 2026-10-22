@@ -69,3 +69,11 @@ Reconcile the controller and child run terminal states, fetch each job's logs/ar
 - Parent controller [39794162629](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162629) is still `IN PROGRESS`; no terminal monitor result. Astra control-plane [39794162713](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162713) is `SKIPPED`.
 - Exact-head CI/reviews for #462, #463 and #465 are `NOT VERIFIED`. Do not merge or accept these reports without independent review.
 - Separate PR [#466](https://github.com/VlDMlNSh/mediahub-os/pull/466) has a stale/conflicting statement that the current dispatch did not run; the run IDs above prove it did.
+
+
+## Latest poll at 14:28:29Z
+
+- Agent 1 `39794196387` and Agent 2 `39794199351` are `completed/success`; Agent 3 `39794202994` and controller `39794162629` remain `in_progress`.
+- The controller has not yet published a terminal monitor conclusion. Do not call the whole batch complete.
+- PR #466 is a separate parallel Wave 372 governance pass; reconcile its pass-specific no-dispatch statement with this invocation's run evidence before merging docs.
+- Exact-head CI and formal reviews remain NOT VERIFIED for #462/#463/#465/#464.
