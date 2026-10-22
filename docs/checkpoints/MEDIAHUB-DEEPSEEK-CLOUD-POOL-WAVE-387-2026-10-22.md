@@ -60,3 +60,11 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 A live official-docs check found the repository registry still listed `deepseek-chat` and `deepseek-reasoner`, which are legacy model aliases according to the provider changelog. The current documented model ID for DeepSeek-V4.1-Flash-1017 is `deepseek-flash`; the provider labels this a paid API and pricing varies by peak/off-peak time. Sources: [official model/pricing page](https://api-docs.deepseek.com/quick_start/pricing/) and [official changelog](https://api-docs.deepseek.com/updates/?release=deepseek-coder).
 
 A separate source-bound fix is proposed in [PR #489](https://github.com/VlDMlNSh/mediahub-os/pull/489): provider registry model list and cost classification refresh plus a regression test. The branch read-back confirmed the retired aliases are absent and the expected new model/cost metadata are present. Exact-head status/workflow-run queries returned empty lists; CI remains **NOT VERIFIED**. PR #489 is open, draft, unmerged. The focused test has not been executed in this session.
+
+
+## CI refresh after PR #489 opened
+
+- PR #489 exact head: `219724adc95f24fbb74a36e4816ffd44e8638892` (open, draft, unmerged).
+- Astra Cloud Runtime Validation run [39840474749](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39840474749): **SUCCESS**; job `120039845740`, contract validation and cloud runtime tests completed successfully.
+- Astra Verify run [39840474441](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39840474441): **IN PROGRESS** at last read; job `120039843941`, still installing test dependencies; compile, cloud admission unit tests and signed-command smoke test were pending. The focused DeepSeek registry test is therefore **not yet verified as executed**.
+- Combined status endpoint returned an empty list, so it is not treated as a pass. No provider secret was used and no live DeepSeek inference was run.
