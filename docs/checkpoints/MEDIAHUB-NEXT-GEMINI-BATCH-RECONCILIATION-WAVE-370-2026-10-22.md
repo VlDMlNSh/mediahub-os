@@ -4,7 +4,7 @@
 
 - Current controller /next trigger: **SKIPPED** — run [39788703140](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39788703140), event issue_comment, head b33ab31674bfa9595a8f2ba5a570dbc1eb3686b2; all four jobs skipped; no artifacts or child runs created by this trigger.
 - Prior authorized batch: dispatched by controller run [39786556843](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39786556843), immutable target SHA 1c22d82c1750aebe0c5571e088d9c0adc012c42f.
-- Controller dispatch_and_monitor remained **IN_PROGRESS** at the latest check. Do not launch a duplicate batch until this run reaches a terminal state or a bounded diagnosis establishes why it is stuck.
+- Controller run 39786556843 is confirmed **completed / success** (updated 2026-10-22T13:52:57Z); dispatch_and_monitor job 119851241260 completed / success. All three child workflows are terminal; no duplicate dispatch is warranted.
 - Main HEAD last verified: b33ab31674bfa9595a8f2ba5a570dbc1eb3686b2.
 
 ## Child execution evidence
@@ -13,7 +13,7 @@
 |---|---|---|---|
 | Gemini Agent 1 — bounded engineering | [39786584867](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39786584867), completed / success | Artifact 12429324714, gemini-output, SHA-256 6019768aab1e05c609d98586be54c6983449361e119f2422b3c8ea5fd2d8edda | PR [#458](https://github.com/VlDMlNSh/mediahub-os/pull/458), routing governance fix |
 | Gemini Agent 2 — contract/test verification | [39786587768](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39786587768), completed / success | Artifact 12431110067, gemini-output, SHA-256 b83cf3569c46a8d1d27e296844c49ab659ba5ce47eb5125500c4b4ad85a4f8b5 | PR [#457](https://github.com/VlDMlNSh/mediahub-os/pull/457), evidence report |
-| Gemini Agent 3 — security/provenance audit | [39786592525](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39786592525), workflow remains in_progress although both listed jobs completed / success | Artifact 12429865886, gemini-output, SHA-256 df8b0dabeb29166ff69d2e7099dad25ce219182e6c7602d1402e75dbb2ef424c | PR [#456](https://github.com/VlDMlNSh/mediahub-os/pull/456), audit report |
+| Gemini Agent 3 — security/provenance audit | [39786592525](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39786592525), completed / success; both listed jobs completed / success | Artifact 12429865886, gemini-output, SHA-256 df8b0dabeb29166ff69d2e7099dad25ce219182e6c7602d1402e75dbb2ef424c | PR [#456](https://github.com/VlDMlNSh/mediahub-os/pull/456), audit report |
 
 Child signature-verification jobs completed successfully. Artifact presence and a successful task job are not, by themselves, proof of independent acceptance. Gemini outputs showed intermittent provider 503 responses; this remains a reliability limitation.
 
@@ -33,10 +33,10 @@ Claude-fcc-Ollama and agent-browser on Voktors-Mini.Dlink remain **NOT RUN / NOT
 
 ## Next bounded step
 
-1. Reconcile why controller run 39786556843 is still in_progress although Agents 1 and 2 are complete and Agent 3's listed jobs are complete.
-2. Confirm Agent 3's terminal workflow status and collect/inspect the three output artifacts for actionable content, not only metadata.
-3. Keep PR #458 as the priority routing-governance fix; verify branch protection/review requirements through an authorized route before merge.
-4. Do not dispatch a second batch until the existing controller run has a verified terminal state.
+1. Controller and all three child workflows are terminal `completed/success`; do not repeat the dispatch.
+2. Artifact metadata and report files were inspected. Agent 1 produced routing-governance code changes in PR #458; Agents 2 and 3 produced evidence-only reports in #457 and #456.
+3. PR #458 exact-head SHA `afd6dcd901da44b4cdb5d155f96dce172adb3c55` has five checks completed/success. PRs #456 and #457 still have zero check-runs returned for their exact heads, so CI remains NOT VERIFIED.
+4. Continue independent code/contract review and verify branch-protection/review requirements through an authorized route before merge.
 
 ## Canonical references
 
