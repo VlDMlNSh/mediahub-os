@@ -2361,3 +2361,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 
 - Registry listed `Voktors-Mini.Dlink` (`host_5f7264034bdf0b51`, agent 0.22.0) operational, but both bounded ping and summary capabilities returned `agent_disconnected/read_loop_ended`. Current command-channel availability is **NOT VERIFIED**; no shell command/model invocation attempted. Reuse existing local implementation after reconnection; no reinstall or allowlist changes.
 - Updated report: [Wave 352](MEDIAHUB-NEXT-OMNIROUTE-CLAUDE-RUNTIME-AND-GEMINI-EFFORT-WAVE-352-2026-10-22.md). Estimate remains Gemini 1.5–3.5 h expected (4–6 h contingency), local Claude lane 0.5–1.5 h after reconnect, combined 2–5 h expected; see report for scope.
+
+
+## Wave 353 — exact-head Gemini gate refresh (2026-10-22)
+
+- Report: [Wave 353 — exact-head gate refresh](MEDIAHUB-NEXT-EXACT-HEAD-GEMINI-GATE-REFRESH-WAVE-353-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #437 head remains `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; exact-head status query returned no statuses and formal review list returned no reviews. Retained comment states exact-head CI unverified. PR metadata says `draft=false` despite title prefix `[Draft]`; do not interpret that as review approval.
+- Rechecked historical run jobs: 39748357460 validation success; 39748357615 no-secret probe success while `dispatch_and_monitor` and batch-admission were skipped; 39748357515 Astra Verify success; 39748357531 Cloud Runtime Validation success. These are recorded prior runs, not proven exact-head PR #437 checks.
+- PR #443 remains merged at `909d2ba6caeb2a84508978925126a074f3a934da`. No controller dispatch: exact-head CI/review gates remain NOT VERIFIED. Current controller file blob on main `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`.
+- Current Gemini batch **NOT RUN**; local Claude channel remains **NOT VERIFIED** after SentinelX disconnection; Contour A **NOT ACCEPTED**.
