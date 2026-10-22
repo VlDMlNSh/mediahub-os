@@ -1,3 +1,11 @@
+## Wave 394 — Gemini controller gate reconciliation (2026-10-22)
+
+- Report: [Wave 394 controller gate reconciliation](../checkpoints/MEDIAHUB-NEXT-GEMINI-CONTROLLER-GATE-RECONCILIATION-WAVE-394-2026-10-22.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-394-2026-10-22.md); [checkpoint addendum](../checkpoints/mediahub-next-continuation-checkpoint-wave-394-2026-10-22.md).
+- Main SHA `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; controller blob `28874450099e70b0f9d276600e6452c1b8e1b1a6`. Three child workflows still expose `workflow_dispatch`, and controller source POSTs REST workflow-dispatch requests. Current main therefore does not satisfy approved Option B's workflow_call-only contract.
+- PR #441 remains open/non-mergeable, formal reviews empty, exact-head checks/status NOT VERIFIED. Gemini dispatch NOT RUN; Contour A NOT ACCEPTED.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](../checkpoints/MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [continuation checkpoint addendum](../checkpoints/mediahub-next-continuation-checkpoint-wave-392-2026-10-22.md).
