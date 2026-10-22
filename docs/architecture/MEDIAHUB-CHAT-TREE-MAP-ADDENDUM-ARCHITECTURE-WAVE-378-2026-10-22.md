@@ -6,8 +6,8 @@
 - Canonical documentation branch at authoring start: `937b6fa164d0e89e5e5781bf8c236e4fb862ad56`
 
 ## New architecture record
-- [Owner Architecture Decisions and Consolidated Target Design](MEDIAHUB-OWNER-ARCHITECTURE-DECISIONS-AND-TARGET-DESIGN-2026-10-22.md)
-- [Wave 378 consolidation report](../checkpoints/MEDIAHUB-ARCHITECTURE-CONSOLIDATION-CHAT-WAVE-378-2026-10-22.md)
+- [Owner Architecture Decisions and Consolidated Target Design](MEDIAHUB-OWNER-ARCHITECTURE-DECISIONS-WAVE-378-2026-10-22.md)
+- [Wave 378 consolidation report](../checkpoints/MEDIAHUB-OWNER-ARCHITECTURE-CONSOLIDATION-WAVE-378-2026-10-22.md)
 
 ## Owner-confirmed choices
 - Strict local-first privacy; user media and detailed local logs remain on user-owned nodes unless a task-specific external transfer is explicitly authorized.
