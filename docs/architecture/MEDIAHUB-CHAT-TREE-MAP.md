@@ -1,3 +1,14 @@
+## Wave 346 — recurring /next orchestration effort estimate (2026-10-22)
+
+- Report: [Recurring agent readiness and effort estimate](MEDIAHUB-NEXT-RECURRING-AGENT-READINESS-AND-EFFORT-ESTIMATE-WAVE-346-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Estimated engineering effort to reach the first repeatable qualified cycle with three Gemini children plus separate local Ollama/Claude/browser executor: **12–25 hours**, excluding prolonged external review/quota waits. Optimistic **4–8 hours** applies only if CI/review/governance/probe all pass and SentinelX recovers without changes. Calendar estimate: **1–3 working days** with timely access/review. Steady-state triage estimate after qualification: **5–15 minutes per /next**, plus asynchronous agent execution; not yet measured.
+- Current blockers unchanged: PR #437 and #441 exact-head CI/review NOT VERIFIED; trusted-main no-secret probe and effective token scope/governance NOT VERIFIED; SentinelX `host_5f7264034bdf0b51` ping/capabilities recently failed `agent_disconnected/read_loop_ended`. Owner-reported GitHub settings already recorded; do not ask owner to repeat.
+- Controller defines three role-specific children and an owner-only exact `/next` Issue #301 trigger, but no workflow/child runs were launched. Posting that trigger before gates pass could dispatch the real batch, so it was not posted. Available connected GitHub tools do not expose a workflow-dispatch write operation.
+- No tests, dispatch, local executor job, merge, deployment, qualification or acceptance in this pass. **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
+- Acceptance for recurring operation: immutable target SHA; controller + three child IDs; terminal states, reports/digests; evidence of real bounded work; independent review/exact-head CI; separate local executor session/route without paid fallback; read-back documentation SHA; fail-closed handling of unknown/failed gates.
+
+---
+
 ## Wave 345 — exact-head evidence and Gemini transport audit (2026-10-22)
 
 - Report: [Wave 345 exact-head and transport audit](MEDIAHUB-NEXT-EXACT-HEAD-AND-TRANSPORT-AUDIT-WAVE-345-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
