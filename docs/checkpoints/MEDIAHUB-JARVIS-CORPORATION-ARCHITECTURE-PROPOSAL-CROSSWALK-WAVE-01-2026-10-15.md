@@ -5,6 +5,7 @@
 - Documentation ref: `docs/mediahub-chat-tree-map-20261012`
 - Functional authority: accepted Functional Baseline 2.0 on `main`; Baseline 1.0 remains historical.
 - Purpose: reconcile the two owner-supplied architecture messages with current repository sources, record overlaps/gaps/conflicts and preserve the proposals as proposals. This document does not approve a new architecture, select implementations, grant permissions, or qualify runtime behavior.
+- **Wave 364 identity correction (2026-10-22): Alamo is hosted on `Voktors-Mini.Dlink` (macOS), not Mac Pro. Mac Pro remains a separate central-infrastructure target. Runtime/API/provider qualification remains open; this is a host-identity correction only.**
 
 ## 1. Executive finding
 
@@ -50,11 +51,11 @@ A Claude Code CLI on a node does not prove which backend serves it, whether its 
 
 ### 3.2 Node placement is a target, not observed deployment
 
-The proposal names Mac Pro 2013, Mac mini 2011/Linux, MacBook and mobile clients. Existing distributed architecture describes the Mac Pro as central target, Mac mini as worker and MacBook as client. Wave 02 inventory only reports two online nodes in that bounded inventory and CLI observations for two nodes; it does not establish the proposed complete three-computer deployment. The MacBook presence/configuration is not verified by this pass.
+The proposal names Mac Pro 2013, Mac mini 2011/Linux, MacBook and mobile clients. Existing distributed architecture describes the Mac Pro as central target, Mac mini as worker and MacBook as client; the owner has clarified that Alamo itself is hosted on Voktors-Mini.Dlink. Wave 02 inventory only reports two online nodes in that bounded inventory and CLI observations for two nodes; it does not establish the proposed complete three-computer deployment. The MacBook presence/configuration is not verified by this pass.
 
 ### 3.3 No architectural authority is added by this crosswalk
 
-This document does not resolve the open Jarvis-vs-ASTRA lifecycle ownership question, FreeLLMAPI local-gateway/cloud-upstream conflict, FCC implementation mapping, Alamo/runtime identity, or route/provider provenance. Those remain governed by their source contracts and owner/governance decisions.
+This document does not resolve the open Jarvis-vs-ASTRA lifecycle ownership question, FreeLLMAPI local-gateway/cloud-upstream conflict, FCC implementation mapping, Alamo runtime/API identity, or route/provider provenance. Alamo's host identity is now owner-confirmed as Voktors-Mini.Dlink; runtime qualification and route/provider provenance remain open and governed by their source contracts and owner/governance decisions.
 
 ## 4. Source anchors reviewed
 
