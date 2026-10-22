@@ -53,3 +53,12 @@ The inspected package metadata declares AGPL-3.0-only and Python `==3.14.7`; dep
 - Persistent hosting: **NOT RUN / NOT QUALIFIED**.
 - Provider key storage on a remote host: **NOT VERIFIED**.
 - Deployment and acceptance: **NOT RUN / NOT ACCEPTED**.
+
+
+## Additional source audit — provider-key persistence (2026-10-22)
+
+Pinned FCC source confirms the default managed configuration path is `~/.fcc/.env` (`paths.py` blob `aa50864662b26ab08eaf35fdba9843e37a75cc8c`). `env_migrations.py` blob `c67943bdf9902fd4f25e1ecce7e69867e2abe2a6` writes the managed dotenv configuration atomically. On non-Windows platforms, the temporary file and final file are chmod'd to `0600`; the inspected write path does not apply equivalent explicit chmod behavior on Windows. API keys are represented as Pydantic `SecretStr` in memory and Admin previews mask secret values, but the persisted managed env file contains the actual plaintext values. **At-rest encryption is not implemented by this write path.** The security claim is file permissions + host/account protection, not encrypted secret storage.
+
+A remote FCC instance would retain provider keys on its persistent filesystem and potentially in backups/snapshots. Do not enter production provider keys into a remote FCC Admin UI until host trust, storage/backup protection, access controls, rotation and deletion behavior are qualified. This adds a concrete blocker to remote deployment under [Issue #499](https://github.com/VlDMlNSh/mediahub-os/issues/499) and [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+
+Additional upstream blobs: `api_keys.py` `510d2b5a2f28fe4a5cdf1f640b3e28d36c44ce4f`; `config/admin/persistence.py` `af85a76ffba260e18b02e398b616580cce4e2fb3`.
