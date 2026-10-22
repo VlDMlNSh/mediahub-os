@@ -1,0 +1,36 @@
+# Continuation Checkpoint Overlay — Wave 372 (2026-10-22)
+
+This is a dated overlay, not a replacement for the canonical checkpoint.
+
+## Read first
+
+1. [Canonical map](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md)
+2. [Bootstrap](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md)
+3. [Canonical checkpoint](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md)
+4. [Master Roadmap](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md)
+5. [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
+6. [Wave 372 report](MEDIAHUB-NEXT-GEMINI-DISPATCH-AND-EXECUTOR-RECHECK-WAVE-372-2026-10-22.md)
+7. [Wave 372 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-372-2026-10-22.md)
+
+## Snapshot
+
+- Main HEAD: `b33ab31674bfa9595a8f2ba5a570dbc1eb3686b2`.
+- Controller workflow blob: `28874450099e70b0f9d276600e6452c1b8e1b1a6`.
+- New owner `/next` comment ID: `6342959659`.
+- Controller run [39794162629](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794162629) and child runs [39794196387](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794196387), [39794199351](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794199351), [39794202994](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39794202994) were all `QUEUED` at the last read. No terminal outcomes or artifacts are confirmed.
+- The intended child task roles are Agent 1 bounded implementation, Agent 2 independent contract/test verification, Agent 3 security/provenance audit. All must stay on the shared immutable target; exact signed target SHA remains unverified until controller output is available.
+- Current controller does not expose arbitrary per-`/next` task-focus input; never dispatch child workflows directly to work around this. A reviewed controller extension with signature-bound task focus and negative tests is needed if arbitrary per-call task injection is required.
+- PR #455 merged; PRs #456–#461 remain open at the latest metadata read. Recheck exact-head CI and independent reviews. Branch protection remains NOT VERIFIED. No merge/deploy.
+- SentinelX host `host_5f7264034bdf0b51` / `Voktors-Mini.Dlink` is connected, but `/Users/voktor` is outside the effective file allowlist. No local executor, Claude/Ollama or browser run was started.
+
+## Next action
+
+Reconcile the controller and child run terminal states, fetch each job's logs/artifacts, record SHA-256 digests and any generated PRs, independently verify their exact heads, then update this overlay/report with read-back evidence. If the controller remains queued while children proceed, treat that as an observability/correlation defect. Continue cloud-only while the owner is away; do not ask for Terminal access or start local execution until the owner is home and the allowlist/route gates are qualified.
+
+## Status labels
+
+- Trigger comment: **POSTED**
+- Controller and child runs: **QUEUED / NOT VERIFIED**
+- Local executor: **NOT RUN / NOT VERIFIED**
+- Contour A: **NOT ACCEPTED**
+- Contour B: **NOT STARTED**
