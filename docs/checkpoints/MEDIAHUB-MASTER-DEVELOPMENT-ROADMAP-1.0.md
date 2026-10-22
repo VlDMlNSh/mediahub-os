@@ -1,3 +1,13 @@
+## Wave 349 — reconciled effort and controller trigger coverage (2026-10-22)
+
+- Report: [Wave 349](MEDIAHUB-NEXT-RECONCILED-EFFORT-AND-TRIGGER-COVERAGE-WAVE-349-2026-10-22.md); map addendum: [Wave 349](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-349-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Historical successful Agent 1–3 runs and candidate controller/probe runs are reused; no prior work is rebuilt. Owner-reported browser execution is recorded as historical and not repeated.
+- Revised remaining active effort: **1.5–3.5 h** to first current controller-owned Gemini batch; **4–6 h contingency** only for observed source/gate defects. Separate new local task, if required, is conditionally **0.5–1.5 h** after runtime recovery.
+- [PR #443](https://github.com/VlDMlNSh/mediahub-os/pull/443) adds controller PR-trigger path coverage and a regression contract. Head `66f8cfc1bbd83bbb686ee8a1bbcea9589b182590`; exact-head CI runs were active/queued at first check, review absent. Status is not PASS until rechecked.
+- No current controller batch or local task ran; no secrets read; no trigger comment posted. Status: **IMPLEMENTED IN PR / CI RUNNING / CURRENT BATCH NOT RUN / NOT ACCEPTED**.
+
+---
+
 ## Wave 347 — controller trigger coverage and local executor recheck (2026-10-22)
 
 - Report: [Wave 347 controller trigger and local executor recheck](MEDIAHUB-NEXT-CONTROLLER-TRIGGER-AND-LOCAL-EXECUTOR-RECHECK-WAVE-347-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
