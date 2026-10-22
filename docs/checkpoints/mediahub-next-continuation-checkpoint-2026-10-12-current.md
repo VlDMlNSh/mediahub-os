@@ -2370,3 +2370,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Rechecked historical run jobs: 39748357460 validation success; 39748357615 no-secret probe success while `dispatch_and_monitor` and batch-admission were skipped; 39748357515 Astra Verify success; 39748357531 Cloud Runtime Validation success. These are recorded prior runs, not proven exact-head PR #437 checks.
 - PR #443 remains merged at `909d2ba6caeb2a84508978925126a074f3a934da`. No controller dispatch: exact-head CI/review gates remain NOT VERIFIED. Current controller file blob on main `3becd61702b3cad5a40f7d2a4de0b7fd6aee4b4f`.
 - Current Gemini batch **NOT RUN**; local Claude channel remains **NOT VERIFIED** after SentinelX disconnection; Contour A **NOT ACCEPTED**.
+
+
+## Wave 354 — current gate recheck and evidence reconciliation (2026-10-22)
+
+- Report: [Wave 354 gate reconciliation](MEDIAHUB-NEXT-GATE-RECONCILIATION-WAVE-354-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Fresh recheck: PR #437 head remains `e7e99c2fe5f090df3a731b0b1a7f3fcb5335bd14`; combined statuses, formal review list and PR-triggered workflow runs returned empty. All three are **NOT VERIFIED**, not PASS. PR #443 merged at `909d2ba6caeb2a84508978925126a074f3a934da`; PR #441 remains open and unaccepted.
+- Re-read the October 2 hybrid inventory blob `567ea108f5faee9d9176cb475ac8534ef19eb25d`: Claude Code 2.1.282, running OmniRoute 3.8.50 and running Ollama 0.34.4 were historically observed on Voktors-Mini.Dlink. The October 2 local qualification result blob `3b284dd211414da816af8fc4ac8addbc810a928d` explicitly scopes itself to repository-local fail-closed tests, not live runtime qualification. User-reported successful Claude-OmniRoute/Ollama work is retained; exact run ID/artifact digest remains NOT LOCATED.
+- Historical Gemini individual runs/artifacts remain documented; they are not a current controller-owned batch. No controller dispatch and no local invocation occurred. Current SentinelX channel is still NOT VERIFIED after prior disconnection result.
+- Current status: **GEMINI BATCH NOT RUN / LOCAL CURRENT EXECUTION NOT VERIFIED / CONTOUR A NOT ACCEPTED**.
