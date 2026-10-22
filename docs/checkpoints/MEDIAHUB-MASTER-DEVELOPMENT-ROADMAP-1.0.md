@@ -1,3 +1,15 @@
+## Wave 378 — owner architecture decisions consolidated (2026-10-22)
+
+- Architecture record: [Owner Architecture Decisions and Consolidated Target Design](../architecture/MEDIAHUB-OWNER-ARCHITECTURE-DECISIONS-AND-TARGET-DESIGN-2026-10-22.md).
+- Report: [Wave 378 architecture consolidation](MEDIAHUB-ARCHITECTURE-CONSOLIDATION-CHAT-WAVE-378-2026-10-22.md); map addendum: [Wave 378](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-ARCHITECTURE-WAVE-378-2026-10-22.md).
+- Owner-confirmed policy: strict local-first privacy; encrypted backups on user-owned nodes with separate keys and periodic restore tests; staged updates with provenance/compatibility gates and rollback.
+- This is a design/documentation proposal, not implementation, runtime qualification or acceptance. Reconcile with Baseline 2.0, binding A0/Product State Authority contracts, Issue #301 and open draft PR #485 before implementation.
+- Exact-head CI/review for related open drafts is NOT VERIFIED where status endpoints returned empty. Branch-protection settings were inaccessible (HTTP 403), therefore NOT VERIFIED.
+- No Gemini dispatch, secret read, local host operation, deployment or production mutation.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+---
+
 ## Wave 351 — recovered Claude/FCC/Ollama history (2026-10-22)
 
 - Report: [Wave 351 evidence recovery](MEDIAHUB-NEXT-CLAUDE-FCC-OLLAMA-HISTORICAL-EVIDENCE-WAVE-351-2026-10-22.md); map addendum: [Wave 351](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-351-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
