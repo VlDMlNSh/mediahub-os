@@ -4,14 +4,15 @@
 - **Status:** ACCEPTED TARGET ARCHITECTURE — NOT YET RUNTIME-QUALIFIED
 - **Scope:** Mac Pro central node, Mac mini Linux worker, MacBook clients, FCC, FreeLLMAPI, local model service, owned GPU server, MediaHub user-contributed compute, mobile client, and registration-only VPS.
 - **Authority:** This document records the user's accepted target design. It does not claim that any component is deployed, compatible, or qualified.
+- **Authoritative host identity correction (Wave 364, 2026-10-22): Alamo is the local inference service hosted on `Voktors-Mini.Dlink` (macOS). Mac Pro remains a separate central-infrastructure role; it is not the Alamo host. This identity correction does not qualify Alamo's runtime, API, model, route, or production readiness.
 
 ## 1. Architectural decisions
 
-1. **Mac Pro is the central infrastructure node.** It hosts the local model service (working name: Alamo), Jarvis/control services, model/API routing, task coordination, monitoring, and the node registry, subject to hardware and runtime validation.
+1. **Mac Pro is the central infrastructure node.** It hosts Jarvis/control services, model/API routing, task coordination, monitoring, and the node registry, subject to hardware and runtime validation. The separate local inference service named Alamo runs on `Voktors-Mini.Dlink`.
 2. **Local inference must remain local when local-only mode is selected.** The Claude Code path must not silently fall back to Anthropic's cloud API. The implementation must prove this through configuration inspection and network/evidence checks.
 3. **FCC is a required control/integration layer for the Claude Code path.** Its exact responsibilities and supported configuration must be verified against the pinned FCC release. FCC does not replace Jarvis or become MediaHub's state/authority source.
 4. **FreeLLMAPI is a cloud-model provider path, not the MediaHub authority.** It may expose multiple models/providers according to its actual API, availability, terms, and quotas.
-5. **Alamo is a local inference endpoint on Mac Pro.** It is reached over the private network through a documented, authenticated API. Its actual runtime, protocol, model, and endpoint remain deployment facts to discover.
+5. **Alamo is a local inference endpoint hosted on `Voktors-Mini.Dlink` (macOS).** It is reached over the private network through a documented, authenticated API. Its actual runtime, protocol, model, API endpoint, and qualification remain deployment facts to discover.
 6. **Model selection can be manual or policy-driven.** The router may select between approved FreeLLMAPI models, other explicitly configured providers, and Alamo. Routing must respect capability compatibility, privacy mode, availability, quotas, latency, and cost.
 7. **Codex remains a separate cloud-authenticated development path.** Its approved cloud API/subscription authentication is not silently replaced by the Claude Code/FCC/FreeLLMAPI path.
 8. **There are two separate GPU execution pools:**
@@ -37,13 +38,13 @@ Mac mini / Linux
    Model-routing boundary
         ├── FreeLLMAPI ──► available cloud models/providers
         ├── other explicitly admitted provider adapters
-        └── Alamo API ───► Mac Pro local inference
+        └── Alamo API ───► Voktors-Mini.Dlink local inference
 
 Mac Pro (central infrastructure node)
   ├── Jarvis / MediaHub control plane
   ├── authenticated API gateway and model routing
   ├── task scheduler, node registry, queue and job state
-  ├── Alamo local model service
+  ├── private-network route to Alamo on Voktors-Mini.Dlink
   ├── observability and evidence collection
   └── direct protected connections to:
         ├── owned GPU server (Pool A)
@@ -65,7 +66,7 @@ This topology is logical, not a claim that all components are already deployed o
 | Jarvis | Central orchestration, task state, node coordination and policy enforcement | A provider-specific adapter or an implicit unrestricted shell |
 | FCC | Required Claude Code integration/control layer; supported routing and client adaptation | MediaHub state authority or a substitute for Jarvis |
 | FreeLLMAPI | One cloud-model/provider path, subject to provider availability and quota | A source of truth or a guarantee of permanently free capacity |
-| Alamo | Local inference endpoint on Mac Pro | An assumed compatible endpoint before its API/runtime is verified |
+| Alamo | Local inference endpoint hosted on Voktors-Mini.Dlink (macOS) | An assumed compatible endpoint before its API/runtime is verified |
 | Model router | Selects only admitted models compatible with the task and policy | A mechanism to bypass provider rules, quotas, or user privacy choices |
 | Codex | Separate cloud development workflow using its supported authentication | A component silently redirected to the local model or unrelated gateway |
 | Owned GPU worker | Executes admitted jobs on operator-controlled hardware | An implicit shared-memory device for Mac Pro |
@@ -124,7 +125,7 @@ Remote RAM, disk, CPU, and GPU are consumed by executing jobs on the remote node
 
 ## 7. Integration and qualification sequence
 
-1. **Inventory current state:** identify exact Mac Pro/macOS/hardware, Alamo model/runtime/API, Mac mini environment, FCC release, FreeLLMAPI release/API, Claude Code version, ports, and existing configuration.
+1. **Inventory current state:** identify exact Mac Pro/macOS/hardware, Alamo model/runtime/API on Voktors-Mini.Dlink, Mac mini environment, FCC release, FreeLLMAPI release/API, Claude Code version, ports, and existing configuration.
 2. **FCC compatibility:** pin a release and verify its supported Claude Code integration, configuration format, lifecycle, and provider-routing capabilities.
 3. **FreeLLMAPI adapter:** verify authentication, supported API protocol, model discovery, rate-limit behavior, quota reporting, and provider terms.
 4. **Alamo adapter:** verify authenticated private endpoint, request/response format, context limits, tool/function calling, streaming, and health checks.

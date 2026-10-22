@@ -4,7 +4,8 @@
 - Ref: `docs/mediahub-chat-tree-map-20261012`
 - Status: **READ-ONLY SOURCE RECONCILIATION / PARTIAL / DECISIONS OPEN / NOT IMPLEMENTED / NOT QUALIFIED**
 - Purpose: split the next continuation into small bounded work packages and execute the first source-reconciliation pass against WB13-R01…R12.
-- No normative source was modified. No tests, qualification, model/provider calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, merge, rebase or cherry-pick occurred.
+- No normative source was modified in the original WB-14 pass. No tests, qualification, model/provider calls, credentials, host/runtime inspection, installation, infrastructure change, deployment, merge, rebase or cherry-pick occurred in that original pass.
+- **Wave 364 owner clarification (2026-10-22): Alamo is hosted on `Voktors-Mini.Dlink` (macOS), not Mac Pro. This resolves host identity only; runtime/profile, provider/egress mode, media backend, capacity and autonomous-route qualification remain unverified.**
 
 ## 1. Small-request decomposition
 
@@ -38,7 +39,7 @@ Repository: `VlDMlNSh/mediahub-os`; canonical implementation source ref: `main`;
 | `.github/workflows/astra-autonomous-supervisor.yml` | main | `a0209a2d01122354d19e95d2f362a6ecfa3d6186` | Workflow references the node-specific signer and control-command files. | Workflow presence is not successful runtime qualification or Jarvis-ingress proof. |
 | WB-07 ingress seam trace | docs ref | `89fab594f9a9ae9a729d63ecb14dad2543edc9af` | Separates FileTaskIngress, P0 typed authorization and signed command flows; explicitly limits conclusions. | Documentary trace, not complete global caller proof. |
 | WB-10 direct local route matrix | docs ref | `62101df270acd1f4e551a8fcaf69f1fe741a8b51` | Owner-directed Route B is separate and must not bypass security/evidence controls; no implementation claimed. | Requirements are not proof that the route exists. |
-| WB-11 Alamo/Claude trace | docs ref | `b34b50dc749cade5b32e6ed369fe5b430d1a788e` | Existing external Anthropic and Ollama-backed Claude-compatible workflow patterns differ; neither is tied to Alamo. | Exact host, provider mode and media backend remain unknown. |
+| WB-11 Alamo/Claude trace | docs ref | `b34b50dc749cade5b32e6ed369fe5b430d1a788e` | Existing external Anthropic and Ollama-backed Claude-compatible workflow patterns differ; neither is proven to be the active Alamo route. | Host identity is Voktors-Mini.Dlink; provider mode and media backend remain unknown. |
 | WB-12 topology matrix | docs ref | `87ce2d51c81d3e5c8dfe2517f61878d91a0e069a` | Options A/B/C compared; C is a design recommendation only. | No topology is owner-accepted by this matrix. |
 | WB-13 route-adapter matrix (this continuation) | docs ref | `e6fd3e070abb9da21c1a98e1c661cffe86b16e6c` | Defines WB13-R01…R12 and required controls/evidence. | Non-normative; no implementation/qualification. |
 
@@ -53,7 +54,7 @@ Repository: `VlDMlNSh/mediahub-os`; canonical implementation source ref: `main`;
 | R05 Authenticated caller | Task Contract ingress shape validation and signed operational-command verification are separate seams. | BLOCKED for end-to-end Jarvis ingress; do not treat schema shape as authentication. |
 | R06 Approval provenance | Task ingress maps file-supplied approval state into request; WB-07 did not establish trusted writer or attestation issuer. | BLOCKED; define authority and verifiable task/action/resource binding. |
 | R07 Provider/egress identity | Unified ASTRA source distinguishes Claude Code local client from Claude/Anthropic provider; repository also has an Ollama-backed Claude-compatible workflow. | UNKNOWN for Alamo; require explicit provider/runtime and egress declaration. |
-| R08 Media backend/resource envelope | ASTRA queue pool is coding-oriented and does not establish a qualified Alamo video backend. | BLOCKED; exact host, backend and capacity evidence required. |
+| R08 Media backend/resource envelope | ASTRA queue pool is coding-oriented and does not establish a qualified Alamo video backend. | BLOCKED; host identity is Voktors-Mini.Dlink; backend and capacity evidence still required. |
 | R09 Result/evidence contract | Gateway has a request/result/evidence type, while ASTRA queue has its own evidence lifecycle; a normalized cross-route envelope is not evidenced. | DRAFT CONTRACT NEEDED; do not merge evidence schemas by assumption. |
 | R10 Retry/cancel/recovery ownership | ASTRA queue owns its internal lifecycle; no direct Alamo lifecycle is source-pinned. | OPEN/BLOCKED for Route B; avoid dual retry authorities. |
 | R11 No second State Authority | ASTRA sources explicitly constrain A0 to its own queue/coordination state; MediaHub Product State Authority remains a separate boundary in D-03 reconciliation. | REQUIRED INVARIANT; preserve domain-scoped authority. |
@@ -72,7 +73,7 @@ Repository: `VlDMlNSh/mediahub-os`; canonical implementation source ref: `main`;
 ## 5. Owner decisions that remain open
 
 - Select topology target: A (A0-governed), B (direct separate queue), or C (common non-authoritative route adapter).
-- Identify exact Alamo host/profile.
+- Confirm Alamo runtime/profile on Voktors-Mini.Dlink and qualify its provider/egress mode.
 - Specify whether Claude means local client to external Anthropic service or local model runtime; identify model/provider and egress policy.
 - Identify actual video-generation backend and its license/qualification constraints.
 - Name direct-route queue lifecycle owner and define claim/lease/fencing, retry, cancel, restart recovery and idempotency.
