@@ -2,3 +2,4 @@
 # Canonical CI and qualification runners install this file before running tests.
 PyYAML>=6.0
 pytest>=8.0
+jsonschema[format]>=4.23,<5

@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install Python test dependencies
-        run: python -m pip install --disable-pip-version-check --no-input PyYAML
+        run: python -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
       - name: Install torrent test dependency
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends transmission-cli
       - name: Compile

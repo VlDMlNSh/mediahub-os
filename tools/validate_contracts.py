@@ -5,8 +5,10 @@ Audit defect D2 resolved the `contracts/` vs `schemas/` duplication in favour
 of a single canonical source: ``schemas/``. This validator therefore walks
 ``schemas/`` (not ``contracts/``) and enforces:
 
-- every schema is a JSON object using JSON Schema draft 2020-12 and declares a
-  non-empty ``$id``;
+- every schema passes the official JSON Schema Draft 2020-12 meta-schema and
+  declares a non-empty ``$id``;
+- schema format names are recognized and the shared instance validator applies
+  format assertions (for example, RFC 3339 date-time and URI checks);
 - the common metadata envelope (``schema_id``/``schema_version``/``owner``) is
   all-or-nothing: a schema either opts out entirely or declares all three, and
   ``schema_version`` must be a string carrying an ``X.Y.Z`` value when
@@ -20,6 +22,9 @@ import json
 import sys
 from pathlib import Path
 
+from jsonschema import Draft202012Validator, FormatChecker
+from jsonschema.exceptions import SchemaError
+
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_ROOT = ROOT / "schemas"
 IDENTITY_BOUNDARY = (
@@ -29,6 +34,7 @@ IDENTITY_BOUNDARY = (
 DRAFT_2020_12 = "https://json-schema.org/draft/2020-12/schema"
 
 METADATA_KEYS = ("schema_id", "schema_version", "owner")
+FORMAT_CHECKER = FormatChecker()
 
 
 def fail(message: str) -> None:
@@ -67,8 +73,16 @@ def validate_common_metadata(path: Path, data: dict) -> bool:
 
     schema_version = properties["schema_version"]
 
+    # JSON Schema permits boolean subschemas. The metadata envelope, however,
+    # must explicitly constrain schema_version to a string or string constant.
+    if not isinstance(schema_version, dict):
+        fail(f"{path}: schema_version must be an object schema")
+
     version_type = schema_version.get("type")
     version_const = schema_version.get("const")
+
+    if "const" in schema_version and not isinstance(version_const, str):
+        fail(f"{path}: schema_version const must be a string")
 
     if version_type != "string" and not isinstance(version_const, str):
         fail(f"{path}: schema_version must be a string")
@@ -81,6 +95,65 @@ def validate_common_metadata(path: Path, data: dict) -> bool:
     return True
 
 
+def validate_format_names(path: str, schema: object) -> None:
+    """Reject unknown format names in schema nodes, not arbitrary example data."""
+    if not isinstance(schema, dict):
+        return
+
+    format_name = schema.get("format")
+    if format_name is not None and format_name not in FORMAT_CHECKER.checkers:
+        fail(f"{path}: unsupported JSON Schema format: {format_name}")
+
+    mapping_keywords = (
+        "$defs",
+        "definitions",
+        "properties",
+        "patternProperties",
+        "dependentSchemas",
+    )
+    single_keywords = (
+        "additionalProperties",
+        "unevaluatedProperties",
+        "propertyNames",
+        "items",
+        "contains",
+        "unevaluatedItems",
+        "not",
+        "if",
+        "then",
+        "else",
+        "contentSchema",
+    )
+    array_keywords = ("allOf", "anyOf", "oneOf", "prefixItems")
+
+    for keyword in mapping_keywords:
+        children = schema.get(keyword)
+        if isinstance(children, dict):
+            for child in children.values():
+                validate_format_names(path, child)
+
+    for keyword in single_keywords:
+        child = schema.get(keyword)
+        if isinstance(child, dict):
+            validate_format_names(path, child)
+
+    for keyword in array_keywords:
+        children = schema.get(keyword)
+        if isinstance(children, list):
+            for child in children:
+                validate_format_names(path, child)
+
+
+def build_validator(schema: dict, source: str = "<schema>") -> Draft202012Validator:
+    """Build a standards-based Draft 2020-12 validator with format assertions."""
+    try:
+        Draft202012Validator.check_schema(schema)
+    except SchemaError as exc:
+        fail(f"{source}: invalid JSON Schema Draft 2020-12: {exc.message}")
+    validate_format_names(source, schema)
+    return Draft202012Validator(schema, format_checker=FORMAT_CHECKER)
+
+
 def validate_schema(path: Path) -> bool:
     data = validate_json(path)
 
@@ -90,6 +163,7 @@ def validate_schema(path: Path) -> bool:
     if not data.get("$id"):
         fail(f"{path}: missing $id")
 
+    build_validator(data, str(path))
     has_envelope = validate_common_metadata(path, data)
 
     print(f"PASS {path}")
