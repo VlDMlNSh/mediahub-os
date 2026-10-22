@@ -12,13 +12,13 @@ This addendum supplements, but does not replace, the canonical [MediaHub Chat Tr
 
 - PR #458 merged and exact commit check `verify` is `completed / success`.
 - Gemini child workflow runs 39796606536, 39796609924, and 39796613574 each completed successfully. Artifacts exist with digests documented in the Wave 374 report.
-- Parent controller run 39794516227 remains API-reported `in_progress`, although the dispatch/monitor step and visible completion step report success. Parent terminal state is `NOT VERIFIED`.
+- Parent controller run 39794516227 later rechecked as `completed / success`; the prior API/UI lifecycle discrepancy resolved. Do not redispatch.
 - FreeLLMAPI Live Qualification run 39797189239 is `pending` with no jobs returned at last read. Qualification is `NOT VERIFIED`.
 - PRs #467, #468, and #469 are open. Exact-head check-runs were empty at their current heads; no merge is authorized by this evidence.
 
 ## Status separation
 
-Workflow completion is not equivalent to output verification, runtime qualification, or acceptance. Do not merge agent PRs based only on child workflow success or artifact existence. Do not redispatch the Gemini batch merely to clear the controller's nonterminal status. Resolve the lifecycle discrepancy and independently inspect outputs.
+Workflow completion is not equivalent to output verification, runtime qualification, or acceptance. Do not merge agent PRs based only on child workflow success or artifact existence. Do not redispatch the Gemini batch merely to clear the controller's nonterminal status. The parent controller is now terminal-success; independently inspect output content and keep exact-head CI/review gates closed until evidenced.
 
 ## Next step
 
