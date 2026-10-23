@@ -70,3 +70,19 @@
 - Second batch: Temporal server, LiteLLM, OpenAI Codex CLI, Langfuse, Promptfoo, Browser Use, MCP TypeScript SDK and OpenSandbox. MCP TypeScript SDK current package manifest is `2.0.0-alpha.0`; its register status is CONDITIONAL pending stable release verification.
 - This is still not a full maturity audit: lockfiles, transitive dependencies, advisories, exact upstream CI, stable release tags and subsystem compatibility remain unaudited. Inventory remains OPEN_NOT_FROZEN; formal comparison/assembly NOT STARTED.
 - Latest branch commit/head is expected to move with this checkpoint update. Refresh PR #585 and verify exact-head CI after the write; do not infer pass from prior-head workflows.
+
+
+---
+
+## Wave 434 — eight additional upstream source pins (2026-10-23)
+
+- Report: [MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-434-2026-10-23.md](MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-434-2026-10-23.md).
+- Machine-readable register: [MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json](MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json).
+- Register update commit: `3e8541c9cf877e943807786afa1a599708f71e2c`; new register blob SHA: `0bb62849b2611ae1aead77d59ad4d8a6218a50be`.
+- Eight pinned immutable upstream commits added: Temporal `8a40a2663e304a79b07779ae08108648ccbc797d`; LiteLLM `f2118fc7670ba3fa736d9b8f4deef9077a45a720`; OpenHands Software Agent SDK `dd0892c80fffb1e59bac77242adafbd8b1168649`; Promptfoo `c2f6a848aca5f7e01491d2533f3fb1122bc63c50`; Langfuse `bb85692102a005470c3a02ccb9ebc1609ae25461`; OpenSandbox `f3f4a7f419e526de4c3deb250d72fc034986fc28`; Mem0 `2c81af3bbe27d9bccb09c772d583df9e9be72ee5`; OPA `83a65784cbc60c8bbf73d46fd4b4489c5b0e2d76`.
+- For those eight sources the exact LICENSE and package/component manifest blobs were read. Eight lockfile blobs were identified; five file contents were retrieved, three connectors returned a blob SHA but empty content. No dependency analysis, advisory scan, release tag pin or upstream exact-CI audit completed. Exact refs/heads/default pointer equivalence remains NOT VERIFIED.
+- LiteLLM and Langfuse root license files reveal path/subtree exceptions; they are marked CONDITIONAL until the proposed reuse paths are checked individually.
+- Machine register count invariants corrected and read back: 89 total records = 70 CANDIDATE + 12 CONDITIONAL + 2 REFERENCE_ONLY + 5 EXCLUDED_FROM_ACTIVE_SHORTLIST. Register blob `0bb62849b2611ae1aead77d59ad4d8a6218a50be`.
+- Research PR #585 current HEAD must be refreshed after the Wave 434 report/checkpoint write. Prior exact-head checks were green before these last changes; do not reuse them as current-head evidence. Formal independent review remains NOT VERIFIED.
+- No provider inference, agent dispatch, secret access, installation, deployment, merge, inventory freeze, comparison, component adoption or Contour A acceptance.
+- Next: pin releases and complete lockfile/advisory/exact-CI screening for remaining shortlisted projects; reconcile Markdown/JSON register gaps. Freeze inventory only after evidence gates pass, then commence common-workload comparison and component assembly.
