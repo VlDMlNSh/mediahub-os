@@ -1,0 +1,68 @@
+name: MediaHub FCC GitHub-hosted install probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_install:
+        description: "Install the pinned FCC release on this ephemeral GitHub-hosted runner (no provider calls)"
+        required: true
+        type: boolean
+        default: false
+
+permissions: {}
+
+concurrency:
+  group: mediahub-fcc-hosted-install-probe
+  cancel-in-progress: false
+
+jobs:
+  install-and-verify:
+    if: inputs.confirm_install == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions: {}
+    env:
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PIP_NO_INPUT: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - name: Set up pinned Python runtime
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.14.7"
+          check-latest: false
+
+      - name: Install FCC from reviewed immutable upstream commit
+        run: |
+          set -euo pipefail
+          python -m pip install --no-cache-dir \
+            "free-claude-code @ git+https://github.com/Alishahryar1/free-claude-code.git@3d2ae2306752dbdf504714a5489bcfcf69b2d04a"
+
+      - name: Verify FCC package and CLI
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from importlib.metadata import version
+          import sys
+
+          expected_python = (3, 14, 7)
+          if sys.version_info[:3] != expected_python:
+              raise SystemExit(f"unexpected_python_version:{sys.version_info[:3]}")
+          installed = version("free-claude-code")
+          print(f"fcc_distribution_version={installed}")
+          if installed != "6.16.16":
+              raise SystemExit(f"unexpected_fcc_version:{installed}")
+          PY
+          fcc-server --version
+
+      - name: Explicitly confirm no provider was configured or invoked
+        run: |
+          set -euo pipefail
+          if env | grep -Eiq '^(ANTHROPIC_API_KEY|OPENROUTER_API_KEY|NVIDIA_API_KEY|MODEL_FALLBACKS|MODEL)='; then
+            echo "::error::provider/model configuration unexpectedly present"
+            exit 1
+          fi
+          echo "install_probe=PASS"
+          echo "provider_calls=NONE"
+          echo "paid_fallback=NOT_CONFIGURED"
+          echo "runner=EPHEMERAL_GITHUB_HOSTED"
