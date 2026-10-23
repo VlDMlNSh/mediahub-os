@@ -4,7 +4,7 @@
 - Status: **POLICY / PROFILE IMPLEMENTED ON DRAFT PR; LATEST CI NOT VERIFIED; LOCAL RUNTIME BLOCKED**
 - Base/main SHA: `fbbdc9a06ef344cd57aae13b230a042af76bbc60`
 - PR: [#530 — Claude FCC free-route admission](https://github.com/VlDMlNSh/mediahub-os/pull/530)
-- PR head observed before this report: `64bfba5efe6f5b5759854379b4f1c903a2e0c85c`
+- PR code head verified in this update: `28ad807045f246897bf11df82da90ee32588cfdb`
 - Working branch: `contour-a/claude-fcc-admission-router-20261023`
 - Parent tracker: [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - Claude executor tracker: [Issue #496](https://github.com/VlDMlNSh/mediahub-os/issues/496)
@@ -25,26 +25,26 @@ The draft PR proposes a separate, owner-gated Claude admission workflow. It is n
   - `skills/security-review/SKILL.md`: `3f26b0df65661425de4e5c40c295e04edcad7a83`
   - `skills/search-first/SKILL.md`: `3d2669e71ba54afba95defb05080253058190600`
 - The workflow assembles only those skill texts as prompt guidance. ECC hooks, MCP servers, plugins, installer side effects and independent orchestration are not enabled. A PR-only `ecc-profile-preflight` job checks the exact upstream commit and blobs without provider credentials.
-- This new preflight was added after the prior green CI set; its latest execution is **NOT VERIFIED** until the CI run for current PR head is observed.
+- The PR-only ECC preflight has now passed on code head `28ad807045f246897bf11df82da90ee32588cfdb` (run `39922262095`, job `120310166318`).
 
 ## Local Claude-FCC-LLaMA executor
 
 - Approved host: `Voktors-Mini.Dlink`, SentinelX host ID `host_5f7264034bdf0b51`, agent `0.23.30`, allowlist-based capabilities.
 - `llama-server` responds on loopback `127.0.0.1:8081`: `/health` HTTP 200 and `/v1/models` HTTP 200. The model advertised by the server is `/Users/voktor/Library/Application Support/MediaHub/models/qwen2.5-coder-1.5b-instruct/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf`.
-- The legacy FCC env file `~/Library/Application Support/MediaHub/fcc.env` was changed atomically (mode `0600`) to select the FCC `llamacpp` provider and `LLAMACPP_BASE_URL=http://127.0.0.1:8081/v1`. No secret value was printed or copied into the repository.
-- A user LaunchAgent plist `com.mediahub.fcc-server.plist` was created and validated. The attempted launch exposed a configuration-precedence issue: FCC became reachable on its default `8082` endpoint, while configured `18093` stayed unavailable. The LaunchAgent was unloaded, but `8082` continued returning HTTP 200. `lsof` verified a Python listener owned by `voktor`, PID `15499`, bound only to `127.0.0.1:8082`; its effective config/auth state is not confirmed. The managed `~/.fcc/.env` exists with mode `0600`, but a read-only settings inspection timed out through SentinelX. Treat the local FCC runtime as **BLOCKED / NOT VERIFIED**; do not submit a task or use the endpoint until authentication and provider routing are verified.
+- The legacy FCC env file was briefly changed to the `llamacpp` provider, but the running service did not adopt those settings; the file was restored atomically to its prior Ollama-backed `qwen2.5-coder:1.5b` configuration (mode `0600`). No secret value was printed or copied into the repository.
+- The user LaunchAgent plist `com.mediahub.fcc-server.plist` was created, validated, bootstrapped, then unloaded after the config-precedence issue. FCC still responds at default loopback port `8082`; configured `18093` remains unavailable. `lsof` verified Python PID `15499`, owned by `voktor`, bound only to `127.0.0.1:8082`. An unauthenticated request to `http://127.0.0.1:8082/v1/models` returned HTTP 200 and listed only Ollama Qwen aliases, not `llama3.2:3b`. `ollama show llama3.2:3b` now succeeds, but FCC does not yet advertise that model. Effective managed auth/provider settings remain unverified; `~/.fcc/.env` is mode `0600`, and the settings inspection timed out through SentinelX. Treat local FCC as **BLOCKED / NOT VERIFIED**; do not submit a task or use the endpoint until authentication and model routing are corrected.
 - No local model inference, signed-task submission or qualification occurred.
 
 ## Verification / exact evidence
 
 Latest source blobs on the PR branch at time of this report:
-- Router `.github/ai/model-router.yml`: `f319a24a1323ce68393633b08a6cb232ed2dfcff`
+- Router `.github/ai/model-router.yml`: `e249333c1c0ce6c1c586a5f498dbfd3979418f6e`
 - Cloud FCC workflow: `384eee5209d2ec129ff2d0e92e953d3cad0fa863`
-- AI Factory verifier: `49946c462baf344201cd2fce7e952fe1046a88b5`
-- Routing tests: `0fa4f103db3707de7bcbaeeeafad9a0c69402ee8`
-- FCC workflow contract tests: `40402074f8e7af5f320cf964380fe65136fd07b9`
+- AI Factory verifier: `e8a4a62dc480b23b5db452fe4a47527e3f44137a`
+- Routing tests: `fcfc37d046a9670c793c7282f9c0c9369d6fdae1`
+- FCC workflow contract tests: `86f4c641225a0192b600d7462a5cfb15d51df49e`
 
-On current PR head at report creation, `e8513a906de0392917676be0488471bb333975e8`, all six workflows succeeded: provider contract `39921913739` / job `120308911566`; Astra agent boundary `39921913554` / job `120308910909`; Cloud Runtime `39921913645` / job `120308911565`; AI Factory `39921913585` / job `120308911999`; Astra Verify `39921913442` / job `120308910536`; FCC admission workflow `39921913681` — managed-auth preflight `120308912194`, install-smoke `120308912274`, contract tests `120308912402`, and ECC source/skill preflight `120308912416` all SUCCEEDED. Dispatch gate `120308913497` and bounded worker `120308913913` were SKIPPED as expected on the PR event, so no provider inference occurred. This verifies the report-creation code head, not independent review or qualification. No formal PR review exists; PR #530 remains draft/open/unmerged.
+On PR code head `28ad807045f246897bf11df82da90ee32588cfdb`, all six workflows succeeded: provider contract `39922262324` / job `120310054497`; AI Factory `39922262275` / job `120310054635`; Astra agent boundary `39922262305` / job `120310054433`; Cloud Runtime `39922261963` / job `120310053515`; Astra Verify `39922262337` / job `120310054731`; FCC admission workflow `39922262095` — contract tests `120310166102`, ECC source/skill preflight `120310166318`, install-smoke `120310166374`, managed-auth preflight `120310166383` all SUCCEEDED. Dispatch gate `120310167194` and bounded worker `120310168373` were SKIPPED as expected on the PR event, so no provider inference occurred. This verifies code head `28ad807...`, not the report-only follow-up created by this edit, and does not establish independent review or qualification. No formal PR review exists; PR #530 remains draft/open/unmerged.
 
 A fresh `/next` comment was created on Issue #301 (comment ID `6360168955`). The controller run ID and all three child run/job IDs could not be independently retrieved in this pass, so Gemini dispatch outcome is **NOT VERIFIED**; no agent success is claimed.
 
@@ -52,5 +52,6 @@ A fresh `/next` comment was created on Issue #301 (comment ID `6360168955`). The
 
 - Astra remains the sole control plane and claim/promotion/qualification authority. ECC is guidance only.
 - Cloud free-route policy is proposed, not accepted; no provider inference, merge, deployment or production authorization.
-- First verify exact-head CI including `ecc-profile-preflight`, then obtain independent security/governance review.
-- In parallel, resolve the FCC managed-config precedence and identify the surviving loopback listener before changing it. Only after authenticated FCC `/v1/models` on the intended port and a validated `llamacpp` model reference pass should the existing Astra issuer submit a bounded signed task.
+- Exact-head CI, including `ecc-profile-preflight`, passed on code head `28ad807...`; the report-only follow-up still needs its own checks.
+- Obtain independent security/governance review before any live cloud provider call.
+- In parallel, resolve FCC managed-config precedence and enforce authentication. The desired repo route is `fcc_ollama` with `llama3.2:3b` on `Voktors-Mini.Dlink`; only after the active FCC endpoint authenticates and advertises that model should the existing Astra issuer submit a bounded signed task.
