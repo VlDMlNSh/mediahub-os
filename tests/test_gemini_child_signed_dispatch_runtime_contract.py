@@ -238,6 +238,9 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
         self.assertNotIn("create_pull_request", source)
         self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", source)
         self.assertIn("secrets.GEMINI_API_KEY_2", source)
+        self.assertIn("git diff --no-ext-diff --unified=80 85e74ec24b862a5f6427ad5dca7d050df89c224c 3a0cda63a6e39b844c3d78bede4b777e3a0004bf", source)
+        self.assertIn("git diff --no-ext-diff --unified=80 3a0cda63a6e39b844c3d78bede4b777e3a0004bf 074f20eb495666946a14410ab88d566aaa754f24", source)
+        self.assertNotIn("git diff --no-ext-diff --unified=80 85e74ec24b862a5f6427ad5dca7d050df89c224c a8cef5fbad56c93573e309c6048ffd8a0f675053", source)
 
     def test_child_output_validator_accepts_only_actionable_pr_results(self):
         valid_output = {
