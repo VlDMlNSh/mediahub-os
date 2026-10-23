@@ -73,3 +73,10 @@ Official references:
 Finish F1–F4 on PR #502, wait for exact-head CI to finish, and obtain an independent security review. Only then may the bounded live smoke be run through the default-branch workflow with `confirm=true`, `MEDIAHUB_ALLOW_FCC_FREE_CLAUDE=true`, and the already configured `OPENROUTER_API_KEY` secret. Do not read or expose the secret value. No automatic provider fallback is authorized.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Terminal CI update (2026-10-23)
+
+- Rechecked worker run [39878880575](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878880575) on exact head `61c266f565c3ef2fbf49e91217cc1e4650f1bdb8`: **SUCCEEDED**. Install smoke job `120171243585` and workflow contract job `120171243892` both succeeded. Dispatch-gate job `120171244833` and bounded-worker job `120171245520` were **SKIPPED** on the PR event. This is install/contract CI only; no inference occurred.
+- Astra Verify [39878880582](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878880582) and Astra Cloud Runtime Validation [39878880584](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878880584) both **SUCCEEDED** on the same exact head.
+- Formal review submissions remain empty; PR #502 is still draft/open/unmerged. Live inference remains **NOT RUN** and dispatch remains **BLOCKED** by the outstanding F1–F4 findings and independent-review gate.
