@@ -13,5 +13,7 @@
 
 ## Wave 407 verification
 
+- Full report: [Wave 407 FCC managed-auth preflight and executor readiness](../checkpoints/MEDIAHUB-NEXT-FCC-MANAGED-AUTH-PREFLIGHT-WAVE-407-2026-10-23.md).
+
 - PR #508 exact head `7ab6603ccfb476c57a92ce90bbca155453649a4e` passed managed-token preflight, contract tests, pinned FCC install smoke, Astra Verify and Cloud Runtime Validation. See [preflight job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287283/job/120191936114) and [contract tests](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287283/job/120191936134).
 - Dispatch jobs were skipped. No live provider call was made. PR remains draft, formal review NOT VERIFIED, combined status pending/zero contexts.
