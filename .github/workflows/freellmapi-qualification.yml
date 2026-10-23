@@ -1,5 +1,9 @@
 name: FreeLLMAPI Live Qualification
 
+# Push/PR events run only deterministic tests on a GitHub-hosted runner.
+# Live provider access requires an explicit workflow_dispatch on main with
+# owner confirmation and a SHA bound to the workflow run.
+
 on:
   push:
     branches: [main]
@@ -8,17 +12,103 @@ on:
       - 'runtime/mediahub_runtime/cloud_orchestrator.py'
       - 'tests/ai/**'
       - '.github/workflows/freellmapi-qualification.yml'
+      - 'tests/test_freellmapi_qualification_workflow_contract.py'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'runtime/mediahub_runtime/local_providers.py'
+      - 'runtime/mediahub_runtime/cloud_orchestrator.py'
+      - 'tests/ai/**'
+      - '.github/workflows/freellmapi-qualification.yml'
+      - 'tests/test_freellmapi_qualification_workflow_contract.py'
   workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Explicitly authorize one FreeLLMAPI live qualification request"
+        required: true
+        type: boolean
+        default: false
+      target_sha:
+        description: "Exact full SHA of main to qualify; must match this workflow run"
+        required: true
+        type: string
 
 permissions:
   contents: read
 
+# Separate contract CI from live qualification so an unavailable self-hosted
+# runner cannot hold ordinary main/pull-request checks in a pending queue.
 concurrency:
-  group: freellmapi-live-qualification
-  cancel-in-progress: false
+  # The first post-fix push to main uses the legacy group to cancel the
+  # indefinitely queued pre-fix run (which has zero jobs). PR checks and
+  # explicit live requests stay in separate groups.
+  group: ${{ github.event_name == 'workflow_dispatch' && 'freellmapi-live-qualification-live' || github.event_name == 'push' && 'freellmapi-live-qualification' || format('freellmapi-contract-pr-{0}', github.event.pull_request.number) }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 
 jobs:
+  contract:
+    if: github.event_name != 'workflow_dispatch'
+    name: Hosted FreeLLMAPI adapter and workflow contract tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      PYTHONPATH: runtime
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+          check-latest: false
+      - name: Install test dependencies
+        run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
+      - name: Verify adapter and qualification admission contracts
+        run: >-
+          python3 -m pytest -q
+          tests/ai/test_cloud_orchestrator_failover.py
+          tests/test_freellmapi_qualification_workflow_contract.py
+
+  dispatch_gate:
+    if: github.event_name == 'workflow_dispatch'
+    name: Require owner-confirmed main SHA before live provider access
+    runs-on: ubuntu-latest
+    permissions: {}
+    outputs:
+      admitted: ${{ steps.gate.outputs.admitted }}
+    steps:
+      - id: gate
+        name: Validate explicit confirmation and immutable target
+        shell: bash
+        env:
+          CONFIRM: ${{ inputs.confirm }}
+          TARGET_SHA: ${{ inputs.target_sha }}
+          CURRENT_SHA: ${{ github.sha }}
+          SOURCE_REF: ${{ github.ref }}
+          TRIGGER_ACTOR: ${{ github.actor }}
+          REPO_OWNER: ${{ github.repository_owner }}
+        run: |
+          set -euo pipefail
+          [[ "$CONFIRM" == "true" ]] || { echo "::error::confirm=true is required; no provider call admitted."; exit 1; }
+          [[ "$SOURCE_REF" == "refs/heads/main" ]] || { echo "::error::live qualification must be dispatched from main."; exit 1; }
+          [[ "$TRIGGER_ACTOR" == "$REPO_OWNER" ]] || { echo "::error::live qualification requires repository-owner dispatch."; exit 1; }
+          [[ "$TARGET_SHA" =~ ^[0-9a-f]{40}$ && "$TARGET_SHA" == "$CURRENT_SHA" ]] || { echo "::error::target_sha must be the exact 40-hex workflow SHA."; exit 1; }
+          echo "admitted=true" >> "$GITHUB_OUTPUT"
+          echo "Admission passed. Provider access remains isolated to the self-hosted qualification job."
+
   qualify:
+    if: >-
+      needs.dispatch_gate.outputs.admitted == 'true' &&
+      github.event_name == 'workflow_dispatch' &&
+      inputs.confirm == true &&
+      inputs.target_sha == github.sha &&
+      github.ref == 'refs/heads/main' &&
+      github.actor == github.repository_owner
+    needs: dispatch_gate
     runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 10
     env:
@@ -26,7 +116,7 @@ jobs:
       FREELLMAPI_KEY_FILE: ${{ vars.MEDIAHUB_FREELLMAPI_KEY_FILE }}
       FREELLMAPI_MODEL: ${{ vars.MEDIAHUB_FREELLMAPI_MODEL }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Install test dependencies
         run: python3 -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
       - name: Verify target node
