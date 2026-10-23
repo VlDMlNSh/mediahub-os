@@ -332,5 +332,64 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
                         self.assertIn(expected_message, result.stdout + result.stderr)
 
 
+    def test_review_child_fails_closed_when_gemini_execution_fails(self):
+        relative_path = ".github/workflows/gemini-fcc-independent-review-wave409.yml"
+        workflow = yaml.load(
+            (ROOT / relative_path).read_text(encoding="utf-8"),
+            Loader=yaml.BaseLoader,
+        )
+        steps = workflow["jobs"]["review"]["steps"]
+        gemini_step = next(step for step in steps if step.get("id") == "gemini")
+        validator_step = next(
+            step for step in steps
+            if step.get("name") == "Validate non-empty structured review output"
+        )
+        self.assertNotIn("continue-on-error", gemini_step)
+        self.assertEqual(validator_step.get("if"), "always()")
+        self.assertEqual(
+            validator_step.get("env", {}).get("GEMINI_OUTCOME"),
+            "${{ steps.gemini.outcome }}",
+        )
+        self.assertIn('if [[ "$GEMINI_OUTCOME" != "success" ]]', validator_step["run"])
+
+        valid_output = json.dumps({
+            "response": "Review completed with evidence.",
+            "stats": {"tools": {"byName": {"read_file": {"success": 1}}}},
+        })
+        with tempfile.TemporaryDirectory() as temporary:
+            output_path = Path(temporary) / "gemini-artifacts" / "stdout.log"
+            output_path.parent.mkdir()
+            output_path.write_text(valid_output, encoding="utf-8")
+
+            failed_model = subprocess.run(
+                ["bash", "-euo", "pipefail", "-c", validator_step["run"]],
+                cwd=temporary,
+                env={**os.environ, "GEMINI_OUTCOME": "failure"},
+                text=True,
+                capture_output=True,
+                timeout=5,
+                check=False,
+            )
+            self.assertNotEqual(failed_model.returncode, 0)
+            self.assertIn(
+                "Gemini review execution did not succeed",
+                failed_model.stdout + failed_model.stderr,
+            )
+
+            successful_model = subprocess.run(
+                ["bash", "-euo", "pipefail", "-c", validator_step["run"]],
+                cwd=temporary,
+                env={**os.environ, "GEMINI_OUTCOME": "success"},
+                text=True,
+                capture_output=True,
+                timeout=5,
+                check=False,
+            )
+            self.assertEqual(
+                successful_model.returncode, 0,
+                successful_model.stdout + successful_model.stderr,
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
