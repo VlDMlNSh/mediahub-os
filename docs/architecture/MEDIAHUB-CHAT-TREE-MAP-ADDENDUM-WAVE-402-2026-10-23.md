@@ -13,3 +13,12 @@ Date: 2026-10-23
 - Next: fix the current-head CI failure, resolve model provenance / repository scope / patch scanning / effective no-fallback evidence, add negative tests, then obtain independent review before any separate inference run.
 
 Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md)
+
+ 
+## Terminal revalidation — current PR head
+
+- Current PR #502 head: `acf0713924e98f64c8fcb8f637058ab5039d5107`.
+- [FCC workflow run #39878467537](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467537): **SUCCESS**; install smoke [job 120169811392](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467537/job/120169811392) **SUCCESS**; contract tests [job 120169811173](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467537/job/120169811173) **SUCCESS, 4/4**.
+- [Astra Verify #39878467453](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467453) and [Astra Cloud Runtime Validation #39878467451](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467451): **SUCCESS**.
+- The previous Astra Verify failure at intermediate head `bd6d23d7cbf5aa551346b7df82e9fc72fbbc8cbb` is superseded by this successful current-head run.
+- Formal independent reviews: **0**. Wave 401 findings F1–F4 remain open. Dispatch-gate and bounded-worker were skipped; inference remains **NOT RUN** and live dispatch remains **BLOCKED**.
