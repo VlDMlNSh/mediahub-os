@@ -323,7 +323,8 @@ class TestWorkflowDependencyTests(unittest.TestCase):
                     continue
                 if token.startswith("-"):
                     continue
-                provided.add(token.lower())
+                normalized = token.split(">=")[0].split("==")[0].split("[")[0]
+                provided.add(normalized.lower())
         return provided
 
     def test_workflow_runs_only_installed_test_tools(self):
