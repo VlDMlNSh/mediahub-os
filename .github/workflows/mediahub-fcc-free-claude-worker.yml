@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/mediahub-fcc-free-claude-worker.yml"
+      - "tests/test_mediahub_fcc_free_claude_workflow_contract.py"
   workflow_dispatch:
     inputs:
       confirm:
