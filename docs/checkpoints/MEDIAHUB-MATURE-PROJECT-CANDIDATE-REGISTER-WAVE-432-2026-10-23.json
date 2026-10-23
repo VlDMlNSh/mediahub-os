@@ -7,9 +7,9 @@
   "comparison_phase": "NOT_STARTED",
   "adoption_phase": "NOT_STARTED",
   "counts": {
-    "total_records": 101,
-    "candidate": 78,
-    "conditional": 16,
+    "total_records": 108,
+    "candidate": 83,
+    "conditional": 18,
     "reference_only": 2,
     "excluded": 5
   },
@@ -1899,13 +1899,258 @@
         "security_review": "NOT_STARTED",
         "subsystem_qualification": "NOT_STARTED"
       }
+    },
+    {
+      "id": "mcp-use",
+      "repo": "mcp-use/mcp-use",
+      "category": "mcp-client-framework",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 437 pinned source screening.; Wave 437: MCP client/agent framework candidate. Root package.json and pnpm-lock.yaml were not found at tested commit; resolve monorepo workspace manifests before dependency audit.",
+      "source_head": "f877f789e7b4979e62e5cbe221bfb29ebb86d1bd",
+      "license": "MIT",
+      "screening": {
+        "wave": "437",
+        "immutable_head": "f877f789e7b4979e62e5cbe221bfb29ebb86d1bd",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx_or_terms": "MIT",
+          "blob_sha": "083b7c012ba392a98e59534cb51439a4b0c67874",
+          "status": "VERIFIED_TEXT"
+        },
+        "manifest": {
+          "path": "packages root not yet resolved",
+          "blob_sha": null,
+          "status": "NOT_RESOLVED"
+        },
+        "lockfile": {
+          "path": "root package.json/pnpm-lock.yaml not found",
+          "blob_sha": null,
+          "status": "NOT_FOUND_AT_TESTED_ROOT_PATH; monorepo workspace path required"
+        },
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "neo4j-graphrag",
+      "repo": "neo4j/neo4j-graphrag-python",
+      "category": "graph-rag-retrieval",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 437 pinned source screening.; Wave 437: Potential graph retrieval subsystem; root LICENSE absent at tested path and lockfile content response empty. Verify license source and reproducible dependency set before selection.",
+      "source_head": "123964634f213fde8e2a5fd29b45bea4d0391d5d",
+      "license": "Apache-2.0 (manifest/header evidence)",
+      "screening": {
+        "wave": "437",
+        "immutable_head": "123964634f213fde8e2a5fd29b45bea4d0391d5d",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx_or_terms": "Apache-2.0 (manifest/header evidence)",
+          "blob_sha": null,
+          "status": "CONDITIONAL_LICENSE_FILE_NOT_FOUND"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "6efe2038e0204c879a32d195a19d7d0b9905f75f",
+          "status": "READ"
+        },
+        "lockfile": {
+          "path": "uv.lock",
+          "blob_sha": "c545f3eda0de0048be8d3e3fb16e72a11727fb65",
+          "status": "BLOB_REPORTED BUT CONTENT EMPTY; audit NOT RUN"
+        },
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "lancedb",
+      "repo": "lancedb/lancedb",
+      "category": "vector-database-retrieval",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 437 pinned source screening.; Wave 437: Candidate retrieval substrate; workspace spans Rust, Node.js and Python; choose and audit exact integration surface, not whole monorepo by default.",
+      "source_head": "a9535684cc1d9901c54c852f103dd0d492d61c3f",
+      "license": "Apache-2.0",
+      "screening": {
+        "wave": "437",
+        "immutable_head": "a9535684cc1d9901c54c852f103dd0d492d61c3f",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx_or_terms": "Apache-2.0",
+          "blob_sha": "7a4a3ea2424c09fbe48d455aed1eaa94d9124835",
+          "status": "VERIFIED_TEXT"
+        },
+        "manifest": {
+          "path": "Cargo.toml",
+          "blob_sha": "870ef5d07091d042cfa703ad2f657926fb9e1de0",
+          "status": "READ"
+        },
+        "lockfile": {
+          "path": "Cargo.lock",
+          "blob_sha": "8bad6ca926c64490356804862758616773b089fd",
+          "status": "CONTENT READ (282765 chars), audit NOT RUN"
+        },
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "toolhive",
+      "repo": "stacklok/toolhive",
+      "category": "mcp-runtime-security",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 437 pinned source screening.; Wave 437: Strong candidate for managed/isolated MCP server runtime and OIDC/secret handling; evaluate against MediaHub capability and issuer gates rather than delegating product authority.",
+      "source_head": "7970d588230120ee88dd20d9d7f2308a7ba12093",
+      "license": "Apache-2.0",
+      "screening": {
+        "wave": "437",
+        "immutable_head": "7970d588230120ee88dd20d9d7f2308a7ba12093",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx_or_terms": "Apache-2.0",
+          "blob_sha": "5d19730a604c467f93437238d205f8e793dddb40",
+          "status": "VERIFIED_TEXT"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "d982221745ab54116e59bc71241a0b30b7817b1e",
+          "status": "READ"
+        },
+        "lockfile": {
+          "path": "go.sum",
+          "blob_sha": "8933fb182ccecd5593cd59be7272ce1dac3ff091",
+          "status": "CONTENT READ (97411 chars), audit NOT RUN"
+        },
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "mcp-registry",
+      "repo": "modelcontextprotocol/registry",
+      "category": "mcp-discovery-registry",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "Wave 437 pinned source screening.; Wave 437: Registry/discovery candidate; pinned LICENSE explicitly says licensing transition is underway, so clarify exact commit's effective terms before reuse.",
+      "source_head": "f13bdd6d11e98bf63f074f289b98a8c6aef12bc9",
+      "license": "MIT to Apache-2.0 transition stated in LICENSE",
+      "screening": {
+        "wave": "437",
+        "immutable_head": "f13bdd6d11e98bf63f074f289b98a8c6aef12bc9",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx_or_terms": "MIT to Apache-2.0 transition stated in LICENSE",
+          "blob_sha": "4a93985763241755401a10678395303de4e720ba",
+          "status": "CONDITIONAL_LICENSE_TRANSITION"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "5023f23cd830449e1ab17a6ef6d26b897b87cf1a",
+          "status": "READ"
+        },
+        "lockfile": {
+          "path": "go.sum",
+          "blob_sha": "c9fd26ccf9ecc6fe165da519df0ae74fab10759f",
+          "status": "CONTENT READ (19098 chars), audit NOT RUN"
+        },
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "kagent",
+      "repo": "kagent-dev/kagent",
+      "category": "agent-orchestration-kubernetes",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 437 pinned source screening.; Wave 437: Kubernetes-centric agent framework candidate. Relevant only if it provides a needed isolated capability; root Go manifests not found.",
+      "source_head": "6401bd1e8da1d49d9a5d8778fca77ad451a7bc5c",
+      "license": "Apache-2.0",
+      "screening": {
+        "wave": "437",
+        "immutable_head": "6401bd1e8da1d49d9a5d8778fca77ad451a7bc5c",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx_or_terms": "Apache-2.0",
+          "blob_sha": "f7b5e615693b3618c2d10228851355921fc4656e",
+          "status": "VERIFIED_TEXT"
+        },
+        "manifest": {
+          "path": "Go module path unresolved",
+          "blob_sha": null,
+          "status": "NOT_RESOLVED"
+        },
+        "lockfile": {
+          "path": "Go sum path unresolved",
+          "blob_sha": null,
+          "status": "NOT_FOUND_AT_TESTED_ROOT_PATH; monorepo module path required"
+        },
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "agentops",
+      "repo": "AgentOps-AI/agentops",
+      "category": "agent-observability",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "Wave 437 pinned source screening.; Wave 437: Pinned commit dates 2026-06-25 and is stale relative to 2026-10-23 screening; candidate retained only for follow-up on current HEAD, license and dependency posture.",
+      "source_head": "f8e907b92dabe47232978023fdcb01e2a7d4b752",
+      "license": "MIT",
+      "screening": {
+        "wave": "437",
+        "immutable_head": "f8e907b92dabe47232978023fdcb01e2a7d4b752",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx_or_terms": "MIT",
+          "blob_sha": null,
+          "status": "NOT_VERIFIED_IN_THIS_PASS"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": null,
+          "status": "NOT_RESOLVED"
+        },
+        "lockfile": {
+          "path": "uv.lock",
+          "blob_sha": null,
+          "status": "NOT_AUDITED"
+        },
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     }
   ],
-  "latest_screening_wave": "436",
+  "latest_screening_wave": "437",
   "screening_summary": {
-    "pinned_heads": 32,
-    "license_files_read_at_pinned_heads": 30,
-    "manifest_files_read_at_pinned_heads": 32,
+    "pinned_heads": 39,
+    "license_files_read_at_pinned_heads": 34,
+    "manifest_files_read_at_pinned_heads": 37,
     "lockfiles_audited": 0,
     "advisory_reviews": 0,
     "exact_ci_audits": 0,
@@ -1913,10 +2158,11 @@
     "formal_comparison": "NOT_STARTED",
     "inventory_freeze": "NOT_READY",
     "lockfile_blob_shas_recorded": 20,
-    "lockfile_contents_read_not_audited": 13,
+    "lockfile_contents_read_not_audited": 16,
     "lockfile_sha_observed_but_content_empty": 7,
     "dependency_advisories": 0,
     "default_branch_tip_equivalence_verified": 0,
-    "lockfile_path_not_found": 8
+    "lockfile_path_not_found": 8,
+    "lockfile_blobs_recorded": 25
   }
 }
