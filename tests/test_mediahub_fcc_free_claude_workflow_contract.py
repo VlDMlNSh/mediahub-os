@@ -130,3 +130,36 @@ def test_router_separates_cloud_free_claude_and_local_ollama_llama() -> None:
     assert "local_claude_host: Voktors-Mini.Dlink" in router
     assert "local_claude_only: true" in router
     assert "permitted_cloud_agent_transport_allowlist_only: true" in router
+
+def test_cloud_claude_task_profiles_are_fixed_and_ruflo_is_pinned_read_only() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    for required in (
+        "task_profile:",
+        "options: [connectivity_smoke, ruflo_static_review]",
+        "TASK_PROFILE: ${{ inputs.task_profile }}",
+        '[[ "$TASK_PROFILE" == "connectivity_smoke" || "$TASK_PROFILE" == "ruflo_static_review" ]]',
+        "arbitrary task input",
+        "repository: ruvnet/ruflo",
+        "ref: f6c6a32432e74e36c17b91b96e51ba218783e122",
+        'git -C ruflo-source rev-parse HEAD:LICENSE',
+        'git -C ruflo-source rev-parse HEAD:package.json',
+        'git -C ruflo-source rev-parse HEAD:SECURITY.md',
+        "chmod -R a-w ruflo-source",
+        '--allowed-tools "Read,Glob,Grep"',
+        '--disallowed-tools "Bash,WebFetch,WebSearch,NotebookEdit"',
+        "Do not install or execute Ruflo",
+        "RUNTIME_EXECUTION: NOT RUN",
+        "review profile not selected",
+        "ruflo-review-result.txt",
+    ):
+        assert required in source, f"Missing bounded Ruflo task contract: {required}"
+
+
+def test_ruflo_review_profile_remains_source_only_and_does_not_install_hooks_or_mcp() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert "persist-credentials: false" in source
+    assert "execution=source-only-read-only-no-install-no-hooks-no-mcp" in source
+    assert "hooks_enabled=false" in source
+    assert "mcp_servers_enabled=false" in source
+    assert "independent_controller=false" in source
+    assert "Astra remains the sole control plane" in source
