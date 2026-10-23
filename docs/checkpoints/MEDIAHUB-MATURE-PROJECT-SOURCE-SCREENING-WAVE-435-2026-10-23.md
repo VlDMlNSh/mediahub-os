@@ -60,7 +60,7 @@ The counts sum to 93. The register screening summary records:
 - 14 lockfile blob SHAs identified;
 - 7 lockfile contents retrieved but not audited;
 - 7 lockfile SHA values returned with empty content;
-- 4 lockfile paths not found by the chosen filename;
+- 6 lockfile paths not found by the chosen filename;
 - 0 dependency advisory reviews, 0 stable release-tag pins, 0 upstream exact-CI audits, and 0 verified default-branch pointer equivalences.
 
 ## 5. MediaHub state and gates
