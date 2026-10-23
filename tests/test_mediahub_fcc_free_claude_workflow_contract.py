@@ -101,3 +101,28 @@ def test_ai_router_admits_only_explicit_cloud_controllers_and_keeps_no_paid_fall
     assert "  - .github/workflows/mediahub-fcc-free-claude-worker.yml" in router
     assert "paid_fallback: false" in router
     assert "unknown_route_behavior: fail_closed" in router
+
+def test_cloud_fcc_uses_pinned_selective_ecc_guidance_without_hooks_or_mcp() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert "repository: affaan-m/ECC" in source
+    assert "ref: c05b2d6614f62f6db0047669aa4eefb223d478f9" in source
+    assert "git -C ecc rev-parse HEAD:LICENSE" in source
+    assert "git -C ecc rev-parse HEAD:skills/verification-loop/SKILL.md" in source
+    assert "git -C ecc rev-parse HEAD:skills/security-review/SKILL.md" in source
+    assert "git -C ecc rev-parse HEAD:skills/search-first/SKILL.md" in source
+    assert "hooks_enabled=false" in source
+    assert "mcp_servers_enabled=false" in source
+    assert "independent_controller=false" in source
+    assert 'ECC_GUIDANCE="$(cat "$RUNNER_TEMP/ecc-profile/guidance.md")"' in source
+    assert "ecc-profile-metadata.txt" in source
+    assert "persist-credentials: false" in source
+
+
+def test_router_separates_cloud_free_claude_and_local_llamacpp() -> None:
+    router = Path(".github/ai/model-router.yml").read_text(encoding="utf-8")
+    assert "cloud_claude_runtime: fcc_openrouter_free" in router
+    assert "cloud_claude_free_only: true" in router
+    assert "local_claude_runtime: fcc_llamacpp" in router
+    assert "local_claude_host: Voktors-Mini.Dlink" in router
+    assert "local_claude_only: true" in router
+    assert "permitted_cloud_agent_transport_allowlist_only: true" in router
