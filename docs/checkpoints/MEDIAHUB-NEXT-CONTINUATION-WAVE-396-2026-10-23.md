@@ -101,3 +101,15 @@ Obtain independent review of PR #335, reconcile it with the current canonical do
 - Dispatch-gate and bounded-worker jobs were skipped on the pull-request event; no provider/model request occurred. Formal independent review remains **NOT VERIFIED** (zero formal reviews).
 - Wave 401 findings F1–F4 remain OPEN: actual model/provider provenance, repository data scope, patch artifact secret scanning, and proof of effective no-fallback configuration. Live inference **NOT RUN**; live dispatch **BLOCKED**; Contour A **NOT ACCEPTED**.
 - Next: resolve F1–F4, add negative tests, obtain independent review, then consider one separate, bounded no-write inference smoke. Do not merge solely to unlock `workflow_dispatch`.
+
+
+---
+
+## Wave 403 — Chat context handoff (2026-10-23)
+
+- Full handoff context and copy/paste resume command: [MEDIAHUB-CHAT-CONTEXT-HANDOFF-2026-10-23.md](MEDIAHUB-CHAT-CONTEXT-HANDOFF-2026-10-23.md).
+- Dated evidence report: [MEDIAHUB-CHAT-CONTEXT-HANDOFF-WAVE-403-2026-10-23.md](MEDIAHUB-CHAT-CONTEXT-HANDOFF-WAVE-403-2026-10-23.md).
+- Canonical map navigation addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-403-2026-10-23.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-403-2026-10-23.md).
+- Main HEAD observed: `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; PR #502 observed open/draft/unmerged at `56f5558b5d664f0a85bddfc4533be89d48e116e2`. Re-check live before further execution.
+- PR #502 status remains: install smoke/contract tests previously succeeded, but live inference NOT RUN, formal independent review NOT VERIFIED, F1–F4 OPEN, dispatch BLOCKED, Contour A NOT ACCEPTED. No provider call or secret read in Wave 403.
+- Next: resolve F1–F4 with negative tests, verify exact-head CI and independent review, then consider one bounded no-write inference test on a verified explicit free route; separately check official current provider quota terms. No paid fallback.
