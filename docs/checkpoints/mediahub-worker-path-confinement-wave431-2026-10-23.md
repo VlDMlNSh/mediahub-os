@@ -30,15 +30,16 @@ The owner confirmed the objective is **not to install Ruflo or introduce a secon
   4. symlinked parent escaping the workspace is rejected;
   5. symlinked boundary target escaping the workspace is rejected.
 - Test blob SHA: `9996d42cec8ae586029b575b11c0b22d379ca54b`.
-- No new runtime dependency. The tests use the existing Python test surface and temporary filesystem fixtures.
+- `.github/workflows/astra-verify.yml` was updated to install the declared `requirements-dev.txt` test dependencies and explicitly execute `python -m pytest -q tests/test_distributed_local_worker.py`. This is necessary because the existing `unittest discover` step does not execute top-level pytest-style functions in that module. Workflow blob SHA: `39ffc7f087a19987f5c3e97c2423ee465828080e`.
+- No new runtime dependency; only the existing development test dependencies are now installed by this CI job. The tests use temporary filesystem fixtures.
 
 ## Security limits and verification state
 
 This is a narrow path-confinement improvement, not a claim of race-free filesystem isolation. Path validation is still followed by a separate path-based write; a concurrent same-user process able to swap filesystem entries between check and write presents a residual TOCTOU concern. A descriptor-based/open-once implementation would need a separate portable design and adversarial race tests before claiming race-free containment.
 
-- Source and test files were read back from the working branch; blob SHAs above match the returned source.
+- Source, test and workflow files were read back from the working branch; blob SHAs above match the returned source.
 - Local execution of the repository test file: **NOT RUN** in this pass.
-- Exact-head GitHub CI: **PENDING**.
+- Exact-head GitHub CI for the current PR head: **PENDING** until the newly added pytest step finishes.
 - Independent security review: **PENDING**.
 - Merge/deployment/runtime qualification: **NOT RUN**.
 
