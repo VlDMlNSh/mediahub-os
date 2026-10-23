@@ -101,3 +101,18 @@ Obtain independent review of PR #335, reconcile it with the current canonical do
 - Dispatch-gate and bounded-worker jobs were skipped on the pull-request event; no provider/model request occurred. Formal independent review remains **NOT VERIFIED** (zero formal reviews).
 - Wave 401 findings F1–F4 remain OPEN: actual model/provider provenance, repository data scope, patch artifact secret scanning, and proof of effective no-fallback configuration. Live inference **NOT RUN**; live dispatch **BLOCKED**; Contour A **NOT ACCEPTED**.
 - Next: resolve F1–F4, add negative tests, obtain independent review, then consider one separate, bounded no-write inference smoke. Do not merge solely to unlock `workflow_dispatch`.
+
+
+---
+
+## Wave 404 — FCC free-route hardening and live-test gate recheck (2026-10-23)
+
+- Report: [Wave 404](MEDIAHUB-FCC-FREE-ROUTE-HARDENING-WAVE-404-2026-10-23.md); map addendum: [Wave 404](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-404-2026-10-23.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- `main` observed at `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; canonical docs branch observed at `4d8c15f3f608b982f429cc8965358b623057255a`.
+- PR #502 head advanced to `61c266f565c3ef2fbf49e91217cc1e4650f1bdb8`. Workflow blob `64a5f154d86884bb8b0356d8999cbb9ce4b1db95`; contract-test blob `32fa070a9d7ac9727ff1f71b3ad07d93d61e230e`.
+- This pass restricted the CLI to `Read,Glob,Grep`, switched to plan mode, and added a contract test. It is a partial hardening only: full repository read scope, unscanned patch artifact, missing actual upstream model provenance, and effective no-fallback proof remain open.
+- Exact-head FCC worker run `39878880575` was **IN PROGRESS** at last check; Astra Verify `39878880582` and Astra Cloud Runtime Validation `39878880584` succeeded. Overall exact-head CI remains **NOT VERIFIED** until the worker run completes.
+- OpenRouter catalog-auth probe `39847014875` returned HTTP 200 for GET catalog only. It did not call inference or report remaining quota. Account-specific quotas for listed secrets remain **NOT CHECKED**.
+- No provider inference, secret read, merge, or deployment occurred. PR #502 remains OPEN/DRAFT/UNMERGED; independent review is not recorded; live dispatch remains **BLOCKED**. Contour A remains **NOT ACCEPTED**.
+- Next: close F1–F4, verify exact-head CI, obtain independent security review, then consider one fixed, read-only live smoke through the default-branch workflow. Do not treat the dynamic OpenRouter free router as a guarantee of Qwen or Anthropic Claude.
+
