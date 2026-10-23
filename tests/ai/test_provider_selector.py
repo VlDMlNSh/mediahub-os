@@ -24,13 +24,13 @@ class ExecutorRoutingPolicyTests(unittest.TestCase):
             "  - .github/workflows/mediahub-fcc-free-claude-worker.yml",
             self.router,
         )
-        self.assertIn("permitted_cloud_agent_transport_only: true", self.router)
+        self.assertIn("permitted_cloud_agent_transport_allowlist_only: true", self.router)
         self.assertIn("secrets.MEDIAHUB_GITHUB_TOKEN", self.controller)
         self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", self.controller)
 
-    def test_local_claude_route_remains_ollama_only(self):
-        self.assertIn("local_claude_runtime: ollama", self.router)
-        self.assertIn("local_claude_host: Alamo", self.router)
+    def test_local_claude_route_uses_llamacpp_on_approved_third_host(self):
+        self.assertIn("local_claude_runtime: fcc_llamacpp", self.router)
+        self.assertIn("local_claude_host: Voktors-Mini.Dlink", self.router)
         self.assertIn("local_claude_only: true", self.router)
 
     def test_cloud_claude_route_is_free_only_and_admission_gated(self):
