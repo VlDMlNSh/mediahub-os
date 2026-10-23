@@ -22,3 +22,17 @@ Wave report: [Wave 412 evidence reconciliation](MEDIAHUB-NEXT-EVIDENCE-RECONCILI
 4. Keep Issue #301's issuer/lifecycle, R-06, target-manifest, schema validation, independent review and acceptance gates open until each has evidence.
 
 **Disposition: EVIDENCE RECONCILED / PR #511 CI NOT VERIFIED / FORMAL REVIEW NOT VERIFIED / LOCAL CLAUDE NOT RUN / CONTOUR A NOT ACCEPTED**
+
+
+---
+
+## Wave 414 terminal update — live PR gate recheck (2026-10-23)
+
+- Report: [Wave 414 live PR gate recheck](MEDIAHUB-NEXT-LIVE-PR-GATE-RECHECK-WAVE-414-2026-10-23.md).
+- Baseline 2.0 read-back blob: `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`; /next skill blob: `66d33c76a1919e909307d8fb68847c6a65b70ac3`.
+- PR #514 head `e19da4522c2eb72057a2d9baa29a25fa347f2759`: combined status empty, workflow-run list empty, formal reviews empty, review threads empty. Exact-head CI and independent review remain **NOT VERIFIED**.
+- Current metadata: PR #511 head `dcb13460ec42fbae4ad298ba5254dc51b0cd15ea`; PR #515 head `9797af443a1bff330eddd54180aa8e8d9eb9efeb`. Both remain open draft; no acceptance inferred.
+- Canonical map Contents API again returned an empty body with blob SHA `78fa7dfa02357fe9e95645843e583f8802867d78`; full map content was not recovered during this pass, so canonical map read remains **NOT VERIFIED**.
+- No model dispatch, local host command, secret read, merge or deployment. Local Claude remains blocked pending verified authorized third host/capabilities/allowlist and qualified free-only route.
+- Next: recover current main/canonical branch HEAD SHAs and map blob content via a verified Git route; then obtain exact-head CI and independent review before considering documentation PR integration. Continue Issue #301 gates without weakening governance.
+- Status: **DOCUMENTATION EVIDENCE COMMITTED TO WAVE 412 BRANCH / CI NOT VERIFIED / REVIEW NOT VERIFIED / CONTOUR A NOT ACCEPTED**.
