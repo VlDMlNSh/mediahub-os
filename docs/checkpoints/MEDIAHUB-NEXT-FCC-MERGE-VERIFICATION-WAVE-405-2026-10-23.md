@@ -10,7 +10,7 @@ PR #502 was merged into `main` at commit `85e74ec24b862a5f6427ad5dca7d050df89c22
 - Merge commit: `85e74ec24b862a5f6427ad5dca7d050df89c224c`.
 - PR #502 head: `77e5bb89901c0c10a7fe3f5b011ba5b046789fa8`; merged at 2026-10-23T01:02:47Z.
 - Worker workflow blob SHA on main: `735db573625542e061b1ebeb75e1546720033dfb`.
-- Contract-test blob SHA on main: `68e77fec5ec74ef2d7d9af246b24febea3326f7d`.
+- Contract-test blob SHA on main: `68e77fec5ec74ef2d7d02e2cd36a04fa9dd6a865`.
 - Astra Verify run: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39881729110 — exact merge SHA, completed SUCCESS; job `verify` and all listed steps succeeded.
 - PR CI run: https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467537 — contract tests and pinned FCC install smoke both succeeded. Its dispatch-gate and bounded-worker jobs were SKIPPED, so it proves no provider/model call.
 - Exact merge SHA check-runs contains only Astra Verify success. Combined commit status is PENDING with zero status contexts; this must not be represented as all CI passing.
