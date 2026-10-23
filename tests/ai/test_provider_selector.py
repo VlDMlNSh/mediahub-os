@@ -48,6 +48,16 @@ class ExecutorRoutingPolicyTests(unittest.TestCase):
         self.assertIn('endswith(":free")', fcc)
         self.assertIn("@anthropic-ai/claude-code@2.1.282", fcc)
 
+    def test_freellmapi_live_inference_requires_manual_dispatch_on_main(self):
+        workflow = (
+            ROOT / ".github" / "workflows" / "freellmapi-qualification.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn("  workflow_dispatch:", workflow)
+        self.assertIn(
+            "if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'",
+            workflow,
+        )
+
     def test_paid_and_unapproved_fallbacks_are_disabled(self):
         self.assertIn("paid_fallback: false", self.router)
         self.assertIn("unknown_route_behavior: fail_closed", self.router)
