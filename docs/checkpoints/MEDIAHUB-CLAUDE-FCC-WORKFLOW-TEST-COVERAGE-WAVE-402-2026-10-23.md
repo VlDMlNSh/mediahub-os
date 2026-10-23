@@ -6,7 +6,7 @@ Date: 2026-10-23
 
 - Target PR: [#502 — GitHub-hosted FCC Claude worker on OpenRouter free route](https://github.com/VlDMlNSh/mediahub-os/pull/502).
 - PR branch: `contour-a/github-hosted-fcc-openrouter-free-wave400`.
-- Current target head: `bd6d23d7cbf5aa551346b7df82e9fc72fbbc8cbb`.
+- Current terminal target head: `acf0713924e98f64c8fcb8f637058ab5039d5107`. Earlier intermediate head `bd6d23d7cbf5aa551346b7df82e9fc72fbbc8cbb` had an Astra Verify failure that was subsequently resolved.
 - Base/main: `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`.
 - Workflow blob: `8571678864c260c0e84392e2566a75856c3cf5f4`.
 - Contract-test blob: `eb93f867ce48128daf4e784f4860da8a44de41ec`.
@@ -43,7 +43,7 @@ Therefore:
 
 - FCC install smoke: **SUCCEEDED**
 - Workflow contract tests: **SUCCEEDED (4/4)**
-- Full exact-head CI: **FAILED / NOT VERIFIED** because Astra Verify failed
+- Full exact-head CI at the intermediate head `bd6d23d7cbf5aa551346b7df82e9fc72fbbc8cbb` initially failed Astra Verify; that failure was superseded by a later head
 - Independent formal review: **NOT VERIFIED**
 - Live inference: **NOT RUN**
 - No-paid-fallback qualification: **NOT VERIFIED**
@@ -57,3 +57,12 @@ No secret values were read. No provider was invoked. No workflow dispatch, merge
 Resolve the Astra Verify workflow-hygiene failure at the current PR head, then fix F1–F4, add negative tests for fallback/config and artifact rejection, rerun all exact-head checks, and obtain an independent review. Only then consider a separately authorized, no-write inference smoke using the free-only route. Do not merge merely to unlock `workflow_dispatch`.
 
 Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md)
+
+ 
+## Terminal revalidation — current PR head
+
+- Current PR #502 head: `acf0713924e98f64c8fcb8f637058ab5039d5107`.
+- [FCC workflow run #39878467537](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467537): **SUCCESS**; install smoke [job 120169811392](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467537/job/120169811392) **SUCCESS**; contract tests [job 120169811173](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467537/job/120169811173) **SUCCESS, 4/4**.
+- [Astra Verify #39878467453](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467453) and [Astra Cloud Runtime Validation #39878467451](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467451): **SUCCESS**.
+- The previous Astra Verify failure at intermediate head `bd6d23d7cbf5aa551346b7df82e9fc72fbbc8cbb` is superseded by this successful current-head run.
+- Formal independent reviews: **0**. Wave 401 findings F1–F4 remain open. Dispatch-gate and bounded-worker were skipped; inference remains **NOT RUN** and live dispatch remains **BLOCKED**.
