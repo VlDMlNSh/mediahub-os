@@ -351,6 +351,12 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
             "${{ steps.gemini.outcome }}",
         )
         self.assertIn('if [[ "$GEMINI_OUTCOME" != "success" ]]', validator_step["run"])
+        self.assertNotIn("continue-on-error", workflow["jobs"]["review"])
+        upload_step = next(
+            step for step in steps if step.get("name") == "Upload review evidence"
+        )
+        self.assertEqual(upload_step.get("if"), "always()")
+        self.assertNotIn("continue-on-error", upload_step)
 
         valid_output = json.dumps({
             "response": "Review completed with evidence.",
