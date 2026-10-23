@@ -1,0 +1,914 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-23",
+  "project": "MediaHub OS",
+  "mediahub_base_target_sha": "f0448f28c7cfa61e4450c38529f09afbfdbbc7c7",
+  "discovery_phase": "OPEN_NOT_FROZEN",
+  "comparison_phase": "NOT_STARTED",
+  "adoption_phase": "NOT_STARTED",
+  "counts": {
+    "total_records": 88,
+    "candidate": 71,
+    "conditional": 9,
+    "reference_only": 3,
+    "excluded": 5
+  },
+  "freeze_gates": [
+    "Complete repository searches in all subsystems and store exact query/result evidence",
+    "Pin immutable repository HEAD SHA and latest release/tag for every active candidate",
+    "Read exact license file and record blob SHA; flag source-available or vendor terms",
+    "Read root manifest and lockfiles; review dependency and security advisories",
+    "Verify CI/tests and recent maintainer/commit activity",
+    "Record overlaps, exclusions, subsystem fit and data-flow implications",
+    "Publish accepted shortlist and exclusions before formal side-by-side comparison"
+  ],
+  "policy": {
+    "notes": "Repository metadata and README blob SHAs are discovery evidence only; they do not prove runtime maturity, security, compatibility or qualification.",
+    "control_plane": "MediaHub remains the sole control plane and MediaHub Product State Authority remains authoritative.",
+    "functional_baseline": "Baseline 2.0 remains canonical.",
+    "provider_route": "No unauthorized paid fallback; provider/model allowlists and budget gates must remain explicit.",
+    "agent_dispatch": "Gemini only through approved controller after Issue #301 gates."
+  },
+  "candidates": [
+    {
+      "id": "langgraph",
+      "repo": "langchain-ai/langgraph",
+      "category": "agent-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 97c31e9cb4d8fe56be8d768ce3eb5e22400e897e",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "microsoft-agent-framework",
+      "repo": "microsoft/agent-framework",
+      "category": "agent-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob bc9a8b080aeca9b3c5a25f216f8f96f61ffc012c",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "crewai",
+      "repo": "crewAIInc/crewAI",
+      "category": "agent-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 4a5360ad587a35625684747157881558c6acae1d",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "ruflo",
+      "repo": "ruvnet/ruflo",
+      "category": "agent-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Prior observed HEAD 88349655ebc2de8f9bf702aaf31d6be768e1ea11; package 3.59.17; MIT license blob 5c4718198a4156beacc780980077043a98b0dd6a",
+      "license": "MIT observed previously; reverify",
+      "source_head": "RE_PIN_REQUIRED"
+    },
+    {
+      "id": "pydantic-ai",
+      "repo": "pydantic/pydantic-ai",
+      "category": "agent-contracts",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 0d6afafd97a197da2d78b26e3b7aaf1c41d784b0",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "openai-agents-sdk",
+      "repo": "openai/openai-agents-python",
+      "category": "agent-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 40f490c110cd584f7034bd221c6da37379fc41ff",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "google-adk",
+      "repo": "google/adk-python",
+      "category": "agent-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README declares Apache-2.0; blob 24f2b1f494b8298178ef73fd909c175508f4606a",
+      "license": "Apache-2.0 stated in README; verify LICENSE",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "agno",
+      "repo": "agno-agi/agno",
+      "category": "agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 2813f35fa7620ff7d95465d853d7b0a6ee2c00b4",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "smolagents",
+      "repo": "huggingface/smolagents",
+      "category": "agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Apache-2.0 license text in README; blob 7c8af38d981a563add56db76b10cde810e010690",
+      "license": "Apache-2.0 stated; verify LICENSE",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "mastra",
+      "repo": "mastra-ai/mastra",
+      "category": "agent-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob f6465bcaf53f737e3754c28660e142ca44e07c97; CodeQL badge",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "strands-agents",
+      "repo": "strands-agents/harness-sdk",
+      "category": "agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 8deea9e1814068770e52cd91e729422eaa319a7e",
+      "license": "LICENSE.APACHE linked; verify blob",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "llamaindex",
+      "repo": "run-llama/llama_index",
+      "category": "agent-rag",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "README blob 572527a8f5293bcf001366da01e51549280ff2e0; README says OSS remains but primary focus shifted",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "langchain",
+      "repo": "langchain-ai/langchain",
+      "category": "agent-sdk-ecosystem",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; compare overlap with LangGraph",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "deepagents",
+      "repo": "langchain-ai/deepagents",
+      "category": "agent-harness",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; higher-level harness candidate",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "vercel-ai-sdk",
+      "repo": "vercel/ai",
+      "category": "agent-sdk",
+      "status": "CANDIDATE",
+      "repo_status": "NOT_CHECKED",
+      "evidence": "README fetch attempted but did not return readable content in this pass",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "beeai-framework",
+      "repo": "i-am-bee/beeai-framework",
+      "category": "agent-framework",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "claude-agent-sdk-python",
+      "repo": "anthropics/claude-agent-sdk-python",
+      "category": "vendor-agent-sdk",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "Terms and provider coupling require review",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "semantic-kernel",
+      "repo": "microsoft/semantic-kernel",
+      "category": "agent-framework-legacy",
+      "status": "REFERENCE_ONLY",
+      "repo_status": "active",
+      "evidence": "README blob 02cab29b8f983d06039752b7326c95ecca7a2891 points to Microsoft Agent Framework as successor",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "openhands",
+      "repo": "OpenHands/OpenHands",
+      "category": "coding-agent-workbench",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 54f41832322ab4701c202a102cd4db23e3e4dc3a",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "goose",
+      "repo": "aaif-goose/goose",
+      "category": "coding-agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 44c960f0193de1ccd3a13721cfe2daf5e7707ac5; README declares Apache-2.0",
+      "license": "Apache-2.0 stated; verify LICENSE",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "opencode",
+      "repo": "anomalyco/opencode",
+      "category": "coding-agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Default branch dev; README blob a8551f97c57f9140c4c2ce9f7c004dc4bc21954b",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "cline",
+      "repo": "cline/cline",
+      "category": "coding-agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 1b870599c7e12943b5a71b69c975744d61cbc25a",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "aider",
+      "repo": "Aider-AI/aider",
+      "category": "coding-agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 816c876cb67021fa9f8d37267c8e57923eabdb07; supports cloud/local model flow and git integration",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "mini-swe-agent",
+      "repo": "SWE-agent/mini-swe-agent",
+      "category": "coding-agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 7db1d82dfa92eaa00adeb10c8681677a9e6ec639; README recommends it over SWE-agent",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "openai-codex-cli",
+      "repo": "openai/codex",
+      "category": "coding-agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "gemini-cli",
+      "repo": "google-gemini/gemini-cli",
+      "category": "coding-agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; distinct from approved Gemini controller transport",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "qwen-code",
+      "repo": "QwenLM/qwen-code",
+      "category": "coding-agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "hermes-agent",
+      "repo": "NousResearch/hermes-agent",
+      "category": "general-agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "open-interpreter",
+      "repo": "OpenInterpreter/open-interpreter",
+      "category": "computer-use-agent",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; inspect sandbox/host permissions",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "docker-agent",
+      "repo": "docker/docker-agent",
+      "category": "agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob d3daeb8ead7e59d1acc0b453d034429d5e0449a7; YAML-declared agents and tools",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "temporal",
+      "repo": "temporalio/temporal",
+      "category": "durable-workflows",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob d89e30ebb9863ea82c9203e1e696170ea9484af9",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "restate",
+      "repo": "restatedev/restate",
+      "category": "durable-workflows",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 6ef156693eb3452f01e17d4e4e69d9b4fcfa22bb",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "dbos-transact-ts",
+      "repo": "dbos-inc/dbos-transact-ts",
+      "category": "durable-workflows",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "inngest",
+      "repo": "inngest/inngest",
+      "category": "durable-workflows",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "prefect",
+      "repo": "PrefectHQ/prefect",
+      "category": "workflow-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "dagster",
+      "repo": "dagster-io/dagster",
+      "category": "workflow-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "trigger-dev",
+      "repo": "triggerdotdev/trigger.dev",
+      "category": "durable-tasks",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "argo-workflows",
+      "repo": "argoproj/argo-workflows",
+      "category": "workflow-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "kestra",
+      "repo": "kestra-io/kestra",
+      "category": "workflow-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; default branch develop",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "litellm",
+      "repo": "BerriAI/litellm",
+      "category": "model-gateway",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 5fd84b529dc66aa71c36fb7e5188303e7432613d",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "bifrost",
+      "repo": "maximhq/bifrost",
+      "category": "model-gateway",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Default branch dev; README blob eb28462fd74d6d76d3681b4ac3947ae91bb34495",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "vllm-semantic-router",
+      "repo": "vllm-project/semantic-router",
+      "category": "model-routing",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 768312ccf41c5ac38239328a9d283c9dee7fab71",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "portkey-gateway",
+      "repo": "Portkey-AI/gateway",
+      "category": "model-gateway",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "README blob 199b744cab2e0a3cf48f98a44782aeda482fc0f1; Gateway 2.0 is marked pre-release; MIT LICENSE blob 2c0759f826129145c2b8d792ad1160a0b6342448",
+      "license": "MIT observed; verify current release/license",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "helicone",
+      "repo": "Helicone/helicone",
+      "category": "gateway-observability",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "README blob 0bfc46167e1a9056c564bf67173641f3dd96d498; LICENSE blob 4a1ada09a20596ca4619e4f2001104cf743a10fa; has fallback capability",
+      "license": "Apache-2.0 observed; verify subtree boundaries",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "vllm",
+      "repo": "vllm-project/vllm",
+      "category": "model-serving",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "sglang",
+      "repo": "sgl-project/sglang",
+      "category": "model-serving",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "ollama",
+      "repo": "ollama/ollama",
+      "category": "local-model-serving",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; use only behind qualified loopback/auth boundaries",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "llama-cpp",
+      "repo": "ggml-org/llama.cpp",
+      "category": "local-model-serving",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "langfuse",
+      "repo": "langfuse/langfuse",
+      "category": "observability",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 3c4ad5773b846b6b1c16355640ebd87ff031f92e",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "phoenix",
+      "repo": "Arize-ai/phoenix",
+      "category": "observability",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 57e2f3ff4099ee6d45f21160dd2d2f504809e2b6",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "opik",
+      "repo": "comet-ml/opik",
+      "category": "observability",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob f0379f032b170fa4e9a328abcc235617b3e163e1",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "openlit",
+      "repo": "openlit/openlit",
+      "category": "observability",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "openllmetry",
+      "repo": "traceloop/openllmetry",
+      "category": "observability",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "promptfoo",
+      "repo": "promptfoo/promptfoo",
+      "category": "llm-eval-redteam",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob a6713365c28b9e7949b2b4c2ba87845dd50e0ce3; README declares MIT",
+      "license": "MIT stated; verify LICENSE",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "inspect-ai",
+      "repo": "UKGovernmentBEIS/inspect_ai",
+      "category": "llm-evaluation",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob d4081077fc07881e696a7005a8ea0b0b6464e001",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "deepeval",
+      "repo": "confident-ai/deepeval",
+      "category": "llm-evaluation",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 3a0898fcf91d70f1b2643c1fc8851ffaee054700",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "ragas",
+      "repo": "vibrantlabsai/ragas",
+      "category": "llm-evaluation",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 07b1f00fde50ee8506f3087326285041c1a1a05c; README declares Apache-2.0",
+      "license": "Apache-2.0 stated; verify LICENSE",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "lm-evaluation-harness",
+      "repo": "EleutherAI/lm-evaluation-harness",
+      "category": "model-benchmarking",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "giskard-oss",
+      "repo": "Giskard-AI/giskard-oss",
+      "category": "ai-testing",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "nemo-guardrails",
+      "repo": "NVIDIA-NeMo/Guardrails",
+      "category": "llm-guardrails",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob 0e89130b921f58db81c27ff2d8fc990b58fbcff1; Apache-2.0 declared in README",
+      "license": "Apache-2.0 stated; verify LICENSE",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "guardrails-ai",
+      "repo": "guardrails-ai/guardrails",
+      "category": "output-guardrails",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob ad2b492d82205b633d8298bc58ab22d120b56b0e; Apache-2.0 declared in README",
+      "license": "Apache-2.0 stated; verify LICENSE",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "mem0",
+      "repo": "mem0ai/mem0",
+      "category": "agent-memory",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob c9ed6dbfbe14a2fe60b8f3761a083786157a6987; OSS vs managed platform distinction in README",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "graphiti",
+      "repo": "getzep/graphiti",
+      "category": "agent-memory-context-graph",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob dc1d339d13d77b6cccb9d00af54b5f15665760bd; CI/unit/typecheck badges",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "haystack",
+      "repo": "deepset-ai/haystack",
+      "category": "rag-agent-pipelines",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob afa079b2a7e90e815fdaf9b09edcd7ad010e3e91",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "qdrant",
+      "repo": "qdrant/qdrant",
+      "category": "vector-database",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "weaviate",
+      "repo": "weaviate/weaviate",
+      "category": "vector-database",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "chroma",
+      "repo": "chroma-core/chroma",
+      "category": "vector-database",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "milvus",
+      "repo": "milvus-io/milvus",
+      "category": "vector-database",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "opensandbox",
+      "repo": "opensandbox-group/OpenSandbox",
+      "category": "agent-sandbox",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob f5c62efcbcdd8582785229c731df4ead54ccbf98; E2E/Kubernetes workflow badges",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "e2b",
+      "repo": "e2b-dev/E2B",
+      "category": "agent-sandbox",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; hosted/self-host boundary needs review",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "browser-use",
+      "repo": "browser-use/browser-use",
+      "category": "browser-agent",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob fe0d153c091192af376573013bf27974de9169ff; cloud/local mode review needed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "stagehand",
+      "repo": "browserbase/stagehand",
+      "category": "browser-agent-sdk",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "README blob b474ec5e4861b4e1dc10ca1f81ebf3cfe77966f0",
+      "license": "MIT badge displayed; verify LICENSE",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "playwright",
+      "repo": "microsoft/playwright",
+      "category": "browser-automation",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; baseline browser automation primitive",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "a2a",
+      "repo": "a2aproject/A2A",
+      "category": "agent-protocol",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; protocol alone grants no authority",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "mcp-typescript-sdk",
+      "repo": "modelcontextprotocol/typescript-sdk",
+      "category": "tool-protocol",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "mcp-go-sdk",
+      "repo": "modelcontextprotocol/go-sdk",
+      "category": "tool-protocol",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "composio",
+      "repo": "ComposioHQ/composio",
+      "category": "tool-integrations",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; default branch next",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "dify",
+      "repo": "langgenius/dify",
+      "category": "ai-product-platform",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; license and parallel control plane/state ownership to review",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "langflow",
+      "repo": "langflow-ai/langflow",
+      "category": "visual-workflow-builder",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; UX/prototyping rather than assumed core authority",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "activepieces",
+      "repo": "activepieces/activepieces",
+      "category": "workflow-automation",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; OSS/enterprise boundary to review",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "n8n",
+      "repo": "n8n-io/n8n",
+      "category": "workflow-automation",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "Repository metadata observed; license compatibility not assumed",
+      "license": "REVIEW_REQUIRED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "autogen",
+      "repo": "microsoft/autogen",
+      "category": "agent-framework-legacy",
+      "status": "EXCLUDED_FROM_ACTIVE_SHORTLIST",
+      "repo_status": "archived",
+      "evidence": "README says archived/no longer maintained and redirects to Microsoft Agent Framework",
+      "license": "MIT source code stated externally; irrelevant to new runtime until license/legal audit",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "flowise",
+      "repo": "FlowiseAI/Flowise",
+      "category": "visual-workflow-builder",
+      "status": "EXCLUDED_FROM_ACTIVE_SHORTLIST",
+      "repo_status": "archived",
+      "evidence": "GitHub metadata returned archived=true on 2026-10-23",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "roo-code",
+      "repo": "RooCodeInc/Roo-Code",
+      "category": "coding-agent",
+      "status": "EXCLUDED_FROM_ACTIVE_SHORTLIST",
+      "repo_status": "archived",
+      "evidence": "GitHub metadata returned archived=true on 2026-10-23",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "daytona",
+      "repo": "daytonaio/daytona",
+      "category": "agent-sandbox",
+      "status": "EXCLUDED_FROM_ACTIVE_SHORTLIST",
+      "repo_status": "archived",
+      "evidence": "GitHub metadata returned archived=true on 2026-10-23",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "llm-guard",
+      "repo": "protectai/llm-guard",
+      "category": "llm-guardrails",
+      "status": "EXCLUDED_FROM_ACTIVE_SHORTLIST",
+      "repo_status": "archived",
+      "evidence": "GitHub metadata returned archived=true on 2026-10-23",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "swe-agent-legacy",
+      "repo": "SWE-agent/SWE-agent",
+      "category": "coding-agent-legacy",
+      "status": "REFERENCE_ONLY",
+      "repo_status": "active-repo-but-superseded",
+      "evidence": "README says active effort moved to mini-swe-agent and recommends successor",
+      "license": "NOT_AUDITED",
+      "source_head": "NOT_PINNED"
+    },
+    {
+      "id": "semantic-kernel-legacy",
+      "repo": "microsoft/semantic-kernel",
+      "category": "agent-framework-legacy",
+      "status": "REFERENCE_ONLY",
+      "repo_status": "active-but-successor-designated",
+      "evidence": "README points to Microsoft Agent Framework as successor",
+      "license": "MIT stated in README; verify LICENSE",
+      "source_head": "NOT_PINNED"
+    }
+  ]
+}
