@@ -7891,3 +7891,10 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 
 
 - Wave 324: [Gemini dispatch gate and executor identity audit](../checkpoints/MEDIAHUB-GEMINI-DISPATCH-READINESS-WAVE-324-2026-10-21.md) and [architecture addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-324-2026-10-21.md). Main HEAD `79196054d84b1197cea1447dd1db5ad075302834`; controller run #39650408656 was skipped on a PR comment, no Gemini child runs occurred. Admission remains blocked on independent review, Actions variable/secret metadata, trusted-main probe, branch governance and Alamo identity.
+
+
+## Wave 406 — FCC managed-token bootstrap remediation (2026-10-23)
+
+- Report: [Wave 406 FCC managed-token bootstrap remediation](../checkpoints/MEDIAHUB-NEXT-FCC-MANAGED-TOKEN-BOOTSTRAP-WAVE-406-2026-10-23.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-406-2026-10-23.md); [checkpoint overlay](../checkpoints/MEDIAHUB-CONTINUATION-CHECKPOINT-OVERLAY-WAVE-406-2026-10-23.md).
+- Fix PR [#506](https://github.com/VlDMlNSh/mediahub-os/pull/506) is draft/unmerged at `a8cef5fbad56c93573e309c6048ffd8a0f675053`. Contract tests, pinned FCC install smoke, Astra Verify and Astra Cloud Runtime Validation succeeded; dispatch jobs were skipped. Combined status remains PENDING with zero contexts and independent review is NOT VERIFIED.
+- The pinned FCC loader ignores process-level `ANTHROPIC_AUTH_TOKEN` overrides; the workflow now imports the run-scoped token through a private `FCC_ENV_FILE` while keeping proxy auth enabled. Runtime Claude response, artifact, billing/quota, free-route qualification and Contour A acceptance remain NOT VERIFIED.
