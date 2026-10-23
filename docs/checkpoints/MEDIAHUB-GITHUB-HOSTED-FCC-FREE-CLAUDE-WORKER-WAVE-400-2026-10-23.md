@@ -4,7 +4,7 @@ Date: 2026-10-23
 
 ## Decision and disposition
 
-**DRAFT PR CREATED / FCC INSTALL SMOKE SUCCEEDED / LIVE DISPATCH NOT RUN / EXACT-HEAD QUALIFICATION NOT VERIFIED**
+**DRAFT PR CREATED / FCC INSTALL SMOKE SUCCEEDED / ALL RETURNED EXACT-HEAD CI SUCCEEDED / INDEPENDENT REVIEW NOT VERIFIED / LIVE DISPATCH NOT RUN**
 
 A separate implementation proposal is now available in [PR #502](https://github.com/VlDMlNSh/mediahub-os/pull/502). It adds a GitHub-hosted ephemeral worker using Free Claude Code (FCC) and the OpenRouter Free Models Router, without a direct paid Anthropic credential or FCC model fallback list.
 
@@ -34,7 +34,7 @@ The workflow checks out FCC at immutable upstream commit `3d2ae2306752dbdf504714
 
 - GitHub-hosted FCC install smoke: [run 39876277682](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39876277682) — job `install-smoke` completed **SUCCESS**. This installed FCC from the pinned source and lockfile, checked the `fcc-server` entry point and `fcc-claude` entry point metadata, and made no provider/model call.
 - Astra Cloud Runtime Validation: [run 39876277731](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39876277731) — **SUCCESS** at exact PR head.
-- Astra Verify: [run 39876277673](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39876277673) — **IN PROGRESS** at time of report; final status not yet verified.
+- Astra Verify: [run 39876277673](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39876277673) — **SUCCESS** at exact PR head.
 - Formal independent PR reviews: none returned at time of report.
 - Live worker workflow: dispatch-gate and bounded-worker were **SKIPPED** on the pull-request run; no provider/model call, no credential value inspection, no local/self-hosted host use, no merge and no deployment.
 
@@ -43,7 +43,7 @@ The workflow checks out FCC at immutable upstream commit `3d2ae2306752dbdf504714
 - PR implementation: **DRAFT / OPEN**.
 - FCC installation smoke: **SUCCEEDED**.
 - Astra Cloud Runtime Validation: **SUCCEEDED**.
-- Astra Verify: **RUNNING / NOT VERIFIED** until terminal status is rechecked.
+- Astra Verify: **SUCCEEDED**.
 - Independent security review: **NOT VERIFIED**.
 - Live Claude dispatch: **NOT RUN**.
 - Route qualification: **NOT VERIFIED**.
@@ -51,6 +51,6 @@ The workflow checks out FCC at immutable upstream commit `3d2ae2306752dbdf504714
 
 ## Next bounded step
 
-Recheck Astra Verify and all exact-head checks, read back both changed files and blob SHAs, and obtain independent security review. Repair any failures in the same draft PR. Only after CI/review and route/data-governance admission pass should a separately authorized, bounded manual run be considered. Do not set `MEDIAHUB_ALLOW_FCC_FREE_CLAUDE=true` or dispatch the worker before those gates pass.
+All three returned exact-head runs are now terminal SUCCESS. Re-read both changed files and blob SHAs and obtain independent security review. Repair any findings in the same draft PR. Only after CI/review and route/data-governance admission pass should a separately authorized, bounded manual run be considered. Do not set `MEDIAHUB_ALLOW_FCC_FREE_CLAUDE=true` or dispatch the worker before those gates pass.
 
 Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md)
