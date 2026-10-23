@@ -112,7 +112,6 @@ jobs:
         uses: google-github-actions/run-gemini-cli@f77273f4c914e4bf38440cf36a0369cb64a37489 # v0.1.22
         env:
           GEMINI_CLI_TRUST_WORKSPACE: 'true'
-        continue-on-error: true
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY_2 }}
           gemini_cli_version: '0.64.0'
@@ -133,10 +132,16 @@ jobs:
             Controller task (signed): ${{ inputs.task }}
 
       - name: Validate non-empty structured review output
-        if: always() && steps.gemini.outcome == 'success'
+        if: always()
         shell: bash
+        env:
+          GEMINI_OUTCOME: ${{ steps.gemini.outcome }}
         run: |
           set -euo pipefail
+          if [[ "$GEMINI_OUTCOME" != "success" ]]; then
+            echo "::error::Gemini review execution did not succeed (outcome=$GEMINI_OUTCOME)."
+            exit 1
+          fi
           output="gemini-artifacts/stdout.log"
           test -s "$output" || { echo "::error::Gemini review artifact is missing or empty."; exit 1; }
           jq -e . "$output" >/dev/null || { echo "::error::Gemini review output is not valid JSON."; exit 1; }
