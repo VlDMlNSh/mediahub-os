@@ -23,14 +23,14 @@ The owner confirmed the objective is **not to install Ruflo or introduce a secon
 
 - `ops/qualification/run_distributed_local_worker.py` — new helper `_resolve_workspace_path` denies absolute declared boundaries, traversal components, symlink components and resolved paths outside the repository root. The bounded Claude `Write`/`Edit` materializer now requires a repository-relative declared boundary, a contained canonical target, and exact target-to-boundary equality before writing.
 - Source blob SHA: `3479450a585496e557f0b2dc6272eb9111950840`.
-- `tests/test_distributed_local_worker.py` — five regressions:
+- `tests/test_distributed_local_worker_path_containment.py` — five focused regressions:
   1. legitimate exact-boundary write remains available;
   2. absolute declared boundary is rejected;
   3. traversal boundary is rejected;
   4. symlinked parent escaping the workspace is rejected;
   5. symlinked boundary target escaping the workspace is rejected.
-- Test blob SHA: `9996d42cec8ae586029b575b11c0b22d379ca54b`.
-- `.github/workflows/astra-verify.yml` was updated to install the declared `requirements-dev.txt` test dependencies and explicitly execute `python -m pytest -q tests/test_distributed_local_worker.py`. This is necessary because the existing `unittest discover` step does not execute top-level pytest-style functions in that module. Workflow blob SHA: `39ffc7f087a19987f5c3e97c2423ee465828080e`.
+- Focused test module blob SHA: `50820595297f679391db76eed44147db96ca294b`. The original `tests/test_distributed_local_worker.py` was restored byte-for-byte to its main blob `5fd79a665ef49e4e594a8fbccb8d77ec1f0659ae`; unrelated legacy assertions were not changed.
+- `.github/workflows/astra-verify.yml` installs the declared `requirements-dev.txt` test dependencies and explicitly executes `python -m pytest -q tests/test_distributed_local_worker_path_containment.py`. Workflow blob SHA: `1717aa2227aee0a0e57980fced7f3415557ed283`. This avoids misreporting other unrelated pytest-style functions in the legacy test module as path-containment regressions.
 - No new runtime dependency; only the existing development test dependencies are now installed by this CI job. The tests use temporary filesystem fixtures.
 
 ## Security limits and verification state
@@ -39,7 +39,8 @@ This is a narrow path-confinement improvement, not a claim of race-free filesyst
 
 - Source, test and workflow files were read back from the working branch; blob SHAs above match the returned source.
 - Local execution of the repository test file: **NOT RUN** in this pass.
-- Exact-head GitHub CI for the current PR head: **PENDING** until the newly added pytest step finishes.
+- Initial focused-CI wiring run [39972686043](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39972686043) compiled and passed all 475 unittest-discovered cases, then the broad legacy pytest module failed on two unrelated assertions (`test_23wave_codex_qualification_is_not_unbounded` expects a stale Codex workflow literal; `test_distributed_selection_allows_one_claim_per_executor_lane` expects stale queue selection). In that run all five newly added path tests themselves passed. The original legacy test file was restored unchanged, and the workflow now runs the new isolated five-test module only.
+- Latest exact-head GitHub CI after isolating tests: **PENDING**.
 - Independent security review: **PENDING**.
 - Merge/deployment/runtime qualification: **NOT RUN**.
 
