@@ -239,7 +239,9 @@ jobs:
                       try:
                           _,artifact_data=call("GET",f"/repos/{repo}/actions/runs/{run['id']}/artifacts?per_page=100")
                           artifacts=[item for item in artifact_data.get("artifacts",[]) if not item.get("expired")]
-                          if artifacts and all(item.get("digest") for item in artifacts):
+                          # Success requires the named child result artifact, not merely any digest-bearing artifact.
+                          expected_artifacts=[item for item in artifacts if item.get("name")=="gemini-output"]
+                          if len(expected_artifacts)==1 and all(item.get("digest") for item in artifacts):
                               artifact_digest=";".join(sorted(f"{item.get('name','unnamed')}={item['digest']}" for item in artifacts))
                       except Exception as exc:
                           j["artifact_monitor_error"]=type(exc).__name__
