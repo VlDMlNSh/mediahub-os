@@ -139,3 +139,20 @@ Reconcile the human-readable inventory with the 101-record JSON register; contin
 
 ### Next bounded pass
 Continue candidate discovery across model serving/routing, evals, policy, identity/provenance and durable workflows. Reconcile all name/path/license gaps; audit lockfiles, advisories, stable tags, default refs and exact upstream CI before freezing the inventory. Only after inventory freeze, perform equal-workload comparison and assemble selected components in an isolated branch.
+
+
+---
+
+## Wave 438 — identity, authorization and provenance candidate screen (2026-10-23)
+
+- Report: [MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-438-2026-10-23.md](MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-438-2026-10-23.md).
+- Register: [MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json](MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json). Register write commit `57291bb2db2be7366e19aab57716958b147fcb43`; content blob SHA at write time `06f8bff9502903caba9077935a2ee04dea2b65b7`.
+- Ten source-pinned candidates added: OpenBao `1d58653b0c00e53484de5af18f20679d78b9fb28`; Cosign `a1a30f35757c5f9a484f5be8150c9c8a18bc5db3`; in-toto `e352b43ad7cb8915d84c36d791aa61346152a0a3`; SPIRE `0d589ad07d7b7e7a244f5b5548bf9d2d21e9fbba`; OpenFGA `22c4d5ddf4d5969bee10c24e468a5acfbcf26837`; Keycloak `e7689b41c7a63f4dcbfc74d7eab057c3bb944911`; Kyverno `e19a19643d6dcd7a1d609df42a2a05d29c4e14f7`; cert-manager `b4e42b76e09ffd8570d091d2eb23735ae7572603`; KubeVela `a6f4ce11663ffc32ae090efdbc030f1b3e0e2179`; Backstage `36255ddae2aa04d235dc519e937d0e93fb01e2a5`.
+- LICENSE and root manifest contents were read for 9/10. Keycloak's root LICENSE path returned 404 and is marked UNVERIFIED; no license conclusion inferred. OpenBao is MPL-2.0 and remains CONDITIONAL for legal and migration review.
+- Register now reconciles to 118 records = 91 CANDIDATE + 20 CONDITIONAL + 2 REFERENCE_ONLY + 5 EXCLUDED_FROM_ACTIVE_SHORTLIST. Summary: 49 pinned source commits, 44 license files read, 46 manifest files read; no lockfile audits, advisory reviews, exact upstream CI audits, release pins or default-ref equivalence checks. Inventory remains OPEN / NOT READY TO FREEZE.
+- Canonical map retrieval fallback succeeded via blob SHA `78fa7dfa02357fe9e95645843e583f8802867d78` after Contents API returned an empty body. Bootstrap blob `75f30750183efe8c6877368e9f0ada48f8e81ea7`; Master Roadmap blob `21c4bf2702dbf636fa902f4f5716c6f39bb5dd1c`.
+- PR #585 remained open/Draft/unmerged. At prior head `843a3370fb2c8b6cdc9679f15cb748cb75e6f2c7`, Cloud Runtime Validation run `39981388995` and Astra Verify run `39981388866` were SUCCESS, but predate Wave 438 writes and do not qualify the current head. Formal reviews empty; combined status list empty => NOT VERIFIED.
+- No installation, inference, agent dispatch, secret access, deployment, component selection, formal comparison, inventory freeze, merge or Contour A acceptance.
+
+### Next bounded pass
+Continue discovery and deduplication in mature adjacent categories. Reconcile release tags, exact upstream CI, lockfile contents and dependency advisories; resolve license/ownership exceptions; keep the inventory open until explicit freeze criteria are evidenced. After inventory freeze only, run equal-workload comparisons, then prototype chosen adapters in an isolated branch.
