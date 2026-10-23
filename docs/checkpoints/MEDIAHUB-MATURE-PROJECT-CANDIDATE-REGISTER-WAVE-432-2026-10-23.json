@@ -7,9 +7,9 @@
   "comparison_phase": "NOT_STARTED",
   "adoption_phase": "NOT_STARTED",
   "counts": {
-    "total_records": 108,
-    "candidate": 83,
-    "conditional": 18,
+    "total_records": 118,
+    "candidate": 91,
+    "conditional": 20,
     "reference_only": 2,
     "excluded": 5
   },
@@ -33,7 +33,8 @@
     "comparison_order": "Do not start formal scoring or component assembly until candidate coverage, source pins, licensing, dependency/advisory, CI, and maturity gates are closed.",
     "licensing_caveat": "Phoenix is Elastic License 2.0; Vault is BUSL-1.1; NeMo Guardrails root LICENSE was not found at tested path. These are conditional until the exact proposed reuse path and terms are verified.",
     "component_assembly_gate": "Do not install, vendor, or import shortlisted runtime code before the inventory freeze and security/license gates. Repository visibility or recent commits does not establish suitability.",
-    "scope_caveat": "Dagger, NATS, External Secrets, SOPS, and OpenTelemetry are infrastructure/component candidates, not assumed replacements for the MediaHub control plane or secret authority."
+    "scope_caveat": "Dagger, NATS, External Secrets, SOPS, and OpenTelemetry are infrastructure/component candidates, not assumed replacements for the MediaHub control plane or secret authority.",
+    "wave438_caveat": "Wave 438 selected immutable commits by repository-scoped commit search; current default branch/release equivalence, exact-head CI, dependency lockfiles/advisories and security audits remain NOT VERIFIED. Keycloak root LICENSE path returned 404 and is explicitly UNVERIFIED."
   },
   "candidates": [
     {
@@ -2144,13 +2145,353 @@
         "security_review": "NOT_STARTED",
         "subsystem_qualification": "NOT_STARTED"
       }
+    },
+    {
+      "id": "openbao",
+      "repo": "openbao/openbao",
+      "category": "secret-management-infrastructure",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "source_head": "1d58653b0c00e53484de5af18f20679d78b9fb28",
+      "license": "MPL-2.0",
+      "evidence": "; Wave 438 pinned source and manifest evidence. Potential open-source alternative to Vault for future evaluation; not a drop-in replacement without capability, migration and threat-model tests. MPL-2.0 compliance review required.",
+      "screening": {
+        "wave": "438",
+        "immutable_head": "1d58653b0c00e53484de5af18f20679d78b9fb28",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "MPL-2.0",
+          "blob_sha": "f4f97ee5853a2b2ba9121ea21589c706edf7a1cc",
+          "status": "LICENSE_TEXT_READ",
+          "url": "https://github.com/openbao/openbao/blob/1d58653b0c00e53484de5af18f20679d78b9fb28/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "c4690026d2353d3163db8d1173290c4bd60950ae",
+          "status": "READ",
+          "version": "module github.com/openbao/openbao/v2",
+          "url": "https://github.com/openbao/openbao/blob/1d58653b0c00e53484de5af18f20679d78b9fb28/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "cosign",
+      "repo": "sigstore/cosign",
+      "category": "artifact-signing-provenance",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "a1a30f35757c5f9a484f5be8150c9c8a18bc5db3",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 438 pinned source and manifest evidence. Evaluate signing and verification for artifacts/images; does not alone provide full end-to-end provenance or policy enforcement.",
+      "screening": {
+        "wave": "438",
+        "immutable_head": "a1a30f35757c5f9a484f5be8150c9c8a18bc5db3",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "LICENSE_TEXT_READ",
+          "url": "https://github.com/sigstore/cosign/blob/a1a30f35757c5f9a484f5be8150c9c8a18bc5db3/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "7873ab4b8da8143fda5129bbe0085c486e39bdb0",
+          "status": "READ",
+          "version": "module github.com/sigstore/cosign/v3; go 1.27",
+          "url": "https://github.com/sigstore/cosign/blob/a1a30f35757c5f9a484f5be8150c9c8a18bc5db3/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "in-toto",
+      "repo": "in-toto/in-toto",
+      "category": "artifact-provenance-attestations",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "e352b43ad7cb8915d84c36d791aa61346152a0a3",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 438 pinned source and manifest evidence. Candidate for verifiable supply-chain step attestations; exact package metadata and compatibility need follow-up.",
+      "screening": {
+        "wave": "438",
+        "immutable_head": "e352b43ad7cb8915d84c36d791aa61346152a0a3",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "963ee949e8e1083f7f12e685160267cae23a5ffa",
+          "status": "LICENSE_TEXT_READ",
+          "url": "https://github.com/in-toto/in-toto/blob/e352b43ad7cb8915d84c36d791aa61346152a0a3/LICENSE"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "ed5939c32538e3cd155058cdc74f10e1d00b4a5c",
+          "status": "READ",
+          "version": "Python package metadata not extracted",
+          "url": "https://github.com/in-toto/in-toto/blob/e352b43ad7cb8915d84c36d791aa61346152a0a3/pyproject.toml"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "spire",
+      "repo": "spiffe/spire",
+      "category": "workload-identity",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "0d589ad07d7b7e7a244f5b5548bf9d2d21e9fbba",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 438 pinned source and manifest evidence. Mature workload identity option, but introduces a substantial identity control plane; use only if GitHub-native OIDC/short-lived credentials cannot meet the requirement.",
+      "screening": {
+        "wave": "438",
+        "immutable_head": "0d589ad07d7b7e7a244f5b5548bf9d2d21e9fbba",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "ce7ede043c57e70ba4930782fedf11b07615b41a",
+          "status": "LICENSE_TEXT_READ",
+          "url": "https://github.com/spiffe/spire/blob/0d589ad07d7b7e7a244f5b5548bf9d2d21e9fbba/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "6ca214eaf056f1b7e957c574d8823c295ea9afb8",
+          "status": "READ",
+          "version": "module github.com/spiffe/spire; go 1.27.3",
+          "url": "https://github.com/spiffe/spire/blob/0d589ad07d7b7e7a244f5b5548bf9d2d21e9fbba/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "openfga",
+      "repo": "openfga/openfga",
+      "category": "authorization-policy",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "22c4d5ddf4d5969bee10c24e468a5acfbcf26837",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 438 pinned source and manifest evidence. Relationship-based authorization candidate; compare against current issuer/capability contracts and avoid adding an authorization authority unless a gap is proven.",
+      "screening": {
+        "wave": "438",
+        "immutable_head": "22c4d5ddf4d5969bee10c24e468a5acfbcf26837",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "4959a5e50d66e62e675d8d033d66cca0f390458d",
+          "status": "LICENSE_TEXT_READ",
+          "url": "https://github.com/openfga/openfga/blob/22c4d5ddf4d5969bee10c24e468a5acfbcf26837/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "d01586d0b64cd38eb66eca7ae983d4a5f249e040",
+          "status": "READ",
+          "version": "module github.com/openfga/openfga; go 1.26.0",
+          "url": "https://github.com/openfga/openfga/blob/22c4d5ddf4d5969bee10c24e468a5acfbcf26837/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "keycloak",
+      "repo": "keycloak/keycloak",
+      "category": "identity-access-management",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "source_head": "e7689b41c7a63f4dcbfc74d7eab057c3bb944911",
+      "license": "UNVERIFIED",
+      "evidence": "; Wave 438 pinned source and manifest evidence. Root LICENSE path returned 404; repository may use a differently named license file. No license conclusion until exact legal files are read.",
+      "screening": {
+        "wave": "438",
+        "immutable_head": "e7689b41c7a63f4dcbfc74d7eab057c3bb944911",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "UNVERIFIED",
+          "blob_sha": null,
+          "status": "NOT_VERIFIED",
+          "url": null
+        },
+        "manifest": {
+          "path": "pom.xml",
+          "blob_sha": "aa47a6a6a294ed17bee9e56a361dd33fcbb2553b",
+          "status": "READ",
+          "version": "Maven root manifest read; version not extracted",
+          "url": "https://github.com/keycloak/keycloak/blob/e7689b41c7a63f4dcbfc74d7eab057c3bb944911/pom.xml"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "kyverno",
+      "repo": "kyverno/kyverno",
+      "category": "policy-as-code",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "e19a19643d6dcd7a1d609df42a2a05d29c4e14f7",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 438 pinned source and manifest evidence. Kubernetes policy engine; likely reference-only unless MediaHub adopts a Kubernetes deployment surface.",
+      "screening": {
+        "wave": "438",
+        "immutable_head": "e19a19643d6dcd7a1d609df42a2a05d29c4e14f7",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "LICENSE_TEXT_READ",
+          "url": "https://github.com/kyverno/kyverno/blob/e19a19643d6dcd7a1d609df42a2a05d29c4e14f7/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "490f97ebb99de034ff0060d1644ec6bf40223222",
+          "status": "READ",
+          "version": "module github.com/kyverno/kyverno; go 1.27.3",
+          "url": "https://github.com/kyverno/kyverno/blob/e19a19643d6dcd7a1d609df42a2a05d29c4e14f7/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "cert-manager",
+      "repo": "cert-manager/cert-manager",
+      "category": "certificate-lifecycle",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "b4e42b76e09ffd8570d091d2eb23735ae7572603",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 438 pinned source and manifest evidence. Certificate lifecycle candidate only for Kubernetes-hosted services; does not replace GitHub OIDC or signing.",
+      "screening": {
+        "wave": "438",
+        "immutable_head": "b4e42b76e09ffd8570d091d2eb23735ae7572603",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "LICENSE_TEXT_READ",
+          "url": "https://github.com/cert-manager/cert-manager/blob/b4e42b76e09ffd8570d091d2eb23735ae7572603/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "eb6b1f1335a110f064bd4232e90e32b49dbd3123",
+          "status": "READ",
+          "version": "module github.com/cert-manager/cert-manager",
+          "url": "https://github.com/cert-manager/cert-manager/blob/b4e42b76e09ffd8570d091d2eb23735ae7572603/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "kubevela",
+      "repo": "kubevela/kubevela",
+      "category": "application-platform",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "a6f4ce11663ffc32ae090efdbc030f1b3e0e2179",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 438 pinned source and manifest evidence. Broad application platform; likely excessive for GitHub-hosted Contour A, retain as conditional fit rather than default dependency.",
+      "screening": {
+        "wave": "438",
+        "immutable_head": "a6f4ce11663ffc32ae090efdbc030f1b3e0e2179",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "LICENSE_TEXT_READ",
+          "url": "https://github.com/kubevela/kubevela/blob/a6f4ce11663ffc32ae090efdbc030f1b3e0e2179/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "42a642e1b79d881afe4f5828ede16e369b9a1be3",
+          "status": "READ",
+          "version": "module github.com/oam-dev/kubevela; go 1.27.1",
+          "url": "https://github.com/kubevela/kubevela/blob/a6f4ce11663ffc32ae090efdbc030f1b3e0e2179/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "backstage",
+      "repo": "backstage/backstage",
+      "category": "developer-portal",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "36255ddae2aa04d235dc519e937d0e93fb01e2a5",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 438 pinned source and manifest evidence. Developer portal candidate only if MediaHub needs a separate human-facing engineering portal; not an orchestration engine.",
+      "screening": {
+        "wave": "438",
+        "immutable_head": "36255ddae2aa04d235dc519e937d0e93fb01e2a5",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "72ea3a85b0ee807370d34ff9bef32e0f2c7e0c92",
+          "status": "LICENSE_TEXT_READ",
+          "url": "https://github.com/backstage/backstage/blob/36255ddae2aa04d235dc519e937d0e93fb01e2a5/LICENSE"
+        },
+        "manifest": {
+          "path": "package.json",
+          "blob_sha": "dbd29c05d1497f55d98b116508a606e7baeb6b13",
+          "status": "READ",
+          "version": "root package version 1.56.0",
+          "url": "https://github.com/backstage/backstage/blob/36255ddae2aa04d235dc519e937d0e93fb01e2a5/package.json"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     }
   ],
-  "latest_screening_wave": "437",
+  "latest_screening_wave": "438",
   "screening_summary": {
-    "pinned_heads": 39,
-    "license_files_read_at_pinned_heads": 35,
-    "manifest_files_read_at_pinned_heads": 36,
+    "pinned_heads": 49,
+    "license_files_read_at_pinned_heads": 44,
+    "manifest_files_read_at_pinned_heads": 46,
     "lockfiles_audited": 0,
     "advisory_reviews": 0,
     "exact_ci_audits": 0,
