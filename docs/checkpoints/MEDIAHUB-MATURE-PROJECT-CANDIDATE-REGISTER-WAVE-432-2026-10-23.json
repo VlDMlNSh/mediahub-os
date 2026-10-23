@@ -34,7 +34,8 @@
     "licensing_caveat": "Phoenix is Elastic License 2.0; Vault is BUSL-1.1; NeMo Guardrails root LICENSE was not found at tested path. These are conditional until the exact proposed reuse path and terms are verified.",
     "component_assembly_gate": "Do not install, vendor, or import shortlisted runtime code before the inventory freeze and security/license gates. Repository visibility or recent commits does not establish suitability.",
     "scope_caveat": "Dagger, NATS, External Secrets, SOPS, and OpenTelemetry are infrastructure/component candidates, not assumed replacements for the MediaHub control plane or secret authority.",
-    "wave438_caveat": "Wave 438 selected immutable commits by repository-scoped commit search; current default branch/release equivalence, exact-head CI, dependency lockfiles/advisories and security audits remain NOT VERIFIED. Keycloak root LICENSE path returned 404 and is explicitly UNVERIFIED."
+    "wave438_caveat": "Wave 438 selected immutable commits by repository-scoped commit search; current default branch/release equivalence, exact-head CI, dependency lockfiles/advisories and security audits remain NOT VERIFIED. Keycloak root LICENSE path returned 404 and is explicitly UNVERIFIED.",
+    "wave439_caveat": "Wave 439 source SHAs are latest repository-scoped commit-search results, not proven default-branch HEAD or release tags. Root LICENSE and manifest were read for all 10. Promptfoo, Langfuse and LiteLLM license text/path terms require legal review before any reuse; no production adoption authorized."
   },
   "candidates": [
     {
@@ -172,34 +173,35 @@
     {
       "id": "pydantic-ai",
       "repo": "pydantic/pydantic-ai",
-      "category": "agent-contracts",
+      "category": "typed-agent-framework",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob 0d6afafd97a197da2d78b26e3b7aaf1c41d784b0; Wave 433 pinned source HEAD 5f7c0ccdaf6e37c993902a2ef7fe68210bf46130; LICENSE blob 1bf1f55e6d1736b499ded961ec6b94bfebb17aec; manifest pyproject.toml blob 75a5cc1cd0c74219675bc0e3292547fd81dba9e4",
-      "license": "MIT (LICENSE verified at pinned HEAD)",
-      "source_head": "5f7c0ccdaf6e37c993902a2ef7fe68210bf46130",
+      "evidence": "README blob 0d6afafd97a197da2d78b26e3b7aaf1c41d784b0; Wave 433 pinned source HEAD 5f7c0ccdaf6e37c993902a2ef7fe68210bf46130; LICENSE blob 1bf1f55e6d1736b499ded961ec6b94bfebb17aec; manifest pyproject.toml blob 75a5cc1cd0c74219675bc0e3292547fd81dba9e4; Wave 439 pinned source and root manifest evidence. Typed schemas, tool contracts and bounded background jobs worth comparing; does not itself establish MediaHub authority boundaries.",
+      "license": "MIT",
+      "source_head": "332d3011d1a1bada4ae7210d5416ed5b31be3346",
       "screening": {
-        "wave": "433",
-        "immutable_head": "5f7c0ccdaf6e37c993902a2ef7fe68210bf46130",
+        "wave": "439",
+        "immutable_head": "332d3011d1a1bada4ae7210d5416ed5b31be3346",
         "license": {
           "spdx": "MIT",
           "blob_sha": "1bf1f55e6d1736b499ded961ec6b94bfebb17aec",
-          "url": "https://github.com/pydantic/pydantic-ai/blob/5f7c0ccdaf6e37c993902a2ef7fe68210bf46130/LICENSE",
-          "status": "VERIFIED_TEXT_ONLY"
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/pydantic/pydantic-ai/blob/332d3011d1a1bada4ae7210d5416ed5b31be3346/LICENSE"
         },
         "manifest": {
           "path": "pyproject.toml",
           "blob_sha": "75a5cc1cd0c74219675bc0e3292547fd81dba9e4",
-          "version": "NOT_EXTRACTED",
-          "url": "https://github.com/pydantic/pydantic-ai/blob/5f7c0ccdaf6e37c993902a2ef7fe68210bf46130/pyproject.toml",
-          "status": "READ"
+          "version": "pydantic-ai; dynamic version",
+          "status": "READ",
+          "url": "https://github.com/pydantic/pydantic-ai/blob/332d3011d1a1bada4ae7210d5416ed5b31be3346/pyproject.toml"
         },
         "lockfile": "NOT_AUDITED",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
         "security_review": "NOT_STARTED",
-        "subsystem_qualification": "NOT_STARTED"
+        "subsystem_qualification": "NOT_STARTED",
+        "default_ref_equivalence": "NOT_VERIFIED"
       }
     },
     {
@@ -547,29 +549,29 @@
     {
       "id": "temporal",
       "repo": "temporalio/temporal",
-      "category": "durable-workflows",
+      "category": "durable-workflow-orchestration",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob d89e30ebb9863ea82c9203e1e696170ea9484af9; Wave 433 pinned source HEAD 8a40a2663e304a79b07779ae08108648ccbc797d; LICENSE blob 3349f76795f4409cba6ae18ea56adf9fbd8346f3; manifest go.mod blob b58f656dc5fb62f7e1c9fc6d9d8aa2b871af4a23; Wave 434 immutable commit and license/manifest blobs recorded",
+      "evidence": "README blob d89e30ebb9863ea82c9203e1e696170ea9484af9; Wave 433 pinned source HEAD 8a40a2663e304a79b07779ae08108648ccbc797d; LICENSE blob 3349f76795f4409cba6ae18ea56adf9fbd8346f3; manifest go.mod blob b58f656dc5fb62f7e1c9fc6d9d8aa2b871af4a23; Wave 434 immutable commit and license/manifest blobs recorded; Wave 439 pinned source and root manifest evidence. Durable workflow/retry semantics reference; high operational footprint, compare against GitHub Actions-first execution rather than assume adoption.",
       "license": "MIT",
       "source_head": "8a40a2663e304a79b07779ae08108648ccbc797d",
       "screening": {
-        "wave": "434",
+        "wave": "439",
         "immutable_head": "8a40a2663e304a79b07779ae08108648ccbc797d",
         "license": {
           "spdx": "MIT",
           "blob_sha": "3349f76795f4409cba6ae18ea56adf9fbd8346f3",
-          "url": "https://github.com/temporalio/temporal/blob/8a40a2663e304a79b07779ae08108648ccbc797d/LICENSE",
-          "status": "VERIFIED_TEXT_ONLY"
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/temporalio/temporal/blob/8a40a2663e304a79b07779ae08108648ccbc797d/LICENSE"
         },
         "manifest": {
           "path": "go.mod",
           "blob_sha": "b58f656dc5fb62f7e1c9fc6d9d8aa2b871af4a23",
-          "version": "module go.temporal.io/server; release tag not pinned",
-          "url": "https://github.com/temporalio/temporal/blob/8a40a2663e304a79b07779ae08108648ccbc797d/go.mod",
-          "status": "READ"
+          "version": "module go.temporal.io/server",
+          "status": "READ",
+          "url": "https://github.com/temporalio/temporal/blob/8a40a2663e304a79b07779ae08108648ccbc797d/go.mod"
         },
-        "lockfile": "CONTENT_READ / DEPENDENCY AUDIT NOT RUN",
+        "lockfile": "NOT_AUDITED",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
@@ -577,7 +579,8 @@
         "subsystem_qualification": "NOT_STARTED",
         "ref_pointer_verification": "COMMIT PINNED; exact refs/heads/default pointer equivalence NOT VERIFIED by available connector",
         "lockfile_path": "go.sum",
-        "lockfile_blob_sha": "7bb84062f0806238f63f3a71ccc70375a98f8968"
+        "lockfile_blob_sha": "7bb84062f0806238f63f3a71ccc70375a98f8968",
+        "default_ref_equivalence": "NOT_VERIFIED"
       }
     },
     {
@@ -646,9 +649,33 @@
       "category": "workflow-orchestration",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "Repository metadata observed",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "Repository metadata observed; Wave 439 pinned source and root manifest evidence. Kubernetes-native workflow controller; conditional fit for Contour A hosted primarily on GitHub.",
+      "license": "Apache-2.0",
+      "source_head": "82ad6f109df41c5a0fc25cc1cefba69adc67bb5a",
+      "screening": {
+        "wave": "439",
+        "immutable_head": "82ad6f109df41c5a0fc25cc1cefba69adc67bb5a",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "67e99b065bcd6ac93d93c8fe8e0a72c6296a5614",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/argoproj/argo-workflows/blob/82ad6f109df41c5a0fc25cc1cefba69adc67bb5a/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "c261bdfa09a096413a00ee6f7d87cdf304a59923",
+          "version": "module github.com/argoproj/argo-workflows/v4",
+          "status": "READ",
+          "url": "https://github.com/argoproj/argo-workflows/blob/82ad6f109df41c5a0fc25cc1cefba69adc67bb5a/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "kestra",
@@ -663,29 +690,29 @@
     {
       "id": "litellm",
       "repo": "BerriAI/litellm",
-      "category": "model-gateway",
+      "category": "model-provider-gateway",
       "status": "CONDITIONAL",
       "repo_status": "active",
-      "evidence": "README blob 5fd84b529dc66aa71c36fb7e5188303e7432613d; Wave 433 pinned source HEAD f2118fc7670ba3fa736d9b8f4deef9077a45a720; LICENSE blob 3bfef5bae9b48c334acf426d5b7f21bc1913aab9; manifest pyproject.toml blob 3aefd9119375172be6f7d312952d8153b442b77d; Wave 434 immutable commit and license/manifest blobs recorded",
-      "license": "MIXED / SUBTREE REVIEW REQUIRED",
+      "evidence": "README blob 5fd84b529dc66aa71c36fb7e5188303e7432613d; Wave 433 pinned source HEAD f2118fc7670ba3fa736d9b8f4deef9077a45a720; LICENSE blob 3bfef5bae9b48c334acf426d5b7f21bc1913aab9; manifest pyproject.toml blob 3aefd9119375172be6f7d312952d8153b442b77d; Wave 434 immutable commit and license/manifest blobs recorded; Wave 439 pinned source and root manifest evidence. Potential provider adapter/routing reference, but exact licenses, secret handling, routing semantics, free-only enforcement and paid-fallback behavior require deep audit.",
+      "license": "MIXED/PATH-SPECIFIC; UNVERIFIED FOR REUSE",
       "source_head": "f2118fc7670ba3fa736d9b8f4deef9077a45a720",
       "screening": {
-        "wave": "434",
+        "wave": "439",
         "immutable_head": "f2118fc7670ba3fa736d9b8f4deef9077a45a720",
         "license": {
-          "spdx": "MIXED / SUBTREE REVIEW REQUIRED",
+          "spdx": "MIXED/PATH-SPECIFIC; UNVERIFIED FOR REUSE",
           "blob_sha": "3bfef5bae9b48c334acf426d5b7f21bc1913aab9",
-          "url": "https://github.com/BerriAI/litellm/blob/f2118fc7670ba3fa736d9b8f4deef9077a45a720/LICENSE",
-          "status": "BOUNDARY_REVIEW_REQUIRED"
+          "status": "PATH_OR_TERMS_REVIEW_REQUIRED",
+          "url": "https://github.com/BerriAI/litellm/blob/f2118fc7670ba3fa736d9b8f4deef9077a45a720/LICENSE"
         },
         "manifest": {
           "path": "pyproject.toml",
           "blob_sha": "3aefd9119375172be6f7d312952d8153b442b77d",
           "version": "1.108.0",
-          "url": "https://github.com/BerriAI/litellm/blob/f2118fc7670ba3fa736d9b8f4deef9077a45a720/pyproject.toml",
-          "status": "READ"
+          "status": "READ",
+          "url": "https://github.com/BerriAI/litellm/blob/f2118fc7670ba3fa736d9b8f4deef9077a45a720/pyproject.toml"
         },
-        "lockfile": "BLOB SHA OBSERVED / CONTENT API RETURNED EMPTY / NOT AUDITED",
+        "lockfile": "NOT_AUDITED",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
@@ -693,7 +720,8 @@
         "subsystem_qualification": "NOT_STARTED",
         "ref_pointer_verification": "COMMIT PINNED; exact refs/heads/default pointer equivalence NOT VERIFIED by available connector",
         "lockfile_path": "uv.lock",
-        "lockfile_blob_sha": "8d2a38c180661f7298dbf4b87721452013ad55b0"
+        "lockfile_blob_sha": "8d2a38c180661f7298dbf4b87721452013ad55b0",
+        "default_ref_equivalence": "NOT_VERIFIED"
       }
     },
     {
@@ -779,29 +807,29 @@
     {
       "id": "langfuse",
       "repo": "langfuse/langfuse",
-      "category": "observability",
+      "category": "llm-observability",
       "status": "CONDITIONAL",
       "repo_status": "active",
-      "evidence": "README blob 3c4ad5773b846b6b1c16355640ebd87ff031f92e; Wave 433 pinned source HEAD bb85692102a005470c3a02ccb9ebc1609ae25461; LICENSE blob eaa2e5e444c8634f35b2a1137f7ea06e8353f475; manifest package.json blob 9899d13e4a45711cfcc47e7a37ec22f67d9ba082; Wave 434 immutable commit and license/manifest blobs recorded",
-      "license": "MIXED / ENTERPRISE PATH EXCEPTIONS",
-      "source_head": "bb85692102a005470c3a02ccb9ebc1609ae25461",
+      "evidence": "README blob 3c4ad5773b846b6b1c16355640ebd87ff031f92e; Wave 433 pinned source HEAD bb85692102a005470c3a02ccb9ebc1609ae25461; LICENSE blob eaa2e5e444c8634f35b2a1137f7ea06e8353f475; manifest package.json blob 9899d13e4a45711cfcc47e7a37ec22f67d9ba082; Wave 434 immutable commit and license/manifest blobs recorded; Wave 439 pinned source and root manifest evidence. Useful reference for traces/evals; root license has portions/path exceptions, exact reused paths require legal audit.",
+      "license": "MIXED/PATH-SPECIFIC; UNVERIFIED FOR REUSE",
+      "source_head": "8aedbccf805d7c7baf7aeaadd8fc4907fe0e312d",
       "screening": {
-        "wave": "434",
-        "immutable_head": "bb85692102a005470c3a02ccb9ebc1609ae25461",
+        "wave": "439",
+        "immutable_head": "8aedbccf805d7c7baf7aeaadd8fc4907fe0e312d",
         "license": {
-          "spdx": "MIXED / ENTERPRISE PATH EXCEPTIONS",
+          "spdx": "MIXED/PATH-SPECIFIC; UNVERIFIED FOR REUSE",
           "blob_sha": "eaa2e5e444c8634f35b2a1137f7ea06e8353f475",
-          "url": "https://github.com/langfuse/langfuse/blob/bb85692102a005470c3a02ccb9ebc1609ae25461/LICENSE",
-          "status": "BOUNDARY_REVIEW_REQUIRED"
+          "status": "PATH_OR_TERMS_REVIEW_REQUIRED",
+          "url": "https://github.com/langfuse/langfuse/blob/8aedbccf805d7c7baf7aeaadd8fc4907fe0e312d/LICENSE"
         },
         "manifest": {
           "path": "package.json",
           "blob_sha": "9899d13e4a45711cfcc47e7a37ec22f67d9ba082",
           "version": "4.69.0",
-          "url": "https://github.com/langfuse/langfuse/blob/bb85692102a005470c3a02ccb9ebc1609ae25461/package.json",
-          "status": "READ"
+          "status": "READ",
+          "url": "https://github.com/langfuse/langfuse/blob/8aedbccf805d7c7baf7aeaadd8fc4907fe0e312d/package.json"
         },
-        "lockfile": "CONTENT READ / DEPENDENCY AUDIT NOT RUN",
+        "lockfile": "NOT_AUDITED",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
@@ -809,7 +837,8 @@
         "subsystem_qualification": "NOT_STARTED",
         "ref_pointer_verification": "COMMIT PINNED; exact refs/heads/default pointer equivalence NOT VERIFIED by available connector",
         "lockfile_path": "pnpm-lock.yaml",
-        "lockfile_blob_sha": "07f2c3a17dd5f08783102c71816d98aeeac60089"
+        "lockfile_blob_sha": "07f2c3a17dd5f08783102c71816d98aeeac60089",
+        "default_ref_equivalence": "NOT_VERIFIED"
       }
     },
     {
@@ -881,29 +910,29 @@
     {
       "id": "promptfoo",
       "repo": "promptfoo/promptfoo",
-      "category": "llm-eval-redteam",
+      "category": "llm-evaluation-security-testing",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob a6713365c28b9e7949b2b4c2ba87845dd50e0ce3; README declares MIT; Wave 433 pinned source HEAD c2f6a848aca5f7e01491d2533f3fb1122bc63c50; LICENSE blob af3fa111d9303b3041d225fb851534e50a4bbec2; manifest package.json blob 973377dfd97e01d2a9890bcd38fdedad3f69ce11; Wave 434 immutable commit and license/manifest blobs recorded",
-      "license": "MIT",
-      "source_head": "c2f6a848aca5f7e01491d2533f3fb1122bc63c50",
+      "evidence": "README blob a6713365c28b9e7949b2b4c2ba87845dd50e0ce3; README declares MIT; Wave 433 pinned source HEAD c2f6a848aca5f7e01491d2533f3fb1122bc63c50; LICENSE blob af3fa111d9303b3041d225fb851534e50a4bbec2; manifest package.json blob 973377dfd97e01d2a9890bcd38fdedad3f69ce11; Wave 434 immutable commit and license/manifest blobs recorded; Wave 439 pinned source and root manifest evidence. Strong candidate for reproducible LLM eval/red-team test patterns; license text is not a recognized permissive SPDX header, obtain legal review before reuse.",
+      "license": "CUSTOM TERMS; REVIEW REQUIRED",
+      "source_head": "c0b88a324175c60019cc80de1b2e32b4c849d4c3",
       "screening": {
-        "wave": "434",
-        "immutable_head": "c2f6a848aca5f7e01491d2533f3fb1122bc63c50",
+        "wave": "439",
+        "immutable_head": "c0b88a324175c60019cc80de1b2e32b4c849d4c3",
         "license": {
-          "spdx": "MIT",
+          "spdx": "CUSTOM TERMS; REVIEW REQUIRED",
           "blob_sha": "af3fa111d9303b3041d225fb851534e50a4bbec2",
-          "url": "https://github.com/promptfoo/promptfoo/blob/c2f6a848aca5f7e01491d2533f3fb1122bc63c50/LICENSE",
-          "status": "VERIFIED_TEXT_ONLY"
+          "status": "PATH_OR_TERMS_REVIEW_REQUIRED",
+          "url": "https://github.com/promptfoo/promptfoo/blob/c0b88a324175c60019cc80de1b2e32b4c849d4c3/LICENSE"
         },
         "manifest": {
           "path": "package.json",
-          "blob_sha": "973377dfd97e01d2a9890bcd38fdedad3f69ce11",
-          "version": "0.124.1",
-          "url": "https://github.com/promptfoo/promptfoo/blob/c2f6a848aca5f7e01491d2533f3fb1122bc63c50/package.json",
-          "status": "READ"
+          "blob_sha": "6593940624d1a5a7acb245a21d90e141a5f1c7c4",
+          "version": "0.125.0",
+          "status": "READ",
+          "url": "https://github.com/promptfoo/promptfoo/blob/c0b88a324175c60019cc80de1b2e32b4c849d4c3/package.json"
         },
-        "lockfile": "BLOB SHA OBSERVED / CONTENT API RETURNED EMPTY / NOT AUDITED",
+        "lockfile": "NOT_AUDITED",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
@@ -911,7 +940,8 @@
         "subsystem_qualification": "NOT_STARTED",
         "ref_pointer_verification": "COMMIT PINNED; exact refs/heads/default pointer equivalence NOT VERIFIED by available connector",
         "lockfile_path": "package-lock.json",
-        "lockfile_blob_sha": "0df53ae4741246203b20850aea29f68b53ebe096"
+        "lockfile_blob_sha": "0df53ae4741246203b20850aea29f68b53ebe096",
+        "default_ref_equivalence": "NOT_VERIFIED"
       }
     },
     {
@@ -1059,12 +1089,36 @@
     {
       "id": "haystack",
       "repo": "deepset-ai/haystack",
-      "category": "rag-agent-pipelines",
+      "category": "retrieval-pipeline-framework",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob afa079b2a7e90e815fdaf9b09edcd7ad010e3e91",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob afa079b2a7e90e815fdaf9b09edcd7ad010e3e91; Wave 439 pinned source and root manifest evidence. Reusable RAG/pipeline concepts only if knowledge retrieval is in scope; not a general agent orchestrator replacement.",
+      "license": "Apache-2.0",
+      "source_head": "76fc2d3d7492ec243eed40eb939a836f2a8b29da",
+      "screening": {
+        "wave": "439",
+        "immutable_head": "76fc2d3d7492ec243eed40eb939a836f2a8b29da",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "6fb66d8d5fa55912ee80f4fdab94cab99140c448",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/deepset-ai/haystack/blob/76fc2d3d7492ec243eed40eb939a836f2a8b29da/LICENSE"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "2a61e110757e7dc31a18f95f0c53e7cf7f0ca804",
+          "version": "haystack-ai; version not extracted",
+          "status": "READ",
+          "url": "https://github.com/deepset-ai/haystack/blob/76fc2d3d7492ec243eed40eb939a836f2a8b29da/pyproject.toml"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "qdrant",
@@ -1436,37 +1490,38 @@
     {
       "id": "opa",
       "repo": "open-policy-agent/opa",
-      "category": "authorization-policy",
+      "category": "policy-as-code-authorization",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "Wave 434 source-screening batch; immutable source commit selected from repository-scoped commit search; default-branch pointer equivalence still to be independently confirmed.",
+      "evidence": "Wave 434 source-screening batch; immutable source commit selected from repository-scoped commit search; default-branch pointer equivalence still to be independently confirmed.; Wave 439 pinned source and root manifest evidence. Mature policy evaluation candidate; compare with existing issuer/capability contracts before introducing another policy engine.",
       "license": "Apache-2.0",
       "source_head": "83a65784cbc60c8bbf73d46fd4b4489c5b0e2d76",
       "screening": {
-        "wave": "434",
+        "wave": "439",
         "immutable_head": "83a65784cbc60c8bbf73d46fd4b4489c5b0e2d76",
         "ref_pointer_verification": "COMMIT PINNED; exact refs/heads/default pointer equivalence NOT VERIFIED by available connector",
         "license": {
           "spdx": "Apache-2.0",
           "blob_sha": "8f71f43fee3f78649d238238cbde51e6d7055c82",
-          "url": "https://github.com/open-policy-agent/opa/blob/83a65784cbc60c8bbf73d46fd4b4489c5b0e2d76/LICENSE",
-          "status": "VERIFIED_TEXT_ONLY"
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/open-policy-agent/opa/blob/83a65784cbc60c8bbf73d46fd4b4489c5b0e2d76/LICENSE"
         },
         "manifest": {
           "path": "go.mod",
           "blob_sha": "bb894fcce89f7f52f72d2a174711172a660451e0",
-          "version": "module github.com/open-policy-agent/opa; release tag not pinned",
-          "url": "https://github.com/open-policy-agent/opa/blob/83a65784cbc60c8bbf73d46fd4b4489c5b0e2d76/go.mod",
-          "status": "READ"
+          "version": "module github.com/open-policy-agent/opa",
+          "status": "READ",
+          "url": "https://github.com/open-policy-agent/opa/blob/83a65784cbc60c8bbf73d46fd4b4489c5b0e2d76/go.mod"
         },
-        "lockfile": "CONTENT READ / DEPENDENCY AUDIT NOT RUN",
+        "lockfile": "NOT_AUDITED",
         "lockfile_path": "go.sum",
         "lockfile_blob_sha": "75cd170afff5bff8e63c3b113d95ae17cf9acd2c",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
         "security_review": "NOT_STARTED",
-        "subsystem_qualification": "NOT_STARTED"
+        "subsystem_qualification": "NOT_STARTED",
+        "default_ref_equivalence": "NOT_VERIFIED"
       }
     },
     {
@@ -1652,14 +1707,14 @@
     {
       "id": "dagger",
       "repo": "dagger/dagger",
-      "category": "execution-infrastructure",
+      "category": "programmable-ci-builds",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; Potential substrate for reproducible isolated engineering tasks; not automatically a replacement for GitHub Actions controller.",
+      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; Potential substrate for reproducible isolated engineering tasks; not automatically a replacement for GitHub Actions controller.; Wave 439 pinned source and root manifest evidence. Potential reproducible build/test component; must be compared against native GitHub Actions and project runner constraints.",
       "license": "Apache-2.0",
       "source_head": "930485687df5c9a7ed521f5585a17b2a36936b17",
       "screening": {
-        "wave": "436",
+        "wave": "439",
         "immutable_head": "930485687df5c9a7ed521f5585a17b2a36936b17",
         "default_ref_equivalence": "NOT_VERIFIED",
         "license": {
@@ -1671,13 +1726,13 @@
         "manifest": {
           "path": "go.mod",
           "blob_sha": "44cb897774abde54c5a6fef33c4a6b84a3ede71d",
-          "version": "module github.com/dagger/dagger; go 1.26.6",
+          "version": "module github.com/dagger/dagger",
           "status": "READ",
           "url": "https://github.com/dagger/dagger/blob/930485687df5c9a7ed521f5585a17b2a36936b17/go.mod"
         },
         "lockfile_path": "go.sum",
         "lockfile_blob_sha": "96da71bed5c9fc302c53a7cdc298c3ba4b6e6371",
-        "lockfile": "CONTENT READ (96,406 chars) / DEPENDENCY AUDIT NOT RUN",
+        "lockfile": "NOT_AUDITED",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
@@ -1796,14 +1851,14 @@
     {
       "id": "otel-collector",
       "repo": "open-telemetry/opentelemetry-collector",
-      "category": "telemetry-infrastructure",
+      "category": "observability-telemetry",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; Core collection/telemetry transport candidate; avoid duplicate collection layers without a defined architecture.",
+      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; Core collection/telemetry transport candidate; avoid duplicate collection layers without a defined architecture.; Wave 439 pinned source and root manifest evidence. Standardized telemetry pipeline candidate; do not require running a collector service if GitHub-native evidence suffices.",
       "license": "Apache-2.0",
       "source_head": "42ee5d39b18f24c206cca3f91f8b0877424bdfee",
       "screening": {
-        "wave": "436",
+        "wave": "439",
         "immutable_head": "42ee5d39b18f24c206cca3f91f8b0877424bdfee",
         "default_ref_equivalence": "NOT_VERIFIED",
         "license": {
@@ -1815,13 +1870,13 @@
         "manifest": {
           "path": "go.mod",
           "blob_sha": "1790f8ef4d615afc21d071486972823ad2201536",
-          "version": "module go.opentelemetry.io/collector; root go.mod notes it is not used to build",
+          "version": "module go.opentelemetry.io/collector",
           "status": "READ",
           "url": "https://github.com/open-telemetry/opentelemetry-collector/blob/42ee5d39b18f24c206cca3f91f8b0877424bdfee/go.mod"
         },
         "lockfile_path": "go.sum",
         "lockfile_blob_sha": null,
-        "lockfile": "NOT FOUND at tested root path; monorepo module-specific dependency evidence needed",
+        "lockfile": "NOT_AUDITED",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
@@ -2487,11 +2542,11 @@
       }
     }
   ],
-  "latest_screening_wave": "438",
+  "latest_screening_wave": "439",
   "screening_summary": {
-    "pinned_heads": 49,
-    "license_files_read_at_pinned_heads": 44,
-    "manifest_files_read_at_pinned_heads": 46,
+    "pinned_heads": 59,
+    "license_files_read_at_pinned_heads": 54,
+    "manifest_files_read_at_pinned_heads": 56,
     "lockfiles_audited": 0,
     "advisory_reviews": 0,
     "exact_ci_audits": 0,
