@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "Non-launching probe by default; agents require explicit opt-in"
+        description: "Probe does not launch; agents dispatches three roles; review dispatches one fixed read-only review task"
         required: true
         type: choice
-        options: [probe, agents]
+        options: [probe, agents, review]
         default: probe
       confirm:
-        description: "Explicitly confirm dispatch of all three bounded child workflows"
+        description: "Explicitly confirm dispatch of the selected bounded Gemini task or tasks"
         required: true
         type: boolean
         default: false
@@ -83,7 +83,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
   readiness_gate:
     if: >-
-      (github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == true) ||
+      (github.event_name == 'workflow_dispatch' && (inputs.mode == 'agents' || inputs.mode == 'review') && inputs.confirm == true) ||
       (github.event_name == 'issue_comment' && github.event.issue.number == 301 && github.event.issue.pull_request == null && github.event.comment.body == '/next' && github.event.comment.author_association == 'OWNER')
     name: Require explicit batch admission flag
     runs-on: ubuntu-latest
@@ -110,7 +110,7 @@ jobs:
       needs.readiness_gate.outputs.enabled == 'true' &&
       github.ref == 'refs/heads/main' &&
       (
-        (github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == true) ||
+        (github.event_name == 'workflow_dispatch' && (inputs.mode == 'agents' || inputs.mode == 'review') && inputs.confirm == true) ||
         (github.event_name == 'issue_comment' && github.event.issue.number == 301 && github.event.issue.pull_request == null && github.event.comment.body == '/next' && github.event.comment.author_association == 'OWNER')
       )
     runs-on: ubuntu-latest
@@ -123,6 +123,7 @@ jobs:
           GH_API_TOKEN: ${{ secrets.MEDIAHUB_GITHUB_TOKEN }}
           HMAC_KEY: ${{ secrets.MEDIAHUB_DISPATCH_HMAC_KEY }}
           REQUESTED_SHA: ${{ inputs.target_sha }}
+          REQUESTED_MODE: ${{ inputs.mode }}
           REPOSITORY: ${{ github.repository }}
           SOURCE_COMMENT_ID: ${{ github.event.comment.id }}
           CURRENT_RUN_ID: ${{ github.run_id }}
@@ -164,6 +165,19 @@ jobs:
            ("gemini-autonomous-engineering.yml","Per-/next Agent 1 — bounded implementation. On the shared immutable target SHA, read the canonical map, Bootstrap, current checkpoint, Master Roadmap and Issue #301. Select the highest-priority open, unblocked next task; prefer reuse of stable existing components. Complete exactly one bounded implementation/evidence pass, preserve Baseline 2.0, historical IDs, issuer/capability boundaries, Product State Authority and provenance. Draft PR/report only; no merge, deployment, qualification, secret access or nested dispatch.","contour-a"),
            ("gemini-agent-2.yml","Per-/next Agent 2 — independent contract and test verification. Against the same immutable target SHA, map the current next-step acceptance criteria to source, contracts and tests; run or identify reproducible non-secret checks; report exact refs, blob SHAs, commands, outcomes and gaps. Do not claim to have reviewed Agent 1 changes created concurrently from this batch. Draft evidence/review only; no merge, deployment, qualification or nested dispatch.","contour-a"),
            ("gemini-agent-3.yml","Per-/next Agent 3 — independent security and provenance audit. Against the same immutable target SHA, audit controller/child transport, issuer/capability, secret separation, least privilege, HMAC, quota/fallback policy, evidence provenance and fail-closed behavior. Never read or output secret values. Report exact refs, blob SHAs, negative tests and residual risks. Draft audit only; no merge, deployment, qualification or nested dispatch.","contour-a")]
+          requested_mode=os.environ.get("REQUESTED_MODE","").strip()
+          if source_comment_id:
+              requested_mode="agents"
+          if requested_mode=="review":
+              # Fixed review task only: no caller-supplied task string is accepted.
+              # The signed task is restricted to the two merged FCC changes and
+              # must produce a read-only findings report; no runtime/provider test.
+              tasks=[
+               ("gemini-agent-2.yml","Wave 408 independent review — inspect the exact merged source changes in PR #506 (merge SHA 3a0cda63a6e39b844c3d78bede4b777e3a0004bf) and PR #508 (merge/target SHA 074f20eb495666946a14410ab88d566aaa754f24), using the shared immutable target SHA as repository context. Review effective FCC managed-token initialization, bearer authentication and HTTP 401 behavior, secret isolation, free-only routing/no paid fallback, read-only tools/workspace, workflow gates, provenance and test coverage. Read the exact PR patches and current source/tests. Report findings by severity with file/path, line or evidence reference, impact, reproducible proof and PASS/FAIL/NOT VERIFIED. Treat absent checks/reviews as NOT VERIFIED. This is a review-only task: do not edit application/workflow code, read or print secret values, invoke any provider/model or runtime, dispatch other agents, merge, deploy, or qualify. Publish only a concise dated review report in a dedicated branch/PR; state explicitly that no live runtime test was performed.", "contour-a")
+              ]
+          elif requested_mode!="agents":
+              print("::error::Unsupported or missing dispatch mode; fail closed."); sys.exit(2)
+          expected_count=len(tasks)
           started=time.time(); jobs=[]; results={}
           # Record each intended dispatch before making the API request. A failed
           # request must not erase evidence of earlier accepted children.
@@ -222,6 +236,6 @@ jobs:
               for j in jobs:
                   r=results.get(j["id"],{})
                   out.write(f"| {j['workflow']} | `{j['id']}` | {j['dispatch_status']} | {r.get('run_id','NOT FOUND')} | {r.get('conclusion',r.get('status','UNKNOWN'))} |\n")
-          if len(jobs)!=3 or any(j["dispatch_status"] not in ("ACCEPTED","RECONCILED") for j in jobs) or any(results.get(j["id"],{}).get("conclusion")!="success" for j in jobs):
-              print("::error::Batch incomplete: at least one dispatch or child run failed, could not be correlated, or timed out."); sys.exit(1)
+          if len(jobs)!=expected_count or any(j["dispatch_status"] not in ("ACCEPTED","RECONCILED") for j in jobs) or any(results.get(j["id"],{}).get("conclusion")!="success" for j in jobs):
+              print("::error::Dispatch incomplete: at least one selected child failed, could not be correlated, or timed out."); sys.exit(1)
           PY
