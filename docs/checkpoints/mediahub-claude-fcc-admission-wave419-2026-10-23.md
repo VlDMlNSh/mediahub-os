@@ -85,3 +85,5 @@ Run exact-head CI and independent review for the admission-policy PR. In paralle
 - Next bounded step: restore stable SentinelX/agent-browser access; inspect FCC `/admin/api/config/apply` request schema and actual managed-config persistence; safely set/verify loopback + auth + `ollama/llama3.2:3b`; require unauthenticated `/v1/messages` to return 401 and authenticated `/v1/models` to succeed before any local task. Separately retrieve controller run/child IDs for comment `6361829435`; request independent PR review before any cloud smoke. Do not merge or invoke OpenRouter until those gates pass.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+Wave 422 standalone evidence report: [mediahub-claude-fcc-admission-wave422-2026-10-23.md](mediahub-claude-fcc-admission-wave422-2026-10-23.md) — working-branch evidence only; not canonical acceptance.
