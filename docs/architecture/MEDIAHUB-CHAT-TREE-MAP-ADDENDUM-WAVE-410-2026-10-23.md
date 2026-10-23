@@ -13,7 +13,9 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Local Ollama `qwen2.5-coder:3b` answered but failed the bounded coding task's acceptance criteria; `qwen3:4b` timed out at 90.14 seconds. Do not mark local coding qualification PASS.
 - Review-only Gemini child previously masked Gemini-step failure via `continue-on-error` and a success-only validator. PR #513 removes the masking path and adds regression coverage.
 - PR #513 exact-head CI at `0d77e65d76d1f249b2cede359bb59c2b738b4977`: contract validation (41 tests plus actionlint), Astra Verify, Astra Cloud Runtime Validation and no-secret controller probe all SUCCESS. The probe did not dispatch child agents.
-- PR #513 remains draft/open. Independent static review of the exact patch and relevant workflow excerpts found no confirmed blocker; formal GitHub review is still NOT VERIFIED. Hosted failure injection remains NOT VERIFIED. No Gemini review-mode run or artifact exists yet.
+- PR #513 merged at `fbbdc9a06ef344cd57aae13b230a042af76bbc60`; post-merge run [39894938519](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39894938519) SUCCESS. Independent static review found no confirmed blocker; formal GitHub review is NOT VERIFIED and hosted failure injection remains NOT VERIFIED.
+- Controller preflight confirmed required secret names and `MEDIAHUB_GEMINI_BATCH_ENABLED=true` without reading secret values. Dispatch was blocked by platform safety controls; no run ID exists, no workaround was attempted, and no Gemini review artifact exists.
+- Independent review report: [PR #513 static review](../checkpoints/MEDIAHUB-PR513-INDEPENDENT-STATIC-REVIEW-WAVE-410-2026-10-23.md).
 - Independent review report: [PR #513 static review](../checkpoints/MEDIAHUB-PR513-INDEPENDENT-STATIC-REVIEW-WAVE-410-2026-10-23.md).
 - Local Claude Code is NOT RUN because no executable was found in PATH and the only operational SentinelX host is not verified as the authorized third server.
 
@@ -21,4 +23,4 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 
 Close formal independent review and merge gates for PR #513, then dispatch the repaired review mode through the approved controller and inspect the resulting artifact/digest. Diagnose local model timeout and failed coding acceptance. Keep local Claude execution blocked until authorized host identity/capabilities are proven.
 
-**Wave 410 status: CLOUD FCC SUCCEEDED / LOCAL CODING ACCEPTANCE FAILED / GEMINI FIX CI PASS / INDEPENDENT REVIEW NOT VERIFIED / LOCAL CLAUDE NOT RUN / NOT ACCEPTED**
+**Wave 410 status: CLOUD FCC SUCCEEDED / LOCAL CODING ACCEPTANCE FAILED / GEMINI FIX MERGED AND POST-MERGE CI PASS / STATIC REVIEW NO BLOCKER / GEMINI REVIEW DISPATCH NOT RUN / LOCAL CLAUDE NOT RUN / NOT ACCEPTED**
