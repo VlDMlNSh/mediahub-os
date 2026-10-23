@@ -49,3 +49,15 @@
 - SentinelX inventory returned one connected operational host: `host_5f7264034bdf0b51` / `Voktors-Mini.Dlink`, agent `0.23.30`, ping true. This is not a confirmed third server; no local Claude Code task was run. Free plan has one active slot and zero available slots. Gemini dispatch was NOT RUN; no secret/provider calls.
 - PR #583 failing assertion root cause was confirmed from logs: test expects a literal concurrency group while YAML uses an expression with that group as fallback. No repair was attempted in this discovery pass.
 - Next: continue exact repository HEAD/license/dependency/advisory/CI screening, then freeze the inventory. Do not start component comparison or assembly before the freeze gate. In parallel, fix PR #583's narrow brittle test in its own bounded branch and re-verify. Canonical map remains NOT VERIFIED; do not edit it until actual content is readable.
+
+
+## Wave 433 — pinned upstream source screening (2026-10-23)
+
+- Report: [Wave 433 pinned source screening](MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-433-2026-10-23.md), blob SHA `dab247876a625374ced4a54fefe1892603fb567b`.
+- Candidate register blob SHA: `6334eafa2a356a0d33cd9c902578ff8d24412f15`; 87 unique records; screening summary pins 8 immutable upstream HEADs, verifies 8 LICENSE files and reads 8 component manifests. Lockfiles/advisories/exact upstream CI/release tags remain unaudited; inventory is OPEN_NOT_FROZEN.
+- Pinned HEADs: LangGraph `eb066bd31a2bf01fc0cd58256df4800a3695c233`; Microsoft Agent Framework `4982e4c61ec81cc4f9ba0cbdb5594ed530dbbcfe`; CrewAI `0656245f0787347f0110c4d85dc5d5c2432aea3c`; Ruflo `88349655ebc2de8f9bf702aaf31d6be768e1ea11`; Pydantic AI `5f7c0ccdaf6e37c993902a2ef7fe68210bf46130`; OpenAI Agents `0dc4cf152bff1f50bdc0e41f28808563406545b2`; Google ADK `c31856d17ab54d82dbe89b4e511d34395ffc977b`; Agno `6d5af04a72f7b152f433394b1bd4ab740fde8aed`.
+- Main target remains `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #585 current head must be re-read after report/checkpoint updates; previous head's two checks passed, but that does not establish new-head CI.
+- Canonical map blob recovered successfully through `fetch_blob` from the returned blob SHA `78fa7dfa02357fe9e95645843e583f8802867d78` (1,177,267 chars). Canonical map body now readable, but current research branch remains noncanonical. No direct canonical branch edit was made.
+- Broad discovery queries ran, but connector returned incomplete repository metadata. Record the sweep as attempted/incomplete, not exhaustive. Continue focused searches and capture query results and exclusions.
+- Gemini dispatch NOT RUN. Claude Code local task NOT RUN: only connected SentinelX host is `Voktors-Mini.Dlink`, not confirmed third server. No secrets read or provider inference.
+- Next: pin and screen durable workflows, model gateways/routing, coding executors, observability/evaluation, guardrails, memory/RAG, sandbox/browser automation and protocols; only freeze after exact-head/license/dependency/security/CI coverage is evidenced. Comparison/assembly remain NOT STARTED.
