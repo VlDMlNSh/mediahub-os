@@ -1,7 +1,7 @@
 # MediaHub OS — Wave 410: FCC runtime evidence, local-model probe, and fail-closed Gemini review repair
 
 **Date:** 2026-10-23  
-**Disposition:** Cloud FCC smoke **SUCCEEDED**; local Ollama inference **RESPONDED BUT CODING ACCEPTANCE FAILED**; Qwen3 probe **FAILED/TIMED OUT**; Gemini fail-closed repair **IMPLEMENTED / EXACT-HEAD CI PASS / INDEPENDENT REVIEW NOT VERIFIED**; local Claude Code **NOT RUN**.
+**Disposition:** Cloud FCC smoke **SUCCEEDED**; local Ollama inference **RESPONDED BUT CODING ACCEPTANCE FAILED**; Qwen3 probe **FAILED/TIMED OUT**; Gemini fail-closed repair **MERGED / EXACT-HEAD CI PASS / INDEPENDENT STATIC REVIEW FOUND NO BLOCKER; HOSTED FAILURE INJECTION NOT VERIFIED**; local Claude Code **NOT RUN**.
 
 ## Canonical context and immutable refs
 
@@ -12,7 +12,7 @@
 - Issue #301 remains open; it explicitly separates execution, verification, qualification and acceptance.
 - Main target at the start of this pass: `0bbdbc8494f67c0b5f385f2bef69087b229d6f95` (includes merged PR #512).
 - Controller repair PR: https://github.com/VlDMlNSh/mediahub-os/pull/513
-- PR #513 head SHA: `0d77e65d76d1f249b2cede359bb59c2b738b4977`.
+- PR #513 reviewed head SHA: `0d77e65d76d1f249b2cede359bb59c2b738b4977`; merge commit: `fbbdc9a06ef344cd57aae13b230a042af76bbc60`.
 - Review child workflow blob at that head: `168da7bfd4d2be1bf316b7dd2d968361949feddc`.
 - Fail-closed contract test blob at that head: `e92e1c3f4e52fb2005845e520d1bbe10dcdacfbe`.
 
@@ -65,13 +65,14 @@ All four retrieved workflow runs completed successfully at head `0d77e65d76d1f24
 - Gemini controller probe: run `39894530554`; no-secret caller-context observation and assertion **SUCCESS**, explicit admission and child dispatch **SKIPPED** as expected for probe mode.
 - Combined status endpoint returned no legacy status contexts; workflow run/job results above are the evidence used here.
 
-PR #513 remains open and draft. The available GitHub review endpoint returns no formal review records. An independent static reviewer assessed the exact PR patch plus the relevant full child-workflow and parent-controller excerpts. Verdict: **no confirmed blocker**. The reviewer confirmed that artifact upload with `if: always()` does not suppress the earlier validator failure because neither the upload step nor the job has `continue-on-error`. The reviewer identified a hosted failure-injection run as a remaining test gap, not a confirmed defect. The formal GitHub review endpoint still has no review submission. Full review: [PR #513 independent static review](MEDIAHUB-PR513-INDEPENDENT-STATIC-REVIEW-WAVE-410-2026-10-23.md). No merge was performed.
+PR #513 was merged at `fbbdc9a06ef344cd57aae13b230a042af76bbc60`. The post-merge main ref was read back and matched that SHA. Post-merge verification run [39894938519](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39894938519), job `120223062030`, completed **SUCCESS**. An independent static reviewer assessed the exact PR patch plus the relevant full child-workflow and parent-controller excerpts and found **no confirmed blocker**. The reviewer confirmed that artifact upload with `if: always()` does not suppress the earlier validator failure because neither the upload step nor the job has `continue-on-error`. Hosted failure-injection remains a test gap, not a confirmed defect. No formal GitHub review submission exists; the separate static review evidence is [recorded here](MEDIAHUB-PR513-INDEPENDENT-STATIC-REVIEW-WAVE-410-2026-10-23.md).
 
 ## 5. Claude local execution and controller scope
 
 - Only one SentinelX host is operational; the two enrolled development hosts are disabled. The operational Mac is not verified as the authorized third server required by the project instruction for local Claude Code.
 - Local Claude Code remains **BLOCKED / NOT RUN**. This is not substituted with an Ollama model.
-- Gemini review mode has not been dispatched. Do not dispatch it until PR #513 is accepted through the normal independent-review and merge gates; the current merged child still contains the defect until that repair lands.
+- Preflight confirmed the required secret names (`MEDIAHUB_GITHUB_TOKEN`, `MEDIAHUB_DISPATCH_HMAC_KEY`, `GEMINI_API_KEY_2`) exist and `MEDIAHUB_GEMINI_BATCH_ENABLED=true`; secret values were not read. The approved controller `review` dispatch attempt was blocked by platform safety controls before a run URL/ID was returned. Dispatch status remains **NOT RUN**, not success. No bypass was attempted.
+- The merged main child now includes the fail-closed fix, but no Gemini review-mode child run or review artifact exists yet.
 - This pass inspected the FCC runtime workflow, Gemini parent controller/child contract and their targeted tests. It is not a claim that every controller/worker in the repository has been exhaustively audited.
 
 ## Status and next steps
@@ -87,7 +88,7 @@ PR #513 remains open and draft. The available GitHub review endpoint returns no 
 | Gemini review child repair | **IMPLEMENTED** |
 | PR #513 exact-head CI | **PASS** |
 | Independent review of PR #513 | **NOT VERIFIED** |
-| Gemini review-mode dispatch | **NOT RUN** |
+| Gemini review-mode dispatch | **NOT RUN — controller dispatch blocked by platform safety controls; owner UI action required** |
 | Contour A acceptance | **NOT ACCEPTED** |
 
 Next bounded pass: after normal PR review/merge gates are satisfied, run the fixed Gemini review mode through the trusted main controller and inspect the actual review artifact and digest. Separately diagnose the local Ollama timeout/quality failure and only run local Claude on a verified authorized third host. Keep all paid fallback disabled.
