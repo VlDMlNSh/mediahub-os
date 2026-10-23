@@ -249,7 +249,7 @@ jobs:
           }
           request_id="$(jq -er '.id | select(type == "string" and length > 0)' "$response")"
           total_tokens="$(jq -er '.usage.total_tokens | numbers' "$response")"
-          printf 'selected_model=%s\\nrequest_id=%s\\ntotal_tokens=%s\\nroute=openrouter/free\\ntarget_sha=%s\\n' \\\n            "$model_id" "$request_id" "$total_tokens" "$GITHUB_SHA" > "$RUNNER_TEMP/mediahub-free-route-metadata.txt"
+          printf 'selected_model=%s\nrequest_id=%s\ntotal_tokens=%s\nroute=openrouter/free\ntarget_sha=%s\n' "$model_id" "$request_id" "$total_tokens" "$GITHUB_SHA" > "$RUNNER_TEMP/mediahub-free-route-metadata.txt"
           echo "model_id=$model_id" >> "$GITHUB_OUTPUT"
           echo "OpenRouter free-router probe succeeded; concrete model ID and request ID recorded."
 
