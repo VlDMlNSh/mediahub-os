@@ -23,3 +23,5 @@ Independent review and status reconciliation for PR #508 and the merged auth fix
 ## Status
 
 FCC managed-config preflight SUCCEEDED; end-to-end FCC qualification NOT RUN; independent review NOT VERIFIED; Gemini agent dispatch NOT RUN; Claude local execution BLOCKED / NOT RUN; Contour A NOT ACCEPTED.
+
+Related map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-407-2026-10-23.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-407-2026-10-23.md).
