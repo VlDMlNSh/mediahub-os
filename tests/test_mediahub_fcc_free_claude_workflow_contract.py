@@ -35,6 +35,9 @@ def test_worker_never_maps_paid_anthropic_credential() -> None:
 def test_worker_requires_immutable_target_and_bounded_prompt() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
     assert "persist-credentials: false" in source
+    assert "  ecc-profile-preflight:" in source
+    assert "ref: c05b2d6614f62f6db0047669aa4eefb223d478f9" in source
+    assert "Pinned ECC commit, MIT license blob, and three selected skill blobs verified." in source
     assert "actions/upload-artifact@" in source
 
 
