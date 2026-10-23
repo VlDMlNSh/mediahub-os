@@ -2446,3 +2446,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Next: resolve local tool-call/thinking compatibility, complete one read-only Claude Code task with a real Read invocation and file-derived answer, then assess external free-tier routes one at a time with quota and no-paid-fallback evidence. Gemini was not dispatched.
 - Documentation commits: report `d203a800353501fac0a994e6798a68e234ef8d98`; map addendum `496f6c168acf7ed17591c0b4a6e998fad6b402c9`.
 
+
+
+## Wave 367 — FCC Admin UI remote-access qualification (2026-10-22)
+
+- Report candidate: [FCC Admin UI remote-access qualification](MEDIAHUB-FCC-ADMIN-UI-REMOTE-ACCESS-QUALIFICATION-WAVE-367-2026-10-22.md); [map addendum candidate](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-FCC-ADMIN-UI-WAVE-367-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Git refs read directly: `main` `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; canonical docs branch `343eeb760b1d49df8371db674e51ffc5942701a9`. Bootstrap blob `75f30750183efe8c6877368e9f0ada48f8e81ea7`; canonical map blob `f04873c9cbbf1ba8d45ccbfd3f6afc8cee916a41` returned empty content via Contents API and was not rewritten.
+- FCC upstream `main` commit `3d2ae2306752dbdf504714a5489bcfcf69b2d04a`. Read-back blobs: README `3f77b4a72d816efa1efa1125bb952cfaef026924`; `admin_security.py` `f389104b5f53ba4d505433dfeace1423c3ae3088`; `admin_routes.py` `fa2abc40bb7841027de43592050126ce7869053f`; `pyproject.toml` `6b252ac571681a37f635f1f3e9c36fb72dacc5ba`.
+- Source confirms FCC Admin UI/API use `require_loopback_admin` and reject non-loopback client/Host/Origin with 403. README calls `127.0.0.1:8082/admin` local-only. Remote access as-is is **BLOCKED / NOT QUALIFIED**. Do not weaken the guard or expose port 8082.
+- [Issue #499](https://github.com/VlDMlNSh/mediahub-os/issues/499) opened to qualify safe access without building a replacement UI. No tests, deployment, provider/model calls, secret access, port exposure, merge, or acceptance. Report and map addendum are candidates on a non-canonical branch pending exact-head checks/review.
+- Next: verify whether upstream supports an authenticated remote-admin mode and audit config/key persistence; otherwise stop for an explicit product/security decision.
