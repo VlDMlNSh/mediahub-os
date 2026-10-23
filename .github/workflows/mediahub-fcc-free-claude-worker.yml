@@ -1,4 +1,4 @@
-name: MediaHub GitHub-hosted FCC free Claude worker
+name: MediaHub Claude FCC free-route admission controller
 # The contract-test job is intentionally triggered when its test file changes.
 
 on:
@@ -13,6 +13,10 @@ on:
         required: true
         type: boolean
         default: false
+      target_sha:
+        description: "Exact current main commit SHA; the run fails closed if it differs"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -161,6 +165,11 @@ jobs:
         shell: bash
         env:
           CONFIRM: ${{ inputs.confirm }}
+          TARGET_SHA: ${{ inputs.target_sha }}
+          CURRENT_SHA: ${{ github.sha }}
+          SOURCE_REF: ${{ github.ref }}
+          TRIGGER_ACTOR: ${{ github.actor }}
+          REPO_OWNER: ${{ github.repository_owner }}
           ALLOW_FCC_FREE_CLAUDE: ${{ vars.MEDIAHUB_ALLOW_FCC_FREE_CLAUDE }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
@@ -170,6 +179,9 @@ jobs:
             echo "Dispatch not confirmed; no runner or provider started."
             exit 0
           fi
+          [[ "$SOURCE_REF" == "refs/heads/main" ]] || { echo "Claude admission controller must run from main."; exit 1; }
+          [[ "$TRIGGER_ACTOR" == "$REPO_OWNER" ]] || { echo "Claude admission requires repository-owner dispatch."; exit 1; }
+          [[ "$TARGET_SHA" =~ ^[0-9a-f]{40}$ && "$TARGET_SHA" == "$CURRENT_SHA" ]] || { echo "target_sha must exactly match the current workflow commit SHA."; exit 1; }
           [[ "$ALLOW_FCC_FREE_CLAUDE" == "true" ]] || { echo "FCC free Claude is not enabled by repository variable."; exit 1; }
           [[ -n "$OPENROUTER_API_KEY" ]] || { echo "Required secret OPENROUTER_API_KEY is missing."; exit 1; }
           echo "admitted=true" >> "$GITHUB_OUTPUT"
@@ -210,7 +222,7 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "3d2ae2306752dbdf504714a5489bcfcf69b2d04a"
           uv sync --locked --no-dev
-          npm install --global @anthropic-ai/claude-code
+          npm install --global @anthropic-ai/claude-code@2.1.282
 
       - name: Probe OpenRouter free router and record selected model
         id: provider_probe
@@ -237,8 +249,7 @@ jobs:
           }
           request_id="$(jq -er '.id | select(type == "string" and length > 0)' "$response")"
           total_tokens="$(jq -er '.usage.total_tokens | numbers' "$response")"
-          printf 'selected_model=%s\nrequest_id=%s\ntotal_tokens=%s\nroute=openrouter/free\n' \
-            "$model_id" "$request_id" "$total_tokens" > "$RUNNER_TEMP/mediahub-free-route-metadata.txt"
+          printf 'selected_model=%s\\nrequest_id=%s\\ntotal_tokens=%s\\nroute=openrouter/free\\ntarget_sha=%s\\n' \\\n            "$model_id" "$request_id" "$total_tokens" "$GITHUB_SHA" > "$RUNNER_TEMP/mediahub-free-route-metadata.txt"
           echo "model_id=$model_id" >> "$GITHUB_OUTPUT"
           echo "OpenRouter free-router probe succeeded; concrete model ID and request ID recorded."
 
