@@ -361,20 +361,22 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
             output_path.parent.mkdir()
             output_path.write_text(valid_output, encoding="utf-8")
 
-            failed_model = subprocess.run(
-                ["bash", "-euo", "pipefail", "-c", validator_step["run"]],
-                cwd=temporary,
-                env={**os.environ, "GEMINI_OUTCOME": "failure"},
-                text=True,
-                capture_output=True,
-                timeout=5,
-                check=False,
-            )
-            self.assertNotEqual(failed_model.returncode, 0)
-            self.assertIn(
-                "Gemini review execution did not succeed",
-                failed_model.stdout + failed_model.stderr,
-            )
+            for outcome in ("failure", "cancelled", "skipped", ""):
+                with self.subTest(gemini_outcome=outcome or "empty"):
+                    failed_model = subprocess.run(
+                        ["bash", "-euo", "pipefail", "-c", validator_step["run"]],
+                        cwd=temporary,
+                        env={**os.environ, "GEMINI_OUTCOME": outcome},
+                        text=True,
+                        capture_output=True,
+                        timeout=5,
+                        check=False,
+                    )
+                    self.assertNotEqual(failed_model.returncode, 0)
+                    self.assertIn(
+                        "Gemini review execution did not succeed",
+                        failed_model.stdout + failed_model.stderr,
+                    )
 
             successful_model = subprocess.run(
                 ["bash", "-euo", "pipefail", "-c", validator_step["run"]],
