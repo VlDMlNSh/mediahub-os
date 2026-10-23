@@ -186,6 +186,31 @@ jobs:
           [[ -n "$OPENROUTER_API_KEY" ]] || { echo "Required secret OPENROUTER_API_KEY is missing."; exit 1; }
           echo "admitted=true" >> "$GITHUB_OUTPUT"
 
+  ecc-profile-preflight:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Check out pinned ECC source without persisted credentials
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: affaan-m/ECC
+          ref: c05b2d6614f62f6db0047669aa4eefb223d478f9
+          path: ecc
+          persist-credentials: false
+      - name: Verify exact ECC commit and selected skill blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C ecc rev-parse HEAD)" = "c05b2d6614f62f6db0047669aa4eefb223d478f9"
+          test "$(git -C ecc rev-parse HEAD:LICENSE)" = "b832b6f642312312367c07688dc7426db40a82ed"
+          test "$(git -C ecc rev-parse HEAD:skills/verification-loop/SKILL.md)" = "d7eb1fa239fd8c0ba8ae2d31a3c34d1f01741ef9"
+          test "$(git -C ecc rev-parse HEAD:skills/security-review/SKILL.md)" = "3f26b0df65661425de4e5c40c295e04edcad7a83"
+          test "$(git -C ecc rev-parse HEAD:skills/search-first/SKILL.md)" = "3d2669e71ba54afba95defb05080253058190600"
+          echo "Pinned ECC commit, MIT license blob, and three selected skill blobs verified."
+
   bounded-worker:
     needs: dispatch-gate
     if: github.event_name == 'workflow_dispatch' && needs.dispatch-gate.outputs.admitted == 'true'
