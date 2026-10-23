@@ -87,3 +87,5 @@ Run exact-head CI and independent review for the admission-policy PR. In paralle
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 
 Wave 422 standalone evidence report: [mediahub-claude-fcc-admission-wave422-2026-10-23.md](mediahub-claude-fcc-admission-wave422-2026-10-23.md) — working-branch evidence only; not canonical acceptance.
+
+Wave 423 standalone evidence report: [mediahub-claude-fcc-admission-wave423-2026-10-23.md](mediahub-claude-fcc-admission-wave423-2026-10-23.md) — current controller/child outcomes and fresh local FCC observations. The active FCC listener was observed on loopback `127.0.0.1:8082`, but managed auth is absent and unauthenticated model listing remains accessible; local FCC task execution is still blocked.
