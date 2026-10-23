@@ -201,3 +201,12 @@ The inventory is **not frozen yet**. The next discovery phase must record exact 
 5. Freeze the candidate inventory only when completeness is evidenced; then start side-by-side comparison and component assembly.
 
 **Disposition:** discovery expanded; archive/successor exclusions evidenced; inventory remains open; formal comparison and implementation NOT STARTED; Contour A NOT ACCEPTED.
+
+
+## 8. Executor availability and exact-head verification refresh (2026-10-23)
+
+- SentinelX host inventory read-back: exactly one connected operational host, `host_5f7264034bdf0b51` / `Voktors-Mini.Dlink`, agent `0.23.30`; ping returned `pong=true`.
+- Host capacity: Free plan limit 1, active 1, parked 0, available 0. This is the local Mac mini, **not a confirmed third server** for the approved Claude Code route. No local Claude Code task was launched. The disabled enrolled hosts `mh-dev-01` and `mh-dev-02` remain disabled and were not changed.
+- Gemini controller dispatch: **NOT RUN**. Discovery/report work does not require a provider call, and Issue #301 admission/governance gates remain open. No secret values were read.
+- Current PR #585 head: `1c60c5972b0abb040e61cf98f83f069c5edd1667`, base `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Astra Verify run [39976437739](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39976437739), job `120492144420`, completed **success**. Astra Cloud Runtime Validation run [39976437755](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39976437755), job `120492144709`, completed **success**. These are the two observed workflows on this exact head; combined status contexts were empty and no formal review was recorded, so do not claim overall PR acceptance.
+- Candidate inventory remains open; the 87 unique JSON records have repository-level metadata and selected README evidence, but most lack pinned upstream HEADs, complete license/dependency/advisory review and subsystem qualification. Formal comparison/assembly remain **NOT STARTED**.
