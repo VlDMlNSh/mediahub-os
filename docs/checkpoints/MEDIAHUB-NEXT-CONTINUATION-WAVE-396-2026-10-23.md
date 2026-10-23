@@ -116,3 +116,9 @@ Obtain independent review of PR #335, reconcile it with the current canonical do
 - No provider inference, secret read, merge, or deployment occurred. PR #502 remains OPEN/DRAFT/UNMERGED; independent review is not recorded; live dispatch remains **BLOCKED**. Contour A remains **NOT ACCEPTED**.
 - Next: close F1–F4, verify exact-head CI, obtain independent security review, then consider one fixed, read-only live smoke through the default-branch workflow. Do not treat the dynamic OpenRouter free router as a guarantee of Qwen or Anthropic Claude.
 
+
+
+### Wave 404 terminal CI update (2026-10-23)
+
+- FCC worker run `39878880575` succeeded on exact head `61c266f565c3ef2fbf49e91217cc1e4650f1bdb8`: install-smoke job `120171243585` PASS; workflow contract job `120171243892` PASS. Dispatch-gate `120171244833` and bounded-worker `120171245520` SKIPPED for the PR event; no inference.
+- Astra Verify `39878880582` and Astra Cloud Runtime Validation `39878880584` succeeded on the same head. Formal PR reviews remain empty. F1–F4 and independent-review gate remain open; live dispatch **BLOCKED / NOT RUN**.
