@@ -36,9 +36,32 @@
       "category": "agent-orchestration",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob 97c31e9cb4d8fe56be8d768ce3eb5e22400e897e",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob 97c31e9cb4d8fe56be8d768ce3eb5e22400e897e; Wave 433 pinned source HEAD eb066bd31a2bf01fc0cd58256df4800a3695c233; LICENSE blob fc0602feecdd6748623c852ab534e1ca612673c7; manifest libs/langgraph/pyproject.toml blob 6aac18d6162e9f516e3f66113ce064f5da698b9a",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "eb066bd31a2bf01fc0cd58256df4800a3695c233",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "eb066bd31a2bf01fc0cd58256df4800a3695c233",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "fc0602feecdd6748623c852ab534e1ca612673c7",
+          "url": "https://github.com/langchain-ai/langgraph/blob/eb066bd31a2bf01fc0cd58256df4800a3695c233/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "libs/langgraph/pyproject.toml",
+          "blob_sha": "6aac18d6162e9f516e3f66113ce064f5da698b9a",
+          "version": "1.2.16",
+          "url": "https://github.com/langchain-ai/langgraph/blob/eb066bd31a2bf01fc0cd58256df4800a3695c233/libs/langgraph/pyproject.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "microsoft-agent-framework",
@@ -46,9 +69,32 @@
       "category": "agent-orchestration",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob bc9a8b080aeca9b3c5a25f216f8f96f61ffc012c",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob bc9a8b080aeca9b3c5a25f216f8f96f61ffc012c; Wave 433 pinned source HEAD 4982e4c61ec81cc4f9ba0cbdb5594ed530dbbcfe; LICENSE blob 9e841e7a26e4eb057b24511e7b92d42b257a80e5; manifest python/packages/core/pyproject.toml blob bbcdc3c84a8022c1e4d50d476f4b4ce0464b4555",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "4982e4c61ec81cc4f9ba0cbdb5594ed530dbbcfe",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "4982e4c61ec81cc4f9ba0cbdb5594ed530dbbcfe",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "9e841e7a26e4eb057b24511e7b92d42b257a80e5",
+          "url": "https://github.com/microsoft/agent-framework/blob/4982e4c61ec81cc4f9ba0cbdb5594ed530dbbcfe/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "python/packages/core/pyproject.toml",
+          "blob_sha": "bbcdc3c84a8022c1e4d50d476f4b4ce0464b4555",
+          "version": "1.23.0",
+          "url": "https://github.com/microsoft/agent-framework/blob/4982e4c61ec81cc4f9ba0cbdb5594ed530dbbcfe/python/packages/core/pyproject.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "crewai",
@@ -56,9 +102,32 @@
       "category": "agent-orchestration",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob 4a5360ad587a35625684747157881558c6acae1d",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob 4a5360ad587a35625684747157881558c6acae1d; Wave 433 pinned source HEAD 0656245f0787347f0110c4d85dc5d5c2432aea3c; LICENSE blob a6ee25527ec07201e4373fcbf89f128f304a6f2e; manifest pyproject.toml blob 401cea493010475f5aaa5443267725f1d7a4099d",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "0656245f0787347f0110c4d85dc5d5c2432aea3c",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "0656245f0787347f0110c4d85dc5d5c2432aea3c",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "a6ee25527ec07201e4373fcbf89f128f304a6f2e",
+          "url": "https://github.com/crewAIInc/crewAI/blob/0656245f0787347f0110c4d85dc5d5c2432aea3c/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "401cea493010475f5aaa5443267725f1d7a4099d",
+          "version": "NOT_EXTRACTED",
+          "url": "https://github.com/crewAIInc/crewAI/blob/0656245f0787347f0110c4d85dc5d5c2432aea3c/pyproject.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "ruflo",
@@ -66,9 +135,32 @@
       "category": "agent-orchestration",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "Prior observed HEAD 88349655ebc2de8f9bf702aaf31d6be768e1ea11; package 3.59.17; MIT license blob 5c4718198a4156beacc780980077043a98b0dd6a",
-      "license": "MIT observed previously; reverify",
-      "source_head": "RE_PIN_REQUIRED"
+      "evidence": "Prior observed HEAD 88349655ebc2de8f9bf702aaf31d6be768e1ea11; package 3.59.17; MIT license blob 5c4718198a4156beacc780980077043a98b0dd6a; Wave 433 pinned source HEAD 88349655ebc2de8f9bf702aaf31d6be768e1ea11; LICENSE blob 5c4718198a4156beacc780980077043a98b0dd6a; manifest package.json blob 00adf9205546dd88762d96ea2a264b45a567a11c",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "88349655ebc2de8f9bf702aaf31d6be768e1ea11",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "88349655ebc2de8f9bf702aaf31d6be768e1ea11",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "5c4718198a4156beacc780980077043a98b0dd6a",
+          "url": "https://github.com/ruvnet/ruflo/blob/88349655ebc2de8f9bf702aaf31d6be768e1ea11/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "package.json",
+          "blob_sha": "00adf9205546dd88762d96ea2a264b45a567a11c",
+          "version": "3.59.17",
+          "url": "https://github.com/ruvnet/ruflo/blob/88349655ebc2de8f9bf702aaf31d6be768e1ea11/package.json",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "pydantic-ai",
@@ -76,9 +168,32 @@
       "category": "agent-contracts",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob 0d6afafd97a197da2d78b26e3b7aaf1c41d784b0",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob 0d6afafd97a197da2d78b26e3b7aaf1c41d784b0; Wave 433 pinned source HEAD 5f7c0ccdaf6e37c993902a2ef7fe68210bf46130; LICENSE blob 1bf1f55e6d1736b499ded961ec6b94bfebb17aec; manifest pyproject.toml blob 75a5cc1cd0c74219675bc0e3292547fd81dba9e4",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "5f7c0ccdaf6e37c993902a2ef7fe68210bf46130",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "5f7c0ccdaf6e37c993902a2ef7fe68210bf46130",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "1bf1f55e6d1736b499ded961ec6b94bfebb17aec",
+          "url": "https://github.com/pydantic/pydantic-ai/blob/5f7c0ccdaf6e37c993902a2ef7fe68210bf46130/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "75a5cc1cd0c74219675bc0e3292547fd81dba9e4",
+          "version": "NOT_EXTRACTED",
+          "url": "https://github.com/pydantic/pydantic-ai/blob/5f7c0ccdaf6e37c993902a2ef7fe68210bf46130/pyproject.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "openai-agents-sdk",
@@ -86,9 +201,32 @@
       "category": "agent-orchestration",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob 40f490c110cd584f7034bd221c6da37379fc41ff",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob 40f490c110cd584f7034bd221c6da37379fc41ff; Wave 433 pinned source HEAD 0dc4cf152bff1f50bdc0e41f28808563406545b2; LICENSE blob e5ad2c5aa30343f143a5c418004ca1a8d2cfaff4; manifest pyproject.toml blob 5596912c09e314c4445cc7cf910402fea104abce",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "0dc4cf152bff1f50bdc0e41f28808563406545b2",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "0dc4cf152bff1f50bdc0e41f28808563406545b2",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "e5ad2c5aa30343f143a5c418004ca1a8d2cfaff4",
+          "url": "https://github.com/openai/openai-agents-python/blob/0dc4cf152bff1f50bdc0e41f28808563406545b2/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "5596912c09e314c4445cc7cf910402fea104abce",
+          "version": "0.24.0",
+          "url": "https://github.com/openai/openai-agents-python/blob/0dc4cf152bff1f50bdc0e41f28808563406545b2/pyproject.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "google-adk",
@@ -96,9 +234,32 @@
       "category": "agent-orchestration",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README declares Apache-2.0; blob 24f2b1f494b8298178ef73fd909c175508f4606a",
-      "license": "Apache-2.0 stated in README; verify LICENSE",
-      "source_head": "NOT_PINNED"
+      "evidence": "README declares Apache-2.0; blob 24f2b1f494b8298178ef73fd909c175508f4606a; Wave 433 pinned source HEAD c31856d17ab54d82dbe89b4e511d34395ffc977b; LICENSE blob d645695673349e3947e8e5ae42332d0ac3164cd7; manifest pyproject.toml blob 2acaae84a8120ed6aa3b03d6fdb986fadbaacdfa",
+      "license": "Apache-2.0 (LICENSE verified at pinned HEAD)",
+      "source_head": "c31856d17ab54d82dbe89b4e511d34395ffc977b",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "c31856d17ab54d82dbe89b4e511d34395ffc977b",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+          "url": "https://github.com/google/adk-python/blob/c31856d17ab54d82dbe89b4e511d34395ffc977b/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "2acaae84a8120ed6aa3b03d6fdb986fadbaacdfa",
+          "version": "NOT_EXTRACTED",
+          "url": "https://github.com/google/adk-python/blob/c31856d17ab54d82dbe89b4e511d34395ffc977b/pyproject.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "agno",
@@ -106,9 +267,32 @@
       "category": "agent-runtime",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob 2813f35fa7620ff7d95465d853d7b0a6ee2c00b4",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob 2813f35fa7620ff7d95465d853d7b0a6ee2c00b4; Wave 433 pinned source HEAD 6d5af04a72f7b152f433394b1bd4ab740fde8aed; LICENSE blob 51032f045aafc8732c072ed31aa96f2994f29081; manifest libs/agno/pyproject.toml blob 6b4f86141b09ad0ec932969fa460ef5a4af515fc",
+      "license": "Apache-2.0 (LICENSE verified at pinned HEAD)",
+      "source_head": "6d5af04a72f7b152f433394b1bd4ab740fde8aed",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "6d5af04a72f7b152f433394b1bd4ab740fde8aed",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "51032f045aafc8732c072ed31aa96f2994f29081",
+          "url": "https://github.com/agno-agi/agno/blob/6d5af04a72f7b152f433394b1bd4ab740fde8aed/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "libs/agno/pyproject.toml",
+          "blob_sha": "6b4f86141b09ad0ec932969fa460ef5a4af515fc",
+          "version": "3.1.10",
+          "url": "https://github.com/agno-agi/agno/blob/6d5af04a72f7b152f433394b1bd4ab740fde8aed/libs/agno/pyproject.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "smolagents",
@@ -900,5 +1084,17 @@
       "license": "NOT_AUDITED",
       "source_head": "NOT_PINNED"
     }
-  ]
+  ],
+  "latest_screening_wave": "433",
+  "screening_summary": {
+    "pinned_heads": 8,
+    "license_files_read_at_pinned_heads": 8,
+    "manifest_files_read_at_pinned_heads": 8,
+    "lockfiles_audited": 0,
+    "advisory_reviews": 0,
+    "exact_ci_audits": 0,
+    "release_tags_pinned": 0,
+    "formal_comparison": "NOT_STARTED",
+    "inventory_freeze": "NOT_READY"
+  }
 }
