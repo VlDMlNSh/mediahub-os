@@ -61,3 +61,12 @@
 - Broad discovery queries ran, but connector returned incomplete repository metadata. Record the sweep as attempted/incomplete, not exhaustive. Continue focused searches and capture query results and exclusions.
 - Gemini dispatch NOT RUN. Claude Code local task NOT RUN: only connected SentinelX host is `Voktors-Mini.Dlink`, not confirmed third server. No secrets read or provider inference.
 - Next: pin and screen durable workflows, model gateways/routing, coding executors, observability/evaluation, guardrails, memory/RAG, sandbox/browser automation and protocols; only freeze after exact-head/license/dependency/security/CI coverage is evidenced. Comparison/assembly remain NOT STARTED.
+
+
+## Wave 433 continuation — second pinned batch (2026-10-23)
+
+- Screening report updated to blob SHA `0aaa4694cd12ad5fc2a57ac58187b3d8b4490a97`.
+- Candidate register updated to blob SHA `85ad69eca84a2a5fcd9fa7ab3c72f05b21ca3cd2`; JSON read-back confirms 87 unique repositories and 16 candidates with pinned source heads, 16 LICENSE files read at pinned HEADs, and 16 primary/component manifests read.
+- Second batch: Temporal server, LiteLLM, OpenAI Codex CLI, Langfuse, Promptfoo, Browser Use, MCP TypeScript SDK and OpenSandbox. MCP TypeScript SDK current package manifest is `2.0.0-alpha.0`; its register status is CONDITIONAL pending stable release verification.
+- This is still not a full maturity audit: lockfiles, transitive dependencies, advisories, exact upstream CI, stable release tags and subsystem compatibility remain unaudited. Inventory remains OPEN_NOT_FROZEN; formal comparison/assembly NOT STARTED.
+- Latest branch commit/head is expected to move with this checkpoint update. Refresh PR #585 and verify exact-head CI after the write; do not infer pass from prior-head workflows.
