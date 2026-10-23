@@ -35,4 +35,15 @@ Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
 ## Wave 407 follow-up
 
 - Added a PR-only managed-config preflight job using a synthetic token and no provider call; runtime preflight now runs before the FCC server.
-- PR #508 exact-head CI: NOT VERIFIED at checkpoint update. Live worker dispatch remains blocked.
+- PR #508 exact-head CI: contract tests, managed-config preflight, pinned FCC install smoke, Astra Verify and Cloud Runtime Validation SUCCEEDED; dispatch jobs SKIPPED. Combined status remains pending with zero contexts and formal reviews are empty. Independent review NOT VERIFIED; live worker dispatch remains blocked.
+
+
+## Wave 407 exact-head evidence (2026-10-23)
+
+- PR #508 head: `7ab6603ccfb476c57a92ce90bbca155453649a4e`.
+- Managed-config preflight: SUCCEEDED — [job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287283/job/120191936114).
+- Contract tests: SUCCEEDED — [job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287283/job/120191936134).
+- FCC install smoke: SUCCEEDED — [job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287283/job/120191935815).
+- Astra Verify: SUCCEEDED — [job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287267/job/120191935509).
+- Astra Cloud Runtime Validation: SUCCEEDED — [job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287303/job/120191935901).
+- No live provider/model invocation; dispatch jobs SKIPPED. Formal review NOT VERIFIED and combined status PENDING with zero contexts.
