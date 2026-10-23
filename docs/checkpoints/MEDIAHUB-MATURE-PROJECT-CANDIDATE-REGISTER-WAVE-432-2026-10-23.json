@@ -7,9 +7,9 @@
   "comparison_phase": "NOT_STARTED",
   "adoption_phase": "NOT_STARTED",
   "counts": {
-    "total_records": 118,
-    "candidate": 91,
-    "conditional": 20,
+    "total_records": 128,
+    "candidate": 99,
+    "conditional": 22,
     "reference_only": 2,
     "excluded": 5
   },
@@ -35,7 +35,8 @@
     "component_assembly_gate": "Do not install, vendor, or import shortlisted runtime code before the inventory freeze and security/license gates. Repository visibility or recent commits does not establish suitability.",
     "scope_caveat": "Dagger, NATS, External Secrets, SOPS, and OpenTelemetry are infrastructure/component candidates, not assumed replacements for the MediaHub control plane or secret authority.",
     "wave438_caveat": "Wave 438 selected immutable commits by repository-scoped commit search; current default branch/release equivalence, exact-head CI, dependency lockfiles/advisories and security audits remain NOT VERIFIED. Keycloak root LICENSE path returned 404 and is explicitly UNVERIFIED.",
-    "wave439_caveat": "Wave 439 source SHAs are latest repository-scoped commit-search results, not proven default-branch HEAD or release tags. Root LICENSE and manifest were read for all 10. Promptfoo, Langfuse and LiteLLM license text/path terms require legal review before any reuse; no production adoption authorized."
+    "wave439_caveat": "Wave 439 source SHAs are latest repository-scoped commit-search results, not proven default-branch HEAD or release tags. Root LICENSE and manifest were read for all 10. Promptfoo, Langfuse and LiteLLM license text/path terms require legal review before any reuse; no production adoption authorized.",
+    "wave440_caveat": "Ten new repositories screened at immutable commit-search results, not verified default branch tips or release tags. LICENSE/root manifests were readable for 8/10; Renovate LICENSE and Semgrep pyproject paths returned 404 and are explicitly unverified. Semgrep and Renovate are conditional; no adoption authorized."
   },
   "candidates": [
     {
@@ -2540,13 +2541,353 @@
         "security_review": "NOT_STARTED",
         "subsystem_qualification": "NOT_STARTED"
       }
+    },
+    {
+      "id": "gvisor",
+      "repo": "google/gvisor",
+      "category": "agent-sandbox-isolation",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "8938ebcf1c12a6266bdf5a650088e1360777aa94",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 440 pinned source/license/manifest screen. User-space kernel sandbox; high-value isolation reference but requires Linux/runtime compatibility and deployment cost evaluation.",
+      "screening": {
+        "wave": "440",
+        "immutable_head": "8938ebcf1c12a6266bdf5a650088e1360777aa94",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/google/gvisor/blob/8938ebcf1c12a6266bdf5a650088e1360777aa94/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+          "version": "module gvisor.dev/gvisor",
+          "status": "READ",
+          "url": "https://github.com/google/gvisor/blob/8938ebcf1c12a6266bdf5a650088e1360777aa94/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "firecracker",
+      "repo": "firecracker-microvm/firecracker",
+      "category": "microvm-sandbox-isolation",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "dd7c24b0d165219c9d64f58ecedd0b0328b44fa0",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 440 pinned source/license/manifest screen. MicroVM isolation option for higher-risk workloads; evaluate host requirements and whether GitHub-hosted runners make it applicable.",
+      "screening": {
+        "wave": "440",
+        "immutable_head": "dd7c24b0d165219c9d64f58ecedd0b0328b44fa0",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/firecracker-microvm/firecracker/blob/dd7c24b0d165219c9d64f58ecedd0b0328b44fa0/LICENSE"
+        },
+        "manifest": {
+          "path": "Cargo.toml",
+          "blob_sha": "a1c9ad79621ecd33017cb6eaedd3630e35d10db0",
+          "version": "Rust workspace manifest",
+          "status": "READ",
+          "url": "https://github.com/firecracker-microvm/firecracker/blob/dd7c24b0d165219c9d64f58ecedd0b0328b44fa0/Cargo.toml"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "trivy",
+      "repo": "aquasecurity/trivy",
+      "category": "vulnerability-scanning",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "3a0164d6cd627645220730d48d51dc71e10e7156",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 440 pinned source/license/manifest screen. Candidate for image/dependency/configuration vulnerability scanning in qualification gates.",
+      "screening": {
+        "wave": "440",
+        "immutable_head": "3a0164d6cd627645220730d48d51dc71e10e7156",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/aquasecurity/trivy/blob/3a0164d6cd627645220730d48d51dc71e10e7156/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "72885d779cef3211370273cfd8e2ef417edeebc8",
+          "version": "module github.com/aquasecurity/trivy",
+          "status": "READ",
+          "url": "https://github.com/aquasecurity/trivy/blob/3a0164d6cd627645220730d48d51dc71e10e7156/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "syft",
+      "repo": "anchore/syft",
+      "category": "software-bill-of-materials",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "1c4d672b2893080704e4af40c89cdcd8a28525cc",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 440 pinned source/license/manifest screen. SBOM generation candidate; compare output formats and attestation integration.",
+      "screening": {
+        "wave": "440",
+        "immutable_head": "1c4d672b2893080704e4af40c89cdcd8a28525cc",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/anchore/syft/blob/1c4d672b2893080704e4af40c89cdcd8a28525cc/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "0e8c107ee85f4df035ed296736ee4a74ec29141d",
+          "version": "module github.com/anchore/syft",
+          "status": "READ",
+          "url": "https://github.com/anchore/syft/blob/1c4d672b2893080704e4af40c89cdcd8a28525cc/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "grype",
+      "repo": "anchore/grype",
+      "category": "vulnerability-scanning",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "64195bb4d2f060d183b98947b7fdbb5a70f6ebeb",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 440 pinned source/license/manifest screen. SBOM/image vulnerability matching candidate; compare overlap with Trivy rather than automatically adopt both.",
+      "screening": {
+        "wave": "440",
+        "immutable_head": "64195bb4d2f060d183b98947b7fdbb5a70f6ebeb",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/anchore/grype/blob/64195bb4d2f060d183b98947b7fdbb5a70f6ebeb/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "e5594c560158dc727103f9a9353dcb16278e323a",
+          "version": "module github.com/anchore/grype",
+          "status": "READ",
+          "url": "https://github.com/anchore/grype/blob/64195bb4d2f060d183b98947b7fdbb5a70f6ebeb/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "ossf-scorecard",
+      "repo": "ossf/scorecard",
+      "category": "supply-chain-security-scoring",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "6d4113e03c0014d63613b65b26a0c5a14c98ce3f",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 440 pinned source/license/manifest screen. Repository supply-chain security signals; use as evidence input, not as sole acceptance decision.",
+      "screening": {
+        "wave": "440",
+        "immutable_head": "6d4113e03c0014d63613b65b26a0c5a14c98ce3f",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "18f7f43fde86f7ef648559da1e3b2ba46c167f90",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/ossf/scorecard/blob/6d4113e03c0014d63613b65b26a0c5a14c98ce3f/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "4e122d8b719329fb3699a053cbc506a6e1b40dd6",
+          "version": "module github.com/ossf/scorecard/v5",
+          "status": "READ",
+          "url": "https://github.com/ossf/scorecard/blob/6d4113e03c0014d63613b65b26a0c5a14c98ce3f/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "zizmor",
+      "repo": "zizmorcore/zizmor",
+      "category": "github-actions-security-lint",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "d00d411f6ebe56fa86615747ee399d0df8254c0a",
+      "license": "MIT",
+      "evidence": "; Wave 440 pinned source/license/manifest screen. GitHub Actions workflow security linting candidate, directly relevant to workflow hardening; test against current workflows before proposing enforcement.",
+      "screening": {
+        "wave": "440",
+        "immutable_head": "d00d411f6ebe56fa86615747ee399d0df8254c0a",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/zizmorcore/zizmor/blob/d00d411f6ebe56fa86615747ee399d0df8254c0a/LICENSE"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "96d1af120771d767fbf750b0fe4c8c3e13e62521",
+          "version": "package zizmor",
+          "status": "READ",
+          "url": "https://github.com/zizmorcore/zizmor/blob/d00d411f6ebe56fa86615747ee399d0df8254c0a/pyproject.toml"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "renovate",
+      "repo": "renovatebot/renovate",
+      "category": "dependency-update-automation",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "source_head": "a45ee254dc3a7d512f4467174fc9b5503bbf481a",
+      "license": "UNVERIFIED: root LICENSE path 404",
+      "evidence": "; Wave 440 pinned source/license/manifest screen. Dependency update automation candidate; root LICENSE path not found, license status remains UNVERIFIED pending correct path/legal review.",
+      "screening": {
+        "wave": "440",
+        "immutable_head": "a45ee254dc3a7d512f4467174fc9b5503bbf481a",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "UNVERIFIED: root LICENSE path 404",
+          "blob_sha": null,
+          "status": "UNVERIFIED_OR_REQUIRES_LEGAL_REVIEW",
+          "url": "https://github.com/renovatebot/renovate/blob/a45ee254dc3a7d512f4467174fc9b5503bbf481a/LICENSE"
+        },
+        "manifest": {
+          "path": "package.json",
+          "blob_sha": "263c25ccb144dfc5758a4bf1ba621d72b0067027",
+          "version": "0.0.0-semantic-release",
+          "status": "READ",
+          "url": "https://github.com/renovatebot/renovate/blob/a45ee254dc3a7d512f4467174fc9b5503bbf481a/package.json"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "semgrep",
+      "repo": "semgrep/semgrep",
+      "category": "static-analysis-security",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "source_head": "087e93b3a1fdf44f97bc92b5b9c2ba221cb2488b",
+      "license": "GPL-family terms observed; exact reuse terms require legal review",
+      "evidence": "; Wave 440 pinned source/license/manifest screen. Static-analysis candidate, but licensing is not assumed permissive and root pyproject.toml path returned 404; resolve source distribution/license model before any reuse.",
+      "screening": {
+        "wave": "440",
+        "immutable_head": "087e93b3a1fdf44f97bc92b5b9c2ba221cb2488b",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "GPL-family terms observed; exact reuse terms require legal review",
+          "blob_sha": "8000a6faacf471c537530805ab29523c7732e11a",
+          "status": "UNVERIFIED_OR_REQUIRES_LEGAL_REVIEW",
+          "url": "https://github.com/semgrep/semgrep/blob/087e93b3a1fdf44f97bc92b5b9c2ba221cb2488b/LICENSE"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": null,
+          "version": "manifest path NOT FOUND",
+          "status": "NOT_FOUND",
+          "url": null
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "sigstore-policy-controller",
+      "repo": "sigstore/policy-controller",
+      "category": "artifact-policy-verification",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "source_head": "f9ba304f0d1c4781ececc649d5f01667a82d78c6",
+      "license": "Apache-2.0",
+      "evidence": "; Wave 440 pinned source/license/manifest screen. Policy enforcement for signed artifacts; likely Kubernetes-scoped, evaluate only if deployment model requires it.",
+      "screening": {
+        "wave": "440",
+        "immutable_head": "f9ba304f0d1c4781ececc649d5f01667a82d78c6",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/sigstore/policy-controller/blob/f9ba304f0d1c4781ececc649d5f01667a82d78c6/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "e200faa911aad776e1f4ce1894cc5b993d02b7b8",
+          "version": "module github.com/sigstore/policy-controller",
+          "status": "READ",
+          "url": "https://github.com/sigstore/policy-controller/blob/f9ba304f0d1c4781ececc649d5f01667a82d78c6/go.mod"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     }
   ],
-  "latest_screening_wave": "439",
+  "latest_screening_wave": "440",
   "screening_summary": {
-    "pinned_heads": 59,
-    "license_files_read_at_pinned_heads": 54,
-    "manifest_files_read_at_pinned_heads": 56,
+    "pinned_heads": 69,
+    "license_files_read_at_pinned_heads": 62,
+    "manifest_files_read_at_pinned_heads": 64,
     "lockfiles_audited": 0,
     "advisory_reviews": 0,
     "exact_ci_audits": 0,
