@@ -7,9 +7,9 @@
   "comparison_phase": "NOT_STARTED",
   "adoption_phase": "NOT_STARTED",
   "counts": {
-    "total_records": 93,
-    "candidate": 72,
-    "conditional": 14,
+    "total_records": 101,
+    "candidate": 78,
+    "conditional": 16,
     "reference_only": 2,
     "excluded": 5
   },
@@ -28,11 +28,12 @@
     "functional_baseline": "Baseline 2.0 remains canonical.",
     "provider_route": "No unauthorized paid fallback; provider/model allowlists and budget gates must remain explicit.",
     "agent_dispatch": "Gemini only through approved controller after Issue #301 gates.",
-    "source_pin_caveat": "Wave 434 and Wave 435 selected immutable commit IDs from repository-scoped commit search; exact refs/heads/default-branch equivalence remains NOT VERIFIED by available tools.",
+    "source_pin_caveat": "Wave 434–436 immutable commit IDs came from repository-scoped GitHub commit search; exact refs/heads/default-branch equivalence remains NOT VERIFIED by available tools.",
     "license_gate": "LiteLLM and Langfuse root LICENSE files contain path/subtree licensing exceptions; remain CONDITIONAL until every proposed reused path's license is audited.",
     "comparison_order": "Do not start formal scoring or component assembly until candidate coverage, source pins, licensing, dependency/advisory, CI, and maturity gates are closed.",
-    "licensing_caveat": "Phoenix uses Elastic License 2.0 at the pinned commit and NeMo Guardrails root LICENSE was not found at the tested path. Both remain CONDITIONAL until the actual proposed subtree/license is verified.",
-    "component_assembly_gate": "Do not install, vendor, or import shortlisted runtime code before the inventory freeze and security/license gates. Repository visibility or recent commits does not establish suitability."
+    "licensing_caveat": "Phoenix is Elastic License 2.0; Vault is BUSL-1.1; NeMo Guardrails root LICENSE was not found at tested path. These are conditional until the exact proposed reuse path and terms are verified.",
+    "component_assembly_gate": "Do not install, vendor, or import shortlisted runtime code before the inventory freeze and security/license gates. Repository visibility or recent commits does not establish suitability.",
+    "scope_caveat": "Dagger, NATS, External Secrets, SOPS, and OpenTelemetry are infrastructure/component candidates, not assumed replacements for the MediaHub control plane or secret authority."
   },
   "candidates": [
     {
@@ -1610,24 +1611,312 @@
         "security_review": "NOT_STARTED",
         "subsystem_qualification": "NOT_STARTED"
       }
+    },
+    {
+      "id": "agent-router",
+      "repo": "theagentrouter/agent-router",
+      "category": "model-gateway",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; The repository selector originally queried envoyproxy/ai-gateway but repository metadata resolved to theagentrouter/agent-router; the go.mod module is github.com/envoyproxy/ai-gateway. Confirm transfer/rename and canonical ownership before freeze.",
+      "license": "Apache-2.0",
+      "source_head": "6d63a4f71f56e9cc370ced2da862787d8d04f06c",
+      "screening": {
+        "wave": "436",
+        "immutable_head": "6d63a4f71f56e9cc370ced2da862787d8d04f06c",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/theagentrouter/agent-router/blob/6d63a4f71f56e9cc370ced2da862787d8d04f06c/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "8dd62d965d6408bd8d24b6f8981b30e724352940",
+          "version": "module github.com/envoyproxy/ai-gateway; go 1.27.2",
+          "status": "READ",
+          "url": "https://github.com/theagentrouter/agent-router/blob/6d63a4f71f56e9cc370ced2da862787d8d04f06c/go.mod"
+        },
+        "lockfile_path": "go.sum",
+        "lockfile_blob_sha": "8e7ed239eaefd743c7f1dff2a87875a93eda8683",
+        "lockfile": "CONTENT READ (62,934 chars) / DEPENDENCY AUDIT NOT RUN",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "dagger",
+      "repo": "dagger/dagger",
+      "category": "execution-infrastructure",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; Potential substrate for reproducible isolated engineering tasks; not automatically a replacement for GitHub Actions controller.",
+      "license": "Apache-2.0",
+      "source_head": "930485687df5c9a7ed521f5585a17b2a36936b17",
+      "screening": {
+        "wave": "436",
+        "immutable_head": "930485687df5c9a7ed521f5585a17b2a36936b17",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "17b2ba29b525453b46b0311d202b63044d3aa5cb",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/dagger/dagger/blob/930485687df5c9a7ed521f5585a17b2a36936b17/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "44cb897774abde54c5a6fef33c4a6b84a3ede71d",
+          "version": "module github.com/dagger/dagger; go 1.26.6",
+          "status": "READ",
+          "url": "https://github.com/dagger/dagger/blob/930485687df5c9a7ed521f5585a17b2a36936b17/go.mod"
+        },
+        "lockfile_path": "go.sum",
+        "lockfile_blob_sha": "96da71bed5c9fc302c53a7cdc298c3ba4b6e6371",
+        "lockfile": "CONTENT READ (96,406 chars) / DEPENDENCY AUDIT NOT RUN",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "nats-server",
+      "repo": "nats-io/nats-server",
+      "category": "messaging-infrastructure",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; Optional event transport candidate only if MediaHub demonstrates a need beyond existing GitHub Actions; not a new control plane.",
+      "license": "Apache-2.0",
+      "source_head": "f8f6db894528640b27311353e874ac62c3a47af5",
+      "screening": {
+        "wave": "436",
+        "immutable_head": "f8f6db894528640b27311353e874ac62c3a47af5",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/nats-io/nats-server/blob/f8f6db894528640b27311353e874ac62c3a47af5/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "b8a7ccdfbaca27c053847a7babfc440bec6d0359",
+          "version": "module github.com/nats-io/nats-server/v2; go 1.26.0",
+          "status": "READ",
+          "url": "https://github.com/nats-io/nats-server/blob/f8f6db894528640b27311353e874ac62c3a47af5/go.mod"
+        },
+        "lockfile_path": "go.sum",
+        "lockfile_blob_sha": "32d8014a1a4834a42131ec4131b543088f9981b0",
+        "lockfile": "CONTENT READ (1,973 chars) / DEPENDENCY AUDIT NOT RUN",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "sops",
+      "repo": "getsops/sops",
+      "category": "secret-management-tooling",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; MPL-2.0 file-level copyleft obligations require legal/packaging review before source reuse.",
+      "license": "MPL-2.0",
+      "source_head": "453e7e6ab01b1340dca9f9025fd8430229320f97",
+      "screening": {
+        "wave": "436",
+        "immutable_head": "453e7e6ab01b1340dca9f9025fd8430229320f97",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "MPL-2.0",
+          "blob_sha": "a612ad9813b006ce81d1ee438dd784da99a54007",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/getsops/sops/blob/453e7e6ab01b1340dca9f9025fd8430229320f97/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "811f12b2cd3c882ff3ab162109ecd6c2d16310b9",
+          "version": "module github.com/getsops/sops/v3; go 1.25.8",
+          "status": "READ",
+          "url": "https://github.com/getsops/sops/blob/453e7e6ab01b1340dca9f9025fd8430229320f97/go.mod"
+        },
+        "lockfile_path": "go.sum",
+        "lockfile_blob_sha": "24b7aeb953031c7e495037cf146b10e7b17ae923",
+        "lockfile": "CONTENT READ (46,516 chars) / DEPENDENCY AUDIT NOT RUN",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "external-secrets",
+      "repo": "external-secrets/external-secrets",
+      "category": "secret-management-infrastructure",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; Kubernetes-oriented integration; keep as reference unless an approved managed-secret backend actually needs it.",
+      "license": "Apache-2.0",
+      "source_head": "e932f3a3f6f274e8e269c01aa1f5fb3d1322e3c9",
+      "screening": {
+        "wave": "436",
+        "immutable_head": "e932f3a3f6f274e8e269c01aa1f5fb3d1322e3c9",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "7a4a3ea2424c09fbe48d455aed1eaa94d9124835",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/external-secrets/external-secrets/blob/e932f3a3f6f274e8e269c01aa1f5fb3d1322e3c9/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "3b7e0a0aff2396057ef329d84d00f0aa782190cb",
+          "version": "module github.com/external-secrets/external-secrets; go 1.27.0",
+          "status": "READ",
+          "url": "https://github.com/external-secrets/external-secrets/blob/e932f3a3f6f274e8e269c01aa1f5fb3d1322e3c9/go.mod"
+        },
+        "lockfile_path": "go.sum",
+        "lockfile_blob_sha": "45c09077846dd375c8f03eb56bcca6be8320ff28",
+        "lockfile": "CONTENT READ (154,291 chars) / DEPENDENCY AUDIT NOT RUN",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "otel-collector",
+      "repo": "open-telemetry/opentelemetry-collector",
+      "category": "telemetry-infrastructure",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; Core collection/telemetry transport candidate; avoid duplicate collection layers without a defined architecture.",
+      "license": "Apache-2.0",
+      "source_head": "42ee5d39b18f24c206cca3f91f8b0877424bdfee",
+      "screening": {
+        "wave": "436",
+        "immutable_head": "42ee5d39b18f24c206cca3f91f8b0877424bdfee",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/open-telemetry/opentelemetry-collector/blob/42ee5d39b18f24c206cca3f91f8b0877424bdfee/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "1790f8ef4d615afc21d071486972823ad2201536",
+          "version": "module go.opentelemetry.io/collector; root go.mod notes it is not used to build",
+          "status": "READ",
+          "url": "https://github.com/open-telemetry/opentelemetry-collector/blob/42ee5d39b18f24c206cca3f91f8b0877424bdfee/go.mod"
+        },
+        "lockfile_path": "go.sum",
+        "lockfile_blob_sha": null,
+        "lockfile": "NOT FOUND at tested root path; monorepo module-specific dependency evidence needed",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "otel-contrib",
+      "repo": "open-telemetry/opentelemetry-collector-contrib",
+      "category": "telemetry-infrastructure",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; Large integration collection; audit the exact contributed component/submodule rather than assuming one root dependency boundary.",
+      "license": "Apache-2.0",
+      "source_head": "0b7da3787f9dd1d72e3e25e4d46f921bb4481e07",
+      "screening": {
+        "wave": "436",
+        "immutable_head": "0b7da3787f9dd1d72e3e25e4d46f921bb4481e07",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/0b7da3787f9dd1d72e3e25e4d46f921bb4481e07/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "396f250318906632f18c61bddb0bf886404bf84d",
+          "version": "module github.com/open-telemetry/opentelemetry-collector-contrib; go 1.26.0",
+          "status": "READ",
+          "url": "https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/0b7da3787f9dd1d72e3e25e4d46f921bb4481e07/go.mod"
+        },
+        "lockfile_path": "go.sum",
+        "lockfile_blob_sha": null,
+        "lockfile": "NOT FOUND at tested root path; monorepo module-specific dependency evidence needed",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "vault",
+      "repo": "hashicorp/vault",
+      "category": "secret-management-infrastructure",
+      "status": "CONDITIONAL",
+      "repo_status": "active",
+      "evidence": "Wave 436 source screen; immutable commit selected through repository-scoped GitHub commit search; default-ref equivalence not independently verified.; Wave 436 pinned source/manifest/license evidence; BUSL-1.1 is source-available rather than OSI-approved OSS; do not select for code reuse without explicit license/business-use review.",
+      "license": "BUSL-1.1",
+      "source_head": "b63ab2722fbb565bece8e6a438adf58921e772b9",
+      "screening": {
+        "wave": "436",
+        "immutable_head": "b63ab2722fbb565bece8e6a438adf58921e772b9",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "BUSL-1.1",
+          "blob_sha": "9017076a38c37bb82914e0cd75bae2930a535d87",
+          "status": "VERIFIED_TEXT_ONLY / SOURCE-AVAILABLE TERMS REVIEW REQUIRED",
+          "url": "https://github.com/hashicorp/vault/blob/b63ab2722fbb565bece8e6a438adf58921e772b9/LICENSE"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "bb61d20db44fe5a0bc2e744c78d77597234111ba",
+          "version": "module github.com/hashicorp/vault; go 1.27.2",
+          "status": "READ",
+          "url": "https://github.com/hashicorp/vault/blob/b63ab2722fbb565bece8e6a438adf58921e772b9/go.mod"
+        },
+        "lockfile_path": "go.sum",
+        "lockfile_blob_sha": "5a5d1e835eb6a05bca806672c0dab7602a266a1e",
+        "lockfile": "CONTENT READ (171,143 chars) / DEPENDENCY AUDIT NOT RUN",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     }
   ],
-  "latest_screening_wave": "435",
+  "latest_screening_wave": "436",
   "screening_summary": {
-    "pinned_heads": 24,
-    "license_files_read_at_pinned_heads": 23,
-    "manifest_files_read_at_pinned_heads": 24,
+    "pinned_heads": 32,
+    "license_files_read_at_pinned_heads": 30,
+    "manifest_files_read_at_pinned_heads": 32,
     "lockfiles_audited": 0,
     "advisory_reviews": 0,
     "exact_ci_audits": 0,
     "release_tags_pinned": 0,
     "formal_comparison": "NOT_STARTED",
     "inventory_freeze": "NOT_READY",
-    "lockfile_blob_shas_recorded": 14,
-    "lockfile_contents_read_not_audited": 7,
+    "lockfile_blob_shas_recorded": 20,
+    "lockfile_contents_read_not_audited": 13,
     "lockfile_sha_observed_but_content_empty": 7,
     "dependency_advisories": 0,
     "default_branch_tip_equivalence_verified": 0,
-    "lockfile_path_not_found": 6
+    "lockfile_path_not_found": 8
   }
 }
