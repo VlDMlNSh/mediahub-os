@@ -57,3 +57,14 @@ def test_first_live_smoke_is_read_only() -> None:
     assert 'request_id=%s' in source
     assert 'mediahub-claude.patch' not in source
     assert 'git diff --binary' not in source
+
+
+
+def test_proxy_token_is_seeded_into_fcc_managed_config_and_auth_failure_is_clear() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert 'export FCC_ENV_FILE="$RUNNER_TEMP/fcc-runtime.env"' in source
+    assert "printf 'ANTHROPIC_AUTH_TOKEN=%s\\n' \"$ANTHROPIC_AUTH_TOKEN\" > \"$FCC_ENV_FILE\"" in source
+    assert 'chmod 600 "$FCC_ENV_FILE"' in source
+    assert "managed-config loader intentionally does not apply this" in source
+    assert "rejected the run-scoped bearer token (HTTP 401)" in source
+    assert 'final HTTP status ${status}; server logs withheld.' in source

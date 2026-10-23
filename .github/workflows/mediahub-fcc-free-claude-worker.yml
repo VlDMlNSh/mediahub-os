@@ -204,6 +204,13 @@ jobs:
           export FCC_OPEN_BROWSER=false
           export PROXY_AUTH_ENABLED=true
           export ANTHROPIC_AUTH_TOKEN="mh-fcc-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          # FCC's pinned managed-config loader intentionally does not apply this
+          # token as a process override. Import it once via the supported FCC_ENV_FILE
+          # migration path so the server and client use the same run-scoped token.
+          export FCC_ENV_FILE="$RUNNER_TEMP/fcc-runtime.env"
+          umask 077
+          printf 'ANTHROPIC_AUTH_TOKEN=%s\n' "$ANTHROPIC_AUTH_TOKEN" > "$FCC_ENV_FILE"
+          chmod 600 "$FCC_ENV_FILE"
           export MODEL="open_router/${MODEL_ID}"
           export DISABLE_TELEMETRY=1
           export DISABLE_ERROR_REPORTING=1
@@ -219,17 +226,24 @@ jobs:
           }
           trap cleanup EXIT
           ready=false
+          status="000"
           for _ in $(seq 1 60); do
-            if curl --silent --show-error --fail \
+            status="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+              --max-time 2 \
               -H "Authorization: Bearer ${ANTHROPIC_AUTH_TOKEN}" \
-              http://127.0.0.1:8082/v1/models >/dev/null; then
+              http://127.0.0.1:8082/v1/models || true)"
+            if [[ "$status" == "200" ]]; then
               ready=true
               break
+            fi
+            if [[ "$status" == "401" ]]; then
+              echo "FCC endpoint is reachable but rejected the run-scoped bearer token (HTTP 401); managed auth configuration did not take effect."
+              exit 1
             fi
             sleep 2
           done
           if [[ "$ready" != "true" ]]; then
-            echo "FCC proxy did not become ready; server logs withheld."
+            echo "FCC endpoint did not become ready; final HTTP status ${status}; server logs withheld."
             exit 1
           fi
           cd "$RUNNER_TEMP/fcc-empty-workspace"
