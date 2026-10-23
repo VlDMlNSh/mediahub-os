@@ -14,7 +14,8 @@ routing:
   cloud_claude_runtime: fcc_openrouter_free
   cloud_claude_transport: .github/workflows/mediahub-fcc-free-claude-worker.yml
   cloud_claude_free_only: true
-  local_claude_runtime: fcc_llamacpp
+  local_claude_runtime: fcc_ollama
+  local_claude_model: llama3.2:3b
   local_claude_host: Voktors-Mini.Dlink
   local_claude_only: true
   paid_fallback: false
