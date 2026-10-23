@@ -190,3 +190,19 @@ Continue discovery only for mature categories/implementations not yet covered. C
 
 ### Next bounded pass
 Prioritize closing evidence gaps in the 128-record corpus (default branch and release refs, lockfiles, advisories, upstream CI, maintenance and license scope). Only add new projects when a genuine capability gap remains. Keep inventory freeze and formal comparative scoring blocked until source evidence and deduplication criteria are met.
+
+
+---
+
+## Wave 441 — source-ref evidence and CI snapshot (2026-10-23)
+
+- Report: [MEDIAHUB-UPSTREAM-REF-AND-EXACT-HEAD-CI-WAVE-441-2026-10-23.md](MEDIAHUB-UPSTREAM-REF-AND-EXACT-HEAD-CI-WAVE-441-2026-10-23.md), commit `dc17c50ad10c2e44f62b281c557216f48b8f6a88`.
+- Register update commit `f4ec334332eb4946e085f126d02af65282e47353`, blob SHA `a84c3d9cdfd3b596b5d8bf382c361aac90944eea`; no inventory count change.
+- Verified partial file-blob equivalence between the pinned source and default-ref reads for zizmor LICENSE (`491f2b2c09f25968b9554948aa7f9b33708aa23a`), Trivy go.mod (`72885d779cef3211370273cfd8e2ef417edeebc8`) and gVisor go.mod (`d063558784be716b06f65140063c6be8afd6cd28`). This is not proof that the pinned commit equals branch HEAD or a release tag.
+- At research PR #585 head `71326068e55f61d45f31b27b1cff4f190bb0ea36`, Astra Verify run `39983398082` and Astra Cloud Runtime Validation run `39983398150` completed success. This is a historical exact-head result; subsequent Wave 441 documentation commits advanced the research branch, so the newest head must be rechecked separately.
+- At PR #583 head `9de1526e6daa121c62aa85fc707d9a8c6f9e0d4d`, Astra Verify run `39973058604` failed at Cloud admission unit tests; Gemini workflow contract validation run `39973058901` failed at Run controller transport contracts. Other observed provider/AI Factory/cloud validation and probe runs succeeded, but these failures block acceptance. No reviews; combined status APIs empty.
+- PR #585 and #583 remain open Draft/unmerged; do not claim acceptance. No controller dispatch or model-provider call was performed.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md.
+
+### Next bounded pass
+Re-read the latest branch/PR heads after this checkpoint commit, query exact-head workflow runs and inspect the two failing PR #583 job logs. Fix only demonstrated failures on a controlled branch, rerun required checks, and keep dispatch disabled until gates pass. Continue upstream lockfile/advisory/release evidence after CI triage.
