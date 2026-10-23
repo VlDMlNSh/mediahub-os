@@ -121,11 +121,12 @@ def test_cloud_fcc_uses_pinned_selective_ecc_guidance_without_hooks_or_mcp() -> 
     assert "persist-credentials: false" in source
 
 
-def test_router_separates_cloud_free_claude_and_local_llamacpp() -> None:
+def test_router_separates_cloud_free_claude_and_local_ollama_llama() -> None:
     router = Path(".github/ai/model-router.yml").read_text(encoding="utf-8")
     assert "cloud_claude_runtime: fcc_openrouter_free" in router
     assert "cloud_claude_free_only: true" in router
-    assert "local_claude_runtime: fcc_llamacpp" in router
+    assert "local_claude_runtime: fcc_ollama" in router
+    assert "local_claude_model: llama3.2:3b" in router
     assert "local_claude_host: Voktors-Mini.Dlink" in router
     assert "local_claude_only: true" in router
     assert "permitted_cloud_agent_transport_allowlist_only: true" in router
