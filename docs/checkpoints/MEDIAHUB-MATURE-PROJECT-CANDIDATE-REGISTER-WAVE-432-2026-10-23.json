@@ -1628,6 +1628,6 @@
     "lockfile_sha_observed_but_content_empty": 7,
     "dependency_advisories": 0,
     "default_branch_tip_equivalence_verified": 0,
-    "lockfile_path_not_found": 4
+    "lockfile_path_not_found": 6
   }
 }
