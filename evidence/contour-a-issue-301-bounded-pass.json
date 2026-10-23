@@ -1,0 +1,29 @@
+{
+  "schema": "mediahub.astra.contour-a-pass.v1",
+  "task_id": "Issue-301",
+  "contour": "contour-a",
+  "target_sha": "f0448f28c7cfa61e4450c38529f09afbfdbbc7c7",
+  "base_ref": "main",
+  "branch": "contour-a/issue-301-bounded-pass",
+  "status": "PASS",
+  "pass_type": "bounded_implementation_and_evidence_pass",
+  "timestamp_utc": "2026-10-23T00:00:00Z",
+  "components_verified": [
+    "Baseline 2.0 reference",
+    "ASTRA GOLD architecture & governance contracts",
+    "Agent registry & execution fabric boundaries",
+    "Product State Authority preservation"
+  ],
+  "acceptance_criteria": [
+    "Immutable target SHA honored",
+    "Contour A separation preserved",
+    "No prohibited operations (no secrets, no deployment, no merge, no direct state mutation)",
+    "Evidence-backed documentation and PR report produced"
+  ],
+  "known_gaps": [
+    "Contour B gated pending Contour A deployment and independent acceptance",
+    "Full runtime qualification requires dedicated qualification wave execution"
+  ],
+  "verification_status": "VERIFIED_STATIC_BOUNDED_PASS",
+  "secret_values": "SUPPRESSED"
+}
