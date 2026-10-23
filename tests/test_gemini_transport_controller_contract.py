@@ -70,6 +70,12 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", source)
             self.assertIn("needs.authorize_dispatch.result == 'success'", source)
 
+    def test_child_success_requires_the_named_gemini_output_artifact(self):
+        # A successful run with an unrelated artifact is not accepted evidence.
+        self.assertIn('expected_artifacts=[item for item in artifacts if item.get("name")=="gemini-output"]', self.source)
+        self.assertIn("if len(expected_artifacts)==1 and all(item.get(\"digest\") for item in artifacts):", self.source)
+        self.assertIn('artifact_digest")=="NOT_VERIFIED"', self.source)
+
     def test_partial_dispatch_is_recorded_and_accepted_children_are_reconciled(self):
         # Every attempt is recorded before POST; individual failures must not
         # abort the loop before accepted children are monitored and summarized.
