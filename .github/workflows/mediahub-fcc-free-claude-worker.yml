@@ -105,21 +105,6 @@ jobs:
           umask 077
           printf 'ANTHROPIC_AUTH_TOKEN=%s\n' "$ANTHROPIC_AUTH_TOKEN" > "$FCC_ENV_FILE"
           chmod 600 "$FCC_ENV_FILE"
-          (
-            cd "$GITHUB_WORKSPACE/fcc"
-            uv run --locked python - <<'PY'
-          import hmac
-          import os
-          from free_claude_code.config.loader import get_settings
-
-          settings = get_settings()
-          assert settings.proxy_auth_enabled is True
-          assert hmac.compare_digest(
-              settings.proxy_auth_token, os.environ["ANTHROPIC_AUTH_TOKEN"]
-          )
-          print("FCC managed bearer-token preflight passed; token values withheld.")
-          PY
-          )
           uv run --locked python - <<'PY'
           import hmac
           import os
@@ -287,6 +272,21 @@ jobs:
           umask 077
           printf 'ANTHROPIC_AUTH_TOKEN=%s\n' "$ANTHROPIC_AUTH_TOKEN" > "$FCC_ENV_FILE"
           chmod 600 "$FCC_ENV_FILE"
+          (
+            cd "$GITHUB_WORKSPACE/fcc"
+            uv run --locked python - <<'PY'
+          import hmac
+          import os
+          from free_claude_code.config.loader import get_settings
+
+          settings = get_settings()
+          assert settings.proxy_auth_enabled is True
+          assert hmac.compare_digest(
+              settings.proxy_auth_token, os.environ["ANTHROPIC_AUTH_TOKEN"]
+          )
+          print("FCC managed bearer-token preflight passed; token values withheld.")
+          PY
+          )
           export MODEL="open_router/${MODEL_ID}"
           export DISABLE_TELEMETRY=1
           export DISABLE_ERROR_REPORTING=1
