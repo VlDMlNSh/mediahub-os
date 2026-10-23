@@ -33,13 +33,15 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install Python test dependencies
-        run: python -m pip install --disable-pip-version-check --no-input PyYAML
+        run: python -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
       - name: Install torrent test dependency
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends transmission-cli
       - name: Compile
         run: python -m compileall -q .
       - name: Cloud admission unit tests
         run: python -m unittest discover -s tests -p 'test_*.py'
+      - name: Distributed local worker path containment regression tests
+        run: python -m pytest -q tests/test_distributed_local_worker.py
       - name: Signed command smoke test
         env:
           ASTRA_COMMAND_HMAC_KEY: smoke-test-key
