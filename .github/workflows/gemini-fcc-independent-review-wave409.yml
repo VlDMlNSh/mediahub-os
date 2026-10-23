@@ -96,13 +96,14 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
           git cat-file -e '85e74ec24b862a5f6427ad5dca7d050df89c224c^{commit}'
-          git cat-file -e 'a8cef5fbad56c93573e309c6048ffd8a0f675053^{commit}'
           git cat-file -e '3a0cda63a6e39b844c3d78bede4b777e3a0004bf^{commit}'
-          git cat-file -e '7ab6603ccfb476c57a92ce90bbca155453649a4e^{commit}'
+          git cat-file -e '074f20eb495666946a14410ab88d566aaa754f24^{commit}'
           mkdir -p review-input
-          git diff --no-ext-diff --unified=80 85e74ec24b862a5f6427ad5dca7d050df89c224c a8cef5fbad56c93573e309c6048ffd8a0f675053 -- .github/workflows/mediahub-fcc-free-claude-worker.yml tests/test_mediahub_fcc_free_claude_workflow_contract.py > review-input/pr-506.patch
-          git diff --no-ext-diff --unified=80 3a0cda63a6e39b844c3d78bede4b777e3a0004bf 7ab6603ccfb476c57a92ce90bbca155453649a4e -- .github/workflows/mediahub-fcc-free-claude-worker.yml tests/test_mediahub_fcc_free_claude_workflow_contract.py > review-input/pr-508.patch
-          printf 'target_sha=%s\npr506_base=85e74ec24b862a5f6427ad5dca7d050df89c224c\npr506_head=a8cef5fbad56c93573e309c6048ffd8a0f675053\npr508_base=3a0cda63a6e39b844c3d78bede4b777e3a0004bf\npr508_head=7ab6603ccfb476c57a92ce90bbca155453649a4e\n' "${{ inputs.target_sha }}" > review-input/manifest.txt
+          # Use merge commits known to be ancestors of the pinned main target;
+          # PR head refs can be deleted and are not required for reproducibility.
+          git diff --no-ext-diff --unified=80 85e74ec24b862a5f6427ad5dca7d050df89c224c 3a0cda63a6e39b844c3d78bede4b777e3a0004bf -- .github/workflows/mediahub-fcc-free-claude-worker.yml tests/test_mediahub_fcc_free_claude_workflow_contract.py > review-input/pr-506.patch
+          git diff --no-ext-diff --unified=80 3a0cda63a6e39b844c3d78bede4b777e3a0004bf 074f20eb495666946a14410ab88d566aaa754f24 -- .github/workflows/mediahub-fcc-free-claude-worker.yml tests/test_mediahub_fcc_free_claude_workflow_contract.py > review-input/pr-508.patch
+          printf 'target_sha=%s\npr506_base=85e74ec24b862a5f6427ad5dca7d050df89c224c\npr506_merge=3a0cda63a6e39b844c3d78bede4b777e3a0004bf\npr508_base=3a0cda63a6e39b844c3d78bede4b777e3a0004bf\npr508_merge=074f20eb495666946a14410ab88d566aaa754f24\n' "${{ inputs.target_sha }}" > review-input/manifest.txt
           test -s review-input/pr-506.patch
           test -s review-input/pr-508.patch
 
