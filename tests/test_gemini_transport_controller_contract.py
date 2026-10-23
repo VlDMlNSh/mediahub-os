@@ -98,17 +98,22 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
 
 
 
-    def test_review_mode_is_single_fixed_read_only_agent_task(self):
+    def test_review_mode_uses_only_immutable_sha_keyed_read_only_tasks(self):
         self.assertIn("REQUESTED_MODE: ${{ inputs.mode }}", self.source)
         self.assertIn('if requested_mode=="review":', self.source)
+        self.assertIn('review_target_shas={"074f20eb495666946a14410ab88d566aaa754f24","4fe1486e2062d276c4dba2ab8c9ed97f261e9086"}', self.source)
+        self.assertIn('target not in review_target_shas', self.source)
+        self.assertIn("tasks=[review_tasks[target]]", self.source)
         self.assertIn('("gemini-fcc-independent-review-wave409.yml","Wave 408 independent review', self.source)
         self.assertIn("PR #506", self.source)
         self.assertIn("PR #508", self.source)
-        self.assertIn('target!="074f20eb495666946a14410ab88d566aaa754f24"', self.source)
-        self.assertIn("Review mode is pinned to FCC review target", self.source)
-        self.assertIn("no caller-supplied task string is accepted", self.source)
+        self.assertIn("4fe1486e2062d276c4dba2ab8c9ed97f261e9086", self.source)
+        self.assertIn("Wave 427 independent review", self.source)
+        self.assertIn("PR #530", self.source)
+        self.assertIn("no caller-supplied task is accepted", self.source)
         self.assertIn("do not edit application/workflow code", self.source)
         self.assertIn("dispatch other agents", self.source)
+        self.assertIn("no live runtime/provider test was performed", self.source)
         self.assertIn("expected_count=len(tasks)", self.source)
         self.assertIn("inputs.mode == 'agents' && inputs.confirm == true", self.source)
         self.assertIn("inputs.mode == 'review' && inputs.confirm == true", self.source)
