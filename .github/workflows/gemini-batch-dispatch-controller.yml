@@ -225,22 +225,40 @@ jobs:
                   run=max(matches,key=lambda x:x.get("created_at",""))
                   if run.get("created_at","")<time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime(started-5)): continue
                   if run.get("status")=="completed":
+                      # Reconcile exact child jobs and evidence artifacts; empty API
+                      # results are NOT VERIFIED and cannot be treated as success.
+                      child_jobs=[]
+                      try:
+                          _,job_data=call("GET",f"/repos/{repo}/actions/runs/{run['id']}/jobs?per_page=100")
+                          child_jobs=job_data.get("jobs",[])
+                      except Exception as exc:
+                          j["job_monitor_error"]=type(exc).__name__
+                      job_ids=";".join(f"{item.get('id')}:{item.get('name')}:{item.get('conclusion') or item.get('status')}" for item in child_jobs) or "NOT_VERIFIED"
+                      jobs_success=bool(child_jobs) and all(item.get("conclusion")=="success" for item in child_jobs)
+                      artifact_digest="NOT_VERIFIED"
+                      try:
+                          _,artifact_data=call("GET",f"/repos/{repo}/actions/runs/{run['id']}/artifacts?per_page=100")
+                          artifacts=[item for item in artifact_data.get("artifacts",[]) if not item.get("expired")]
+                          if artifacts and all(item.get("digest") for item in artifacts):
+                              artifact_digest=";".join(sorted(f"{item.get('name','unnamed')}={item['digest']}" for item in artifacts))
+                      except Exception as exc:
+                          j["artifact_monitor_error"]=type(exc).__name__
                       # If the POST response was lost but the child run is now
                       # correlated by its unique dispatch ID, record reconciliation.
                       if j["dispatch_status"]=="UNKNOWN":
                           j["dispatch_status"]="RECONCILED"
                           print(f"Reconciled ambiguous dispatch for {j['workflow']} using child run {run['id']}")
-                      results[did]={"run_id":run["id"],"url":run.get("html_url"),"status":run["status"],"conclusion":run.get("conclusion")}
-                      print(f"Child {j['workflow']} run_id={run['id']} conclusion={run.get('conclusion')}"); del pending[did]
+                      results[did]={"run_id":run["id"],"url":run.get("html_url"),"status":run["status"],"conclusion":run.get("conclusion"),"job_ids":job_ids,"jobs_success":jobs_success,"artifact_digest":artifact_digest}
+                      print(f"Child {j['workflow']} run_id={run['id']} conclusion={run.get('conclusion')} jobs={job_ids} artifacts={artifact_digest}"); del pending[did]
               if pending: time.sleep(10)
           for did,j in pending.items():
               results[did]={"status":"NOT_COMPLETED_BEFORE_TIMEOUT","conclusion":"failure"}
               print(f"::error::Child {j['workflow']} correlation_id={did} NOT_COMPLETED_BEFORE_TIMEOUT")
           with open(os.environ["GITHUB_STEP_SUMMARY"],"a",encoding="utf-8") as out:
-              out.write("\n## GitHub API child dispatch results\n\n- Shared immutable target SHA: `"+target+"`\n\n| Workflow | Correlation ID | Dispatch | Run ID | Conclusion |\n|---|---|---|---:|---|\n")
+              out.write("\n## GitHub API child dispatch results\n\n- Shared immutable target SHA: `"+target+"`\n\n| Workflow | Correlation ID | Dispatch | Run ID | Conclusion | Child jobs | Artifact digests |\n|---|---|---|---:|---|---|---|\n")
               for j in jobs:
                   r=results.get(j["id"],{})
-                  out.write(f"| {j['workflow']} | `{j['id']}` | {j['dispatch_status']} | {r.get('run_id','NOT FOUND')} | {r.get('conclusion',r.get('status','UNKNOWN'))} |\n")
-          if len(jobs)!=expected_count or any(j["dispatch_status"] not in ("ACCEPTED","RECONCILED") for j in jobs) or any(results.get(j["id"],{}).get("conclusion")!="success" for j in jobs):
-              print("::error::Dispatch incomplete: at least one selected child failed, could not be correlated, or timed out."); sys.exit(1)
+                  out.write(f"| {j['workflow']} | `{j['id']}` | {j['dispatch_status']} | {r.get('run_id','NOT FOUND')} | {r.get('conclusion',r.get('status','UNKNOWN'))} | {r.get('job_ids','NOT_VERIFIED')} | {r.get('artifact_digest','NOT_VERIFIED')} |\n")
+          if len(jobs)!=expected_count or any(j["dispatch_status"] not in ("ACCEPTED","RECONCILED") for j in jobs) or any(results.get(j["id"],{}).get("conclusion")!="success" or not results.get(j["id"],{}).get("jobs_success",False) or results.get(j["id"],{}).get("artifact_digest")=="NOT_VERIFIED" for j in jobs):
+              print("::error::Dispatch incomplete: at least one selected child failed, could not be correlated, or lacked verified job/artifact evidence."); sys.exit(1)
           PY
