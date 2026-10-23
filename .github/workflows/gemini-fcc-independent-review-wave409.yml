@@ -62,7 +62,7 @@ jobs:
           if not key:
               print("::error::Dispatch HMAC secret missing; fail closed."); sys.exit(2)
           if os.environ.get("EVENT_NAME")!="workflow_dispatch" or os.environ.get("REPOSITORY")!="VlDMlNSh/mediahub-os" or os.environ.get("REF_NAME")!="refs/heads/main":
-              print("::error::Review child must run from trusted main workflow_dispatch."); sys.exit(2)
+              print("::error::Child must run from trusted main workflow_dispatch; signed read-only review."); sys.exit(2)
           if not re.fullmatch(r"[0-9a-f]{40}",os.environ.get("TARGET_SHA","")) or not re.fullmatch(r"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}",os.environ.get("DISPATCH_ID","")):
               print("::error::Malformed target SHA or dispatch ID."); sys.exit(2)
           if os.environ.get("BASE_REF")!="main" or os.environ.get("SCOPE")!="contour-a":
@@ -95,10 +95,10 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ inputs.target_sha }}"
-          git cat-file -e 85e74ec24b862a5f6427ad5dca7d050df89c224c^{commit}
-          git cat-file -e a8cef5fbad56c93573e309c6048ffd8a0f675053^{commit}
-          git cat-file -e 3a0cda63a6e39b844c3d78bede4b777e3a0004bf^{commit}
-          git cat-file -e 7ab6603ccfb476c57a92ce90bbca155453649a4e^{commit}
+          git cat-file -e '85e74ec24b862a5f6427ad5dca7d050df89c224c^{commit}'
+          git cat-file -e 'a8cef5fbad56c93573e309c6048ffd8a0f675053^{commit}'
+          git cat-file -e '3a0cda63a6e39b844c3d78bede4b777e3a0004bf^{commit}'
+          git cat-file -e '7ab6603ccfb476c57a92ce90bbca155453649a4e^{commit}'
           mkdir -p review-input
           git diff --no-ext-diff --unified=80 85e74ec24b862a5f6427ad5dca7d050df89c224c a8cef5fbad56c93573e309c6048ffd8a0f675053 -- .github/workflows/mediahub-fcc-free-claude-worker.yml tests/test_mediahub_fcc_free_claude_workflow_contract.py > review-input/pr-506.patch
           git diff --no-ext-diff --unified=80 3a0cda63a6e39b844c3d78bede4b777e3a0004bf 7ab6603ccfb476c57a92ce90bbca155453649a4e -- .github/workflows/mediahub-fcc-free-claude-worker.yml tests/test_mediahub_fcc_free_claude_workflow_contract.py > review-input/pr-508.patch
