@@ -209,7 +209,7 @@ jobs:
           # migration path so the server and client use the same run-scoped token.
           export FCC_ENV_FILE="$RUNNER_TEMP/fcc-runtime.env"
           umask 077
-          printf 'ANTHROPIC_AUTH_TOKEN=%s\\n' "$ANTHROPIC_AUTH_TOKEN" > "$FCC_ENV_FILE"
+          printf 'ANTHROPIC_AUTH_TOKEN=%s\n' "$ANTHROPIC_AUTH_TOKEN" > "$FCC_ENV_FILE"
           chmod 600 "$FCC_ENV_FILE"
           export MODEL="open_router/${MODEL_ID}"
           export DISABLE_TELEMETRY=1
