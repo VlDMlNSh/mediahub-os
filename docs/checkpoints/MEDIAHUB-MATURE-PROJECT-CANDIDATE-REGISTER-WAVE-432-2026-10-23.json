@@ -2149,8 +2149,8 @@
   "latest_screening_wave": "437",
   "screening_summary": {
     "pinned_heads": 39,
-    "license_files_read_at_pinned_heads": 34,
-    "manifest_files_read_at_pinned_heads": 37,
+    "license_files_read_at_pinned_heads": 35,
+    "manifest_files_read_at_pinned_heads": 36,
     "lockfiles_audited": 0,
     "advisory_reviews": 0,
     "exact_ci_audits": 0,
