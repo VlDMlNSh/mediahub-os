@@ -151,7 +151,7 @@ jobs:
           uv sync --locked --no-dev
           npm install --global @anthropic-ai/claude-code
 
-            - name: Probe OpenRouter free router and record selected model
+      - name: Probe OpenRouter free router and record selected model
         id: provider_probe
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
