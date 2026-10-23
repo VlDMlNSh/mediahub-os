@@ -12,9 +12,9 @@
 - Issue #301 remains open; it explicitly separates execution, verification, qualification and acceptance.
 - Main target at the start of this pass: `0bbdbc8494f67c0b5f385f2bef69087b229d6f95` (includes merged PR #512).
 - Controller repair PR: https://github.com/VlDMlNSh/mediahub-os/pull/513
-- PR #513 head SHA: `9a2477c3293cf54d858a9f663bdab94553dd5a80`.
+- PR #513 head SHA: `0d77e65d76d1f249b2cede359bb59c2b738b4977`.
 - Review child workflow blob at that head: `168da7bfd4d2be1bf316b7dd2d968361949feddc`.
-- Fail-closed contract test blob at that head: `29d47b67ae5761d128867fcb42443c8b69bef381`.
+- Fail-closed contract test blob at that head: `e92e1c3f4e52fb2005845e520d1bbe10dcdacfbe`.
 
 ## 1. Cloud Claude Code via FCC — real run
 
@@ -58,14 +58,14 @@ Repair in PR #513:
 
 ## 4. Exact-head CI evidence for PR #513
 
-All four retrieved workflow runs completed successfully at head `9a2477c3293cf54d858a9f663bdab94553dd5a80`:
-- Gemini workflow contract validation: run `39893857980`, job `120219601380`, **SUCCESS**. Logs show test groups of 3, 4, 7, 12, 13 and 2 tests, all OK (41 tests total), including actionlint.
-- Astra Verify: run `39893857752`, job `120219600208`, **SUCCESS**.
-- Astra Cloud Runtime Validation: run `39893857851`, job `120219601036`, **SUCCESS**.
-- Gemini controller probe: run `39893857883`; no-secret caller-context observation and assertion **SUCCESS**, explicit admission and child dispatch **SKIPPED** as expected for probe mode.
+All four retrieved workflow runs completed successfully at head `0d77e65d76d1f249b2cede359bb59c2b738b4977`:
+- Gemini workflow contract validation: run `39894530487`, job `120221765299`, **SUCCESS**. Logs show test groups of 3, 4, 7, 12, 13 and 2 tests, all OK (41 tests total), including actionlint.
+- Astra Verify: run `39894530474`, job `120221765145`, **SUCCESS**.
+- Astra Cloud Runtime Validation: run `39894530465`, job `120221765200`, **SUCCESS**.
+- Gemini controller probe: run `39894530554`; no-secret caller-context observation and assertion **SUCCESS**, explicit admission and child dispatch **SKIPPED** as expected for probe mode.
 - Combined status endpoint returned no legacy status contexts; workflow run/job results above are the evidence used here.
 
-PR #513 remains open and draft. The available GitHub review endpoint returns no formal review records. An external search/review attempt did not retrieve the actual PR diff and therefore is **not** accepted as an independent review. No merge was performed.
+PR #513 remains open and draft. The available GitHub review endpoint returns no formal review records. An independent static reviewer assessed the exact PR patch plus the relevant full child-workflow and parent-controller excerpts. Verdict: **no confirmed blocker**. The reviewer confirmed that artifact upload with `if: always()` does not suppress the earlier validator failure because neither the upload step nor the job has `continue-on-error`. The reviewer identified a hosted failure-injection run as a remaining test gap, not a confirmed defect. The formal GitHub review endpoint still has no review submission. Full review: [PR #513 independent static review](MEDIAHUB-PR513-INDEPENDENT-STATIC-REVIEW-WAVE-410-2026-10-23.md). No merge was performed.
 
 ## 5. Claude local execution and controller scope
 
@@ -90,4 +90,4 @@ PR #513 remains open and draft. The available GitHub review endpoint returns no 
 | Gemini review-mode dispatch | **NOT RUN** |
 | Contour A acceptance | **NOT ACCEPTED** |
 
-Next bounded pass: obtain a formal independent review for PR #513; after approval and merge, run the fixed Gemini review mode through the trusted main controller, inspect the actual review artifact and digest, then separately qualify the local model path and only run local Claude on a verified authorized third host. Keep all paid fallback disabled.
+Next bounded pass: after normal PR review/merge gates are satisfied, run the fixed Gemini review mode through the trusted main controller and inspect the actual review artifact and digest. Separately diagnose the local Ollama timeout/quality failure and only run local Claude on a verified authorized third host. Keep all paid fallback disabled.
