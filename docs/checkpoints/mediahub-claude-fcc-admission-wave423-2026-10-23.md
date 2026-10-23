@@ -21,7 +21,7 @@ Source Issue #301 comment [6361829435](https://github.com/VlDMlNSh/mediahub-os/i
 
 The Agent 3 worker failed the required actionable-PR gate: its stderr was not valid JSON and the validator concluded it had not successfully created a PR. Artifact readback through unauthenticated GitHub API returned HTTP 401; underlying stderr detail is therefore **NOT VERIFIED**. Do not infer that Agent 3 completed its audit. The controller's aggregate failure is expected and correct.
 
-A later controller run [39932682160](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39932682160), associated with comment ID `6361888996`, had all jobs SKIPPED. It dispatched no children; the reason for the trigger's ineligibility was not established in this pass. It is not evidence of an agent run.
+A later controller run [39932682160](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39932682160), associated with PR #530 evidence comment [6361888996](https://github.com/VlDMlNSh/mediahub-os/pull/530#issuecomment-6361888996), had all jobs SKIPPED. This was an issue-comment event outside Issue #301, so the controller's explicit eligibility condition correctly prevented dispatch; no children were launched by that run.
 
 ## Local FCC → Ollama Llama evidence
 
