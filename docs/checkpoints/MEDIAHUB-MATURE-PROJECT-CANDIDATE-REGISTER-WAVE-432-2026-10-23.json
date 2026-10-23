@@ -7,9 +7,9 @@
   "comparison_phase": "NOT_STARTED",
   "adoption_phase": "NOT_STARTED",
   "counts": {
-    "total_records": 89,
-    "candidate": 70,
-    "conditional": 12,
+    "total_records": 93,
+    "candidate": 72,
+    "conditional": 14,
     "reference_only": 2,
     "excluded": 5
   },
@@ -28,9 +28,11 @@
     "functional_baseline": "Baseline 2.0 remains canonical.",
     "provider_route": "No unauthorized paid fallback; provider/model allowlists and budget gates must remain explicit.",
     "agent_dispatch": "Gemini only through approved controller after Issue #301 gates.",
-    "source_pin_caveat": "Wave 434 uses immutable commit IDs returned by repository-scoped GitHub commit search; exact refs/heads/<default-branch> pointer equivalence is not independently exposed/verified by the connected GitHub tools.",
+    "source_pin_caveat": "Wave 434 and Wave 435 selected immutable commit IDs from repository-scoped commit search; exact refs/heads/default-branch equivalence remains NOT VERIFIED by available tools.",
     "license_gate": "LiteLLM and Langfuse root LICENSE files contain path/subtree licensing exceptions; remain CONDITIONAL until every proposed reused path's license is audited.",
-    "comparison_order": "Do not start formal scoring or component assembly until candidate coverage, source pins, licensing, dependency/advisory, CI, and maturity gates are closed."
+    "comparison_order": "Do not start formal scoring or component assembly until candidate coverage, source pins, licensing, dependency/advisory, CI, and maturity gates are closed.",
+    "licensing_caveat": "Phoenix uses Elastic License 2.0 at the pinned commit and NeMo Guardrails root LICENSE was not found at the tested path. Both remain CONDITIONAL until the actual proposed subtree/license is verified.",
+    "component_assembly_gate": "Do not install, vendor, or import shortlisted runtime code before the inventory freeze and security/license gates. Repository visibility or recent commits does not establish suitability."
   },
   "candidates": [
     {
@@ -812,11 +814,37 @@
       "id": "phoenix",
       "repo": "Arize-ai/phoenix",
       "category": "observability",
-      "status": "CANDIDATE",
+      "status": "CONDITIONAL",
       "repo_status": "active",
-      "evidence": "README blob 57e2f3ff4099ee6d45f21160dd2d2f504809e2b6",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob 57e2f3ff4099ee6d45f21160dd2d2f504809e2b6; Wave 435 pinned commit, LICENSE and primary manifest evidence recorded",
+      "license": "Elastic License 2.0",
+      "source_head": "1c1eb72c60e42312289550efc2395cadba1c6685",
+      "screening": {
+        "wave": "435",
+        "immutable_head": "1c1eb72c60e42312289550efc2395cadba1c6685",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Elastic License 2.0",
+          "blob_sha": "23d3aa7c871a4eb153186073e3d2b72d586f64be",
+          "status": "VERIFIED_TEXT_ONLY / SOURCE-AVAILABLE TERMS REVIEW REQUIRED",
+          "url": "https://github.com/Arize-ai/phoenix/blob/1c1eb72c60e42312289550efc2395cadba1c6685/LICENSE"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "397ea8067cce527eb15ad748c80477890313568c",
+          "version": "not extracted",
+          "status": "READ",
+          "url": "https://github.com/Arize-ai/phoenix/blob/1c1eb72c60e42312289550efc2395cadba1c6685/pyproject.toml"
+        },
+        "lockfile_path": "uv.lock",
+        "lockfile_blob_sha": "1676c9f197517d2ec6d5e814d56c90634761cbbe",
+        "lockfile": "BLOB SHA OBSERVED / CONTENT API RETURNED EMPTY / NOT AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "opik",
@@ -938,11 +966,37 @@
       "id": "nemo-guardrails",
       "repo": "NVIDIA-NeMo/Guardrails",
       "category": "llm-guardrails",
-      "status": "CANDIDATE",
+      "status": "CONDITIONAL",
       "repo_status": "active",
-      "evidence": "README blob 0e89130b921f58db81c27ff2d8fc990b58fbcff1; Apache-2.0 declared in README",
-      "license": "Apache-2.0 stated; verify LICENSE",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob 0e89130b921f58db81c27ff2d8fc990b58fbcff1; Apache-2.0 declared in README; Wave 435 pinned commit, LICENSE and primary manifest evidence recorded",
+      "license": "Apache-2.0 stated in pinned README; LICENSE file NOT FOUND at tested root path",
+      "source_head": "a3d70b9c8e6a6ef770943ce7019f8dc59350b6a6",
+      "screening": {
+        "wave": "435",
+        "immutable_head": "a3d70b9c8e6a6ef770943ce7019f8dc59350b6a6",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0 stated in pinned README; LICENSE file NOT FOUND at tested root path",
+          "blob_sha": null,
+          "status": "NOT VERIFIED",
+          "url": "https://github.com/NVIDIA-NeMo/Guardrails/blob/a3d70b9c8e6a6ef770943ce7019f8dc59350b6a6/README.md"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "507fbccfa2939e8ea0360ea670591d0e0654b43d",
+          "version": "0.25.0.dev0 (development version)",
+          "status": "READ",
+          "url": "https://github.com/NVIDIA-NeMo/Guardrails/blob/a3d70b9c8e6a6ef770943ce7019f8dc59350b6a6/pyproject.toml"
+        },
+        "lockfile_path": "uv.lock",
+        "lockfile_blob_sha": "4668aedd6d26d59148740cde2f6f67392a9a5d78",
+        "lockfile": "BLOB SHA OBSERVED / CONTENT API RETURNED EMPTY / NOT AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "guardrails-ai",
@@ -1016,9 +1070,35 @@
       "category": "vector-database",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "Repository metadata observed",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "Repository metadata observed; Wave 435 pinned commit, LICENSE and primary manifest evidence recorded",
+      "license": "Apache-2.0",
+      "source_head": "222b2e44ab1c3f17e8246396ead6558e45041df7",
+      "screening": {
+        "wave": "435",
+        "immutable_head": "222b2e44ab1c3f17e8246396ead6558e45041df7",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "456fb05e0e936f439cf42c517b19797dafd53ff9",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/qdrant/qdrant/blob/222b2e44ab1c3f17e8246396ead6558e45041df7/LICENSE"
+        },
+        "manifest": {
+          "path": "Cargo.toml",
+          "blob_sha": "27378cb2f286f54154290873b12bd1e902c158ed",
+          "version": "1.20.0",
+          "status": "READ",
+          "url": "https://github.com/qdrant/qdrant/blob/222b2e44ab1c3f17e8246396ead6558e45041df7/Cargo.toml"
+        },
+        "lockfile_path": "Cargo.lock",
+        "lockfile_blob_sha": "253aea05aaf8dea2068b2eb744f96afc7f8cc3fe",
+        "lockfile": "CONTENT READ (233,630 chars) / DEPENDENCY AUDIT NOT RUN",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "weaviate",
@@ -1102,31 +1182,34 @@
       "category": "browser-agent",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob fe0d153c091192af376573013bf27974de9169ff; cloud/local mode review needed; Wave 433 pinned source HEAD 3df5806a0d097a1546d92c49bcf1b28c9972c3bd; LICENSE blob 1ea3836ce58a4cd32c90c0b4f4e736d840d23780; manifest pyproject.toml blob ff6f1538abb84fd8f7ceaa532d7cc1cb4a8d58db",
-      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "evidence": "README blob fe0d153c091192af376573013bf27974de9169ff; cloud/local mode review needed; Wave 433 pinned source HEAD 3df5806a0d097a1546d92c49bcf1b28c9972c3bd; LICENSE blob 1ea3836ce58a4cd32c90c0b4f4e736d840d23780; manifest pyproject.toml blob ff6f1538abb84fd8f7ceaa532d7cc1cb4a8d58db; Wave 435 pinned commit, LICENSE and primary manifest evidence recorded",
+      "license": "MIT",
       "source_head": "3df5806a0d097a1546d92c49bcf1b28c9972c3bd",
       "screening": {
-        "wave": "433",
+        "wave": "435",
         "immutable_head": "3df5806a0d097a1546d92c49bcf1b28c9972c3bd",
         "license": {
           "spdx": "MIT",
           "blob_sha": "1ea3836ce58a4cd32c90c0b4f4e736d840d23780",
-          "url": "https://github.com/browser-use/browser-use/blob/3df5806a0d097a1546d92c49bcf1b28c9972c3bd/LICENSE",
-          "status": "VERIFIED_TEXT_ONLY"
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/browser-use/browser-use/blob/3df5806a0d097a1546d92c49bcf1b28c9972c3bd/LICENSE"
         },
         "manifest": {
           "path": "pyproject.toml",
           "blob_sha": "ff6f1538abb84fd8f7ceaa532d7cc1cb4a8d58db",
           "version": "0.13.13",
-          "url": "https://github.com/browser-use/browser-use/blob/3df5806a0d097a1546d92c49bcf1b28c9972c3bd/pyproject.toml",
-          "status": "READ"
+          "status": "READ",
+          "url": "https://github.com/browser-use/browser-use/blob/3df5806a0d097a1546d92c49bcf1b28c9972c3bd/pyproject.toml"
         },
-        "lockfile": "NOT_AUDITED",
+        "lockfile": "NOT FOUND at tested path",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
         "security_review": "NOT_STARTED",
-        "subsystem_qualification": "NOT_STARTED"
+        "subsystem_qualification": "NOT_STARTED",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "lockfile_path": "uv.lock",
+        "lockfile_blob_sha": null
       }
     },
     {
@@ -1383,23 +1466,168 @@
         "security_review": "NOT_STARTED",
         "subsystem_qualification": "NOT_STARTED"
       }
+    },
+    {
+      "id": "ag2",
+      "repo": "ag2ai/ag2",
+      "category": "agent-orchestration",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 435 immutable commit selected from repository-scoped commit search; exact default-branch tip equivalence not independently verified.",
+      "license": "Apache-2.0",
+      "source_head": "cc645f2b19f1df47629a4bb47b6522f0ddf2a13d",
+      "screening": {
+        "wave": "435",
+        "immutable_head": "cc645f2b19f1df47629a4bb47b6522f0ddf2a13d",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "a40e7d03d70e094a54bcc34f67f4243b0c8a382d",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/ag2ai/ag2/blob/cc645f2b19f1df47629a4bb47b6522f0ddf2a13d/LICENSE"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "67b6748280616f5c522763a5da44b1bc9d9a580e",
+          "version": "1.2.1",
+          "status": "READ",
+          "url": "https://github.com/ag2ai/ag2/blob/cc645f2b19f1df47629a4bb47b6522f0ddf2a13d/pyproject.toml"
+        },
+        "lockfile_path": "uv.lock",
+        "lockfile_blob_sha": "b8dec50e6db175bcc70b5f163118543dfada7987",
+        "lockfile": "BLOB SHA OBSERVED / CONTENT API RETURNED EMPTY / NOT AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "agentscope",
+      "repo": "agentscope-ai/agentscope",
+      "category": "agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 435 immutable commit selected from repository-scoped commit search; exact default-branch tip equivalence not independently verified.",
+      "license": "Apache-2.0",
+      "source_head": "bdad647d2fee7d66597681ecd89e086b7800dd2a",
+      "screening": {
+        "wave": "435",
+        "immutable_head": "bdad647d2fee7d66597681ecd89e086b7800dd2a",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "2f2f2f25ea6019e5a51213c4e8a4df0c67a6ea2a",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/agentscope-ai/agentscope/blob/bdad647d2fee7d66597681ecd89e086b7800dd2a/LICENSE"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "791822f59acaefd45e33721e2d8998dfb028dc8a",
+          "version": "dynamic; exact version not extracted",
+          "status": "READ",
+          "url": "https://github.com/agentscope-ai/agentscope/blob/bdad647d2fee7d66597681ecd89e086b7800dd2a/pyproject.toml"
+        },
+        "lockfile_path": "uv.lock",
+        "lockfile_blob_sha": null,
+        "lockfile": "NOT FOUND at tested path",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "dapr-agents",
+      "repo": "dapr/dapr-agents",
+      "category": "agent-runtime",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 435 immutable commit selected from repository-scoped commit search; exact default-branch tip equivalence not independently verified.",
+      "license": "Apache-2.0",
+      "source_head": "8b4cc8ddbe2845248df5892fc532dd1097298be8",
+      "screening": {
+        "wave": "435",
+        "immutable_head": "8b4cc8ddbe2845248df5892fc532dd1097298be8",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/dapr/dapr-agents/blob/8b4cc8ddbe2845248df5892fc532dd1097298be8/LICENSE"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "7663826091bc04ddc104975bdbe2d225810525f0",
+          "version": "not extracted",
+          "status": "READ",
+          "url": "https://github.com/dapr/dapr-agents/blob/8b4cc8ddbe2845248df5892fc532dd1097298be8/pyproject.toml"
+        },
+        "lockfile_path": "uv.lock",
+        "lockfile_blob_sha": "3d10a9494d1031dcb311fadfbfd730f5480c0aca",
+        "lockfile": "BLOB SHA OBSERVED / CONTENT API RETURNED EMPTY / NOT AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
+    },
+    {
+      "id": "mcp-python-sdk",
+      "repo": "modelcontextprotocol/python-sdk",
+      "category": "tool-protocol",
+      "status": "CANDIDATE",
+      "repo_status": "active",
+      "evidence": "Wave 435 immutable commit selected from repository-scoped commit search; exact default-branch tip equivalence not independently verified.",
+      "license": "MIT",
+      "source_head": "2af9e3089ac66b35c1550c500aae86a82efb1e17",
+      "screening": {
+        "wave": "435",
+        "immutable_head": "2af9e3089ac66b35c1550c500aae86a82efb1e17",
+        "default_ref_equivalence": "NOT_VERIFIED",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "3d48435454b105021b4f777c11b6b07d8d2ffea3",
+          "status": "VERIFIED_TEXT_ONLY",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/blob/2af9e3089ac66b35c1550c500aae86a82efb1e17/LICENSE"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "6d7626d79b4a78c66e5dd1837b28530e677a0d34",
+          "version": "dynamic",
+          "status": "READ",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/blob/2af9e3089ac66b35c1550c500aae86a82efb1e17/pyproject.toml"
+        },
+        "lockfile_path": "uv.lock",
+        "lockfile_blob_sha": "fd2dcb85f9923798334ea6259522ae4ae84185f8",
+        "lockfile": "CONTENT READ (435,420 chars) / DEPENDENCY AUDIT NOT RUN",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     }
   ],
-  "latest_screening_wave": "434",
+  "latest_screening_wave": "435",
   "screening_summary": {
-    "pinned_heads": 16,
-    "license_files_read_at_pinned_heads": 16,
-    "manifest_files_read_at_pinned_heads": 16,
+    "pinned_heads": 24,
+    "license_files_read_at_pinned_heads": 23,
+    "manifest_files_read_at_pinned_heads": 24,
     "lockfiles_audited": 0,
     "advisory_reviews": 0,
     "exact_ci_audits": 0,
     "release_tags_pinned": 0,
     "formal_comparison": "NOT_STARTED",
     "inventory_freeze": "NOT_READY",
-    "lockfile_blob_shas_recorded": 8,
-    "lockfile_contents_read_not_audited": 5,
-    "lockfile_sha_observed_but_content_empty": 3,
+    "lockfile_blob_shas_recorded": 14,
+    "lockfile_contents_read_not_audited": 7,
+    "lockfile_sha_observed_but_content_empty": 7,
     "dependency_advisories": 0,
-    "default_branch_tip_equivalence_verified": 0
+    "default_branch_tip_equivalence_verified": 0,
+    "lockfile_path_not_found": 4
   }
 }
