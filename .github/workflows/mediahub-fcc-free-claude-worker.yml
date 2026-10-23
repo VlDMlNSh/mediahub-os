@@ -327,6 +327,7 @@ jobs:
         id: provider_probe
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TASK_PROFILE: ${{ inputs.task_profile }}
         run: |
           set -euo pipefail
           response="$RUNNER_TEMP/openrouter-free-probe.json"
