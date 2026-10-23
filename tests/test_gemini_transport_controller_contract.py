@@ -100,6 +100,8 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('("gemini-agent-2.yml","Wave 408 independent review', self.source)
         self.assertIn("PR #506", self.source)
         self.assertIn("PR #508", self.source)
+        self.assertIn('target!="074f20eb495666946a14410ab88d566aaa754f24"', self.source)
+        self.assertIn("Review mode is pinned to FCC review target", self.source)
         self.assertIn("no caller-supplied task string is accepted", self.source)
         self.assertIn("do not edit application/workflow code", self.source)
         self.assertIn("do not dispatch other agents", self.source)
