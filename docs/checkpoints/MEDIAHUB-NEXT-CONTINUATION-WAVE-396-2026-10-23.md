@@ -75,3 +75,15 @@ Obtain independent review of PR #335, reconcile it with the current canonical do
 - Re-read Wave 400 report blob `10b91db5c2d9a147ca1f0da68d1acd23d60781ea` and map addendum blob `e9615ba2d9fc0c16530b348cf5b16d4666d4829d` after update. Workflow blob `4135c78643e66c6998acb44ec1ae17750bcf0d63`; contract-test blob `e24a339ecd846afab8cc700eba97a22307161716`.
 - **Status:** implementation **DRAFT**; FCC install smoke **SUCCEEDED**; returned exact-head CI **SUCCEEDED**; independent review **NOT VERIFIED**; live dispatch **NOT RUN**; route/data governance qualification **NOT VERIFIED**; Contour A **NOT ACCEPTED**.
 - Next: obtain independent security review, fix any findings, and recheck exact-head CI. Do not set `MEDIAHUB_ALLOW_FCC_FREE_CLAUDE=true` or dispatch the worker until the separate admission/owner gates are satisfied.
+
+
+---
+
+## Wave 401 — GitHub-hosted FCC Claude static security review (2026-10-23)
+
+- Report: [Wave 401 review](MEDIAHUB-CLAUDE-FCC-STATIC-SECURITY-REVIEW-WAVE-401-2026-10-23.md); map addendum: [Wave 401](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-401-2026-10-23.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #502 remains OPEN/DRAFT/UNMERGED at head `0a4ccf0e95efb5cc134eedb62dd2f9c175a24e20`. FCC install smoke [39876277682](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39876277682), job 120162541784, succeeded; no provider/model request occurred.
+- Static review findings are recorded in [PR #502 comment](https://github.com/VlDMlNSh/mediahub-os/pull/502#issuecomment-6354339535): model provenance is not captured; repository file scope is too broad; the patch artifact is not scanned for secrets; effective no-fallback configuration is not proven.
+- FCC is pinned at `3d2ae2306752dbdf504714a5489bcfcf69b2d04a`. `open_router/openrouter/free` is a dynamic free-model router, not a guarantee of Qwen or a stable upstream model ID.
+- **Status:** install smoke **SUCCEEDED**; static review **PARTIAL**; formal independent review **NOT VERIFIED**; live inference **NOT RUN**; model provenance/no-paid-fallback qualification **NOT VERIFIED**; live dispatch **BLOCKED**; Contour A **NOT ACCEPTED**.
+- Next: fix the four technical findings on PR #502, add negative tests, rerun exact-head CI, obtain independent review, then consider one bounded no-write free-route inference test. Do not merge just to unlock workflow_dispatch. No secret values were read and no provider was invoked in Wave 401.
