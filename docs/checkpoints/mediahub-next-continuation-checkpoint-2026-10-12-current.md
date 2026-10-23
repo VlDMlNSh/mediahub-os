@@ -1,3 +1,14 @@
+## Wave 427 — Claude FCC cloud route post-merge and local Llama auth blocker (2026-10-23)
+
+- Report: [Wave 427 post-merge evidence](mediahub-claude-fcc-wave427-post-merge-evidence-2026-10-23.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-427-2026-10-23.md).
+- PR #530 is marked merged at main SHA 4fe1486e2062d276c4dba2ab8c9ed97f261e9086. Six exact PR-head workflows passed on e4a2e1cb9961e806f3351addf0569a1ed22f85b0: Astra agent 39957502393/job 120426902145; provider contract 39957502221/job 120426901175; Cloud Runtime 39957502257/job 120426901913; Claude FCC admission 39957502238/jobs 120426901672, 120426901899, 120426901903, 120426902046; AI Factory 39957502235/job 120426901702; Astra Verify 39957502294/job 120426901541. The dispatch gate and bounded worker were skipped by design on pull_request. Formal PR reviews remain absent; post-merge workflow/status queries returned no evidence, so POST-MERGE CI is NOT VERIFIED.
+- Main router/workflow/verifier blobs: e249333c1c0ce6c1c586a5f498dbfd3979418f6e, 384eee5209d2ec129ff2d0e92e953d3cad0fa863, and e8a4a62dc480b23b5db452fe4a47527e3f44137a. Cloud route remains NOT QUALIFIED until independent review, exact-main CI and the guarded owner-confirmed free-only workflow run are evidenced.
+- Local Ollama llama3.2:3b direct inference passed (marker MEDIAHUB_LOCAL_LLAMA_OK, ~10.3s), but active FCC configuration last verified as HOST=127.0.0.1, PORT=8082, MODEL=ollama/qwen3:4b, PROXY_AUTH_ENABLED=false; unauthenticated /v1/models returned HTTP 200 and no Llama alias was advertised. FCC-routed Claude Code task is NOT RUN. A configuration attempt did not execute; no alternate route was used to bypass the block. SentinelX previously diagnosed host_overloaded/reconnect failures.
+- Latest /next comments 6365530727 and 6365584483 on Issue #301 do not have confirmed controller/three-child run IDs in this pass; dispatch outcome is NOT VERIFIED.
+- Disposition: CLOUD ROUTE MERGED / PR-HEAD CI VERIFIED / REVIEW MISSING / POST-MERGE CI NOT VERIFIED / PROVIDER NOT RUN / LOCAL FCC AUTH BLOCKED / CONTOUR A NOT ACCEPTED.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
