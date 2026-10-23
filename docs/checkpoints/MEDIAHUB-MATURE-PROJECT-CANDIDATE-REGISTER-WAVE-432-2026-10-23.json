@@ -2554,7 +2554,7 @@
       "screening": {
         "wave": "440",
         "immutable_head": "8938ebcf1c12a6266bdf5a650088e1360777aa94",
-        "default_ref_equivalence": "NOT_VERIFIED",
+        "default_ref_equivalence": "PARTIAL_FILE_BLOB_EQUIVALENCE_VERIFIED",
         "license": {
           "spdx": "Apache-2.0",
           "blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
@@ -2573,7 +2573,18 @@
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
         "security_review": "NOT_STARTED",
-        "subsystem_qualification": "NOT_STARTED"
+        "subsystem_qualification": "NOT_STARTED",
+        "default_ref_check": {
+          "status": "VERIFIED_FILE_BLOB_EQUIVALENCE_ONLY",
+          "default_branch": "master",
+          "pinned_commit": "8938ebcf1c12a6266bdf5a650088e1360777aa94",
+          "checked_path": "go.mod",
+          "default_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+          "pinned_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+          "equal": true,
+          "checked_at": "2026-10-23",
+          "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
+        }
       }
     },
     {
@@ -2622,7 +2633,7 @@
       "screening": {
         "wave": "440",
         "immutable_head": "3a0164d6cd627645220730d48d51dc71e10e7156",
-        "default_ref_equivalence": "NOT_VERIFIED",
+        "default_ref_equivalence": "PARTIAL_FILE_BLOB_EQUIVALENCE_VERIFIED",
         "license": {
           "spdx": "Apache-2.0",
           "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
@@ -2641,7 +2652,18 @@
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
         "security_review": "NOT_STARTED",
-        "subsystem_qualification": "NOT_STARTED"
+        "subsystem_qualification": "NOT_STARTED",
+        "default_ref_check": {
+          "status": "VERIFIED_FILE_BLOB_EQUIVALENCE_ONLY",
+          "default_branch": "main",
+          "pinned_commit": "3a0164d6cd627645220730d48d51dc71e10e7156",
+          "checked_path": "go.mod",
+          "default_blob_sha": "72885d779cef3211370273cfd8e2ef417edeebc8",
+          "pinned_blob_sha": "72885d779cef3211370273cfd8e2ef417edeebc8",
+          "equal": true,
+          "checked_at": "2026-10-23",
+          "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
+        }
       }
     },
     {
@@ -2758,7 +2780,7 @@
       "screening": {
         "wave": "440",
         "immutable_head": "d00d411f6ebe56fa86615747ee399d0df8254c0a",
-        "default_ref_equivalence": "NOT_VERIFIED",
+        "default_ref_equivalence": "PARTIAL_FILE_BLOB_EQUIVALENCE_VERIFIED",
         "license": {
           "spdx": "MIT",
           "blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
@@ -2777,7 +2799,18 @@
         "exact_ci": "NOT_AUDITED",
         "release_tag": "NOT_PINNED",
         "security_review": "NOT_STARTED",
-        "subsystem_qualification": "NOT_STARTED"
+        "subsystem_qualification": "NOT_STARTED",
+        "default_ref_check": {
+          "status": "VERIFIED_FILE_BLOB_EQUIVALENCE_ONLY",
+          "default_branch": "main",
+          "pinned_commit": "d00d411f6ebe56fa86615747ee399d0df8254c0a",
+          "checked_path": "LICENSE",
+          "default_blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+          "pinned_blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+          "equal": true,
+          "checked_at": "2026-10-23",
+          "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
+        }
       }
     },
     {
@@ -2900,6 +2933,7 @@
     "dependency_advisories": 0,
     "default_branch_tip_equivalence_verified": 0,
     "lockfile_path_not_found": 8,
-    "lockfile_blobs_recorded": 25
+    "lockfile_blobs_recorded": 25,
+    "default_ref_file_blob_equivalence_verified": 3
   }
 }
