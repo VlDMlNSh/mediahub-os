@@ -97,7 +97,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
     def test_review_mode_is_single_fixed_read_only_agent_task(self):
         self.assertIn("REQUESTED_MODE: ${{ inputs.mode }}", self.source)
         self.assertIn('if requested_mode=="review":', self.source)
-        self.assertIn('("gemini-agent-2.yml","Wave 408 independent review', self.source)
+        self.assertIn('("gemini-fcc-independent-review-wave409.yml","Wave 408 independent review', self.source)
         self.assertIn("PR #506", self.source)
         self.assertIn("PR #508", self.source)
         self.assertIn('target!="074f20eb495666946a14410ab88d566aaa754f24"', self.source)
