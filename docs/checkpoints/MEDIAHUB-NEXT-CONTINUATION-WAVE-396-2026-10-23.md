@@ -87,3 +87,17 @@ Obtain independent review of PR #335, reconcile it with the current canonical do
 - FCC is pinned at `3d2ae2306752dbdf504714a5489bcfcf69b2d04a`. `open_router/openrouter/free` is a dynamic free-model router, not a guarantee of Qwen or a stable upstream model ID.
 - **Status:** install smoke **SUCCEEDED**; static review **PARTIAL**; formal independent review **NOT VERIFIED**; live inference **NOT RUN**; model provenance/no-paid-fallback qualification **NOT VERIFIED**; live dispatch **BLOCKED**; Contour A **NOT ACCEPTED**.
 - Next: fix the four technical findings on PR #502, add negative tests, rerun exact-head CI, obtain independent review, then consider one bounded no-write free-route inference test. Do not merge just to unlock workflow_dispatch. No secret values were read and no provider was invoked in Wave 401.
+
+
+---
+
+## Wave 402 — GitHub-hosted FCC Claude workflow test coverage (2026-10-23)
+
+- Report: [Wave 402 test-coverage pass](MEDIAHUB-CLAUDE-FCC-WORKFLOW-TEST-COVERAGE-WAVE-402-2026-10-23.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-402-2026-10-23.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR [#502](https://github.com/VlDMlNSh/mediahub-os/pull/502) remains OPEN/DRAFT/UNMERGED. Target head `bd6d23d7cbf5aa551346b7df82e9fc72fbbc8cbb`; main `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`.
+- Workflow blob `8571678864c260c0e84392e2566a75856c3cf5f4`; contract-test blob `eb93f867ce48128daf4e784f4860da8a44de41ec`.
+- FCC install smoke [run 39878373657 / job 120169497289](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878373657/job/120169497289) **SUCCEEDED**. Workflow contract tests [job 120169497584](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878373657/job/120169497584) **SUCCEEDED, 4/4**. Dispatch-gate and bounded worker were skipped; no provider request occurred.
+- Astra Cloud Runtime Validation [39878373601](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878373601) **SUCCEEDED**. Astra Verify [39878373703](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878373703) **FAILED** with a workflow test-tool installation heuristic failure. Full exact-head CI is **FAILED / NOT VERIFIED**.
+- Wave 401 findings F1–F4 remain OPEN: actual model/provider provenance, repository data scope, patch artifact secret scanning, and proof that effective FCC configuration has no fallback. Formal independent review remains NOT VERIFIED.
+- Live inference **NOT RUN**; live dispatch **BLOCKED**; Contour A **NOT ACCEPTED**. No secret values were read; no provider/model was invoked.
+- Next: reconcile and clear Astra Verify at current head; fix F1–F4 and add negative tests; rerun exact-head CI; obtain independent review; only then consider a separate authorized no-write free-route inference smoke. Do not merge solely to unlock `workflow_dispatch`.
