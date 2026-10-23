@@ -106,7 +106,8 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn("do not edit application/workflow code", self.source)
         self.assertIn("do not dispatch other agents", self.source)
         self.assertIn("expected_count=len(tasks)", self.source)
-        self.assertIn("(inputs.mode == 'agents' || inputs.mode == 'review')", self.source)
+        self.assertIn("inputs.mode == 'agents' && inputs.confirm == true", self.source)
+        self.assertIn("inputs.mode == 'review' && inputs.confirm == true", self.source)
 
     def test_owner_only_next_comment_bridge_is_scoped_and_idempotent(self):
         event = self.workflow["on"]["issue_comment"]
