@@ -1,0 +1,37 @@
+{
+  "schema": "mediahub.contour-a.agent-2-verification.v1",
+  "agent_identity": "gemini-agent-2",
+  "contour": "contour-a",
+  "target_sha": "f0448f28c7cfa61e4450c38529f09afbfdbbc7c7",
+  "timestamp": "2026-10-23T00:00:00Z",
+  "acceptance_criteria_mapping": {
+    "governance_contracts": [
+      "architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml",
+      "architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml",
+      "architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml"
+    ],
+    "verification_tests": [
+      "tests/test_astra_gold_evidence_contracts.py",
+      "tests/test_astra_gold_governance_contract.py",
+      "tests/test_astra_gold_architecture_drift.py"
+    ]
+  },
+  "non_secret_checks": {
+    "status": "PASS",
+    "assertions_verified": [
+      "gate_registry_matches_canonical_sources",
+      "runtime_thresholds_positive_and_mirrored",
+      "invariant_bindings_to_existing_tests",
+      "credential_lifecycle_fail_closed",
+      "human_approval_record_covers_launch_inputs",
+      "cloud_executor_candidates_carry_no_authority"
+    ]
+  },
+  "gaps_and_constraints": [
+    "mh-dev-02 runtime evidence pending canonical worker restoration",
+    "Reg.cloud zero-cost financial gate requires explicit account pricing confirmation before provisioning",
+    "Multi-node soak and transport gates remain pre-soak blocked"
+  ],
+  "verification_status": "DRAFT_EVIDENCE_VERIFIED",
+  "review_notes": "Independent contract and test verification completed against immutable target SHA. No merge, deployment, qualification or nested dispatch performed."
+}
