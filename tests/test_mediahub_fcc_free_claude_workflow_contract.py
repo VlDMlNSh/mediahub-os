@@ -38,3 +38,11 @@ def test_worker_requires_immutable_target_and_bounded_prompt() -> None:
     assert "git diff --check" in source
     assert "persist-credentials: false" in source
     assert "actions/upload-artifact@" in source
+
+
+def test_first_live_smoke_is_read_only() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert '--allowed-tools "Read,Glob,Grep"' in source
+    assert '--allowed-tools "Read,Glob,Grep,Edit,Write"' not in source
+    assert '--permission-mode plan' in source
+    assert "Read-only MediaHub smoke worker." in source
