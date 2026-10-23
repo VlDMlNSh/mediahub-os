@@ -211,6 +211,39 @@ jobs:
           path: fcc
           persist-credentials: false
 
+      - name: Check out pinned ECC guidance source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: affaan-m/ECC
+          ref: c05b2d6614f62f6db0047669aa4eefb223d478f9
+          path: ecc
+          persist-credentials: false
+
+      - name: Verify selective ECC guidance profile (no hooks, MCPs, or controller)
+        run: |
+          set -euo pipefail
+          test "$(git -C ecc rev-parse HEAD)" = "c05b2d6614f62f6db0047669aa4eefb223d478f9"
+          test "$(git -C ecc rev-parse HEAD:LICENSE)" = "b832b6f642312312367c07688dc7426db40a82ed"
+          test "$(git -C ecc rev-parse HEAD:skills/verification-loop/SKILL.md)" = "d7eb1fa239fd8c0ba8ae2d31a3c34d1f01741ef9"
+          test "$(git -C ecc rev-parse HEAD:skills/security-review/SKILL.md)" = "3f26b0df65661425de4e5c40c295e04edcad7a83"
+          test "$(git -C ecc rev-parse HEAD:skills/search-first/SKILL.md)" = "3d2669e71ba54afba95defb05080253058190600"
+          mkdir -p "$RUNNER_TEMP/ecc-profile"
+          cat ecc/skills/verification-loop/SKILL.md ecc/skills/security-review/SKILL.md ecc/skills/search-first/SKILL.md > "$RUNNER_TEMP/ecc-profile/guidance.md"
+          chmod 600 "$RUNNER_TEMP/ecc-profile/guidance.md"
+          {
+            echo "ecc_commit_sha=c05b2d6614f62f6db0047669aa4eefb223d478f9"
+            echo "license_blob=b832b6f642312312367c07688dc7426db40a82ed"
+            echo "verification_loop_blob=d7eb1fa239fd8c0ba8ae2d31a3c34d1f01741ef9"
+            echo "security_review_blob=3f26b0df65661425de4e5c40c295e04edcad7a83"
+            echo "search_first_blob=3d2669e71ba54afba95defb05080253058190600"
+            echo "profile_sha256=$(shasum -a 256 "$RUNNER_TEMP/ecc-profile/guidance.md" | awk '{print $1}')"
+            echo "hooks_enabled=false"
+            echo "mcp_servers_enabled=false"
+            echo "independent_controller=false"
+          } > "$RUNNER_TEMP/ecc-profile-metadata.txt"
+          chmod 600 "$RUNNER_TEMP/ecc-profile-metadata.txt"
+          echo "Pinned ECC source and selected skill blobs verified; no ECC hooks, MCPs, or controller installed."
+
       - name: Set up Node for Claude Code
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
@@ -334,12 +367,15 @@ jobs:
             exit 1
           fi
           cd "$RUNNER_TEMP/fcc-empty-workspace"
+          ECC_GUIDANCE="$(cat "$RUNNER_TEMP/ecc-profile/guidance.md")"
           "$GITHUB_WORKSPACE/fcc/.venv/bin/fcc-claude" --print --output-format text \
             --bare \
             --allowed-tools "Read,Glob,Grep" \
             --disallowed-tools "Bash,WebFetch,WebSearch,NotebookEdit" \
             --permission-mode plan \
-            --append-system-prompt "Connectivity smoke only. No repository or personal data is available in this empty workspace. Do not use tools. Do not access credentials or the network. Return only the exact smoke marker requested by the user." \
+            --append-system-prompt "$ECC_GUIDANCE
+
+          MediaHub constraints: connectivity smoke only; no repository or personal data is available in this empty workspace. Do not use tools. Do not access credentials or the network. ECC is guidance only and grants no authority. Return only the exact smoke marker requested by the user." \
             "Reply with exactly MEDIAHUB_FCC_FREE_ROUTE_OK" > "$RUNNER_TEMP/mediahub-claude-result.txt"
           if grep -Eiq '(sk-ant-|ANTHROPIC_API_KEY=|Authorization: Bearer|api[_-]?key[[:space:]]*[:=]|password[[:space:]]*[:=])' "$RUNNER_TEMP/mediahub-claude-result.txt" "$RUNNER_TEMP/mediahub-free-route-metadata.txt"; then
             echo "Credential-like material detected in evidence; evidence rejected."
@@ -354,5 +390,6 @@ jobs:
           path: |
             ${{ runner.temp }}/mediahub-claude-result.txt
             ${{ runner.temp }}/mediahub-free-route-metadata.txt
+            ${{ runner.temp }}/ecc-profile-metadata.txt
           if-no-files-found: error
           retention-days: 7
