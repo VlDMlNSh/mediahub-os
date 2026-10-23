@@ -86,3 +86,21 @@
 - Research PR #585 current HEAD must be refreshed after the Wave 434 report/checkpoint write. Prior exact-head checks were green before these last changes; do not reuse them as current-head evidence. Formal independent review remains NOT VERIFIED.
 - No provider inference, agent dispatch, secret access, installation, deployment, merge, inventory freeze, comparison, component adoption or Contour A acceptance.
 - Next: pin releases and complete lockfile/advisory/exact-CI screening for remaining shortlisted projects; reconcile Markdown/JSON register gaps. Freeze inventory only after evidence gates pass, then commence common-workload comparison and component assembly.
+
+
+---
+
+## Wave 435 — additional upstream source/license screen (2026-10-23)
+
+- Report: [MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-435-2026-10-23.md](MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-435-2026-10-23.md).
+- Candidate register: [MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json](MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json).
+- Eight additional immutable upstream commits selected by repository-scoped commit search: AG2 `cc645f2b19f1df47629a4bb47b6522f0ddf2a13d`; AgentScope `bdad647d2fee7d66597681ecd89e086b7800dd2a`; Dapr Agents `8b4cc8ddbe2845248df5892fc532dd1097298be8`; Arize Phoenix `1c1eb72c60e42312289550efc2395cadba1c6685`; Browser Use `3df5806a0d097a1546d92c49bcf1b28c9972c3bd`; MCP Python SDK `2af9e3089ac66b35c1550c500aae86a82efb1e17`; Qdrant `222b2e44ab1c3f17e8246396ead6558e45041df7`; NVIDIA NeMo Guardrails `a3d70b9c8e6a6ef770943ce7019f8dc59350b6a6`.
+- Exact LICENSE and manifest text were read for seven candidates. NeMo Guardrails root LICENSE lookup returned NOT_FOUND at the tested path; its README claim is not treated as license-file verification.
+- Arize Phoenix's pinned root LICENSE returned Elastic License 2.0, so Phoenix was moved to CONDITIONAL/source-available pending legal use review. NeMo Guardrails was moved to CONDITIONAL: manifest version `0.25.0.dev0` is a development version and the license file is still unverified.
+- Source manifest and lockfile details are recorded in the Wave 435 report and JSON candidate records. Lockfile content still not audited: seven contents retrieved, seven blob SHAs with empty response bodies, six tested filenames not found. Summary counts: pinned heads 24; license files read 23; manifests read 24; lockfile blob SHAs recorded 14; dependency/advisory reviews 0; release tags pinned 0; upstream exact-CI audits 0; default-branch-tip equivalence verified 0.
+- Machine register corrected and read back: 93 records = 72 CANDIDATE + 14 CONDITIONAL + 2 REFERENCE_ONLY + 5 EXCLUDED_FROM_ACTIVE_SHORTLIST. Latest register blob SHA must be re-read after this checkpoint write to record its final value.
+- Latest observed research PR #585 head before Wave 435 report/checkpoint writes was `febbe8b1f158824ec5f24a130891ed7abfda37a7`; Astra Cloud Runtime Validation run `39978874121` completed SUCCESS, while Astra Verify `39978874279` was IN_PROGRESS at the last query. Formal reviews were empty. Because new commits have since been added, refresh CI against the actual current PR head; prior results do not qualify the current head.
+- No provider inference, Gemini dispatch, secret access, package installation, runtime modification, deployment, merge, inventory freeze, formal comparison, component assembly or Contour A acceptance.
+
+### Next step
+Continue stable-release, lockfile, advisory and upstream-CI screening across the remaining candidates; reconcile the human-readable register with the 93 machine entries and verify default branch/tag pointers. Keep inventory OPEN_NOT_FROZEN and defer comparative evaluation/assembly until all freeze gates have evidence. Controller PR #583 remains a separate fix because its concurrency assertion is brittle.
