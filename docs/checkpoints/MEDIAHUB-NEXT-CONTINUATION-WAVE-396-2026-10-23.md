@@ -62,3 +62,16 @@ Obtain independent review of PR #335, reconcile it with the current canonical do
 - FCC upstream main SHA observed `3d2ae2306752dbdf504714a5489bcfcf69b2d04a`; latest release observed `v6.16.16`; AGPL-3.0-only. Implementation must pin immutable reviewed release/commit.
 - **Status:** owner approval **RECORDED**; exact route admission **BLOCKED**; workflow implementation **NOT STARTED**; dispatch **NOT RUN**; qualification **NOT VERIFIED**; Contour A **NOT ACCEPTED**. No secrets read.
 - Next: pin an exact provider/model route and establish free-tier terms, no-paid-fallback semantics, FCC config and negative tests; then prepare a separate disabled-by-default workflow PR.
+
+
+---
+
+## Wave 400 — GitHub-hosted FCC free Claude worker implementation (2026-10-23)
+
+- Report: [Wave 400 implementation and verification](MEDIAHUB-GITHUB-HOSTED-FCC-FREE-CLAUDE-WORKER-WAVE-400-2026-10-23.md); map addendum: [Wave 400](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-400-2026-10-23.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Draft PR [#502](https://github.com/VlDMlNSh/mediahub-os/pull/502) adds `.github/workflows/mediahub-fcc-free-claude-worker.yml` and `tests/test_mediahub_fcc_free_claude_workflow_contract.py`. Base `main` SHA `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; PR head `0a4ccf0e95efb5cc134eedb62dd2f9c175a24e20`. PR remains OPEN/DRAFT/UNMERGED; independent review is absent.
+- Workflow pins FCC source commit `3d2ae2306752dbdf504714a5489bcfcf69b2d04a`, Python `3.14.7`, uv `0.12.13`, and candidate FCC route `open_router/openrouter/free`. OpenRouter official docs describe `openrouter/free` as routing only to free models; the selected downstream model remains dynamic. The workflow unsets `ANTHROPIC_API_KEY` and `MODEL_FALLBACKS`, binds FCC to loopback, has read-only repo permissions, and defaults manual confirmation to false.
+- Exact-head runs all succeeded: FCC install smoke [39876277682](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39876277682), Astra Verify [39876277673](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39876277673), Astra Cloud Runtime Validation [39876277731](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39876277731). Install smoke did not call a provider/model; live worker jobs were skipped on the PR event.
+- Re-read Wave 400 report blob `10b91db5c2d9a147ca1f0da68d1acd23d60781ea` and map addendum blob `e9615ba2d9fc0c16530b348cf5b16d4666d4829d` after update. Workflow blob `4135c78643e66c6998acb44ec1ae17750bcf0d63`; contract-test blob `e24a339ecd846afab8cc700eba97a22307161716`.
+- **Status:** implementation **DRAFT**; FCC install smoke **SUCCEEDED**; returned exact-head CI **SUCCEEDED**; independent review **NOT VERIFIED**; live dispatch **NOT RUN**; route/data governance qualification **NOT VERIFIED**; Contour A **NOT ACCEPTED**.
+- Next: obtain independent security review, fix any findings, and recheck exact-head CI. Do not set `MEDIAHUB_ALLOW_FCC_FREE_CLAUDE=true` or dispatch the worker until the separate admission/owner gates are satisfied.
