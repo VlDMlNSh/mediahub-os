@@ -156,3 +156,20 @@ Continue candidate discovery across model serving/routing, evals, policy, identi
 
 ### Next bounded pass
 Continue discovery and deduplication in mature adjacent categories. Reconcile release tags, exact upstream CI, lockfile contents and dependency advisories; resolve license/ownership exceptions; keep the inventory open until explicit freeze criteria are evidenced. After inventory freeze only, run equal-workload comparisons, then prototype chosen adapters in an isolated branch.
+
+
+---
+
+## Wave 439 — durable workflows, evaluation, model gateway and policy screen (2026-10-23)
+
+- Report: [MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-439-2026-10-23.md](MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-439-2026-10-23.md), created in commit `f282d1acfaa7d5cf917e644cd5770054504228e6`.
+- Register: [candidate register](MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json). Updated register blob SHA `4dc8bc724ca1f38a9b3406d80cdd608140974a6b`, commit `febeb29452dc07f6b0222df7ed9a787af7c3a875`.
+- Wave 439 enriched ten existing records (no duplicate rows): Temporal `8a40a2663e304a79b07779ae08108648ccbc797d`; Argo Workflows `82ad6f109df41c5a0fc25cc1cefba69adc67bb5a`; OpenTelemetry Collector `42ee5d39b18f24c206cca3f91f8b0877424bdfee`; Langfuse `8aedbccf805d7c7baf7aeaadd8fc4907fe0e312d`; Promptfoo `c0b88a324175c60019cc80de1b2e32b4c849d4c3`; LiteLLM `f2118fc7670ba3fa736d9b8f4deef9077a45a720`; PydanticAI `332d3011d1a1bada4ae7210d5416ed5b31be3346`; Haystack `76fc2d3d7492ec243eed40eb939a836f2a8b29da`; OPA `83a65784cbc60c8bbf73d46fd4b4489c5b0e2d76`; Dagger `930485687df5c9a7ed521f5585a17b2a36936b17`.
+- License and root manifest blobs were read for all ten. Promptfoo, Langfuse and LiteLLM license terms/path scope require review before reuse. Default-ref/release equivalence, exact upstream CI, lockfiles, dependency advisories, and threat-model review remain NOT VERIFIED.
+- Reconciled inventory remains 118 rows: 91 CANDIDATE + 20 CONDITIONAL + 2 REFERENCE_ONLY + 5 EXCLUDED_FROM_ACTIVE_SHORTLIST. Register summary now reports 59 pinned source commits, 54 license files read, 56 manifests read; no formal comparison or freeze.
+- No code installed/vendored/executed; no secret reads, model calls, controller dispatches, merges or production adoption.
+- PR #585 research head was `de185f0e1f0ef4065bc051d8fca97b005a2765bc` before Wave 439 register/report commits; exact-head CI must be rechecked against the new head. Formal reviews remain unverified/empty. Research branch is not canonical.
+- Canonical map remains: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+### Next bounded pass
+Continue discovery only for mature categories/implementations not yet covered. Close source evidence gaps for the existing list: release and default refs, lockfile/dependency advisories, exact upstream CI, maintenance/ownership, path-level license and security boundaries. Do not start formal comparison or component assembly until explicit inventory-freeze gates pass.
