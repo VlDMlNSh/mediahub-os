@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 ROUTER = ROOT / ".github" / "ai" / "model-router.yml"
 CONTROLLER = ROOT / ".github" / "workflows" / "gemini-batch-dispatch-controller.yml"
+FCC_CONTROLLER = ROOT / ".github" / "workflows" / "mediahub-fcc-free-claude-worker.yml"
 
 
 class ExecutorRoutingPolicyTests(unittest.TestCase):
@@ -14,18 +15,37 @@ class ExecutorRoutingPolicyTests(unittest.TestCase):
         cls.controller = CONTROLLER.read_text(encoding="utf-8")
 
     def test_gemini_cloud_transport_is_controller_only(self):
+        self.assertIn("permitted_cloud_agent_transports:", self.router)
         self.assertIn(
-            "permitted_cloud_agent_transport: .github/workflows/gemini-batch-dispatch-controller.yml",
+            "  - .github/workflows/gemini-batch-dispatch-controller.yml",
+            self.router,
+        )
+        self.assertIn(
+            "  - .github/workflows/mediahub-fcc-free-claude-worker.yml",
             self.router,
         )
         self.assertIn("permitted_cloud_agent_transport_only: true", self.router)
         self.assertIn("secrets.MEDIAHUB_GITHUB_TOKEN", self.controller)
         self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", self.controller)
 
-    def test_claude_is_local_ollama_only(self):
+    def test_local_claude_route_remains_ollama_only(self):
         self.assertIn("local_claude_runtime: ollama", self.router)
         self.assertIn("local_claude_host: Alamo", self.router)
         self.assertIn("local_claude_only: true", self.router)
+
+    def test_cloud_claude_route_is_free_only_and_admission_gated(self):
+        self.assertIn("cloud_claude_runtime: fcc_openrouter_free", self.router)
+        self.assertIn(
+            "cloud_claude_transport: .github/workflows/mediahub-fcc-free-claude-worker.yml",
+            self.router,
+        )
+        self.assertIn("cloud_claude_free_only: true", self.router)
+        fcc = FCC_CONTROLLER.read_text(encoding="utf-8")
+        self.assertIn('SOURCE_REF" == "refs/heads/main"', fcc)
+        self.assertIn('TRIGGER_ACTOR" == "$REPO_OWNER"', fcc)
+        self.assertIn('TARGET_SHA" == "$CURRENT_SHA"', fcc)
+        self.assertIn('endswith(":free")', fcc)
+        self.assertIn("@anthropic-ai/claude-code@2.1.282", fcc)
 
     def test_paid_and_unapproved_fallbacks_are_disabled(self):
         self.assertIn("paid_fallback: false", self.router)
