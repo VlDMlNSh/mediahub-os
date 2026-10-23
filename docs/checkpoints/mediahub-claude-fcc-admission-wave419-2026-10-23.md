@@ -29,10 +29,12 @@ Owner requested parallel setup of (1) GitHub-hosted Claude Code â†’ pinned FCC â
 
 ## Verification and blockers
 
-- Static content and blob SHA read-back: performed for the three edited source files.
-- Contract tests, `verify_ai_factory.py`, YAML/workflow validation and exact-head CI: **NOT RUN / NOT VERIFIED** on this branch yet.
+- Static content and blob SHA read-back: performed. Current reviewed code blobs on this branch: router `5a785ca8f30996494d7ff3ae86189986b9f7d827`; FCC controller workflow `9fbd6987d91449a4fd8c88474d508b886e835362`; verifier `28440a2342e00d2e3fd14821dea3cdeec0508a7e`; FCC contract tests `4415c292db4b8579c4086e1713242ac5c68dceac`; routing regression tests `b37e4c5cbc0aaa0dd144ab3e1e1fbc1431930052`.
+- Initial exact-head CI exposed one compatibility failure: `tests/ai/test_provider_selector.py` still expected the old scalar router key. That regression test was updated to assert the explicit controller list and separate cloud/local Claude routes.
+- Exact-head CI at code commit `924908e9fdcdc9266b08e7d6531a810653f8f4bb` then passed: Astra agent boundary run `39919412403` / job `120300747881`; Astra Cloud Runtime Validation `39919412285` / job `120300747637`; provider routing contract `39919412264` / job `120300747331`; AI Factory verification `39919412383` / job `120300748158`; Astra Verify `39919412360` / job `120300747812`; FCC admission workflow run `39919412532` with install smoke job `120300808958`, FCC contract tests `120300808861`, and managed-auth preflight `120300808657` all PASS. On the PR event, `dispatch-gate` job `120300810032` and `bounded-worker` job `120300810285` were SKIPPED as expected, so no provider inference occurred.
+- This report reconciliation creates a documentation-only follow-up commit; CI on the resulting updated HEAD must be rechecked before any acceptance decision.
 - Cloud provider probe/smoke: **NOT RUN**. Router admission is only proposed until PR review and exact-head checks pass.
-- Local FCC health: **NOT VERIFIED**; the configured port was unreachable and SentinelX returned intermittent `duplicate_session/agent_disconnected`.
+- Local FCC health: **NOT VERIFIED**; the configured port was unreachable. A new local FCC start attempt created process `74273` but it never bound port `18093`; that process was subsequently terminated after the health failure. Pre-existing process `15499` remains untouched and also has no listener. Ollama remained HTTP 200. SentinelX returned intermittent `duplicate_session/agent_disconnected` during diagnostics.
 - ECC stays an executor guidance/profile only. No ECC controller, unrestricted hooks, provider credentials or independent authority are introduced.
 - No merge, deployment, runtime qualification or Contour A acceptance.
 
