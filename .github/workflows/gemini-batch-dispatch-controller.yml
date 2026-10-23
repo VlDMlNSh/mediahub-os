@@ -163,8 +163,9 @@ jobs:
           target=target.lower(); _,commit=call("GET",f"/repos/{repo}/commits/{target}")
           if commit.get("sha")!=target:
               print("::error::Immutable target SHA did not resolve exactly."); sys.exit(2)
-          if os.environ.get("REQUESTED_MODE","").strip()=="review" and target!="074f20eb495666946a14410ab88d566aaa754f24":
-              print("::error::Review mode is pinned to FCC review target 074f20eb495666946a14410ab88d566aaa754f24; refusing a different target."); sys.exit(2)
+          review_target_shas={"074f20eb495666946a14410ab88d566aaa754f24","4fe1486e2062d276c4dba2ab8c9ed97f261e9086"}
+          if os.environ.get("REQUESTED_MODE","").strip()=="review" and target not in review_target_shas:
+              print("::error::Review mode requires one of the two immutable, statically allowlisted FCC review targets."); sys.exit(2)
           print(f"Shared immutable target SHA: {target}")
           tasks=[
            ("gemini-autonomous-engineering.yml","Per-/next Agent 1 — bounded implementation. On the shared immutable target SHA, read the canonical map, Bootstrap, current checkpoint, Master Roadmap and Issue #301. Select the highest-priority open, unblocked next task; prefer reuse of stable existing components. Complete exactly one bounded implementation/evidence pass, preserve Baseline 2.0, historical IDs, issuer/capability boundaries, Product State Authority and provenance. Draft PR/report only; no merge, deployment, qualification, secret access or nested dispatch.","contour-a"),
@@ -174,12 +175,12 @@ jobs:
           if source_comment_id:
               requested_mode="agents"
           if requested_mode=="review":
-              # Fixed review task only: no caller-supplied task string is accepted.
-              # The signed task is restricted to the two merged FCC changes and
-              # must produce a read-only findings report; no runtime/provider test.
-              tasks=[
-               ("gemini-fcc-independent-review-wave409.yml","Wave 408 independent review — inspect the exact merged source changes in PR #506 (merge SHA 3a0cda63a6e39b844c3d78bede4b777e3a0004bf) and PR #508 (merge/target SHA 074f20eb495666946a14410ab88d566aaa754f24), using the shared immutable target SHA as repository context. Review effective FCC managed-token initialization, bearer authentication and HTTP 401 behavior, secret isolation, free-only routing/no paid fallback, read-only tools/workspace, workflow gates, provenance and test coverage. Read the exact PR patches and current source/tests. Report findings by severity with file/path, line or evidence reference, impact, reproducible proof and PASS/FAIL/NOT VERIFIED. Treat absent checks/reviews as NOT VERIFIED. This is a review-only task: do not edit application/workflow code, read or print secret values, invoke any provider/model or runtime, dispatch other agents, merge, deploy, or qualify. Produce only a concise dated review report as the workflow artifact; do not create a PR or change repository files. State explicitly that no live runtime test was performed.", "contour-a")
-              ]
+              # Fixed read-only tasks keyed by immutable SHA; no caller-supplied task is accepted.
+              review_tasks={
+               "074f20eb495666946a14410ab88d566aaa754f24": ("gemini-fcc-independent-review-wave409.yml","Wave 408 independent review — inspect the exact merged source changes in PR #506 (merge SHA 3a0cda63a6e39b844c3d78bede4b777e3a0004bf) and PR #508 (merge/target SHA 074f20eb495666946a14410ab88d566aaa754f24), using the shared immutable target SHA as repository context. Review effective FCC managed-token initialization, bearer authentication and HTTP 401 behavior, secret isolation, free-only routing/no paid fallback, read-only tools/workspace, workflow gates, provenance and test coverage. Read the exact PR patches and current source/tests. Report findings by severity with file/path, line or evidence reference, impact, reproducible proof and PASS/FAIL/NOT VERIFIED. Treat absent checks/reviews as NOT VERIFIED. This is a review-only task: do not edit application/workflow code, read or print secret values, invoke any provider/model or runtime, dispatch other agents, merge, deploy, or qualify. Produce only a concise dated review report as the workflow artifact; do not create a PR or change repository files. State explicitly that no live runtime test was performed.", "contour-a"),
+               "4fe1486e2062d276c4dba2ab8c9ed97f261e9086": ("gemini-fcc-independent-review-wave409.yml","Wave 427 independent review — audit the exact merged implementation from PR #530 at merge SHA 4fe1486e2062d276c4dba2ab8c9ed97f261e9086. Inspect the merged changes in .github/ai/model-router.yml, .github/workflows/mediahub-fcc-free-claude-worker.yml, scripts/verify_ai_factory.py, tests/ai/test_provider_selector.py and tests/test_mediahub_fcc_free_claude_workflow_contract.py. Verify the owner-only workflow_dispatch from main, explicit confirm flag, exact target-SHA equality, repository opt-in, secret isolation, concrete :free returned-model gate, pinned FCC and Claude Code, pinned ECC guidance and skill/license hashes, disabled paid fallback, isolated read-only workspace, artifact evidence, and distinct local FCC→Ollama Llama route. Treat missing independent review of PR #530 as a governance gap. Read source and test evidence only; do not read/print secrets, perform any provider/model/runtime call, send any local task, dispatch nested agents, edit files, merge, deploy, or qualify. Produce only a concise dated findings report as workflow artifact. State explicitly that no live runtime/provider test was performed.", "contour-a")
+              }
+              tasks=[review_tasks[target]]
           elif requested_mode!="agents":
               print("::error::Unsupported or missing dispatch mode; fail closed."); sys.exit(2)
           expected_count=len(tasks)
