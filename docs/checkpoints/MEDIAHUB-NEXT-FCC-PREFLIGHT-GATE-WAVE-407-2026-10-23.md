@@ -66,3 +66,8 @@ No FCC live worker rerun, no Gemini agents dispatch, and no Claude Code local jo
 - Gemini three-agent dispatch in this pass: NOT RUN.
 - Claude Code local run on authorized third server: BLOCKED / NOT RUN.
 - Contour A acceptance: NOT ACCEPTED.
+
+## Related Wave 407 documents
+
+- [Continuation checkpoint overlay](MEDIAHUB-CONTINUATION-CHECKPOINT-OVERLAY-WAVE-407-2026-10-23.md).
+- [Canonical map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-407-2026-10-23.md).
