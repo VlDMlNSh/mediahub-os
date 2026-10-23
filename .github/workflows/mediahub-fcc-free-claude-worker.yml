@@ -1,0 +1,222 @@
+name: MediaHub GitHub-hosted FCC free Claude worker
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/mediahub-fcc-free-claude-worker.yml"
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Explicitly authorize one bounded run through the free-only OpenRouter router"
+        required: true
+        type: boolean
+        default: false
+      target_sha:
+        description: "Exact 40-character commit SHA to check out"
+        required: true
+        type: string
+        default: "3b054cc8fac38d2fbd58305e9d185d307c6a18bf"
+      task_prompt:
+        description: "Bounded repository task; do not include credentials or personal data"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mediahub-fcc-free-claude-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  install-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Set up Python 3.14.7
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.14.7"
+          check-latest: false
+
+      - name: Install pinned uv
+        run: python -m pip install --disable-pip-version-check uv==0.12.13
+
+      - name: Check out FCC at reviewed immutable source commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Alishahryar1/free-claude-code
+          ref: 3d2ae2306752dbdf504714a5489bcfcf69b2d04a
+          path: fcc
+          persist-credentials: false
+
+      - name: Install FCC from its locked dependency graph
+        working-directory: fcc
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "3d2ae2306752dbdf504714a5489bcfcf69b2d04a"
+          uv sync --locked --no-dev
+          uv run --locked fcc-server --version
+          uv run --locked fcc-claude --help >/dev/null
+
+      - name: Confirm no provider or paid credential was used
+        run: |
+          set -euo pipefail
+          test -z "${OPENROUTER_API_KEY:-}"
+          test -z "${ANTHROPIC_API_KEY:-}"
+          echo "FCC install smoke only; no provider/model request was made."
+
+  dispatch-gate:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions: {}
+    outputs:
+      admitted: ${{ steps.gate.outputs.admitted }}
+    steps:
+      - id: gate
+        shell: bash
+        env:
+          CONFIRM: ${{ inputs.confirm }}
+          ALLOW_FCC_FREE_CLAUDE: ${{ vars.MEDIAHUB_ALLOW_FCC_FREE_CLAUDE }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TARGET_SHA: ${{ inputs.target_sha }}
+          TASK_PROMPT: ${{ inputs.task_prompt }}
+        run: |
+          set -euo pipefail
+          if [[ "$CONFIRM" != "true" ]]; then
+            echo "admitted=false" >> "$GITHUB_OUTPUT"
+            echo "Dispatch not confirmed; no runner or provider started."
+            exit 0
+          fi
+          [[ "$ALLOW_FCC_FREE_CLAUDE" == "true" ]] || { echo "FCC free Claude is not enabled by repository variable."; exit 1; }
+          [[ -n "$OPENROUTER_API_KEY" ]] || { echo "Required secret OPENROUTER_API_KEY is missing."; exit 1; }
+          [[ "$TARGET_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "target_sha must be a full 40-character SHA."; exit 1; }
+          [[ -n "$TASK_PROMPT" && "${#TASK_PROMPT}" -le 12000 ]] || { echo "Task prompt is empty or exceeds 12000 characters."; exit 1; }
+          if printf '%s' "$TASK_PROMPT" | grep -Eiq '(api[_ -]?key|secret|password|token|credential|authorization|bearer)'; then
+            echo "Credential-bearing prompt rejected."
+            exit 1
+          fi
+          echo "admitted=true" >> "$GITHUB_OUTPUT"
+
+  bounded-worker:
+    needs: dispatch-gate
+    if: github.event_name == 'workflow_dispatch' && needs.dispatch-gate.outputs.admitted == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Check out the exact target commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ inputs.target_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Python 3.14.7
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.14.7"
+          check-latest: false
+
+      - name: Install pinned uv
+        run: python -m pip install --disable-pip-version-check uv==0.12.13
+
+      - name: Check out FCC at reviewed immutable source commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Alishahryar1/free-claude-code
+          ref: 3d2ae2306752dbdf504714a5489bcfcf69b2d04a
+          path: fcc
+          persist-credentials: false
+
+      - name: Set up Node for Claude Code
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+
+      - name: Install FCC and Claude Code
+        working-directory: fcc
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "3d2ae2306752dbdf504714a5489bcfcf69b2d04a"
+          uv sync --locked --no-dev
+          npm install --global @anthropic-ai/claude-code
+
+      - name: Run Claude through the free-only FCC route
+        working-directory: ${{ github.workspace }}
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TASK_PROMPT: ${{ inputs.task_prompt }}
+          TARGET_SHA: ${{ inputs.target_sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$TARGET_SHA"
+          # Never allow the direct Anthropic credential or FCC model fallback list.
+          unset ANTHROPIC_API_KEY MODEL_FALLBACKS
+          export HOST=127.0.0.1
+          export PORT=8082
+          export FCC_OPEN_BROWSER=false
+          export PROXY_AUTH_ENABLED=true
+          export ANTHROPIC_AUTH_TOKEN="mh-fcc-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          export MODEL="open_router/openrouter/free"
+          export DISABLE_TELEMETRY=1
+          export DISABLE_ERROR_REPORTING=1
+          export DISABLE_AUTOUPDATER=1
+          (
+            cd fcc
+            uv run --locked fcc-server
+          ) > "$RUNNER_TEMP/fcc-server.log" 2>&1 &
+          FCC_PID=$!
+          cleanup() {
+            kill "$FCC_PID" 2>/dev/null || true
+            wait "$FCC_PID" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          ready=false
+          for _ in $(seq 1 60); do
+            if curl --silent --show-error --fail \
+              -H "Authorization: Bearer ${ANTHROPIC_AUTH_TOKEN}" \
+              http://127.0.0.1:8082/v1/models >/dev/null; then
+              ready=true
+              break
+            fi
+            sleep 2
+          done
+          if [[ "$ready" != "true" ]]; then
+            echo "FCC proxy did not become ready; fail closed."
+            tail -n 80 "$RUNNER_TEMP/fcc-server.log"
+            exit 1
+          fi
+          printf '%s' "$TASK_PROMPT" | grep -Eiq '(api[_ -]?key|secret|password|token|credential|authorization|bearer)' && {
+            echo "Credential-bearing prompt rejected."
+            exit 1
+          } || true
+          fcc/.venv/bin/fcc-claude --print --output-format text \
+            --bare \
+            --allowed-tools "Read,Glob,Grep,Edit,Write" \
+            --disallowed-tools "Bash,WebFetch,WebSearch,NotebookEdit" \
+            --permission-mode acceptEdits \
+            --append-system-prompt "Bounded MediaHub worker. Work only in the checked-out repository. Do not use shell commands, network access, credentials, destructive operations, git mutations, commits, pushes, or production actions. Do only the bounded requested task. No direct Anthropic route is authorized." \
+            "$TASK_PROMPT" > "$RUNNER_TEMP/mediahub-claude-result.txt"
+          git diff --check
+          git diff --binary > "$RUNNER_TEMP/mediahub-claude.patch"
+          if grep -Eiq '(sk-ant-|ANTHROPIC_API_KEY=|Authorization: Bearer|api[_-]?key[[:space:]]*[:=]|password[[:space:]]*[:=])' "$RUNNER_TEMP/mediahub-claude-result.txt"; then
+            echo "Credential-like material detected in result; evidence rejected."
+            exit 1
+          fi
+          test -s "$RUNNER_TEMP/mediahub-claude-result.txt"
+
+      - name: Upload bounded result and patch
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: mediahub-fcc-claude-evidence-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/mediahub-claude-result.txt
+            ${{ runner.temp }}/mediahub-claude.patch
+          if-no-files-found: error
+          retention-days: 7
