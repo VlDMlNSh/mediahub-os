@@ -39,8 +39,11 @@ permissions:
 # Separate contract CI from live qualification so an unavailable self-hosted
 # runner cannot hold ordinary main/pull-request checks in a pending queue.
 concurrency:
-  group: freellmapi-${{ github.event_name == 'workflow_dispatch' && 'live' || 'contract' }}
-  cancel-in-progress: false
+  # The first post-fix push to main uses the legacy group to cancel the
+  # indefinitely queued pre-fix run (which has zero jobs). PR checks and
+  # explicit live requests stay in separate groups.
+  group: ${{ github.event_name == 'workflow_dispatch' && 'freellmapi-live-qualification-live' || github.event_name == 'push' && 'freellmapi-live-qualification' || format('freellmapi-contract-pr-{0}', github.event.pull_request.number) }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 
 jobs:
   contract:
@@ -86,10 +89,13 @@ jobs:
           TARGET_SHA: ${{ inputs.target_sha }}
           CURRENT_SHA: ${{ github.sha }}
           SOURCE_REF: ${{ github.ref }}
+          TRIGGER_ACTOR: ${{ github.actor }}
+          REPO_OWNER: ${{ github.repository_owner }}
         run: |
           set -euo pipefail
           [[ "$CONFIRM" == "true" ]] || { echo "::error::confirm=true is required; no provider call admitted."; exit 1; }
           [[ "$SOURCE_REF" == "refs/heads/main" ]] || { echo "::error::live qualification must be dispatched from main."; exit 1; }
+          [[ "$TRIGGER_ACTOR" == "$REPO_OWNER" ]] || { echo "::error::live qualification requires repository-owner dispatch."; exit 1; }
           [[ "$TARGET_SHA" =~ ^[0-9a-f]{40}$ && "$TARGET_SHA" == "$CURRENT_SHA" ]] || { echo "::error::target_sha must be the exact 40-hex workflow SHA."; exit 1; }
           echo "admitted=true" >> "$GITHUB_OUTPUT"
           echo "Admission passed. Provider access remains isolated to the self-hosted qualification job."
@@ -100,7 +106,8 @@ jobs:
       github.event_name == 'workflow_dispatch' &&
       inputs.confirm == true &&
       inputs.target_sha == github.sha &&
-      github.ref == 'refs/heads/main'
+      github.ref == 'refs/heads/main' &&
+      github.actor == github.repository_owner
     needs: dispatch_gate
     runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 10
