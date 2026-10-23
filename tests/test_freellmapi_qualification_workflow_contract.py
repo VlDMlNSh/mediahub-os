@@ -60,13 +60,22 @@ def test_live_qualification_requires_explicit_dispatch_and_exact_main_sha():
     assert gate_step["env"]["TARGET_SHA"] == "${{ inputs.target_sha }}"
     assert gate_step["env"]["CURRENT_SHA"] == "${{ github.sha }}"
     assert gate_step["env"]["SOURCE_REF"] == "${{ github.ref }}"
+    assert gate_step["env"]["TRIGGER_ACTOR"] == "${{ github.actor }}"
+    assert gate_step["env"]["REPO_OWNER"] == "${{ github.repository_owner }}"
     for marker in (
         '[[ "$CONFIRM" == "true" ]]',
         '[[ "$SOURCE_REF" == "refs/heads/main" ]]',
+        '[[ "$TRIGGER_ACTOR" == "$REPO_OWNER" ]]',
         '[[ "$TARGET_SHA" =~ ^[0-9a-f]{40}$ && "$TARGET_SHA" == "$CURRENT_SHA" ]]',
     ):
         assert marker in gate_step["run"]
     assert gate["outputs"]["admitted"] == "${{ steps.gate.outputs.admitted }}"
+
+    concurrency = workflow["concurrency"]
+    assert "github.event_name == 'push'" in concurrency["group"]
+    assert "'freellmapi-live-qualification'" in concurrency["group"]
+    assert "'freellmapi-live-qualification-live'" in concurrency["group"]
+    assert concurrency["cancel-in-progress"] == "${{ github.event_name != 'workflow_dispatch' }}"
 
     qualify = workflow["jobs"]["qualify"]
     assert qualify["needs"] == "dispatch_gate"
@@ -75,6 +84,7 @@ def test_live_qualification_requires_explicit_dispatch_and_exact_main_sha():
     assert "inputs.confirm == true" in qualify["if"]
     assert "inputs.target_sha == github.sha" in qualify["if"]
     assert "github.ref == 'refs/heads/main'" in qualify["if"]
+    assert "github.actor == github.repository_owner" in qualify["if"]
     assert qualify["runs-on"] == ["self-hosted", "linux", "x64", "mediahub-control"]
 
 
