@@ -104,3 +104,21 @@
 
 ### Next step
 Continue stable-release, lockfile, advisory and upstream-CI screening across the remaining candidates; reconcile the human-readable register with the 93 machine entries and verify default branch/tag pointers. Keep inventory OPEN_NOT_FROZEN and defer comparative evaluation/assembly until all freeze gates have evidence. Controller PR #583 remains a separate fix because its concurrency assertion is brittle.
+
+
+---
+
+## Wave 436 — agent infrastructure, secrets and telemetry source screen (2026-10-23)
+
+- Report: [MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-436-2026-10-23.md](MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-436-2026-10-23.md).
+- Machine register: [MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json](MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json); Wave 436 register write commit `1381bbb7bffd0a9fa6f7535d762f9301ff467244`, file blob SHA recorded at write time `82b90aff327ab12ec7f17398ec1d0363b8eea43c`.
+- Additional immutable commits screened: Agent Router `6d63a4f71f56e9cc370ced2da862787d8d04f06c`; Dagger `930485687df5c9a7ed521f5585a17b2a36936b17`; NATS Server `f8f6db894528640b27311353e874ac62c3a47af5`; SOPS `453e7e6ab01b1340dca9f9025fd8430229320f97`; External Secrets Operator `e932f3a3f6f274e8e269c01aa1f5fb3d1322e3c9`; OpenTelemetry Collector `42ee5d39b18f24c206cca3f91f8b0877424bdfee`; OpenTelemetry Collector Contrib `0b7da3787f9dd1d72e3e25e4d46f921bb4481e07`; Vault `b63ab2722fbb565bece8e6a438adf58921e772b9`.
+- Exact LICENSE/manifest blobs were read for all eight. Lockfile contents were retrieved for six but not audited; two OpenTelemetry root lockfile paths were not found. No dependency/advisory checks or upstream exact-CI audits were completed.
+- Agent Router was returned by GitHub metadata when `envoyproxy/ai-gateway` was queried, but its Go module still identifies as `github.com/envoyproxy/ai-gateway`; this name/ownership transition is flagged CONDITIONAL pending confirmation.
+- Vault's pinned LICENSE is Business Source License 1.1 and is flagged CONDITIONAL/source-available, not assumed OSI-approved/open source. SOPS is MPL-2.0 and requires file-level copyleft compliance. Other new candidates are infrastructure-only; none is a substitute for MediaHub authority or secret governance.
+- Register reconciled: 101 records = 78 CANDIDATE + 16 CONDITIONAL + 2 REFERENCE_ONLY + 5 EXCLUDED_FROM_ACTIVE_SHORTLIST. Cumulative screening summary: 32 pinned commits; 30 license files read; 32 manifests read; 20 lockfile blob IDs; 13 lockfile contents read but not audited; 7 blob IDs with empty responses; 8 tested lockfile filenames not found; zero dependency/advisory audits, release tags, upstream exact-CI audits, or verified default-branch-pointer equivalences. Register status remains OPEN_NOT_FROZEN.
+- Parent PR #585 remains open/Draft/unmerged. The Wave 435 exact-head Astra Cloud Runtime Validation run `39979434353` was SUCCESS and Astra Verify run `39979434720` later completed SUCCESS. These runs preceded the newest Wave 436 report/checkpoint commits and do not qualify the new head. Formal independent review remains NOT VERIFIED.
+- No agent/provider dispatch, inference, secret access, installation, deployment, merge, component selection, comparative scoring, or Contour A acceptance occurred.
+
+### Next bounded pass
+Reconcile the human-readable inventory with the 101-record JSON register; continue release/version/license/dependency/advisory/CI screening and resolve repository renames and license gates. Refresh exact-head CI/review after documentation writes. Keep the inventory open until all freeze gates are evidenced; only then start comparative evaluation and component assembly.
