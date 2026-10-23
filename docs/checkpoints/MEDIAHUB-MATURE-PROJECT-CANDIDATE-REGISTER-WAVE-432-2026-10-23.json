@@ -7,10 +7,10 @@
   "comparison_phase": "NOT_STARTED",
   "adoption_phase": "NOT_STARTED",
   "counts": {
-    "total_records": 88,
+    "total_records": 87,
     "candidate": 71,
     "conditional": 9,
-    "reference_only": 3,
+    "reference_only": 2,
     "excluded": 5
   },
   "freeze_gates": [
@@ -898,16 +898,6 @@
       "repo_status": "active-repo-but-superseded",
       "evidence": "README says active effort moved to mini-swe-agent and recommends successor",
       "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
-    },
-    {
-      "id": "semantic-kernel-legacy",
-      "repo": "microsoft/semantic-kernel",
-      "category": "agent-framework-legacy",
-      "status": "REFERENCE_ONLY",
-      "repo_status": "active-but-successor-designated",
-      "evidence": "README points to Microsoft Agent Framework as successor",
-      "license": "MIT stated in README; verify LICENSE",
       "source_head": "NOT_PINNED"
     }
   ]
