@@ -70,6 +70,13 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", source)
             self.assertIn("needs.authorize_dispatch.result == 'success'", source)
 
+    def test_pr_probe_concurrency_isolated_from_long_running_agent_batch(self):
+        # PR-only no-secret checks must not wait behind the serialized agent batch.
+        self.assertIn("mediahub-gemini-controller-pr-probe-{0}", self.source)
+        self.assertIn("group: ${{ github.event_name == 'pull_request'", self.source)
+        self.assertIn("cancel-in-progress: ${{ github.event_name == 'pull_request' }}", self.source)
+        self.assertIn("group: mediahub-gemini-controller-batch", self.source)
+
     def test_child_success_requires_the_named_gemini_output_artifact(self):
         # A successful run with an unrelated artifact is not accepted evidence.
         self.assertIn('expected_artifacts=[item for item in artifacts if item.get("name")=="gemini-output"]', self.source)
