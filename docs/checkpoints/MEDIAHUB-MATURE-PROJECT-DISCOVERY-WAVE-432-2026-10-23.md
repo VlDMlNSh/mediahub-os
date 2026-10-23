@@ -210,3 +210,27 @@ The inventory is **not frozen yet**. The next discovery phase must record exact 
 - Gemini controller dispatch: **NOT RUN**. Discovery/report work does not require a provider call, and Issue #301 admission/governance gates remain open. No secret values were read.
 - Current PR #585 head: `1c60c5972b0abb040e61cf98f83f069c5edd1667`, base `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Astra Verify run [39976437739](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39976437739), job `120492144420`, completed **success**. Astra Cloud Runtime Validation run [39976437755](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39976437755), job `120492144709`, completed **success**. These are the two observed workflows on this exact head; combined status contexts were empty and no formal review was recorded, so do not claim overall PR acceptance.
 - Candidate inventory remains open; the 87 unique JSON records have repository-level metadata and selected README evidence, but most lack pinned upstream HEADs, complete license/dependency/advisory review and subsystem qualification. Formal comparison/assembly remain **NOT STARTED**.
+
+
+---
+
+## Wave 432 continuation — consolidated register and exact-head verification (2026-10-23)
+
+- Main target remains f0448f28c7cfa61e4450c38529f09afbfdbbc7c7; current research branch is research/mature-ai-project-landscape-wave431-20261023.
+- Consolidated register was created at [MEDIAHUB-MATURE-OPEN-SOURCE-AI-CANDIDATE-REGISTER-2026-10-23.md](MEDIAHUB-MATURE-OPEN-SOURCE-AI-CANDIDATE-REGISTER-2026-10-23.md). Create commit SHA: b18800294818047aefa58c41aa8d23f24b14daaa. Read-back blob SHA: 42f18181026f08c5c00e4c1e20bfd57a5d64db1c; 25,893 characters. Read-back confirms the register includes screening states, category-specific candidate lists, archived/superseded demotions, and explicit inventory-freeze gates.
+- Discovery source files inspected from upstream GitHub: sandbaseai/awesome-agent-runtime (README blob f3966aee2dd2657dd0a2b8e097f2fbf29ab6b1ad); aglio-lab/ai-agent-frameworks (README blob 6bf6d81ed66adf04277e262a8a8b5b33160def5b); Awesome-llms-labs/awesome-AI-agent-orchestration (README blob 67f8fd0fa7465e99f39e92e505dd093f5151e783); backblaze-labs/awesome-agent-infrastructure (README blob f20b4187e7df4cb8b41d0572eb3d201e48184f2d); SteveVitali/coding-agent-harness-study (README blob b1861cf58db9266bbbc087ec4fb6f629cd39ebc4).
+- Additional metadata screening confirmed current upstream repositories for AgentScope, AG2, Dapr Agents, Agent Squad, DSPy, Genkit, Mirascope, Atomic Agents, VoltAgent, NVIDIA NeMo Agent Toolkit, Rig, Langroid, MetaGPT, OGX, mini-SWE-agent, Kilo Code, Continue, OpenClaw, OpenHands Software Agent SDK, Letta, Cognee, Hindsight, Supermemory, Memvid, RAGFlow, txtai, R2R, Onyx, Pathway/Serviette, Khoj, MindsDB/Mindshub, DocsGPT, Pipecat, LiveKit Agents, OpenSSF provenance tools and workflow engines. Repository existence/active status does not itself establish maturity.
+- Pull request [#585](https://github.com/VlDMlNSh/mediahub-os/pull/585) remains OPEN / DRAFT / UNMERGED. Latest observed head SHA after the register commit: b18800294818047aefa58c41aa8d23f24b14daaa; base/main SHA: f0448f28c7cfa61e4450c38529f09afbfdbbc7c7.
+- Exact-head Astra Verify run [39977070367](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39977070367) completed SUCCESS (run #2590). Exact-head Astra Cloud Runtime Validation run [39977070374](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39977070374) completed SUCCESS (run #1374). Combined-status connector returned an empty list, so it adds no separate check evidence. Formal PR review list is empty: INDEPENDENT REVIEW NOT VERIFIED.
+- The file update is appended as a dated continuation record; the canonical map and checkpoint have not been changed because the canonical map body still cannot be read consistently through the GitHub file/blob connector.
+- PR #583 controller-test failure is still a separate open blocker: runs 39973058604 and 39973058901 failed on the brittle literal concurrency-group assertion; no repair/rerun was performed in this research pass.
+
+### Disposition after this continuation
+
+- Candidate register: CREATED and READ BACK.
+- Exact-head CI for PR #585 at the observed head: Astra Verify SUCCESS; Cloud Runtime Validation SUCCESS.
+- Independent review: NOT VERIFIED.
+- Inventory freeze: NOT RUN; source/release/license/dependency/advisory pins are incomplete.
+- Comparative scoring and component assembly: NOT STARTED, per owner sequencing instruction.
+- Agent dispatch, provider inference, secret access, local installation, deployment, merge, qualification and Contour A acceptance: NOT RUN / NOT ACCEPTED.
+- Next bounded pass: complete remaining discovery categories and version/license/security screening, refresh the consolidated register, then freeze the candidate inventory before comparative tests. Separately fix PR #583 in its own narrow branch.
