@@ -37,6 +37,13 @@ def test_worker_requires_immutable_target_and_bounded_prompt() -> None:
     assert "actions/upload-artifact@" in source
 
 
+def test_provider_probe_is_a_sibling_workflow_step() -> None:
+    lines = WORKFLOW.read_text(encoding="utf-8").splitlines()
+    probe = "      - name: Probe OpenRouter free router and record selected model"
+    assert lines.count(probe) == 1
+    assert "            - name: Probe OpenRouter free router and record selected model" not in "\n".join(lines)
+
+
 def test_first_live_smoke_is_read_only() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
     assert '--allowed-tools "Read,Glob,Grep"' in source
