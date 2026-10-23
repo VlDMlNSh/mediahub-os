@@ -44,7 +44,9 @@ router_text = ROUTER.read_text(encoding="utf-8")
 for needle in (
     "mode: policy_only",
     "direct_provider_api_calls: false",
-    "permitted_cloud_agent_transport: .github/workflows/gemini-batch-dispatch-controller.yml",
+    "permitted_cloud_agent_transports:",
+    "  - .github/workflows/gemini-batch-dispatch-controller.yml",
+    "  - .github/workflows/mediahub-fcc-free-claude-worker.yml",
     "permitted_cloud_agent_transport_only: true",
     "local_claude_runtime: ollama",
     "local_claude_host: Alamo",
@@ -74,6 +76,23 @@ require(CONTROLLER.is_file(), "approved Gemini controller workflow missing")
 controller_text = CONTROLLER.read_text(encoding="utf-8")
 require("secrets.MEDIAHUB_GITHUB_TOKEN" in controller_text, "controller transport credential binding missing")
 require("secrets.MEDIAHUB_DISPATCH_HMAC_KEY" in controller_text, "controller HMAC binding missing")
+FCC_CONTROLLER = ROOT / ".github" / "workflows" / "mediahub-fcc-free-claude-worker.yml"
+require(FCC_CONTROLLER.is_file(), "approved Claude FCC admission controller workflow missing")
+fcc_text = FCC_CONTROLLER.read_text(encoding="utf-8")
+for needle in (
+    "workflow_dispatch:",
+    "inputs.target_sha",
+    'SOURCE_REF" == "refs/heads/main"',
+    'TRIGGER_ACTOR" == "$REPO_OWNER"',
+    'TARGET_SHA" == "$CURRENT_SHA"',
+    "vars.MEDIAHUB_ALLOW_FCC_FREE_CLAUDE",
+    "secrets.OPENROUTER_API_KEY",
+    '"model":"openrouter/free"',
+    'endswith(":free")',
+    "@anthropic-ai/claude-code@2.1.282",
+    "unset ANTHROPIC_API_KEY MODEL_FALLBACKS",
+):
+    require(needle in fcc_text, f"Claude FCC admission controller missing required gate: {needle}")
 
 for relative in FORBIDDEN_DIRECT_WORKFLOWS:
     require(not (ROOT / relative).exists(), f"unapproved direct-provider workflow still exists: {relative}")
