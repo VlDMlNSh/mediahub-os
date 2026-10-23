@@ -173,3 +173,20 @@ Continue discovery and deduplication in mature adjacent categories. Reconcile re
 
 ### Next bounded pass
 Continue discovery only for mature categories/implementations not yet covered. Close source evidence gaps for the existing list: release and default refs, lockfile/dependency advisories, exact upstream CI, maintenance/ownership, path-level license and security boundaries. Do not start formal comparison or component assembly until explicit inventory-freeze gates pass.
+
+
+---
+
+## Wave 440 — sandbox and software supply-chain security screen (2026-10-23)
+
+- Report: [MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-440-2026-10-23.md](MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-440-2026-10-23.md), commit `9c779d871437aeaf3721d3e59fbec63b86108e38`.
+- Register: [candidate register](MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json), commit `b3f7011b7032201f90a1b732382ccf7fbaa0ad45`, blob SHA `c1db91252bf67b184057b0b6b9f430a8d1c3e768`.
+- Added ten new source-pinned records: gVisor `8938ebcf1c12a6266bdf5a650088e1360777aa94`; Firecracker `dd7c24b0d165219c9d64f58ecedd0b0328b44fa0`; Trivy `3a0164d6cd627645220730d48d51dc71e10e7156`; Syft `1c4d672b2893080704e4af40c89cdcd8a28525cc`; Grype `64195bb4d2f060d183b98947b7fdbb5a70f6ebeb`; OpenSSF Scorecard `6d4113e03c0014d63613b65b26a0c5a14c98ce3f`; zizmor `d00d411f6ebe56fa86615747ee399d0df8254c0a`; Renovate `a45ee254dc3a7d512f4467174fc9b5503bbf481a`; Semgrep `087e93b3a1fdf44f97bc92b5b9c2ba221cb2488b`; Sigstore Policy Controller `f9ba304f0d1c4781ececc649d5f01667a82d78c6`.
+- Eight license/manifest pairs were read. Renovate root LICENSE and Semgrep root pyproject paths returned 404; explicitly UNVERIFIED, not inferred absent. Semgrep license terms require legal review.
+- Reconciled inventory is 128 records: 99 CANDIDATE + 22 CONDITIONAL + 2 REFERENCE_ONLY + 5 EXCLUDED_FROM_ACTIVE_SHORTLIST. Count invariant passed.
+- No installs/execution, secret access, provider inference, dispatch, deployment or component adoption. No default-ref/release-tag verification, lockfile/advisory review, exact upstream CI or transitive license audit.
+- Research branch is not canonical; canonical map remains https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md.
+- Exact-head CI for PR #585 must be rechecked after Wave 440 commits. No formal review/acceptance claim is made.
+
+### Next bounded pass
+Prioritize closing evidence gaps in the 128-record corpus (default branch and release refs, lockfiles, advisories, upstream CI, maintenance and license scope). Only add new projects when a genuine capability gap remains. Keep inventory freeze and formal comparative scoring blocked until source evidence and deduplication criteria are met.
