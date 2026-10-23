@@ -34,7 +34,7 @@ The source workflow blob before repair was `708ddeffc4664fd03f5ca6475a117348cf36
 - No provider key value was read or logged.
 - No FreeLLMAPI live request or model inference was made.
 - No local or self-hosted executor was used to transport Gemini.
-- Exact-head CI/reproducible test result: **PENDING** until the new PR workflows complete.
+- First exact-head CI (code SHA `d9f43c4d7715e5da5c5f00eb566d914f73099514`) completed successfully: [hosted FreeLLMAPI adapter and workflow contract tests](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39961121209/job/120439068618) **SUCCESS**; [Astra Verify](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39961121224/job/120439065674) **SUCCESS**; [Astra Cloud Runtime Validation](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39961121040/job/120439066441) **SUCCESS**. On this PR event, the owner-confirmation gate (job `120439071136`) and live self-hosted qualification (job `120439071269`) were **SKIPPED** by design. Formal PR reviews remain **NONE**. The report-only follow-up commit itself will require a fresh exact-head check.
 - The existing run #39959271970 remains pending on the old SHA until a new main push applies the workflow's stale-run cancellation policy; it must not be relabeled success manually.
 - No merge, deployment, provider qualification or Contour A acceptance is claimed.
 
