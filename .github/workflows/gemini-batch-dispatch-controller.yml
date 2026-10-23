@@ -37,8 +37,9 @@ on:
       - "tests/test_gemini_controller_trigger_path_coverage_contract.py"
 permissions: {}
 concurrency:
-  group: mediahub-gemini-controller-batch
-  cancel-in-progress: false
+  # Isolate the non-launching PR probe from the serialized, long-running agent batch.
+  group: ${{ github.event_name == 'pull_request' && format('mediahub-gemini-controller-pr-probe-{0}', github.event.pull_request.number) || 'mediahub-gemini-controller-batch' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   probe:
     if: >-
