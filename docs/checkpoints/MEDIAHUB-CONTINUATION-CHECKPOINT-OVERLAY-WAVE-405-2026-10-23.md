@@ -6,7 +6,7 @@ This is an overlay for the canonical checkpoint, not a replacement for its histo
 - `main` HEAD: `85e74ec24b862a5f6427ad5dca7d050df89c224c`.
 - PR #502 merged at this SHA.
 - Worker workflow blob: `735db573625542e061b1ebeb75e1546720033dfb`.
-- Contract tests blob: `68e77fec5ec74ef2d7d9af246b24febea3326f7d`.
+- Contract tests blob: `68e77fec5ec74ef2d7d02e2cd36a04fa9dd6a865`.
 - PR CI run `39878467537`: contract tests and pinned FCC install smoke PASS; live dispatch jobs SKIPPED.
 - Merge SHA Astra Verify run `39881729110`: PASS.
 - Exact merge SHA combined commit status remains PENDING with zero status contexts; formal independent review remains NOT VERIFIED.
