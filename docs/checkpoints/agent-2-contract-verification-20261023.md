@@ -1,28 +1,47 @@
-# Agent 2 — Independent Contract and Test Verification Checkpoint
-- Date: 2026-10-23
-- Agent Identity: gemini-agent-2
-- Target Commit SHA: fbbdc9a06ef344cd57aae13b230a042af76bbc60
-- Authorized Contour: Contour A (Developer Fabric)
-- Base Ref: main
+# Agent 2 Independent Contract and Test Verification Checkpoint
 
-## Scope & Mapping
-- **Governance Contract**: `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` (SHA: `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`)
-- **Qualification Launch Schema**: `architecture/ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml`
-- **Unified Development System**: `architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml`
-- **Verification Tests**: `tests/test_astra_gold_governance_contract.py` (SHA: `2b3a530106330ff88a16d296df0272154ecc2052`), `tests/test_astra_gold_architecture_drift.py`, `tests/test_repo_secret_hygiene.py`
+## Metadata
+- **Agent:** Gemini Agent 2 (Research & Architecture)
+- **Contour:** Contour A (Developer Fabric)
+- **Immutable Target SHA:** `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`
+- **Base Ref:** `main`
+- **Date:** 2026-10-23
 
-## Acceptance Criteria & Verification Status
-1. **Gate Registry Consistency**: Verified that gate IDs in `ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` match the canonical sources in `ASTRA-GOLD-QUALIFICATION-LAUNCH-SCHEMA.yaml` and `ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml`. Enforced by `test_gate_registry_matches_canonical_sources`.
-2. **Runtime Thresholds**: Verified that positive numeric bounds match qualification gating and concurrency thresholds. Enforced by `test_thresholds_are_positive_and_mirror_gates`.
-3. **Invariant Binding**: Verified that every invariant in the registry is bound to an existing enforcing test. Enforced by `test_every_invariant_is_bound_to_an_existing_test`.
-4. **Credential Lifecycle**: Verified fail-closed settings (no credentials in Git or evidence, rotation required, revocation supported, audit required). Enforced by `test_credential_lifecycle_is_fail_closed`.
-5. **Human Approval Record**: Verified G11 decision authority (`HUMAN_ONLY`), rejection of unsigned approvals, and coverage of launch inputs. Enforced by `test_human_approval_record_covers_launch_inputs`.
-6. **Cloud Executor Extensions**: Verified candidate cloud executors carry no authority (`authority: none`, `status: NOT_PROVEN`) and gateway paths are not native provider qualifications. Enforced by `test_cloud_executor_candidates_carry_no_authority`.
+---
 
-## Commands & Outcomes
-- `pytest tests/test_astra_gold_governance_contract.py` — Expected Outcome: PASS (validates structural and invariant constraints).
-- `python3 -m ops.qualification.verify_astra_gold_governance` — Expected Outcome: PASS.
+## 1. Source & Contract Inventory (Blob SHAs)
+- `GEMINI.md`: `4c431143aa5c46776e80893bf3c0e5f202e3b76d`
+- `architecture/ASTRA-GOLD-QUALIFICATION-BLUEPRINT.yaml`: `d74a3aaf06246b0de42f21b4dc8f8907948b6443`
+- `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`: `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`
+- `architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.yaml`: Verified via drift tests
+- `tests/test_astra_gold_architecture_drift.py`: `d6a0e6a6d81dc6e15e343cd80ee950431b1e3b14`
+- `tests/test_astra_gold_evidence_contracts.py`: `2387273506a72ef92483a36d5cf0cd79497b7bba`
 
-## Gaps & Limitations
-- Standalone execution without host runtime inspection or external API token provisioning beyond configured secrets.
-- Independent verification only; no automated merging, deployment, or release qualification.
+---
+
+## 2. Acceptance Criteria Mapping
+1. **Governance & Authority Invariants:**
+   - Final Authority: HUMAN
+   - Coordination Authority: A0-ASTRA
+   - Fail-closed behavior mandated across all contracts and tested by `tests/test_astra_gold_architecture_drift.py`.
+2. **Qualification & Gate Contracts (G0-G11):**
+   - Mandatory 23-round execution across 5 paths (`CODEX_FCC`, `CLAUDE_FCC`, `CODEX_OMNIROUTE`, `CLAUDE_OMNIROUTE`, `CLAUDE_CODE_DIRECT`), totaling 115 rounds.
+   - Enforced by `control/qualification/g4-115.json` and `tests/test_astra_gold_evidence_contracts.py`.
+3. **Evidence Integrity:**
+   - Immutable evidence digests required; historical evidence reuse forbidden; missing evidence blocks advancement.
+
+---
+
+## 3. Reproducible Non-Secret Checks
+- **Command:**
+  ```bash
+  python3 -m unittest tests/test_astra_gold_architecture_drift.py tests/test_astra_gold_evidence_contracts.py
+  ```
+- **Outcomes:** Validates architecture drift invariants, governance contract structure, and G4 115-round evidence verifier rules without requiring secret credentials or external model calls.
+
+---
+
+## 4. Known Gaps & Verification Status
+- **Verification Status:** DRAFT_VERIFIED (Static contracts and unit test bindings verified against immutable target SHA).
+- **Gaps:** Runtime execution backends (e.g., Codex, Cursor) remain `UNVERIFIED` pending fresh runtime evidence collection per `evidence/execution-backends.json`.
+- **Restrictions Respected:** No merge, deployment, qualification runs, or secret modifications performed.
