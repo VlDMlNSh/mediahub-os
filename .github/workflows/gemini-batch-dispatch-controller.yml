@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "Non-launching probe by default; agents require explicit opt-in"
+        description: "Probe does not launch; agents dispatches three roles; review dispatches one fixed read-only review task"
         required: true
         type: choice
-        options: [probe, agents]
+        options: [probe, agents, review]
         default: probe
       confirm:
-        description: "Explicitly confirm dispatch of all three bounded child workflows"
+        description: "Explicitly confirm dispatch of the selected bounded Gemini task or tasks"
         required: true
         type: boolean
         default: false
@@ -29,6 +29,7 @@ on:
       - ".github/workflows/gemini-reusable-context-probe-wave284.yml"
       - ".github/workflows/gemini-agent-2.yml"
       - ".github/workflows/gemini-agent-3.yml"
+      - ".github/workflows/gemini-fcc-independent-review-wave409.yml"
       - "tests/test_gemini_controller_positive_context_probe_wave292_contract.py"
       - ".github/workflows/gemini-workflow-contract-validation-wave284.yml"
       - "tests/test_gemini_child_signed_dispatch_runtime_contract.py"
@@ -84,6 +85,7 @@ jobs:
   readiness_gate:
     if: >-
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == true) ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'review' && inputs.confirm == true) ||
       (github.event_name == 'issue_comment' && github.event.issue.number == 301 && github.event.issue.pull_request == null && github.event.comment.body == '/next' && github.event.comment.author_association == 'OWNER')
     name: Require explicit batch admission flag
     runs-on: ubuntu-latest
@@ -111,6 +113,7 @@ jobs:
       github.ref == 'refs/heads/main' &&
       (
         (github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == true) ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'review' && inputs.confirm == true) ||
         (github.event_name == 'issue_comment' && github.event.issue.number == 301 && github.event.issue.pull_request == null && github.event.comment.body == '/next' && github.event.comment.author_association == 'OWNER')
       )
     runs-on: ubuntu-latest
@@ -123,6 +126,7 @@ jobs:
           GH_API_TOKEN: ${{ secrets.MEDIAHUB_GITHUB_TOKEN }}
           HMAC_KEY: ${{ secrets.MEDIAHUB_DISPATCH_HMAC_KEY }}
           REQUESTED_SHA: ${{ inputs.target_sha }}
+          REQUESTED_MODE: ${{ inputs.mode }}
           REPOSITORY: ${{ github.repository }}
           SOURCE_COMMENT_ID: ${{ github.event.comment.id }}
           CURRENT_RUN_ID: ${{ github.run_id }}
@@ -159,11 +163,26 @@ jobs:
           target=target.lower(); _,commit=call("GET",f"/repos/{repo}/commits/{target}")
           if commit.get("sha")!=target:
               print("::error::Immutable target SHA did not resolve exactly."); sys.exit(2)
+          if os.environ.get("REQUESTED_MODE","").strip()=="review" and target!="074f20eb495666946a14410ab88d566aaa754f24":
+              print("::error::Review mode is pinned to FCC review target 074f20eb495666946a14410ab88d566aaa754f24; refusing a different target."); sys.exit(2)
           print(f"Shared immutable target SHA: {target}")
           tasks=[
            ("gemini-autonomous-engineering.yml","Per-/next Agent 1 — bounded implementation. On the shared immutable target SHA, read the canonical map, Bootstrap, current checkpoint, Master Roadmap and Issue #301. Select the highest-priority open, unblocked next task; prefer reuse of stable existing components. Complete exactly one bounded implementation/evidence pass, preserve Baseline 2.0, historical IDs, issuer/capability boundaries, Product State Authority and provenance. Draft PR/report only; no merge, deployment, qualification, secret access or nested dispatch.","contour-a"),
            ("gemini-agent-2.yml","Per-/next Agent 2 — independent contract and test verification. Against the same immutable target SHA, map the current next-step acceptance criteria to source, contracts and tests; run or identify reproducible non-secret checks; report exact refs, blob SHAs, commands, outcomes and gaps. Do not claim to have reviewed Agent 1 changes created concurrently from this batch. Draft evidence/review only; no merge, deployment, qualification or nested dispatch.","contour-a"),
            ("gemini-agent-3.yml","Per-/next Agent 3 — independent security and provenance audit. Against the same immutable target SHA, audit controller/child transport, issuer/capability, secret separation, least privilege, HMAC, quota/fallback policy, evidence provenance and fail-closed behavior. Never read or output secret values. Report exact refs, blob SHAs, negative tests and residual risks. Draft audit only; no merge, deployment, qualification or nested dispatch.","contour-a")]
+          requested_mode=os.environ.get("REQUESTED_MODE","").strip()
+          if source_comment_id:
+              requested_mode="agents"
+          if requested_mode=="review":
+              # Fixed review task only: no caller-supplied task string is accepted.
+              # The signed task is restricted to the two merged FCC changes and
+              # must produce a read-only findings report; no runtime/provider test.
+              tasks=[
+               ("gemini-fcc-independent-review-wave409.yml","Wave 408 independent review — inspect the exact merged source changes in PR #506 (merge SHA 3a0cda63a6e39b844c3d78bede4b777e3a0004bf) and PR #508 (merge/target SHA 074f20eb495666946a14410ab88d566aaa754f24), using the shared immutable target SHA as repository context. Review effective FCC managed-token initialization, bearer authentication and HTTP 401 behavior, secret isolation, free-only routing/no paid fallback, read-only tools/workspace, workflow gates, provenance and test coverage. Read the exact PR patches and current source/tests. Report findings by severity with file/path, line or evidence reference, impact, reproducible proof and PASS/FAIL/NOT VERIFIED. Treat absent checks/reviews as NOT VERIFIED. This is a review-only task: do not edit application/workflow code, read or print secret values, invoke any provider/model or runtime, dispatch other agents, merge, deploy, or qualify. Produce only a concise dated review report as the workflow artifact; do not create a PR or change repository files. State explicitly that no live runtime test was performed.", "contour-a")
+              ]
+          elif requested_mode!="agents":
+              print("::error::Unsupported or missing dispatch mode; fail closed."); sys.exit(2)
+          expected_count=len(tasks)
           started=time.time(); jobs=[]; results={}
           # Record each intended dispatch before making the API request. A failed
           # request must not erase evidence of earlier accepted children.
@@ -206,22 +225,40 @@ jobs:
                   run=max(matches,key=lambda x:x.get("created_at",""))
                   if run.get("created_at","")<time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime(started-5)): continue
                   if run.get("status")=="completed":
+                      # Reconcile exact child jobs and evidence artifacts; empty API
+                      # results are NOT VERIFIED and cannot be treated as success.
+                      child_jobs=[]
+                      try:
+                          _,job_data=call("GET",f"/repos/{repo}/actions/runs/{run['id']}/jobs?per_page=100")
+                          child_jobs=job_data.get("jobs",[])
+                      except Exception as exc:
+                          j["job_monitor_error"]=type(exc).__name__
+                      job_ids=";".join(f"{item.get('id')}:{item.get('name')}:{item.get('conclusion') or item.get('status')}" for item in child_jobs) or "NOT_VERIFIED"
+                      jobs_success=bool(child_jobs) and all(item.get("conclusion")=="success" for item in child_jobs)
+                      artifact_digest="NOT_VERIFIED"
+                      try:
+                          _,artifact_data=call("GET",f"/repos/{repo}/actions/runs/{run['id']}/artifacts?per_page=100")
+                          artifacts=[item for item in artifact_data.get("artifacts",[]) if not item.get("expired")]
+                          if artifacts and all(item.get("digest") for item in artifacts):
+                              artifact_digest=";".join(sorted(f"{item.get('name','unnamed')}={item['digest']}" for item in artifacts))
+                      except Exception as exc:
+                          j["artifact_monitor_error"]=type(exc).__name__
                       # If the POST response was lost but the child run is now
                       # correlated by its unique dispatch ID, record reconciliation.
                       if j["dispatch_status"]=="UNKNOWN":
                           j["dispatch_status"]="RECONCILED"
                           print(f"Reconciled ambiguous dispatch for {j['workflow']} using child run {run['id']}")
-                      results[did]={"run_id":run["id"],"url":run.get("html_url"),"status":run["status"],"conclusion":run.get("conclusion")}
-                      print(f"Child {j['workflow']} run_id={run['id']} conclusion={run.get('conclusion')}"); del pending[did]
+                      results[did]={"run_id":run["id"],"url":run.get("html_url"),"status":run["status"],"conclusion":run.get("conclusion"),"job_ids":job_ids,"jobs_success":jobs_success,"artifact_digest":artifact_digest}
+                      print(f"Child {j['workflow']} run_id={run['id']} conclusion={run.get('conclusion')} jobs={job_ids} artifacts={artifact_digest}"); del pending[did]
               if pending: time.sleep(10)
           for did,j in pending.items():
               results[did]={"status":"NOT_COMPLETED_BEFORE_TIMEOUT","conclusion":"failure"}
               print(f"::error::Child {j['workflow']} correlation_id={did} NOT_COMPLETED_BEFORE_TIMEOUT")
           with open(os.environ["GITHUB_STEP_SUMMARY"],"a",encoding="utf-8") as out:
-              out.write("\n## GitHub API child dispatch results\n\n- Shared immutable target SHA: `"+target+"`\n\n| Workflow | Correlation ID | Dispatch | Run ID | Conclusion |\n|---|---|---|---:|---|\n")
+              out.write("\n## GitHub API child dispatch results\n\n- Shared immutable target SHA: `"+target+"`\n\n| Workflow | Correlation ID | Dispatch | Run ID | Conclusion | Child jobs | Artifact digests |\n|---|---|---|---:|---|---|---|\n")
               for j in jobs:
                   r=results.get(j["id"],{})
-                  out.write(f"| {j['workflow']} | `{j['id']}` | {j['dispatch_status']} | {r.get('run_id','NOT FOUND')} | {r.get('conclusion',r.get('status','UNKNOWN'))} |\n")
-          if len(jobs)!=3 or any(j["dispatch_status"] not in ("ACCEPTED","RECONCILED") for j in jobs) or any(results.get(j["id"],{}).get("conclusion")!="success" for j in jobs):
-              print("::error::Batch incomplete: at least one dispatch or child run failed, could not be correlated, or timed out."); sys.exit(1)
+                  out.write(f"| {j['workflow']} | `{j['id']}` | {j['dispatch_status']} | {r.get('run_id','NOT FOUND')} | {r.get('conclusion',r.get('status','UNKNOWN'))} | {r.get('job_ids','NOT_VERIFIED')} | {r.get('artifact_digest','NOT_VERIFIED')} |\n")
+          if len(jobs)!=expected_count or any(j["dispatch_status"] not in ("ACCEPTED","RECONCILED") for j in jobs) or any(results.get(j["id"],{}).get("conclusion")!="success" or not results.get(j["id"],{}).get("jobs_success",False) or results.get(j["id"],{}).get("artifact_digest")=="NOT_VERIFIED" for j in jobs):
+              print("::error::Dispatch incomplete: at least one selected child failed, could not be correlated, or lacked verified job/artifact evidence."); sys.exit(1)
           PY

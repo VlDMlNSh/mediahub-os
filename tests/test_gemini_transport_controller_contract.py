@@ -28,7 +28,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
     def test_explicit_confirmation_and_nonlaunching_default(self):
         dispatch = self.workflow["on"]["workflow_dispatch"]
         self.assertEqual(dispatch["inputs"]["mode"]["default"], "probe")
-        self.assertEqual(dispatch["inputs"]["mode"]["options"], ["probe", "agents"])
+        self.assertEqual(dispatch["inputs"]["mode"]["options"], ["probe", "agents", "review"])
         self.assertEqual(dispatch["inputs"]["confirm"]["type"], "boolean")
         self.assertEqual(dispatch["inputs"]["confirm"]["default"], "false")
         self.assertEqual(self.workflow["permissions"], {})
@@ -36,6 +36,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn("github.event_name=='workflow_dispatch'", condition)
         self.assertIn("github.ref=='refs/heads/main'", condition)
         self.assertIn("inputs.mode=='agents'", condition)
+        self.assertIn("inputs.mode=='review'", condition)
         self.assertIn("inputs.confirm==true", condition)
 
     def test_controller_uses_transport_token_only_for_api_dispatch(self):
@@ -82,14 +83,35 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('Dispatch outcome unknown', self.source)
         self.assertIn('if code is not None and 400 <= code < 500 and code != 408:', self.source)
         self.assertIn('results[did]={"status":"DISPATCH_FAILED","conclusion":"failure"}', self.source)
-        self.assertIn('Dispatch | Run ID | Conclusion', self.source)
-        self.assertIn('len(jobs)!=3', self.source)
+        self.assertIn('Dispatch | Run ID | Conclusion | Child jobs | Artifact digests', self.source)
+        self.assertIn('"job_ids":job_ids', self.source)
+        self.assertIn('"artifact_digest":artifact_digest', self.source)
+        self.assertIn('jobs_success=bool(child_jobs)', self.source)
+        self.assertIn('artifact_digest")=="NOT_VERIFIED"', self.source)
+        self.assertIn('expected_count=len(tasks)', self.source)
+        self.assertIn('len(jobs)!=expected_count', self.source)
         self.assertIn('if j["dispatch_status"]=="UNKNOWN":', self.source)
         self.assertIn('j["dispatch_status"]="RECONCILED"', self.source)
         self.assertIn('j["dispatch_status"] not in ("ACCEPTED","RECONCILED")', self.source)
         self.assertIn('error_type={type(exc).__name__}', self.source)
         self.assertNotIn('print(exc)', self.source)
 
+
+
+    def test_review_mode_is_single_fixed_read_only_agent_task(self):
+        self.assertIn("REQUESTED_MODE: ${{ inputs.mode }}", self.source)
+        self.assertIn('if requested_mode=="review":', self.source)
+        self.assertIn('("gemini-fcc-independent-review-wave409.yml","Wave 408 independent review', self.source)
+        self.assertIn("PR #506", self.source)
+        self.assertIn("PR #508", self.source)
+        self.assertIn('target!="074f20eb495666946a14410ab88d566aaa754f24"', self.source)
+        self.assertIn("Review mode is pinned to FCC review target", self.source)
+        self.assertIn("no caller-supplied task string is accepted", self.source)
+        self.assertIn("do not edit application/workflow code", self.source)
+        self.assertIn("dispatch other agents", self.source)
+        self.assertIn("expected_count=len(tasks)", self.source)
+        self.assertIn("inputs.mode == 'agents' && inputs.confirm == true", self.source)
+        self.assertIn("inputs.mode == 'review' && inputs.confirm == true", self.source)
 
     def test_owner_only_next_comment_bridge_is_scoped_and_idempotent(self):
         event = self.workflow["on"]["issue_comment"]

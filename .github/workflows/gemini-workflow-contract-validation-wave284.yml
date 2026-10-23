@@ -7,6 +7,7 @@ on:
       - ".github/workflows/gemini-batch-dispatch-controller.yml"
       - ".github/workflows/gemini-agent-2.yml"
       - ".github/workflows/gemini-agent-3.yml"
+      - ".github/workflows/gemini-fcc-independent-review-wave409.yml"
       - ".github/workflows/gemini-autonomous-engineering.yml"
       - ".github/workflows/gemini-controller-context-probe-wave284.yml"
       - ".github/workflows/gemini-reusable-context-probe-wave284.yml"
@@ -39,6 +40,7 @@ jobs:
           .github/workflows/gemini-autonomous-engineering.yml
           .github/workflows/gemini-agent-2.yml
           .github/workflows/gemini-agent-3.yml
+          .github/workflows/gemini-fcc-independent-review-wave409.yml
           .github/workflows/gemini-controller-context-probe-wave284.yml
           .github/workflows/gemini-reusable-context-probe-wave284.yml
           .github/workflows/gemini-workflow-contract-validation-wave284.yml

@@ -19,6 +19,7 @@ CHILD_WORKFLOWS = (
     ".github/workflows/gemini-autonomous-engineering.yml",
     ".github/workflows/gemini-agent-2.yml",
     ".github/workflows/gemini-agent-3.yml",
+    ".github/workflows/gemini-fcc-independent-review-wave409.yml",
 )
 TEST_KEY = "unit-test-only-not-a-secret"
 VALID_UUID4 = "123e4567-e89b-42d3-a456-426614174000"
@@ -92,12 +93,13 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
             path = ROOT / relative_path
             cls.children.append((path.name, load_authorizer(path)))
 
-    def test_valid_canonical_signature_succeeds_for_all_three_children(self):
+    def test_valid_canonical_signature_succeeds_for_all_authorized_children(self):
         for workflow_file, script in self.children:
             with self.subTest(workflow=workflow_file):
                 result = run_authorizer(script, make_environment(workflow_file))
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-                self.assertIn("Signed controller dispatch verified", result.stdout)
+                self.assertIn("Signed", result.stdout)
+                self.assertIn("dispatch verified", result.stdout)
 
     def test_task_tampering_after_signing_is_rejected(self):
         for workflow_file, script in self.children:
@@ -220,6 +222,26 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
                 )
 
 
+
+    def test_review_child_is_read_only_and_uploads_review_artifact(self):
+        path = ROOT / ".github/workflows/gemini-fcc-independent-review-wave409.yml"
+        workflow = yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+        self.assertEqual(workflow["permissions"]["contents"], "read")
+        self.assertEqual(workflow["jobs"]["review"]["permissions"]["contents"], "read")
+        self.assertNotIn("pull-requests", workflow["jobs"]["review"]["permissions"])
+        source = path.read_text(encoding="utf-8")
+        self.assertIn('"tools": { "core": ["read_file", "grep_search", "glob", "list_directory"] }', source)
+        self.assertIn("persist-credentials: false", source)
+        self.assertIn("actions/upload-artifact@", source)
+        self.assertIn("Validate non-empty structured review output", source)
+        self.assertNotIn("GITHUB_PERSONAL_ACCESS_TOKEN", source)
+        self.assertNotIn("create_pull_request", source)
+        self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", source)
+        self.assertIn("secrets.GEMINI_API_KEY_2", source)
+        self.assertIn("git diff --no-ext-diff --unified=80 85e74ec24b862a5f6427ad5dca7d050df89c224c 3a0cda63a6e39b844c3d78bede4b777e3a0004bf", source)
+        self.assertIn("git diff --no-ext-diff --unified=80 3a0cda63a6e39b844c3d78bede4b777e3a0004bf 074f20eb495666946a14410ab88d566aaa754f24", source)
+        self.assertNotIn("git diff --no-ext-diff --unified=80 85e74ec24b862a5f6427ad5dca7d050df89c224c a8cef5fbad56c93573e309c6048ffd8a0f675053", source)
+
     def test_child_output_validator_accepts_only_actionable_pr_results(self):
         valid_output = {
             "response": "bounded result",
@@ -261,7 +283,7 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
                 "did not successfully create a Pull Request",
             ),
         )
-        for relative_path in CHILD_WORKFLOWS:
+        for relative_path in CHILD_WORKFLOWS[:3]:
             workflow_path = ROOT / relative_path
             workflow = yaml.load(
                 workflow_path.read_text(encoding="utf-8"),
