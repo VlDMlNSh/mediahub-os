@@ -10,12 +10,12 @@ routing:
   permitted_cloud_agent_transports:
     - .github/workflows/gemini-batch-dispatch-controller.yml
     - .github/workflows/mediahub-fcc-free-claude-worker.yml
-  permitted_cloud_agent_transport_only: true
+  permitted_cloud_agent_transport_allowlist_only: true
   cloud_claude_runtime: fcc_openrouter_free
   cloud_claude_transport: .github/workflows/mediahub-fcc-free-claude-worker.yml
   cloud_claude_free_only: true
-  local_claude_runtime: ollama
-  local_claude_host: Alamo
+  local_claude_runtime: fcc_llamacpp
+  local_claude_host: Voktors-Mini.Dlink
   local_claude_only: true
   paid_fallback: false
   unknown_route_behavior: fail_closed
