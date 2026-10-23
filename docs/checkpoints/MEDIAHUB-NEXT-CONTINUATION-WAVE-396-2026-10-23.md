@@ -87,3 +87,16 @@ Obtain independent review of PR #335, reconcile it with the current canonical do
 - FCC is pinned at `3d2ae2306752dbdf504714a5489bcfcf69b2d04a`. `open_router/openrouter/free` is a dynamic free-model router, not a guarantee of Qwen or a stable upstream model ID.
 - **Status:** install smoke **SUCCEEDED**; static review **PARTIAL**; formal independent review **NOT VERIFIED**; live inference **NOT RUN**; model provenance/no-paid-fallback qualification **NOT VERIFIED**; live dispatch **BLOCKED**; Contour A **NOT ACCEPTED**.
 - Next: fix the four technical findings on PR #502, add negative tests, rerun exact-head CI, obtain independent review, then consider one bounded no-write free-route inference test. Do not merge just to unlock workflow_dispatch. No secret values were read and no provider was invoked in Wave 401.
+
+
+---
+
+## Wave 403 — free-provider quota assessment (2026-10-23)
+
+- Report: [Wave 403 free-provider quota assessment](MEDIAHUB-FREE-PROVIDER-QUOTA-ASSESSMENT-WAVE-403-2026-10-23.md); map addendum: [Wave 403](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-403-2026-10-23.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Live main remains `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`. Documentation branch for this pass starts from `cbdc7b4783094f4d1e4409ef52e2f38de0d8dcdb`.
+- Existing OpenRouter catalog probe [39847014875](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39847014875) succeeded: one `GET /api/v1/models`, HTTP 200, 468 catalog entries; no inference was made. Artifact `12454669532`, digest `sha256:8e95e32e1ebe6d36ae4047424c9a3de12af00c8cc9bd7b37c7533a3db36defe1`.
+- Free-tier policy candidates: OpenRouter free router (published 20 RPM/50 requests/day on a free account), Groq Free, eligible Cloudflare Workers AI models (10,000 Neurons/day on Workers Free), Gemini API Free and Mistral Free. Hugging Face's published $0.10/month credit is only a small testing allowance. Other listed keys remain unqualified until provider-specific free quota and billing semantics are verified.
+- PR #502 remains OPEN/DRAFT at `acf0713924e98f64c8fcb8f637058ab5039d5107`; exact-head PR workflow run [39878467537](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39878467537) succeeded for smoke/contract checks only. No live inference, remaining quota query, or provider billing check was performed.
+- No secret values were read. No provider was contacted in this pass beyond the historical OpenRouter catalog GET. Free route/model stability and no-paid-fallback behavior remain NOT VERIFIED; independent review remains NOT VERIFIED; Contour A NOT ACCEPTED.
+- Next: resolve the outstanding PR #502 security-review findings, then use an explicitly confirmed, bounded, non-sensitive no-write inference probe. Add provider-specific quota checks for Groq, Cloudflare and Gemini only after the exact API contract and account policy are documented. Do not activate automatic fallback until each route is independently qualified.
