@@ -1,3 +1,14 @@
+## Wave 393 current controller evidence correction (2026-10-22)
+
+- Latest observed main HEAD: `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`.
+- Controller `.github/workflows/gemini-batch-dispatch-controller.yml` current blob SHA: `28874450099e70b0f9d276600e6452c1b8e1b1a6`. This supersedes older controller blob SHA `9453403bba899a2400ee3fb874d32badd034c704` cited in historical waves.
+- Current source uses token-backed GitHub REST dispatch/monitoring and separate dispatch HMAC; the three fixed-scope child workflows still expose `workflow_dispatch` with signed-dispatch contracts. Source presence does not prove effective Actions restrictions, token scope or secret injection.
+- Exact-main check-run API shows generic verify SUCCESS (run 39846843270) and OpenRouter catalog GET SUCCESS (run 39847014875); a current controller trusted-main no-secret probe is NOT VERIFIED. Independent current-source security review and effective governance/secret metadata remain NOT VERIFIED.
+- PR #437 merged on 2026-10-22 at `7cbbc0025ce01b8c476d512cfc5e12dc35fd952c`; older Wave 356 status wording is historical.
+- Current status: Gemini Agents 1–3 NOT RUN; Contour A NOT ACCEPTED. Follow Wave 393 report/checkpoint before any agent-mode dispatch.
+
+---
+
 # MediaHub — инструкция загрузки контекста и обязательного анализа перед действием
 
 - Статус: рабочая инструкция проекта; не заменяет нормативные Baseline и governance-решения.

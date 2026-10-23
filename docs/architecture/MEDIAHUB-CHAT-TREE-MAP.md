@@ -1,3 +1,14 @@
+## Wave 393 — Contour A controller gate recheck (2026-10-22)
+
+- Report: [Wave 393 controller gate recheck](../checkpoints/MEDIAHUB-NEXT-CONTOUR-A-CONTROLLER-GATE-WAVE-393-2026-10-22.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-393-2026-10-22.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-wave-393-2026-10-22.md).
+- Main HEAD observed: `3b054cc8fac38d2fbd58305e9d185d307c6a18bf`; controller blob SHA `28874450099e70b0f9d276600e6452c1b8e1b1a6`.
+- Current controller uses GitHub REST dispatch/monitoring with controller-scoped transport token and separate dispatch HMAC. Child workflows still expose `workflow_dispatch` with signed-dispatch contracts.
+- Exact-main checks observed: generic verify SUCCESS (run 39846843270) and catalog GET SUCCESS (run 39847014875); no current controller-specific trusted-main no-secret probe appears in check-runs.
+- Current no-secret probe, independent security review, and effective governance/secret metadata: NOT VERIFIED. Gemini Agents 1–3 NOT RUN; Contour A NOT ACCEPTED.
+- PR #437 is merged; earlier Wave 356 open/unmerged wording is historical. No controller dispatch or secret read in Wave 393.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](../checkpoints/MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [continuation checkpoint addendum](../checkpoints/mediahub-next-continuation-checkpoint-wave-392-2026-10-22.md).
