@@ -33,7 +33,12 @@ def test_worker_never_maps_paid_anthropic_credential() -> None:
 
 def test_worker_requires_immutable_target_and_bounded_prompt() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
-    assert 'TARGET_SHA =~ ^[0-9a-f]{40}$' in source
+    assert '"$TARGET_SHA" =~ ^[0-9a-f]{40}
+    assert 'TASK_PROMPT}" -le 12000' in source
+    assert "git diff --check" in source
+    assert "persist-credentials: false" in source
+    assert "actions/upload-artifact@" in source
+ in source
     assert 'TASK_PROMPT}" -le 12000' in source
     assert "git diff --check" in source
     assert "persist-credentials: false" in source
