@@ -38,7 +38,7 @@ At the last read-back on 2026-10-23:
 - PR-triggered live dispatch jobs `dispatch-gate` and `bounded-worker`: **SKIPPED**, as required for a pull request; no provider request was made by these jobs.
 - Combined commit status endpoint: **PENDING / zero status contexts** at the last check. Do not summarize this as all required status contexts passing.
 - Formal PR reviews on #506: empty list; independent security review **NOT VERIFIED** despite merge.
-- PR #508 exact-head CI: **NOT VERIFIED** at the time this report update was prepared; live dispatch jobs remain prohibited.
+- PR #508 exact-head CI: contract tests **SUCCEEDED** ([job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287283/job/120191936134)); managed-config preflight **SUCCEEDED** ([job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287283/job/120191936114)); pinned FCC install smoke **SUCCEEDED** ([job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287283/job/120191935815)); Astra Verify **SUCCEEDED** ([job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287267/job/120191935509)); Astra Cloud Runtime Validation **SUCCEEDED** ([job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287303/job/120191935901)). Dispatch jobs were **SKIPPED**. Combined status remains PENDING with zero status contexts and formal PR reviews remain empty; independent review **NOT VERIFIED**.
 
 ## Safety and acceptance
 
@@ -62,3 +62,11 @@ Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
 - Runtime worker now performs the same effective-settings preflight before starting FCC server.
 - PR #508 is draft; exact-head CI and independent review are not yet verified. No live worker was rerun.
 - Main current HEAD at the start of Wave 407: `3a0cda63a6e39b844c3d78bede4b777e3a0004bf`.
+
+
+## Wave 407 exact-head read-back — 2026-10-23
+
+- PR #508 head `7ab6603ccfb476c57a92ce90bbca155453649a4e`; workflow blob `0084d4011d0a3374d89edafae1ea9fce0e680db2`; contract test blob `141fc863559a94f22f116eaa8ae6abc438154c0a`.
+- The new PR-only managed-config preflight passed using a synthetic token; both managed and explicit config files were checked for mode `0600`, proxy auth was asserted enabled, and effective token equality was checked without printing values.
+- Exact-head workflow contract tests, pinned install smoke, Astra Verify and Cloud Runtime Validation passed. PR-triggered dispatch-gate and bounded-worker jobs were skipped; no live provider call occurred.
+- PR #508 is still draft, combined status remains pending with zero status contexts, and formal reviews are empty. Independent review is NOT VERIFIED; live FCC dispatch remains blocked.
