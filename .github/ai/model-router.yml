@@ -6,7 +6,10 @@ name: mediahub-ai-router
 routing:
   mode: policy_only
   direct_provider_api_calls: false
-  permitted_cloud_agent_transport: .github/workflows/gemini-batch-dispatch-controller.yml
+  # Each listed workflow is itself an explicitly admitted controller; no direct provider API calls.
+  permitted_cloud_agent_transports:
+    - .github/workflows/gemini-batch-dispatch-controller.yml
+    - .github/workflows/mediahub-fcc-free-claude-worker.yml
   permitted_cloud_agent_transport_only: true
   local_claude_runtime: ollama
   local_claude_host: Alamo
