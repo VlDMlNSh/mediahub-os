@@ -1,4 +1,5 @@
 name: MediaHub GitHub-hosted FCC free Claude worker
+# The contract-test job is intentionally triggered when its test file changes.
 
 on:
   pull_request:
