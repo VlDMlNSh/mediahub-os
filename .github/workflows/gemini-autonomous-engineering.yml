@@ -168,3 +168,55 @@ jobs:
             exit 1
           fi
           echo "Gemini returned a non-empty response, completed successful tool operations, and recorded a successful Pull Request."
+
+  attest_evidence:
+    name: Attest Gemini output evidence provenance
+    needs: engineer
+    if: ${{ always() && needs.engineer.result != 'skipped' && needs.engineer.result != 'cancelled' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    steps:
+      - name: Checkout trusted workflow source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Download bounded Gemini output artifact
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: gemini-output
+          path: evidence/gemini-output
+
+      - name: Create deterministic secret-free provenance manifest
+        env:
+          MEDIAHUB_WORKFLOW_FILE: .github/workflows/gemini-autonomous-engineering.yml
+          MEDIAHUB_DISPATCH_ID: ${{ inputs.dispatch_id }}
+          MEDIAHUB_TARGET_SHA: ${{ inputs.target_sha }}
+          MEDIAHUB_TASK_JOB_RESULT: ${{ needs.engineer.result }}
+        run: |
+          set -euo pipefail
+          python3 scripts/create_gemini_artifact_provenance_manifest.py \
+            --artifact-root evidence/gemini-output \
+            --output evidence/gemini-output-manifest.json
+
+      - name: Create GitHub/Sigstore artifact provenance attestation
+        id: attest
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: evidence/**
+
+      - name: Upload manifest and signed attestation bundle
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: gemini-provenance-${{ inputs.dispatch_id }}
+          path: |
+            evidence/gemini-output-manifest.json
+            ${{ steps.attest.outputs.bundle-path }}
+          if-no-files-found: error
