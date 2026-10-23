@@ -40,6 +40,8 @@ Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
 
 ## Wave 407 exact-head evidence (2026-10-23)
 
+- Full dated report: [Wave 407 FCC managed-auth preflight and executor readiness](MEDIAHUB-NEXT-FCC-MANAGED-AUTH-PREFLIGHT-WAVE-407-2026-10-23.md).
+
 - PR #508 head: `7ab6603ccfb476c57a92ce90bbca155453649a4e`.
 - Managed-config preflight: SUCCEEDED — [job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287283/job/120191936114).
 - Contract tests: SUCCEEDED — [job](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39885287283/job/120191936134).
