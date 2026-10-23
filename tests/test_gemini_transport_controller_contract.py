@@ -71,11 +71,18 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             self.assertIn("needs.authorize_dispatch.result == 'success'", source)
 
     def test_pr_probe_concurrency_isolated_from_long_running_agent_batch(self):
-        # PR-only no-secret checks must not wait behind the serialized agent batch.
-        self.assertIn("mediahub-gemini-controller-pr-probe-{0}", self.source)
-        self.assertIn("group: ${{ github.event_name == 'pull_request'", self.source)
-        self.assertIn("cancel-in-progress: ${{ github.event_name == 'pull_request' }}", self.source)
-        self.assertIn("group: mediahub-gemini-controller-batch", self.source)
+        # Assert the parsed concurrency policy, not a stale literal source line.
+        # PR-only no-secret checks get a PR-specific group and may cancel only PR runs;
+        # all other events retain the single serialized batch group.
+        concurrency = self.workflow["concurrency"]
+        group = concurrency["group"]
+        self.assertIn("github.event_name == 'pull_request'", group)
+        self.assertIn("format('mediahub-gemini-controller-pr-probe-{0}', github.event.pull_request.number)", group)
+        self.assertIn("|| 'mediahub-gemini-controller-batch'", group)
+        self.assertEqual(
+            concurrency["cancel-in-progress"],
+            "${{ github.event_name == 'pull_request' }}",
+        )
 
     def test_child_success_requires_the_named_gemini_output_artifact(self):
         # A successful run with an unrelated artifact is not accepted evidence.
