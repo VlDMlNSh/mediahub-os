@@ -122,3 +122,20 @@ Continue stable-release, lockfile, advisory and upstream-CI screening across the
 
 ### Next bounded pass
 Reconcile the human-readable inventory with the 101-record JSON register; continue release/version/license/dependency/advisory/CI screening and resolve repository renames and license gates. Refresh exact-head CI/review after documentation writes. Keep the inventory open until all freeze gates are evidenced; only then start comparative evaluation and component assembly.
+
+
+---
+
+## Wave 437 — MCP, graph retrieval and vector database source screen (2026-10-23)
+
+- Report: [MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-437-2026-10-23.md](MEDIAHUB-MATURE-PROJECT-SOURCE-SCREENING-WAVE-437-2026-10-23.md).
+- Machine register: [MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json](MEDIAHUB-MATURE-PROJECT-CANDIDATE-REGISTER-WAVE-432-2026-10-23.json), updated on research branch; latest register blob at last write `936fedcd81495eb0be398a9d13ac2eaa35721ff1`. Register update commit `4933782243c7ef27bb4f75c53160f96434c10d49`.
+- New records: mcp-use `f877f789e7b4979e62e5cbe221bfb29ebb86d1bd`; Neo4j GraphRAG `123964634f213fde8e2a5fd29b45bea4d0391d5d`; LanceDB `a9535684cc1d9901c54c852f103dd0d492d61c3f`; ToolHive `7970d588230120ee88dd20d9d7f2308a7ba12093`; MCP Registry `f13bdd6d11e98bf63f074f289b98a8c6aef12bc9`; Kagent `6401bd1e8da1d49d9a5d8778fca77ad451a7bc5c`; AgentOps `f8e907b92dabe47232978023fdcb01e2a7d4b752`.
+- Source evidence: license/manifest/lockfile blobs and missing-path caveats are in the report and JSON register. ToolHive is a potential isolated MCP runtime donor; LanceDB and Neo4j GraphRAG are retrieval subsystem candidates. No component is selected yet.
+- License/path blockers: MCP Registry LICENSE says its MIT-to-Apache-2.0 transition is underway; Neo4j GraphRAG root LICENSE was not found although pyproject has an Apache header; mcp-use root package/lockfile paths and Kagent root Go module paths were not found; AgentOps source pin is dated 2026-06-25 and requires a current-head check. `meta-llama/llama-stack` lookup resolved to `ogx-ai/ogx`, so it was not recorded as Llama Stack.
+- Register reconciled: 108 records = 83 CANDIDATE + 18 CONDITIONAL + 2 REFERENCE_ONLY + 5 EXCLUDED_FROM_ACTIVE_SHORTLIST. 39 pinned commits, 35 license files read, 36 manifests read, 16 lockfile contents retrieved but not audited. Dependency/advisory audits, stable release pins, upstream exact-CI audits and verified default-ref equivalences remain zero. Inventory stays OPEN_NOT_FROZEN.
+- PR #585 remains open/Draft/unmerged. The report and register changes occurred after prior CI, so prior successful workflow runs do not qualify the new exact head. Independent review remains NOT VERIFIED.
+- No agent dispatch, provider inference, secret access, installation, deployment, component adoption or Contour A acceptance occurred.
+
+### Next bounded pass
+Continue candidate discovery across model serving/routing, evals, policy, identity/provenance and durable workflows. Reconcile all name/path/license gaps; audit lockfiles, advisories, stable tags, default refs and exact upstream CI before freezing the inventory. Only after inventory freeze, perform equal-workload comparison and assemble selected components in an isolated branch.
