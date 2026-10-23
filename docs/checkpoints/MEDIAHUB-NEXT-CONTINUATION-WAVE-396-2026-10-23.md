@@ -50,3 +50,15 @@ Obtain independent review of PR #335, reconcile it with the current canonical do
 - No Claude worker, provider, model, Gemini controller, or child workflow was launched; no secret values were read; no code/workflow was changed.
 - **Disposition:** GitHub-hosted Claude Code + no-cost inference route **PLANNED**; implementation **NOT STARTED**; route-governance reconciliation **OPEN**; execution/qualification **NOT RUN / NOT VERIFIED**; Contour A **NOT ACCEPTED**.
 - Next: obtain/record an explicit governance decision authorizing or rejecting the hosted Claude Code + FCC/free-provider route and defining exact provider/model, no-paid-fallback behavior, data class, and secret boundary. Until then, preserve existing routing policy and do not substitute the metered Anthropic worker.
+
+
+---
+
+## Wave 399 — owner approval reconciliation / exact free route admission (2026-10-23)
+
+- Report: [Wave 399](MEDIAHUB-CLAUDE-FREE-ROUTE-ADMISSION-WAVE-399-2026-10-23.md); map addendum: [Wave 399](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-399-2026-10-23.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Owner approval is now recorded at [Issue #301 comment 6354035391](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6354035391), authorizing a separate PR for GitHub-hosted ephemeral Claude Code + FCC without paid Anthropic fallback. This corrects Wave 398's earlier pending-approval wording.
+- Exact provider/model route is still not named. FCC README has free-labelled aliases, but that is not evidence of a MediaHub-approved provider/model or provider-side no-paid-fallback guarantee. FCC documents optional `MODEL_FALLBACKS` that can route requests across providers. Do not infer a route or add an active workflow until one exact provider/model and no-paid-fallback behavior are verified.
+- FCC upstream main SHA observed `3d2ae2306752dbdf504714a5489bcfcf69b2d04a`; latest release observed `v6.16.16`; AGPL-3.0-only. Implementation must pin immutable reviewed release/commit.
+- **Status:** owner approval **RECORDED**; exact route admission **BLOCKED**; workflow implementation **NOT STARTED**; dispatch **NOT RUN**; qualification **NOT VERIFIED**; Contour A **NOT ACCEPTED**. No secrets read.
+- Next: pin an exact provider/model route and establish free-tier terms, no-paid-fallback semantics, FCC config and negative tests; then prepare a separate disabled-by-default workflow PR.
