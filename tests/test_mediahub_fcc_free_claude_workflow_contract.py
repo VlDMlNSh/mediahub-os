@@ -12,7 +12,7 @@ def test_fcc_worker_is_gated_and_github_hosted() -> None:
     assert "vars.MEDIAHUB_ALLOW_FCC_FREE_CLAUDE" in source
     assert "runs-on: ubuntu-latest" in source
     assert "self-hosted" not in source
-    assert "permissions:\n  contents: read" in source
+    assert "permissions:\\n  contents: read" in source
 
 
 def test_fcc_and_free_model_route_are_immutable_and_explicit() -> None:
@@ -33,12 +33,7 @@ def test_worker_never_maps_paid_anthropic_credential() -> None:
 
 def test_worker_requires_immutable_target_and_bounded_prompt() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
-    assert '"$TARGET_SHA" =~ ^[0-9a-f]{40}
-    assert 'TASK_PROMPT}" -le 12000' in source
-    assert "git diff --check" in source
-    assert "persist-credentials: false" in source
-    assert "actions/upload-artifact@" in source
- in source
+    assert '"$TARGET_SHA" =~ ^[0-9a-f]{40}$' in source
     assert 'TASK_PROMPT}" -le 12000' in source
     assert "git diff --check" in source
     assert "persist-credentials: false" in source
