@@ -160,6 +160,8 @@ jobs:
           target=target.lower(); _,commit=call("GET",f"/repos/{repo}/commits/{target}")
           if commit.get("sha")!=target:
               print("::error::Immutable target SHA did not resolve exactly."); sys.exit(2)
+          if os.environ.get("REQUESTED_MODE","").strip()=="review" and target!="074f20eb495666946a14410ab88d566aaa754f24":
+              print("::error::Review mode is pinned to FCC review target 074f20eb495666946a14410ab88d566aaa754f24; refusing a different target."); sys.exit(2)
           print(f"Shared immutable target SHA: {target}")
           tasks=[
            ("gemini-autonomous-engineering.yml","Per-/next Agent 1 — bounded implementation. On the shared immutable target SHA, read the canonical map, Bootstrap, current checkpoint, Master Roadmap and Issue #301. Select the highest-priority open, unblocked next task; prefer reuse of stable existing components. Complete exactly one bounded implementation/evidence pass, preserve Baseline 2.0, historical IDs, issuer/capability boundaries, Product State Authority and provenance. Draft PR/report only; no merge, deployment, qualification, secret access or nested dispatch.","contour-a"),
