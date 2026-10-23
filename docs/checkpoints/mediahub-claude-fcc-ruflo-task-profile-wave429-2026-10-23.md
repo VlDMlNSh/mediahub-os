@@ -70,3 +70,37 @@ Commented the preliminary security findings to [Issue #568 comment 6366843638](h
 - MCP policy blob `8a5ce77df7cbe44df0925ef31c95446c38dc49e3` is scoped to MCP-layer actions and explicitly says native Claude tools are outside its jurisdiction. Upstream README blob `52944afd32ffbbea3a92bfcf02befe904d9b9597` requires Claude Code 2.1.287+, while the current MediaHub pin is 2.1.282.
 - Preliminary recommendation: **NO-GO for installation/use as a runtime dependency now; CONDITIONAL for a pinned source-only static review pilot**. No Ruflo installation or runtime execution took place.
 
+## Wave 430 — refreshed Ruflo upstream and admission reconciliation (2026-10-23)
+
+### Exact MediaHub state
+
+- MediaHub `main` target inspected: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`.
+- PR #572 remains **OPEN / DRAFT / NOT MERGED** at code head `50656c40ba9fa4008f18a831309efd20ebdcb202`: [PR #572](https://github.com/VlDMlNSh/mediahub-os/pull/572).
+- Exact-head contract/policy CI succeeded: FCC admission/profile [39967316229](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39967316229) (jobs 120460466214, 120460466572, 120460466601, 120460466625 SUCCESS; dispatch gate 120460468143 and bounded worker 120460470377 SKIPPED as expected on pull_request); AI Factory [39967316349](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39967316349) / job 120460464792 SUCCESS; provider contract [39967316694](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39967316694) / job 120460466294 SUCCESS; Cloud Runtime Validation [39967316428](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39967316428) / job 120460464956 SUCCESS; Astra Verify [39967316045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39967316045) / job 120460462447 SUCCESS.
+- Formal PR reviews: **NONE**. These CI results verify contracts only. They do not verify a cloud provider call, Ruflo's runtime, or model review; no such dispatch took place.
+- Canonical map remains on `docs/mediahub-chat-tree-map-20261012`: [MEDIAHUB-CHAT-TREE-MAP.md](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md). This report is on a working PR branch, not canonical or accepted.
+
+### Re-check against current Ruflo upstream
+
+Current upstream main observed in this refresh is `88349655ebc2de8f9bf702aaf31d6be768e1ea11`; the task profile still pins the older immutable review snapshot `f6c6a32432e74e36c17b91b96e51ba218783e122`. Do not silently treat the two snapshots as equivalent.
+
+- Root `package.json` at current main: blob `00adf9205546dd88762d96ea2a264b45a567a11c`, package `claude-flow@3.59.17`.
+- `LICENSE`: blob `5c4718198a4156beacc780980077043a98b0dd6a`, MIT.
+- `README.md`: blob `52944afd32ffbbea3a92bfcf02befe904d9b9597`; current recommended native Claude Code plugin flow requires Claude Code `2.1.287+`. MediaHub's pinned Claude Code in the FCC worker is `2.1.282`, so native plugin installation compatibility is **NOT SATISFIED**.
+- Legacy `.claude-plugin/plugin.json`: blob `60717b542fb2436c7342d66e2e9f4ec9906b9387`; it independently reports version `2.5.0` and declares a non-optional MCP server via mutable `npx claude-flow@alpha`, plus optional mutable package references including `flow-nexus@latest`. This does not match root package version `3.59.17`; this path is not acceptable as an immutable production install contract.
+- `SECURITY.md`: blob `1e4d66fdcf22d51855fe012e62920cd3aae9338b`; its supported-version table lists `3.5.x` as supported while the root manifest says `3.59.17`. Treat the project's support policy as ambiguous/stale until upstream reconciles it.
+- `v3/@claude-flow/cli/src/mcp-tools/hooks-tools.ts` at current main: blob `7c7e219a5eba4d699ee6d89cc931d3a8097bfc65`. The source does not contain the `realCanonical()` hardening described in upstream issue [#4346](https://github.com/ruvnet/ruflo/issues/4346); `resolveTargets` still uses a lexical `abs.startsWith(cwd + sep)` containment check (source line 5442). This is a source-level unresolved/NOT-VERIFIED symlink-containment concern. The issue describes a candidate fix, but this pass did not reproduce an exploit and does not claim a runtime vulnerability test.
+- Upstream issue [#4384](https://github.com/ruvnet/ruflo/issues/4384) records a direct-dependency CVE finding and two test timeouts on older commit `6250c920367a7309efec7fc694da3eb5328998e5`. The current main's dependency audit and CI result at `88349655ebc2de8f9bf702aaf31d6be768e1ea11` were not independently executed/retrieved here; current supply-chain status therefore remains **NOT VERIFIED**, rather than asserted still failing.
+- Upstream capability counts vary even between current README/plugin documentation (314 vs 380+ MCP tools). These are un-reproduced vendor claims, not qualification evidence. Ruflo's hooks, policy/routing mods, memory, workers, daemons and federation overlap with the existing ECC and Astra boundaries.
+
+### Decision and phase gate
+
+**NO-GO** for installing Ruflo as a MediaHub runtime dependency or enabling its full plugin/MCP/hooks/mods/swarm/federation path. **CONDITIONAL** only for a source-only, read-only, immutable-checkout evaluation with no package installation or scripts, no MCP/hooks/daemon/network/federation, no write capability and no alternative controller or memory source of truth.
+
+The new `ruflo_static_review` profile in PR #572 would still invoke a cloud model. Issue #568 currently prohibits model/provider calls during this evaluation phase. Therefore the profile remains **NOT DISPATCHED** even though the workflow's contract CI passes. Do not treat PR #572's existence or green tests as an exception to the issue's phase gate. Any later live static-review inference requires the evaluation phase to be explicitly advanced by the owner, the PR to be accepted, the trusted-main exact-SHA admission gate to pass, and independent review.
+
+No Ruflo installation, package execution, hooks/MCP enablement, provider request, model inference, local FCC coding task, merge or qualification was performed in this refresh.
+
+### Next bounded step
+
+Complete static evidence review and independent security sign-off for Issue #568. In parallel, keep the local FCC lane blocked: prior host evidence shows the active FCC listener on `0.0.0.0:8082` with proxy auth disabled, so no local task may use it until loopback binding, auth, model alias and the actual effective managed configuration are verified.
