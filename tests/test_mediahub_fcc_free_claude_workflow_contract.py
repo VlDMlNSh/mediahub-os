@@ -35,6 +35,9 @@ def test_worker_never_maps_paid_anthropic_credential() -> None:
 def test_worker_requires_immutable_target_and_bounded_prompt() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
     assert "persist-credentials: false" in source
+    assert "  ecc-profile-preflight:" in source
+    assert "ref: c05b2d6614f62f6db0047669aa4eefb223d478f9" in source
+    assert "Pinned ECC commit, MIT license blob, and three selected skill blobs verified." in source
     assert "actions/upload-artifact@" in source
 
 
@@ -80,3 +83,50 @@ def test_managed_config_preflight_checks_effective_token_without_provider_access
     assert 'stat.S_IMODE(managed.stat().st_mode) == 0o600' in source
     assert "FCC managed bearer-token preflight passed; token values withheld." in source
     assert "openrouter.ai/api/v1/chat/completions" in source
+
+
+def test_fcc_admission_controller_is_owner_gated_and_target_sha_bound() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert "      target_sha:" in source
+    assert "TARGET_SHA: ${{ inputs.target_sha }}" in source
+    assert 'SOURCE_REF" == "refs/heads/main"' in source
+    assert 'TRIGGER_ACTOR" == "$REPO_OWNER"' in source
+    assert 'TARGET_SHA" == "$CURRENT_SHA"' in source
+    assert "@anthropic-ai/claude-code@2.1.282" in source
+    assert "target_sha=%s" in source
+
+
+def test_ai_router_admits_only_explicit_cloud_controllers_and_keeps_no_paid_fallback() -> None:
+    router = Path(".github/ai/model-router.yml").read_text(encoding="utf-8")
+    assert "direct_provider_api_calls: false" in router
+    assert "permitted_cloud_agent_transports:" in router
+    assert "  - .github/workflows/gemini-batch-dispatch-controller.yml" in router
+    assert "  - .github/workflows/mediahub-fcc-free-claude-worker.yml" in router
+    assert "paid_fallback: false" in router
+    assert "unknown_route_behavior: fail_closed" in router
+
+def test_cloud_fcc_uses_pinned_selective_ecc_guidance_without_hooks_or_mcp() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert "repository: affaan-m/ECC" in source
+    assert "ref: c05b2d6614f62f6db0047669aa4eefb223d478f9" in source
+    assert "git -C ecc rev-parse HEAD:LICENSE" in source
+    assert "git -C ecc rev-parse HEAD:skills/verification-loop/SKILL.md" in source
+    assert "git -C ecc rev-parse HEAD:skills/security-review/SKILL.md" in source
+    assert "git -C ecc rev-parse HEAD:skills/search-first/SKILL.md" in source
+    assert "hooks_enabled=false" in source
+    assert "mcp_servers_enabled=false" in source
+    assert "independent_controller=false" in source
+    assert 'ECC_GUIDANCE="$(cat "$RUNNER_TEMP/ecc-profile/guidance.md")"' in source
+    assert "ecc-profile-metadata.txt" in source
+    assert "persist-credentials: false" in source
+
+
+def test_router_separates_cloud_free_claude_and_local_ollama_llama() -> None:
+    router = Path(".github/ai/model-router.yml").read_text(encoding="utf-8")
+    assert "cloud_claude_runtime: fcc_openrouter_free" in router
+    assert "cloud_claude_free_only: true" in router
+    assert "local_claude_runtime: fcc_ollama" in router
+    assert "local_claude_model: llama3.2:3b" in router
+    assert "local_claude_host: Voktors-Mini.Dlink" in router
+    assert "local_claude_only: true" in router
+    assert "permitted_cloud_agent_transport_allowlist_only: true" in router
