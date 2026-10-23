@@ -39,3 +39,13 @@
 6. After adding Wave 432 files, verify PR #585 exact-head checks and request/obtain independent review. Keep the canonical docs branch separate from this working PR.
 
 **Disposition:** RESEARCH REGISTER UPDATED / INVENTORY OPEN / COMPARISON NOT STARTED / NO RUNTIME CHANGES / CONTOUR A NOT ACCEPTED.
+
+
+## Addendum — final evidence refresh (2026-10-23)
+
+- Wave 432 discovery report latest commit: `fe7534334d7bcd44a63e0b61608f715783e6b275`; report blob SHA `470d2f6dd83c5b029713e2685114d3d50a6594e9`; report was re-read and includes executor availability and exact-head CI status.
+- Machine-readable candidate register blob SHA: `a4021cb8dc0fcbc43ecd908a85e7b4ae33bb2657`; valid JSON, 87 unique repository records, counts: 71 CANDIDATE / 9 CONDITIONAL / 2 REFERENCE_ONLY / 5 EXCLUDED_FROM_ACTIVE_SHORTLIST. Discovery remains OPEN_NOT_FROZEN.
+- Current PR #585 head SHA: `1c60c5972b0abb040e61cf98f83f069c5edd1667`; Astra Verify run `39976437739` / job `120492144420` SUCCEEDED; Astra Cloud Runtime Validation run `39976437755` / job `120492144709` SUCCEEDED. Combined status contexts were empty and formal reviews count was zero; overall PR acceptance remains NOT VERIFIED.
+- SentinelX inventory returned one connected operational host: `host_5f7264034bdf0b51` / `Voktors-Mini.Dlink`, agent `0.23.30`, ping true. This is not a confirmed third server; no local Claude Code task was run. Free plan has one active slot and zero available slots. Gemini dispatch was NOT RUN; no secret/provider calls.
+- PR #583 failing assertion root cause was confirmed from logs: test expects a literal concurrency group while YAML uses an expression with that group as fallback. No repair was attempted in this discovery pass.
+- Next: continue exact repository HEAD/license/dependency/advisory/CI screening, then freeze the inventory. Do not start component comparison or assembly before the freeze gate. In parallel, fix PR #583's narrow brittle test in its own bounded branch and re-verify. Canonical map remains NOT VERIFIED; do not edit it until actual content is readable.
