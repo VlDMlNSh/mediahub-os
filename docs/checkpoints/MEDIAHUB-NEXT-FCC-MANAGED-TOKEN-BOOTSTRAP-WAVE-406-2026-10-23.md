@@ -60,11 +60,13 @@ Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
 
 - [PR #508](https://github.com/VlDMlNSh/mediahub-os/pull/508) adds a PR-only, provider-free FCC managed-config preflight. It verifies the effective token by constant-time comparison, confirms proxy auth is enabled, and checks private file modes without printing token values.
 - Runtime worker now performs the same effective-settings preflight before starting FCC server.
-- PR #508 is draft; exact-head CI and independent review are not yet verified. No live worker was rerun.
+- PR #508 is draft. Exact-head CI is now verified; independent review remains NOT VERIFIED. No live worker was rerun.
 - Main current HEAD at the start of Wave 407: `3a0cda63a6e39b844c3d78bede4b777e3a0004bf`.
 
 
 ## Wave 407 exact-head read-back — 2026-10-23
+
+- Separate dated report: [Wave 407 FCC managed-auth preflight and executor readiness](MEDIAHUB-NEXT-FCC-MANAGED-AUTH-PREFLIGHT-WAVE-407-2026-10-23.md).
 
 - PR #508 head `7ab6603ccfb476c57a92ce90bbca155453649a4e`; workflow blob `0084d4011d0a3374d89edafae1ea9fce0e680db2`; contract test blob `141fc863559a94f22f116eaa8ae6abc438154c0a`.
 - The new PR-only managed-config preflight passed using a synthetic token; both managed and explicit config files were checked for mode `0600`, proxy auth was asserted enabled, and effective token equality was checked without printing values.
