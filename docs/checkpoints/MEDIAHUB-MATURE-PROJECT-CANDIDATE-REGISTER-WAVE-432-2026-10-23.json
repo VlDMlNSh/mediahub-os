@@ -11,7 +11,7 @@
     "candidate": 70,
     "conditional": 12,
     "reference_only": 2,
-    "excluded": 0
+    "excluded": 5
   },
   "freeze_gates": [
     "Complete repository searches in all subsystems and store exact query/result evidence",
