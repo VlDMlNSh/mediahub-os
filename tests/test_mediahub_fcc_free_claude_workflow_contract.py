@@ -18,7 +18,8 @@ def test_fcc_worker_is_gated_and_github_hosted() -> None:
 def test_fcc_and_free_model_route_are_immutable_and_explicit() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
     assert "3d2ae2306752dbdf504714a5489bcfcf69b2d04a" in source
-    assert "open_router/openrouter/free" in source
+    assert \"model\\":\\\"openrouter/free\\\" in source
+    assert \"MODEL=\\\"open_router/${MODEL_ID}\\\"\" in source
     assert "uv sync --locked --no-dev" in source
     assert "MODEL_FALLBACKS" in source
     assert "unset ANTHROPIC_API_KEY MODEL_FALLBACKS" in source
