@@ -1,0 +1,25 @@
+{
+  "schema": "mediahub.astra.agent-verification.v1",
+  "agent_id": "gemini-agent-2",
+  "contour": "contour-a",
+  "task": "independent-contract-and-test-verification",
+  "immutable_target_sha": "fbbdc9a06ef344cd57aae13b230a042af76bbc60",
+  "base_ref": "main",
+  "timestamp_utc": "2026-10-23T00:00:00Z",
+  "acceptance_criteria_mapping": {
+    "contract_reference": "architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md (SHA: 063581dbaa7d83d10ab176ab6feb007fecf3d9e5)",
+    "governance_contract": "architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml",
+    "test_suite": "tests/test_astra_gold_evidence_contracts.py (SHA: 2387273506a72ef92483a36d5cf0cd79497b7bba)",
+    "status": "PASS_STATIC_VERIFICATION"
+  },
+  "reproducible_non_secret_checks": {
+    "evidence_contracts_test": "pytest tests/test_astra_gold_evidence_contracts.py",
+    "static_contract_validation": "G4 115-round contract structure validated against governance schemas"
+  },
+  "known_gaps": [
+    "Runtime execution and fresh qualification waves require active executor infrastructure (gated by G0-G3 preconditions and zero-cost financial verification where applicable).",
+    "Agent 1 concurrent changes explicitly excluded from review per agent instructions."
+  ],
+  "verification_status": "DRAFT_EVIDENCE_VERIFIED",
+  "secret_values": "SUPPRESSED"
+}
