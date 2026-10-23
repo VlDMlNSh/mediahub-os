@@ -460,9 +460,32 @@
       "category": "coding-agent-runtime",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "Repository metadata observed",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "Repository metadata observed; Wave 433 pinned source HEAD 2839ed763bd3f404398e1f0c95bf4e2d172213c0; LICENSE blob 4606e72e042564097e8780d66c1d4dcb611869bd; manifest codex-rs/Cargo.toml blob 110914fa16bc24d4640331b40497d7bd3847f62e",
+      "license": "Apache-2.0 (LICENSE verified at pinned HEAD)",
+      "source_head": "2839ed763bd3f404398e1f0c95bf4e2d172213c0",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "2839ed763bd3f404398e1f0c95bf4e2d172213c0",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "4606e72e042564097e8780d66c1d4dcb611869bd",
+          "url": "https://github.com/openai/codex/blob/2839ed763bd3f404398e1f0c95bf4e2d172213c0/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "codex-rs/Cargo.toml",
+          "blob_sha": "110914fa16bc24d4640331b40497d7bd3847f62e",
+          "version": "0.0.0 workspace placeholder",
+          "url": "https://github.com/openai/codex/blob/2839ed763bd3f404398e1f0c95bf4e2d172213c0/codex-rs/Cargo.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "gemini-cli",
@@ -520,9 +543,32 @@
       "category": "durable-workflows",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob d89e30ebb9863ea82c9203e1e696170ea9484af9",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob d89e30ebb9863ea82c9203e1e696170ea9484af9; Wave 433 pinned source HEAD 8a40a2663e304a79b07779ae08108648ccbc797d; LICENSE blob 3349f76795f4409cba6ae18ea56adf9fbd8346f3; manifest go.mod blob b58f656dc5fb62f7e1c9fc6d9d8aa2b871af4a23",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "8a40a2663e304a79b07779ae08108648ccbc797d",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "8a40a2663e304a79b07779ae08108648ccbc797d",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "3349f76795f4409cba6ae18ea56adf9fbd8346f3",
+          "url": "https://github.com/temporalio/temporal/blob/8a40a2663e304a79b07779ae08108648ccbc797d/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "go.mod",
+          "blob_sha": "b58f656dc5fb62f7e1c9fc6d9d8aa2b871af4a23",
+          "version": "server module; go 1.27.0",
+          "url": "https://github.com/temporalio/temporal/blob/8a40a2663e304a79b07779ae08108648ccbc797d/go.mod",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "restate",
@@ -610,9 +656,32 @@
       "category": "model-gateway",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob 5fd84b529dc66aa71c36fb7e5188303e7432613d",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob 5fd84b529dc66aa71c36fb7e5188303e7432613d; Wave 433 pinned source HEAD f2118fc7670ba3fa736d9b8f4deef9077a45a720; LICENSE blob 3bfef5bae9b48c334acf426d5b7f21bc1913aab9; manifest pyproject.toml blob 3aefd9119375172be6f7d312952d8153b442b77d",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "f2118fc7670ba3fa736d9b8f4deef9077a45a720",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "f2118fc7670ba3fa736d9b8f4deef9077a45a720",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "3bfef5bae9b48c334acf426d5b7f21bc1913aab9",
+          "url": "https://github.com/BerriAI/litellm/blob/f2118fc7670ba3fa736d9b8f4deef9077a45a720/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "3aefd9119375172be6f7d312952d8153b442b77d",
+          "version": "1.108.0",
+          "url": "https://github.com/BerriAI/litellm/blob/f2118fc7670ba3fa736d9b8f4deef9077a45a720/pyproject.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "bifrost",
@@ -700,9 +769,32 @@
       "category": "observability",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob 3c4ad5773b846b6b1c16355640ebd87ff031f92e",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob 3c4ad5773b846b6b1c16355640ebd87ff031f92e; Wave 433 pinned source HEAD bb85692102a005470c3a02ccb9ebc1609ae25461; LICENSE blob eaa2e5e444c8634f35b2a1137f7ea06e8353f475; manifest package.json blob 9899d13e4a45711cfcc47e7a37ec22f67d9ba082",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "bb85692102a005470c3a02ccb9ebc1609ae25461",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "bb85692102a005470c3a02ccb9ebc1609ae25461",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "eaa2e5e444c8634f35b2a1137f7ea06e8353f475",
+          "url": "https://github.com/langfuse/langfuse/blob/bb85692102a005470c3a02ccb9ebc1609ae25461/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "package.json",
+          "blob_sha": "9899d13e4a45711cfcc47e7a37ec22f67d9ba082",
+          "version": "4.69.0",
+          "url": "https://github.com/langfuse/langfuse/blob/bb85692102a005470c3a02ccb9ebc1609ae25461/package.json",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "phoenix",
@@ -750,9 +842,32 @@
       "category": "llm-eval-redteam",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob a6713365c28b9e7949b2b4c2ba87845dd50e0ce3; README declares MIT",
-      "license": "MIT stated; verify LICENSE",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob a6713365c28b9e7949b2b4c2ba87845dd50e0ce3; README declares MIT; Wave 433 pinned source HEAD c2f6a848aca5f7e01491d2533f3fb1122bc63c50; LICENSE blob af3fa111d9303b3041d225fb851534e50a4bbec2; manifest package.json blob 973377dfd97e01d2a9890bcd38fdedad3f69ce11",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "c2f6a848aca5f7e01491d2533f3fb1122bc63c50",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "c2f6a848aca5f7e01491d2533f3fb1122bc63c50",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "af3fa111d9303b3041d225fb851534e50a4bbec2",
+          "url": "https://github.com/promptfoo/promptfoo/blob/c2f6a848aca5f7e01491d2533f3fb1122bc63c50/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "package.json",
+          "blob_sha": "973377dfd97e01d2a9890bcd38fdedad3f69ce11",
+          "version": "0.124.1",
+          "url": "https://github.com/promptfoo/promptfoo/blob/c2f6a848aca5f7e01491d2533f3fb1122bc63c50/package.json",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "inspect-ai",
@@ -900,9 +1015,32 @@
       "category": "agent-sandbox",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob f5c62efcbcdd8582785229c731df4ead54ccbf98; E2E/Kubernetes workflow badges",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob f5c62efcbcdd8582785229c731df4ead54ccbf98; E2E/Kubernetes workflow badges; Wave 433 pinned source HEAD f3f4a7f419e526de4c3deb250d72fc034986fc28; LICENSE blob b09cd7856d58590578ee1a4f3ad45d1310a97f87; manifest server/pyproject.toml blob 4f2e221069981e81da32f96e665379b878f2e635",
+      "license": "Apache-2.0 (LICENSE verified at pinned HEAD)",
+      "source_head": "f3f4a7f419e526de4c3deb250d72fc034986fc28",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "f3f4a7f419e526de4c3deb250d72fc034986fc28",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "b09cd7856d58590578ee1a4f3ad45d1310a97f87",
+          "url": "https://github.com/opensandbox-group/OpenSandbox/blob/f3f4a7f419e526de4c3deb250d72fc034986fc28/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "server/pyproject.toml",
+          "blob_sha": "4f2e221069981e81da32f96e665379b878f2e635",
+          "version": "NOT_EXTRACTED",
+          "url": "https://github.com/opensandbox-group/OpenSandbox/blob/f3f4a7f419e526de4c3deb250d72fc034986fc28/server/pyproject.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "e2b",
@@ -920,9 +1058,32 @@
       "category": "browser-agent",
       "status": "CANDIDATE",
       "repo_status": "active",
-      "evidence": "README blob fe0d153c091192af376573013bf27974de9169ff; cloud/local mode review needed",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "README blob fe0d153c091192af376573013bf27974de9169ff; cloud/local mode review needed; Wave 433 pinned source HEAD 3df5806a0d097a1546d92c49bcf1b28c9972c3bd; LICENSE blob 1ea3836ce58a4cd32c90c0b4f4e736d840d23780; manifest pyproject.toml blob ff6f1538abb84fd8f7ceaa532d7cc1cb4a8d58db",
+      "license": "MIT (LICENSE verified at pinned HEAD)",
+      "source_head": "3df5806a0d097a1546d92c49bcf1b28c9972c3bd",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "3df5806a0d097a1546d92c49bcf1b28c9972c3bd",
+        "license": {
+          "spdx": "MIT",
+          "blob_sha": "1ea3836ce58a4cd32c90c0b4f4e736d840d23780",
+          "url": "https://github.com/browser-use/browser-use/blob/3df5806a0d097a1546d92c49bcf1b28c9972c3bd/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "blob_sha": "ff6f1538abb84fd8f7ceaa532d7cc1cb4a8d58db",
+          "version": "0.13.13",
+          "url": "https://github.com/browser-use/browser-use/blob/3df5806a0d097a1546d92c49bcf1b28c9972c3bd/pyproject.toml",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "stagehand",
@@ -958,11 +1119,34 @@
       "id": "mcp-typescript-sdk",
       "repo": "modelcontextprotocol/typescript-sdk",
       "category": "tool-protocol",
-      "status": "CANDIDATE",
+      "status": "CONDITIONAL",
       "repo_status": "active",
-      "evidence": "Repository metadata observed",
-      "license": "NOT_AUDITED",
-      "source_head": "NOT_PINNED"
+      "evidence": "Repository metadata observed; Wave 433 pinned source HEAD 9adb8d5e5b2032d75a8362cd21e018e871e5144f; LICENSE blob 4a93985763241755401a10678395303de4e720ba; manifest package.json blob 0be02df4eee6c59d8d4800d8a783f908c5e99c1b; current package manifest identifies 2.0.0-alpha.0, so treat this release as prerelease pending stable tag verification",
+      "license": "Apache-2.0 (LICENSE verified at pinned HEAD)",
+      "source_head": "9adb8d5e5b2032d75a8362cd21e018e871e5144f",
+      "screening": {
+        "wave": "433",
+        "immutable_head": "9adb8d5e5b2032d75a8362cd21e018e871e5144f",
+        "license": {
+          "spdx": "Apache-2.0",
+          "blob_sha": "4a93985763241755401a10678395303de4e720ba",
+          "url": "https://github.com/modelcontextprotocol/typescript-sdk/blob/9adb8d5e5b2032d75a8362cd21e018e871e5144f/LICENSE",
+          "status": "VERIFIED_TEXT_ONLY"
+        },
+        "manifest": {
+          "path": "package.json",
+          "blob_sha": "0be02df4eee6c59d8d4800d8a783f908c5e99c1b",
+          "version": "2.0.0-alpha.0",
+          "url": "https://github.com/modelcontextprotocol/typescript-sdk/blob/9adb8d5e5b2032d75a8362cd21e018e871e5144f/package.json",
+          "status": "READ"
+        },
+        "lockfile": "NOT_AUDITED",
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_ci": "NOT_AUDITED",
+        "release_tag": "NOT_PINNED",
+        "security_review": "NOT_STARTED",
+        "subsystem_qualification": "NOT_STARTED"
+      }
     },
     {
       "id": "mcp-go-sdk",
@@ -1087,9 +1271,9 @@
   ],
   "latest_screening_wave": "433",
   "screening_summary": {
-    "pinned_heads": 8,
-    "license_files_read_at_pinned_heads": 8,
-    "manifest_files_read_at_pinned_heads": 8,
+    "pinned_heads": 16,
+    "license_files_read_at_pinned_heads": 16,
+    "manifest_files_read_at_pinned_heads": 16,
     "lockfiles_audited": 0,
     "advisory_reviews": 0,
     "exact_ci_audits": 0,
