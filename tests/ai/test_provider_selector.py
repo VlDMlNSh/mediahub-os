@@ -28,8 +28,9 @@ class ExecutorRoutingPolicyTests(unittest.TestCase):
         self.assertIn("secrets.MEDIAHUB_GITHUB_TOKEN", self.controller)
         self.assertIn("secrets.MEDIAHUB_DISPATCH_HMAC_KEY", self.controller)
 
-    def test_local_claude_route_uses_llamacpp_on_approved_third_host(self):
-        self.assertIn("local_claude_runtime: fcc_llamacpp", self.router)
+    def test_local_claude_route_uses_ollama_llama_on_approved_third_host(self):
+        self.assertIn("local_claude_runtime: fcc_ollama", self.router)
+        self.assertIn("local_claude_model: llama3.2:3b", self.router)
         self.assertIn("local_claude_host: Voktors-Mini.Dlink", self.router)
         self.assertIn("local_claude_only: true", self.router)
 
