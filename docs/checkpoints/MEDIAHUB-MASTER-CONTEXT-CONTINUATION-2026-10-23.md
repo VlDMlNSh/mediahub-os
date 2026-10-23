@@ -44,7 +44,8 @@ Run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39893365385; worker job
 ## Current documentation work
 
 - PR #511: https://github.com/VlDMlNSh/mediahub-os/pull/511 — open draft; exact-head CI and formal review NOT VERIFIED.
-- PR #514: https://github.com/VlDMlNSh/mediahub-os/pull/514 — open draft targeting canonical docs branch. Initial head SHA `a4da1fec89d0cd0b65e6db292f375f217c959a1a`; initial workflow query returned no PR runs and review endpoint was empty, so CI/review NOT VERIFIED. This master context file is being added to PR #514; refresh head SHA and checks after writing.
+- PR #514: https://github.com/VlDMlNSh/mediahub-os/pull/514 — open draft targeting canonical docs branch. Initial head SHA `a4da1fec89d0cd0b65e6db292f375f217c959a1a`; the context file was added afterward, so refresh current head SHA and checks. The PR workflow-run wrapper and review endpoint returned no runs/reviews; exact-head CI and formal review remain NOT VERIFIED.
+- PR #515: https://github.com/VlDMlNSh/mediahub-os/pull/515 — open draft Wave 413 executor availability report/checkpoint/map addendum on branch `docs/wave413-executor-availability-20261023`. It is separate from PR #514 and also not canonical until accepted. Wave 413 report blob `281fb8983a4dd0092e6b79cf91d307733f27bba2`; checkpoint overlay blob `6cc84b290bfb14eb0b11c90f4bff601ec4164444`; map addendum blob `0110a5a2159ea585e18b37243bd04ef39d5ab5a9`.
 - Wave 412 report: https://github.com/VlDMlNSh/mediahub-os/blob/docs/wave412-evidence-reconciliation-20261023/docs/checkpoints/MEDIAHUB-NEXT-EVIDENCE-RECONCILIATION-WAVE-412-2026-10-23.md (blob `fc9fa9d2a799ed2a443a9f88ea0a579df198fece`).
 - Wave 412 checkpoint overlay: https://github.com/VlDMlNSh/mediahub-os/blob/docs/wave412-evidence-reconciliation-20261023/docs/checkpoints/MEDIAHUB-CONTINUATION-CHECKPOINT-OVERLAY-WAVE-412-2026-10-23.md (blob `d1a07a274bfbcc900e49f134be2c24242fa8ff3d`).
 - Wave 412 map addendum: https://github.com/VlDMlNSh/mediahub-os/blob/docs/wave412-evidence-reconciliation-20261023/docs/architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-412-2026-10-23.md (blob `5bf8c029a19b94b12716b9c2c7910e42e80bdaec`).
@@ -54,17 +55,19 @@ Run https://github.com/VlDMlNSh/mediahub-os/actions/runs/39893365385; worker job
 ## Runtime and local executor
 
 - FCC worker merged via PR #502 at `85e74ec24b862a5f6427ad5dca7d050df89c224c`; upstream worker pinned at `3d2ae2306752dbdf504714a5489bcfcf69b2d04a`; OpenRouter free route, model ID ending `:free`, isolated workspace and run-scoped proxy token. Earlier run `39882471966` failed readiness with proxy `/v1/models` HTTP 401; later bounded smoke passed.
-- Active SentinelX host previously observed: `host_5f7264034bdf0b51` (`Voktors-Mini.Dlink`, agent `0.23.30`). Ollama models include `qwen2.5-coder:3b`, `qwen2.5-coder:1.5b`, `qwen3:4b`. This host is NOT confirmed as the authorized third server.
+- Active SentinelX host: `host_5f7264034bdf0b51` (`Voktors-Mini.Dlink`, agent `0.23.30`). Fresh Wave 413 inventory says the Free plan limit is one host, one active, zero available slots. `mh-dev-01` (`host_58114817a6ab4dd0`) and `mh-dev-02` (`host_5bda3b5006655e9e`) are disabled by user in dashboard. Codex environment inventory returned zero registered environments. The canonical topology identifies three Claude lanes as `mh-dev-01`, `mh-dev-02`, and `Voktors-Mac-mini.local`; only the Mac lane is confirmed operational in SentinelX. Do not infer GitHub Actions self-hosted runner state from SentinelX state. The active Mac host is NOT confirmed as the authorized third server for local Claude.
 - Qwen2.5-Coder job `job_607e1309bc33` exited 0 after 17.14s but FAILED acceptance: requested `is_hex_sha(value)` for 40/64 hex strings; output was prose/Markdown and used invalid failure behavior.
 - Qwen3 job `job_f869c6e7a42f` timed out after 90.14s (curl exit 28, zero response bytes). `claude` and `fcc-claude` executables were absent on this host; Ollama existed. Only one SentinelX host was operational, two enrolled development hosts disabled.
 - Local Claude is NOT RUN / BLOCKED until authorized third-host identity, capabilities, allowlist and free-only route are verified.
 
 ## Next bounded steps
 
-1. Recheck live refs and PR #514 exact head/checks/reviews after adding this file. Do not merge if CI/review are NOT VERIFIED.
-2. Inspect existing contracts/tests before building deterministic local-model acceptance tests: valid 40/64 hex strings, invalid lengths/characters/types, machine-readable return behavior, captured output and bounded timeout. Failures/timeouts remain failures.
-3. Verify authorized third SentinelX host before local Claude. If blocked, continue safe independent repository work.
-4. Continue Issue #301 gates: A0 issuer/ingress/lease/cancel/recovery; R-06; authoritative runner/workspace/network manifest; schema meta-validation/negative fixtures; independent qualification. Contour A remains NOT ACCEPTED; Contour B remains gated.
+1. Recheck live refs and PR #514/#515 exact heads, checks and reviews. Wave 413 found PR #514 combined status with zero contexts, no runs from the PR-run wrapper, and empty reviews/threads; exact-head CI remains NOT VERIFIED. Do not merge either draft while CI/review are NOT VERIFIED.
+2. Reuse the existing qualification path `.github/workflows/mh25-three-claude-23wave.yml`, `ops/qualification/run_claude_23wave.py`, and `ops/qualification/verify_three_claude_23wave.py`; do not create a duplicate. Its contract requires three executor lanes and 23 marker-validated real Claude rounds per lane bound to the same `GITHUB_SHA`, then aggregate verification. Current executor availability blocks a fresh run.
+3. Resolve SentinelX Free-plan host-slot constraint through the authorized dashboard/admin process; do not automatically disable the Mac host or change the plan. Separately verify GitHub Actions self-hosted runner labels/status.
+4. Inspect existing contracts/tests before building deterministic local-model acceptance tests: valid 40/64 hex strings, invalid lengths/characters/types, machine-readable return behavior, captured output and bounded timeout. Failures/timeouts remain failures.
+5. Verify authorized third SentinelX host before local Claude. If blocked, continue safe independent repository work.
+6. Continue Issue #301 gates: A0 issuer/ingress/lease/cancel/recovery; R-06; authoritative runner/workspace/network manifest; schema meta-validation/negative fixtures; independent qualification. Contour A remains NOT ACCEPTED; Contour B remains gated.
 5. For each pass, record immutable target SHA, report, checks, artifacts/digests and exact statuses; re-read changed files and update checkpoint/map as appropriate.
 
 ## Short command for a new chat
