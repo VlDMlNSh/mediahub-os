@@ -19,6 +19,9 @@ concurrency:
 
 jobs:
   qualify:
+    # Live provider calls require an explicit manual dispatch on trusted main.
+    # A merge touching tests/ai/** must never start inference as a push side effect.
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: [self-hosted, linux, x64, mediahub-control]
     timeout-minutes: 10
     env:
