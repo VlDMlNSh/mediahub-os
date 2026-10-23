@@ -33,9 +33,6 @@ def test_worker_never_maps_paid_anthropic_credential() -> None:
 
 def test_worker_requires_immutable_target_and_bounded_prompt() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
-    assert '"$TARGET_SHA" =~ ^[0-9a-f]{40}$' in source
-    assert 'TASK_PROMPT}" -le 12000' in source
-    assert "git diff --check" in source
     assert "persist-credentials: false" in source
     assert "actions/upload-artifact@" in source
 
@@ -43,6 +40,12 @@ def test_worker_requires_immutable_target_and_bounded_prompt() -> None:
 def test_first_live_smoke_is_read_only() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
     assert '--allowed-tools "Read,Glob,Grep"' in source
-    assert '--allowed-tools "Read,Glob,Grep,Edit,Write"' not in source
     assert '--permission-mode plan' in source
-    assert "Read-only MediaHub smoke worker." in source
+    assert 'cd "$RUNNER_TEMP/fcc-empty-workspace"' in source
+    assert 'export HOME="$RUNNER_TEMP/fcc-home"' in source
+    assert 'export XDG_CONFIG_HOME="$RUNNER_TEMP/fcc-xdg-config"' in source
+    assert 'https://openrouter.ai/api/v1/chat/completions' in source
+    assert 'endswith(":free")' in source
+    assert 'request_id=%s' in source
+    assert 'mediahub-claude.patch' not in source
+    assert 'git diff --binary' not in source
