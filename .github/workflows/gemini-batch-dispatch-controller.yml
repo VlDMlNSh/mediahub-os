@@ -29,6 +29,7 @@ on:
       - ".github/workflows/gemini-reusable-context-probe-wave284.yml"
       - ".github/workflows/gemini-agent-2.yml"
       - ".github/workflows/gemini-agent-3.yml"
+      - ".github/workflows/gemini-fcc-independent-review-wave409.yml"
       - "tests/test_gemini_controller_positive_context_probe_wave292_contract.py"
       - ".github/workflows/gemini-workflow-contract-validation-wave284.yml"
       - "tests/test_gemini_child_signed_dispatch_runtime_contract.py"
@@ -175,7 +176,7 @@ jobs:
               # The signed task is restricted to the two merged FCC changes and
               # must produce a read-only findings report; no runtime/provider test.
               tasks=[
-               ("gemini-agent-2.yml","Wave 408 independent review — inspect the exact merged source changes in PR #506 (merge SHA 3a0cda63a6e39b844c3d78bede4b777e3a0004bf) and PR #508 (merge/target SHA 074f20eb495666946a14410ab88d566aaa754f24), using the shared immutable target SHA as repository context. Review effective FCC managed-token initialization, bearer authentication and HTTP 401 behavior, secret isolation, free-only routing/no paid fallback, read-only tools/workspace, workflow gates, provenance and test coverage. Read the exact PR patches and current source/tests. Report findings by severity with file/path, line or evidence reference, impact, reproducible proof and PASS/FAIL/NOT VERIFIED. Treat absent checks/reviews as NOT VERIFIED. This is a review-only task: do not edit application/workflow code, read or print secret values, invoke any provider/model or runtime, dispatch other agents, merge, deploy, or qualify. Publish only a concise dated review report in a dedicated branch/PR; state explicitly that no live runtime test was performed.", "contour-a")
+               ("gemini-fcc-independent-review-wave409.yml","Wave 408 independent review — inspect the exact merged source changes in PR #506 (merge SHA 3a0cda63a6e39b844c3d78bede4b777e3a0004bf) and PR #508 (merge/target SHA 074f20eb495666946a14410ab88d566aaa754f24), using the shared immutable target SHA as repository context. Review effective FCC managed-token initialization, bearer authentication and HTTP 401 behavior, secret isolation, free-only routing/no paid fallback, read-only tools/workspace, workflow gates, provenance and test coverage. Read the exact PR patches and current source/tests. Report findings by severity with file/path, line or evidence reference, impact, reproducible proof and PASS/FAIL/NOT VERIFIED. Treat absent checks/reviews as NOT VERIFIED. This is a review-only task: do not edit application/workflow code, read or print secret values, invoke any provider/model or runtime, dispatch other agents, merge, deploy, or qualify. Publish only a concise dated review report in a dedicated branch/PR; state explicitly that no live runtime test was performed.", "contour-a")
               ]
           elif requested_mode!="agents":
               print("::error::Unsupported or missing dispatch mode; fail closed."); sys.exit(2)
