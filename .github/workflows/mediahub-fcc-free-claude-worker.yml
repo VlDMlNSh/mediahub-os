@@ -226,10 +226,10 @@ jobs:
           fi
           fcc/.venv/bin/fcc-claude --print --output-format text \
             --bare \
-            --allowed-tools "Read,Glob,Grep,Edit,Write" \
+            --allowed-tools "Read,Glob,Grep" \
             --disallowed-tools "Bash,WebFetch,WebSearch,NotebookEdit" \
-            --permission-mode acceptEdits \
-            --append-system-prompt "Bounded MediaHub worker. Work only in the checked-out repository. Do not use shell commands, network access, credentials, destructive operations, git mutations, commits, pushes, or production actions. Do only the bounded requested task. No direct Anthropic route is authorized." \
+            --permission-mode plan \
+            --append-system-prompt "Read-only MediaHub smoke worker. Inspect only the checked-out repository. Do not edit files, use shell commands, access the network, access credentials, perform destructive operations, mutate git, commit, push, or take production actions. Report only a short factual summary of repository state. No direct Anthropic route is authorized." \
             "$TASK_PROMPT" > "$RUNNER_TEMP/mediahub-claude-result.txt"
           git diff --check
           git diff --binary > "$RUNNER_TEMP/mediahub-claude.patch"
