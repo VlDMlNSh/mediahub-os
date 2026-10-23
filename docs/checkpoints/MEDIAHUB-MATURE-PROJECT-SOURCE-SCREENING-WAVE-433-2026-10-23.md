@@ -14,7 +14,7 @@
 
 ## 1. Scope and result
 
-Wave 433 performs the first pinned source-screening batch for eight cross-cutting agent framework/orchestration candidates. For each one, the exact repository HEAD was retrieved through GitHub commit search, then the LICENSE and primary package manifest were fetched by that immutable commit SHA. License and manifest blob SHAs are recorded in the candidate JSON.
+Wave 433 performs the pinned source-screening batch for sixteen cross-cutting candidates across agent frameworks, durable workflows, model gateways, coding executors, observability, evaluation, browser automation, sandboxing and protocols. For each one, the exact repository HEAD was retrieved through GitHub commit search, then the LICENSE and primary package manifest were fetched by that immutable commit SHA. License and manifest blob SHAs are recorded in the candidate JSON.
 
 This is **not** a complete maturity/security qualification. No dependencies were installed. No provider inference, secret access, agent dispatch, deployment, or runtime code change occurred.
 
@@ -48,7 +48,7 @@ The connector returned incomplete repository metadata for these broad queries (n
 
 ## 4. What is still not audited
 
-For all eight candidates:
+For all sixteen candidates:
 - release/tag and release cadence: NOT PINNED;
 - lockfiles and transitive dependency inventory: NOT AUDITED;
 - vulnerability advisories / supply-chain provenance: NOT AUDITED;
@@ -56,7 +56,7 @@ For all eight candidates:
 - security boundaries, permission model, persistence/recovery and integration contracts: NOT AUDITED;
 - MediaHub interface compatibility and subsystem qualification: NOT STARTED.
 
-The JSON register now reports `pinned_heads=8`, `license_files_read_at_pinned_heads=8`, and `manifest_files_read_at_pinned_heads=8`; lockfile, advisory, exact-CI and release-tag audit counts remain zero.
+The JSON register now reports `pinned_heads=16`, `license_files_read_at_pinned_heads=16`, and `manifest_files_read_at_pinned_heads=16`; lockfile, advisory, exact-CI and release-tag audit counts remain zero.
 
 ## 5. Governance and branch status
 
@@ -74,4 +74,20 @@ The JSON register now reports `pinned_heads=8`, `license_files_read_at_pinned_he
 3. Record all focused GitHub query results and explicit exclusions, then decide whether the inventory meets freeze gates.
 4. Only after an evidence-backed freeze, begin formal side-by-side comparison and component selection. No adoption decisions are made in Wave 433.
 
-**Disposition: 8 SOURCE HEADS PINNED / 8 LICENSES VERIFIED AT PINNED HEAD / 8 MANIFESTS READ / MATURITY SCREEN INCOMPLETE / INVENTORY OPEN / COMPARISON NOT STARTED / CONTOUR A NOT ACCEPTED.**
+**Disposition: 16 SOURCE HEADS PINNED / 16 LICENSES VERIFIED AT PINNED HEAD / 16 MANIFESTS READ / MATURITY SCREEN INCOMPLETE / INVENTORY OPEN / COMPARISON NOT STARTED / CONTOUR A NOT ACCEPTED.**
+
+
+## 2A. Additional pinned source batch — Wave 433 continuation
+
+| Candidate | Immutable upstream HEAD | License (file blob SHA) | Manifest (file blob SHA) | Version evidence |
+|---|---|---|---|---|
+| Temporal server | `8a40a2663e304a79b07779ae08108648ccbc797d` | MIT — `3349f76795f4409cba6ae18ea56adf9fbd8346f3` | `go.mod` — `b58f656dc5fb62f7e1c9fc6d9d8aa2b871af4a23` | Go module, `go 1.27.0` |
+| LiteLLM | `f2118fc7670ba3fa736d9b8f4deef9077a45a720` | MIT — `3bfef5bae9b48c334acf426d5b7f21bc1913aab9` | `pyproject.toml` — `3aefd9119375172be6f7d312952d8153b442b77d` | 1.108.0 |
+| OpenAI Codex CLI | `2839ed763bd3f404398e1f0c95bf4e2d172213c0` | Apache-2.0 — `4606e72e042564097e8780d66c1d4dcb611869bd` | `codex-rs/Cargo.toml` — `110914fa16bc24d4640331b40497d7bd3847f62e` | Workspace placeholder 0.0.0; not a release version |
+| Langfuse | `bb85692102a005470c3a02ccb9ebc1609ae25461` | MIT — `eaa2e5e444c8634f35b2a1137f7ea06e8353f475` | `package.json` — `9899d13e4a45711cfcc47e7a37ec22f67d9ba082` | 4.69.0 |
+| Promptfoo | `c2f6a848aca5f7e01491d2533f3fb1122bc63c50` | MIT — `af3fa111d9303b3041d225fb851534e50a4bbec2` | `package.json` — `973377dfd97e01d2a9890bcd38fdedad3f69ce11` | 0.124.1 |
+| Browser Use | `3df5806a0d097a1546d92c49bcf1b28c9972c3bd` | MIT — `1ea3836ce58a4cd32c90c0b4f4e736d840d23780` | `pyproject.toml` — `ff6f1538abb84fd8f7ceaa532d7cc1cb4a8d58db` | 0.13.13 |
+| MCP TypeScript SDK | `9adb8d5e5b2032d75a8362cd21e018e871e5144f` | Apache-2.0 — `4a93985763241755401a10678395303de4e720ba` | `package.json` — `0be02df4eee6c59d8d4800d8a783f908c5e99c1b` | 2.0.0-alpha.0; candidate status changed to CONDITIONAL pending stable-release verification |
+| OpenSandbox | `f3f4a7f419e526de4c3deb250d72fc034986fc28` | Apache-2.0 — `b09cd7856d58590578ee1a4f3ad45d1310a97f87` | `server/pyproject.toml` — `4f2e221069981e81da32f96e665379b878f2e635` | Not extracted |
+
+The machine-readable register contains exact commit-pinned URLs for these files. OpenSandbox is a multi-language monorepo; only the server Python manifest was pinned here, not the full component manifest matrix.
