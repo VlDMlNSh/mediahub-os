@@ -2446,3 +2446,12 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Next: resolve local tool-call/thinking compatibility, complete one read-only Claude Code task with a real Read invocation and file-derived answer, then assess external free-tier routes one at a time with quota and no-paid-fallback evidence. Gemini was not dispatched.
 - Documentation commits: report `d203a800353501fac0a994e6798a68e234ef8d98`; map addendum `496f6c168acf7ed17591c0b4a6e998fad6b402c9`.
 
+
+
+## Wave 408 — FCC gate reconciliation and executor admission (2026-10-23)
+
+- Report: [Wave 408 FCC gate reconciliation](MEDIAHUB-NEXT-FCC-GATE-RECONCILIATION-WAVE-408-2026-10-23.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-406-2026-10-23.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main remains at `3a0cda63a6e39b844c3d78bede4b777e3a0004bf`. PR #506 is merged without recorded independent review. PR #508 exact head `7ab6603ccfb476c57a92ce90bbca155453649a4e` passed managed-token preflight, contract tests, pinned install smoke, Astra Verify and Cloud Runtime Validation; dispatch jobs skipped.
+- PR #508 remains draft/open with no formal review. Combined status remains pending with zero status contexts. Branch protection API is forbidden to the integration and rulesets query returned an empty list; required-check configuration remains NOT VERIFIED.
+- SentinelX only lists `Voktors-Mini.Dlink` as connected but parked/non-operational under the Free active-host limit; `mh-dev-01`/ `mh-dev-02` are disabled. Codex environment registry is empty. No qualified third server, Gemini child dispatch or live FCC run.
+- Next: independent review PR #508 and retrospective review PR #506; authorized administrator confirms required checks. Only after evidence may one bounded FCC live dispatch be considered. No paid fallback. Contour A remains NOT ACCEPTED.
