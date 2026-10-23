@@ -68,3 +68,15 @@ def test_proxy_token_is_seeded_into_fcc_managed_config_and_auth_failure_is_clear
     assert "managed-config loader intentionally does not apply this" in source
     assert "rejected the run-scoped bearer token (HTTP 401)" in source
     assert 'final HTTP status ${status}; server logs withheld.' in source
+
+
+def test_managed_config_preflight_checks_effective_token_without_provider_access() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert "  managed-config-preflight:" in source
+    assert "FCC managed auth config preflight" in source
+    assert "uv run --locked python - <<" in source
+    assert "settings.proxy_auth_enabled is True" in source
+    assert 'settings.proxy_auth_token, os.environ["ANTHROPIC_AUTH_TOKEN"]' in source
+    assert 'stat.S_IMODE(managed.stat().st_mode) == 0o600' in source
+    assert "FCC managed bearer-token preflight passed; token values withheld." in source
+    assert "openrouter.ai/api/v1/chat/completions" in source
