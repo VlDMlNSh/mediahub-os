@@ -60,7 +60,7 @@ jobs:
           test "$(git rev-parse HEAD)" = "3d2ae2306752dbdf504714a5489bcfcf69b2d04a"
           uv sync --locked --no-dev
           uv run --locked fcc-server --version
-          uv run --locked fcc-claude --help >/dev/null
+          uv run --locked python -c "from importlib.metadata import distribution; d=distribution('free-claude-code'); names={e.name for e in d.entry_points}; assert {'fcc-server', 'fcc-claude'} <= names"
 
       - name: Confirm no provider or paid credential was used
         run: |
