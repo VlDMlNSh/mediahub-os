@@ -2,6 +2,7 @@
 
 **Review target:** https://github.com/VlDMlNSh/mediahub-os/pull/513  
 **Reviewed code head:** `0d77e65d76d1f249b2cede359bb59c2b738b4977`  
+**Merge commit:** `fbbdc9a06ef344cd57aae13b230a042af76bbc60`  
 **Workflow blob:** `168da7bfd4d2be1bf316b7dd2d968361949feddc`  
 **Test blob:** `e92e1c3f4e52fb2005845e520d1bbe10dcdacfbe`  
 **Review method:** independent static review by a separate review/search agent of the exact GitHub PR patch plus read-back excerpts of the complete child workflow and parent controller. No code was executed by the reviewer; no workflow was dispatched.
@@ -31,7 +32,7 @@ At `0d77e65d76d1f249b2cede359bb59c2b738b4977`, these runs completed successfully
 - Astra Verify: [39894530474](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39894530474), job `120221765145`.
 - Astra Cloud Runtime Validation: [39894530465](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39894530465), job `120221765200`.
 
-All four workflows/jobs succeeded. No formal GitHub review record was returned by the review endpoint. This document records the separate static review, not a fabricated GitHub approval.
+All four exact-head workflows/jobs succeeded, and post-merge verification run [39894938519](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39894938519), job `120223062030`, also succeeded. No formal GitHub review record was returned by the review endpoint. This document records the separate static review, not a fabricated GitHub approval.
 
 ## Disposition
 
@@ -39,7 +40,7 @@ Static independent review: **NO CONFIRMED BLOCKER**.
 Latest exact-head CI: **PASS**.  
 Hosted failure-injection test: **NOT VERIFIED**.  
 Formal GitHub review record: **NOT VERIFIED**.  
-Runtime Gemini review dispatch: **NOT RUN** until the repair is integrated through the normal governance path.
+Runtime Gemini review dispatch: **NOT RUN**. The repair is integrated; the approved controller dispatch attempt was blocked by platform safety controls before a run ID was returned. No bypass was attempted.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md  
 Detailed Wave 410 report: [Wave 410](MEDIAHUB-NEXT-FCC-CLOUD-LOCAL-MODEL-AND-GEMINI-FAIL-CLOSED-WAVE-410-2026-10-23.md)
