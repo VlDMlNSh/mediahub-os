@@ -139,6 +139,15 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn("inputs.mode == 'agents' && inputs.confirm == true", self.source)
         self.assertIn("inputs.mode == 'review' && inputs.confirm == true", self.source)
 
+    def test_duplicate_dispatch_guard_requires_complete_history_listing(self):
+        # A truncated first page cannot establish that this owner comment has
+        # not already triggered a controller run; uncertainty must stop dispatch.
+        self.assertIn('history_runs=history.get("workflow_runs",[])', self.source)
+        self.assertIn('history_total=history.get("total_count")', self.source)
+        self.assertIn('if not isinstance(history_total,int) or len(history_runs)!=history_total:', self.source)
+        self.assertIn('duplicate-dispatch status is NOT VERIFIED.', self.source)
+        self.assertIn('sys.exit(2)', self.source)
+
     def test_owner_only_next_comment_bridge_is_scoped_and_idempotent(self):
         event = self.workflow["on"]["issue_comment"]
         self.assertEqual(event["types"], ["created"])
