@@ -2766,3 +2766,14 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Next bounded step: add a dedicated PR-review child workflow and controller path. Require bounded numeric PR number, immutable SHA, exact current open PR head and base `main`; sign PR number plus fixed task in HMAC; child independently re-verifies metadata before credentials; review exact base..head diff; produce manifest with PR/base/head/file list and artifact/run/job provenance; read-only permissions and no nested dispatch/merge/deploy. Add behavioral tests for changed/wrong SHA, wrong base, malformed PR number, duplicates, missing secrets and rejected/ambiguous dispatch.
 - No code/config changes, dispatch, secret access, merge, deployment or qualification in this wave. Contour A NOT ACCEPTED; Contour B GATED.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 471 — PR-scoped read-only review child (2026-10-29)
+
+- Report: [Wave 471 PR-scoped review child](MEDIAHUB-PR-READONLY-REVIEW-WAVE-471-2026-10-29.md); [PR #588](https://github.com/VlDMlNSh/mediahub-os/pull/588).
+- Draft branch `feat/pr-scoped-readonly-review-wave471`, target `main` SHA `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`, PR head `8ecc8941c079e83d6d1c356a0ffbaf3c73c8f70b`. Workflow blob `85174e24b7d213ce7d90a4bd215ec4fbac32c605`; static contract test blob `5d06c6ce0e647ca0f19ebef71400d0b2fa935a46`.
+- Added dedicated `.github/workflows/gemini-pr-readonly-review-wave471.yml` and `tests/test_gemini_pr_readonly_review_wave471_contract.py`. The child requires signed PR number/base SHA/head SHA, validates current open PR metadata before model credentials, and prepares exact diff + manifest using read-only tools. It does not alter the FCC-specific review child.
+- Controller integration is NOT implemented. Do not dispatch the child manually. Behavioral HMAC/API/TOCTOU/idempotency tests remain outstanding.
+- At initial exact-head CI check, Astra Verify run `40843918527` was queued; full CI NOT VERIFIED. Formal reviews=0 and inline threads=0 at initial check. No agent run, merge, deployment, qualification or acceptance claimed.
+- Next: verify exact-head CI; address failures; add behavioral negative tests; then implement controller signing/dispatch with duplicate protection and ambiguous-outcome reconciliation, and require independent review.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
