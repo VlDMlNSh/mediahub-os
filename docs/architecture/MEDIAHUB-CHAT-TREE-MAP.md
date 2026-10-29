@@ -1,3 +1,13 @@
+## Wave 445 — candidate register consistency and exact-head CI (2026-10-29)
+
+- Report: [Wave 445 register consistency and PR #585 exact-head CI](../checkpoints/MEDIAHUB-MATURE-REGISTER-CONSISTENCY-AND-EXACT-HEAD-CI-WAVE-445-2026-10-29.md); [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Research PR #585 current head `227ea19f514b243962b2fe4ebcec943a322144c1`: Astra Verify [40830739045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830739045) and Astra Cloud Runtime Validation [40830738949](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830738949) SUCCESS on exact SHA. Formal review absent; combined status pending/empty; PR remains Draft/open/unmerged.
+- Candidate register blob `be836e92203f6ce137f12fa87e1cb18e803ad71c`: 128 unique repositories, no duplicate candidate IDs, counts reconcile (99 CANDIDATE / 22 CONDITIONAL / 2 REFERENCE_ONLY / 5 EXCLUDED). Inventory remains OPEN_NOT_FROZEN; lockfile audits and advisory reviews 0; comparison NOT_STARTED; adoption NONE.
+- PR #583 remains Draft/open/unmerged, exact head `265a6116874739d1826fc5c7dda84b5b8b8f9eeb`; observed jobs 7 SUCCESS / 2 SKIPPED in the non-launching probe, no batch dispatched. Independent review and branch-policy requirements NOT VERIFIED.
+- This entry records source-evidence consistency only. It does not qualify upstream components or authorize controller dispatch, merge or deployment. Contour A NOT ACCEPTED; Contour B gated.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](../checkpoints/MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [continuation checkpoint addendum](../checkpoints/mediahub-next-continuation-checkpoint-wave-392-2026-10-22.md).

@@ -1,3 +1,13 @@
+## Wave 445 — mature-project inventory invariant and exact-head evidence (2026-10-29)
+
+- Report: [Wave 445 candidate register consistency and exact-head CI](MEDIAHUB-MATURE-REGISTER-CONSISTENCY-AND-EXACT-HEAD-CI-WAVE-445-2026-10-29.md); [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Immutable MediaHub target: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #585 exact head `227ea19f514b243962b2fe4ebcec943a322144c1`; Astra Verify [40830739045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830739045) and Cloud Runtime Validation [40830738949](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830738949) both SUCCESS on that SHA.
+- Machine register blob `be836e92203f6ce137f12fa87e1cb18e803ad71c`: 128 records / 128 unique repositories; duplicate IDs/repos 0; declared and computed counts agree (99/22/2/5). Discovery OPEN_NOT_FROZEN, comparison NOT_STARTED, adoption NONE. Release/default-ref commit parity, full lockfile audits, dependency advisories, exact upstream CI and transitive-license review are open.
+- PR #585 remains Draft/open/unmerged with no formal review; empty combined status is not a pass. PR #583's observed probe checks are not a three-agent batch; dispatch remains blocked by missing independent review and effective branch-governance evidence. Contour A NOT ACCEPTED; Contour B gated.
+- Next: verify tag-to-commit resolution and current upstream default-branch HEAD for zizmor, Trivy and gVisor, then perform a reproducible lockfile/advisory audit.
+
+---
+
 ## Wave 351 — recovered Claude/FCC/Ollama history (2026-10-22)
 
 - Report: [Wave 351 evidence recovery](MEDIAHUB-NEXT-CLAUDE-FCC-OLLAMA-HISTORICAL-EVIDENCE-WAVE-351-2026-10-22.md); map addendum: [Wave 351](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-351-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
