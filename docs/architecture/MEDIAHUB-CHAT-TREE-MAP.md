@@ -1,3 +1,13 @@
+## Wave 451 — controller evidence-list completeness hardening (2026-10-29)
+
+- Report: [Wave 451 controller complete evidence-listing hardening](../checkpoints/MEDIAHUB-GEMINI-CONTROLLER-COMPLETE-EVIDENCE-LISTING-WAVE-451-2026-10-29.md); [Wave 451 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-451-2026-10-29.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- PR #583 exact head `448bcbe6b941847b993dc2675a74367cce276b3e`: controller and test changes were read back at blob SHAs `0d4056934b3b9c3da4ef06fc4b8f3f555d61d273` and `11391f9dadb7f868bd7110d4c29267914509db69`. The controller rejects incomplete jobs/artifacts list pages when returned row counts disagree with API `total_count`.
+- Six observed workflows succeeded on that exact SHA: [Astra Verify](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709532), [Cloud Runtime Validation](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709559), [Gemini contract validation](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709572), [provider contract](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709553), [AI Factory verification](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709536), and [non-launching controller probe](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709652). Controller dispatch/monitor was skipped; no Gemini batch ran.
+- PR #583 remains OPEN/DRAFT/UNMERGED, formal review absent. PR #585 remains OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`; its Astra Verify [40832496142](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496142) and Cloud Runtime Validation [40832496196](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496196) succeeded. Reviews=0 for both. `main` branch metadata reports `protected=false`; direct protection API returned 403; effective required-check/branch governance remains NOT VERIFIED.
+- No provider inference, secret access, local executor, merge, deployment, qualification or adoption. Contour A NOT ACCEPTED; Contour B gated.
+
+---
+
 ## Wave 450 — final PR #585 exact-head recheck and Wave 449 inventory (2026-10-29)
 
 - Report: [Wave 450 PR #585 current-head recheck](../checkpoints/MEDIAHUB-NEXT-PR585-WAVE449-CURRENT-HEAD-RECHECK-WAVE-450-2026-10-29.md); [Wave 450 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-450-2026-10-29.md); [current checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
