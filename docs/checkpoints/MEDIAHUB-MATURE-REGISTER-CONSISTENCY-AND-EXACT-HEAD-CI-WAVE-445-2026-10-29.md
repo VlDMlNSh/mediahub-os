@@ -56,8 +56,8 @@ No Gemini batch/controller dispatch, child agent, provider inference, secret acc
 
 ## 5. Canonical map / roadmap read-back
 
-- Canonical map original blob SHA: `3488fd8cadb5b44600dd23c00f2f1682fdf2ad9a`; blob fallback returned 1,179,190 characters after the Contents API returned empty content. Its leading entry was Wave 392; it did not contain Wave 444. The map was readable through the Git blob endpoint, so the previous pass's access limitation is resolved; the stale index is now confirmed.
-- Master Roadmap original blob SHA: `21c4bf2702dbf636fa902f4f5716c6f39bb5dd1c`; 805,397 characters. It does not contain a Wave 445 entry. A short Wave 445 pointer will be added to both large indexes via a parent-checked Git object update, preserving their prior text.
+- Canonical map original blob SHA: `3488fd8cadb5b44600dd23c00f2f1682fdf2ad9a`; blob fallback returned 1,179,190 characters after the Contents API returned empty content. Its leading entry was Wave 392; no Wave 444/445 entry existed. The map was readable through Git blob fallback, resolving the previous pass's access limitation and confirming that the index was stale.
+- Master Roadmap original blob SHA: `21c4bf2702dbf636fa902f4f5716c6f39bb5dd1c`; 805,397 characters and no Wave 445 pointer. A parent-checked Git object update committed Wave 445 pointers to both large indexes while preserving existing text: commit `58ed79ad05eb32ba27c2ebd2479faf0075d3ca4d`; map blob `2d6c06fd677d3884dde63470bf4e514e7dc72c07` (1,180,768 characters); roadmap blob `3f6ca7ecf155e2c348fcfa2771ebb5abca3d27d9` (807,017 characters). Read-back verified each complete blob exactly matched its prepared content, the new Wave 445 section was at the top, and historical Wave 392 / Wave 429 content remained present.
 - Accepted Baseline 2.0 remains the functional reference; no requirement or authority boundary was changed.
 
 ## 6. Status and remaining blockers
