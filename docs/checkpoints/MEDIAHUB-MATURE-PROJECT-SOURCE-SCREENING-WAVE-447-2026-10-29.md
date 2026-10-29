@@ -7,8 +7,8 @@
 - Governing issue: https://github.com/VlDMlNSh/mediahub-os/issues/301
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
 - Previous candidate register blob: `92692639556460456a7a3141e1d677fb6065fc2d`
-- Updated candidate register blob: `9486cfb9875a4ecba1de362118faff1289fe19a7`
-- Register update commit: `4c4478b815af76a4ef89df29cfef6e75ad3a4b86`
+- Updated candidate register blob: `b47a4cf67cb9f801ab210d4f3f6a79013576410a`
+- Register update commit: `d344e2db949d98885ce7a2d90d292b5b2a751772` (supersedes the first Wave 447 register-write commit after correction of CI status metadata)
 
 ## 1. Scope and invariant
 
