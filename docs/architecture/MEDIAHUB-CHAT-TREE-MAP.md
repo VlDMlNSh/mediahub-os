@@ -1,3 +1,22 @@
+## Wave 454 — PR head and governance recheck (2026-10-29)
+
+- Report: [Wave 454 PR head and governance recheck](../checkpoints/MEDIAHUB-PR-HEAD-GOVERNANCE-RECHECK-WAVE-454-2026-10-29.md), blob `eca0ca0f2aa3ccdac8dd9b6b5afe7c688fe12d91`; [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-454-2026-10-29.md), blob `73f6c91f23654fd2c6ae29dfd2af1a74239a16f8`; [current checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Immutable main target `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; PR #583 exact head `448bcbe6b941847b993dc2675a74367cce276b3e` (7 observed successes, 2 skipped); PR #585 exact head `8940c7f0f66c9f50e2d83659a6231aa790817221` (2 observed successes). Controller probe did not launch a batch.
+- Formal reviews: zero on both PRs. Combined status is pending / zero contexts. `main` metadata reports `protected=false`, the direct protection API returns 403, and the empty ruleset list is inconclusive. Effective policy remains NOT VERIFIED.
+- Pinned dependency/transitive-advisory audit NOT RUN; Trivy CI MIXED after disk-quota failure; gVisor checksum/attestation and zizmor advisory state NOT VERIFIED. Inventory OPEN_NOT_FROZEN; comparison/adoption NOT_STARTED.
+- No Gemini batch/children, provider inference, secret access, local execution, merge, deployment, qualification or component adoption. Contour A NOT ACCEPTED; Contour B gated.
+- Next: run reproducible dependency/advisory checks against exact upstream lockfile/source blobs while keeping review and branch-governance gates mandatory.
+
+---
+
+## Wave 453 — gVisor release provenance and current gate recheck (2026-10-29)
+
+- Report: [Wave 453 gVisor release provenance and current gates](../checkpoints/MEDIAHUB-GVISOR-RELEASE-PROVENANCE-AND-CURRENT-GATES-WAVE-453-2026-10-29.md), blob `e938de6e43e2f0db73bbcdc5bd4dc6239c7d8d83`; [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-453-2026-10-29.md), blob `c0ba69b93f864bbecc51d7482c1342febf728417`; [checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- gVisor `release-20261026.0` targets `e8a2a28891ba41f3fb737dee8bb7120745d75826`; tag object is unsigned, release API reports `immutable=false`, and GitHub exposes SHA-256 metadata for six release assets. Release Mirror workflow [40606990389](https://github.com/google/gvisor/actions/runs/40606990389) succeeded. Official checksum-file content comparison and independent attestation remain NOT VERIFIED, so artifact provenance is not accepted.
+- PR #583/#585 current heads, check evidence, missing formal reviews and effective branch-policy blockers are rechecked in Wave 454. No dispatch or merge authorization is inferred.
+
+---
+
 ## Wave 452 — PR #585 register summary reconciliation (2026-10-29)
 
 - Report: [PR #585 register summary reconciliation](../checkpoints/MEDIAHUB-PR585-REGISTER-SUMMARY-RECONCILIATION-WAVE-452-2026-10-29.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-452-2026-10-29.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
