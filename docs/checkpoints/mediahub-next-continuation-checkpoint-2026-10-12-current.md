@@ -2489,3 +2489,18 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Issue #301 remains open. No controller batch, child agent, provider call, secret access, local executor task, merge, deployment or qualification was performed in this pass. Gemini Agent 1/2/3: NOT RUN. Contour A: NOT ACCEPTED.
 - The map fetch returned empty content via Contents API and raw fetch was rejected due to response size; map content currentness is NOT VERIFIED in this pass. No map edit was attempted.
 - Next: obtain independent review and current branch governance/required-check evidence for PR #583 before integration; continue the separate upstream evidence audit for PR #585. Keep controller dispatch blocked until all readiness gates pass.
+
+
+## Wave 445 — candidate register invariant and latest PR #585 exact-head CI (2026-10-29)
+
+- Report: [Wave 445 candidate register consistency and exact-head CI](MEDIAHUB-MATURE-REGISTER-CONSISTENCY-AND-EXACT-HEAD-CI-WAVE-445-2026-10-29.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Latest immutable target for PR #585 is `227ea19f514b243962b2fe4ebcec943a322144c1`. Exact-head [Astra Verify 40830739045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830739045) and [Astra Cloud Runtime Validation 40830738949](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830738949) completed SUCCESS on that SHA. Combined status returned pending with zero contexts; formal review API returned zero reviews. PR #585 remains Draft/open/unmerged; integration eligibility NOT VERIFIED.
+- Re-read the Wave 444 register on the research branch: blob SHA `be836e92203f6ce137f12fa87e1cb18e803ad71c`, valid JSON, 128 records and 128 unique repos; zero duplicate repo IDs and candidate IDs; computed status counts match declared counts (99 CANDIDATE / 22 CONDITIONAL / 2 REFERENCE_ONLY / 5 EXCLUDED). Discovery remains OPEN_NOT_FROZEN, formal comparison NOT_STARTED, adoption NONE.
+- PR #583 target `265a6116874739d1826fc5c7dda84b5b8b8f9eeb`: nine check-runs observed (seven success, two skipped non-launching probe admission/dispatch jobs); no agent batch was executed. Formal reviews remain zero; combined status pending/zero contexts. Branch protection read returned HTTP 403 for the GitHub integration; an empty ruleset listing is not proof of absent protection.
+- Recovered the canonical map content through Git blob SHA `3488fd8cadb5b44600dd23c00f2f1682fdf2ad9a` (1,179,190 chars); current source has Wave 392 at its leading entry, not Wave 444/445. The map is accessible via blob fallback but its index is stale. Master Roadmap blob `21c4bf2702dbf636fa902f4f5716c6f39bb5dd1c` also lacks a Wave 445 pointer. Wave 445 performs a bounded index-pointer refresh while preserving prior text.
+- PR #437 is closed/merged; PR #441 remains open/unmerged at head `9f40b90c3106662cfcc337c48f29e4794fa713dc`. Issue #301 remains open. Baseline 2.0 was read on main at blob `1147ecd39cfe6f0e6ba2d7a62b6bf68c71c0e24f`.
+- No controller dispatch, Gemini child run, provider inference, secret access, local executor, merge, deployment, qualification, or component adoption occurred. Contour A NOT ACCEPTED; Contour B gated.
+- Next: verify tag-to-commit resolution and current default-branch HEAD for zizmor, Trivy and gVisor; then audit lockfile contents/advisories in a reproducible, bounded way before inventory freeze.
+
+Canonical map:
+https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
