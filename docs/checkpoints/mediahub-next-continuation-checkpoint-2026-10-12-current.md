@@ -2539,3 +2539,18 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 
 Canonical map:
 https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+## Wave 447 — upstream exact-HEAD evidence and final PR status (2026-10-29)
+
+- Report: [Wave 447 upstream HEAD verification and PR status](MEDIAHUB-NEXT-UPSTREAM-HEAD-VERIFICATION-AND-PR-STATUS-WAVE-447-2026-10-29.md); map addendum: [Wave 447 canonical map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-447-2026-10-29.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main remains `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Canonical docs report/addendum commits: `8936693fe1d8998ec735265764a0413eb41ce5b2` / `52ee24b8f06c08ae19aee5e0aea3ce604fd42e2d`.
+- PR #583 remains OPEN/DRAFT/UNMERGED at `265a6116874739d1826fc5c7dda84b5b8b8f9eeb`, with six observed exact-head workflows SUCCESS: Astra Verify `39984638744`; Gemini workflow contract validation `39984638700`; controller non-launching probe `39984638718`; provider contract `39984638939`; AI Factory verification `39984638905`; Cloud Runtime Validation `39984639019`. Probe-only is not a three-agent batch. Reviews=0; combined-status API empty; policy gates NOT VERIFIED.
+- PR #585 remains OPEN/DRAFT/UNMERGED at final observed head `283d2194b51e72c06ec9f68043fdab1cd7fc96a5`. Exact-head Astra Verify `40831262403` and Cloud Runtime Validation `40831262398` both completed SUCCESS. Reviews=0; combined-status API empty; policy gates NOT VERIFIED.
+- Wave 445 upstream record has 128 unique repositories and invariant-preserving counts 99 CANDIDATE / 22 CONDITIONAL / 2 REFERENCE_ONLY / 5 EXCLUDED. Register blob `4dd5c1c12f2e0c73772eef5cc4bfe5543ae17a21`; source-screen report blob `7a6b216b3dc97b690f433ba0ea81918efb7e4e28`.
+- Current upstream default-branch HEAD refs were resolved exactly at query time: zizmor `bf9ccabc03ca255c8ac3ac43329335d0524e3dd7`; Trivy `4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77`; gVisor `ac7b4e0fdc7dc4674453438e5e15fc069895620c`. Each differs from the observed release commit; release/current HEAD LICENSE blobs match while manifests and lockfiles differ. Lockfile/advisory/exact upstream CI audit remains incomplete; inventory freeze NOT READY; comparison NOT STARTED; adoption NONE.
+- Canonical map SHA prior to the Wave 447 index update: `2d6c06fd677d3884dde63470bf4e514e7dc72c07`. Map content had been fetched through blob after the Contents API returned empty. Wave 447 map index update remains to be read back and verified.
+- No Gemini batch or child dispatch, model/provider call, secret access, local executor task, merge, deployment, qualification or component adoption. Contour A NOT ACCEPTED; Contour B gated.
+- Next: complete the canonical map index update and read-back; independently review PR #583/#585 and verify branch protection/required-check policy; continue lockfile/advisory/upstream CI audits before any inventory freeze or component adoption.
+
+Canonical map:
+https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
