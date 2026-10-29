@@ -60,7 +60,7 @@ class PRReadOnlyReviewWorkflowContractTests(unittest.TestCase):
         self.assertIn("Do not edit files", self.source)
         self.assertNotIn("contents: write", self.source)
         self.assertNotIn("issues: write", self.source)
-        self.assertNotIn("workflow_dispatch", self.source[self.source.index("jobs:"):])
+        self.assertIn("permissions:\n  contents: read\n  pull-requests: read", self.source)
 
     def test_artifact_contains_manifest_patch_and_file_list(self):
         self.assertIn("review-input/manifest.json", self.source)
