@@ -2759,7 +2759,7 @@
         },
         "dependency_advisories": "NOT_AUDITED",
         "exact_dependency_audit": "NOT_RUN",
-        "note": "Release/current-head LICENSE, go.mod and go.sum blobs match; GitHub annotated release tag object is unsigned, so verify artifact provenance before adoption."
+        "note": "Release/current-head LICENSE, go.mod and go.sum blobs match; the release annotated-tag object is unsigned, so verify artifact provenance before adoption. No public advisory listings were observed, which is not proof of no vulnerabilities."
       }
     },
     {
@@ -2979,7 +2979,9 @@
           "release_blob_sha": "672990d988b1177ccc56c83fc223d233b270d24d",
           "default_ref_blob_sha": "1beb295a3a0ba30ebecf1c918ce93c7981ae7d52",
           "same_blob_at_release_and_default_ref": false,
-          "status": "STRUCTURE_SCREENED; DEPENDENCY_ADVISORIES_NOT_AUDITED"
+          "status": "STRUCTURE_SCREENED; DEPENDENCY_ADVISORIES_NOT_AUDITED",
+          "release_lines": 1300,
+          "default_ref_lines": 1299
         },
         "current_default_branch_head_sha": "4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77",
         "current_default_branch_head_url": "https://github.com/aquasecurity/trivy/commit/4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77",
@@ -2988,7 +2990,7 @@
         "tag_commit_sha_pinned": true,
         "tag_ref_mutability": "EXACT_TARGET_COMMIT_SHA_RECORDED; MUTABILITY/ARTIFACT ATTESTATION NOT ASSUMED",
         "upstream_ci": {
-          "status": "SUCCEEDED_ON_RELEASE_AND_DEFAULT_HEAD",
+          "status": "MIXED_DEFAULT_HEAD_CI; NOT_QUALIFIED",
           "latest_release_run_ids": [
             39586330639,
             39586330915,
@@ -3000,7 +3002,8 @@
             40695091513,
             40698250775
           ],
-          "default_head_conclusions": "SUCCESS"
+          "default_head_conclusions": "SUCCESS",
+          "default_head_findings": "Merge-group run 40695092936 had GoReleaser Build Test (ubuntu-latest) fail with disk quota exceeded; unit tests, integration, E2E, VM, module, K8s jobs succeeded. Push test matrices 40695091513 and 40698250775 reported no-test-required. Treat overall current-head CI as MIXED, not pass."
         },
         "project_advisory_screen": {
           "status": "PARTIAL_PROJECT_VERSION_RANGE_SCREEN",
@@ -3039,7 +3042,7 @@
         },
         "dependency_advisories": "NOT_AUDITED",
         "exact_dependency_audit": "NOT_RUN",
-        "note": "Release/current-head LICENSE, go.mod and go.sum blobs match; GitHub annotated release tag object is unsigned, so verify artifact provenance before adoption."
+        "note": "Latest release v0.76.1 is above the listed root-package advisory patch floors; current-main go.mod/go.sum differ from the release snapshot. Project-level advisory screen only; no transitive dependency audit. Pin GitHub Actions by immutable SHA and verify release artifacts."
       }
     },
     {
@@ -3361,7 +3364,7 @@
         },
         "dependency_advisories": "NOT_AUDITED",
         "exact_dependency_audit": "NOT_RUN",
-        "note": "Release/current-head LICENSE, go.mod and go.sum blobs match; GitHub annotated release tag object is unsigned, so verify artifact provenance before adoption."
+        "note": "Latest v1.31.1 release and current default-head LICENSE/pyproject blobs match; uv.lock differs even though both versions contain 22 package records. Public advisory state NOT VERIFIED."
       }
     },
     {
