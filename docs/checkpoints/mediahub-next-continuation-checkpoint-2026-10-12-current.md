@@ -2723,3 +2723,14 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Test-strength gap: new contract assertions are mainly source-string checks; no behavior fixtures were run for incomplete pagination or missing/duplicate/expired named output artifacts. This is a verification gap, not a demonstrated implementation defect.
 - Formal review submissions observed: 0. PR #583 remains OPEN/DRAFT/UNMERGED; exact-head CI, required checks, and effective branch protection remain NOT VERIFIED in this microstep. No controller dispatch or child runs.
 - Next: read exact-head CI evidence for PR #583 SHA `448bcbe6b941847b993dc2675a74367cce276b3e`, then verify the regression-test job. Do not dispatch the controller before gates are confirmed.
+
+---
+
+## Wave 462 — PR #583 exact-head CI and regression-job verification (2026-10-29)
+
+- Report: [PR #583 exact-head CI and regression-job verification](MEDIAHUB-PR583-EXACT-HEAD-CI-AND-REGRESSION-JOB-WAVE-462-2026-10-29.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Target PR #583 head 448bcbe6b941847b993dc2675a74367cce276b3e: GitHub returned 9 check-runs, 7 SUCCESS and 2 SKIPPED. The skipped jobs are explicit batch admission and dispatch/monitor in non-launching probe run 40832709652; this is not a Gemini batch.
+- Contract validation run 40832709572 is terminal SUCCESS on the exact target SHA. Job validate ID 123310341138 and all listed contract/lint steps completed SUCCESS.
+- Combined commit status remains pending with zero contexts; effective required checks and branch protection remain NOT VERIFIED; formal reviews observed: 0. PR #583 remains OPEN/DRAFT/UNMERGED.
+- Gemini batch/children, provider inference, secret reads, local executor, merge, deployment, qualification and acceptance: NOT RUN. Contour A NOT ACCEPTED; Contour B gated.
+- Next bounded step: inspect exact-head contract-test source and assess behavior-fixture coverage for incomplete pagination and missing/duplicate/expired gemini-output artifacts; do not dispatch the controller.
