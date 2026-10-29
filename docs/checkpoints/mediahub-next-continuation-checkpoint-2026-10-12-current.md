@@ -2504,3 +2504,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 
 Canonical map:
 https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+### Wave 445 final read-back and canonical index reconciliation (2026-10-29)
+
+- Final Wave 445 report blob SHA: `15b8f3c87515906d06c9e89f125639ea8a56f950`.
+- Canonical map Wave 445 index commit: `58ed79ad05eb32ba27c2ebd2479faf0075d3ca4d`; new map blob SHA `2d6c06fd677d3884dde63470bf4e514e7dc72c07`, 1,180,768 characters. Git blob read-back matched the prepared content byte-for-byte; Wave 445 is first and historic Wave 392 text remains.
+- Master Roadmap blob SHA `3f6ca7ecf155e2c348fcfa2771ebb5abca3d27d9`, 807,017 characters. Git blob read-back matched the prepared content byte-for-byte; Wave 445 is first and historical Wave 429 evidence remains.
+- Register invariant verification: PR #585 research branch register blob `be836e92203f6ce137f12fa87e1cb18e803ad71c`; 128 records, 128 unique repositories, zero duplicate repository IDs/record IDs, and declared/computed status counts agree (99/22/2/5).
+- PR #585 target remains `227ea19f514b243962b2fe4ebcec943a322144c1`; runs [40830739045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830739045) and [40830738949](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830738949) were successful on this exact SHA. Review absent and combined status pending/zero contexts; remain Draft/open/unmerged.
+- PR #583 target remains `265a6116874739d1826fc5c7dda84b5b8b8f9eeb`; formal review absent and governance/required-check policy NOT VERIFIED. No controller dispatch occurred.
+- Next: verify immutable tag-to-commit and current default-branch head refs for zizmor, Trivy and gVisor; keep lockfile and advisory audit open until reproducible evidence is recorded.
