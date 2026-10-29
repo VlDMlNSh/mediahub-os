@@ -1,3 +1,13 @@
+## Wave 457 — pinned dependency-audit inputs (2026-10-29)
+
+- Detailed report: [Wave 457 pinned dependency-audit inputs](MEDIAHUB-DEPENDENCY-AUDIT-INPUT-PINS-WAVE-457-2026-10-29.md), blob `d82ee45893c6d0a2a68a290c2b1475cd93d117a2`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-457-2026-10-29.md), blob `eacbf79b380e5b8dbebb4aac7970eb4ac43dfd5a`; [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Step 1 pins release-vs-current refs and exact blobs for zizmor `Cargo.lock`/`uv.lock`, Trivy `go.mod`/`go.sum`, and gVisor `go.mod`/`go.sum`; all eight lockfile snapshots are enumerated in the report.
+- OSV-Scanner v2.7.0 selected for its documented support of `Cargo.lock`, `uv.lock`, and `go.mod`. Candidate Linux asset digest recorded; tag verification is `unknown_key`, and executable/checksum/attestation qualification remains NOT VERIFIED.
+- Dependency/advisory scan **NOT RUN**; no install, provider call, secret access, agent dispatch, merge, deployment, qualification or component adoption. Keep Wave 455 gVisor/containerd and Wave 456 zizmor/rustls narrow range findings separate from full SCA.
+- Next: verify scanner integrity/command contract, then run pinned read-only scans with result digests. Contour A **NOT ACCEPTED**; Contour B gated.
+
+---
+
 ## Wave 456 — zizmor Rustls dependency advisory range match (2026-10-29)
 
 - Evidence report: [Wave 456 pinned zizmor lockfile advisory triage](MEDIAHUB-ZIZMOR-PINNED-LOCKFILE-ADVISORY-TRIAGE-WAVE-456-2026-10-29.md), blob `e09505b29df50dfe50bae88983f5f0f63d853d1c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
