@@ -43,7 +43,7 @@ The prior PR #585 description still presented the initial Waves 431–433 snapsh
 ## 4. Disposition and next step
 
 - Register counts: **VERIFIED** for the current JSON blob and its row/identifier/count invariants.
-- PR description correction: **UPDATED / READ-BACK REQUIRED** (the final post-write read-back is recorded in the next checkpoint entry).
+- PR description correction: **UPDATED / VERIFIED** by the subsequent checkpoint read-back of the PR #585 body; the PR code head remained unchanged.
 - Exact-head CI: **SUCCEEDED** for the two observed PR #585 workflows and six observed PR #583 workflows.
 - Independent formal reviews: **NOT VERIFIED / zero submissions observed**.
 - Effective required-check / branch governance: **NOT VERIFIED**.
