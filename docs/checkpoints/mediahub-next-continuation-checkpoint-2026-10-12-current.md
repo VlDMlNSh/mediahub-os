@@ -2734,3 +2734,12 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Combined commit status remains pending with zero contexts; effective required checks and branch protection remain NOT VERIFIED; formal reviews observed: 0. PR #583 remains OPEN/DRAFT/UNMERGED.
 - Gemini batch/children, provider inference, secret reads, local executor, merge, deployment, qualification and acceptance: NOT RUN. Contour A NOT ACCEPTED; Contour B gated.
 - Next bounded step: inspect exact-head contract-test source and assess behavior-fixture coverage for incomplete pagination and missing/duplicate/expired gemini-output artifacts; do not dispatch the controller.
+
+
+### Wave 463 — PR metadata baseline microstep (2026-10-29)
+
+- Report: [PR metadata baseline — Wave 463](MEDIAHUB-PR-METADATA-BASELINE-WAVE-463-2026-10-29.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #583 remains OPEN/DRAFT/UNMERGED on head `448bcbe6b941847b993dc2675a74367cce276b3e`; GitHub mergeability snapshot was `mergeable=true`, `mergeable_state=clean`. This does not establish CI or approval gates.
+- PR #585 remains OPEN/DRAFT/UNMERGED on head `8940c7f0f66c9f50e2d83659a6231aa790817221`; GitHub mergeability snapshot was `mergeable=true`, `mergeable_state=clean`. This does not establish CI or approval gates.
+- Exact-head CI, formal reviews, required checks, effective branch protection, and executor availability were not checked in this microstep. Gemini/controller execution, merge, deployment, qualification, and acceptance: NOT RUN.
+- Next: read formal review submissions for PRs #583 and #585 only; an empty/unavailable review result is NOT VERIFIED, not approval. No controller dispatch.
