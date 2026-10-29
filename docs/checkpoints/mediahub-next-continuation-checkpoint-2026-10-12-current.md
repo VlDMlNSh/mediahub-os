@@ -2777,3 +2777,13 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Initial Astra Verify run `40843918527` failed because a static assertion incorrectly rejected the workflow's own `workflow_dispatch` trigger; assertion corrected in commit `da60a5e3bd950ada89672d8a9bbe5fc214afcdd1`. Rerun `40844072020` (Astra Verify) and validation run `40844071955` (Astra Cloud Runtime Validation) completed SUCCESS on latest head. Only these two contexts were surfaced by the API; remaining required Ruleset contexts are NOT VERIFIED. Formal reviews=0 and inline threads=0 at initial check. No agent run, merge, deployment, qualification or acceptance claimed.
 - Next: verify exact-head CI; address failures; add behavioral negative tests; then implement controller signing/dispatch with duplicate protection and ambiguous-outcome reconciliation, and require independent review.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 472 — PR review child contract-test hardening (2026-10-29)
+
+- Report: [Wave 472](MEDIAHUB-PR-READONLY-REVIEW-WAVE-472-2026-10-29.md); [PR #588](https://github.com/VlDMlNSh/mediahub-os/pull/588).
+- Latest PR head `11074b6240361b2943643922d49417bee9601262`; workflow blob `85174e24b7d213ce7d90a4bd215ec4fbac32c605`; test blob `3ac7428a3054334842f4774f1fee3f49027cf51a`.
+- Added static contract checks for authorization-before-model-credentials, fail-closed missing HMAC, full-SHA action pins, no write permissions, and checkout `persist-credentials: false`.
+- Exact-head CI runs Astra Verify `40844640479` and Astra Cloud Runtime Validation `40844640409` are QUEUED; full required CI NOT VERIFIED. No formal review submissions or inline threads. Controller integration not implemented; do not dispatch child manually.
+- Behavioral tests and controller integration remain outstanding. No agents, secret access, merge, deployment or qualification in this pass.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
