@@ -2678,3 +2678,15 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 - Contour A **NOT ACCEPTED**; Contour B remains gated.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 458 — OSV-Scanner v2.7.0 qualification preflight (2026-10-29)
+
+- Report: [Wave 458 OSV-Scanner qualification preflight](MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; map addendum [Wave 458](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Master Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Scope is Step 2A only: check pinned v2.7.0 CLI/output contract and execution preflight before scans. At pinned source commit `bfe2f84abd2f09fe0b83ba7f6dad40d296762f40`, usage/output docs blobs `f6d68845d275fe477674e8e738830a5d354d03ad` / `025bc1a3f1cb69a1b901e4b43ccfb2029f23fbae` document `scan -L ... --format json`, JSON stdout, diagnostics stderr; installation docs blob `de0479312f21fcd6fb5d2ca617c7c1ac9629379b` documents SLSA verification. These are static-source contract checks only.
+- GitHub API verifies the source commit signature (`verified=true/reason=valid`), but tag object `7ef17deffedb9e9b751fe6c6c328a88de29d9cf4` reports `verified=false/unknown_key`, release metadata says `immutable=false`, and the published binary/checksum/attestation bytes were not independently fetched or hashed. This container lacks `osv-scanner` and `slsa-verifier`; HTTPS download failed DNS resolution for github.com. Binary integrity, runtime CLI probe and all eight Wave 457 scans are **NOT VERIFIED / BLOCKED / NOT RUN**.
+- MediaHub main immutable target `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #583 head `448bcbe6b941847b993dc2675a74367cce276b3e`: 9 checks (7 SUCCESS, 2 SKIPPED), combined status pending/zero contexts, formal reviews 0. PR #585 head `8940c7f0f66c9f50e2d83659a6231aa790817221`: 2 exact-head checks SUCCESS, combined status pending/zero contexts, formal reviews 0. Ruleset listing empty and branch-protection read 403; effective policy remains NOT VERIFIED. Issue #301 OPEN (196 comments; last updated 2026-10-23).
+- No scanner execution, SCA results, Gemini dispatch/children, provider inference, secret access, local executor task, merge, deployment, qualification or component adoption. Contour A **NOT ACCEPTED**; Contour B gated.
+- Next bounded step: run independent binary checksum and SLSA attestation verification plus `--version`/`scan --help` and a harmless JSON fixture in an approved network-enabled ephemeral environment. Do not scan the eight snapshots until tool integrity and runtime CLI/output behavior pass; otherwise continue to mark scans **BLOCKED / NOT RUN**.
+
+Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
