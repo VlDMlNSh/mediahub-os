@@ -2632,7 +2632,7 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 
 ## Wave 454 — PR head and governance recheck (2026-10-29)
 
-- Report: [Wave 454 PR head and governance recheck](MEDIAHUB-PR-HEAD-GOVERNANCE-RECHECK-WAVE-454-2026-10-29.md), blob `eca0ca0f2aa3ccdac8dd9b6b5afe7c688fe12d91`; map addendum: [Wave 454](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-454-2026-10-29.md), blob `73f6c91f23654fd2c6ae29dfd2af1a74239a16f8`.
+- Report: [Wave 454 PR head and governance recheck](MEDIAHUB-PR-HEAD-GOVERNANCE-RECHECK-WAVE-454-2026-10-29.md), blob `777a5f7fd0851abf8f8b5c1ce5088c28d9f2fe39`; map addendum: [Wave 454](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-454-2026-10-29.md), blob `73f6c91f23654fd2c6ae29dfd2af1a74239a16f8`.
 - Immutable MediaHub target `main`: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Canonical documentation branch before the Wave 454 report was created: `71f3133bf53b07fb5711f07dc5e18096a3d359d2`.
 - PR #583 remains OPEN/DRAFT/UNMERGED at exact head `448bcbe6b941847b993dc2675a74367cce276b3e`: nine check-runs observed, seven terminal SUCCESS and two SKIPPED; the caller-context probe did not dispatch. PR #585 remains OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`: the two observed exact-head checks succeeded.
 - Formal reviews: zero observed for #583/#585. Combined status on both PR heads remains pending with zero contexts. Main metadata reports `protected=false`; direct branch-protection read returns 403; an empty ruleset listing is inconclusive. Effective branch policy remains NOT VERIFIED.
