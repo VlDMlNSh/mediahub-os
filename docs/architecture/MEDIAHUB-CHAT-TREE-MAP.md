@@ -1,3 +1,12 @@
+## Wave 447 — upstream HEAD evidence and PR exact-head CI (2026-10-29)
+
+- Report: [Wave 447 upstream HEAD verification and PR status](../checkpoints/MEDIAHUB-NEXT-UPSTREAM-HEAD-VERIFICATION-AND-PR-STATUS-WAVE-447-2026-10-29.md); [Wave 447 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-447-2026-10-29.md); [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- PR #583 remains Draft/open/unmerged at exact head `265a6116874739d1826fc5c7dda84b5b8b8f9eeb`; six observed exact-head workflows succeeded. PR #585 remains Draft/open/unmerged at `283d2194b51e72c06ec9f68043fdab1cd7fc96a5`; Astra Verify `40831262403` and Cloud Runtime Validation `40831262398` both succeeded on that exact head. Formal reviews are zero and combined-status responses empty for both; branch-protection/required-check policy NOT VERIFIED.
+- Wave 445 candidate register blob `4dd5c1c12f2e0c73772eef5cc4bfe5543ae17a21` retains 128 unique records (99 CANDIDATE / 22 CONDITIONAL / 2 REFERENCE_ONLY / 5 EXCLUDED), inventory OPEN_NOT_FROZEN, comparison NOT_STARTED and adoption NONE. Exact current HEADs were recorded for zizmor (`bf9ccabc03ca255c8ac3ac43329335d0524e3dd7`), Trivy (`4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77`) and gVisor (`ac7b4e0fdc7dc4674453438e5e15fc069895620c`). Their release/current HEAD LICENSE blobs match; manifest and lockfile blobs differ. Lockfile/advisory/exact upstream CI audits remain incomplete.
+- Gemini batch and child dispatch NOT RUN; no provider inference, secret access, local executor task, merge, deployment or component adoption. Contour A NOT ACCEPTED; Contour B gated.
+
+---
+
 ## Wave 445 — candidate register consistency and exact-head CI (2026-10-29)
 
 - Report: [Wave 445 register consistency and PR #585 exact-head CI](../checkpoints/MEDIAHUB-MATURE-REGISTER-CONSISTENCY-AND-EXACT-HEAD-CI-WAVE-445-2026-10-29.md); [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
