@@ -2586,6 +2586,49 @@
           "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
         },
         "latest_release": {
+          "wave": "446",
+          "checked_at": "2026-10-29",
+          "tag": "release-20261026.0",
+          "immutable_tag_commit_sha": "e8a2a28891ba41f3fb737dee8bb7120745d75826",
+          "release_url": "https://github.com/google/gvisor/releases/tag/release-20261026.0",
+          "listing_url": "https://github.com/google/gvisor/releases",
+          "latest_release_status": "OBSERVED_AS_LATEST_IN_GITHUB_RELEASES_API",
+          "published_at": "2026-10-28T00:10:59Z",
+          "release_metadata_immutable": false,
+          "tag_ref_mutability": "RELEASE_NOT_MARKED_IMMUTABLE; TARGET_COMMIT_SHA_RECORDED",
+          "default_branch": "master",
+          "current_default_branch_head_sha": "ac7b4e0fdc7dc4674453438e5e15fc069895620c",
+          "current_default_branch_head_url": "https://github.com/google/gvisor/commit/ac7b4e0fdc7dc4674453438e5e15fc069895620c",
+          "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29",
+          "release_commit_matches_current_head": false,
+          "license": {
+            "path": "LICENSE",
+            "blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
+            "status": "READ",
+            "same_blob_at_release_and_default_ref": true,
+            "current_head_blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
+            "current_head_blob_verified_at_exact_sha": true
+          },
+          "manifest": {
+            "path": "go.mod",
+            "release_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+            "default_ref_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+            "same_blob_at_release_and_default_ref": true,
+            "status": "READ_AT_EXACT_RELEASE_AND_HEAD_NOT_AUDITED"
+          },
+          "lockfile": {
+            "path": "go.sum",
+            "release_blob_sha": "7835f843768bb04feaadb125707099d71e15b67b",
+            "default_ref_blob_sha": "7835f843768bb04feaadb125707099d71e15b67b",
+            "same_blob_at_release_and_default_ref": true,
+            "status": "CONTENT_RETRIEVED_NOT_AUDITED"
+          },
+          "dependency_advisories": "NOT_AUDITED",
+          "upstream_ci": "NOT_AUDITED",
+          "note": "Latest release tag and resolved target commit were checked against the GitHub Releases API at the recorded timestamp. The current default branch ref was resolved to an exact SHA and LICENSE, manifest and lockfile were read at both that SHA and the release target. Different refs are not treated as one dependency snapshot. Lockfile/advisory/license-transitive analysis remains open."
+        },
+        "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED",
+        "prior_latest_release_wave445": {
           "wave": "445",
           "checked_at": "2026-10-29",
           "tag": "release-20261019.0",
@@ -2630,8 +2673,29 @@
           "release_commit_matches_current_head": false,
           "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29"
         },
-        "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
-      }
+        "wave446_release_refresh": {
+          "release_tag": "release-20261026.0",
+          "release_target_commit_sha": "e8a2a28891ba41f3fb737dee8bb7120745d75826",
+          "release_metadata_immutable": false,
+          "current_default_branch_head_sha": "ac7b4e0fdc7dc4674453438e5e15fc069895620c",
+          "release_commit_matches_current_head": false,
+          "release_license_blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
+          "current_head_license_blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
+          "license_blobs_equal": true,
+          "release_manifest_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+          "current_head_manifest_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+          "manifest_blobs_equal": true,
+          "release_lockfile_blob_sha": "7835f843768bb04feaadb125707099d71e15b67b",
+          "current_head_lockfile_blob_sha": "7835f843768bb04feaadb125707099d71e15b67b",
+          "lockfile_blobs_equal": true,
+          "lockfile_content_status": "RETRIEVED_NOT_AUDITED",
+          "dependency_advisories": "NOT_AUDITED",
+          "upstream_ci": "NOT_AUDITED",
+          "checked_at": "2026-10-29"
+        }
+      },
+      "release_tag": "release-20261026.0",
+      "release_tag_status": "LATEST_RELEASE_TAG_TARGET_COMMIT_AND_RELEASE_DEFAULT_BLOBS_PINNED_WAVE_446"
     },
     {
       "id": "firecracker",
@@ -2711,6 +2775,49 @@
           "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
         },
         "latest_release": {
+          "wave": "446",
+          "checked_at": "2026-10-29",
+          "tag": "v0.76.1",
+          "immutable_tag_commit_sha": "e713f67f7d54decdcd9b3132c9751833dcced698",
+          "release_url": "https://github.com/aquasecurity/trivy/releases/tag/v0.76.1",
+          "listing_url": "https://github.com/aquasecurity/trivy/releases",
+          "latest_release_status": "OBSERVED_AS_LATEST_IN_GITHUB_RELEASES_API",
+          "published_at": "2026-10-21T11:18:34Z",
+          "release_metadata_immutable": true,
+          "tag_ref_mutability": "RELEASE_MARKED_IMMUTABLE; TARGET_COMMIT_SHA_RECORDED",
+          "default_branch": "main",
+          "current_default_branch_head_sha": "4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77",
+          "current_default_branch_head_url": "https://github.com/aquasecurity/trivy/commit/4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77",
+          "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29",
+          "release_commit_matches_current_head": false,
+          "license": {
+            "path": "LICENSE",
+            "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+            "status": "READ",
+            "same_blob_at_release_and_default_ref": true,
+            "current_head_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+            "current_head_blob_verified_at_exact_sha": true
+          },
+          "manifest": {
+            "path": "go.mod",
+            "release_blob_sha": "9f2eb69c8a64d1097706a55ada38055d8e17d833",
+            "default_ref_blob_sha": "64bd58c933f83ee4133861a72538e6e0131e4a19",
+            "same_blob_at_release_and_default_ref": false,
+            "status": "READ_AT_EXACT_RELEASE_AND_HEAD_NOT_AUDITED"
+          },
+          "lockfile": {
+            "path": "go.sum",
+            "release_blob_sha": "672990d988b1177ccc56c83fc223d233b270d24d",
+            "default_ref_blob_sha": "1beb295a3a0ba30ebecf1c918ce93c7981ae7d52",
+            "same_blob_at_release_and_default_ref": false,
+            "status": "CONTENT_RETRIEVED_NOT_AUDITED"
+          },
+          "dependency_advisories": "NOT_AUDITED",
+          "upstream_ci": "NOT_AUDITED",
+          "note": "Latest release tag and resolved target commit were checked against the GitHub Releases API at the recorded timestamp. The current default branch ref was resolved to an exact SHA and LICENSE, manifest and lockfile were read at both that SHA and the release target. Different refs are not treated as one dependency snapshot. Lockfile/advisory/license-transitive analysis remains open."
+        },
+        "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED",
+        "prior_latest_release_wave445": {
           "wave": "445",
           "checked_at": "2026-10-29",
           "tag": "v0.76.0",
@@ -2755,8 +2862,29 @@
           "release_commit_matches_current_head": false,
           "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29"
         },
-        "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
-      }
+        "wave446_release_refresh": {
+          "release_tag": "v0.76.1",
+          "release_target_commit_sha": "e713f67f7d54decdcd9b3132c9751833dcced698",
+          "release_metadata_immutable": true,
+          "current_default_branch_head_sha": "4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77",
+          "release_commit_matches_current_head": false,
+          "release_license_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "current_head_license_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "license_blobs_equal": true,
+          "release_manifest_blob_sha": "9f2eb69c8a64d1097706a55ada38055d8e17d833",
+          "current_head_manifest_blob_sha": "64bd58c933f83ee4133861a72538e6e0131e4a19",
+          "manifest_blobs_equal": false,
+          "release_lockfile_blob_sha": "672990d988b1177ccc56c83fc223d233b270d24d",
+          "current_head_lockfile_blob_sha": "1beb295a3a0ba30ebecf1c918ce93c7981ae7d52",
+          "lockfile_blobs_equal": false,
+          "lockfile_content_status": "RETRIEVED_NOT_AUDITED",
+          "dependency_advisories": "NOT_AUDITED",
+          "upstream_ci": "NOT_AUDITED",
+          "checked_at": "2026-10-29"
+        }
+      },
+      "release_tag": "v0.76.1",
+      "release_tag_status": "LATEST_RELEASE_TAG_TARGET_COMMIT_AND_RELEASE_DEFAULT_BLOBS_PINNED_WAVE_446"
     },
     {
       "id": "syft",
@@ -2904,6 +3032,49 @@
           "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
         },
         "latest_release": {
+          "wave": "446",
+          "checked_at": "2026-10-29",
+          "tag": "v1.31.1",
+          "immutable_tag_commit_sha": "effdb35fa7868863f11655db256d9008922fa427",
+          "release_url": "https://github.com/zizmorcore/zizmor/releases/tag/v1.31.1",
+          "listing_url": "https://github.com/zizmorcore/zizmor/releases",
+          "latest_release_status": "OBSERVED_AS_LATEST_IN_GITHUB_RELEASES_API",
+          "published_at": "2026-10-15T23:16:39Z",
+          "release_metadata_immutable": true,
+          "tag_ref_mutability": "RELEASE_MARKED_IMMUTABLE; TARGET_COMMIT_SHA_RECORDED",
+          "default_branch": "main",
+          "current_default_branch_head_sha": "bf9ccabc03ca255c8ac3ac43329335d0524e3dd7",
+          "current_default_branch_head_url": "https://github.com/zizmorcore/zizmor/commit/bf9ccabc03ca255c8ac3ac43329335d0524e3dd7",
+          "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29",
+          "release_commit_matches_current_head": false,
+          "license": {
+            "path": "LICENSE",
+            "blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+            "status": "READ",
+            "same_blob_at_release_and_default_ref": true,
+            "current_head_blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+            "current_head_blob_verified_at_exact_sha": true
+          },
+          "manifest": {
+            "path": "pyproject.toml",
+            "release_blob_sha": "96d1af120771d767fbf750b0fe4c8c3e13e62521",
+            "default_ref_blob_sha": "96d1af120771d767fbf750b0fe4c8c3e13e62521",
+            "same_blob_at_release_and_default_ref": true,
+            "status": "READ_AT_EXACT_RELEASE_AND_HEAD_NOT_AUDITED"
+          },
+          "lockfile": {
+            "path": "uv.lock",
+            "release_blob_sha": "c68a7e33664ae40b6e013730f4180e0c831ecf9f",
+            "default_ref_blob_sha": "27a9fc3b2eb5bf0e70eb315c985238547519e742",
+            "same_blob_at_release_and_default_ref": false,
+            "status": "CONTENT_RETRIEVED_NOT_AUDITED"
+          },
+          "dependency_advisories": "NOT_AUDITED",
+          "upstream_ci": "NOT_AUDITED",
+          "note": "Latest release tag and resolved target commit were checked against the GitHub Releases API at the recorded timestamp. The current default branch ref was resolved to an exact SHA and LICENSE, manifest and lockfile were read at both that SHA and the release target. Different refs are not treated as one dependency snapshot. Lockfile/advisory/license-transitive analysis remains open."
+        },
+        "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED",
+        "prior_latest_release_wave445": {
           "wave": "445",
           "checked_at": "2026-10-29",
           "tag": "v1.30.1",
@@ -2948,8 +3119,29 @@
           "release_commit_matches_current_head": false,
           "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29"
         },
-        "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
-      }
+        "wave446_release_refresh": {
+          "release_tag": "v1.31.1",
+          "release_target_commit_sha": "effdb35fa7868863f11655db256d9008922fa427",
+          "release_metadata_immutable": true,
+          "current_default_branch_head_sha": "bf9ccabc03ca255c8ac3ac43329335d0524e3dd7",
+          "release_commit_matches_current_head": false,
+          "release_license_blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+          "current_head_license_blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+          "license_blobs_equal": true,
+          "release_manifest_blob_sha": "96d1af120771d767fbf750b0fe4c8c3e13e62521",
+          "current_head_manifest_blob_sha": "96d1af120771d767fbf750b0fe4c8c3e13e62521",
+          "manifest_blobs_equal": true,
+          "release_lockfile_blob_sha": "c68a7e33664ae40b6e013730f4180e0c831ecf9f",
+          "current_head_lockfile_blob_sha": "27a9fc3b2eb5bf0e70eb315c985238547519e742",
+          "lockfile_blobs_equal": false,
+          "lockfile_content_status": "RETRIEVED_NOT_AUDITED",
+          "dependency_advisories": "NOT_AUDITED",
+          "upstream_ci": "NOT_AUDITED",
+          "checked_at": "2026-10-29"
+        }
+      },
+      "release_tag": "v1.31.1",
+      "release_tag_status": "LATEST_RELEASE_TAG_TARGET_COMMIT_AND_RELEASE_DEFAULT_BLOBS_PINNED_WAVE_446"
     },
     {
       "id": "renovate",
@@ -3054,7 +3246,7 @@
       }
     }
   ],
-  "latest_screening_wave": "445",
+  "latest_screening_wave": "446",
   "screening_summary": {
     "pinned_heads": 69,
     "license_files_read_at_pinned_heads": 65,
@@ -3095,5 +3287,25 @@
     "latest_release_commit_equal_current_head": 0,
     "manifest_lockfile_blobs_verified_at_exact_current_heads": 3,
     "branch_tip_equivalence_of_original_source_head": "NOT_VERIFIED"
+  },
+  "wave446_summary": {
+    "date": "2026-10-29",
+    "candidates_added": 0,
+    "existing_candidates_refreshed": 3,
+    "latest_release_tags_resolved": 3,
+    "latest_release_target_commit_shas_pinned": 3,
+    "current_default_branch_heads_resolved": 3,
+    "release_and_head_license_blobs_equal": 3,
+    "release_manifest_blobs_equal_to_current_head": 2,
+    "release_lockfile_blobs_equal_to_current_head": 1,
+    "release_commits_equal_to_current_head": 0,
+    "lockfile_contents_retrieved_at_latest_release": 3,
+    "lockfiles_audited": 0,
+    "dependency_advisories_reviewed": 0,
+    "exact_upstream_ci_audits": 0,
+    "formal_comparison": "NOT_STARTED",
+    "inventory_freeze": "NOT_READY",
+    "adoption": "NONE",
+    "notes": "Corrects the prior latest-release observation: newer GitHub Releases API tags were present for all three records. Wave 445 records are preserved under prior_latest_release_wave445."
   }
 }
