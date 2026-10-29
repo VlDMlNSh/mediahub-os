@@ -14,7 +14,7 @@ class PRReadOnlyReviewWorkflowContractTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.source = WORKFLOW.read_text(encoding="utf-8")
-        cls.document = yaml.safe_load(cls.source)
+        cls.document = yaml.load(cls.source, Loader=yaml.BaseLoader)
 
     def test_dispatch_inputs_bind_pr_and_both_immutable_shas(self):
         inputs = self.document["on"]["workflow_dispatch"]["inputs"]
