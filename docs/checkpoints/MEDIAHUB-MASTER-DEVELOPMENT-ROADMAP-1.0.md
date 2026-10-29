@@ -1,3 +1,12 @@
+## Wave 458 — OSV-Scanner qualification preflight (2026-10-29)
+
+- Evidence: [Wave 458 report](MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Exact candidate: OSV-Scanner v2.7.0 source commit `bfe2f84abd2f09fe0b83ba7f6dad40d296762f40`. Source commit signature API response is valid, but tag object verification is `unknown_key`, release metadata is mutable, and asset/checksum/SLSA bytes could not be independently verified in the isolated DNS-disabled container. Pinned source docs define `scan -L ... --format json`, JSON stdout/diagnostics stderr; runtime behavior remains NOT RUN.
+- Disposition: scanner binary/tool qualification NOT VERIFIED; all eight Wave 457 source scans BLOCKED / NOT RUN; no SCA result is inferred. Controller/Gemini, provider, secrets, merge, deployment and adoption remain NOT RUN; Contour A NOT ACCEPTED, Contour B gated.
+- Next bounded step: run checksum + SLSA verification and a harmless CLI/JSON fixture in an approved network-enabled ephemeral environment. Do not scan dependencies until provenance/runtime gates pass.
+
+---
+
 ## Wave 457 — pinned dependency-audit inputs (2026-10-29)
 
 - Detailed report: [Wave 457 pinned dependency-audit inputs](MEDIAHUB-DEPENDENCY-AUDIT-INPUT-PINS-WAVE-457-2026-10-29.md), blob `d82ee45893c6d0a2a68a290c2b1475cd93d117a2`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-457-2026-10-29.md), blob `eacbf79b380e5b8dbebb4aac7970eb4ac43dfd5a`; [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
