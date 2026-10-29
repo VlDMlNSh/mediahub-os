@@ -2743,3 +2743,14 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - PR #585 remains OPEN/DRAFT/UNMERGED on head `8940c7f0f66c9f50e2d83659a6231aa790817221`; GitHub mergeability snapshot was `mergeable=true`, `mergeable_state=clean`. This does not establish CI or approval gates.
 - Exact-head CI, formal reviews, required checks, effective branch protection, and executor availability were not checked in this microstep. Gemini/controller execution, merge, deployment, qualification, and acceptance: NOT RUN.
 - Next: read formal review submissions for PRs #583 and #585 only; an empty/unavailable review result is NOT VERIFIED, not approval. No controller dispatch.
+
+
+## Wave 469 — Ruleset and review-controller recheck (2026-10-29)
+
+- Report: [Wave 469 on Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6491906679).
+- Active repository Ruleset [MediaHub-main-autonomous-merge](https://github.com/VlDMlNSh/mediahub-os/rules/26108066), ID 26108066, targets ~DEFAULT_BRANCH (main). Five required status contexts are configured; repository API reports allow_auto_merge=true and no bypass actors. Classic branch protection read remains HTTP 403 for the integration; combined effective policy NOT VERIFIED.
+- main SHA f0448f28c7cfa61e4450c38529f09afbfdbbc7c7. Controller blob 0a1246f6755020faf8b7e48d07bfff790bbaece3; contract-test blob 5ae0e8db9465ce36bd4020df69b552c659cd6187.
+- PR #587 remains OPEN / DRAFT / UNMERGED at c64f363056c026f6f83745485918b521138c4930, ahead_by=2, behind_by=0. Exact-head configured CI contexts SUCCESS; formal reviews and inline threads zero. Independent review NOT VERIFIED. Do not treat zero required approvals as a substitute for the project review gate.
+- Current main controller review mode remains pinned to FCC SHA 074f20eb495666946a14410ab88d566aaa754f24; it cannot review PR #587. Wave 463 history-cardinality guard exists only in unmerged PR #587, not main. No agent dispatch, secret access, code/config change, merge or deployment in this wave.
+- Next bounded step: implement a separate PR adding a fixed read-only PR-review mode that validates a bounded PR number and immutable SHA against the current PR head, signs only a fixed task, dispatches only a dedicated review workflow, and preserves owner/governance, idempotency, secret isolation and provenance. Add behavioral negative tests and require exact-head CI plus genuine independent review before use.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Master roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md). Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
