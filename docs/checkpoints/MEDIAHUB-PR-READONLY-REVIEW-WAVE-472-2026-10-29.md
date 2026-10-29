@@ -22,6 +22,10 @@ Extended `tests/test_gemini_pr_readonly_review_wave471_contract.py` with checks 
 
 The previous static test suite had already caught and corrected an over-broad assertion. The newly added checks have been committed, but exact-head CI is queued, so they have not yet been proven by CI. These are static structural assertions, not behavioral tests of HMAC/API/dispatch handling.
 
+## Required-checks gate revalidated
+
+The active repository ruleset `MediaHub-main-autonomous-merge` (`26108066`) requires these five exact status contexts: `Astra Cloud Runtime Validation`, `AI Factory verification`, `provider contract verification`, `Astra Verify`, and `Gemini workflow contract validation (Wave 284)`. For exact PR head `11074b6240361b2943643922d49417bee9601262`, the GitHub check-runs endpoint returned only two checks: `verify` and `validate`, both SUCCESS. The classic commit status endpoint reports `pending` with zero legacy statuses. Therefore the five named required contexts are **not demonstrated on this exact head** and the full required-check gate is **NOT VERIFIED**. Do not merge or mark ready for merge.
+
 ## Remaining blockers
 
 1. Wait for exact-head CI and inspect any failure logs; do not call full CI green until all required Ruleset contexts are confirmed.
