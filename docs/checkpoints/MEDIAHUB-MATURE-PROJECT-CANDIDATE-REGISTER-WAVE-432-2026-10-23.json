@@ -2697,7 +2697,7 @@
       "release_tag": "release-20261026.0",
       "release_tag_status": "LATEST_RELEASE_REF_REFRESHED_2026-10-29; LOCKFILE_CONTENTS_NOT_ADVISORY_AUDITED",
       "latest_release": {
-        "wave": "448",
+        "wave": "449",
         "checked_at": "2026-10-29",
         "tag": "release-20261026.0",
         "immutable_tag_commit_sha": "e8a2a28891ba41f3fb737dee8bb7120745d75826",
@@ -2951,7 +2951,7 @@
       "release_tag": "v0.76.1",
       "release_tag_status": "LATEST_RELEASE_REF_REFRESHED_2026-10-29; LOCKFILE_CONTENTS_NOT_ADVISORY_AUDITED",
       "latest_release": {
-        "wave": "448",
+        "wave": "449",
         "checked_at": "2026-10-29",
         "tag": "v0.76.1",
         "immutable_tag_commit_sha": "e713f67f7d54decdcd9b3132c9751833dcced698",
@@ -3302,7 +3302,7 @@
       "release_tag": "v1.31.1",
       "release_tag_status": "LATEST_RELEASE_REF_REFRESHED_2026-10-29; LOCKFILE_CONTENTS_NOT_ADVISORY_AUDITED",
       "latest_release": {
-        "wave": "448",
+        "wave": "449",
         "checked_at": "2026-10-29",
         "tag": "v1.31.1",
         "immutable_tag_commit_sha": "effdb35fa7868863f11655db256d9008922fa427",
@@ -3470,7 +3470,7 @@
       }
     }
   ],
-  "latest_screening_wave": "448",
+  "latest_screening_wave": "449",
   "screening_summary": {
     "pinned_heads": 69,
     "license_files_read_at_pinned_heads": 65,
@@ -3532,9 +3532,9 @@
     "adoption": "NONE",
     "notes": "Corrects the prior latest-release observation: newer GitHub Releases API tags were present for all three records. Wave 445 records are preserved under prior_latest_release_wave445."
   },
-  "wave448_summary": {
+  "wave449_summary": {
     "date": "2026-10-29",
-    "result": "LATEST_RELEASE_REFERENCES_REFRESHED; EXACT_REF_FILE_BLOBS_CAPTURED; STRUCTURAL_LOCKFILE_SCREEN; LIMITED_PROJECT_ADVISORY_SCREEN",
+    "result": "WAVE 449 — SOURCE-REF, STRUCTURAL LOCKFILE, LIMITED ADVISORY AND UPSTREAM CI SCREEN RECORDED",
     "records_updated": [
       "zizmor",
       "trivy",
@@ -3555,6 +3555,7 @@
     },
     "discovery_phase": "OPEN_NOT_FROZEN",
     "comparison_phase": "NOT_STARTED",
-    "adoption_phase": "NONE"
+    "adoption_phase": "NONE",
+    "numbering_note": "The source screening content originally drafted as Wave 448 was renumbered because the canonical map already contains a separate Wave 448 release inventory/reconciliation report."
   }
 }
