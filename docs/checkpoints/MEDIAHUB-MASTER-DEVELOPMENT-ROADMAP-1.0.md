@@ -1,12 +1,16 @@
-## Wave 445 — mature-project inventory invariant and exact-head evidence (2026-10-29)
+## Wave 447 — current upstream source refs, PR CI and governance disposition (2026-10-29)
 
-- Report: [Wave 445 candidate register consistency and exact-head CI](MEDIAHUB-MATURE-REGISTER-CONSISTENCY-AND-EXACT-HEAD-CI-WAVE-445-2026-10-29.md); [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
-- Immutable MediaHub target: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #585 exact head `227ea19f514b243962b2fe4ebcec943a322144c1`; Astra Verify [40830739045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830739045) and Cloud Runtime Validation [40830738949](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830738949) both SUCCESS on that SHA.
-- Machine register blob `be836e92203f6ce137f12fa87e1cb18e803ad71c`: 128 records / 128 unique repositories; duplicate IDs/repos 0; declared and computed counts agree (99/22/2/5). Discovery OPEN_NOT_FROZEN, comparison NOT_STARTED, adoption NONE. Release/default-ref commit parity, full lockfile audits, dependency advisories, exact upstream CI and transitive-license review are open.
-- PR #585 remains Draft/open/unmerged with no formal review; empty combined status is not a pass. PR #583's observed probe checks are not a three-agent batch; dispatch remains blocked by missing independent review and effective branch-governance evidence. Contour A NOT ACCEPTED; Contour B gated.
-- Next: verify tag-to-commit resolution and current upstream default-branch HEAD for zizmor, Trivy and gVisor, then perform a reproducible lockfile/advisory audit.
+- Detailed evidence: [Wave 447 upstream HEAD verification and PR status](MEDIAHUB-NEXT-UPSTREAM-HEAD-VERIFICATION-AND-PR-STATUS-WAVE-447-2026-10-29.md); [canonical map and Wave 447 addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Immutable MediaHub target remains main SHA `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`.
+- PR #583 is OPEN/DRAFT/UNMERGED at head `265a6116874739d1826fc5c7dda84b5b8b8f9eeb`. Six observed exact-head workflows succeeded; formal review count 0, combined-status API empty, required-check/branch-protection evidence NOT VERIFIED. Its controller probe was non-launching; no three-agent batch occurred.
+- PR #585 is OPEN/DRAFT/UNMERGED at current observed head `ced609a3e7d8f32bef72c6b214928b80bdd88585`. Astra Verify [40831639186](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831639186) and Cloud Runtime Validation [40831639178](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831639178) both succeeded on the exact head. Formal review count 0, combined-status API empty, required-check/branch protection NOT VERIFIED.
+- Related refs: PR #437 [merged](https://github.com/VlDMlNSh/mediahub-os/pull/437) at merge commit `7cbbc0025ce01b8c476d512cfc5e12dc35fd952c`; its observed exact-head CI runs succeeded on its historical head. PR #441 remains OPEN/unmerged on the canonical documentation branch with no reviews and no observed workflow runs; its head/base are stale relative to the current canonical docs branch, so integration is NOT VERIFIED and no merge was attempted.
+- Wave 446 refreshed release refs for three existing candidates. Register blob `92692639556460456a7a3141e1d677fb6065fc2d`: 128 unique records, 99 CANDIDATE / 22 CONDITIONAL / 2 REFERENCE_ONLY / 5 EXCLUDED. Current heads for zizmor (`bf9ccabc03ca255c8ac3ac43329335d0524e3dd7`), Trivy (`4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77`) and gVisor (`ac7b4e0fdc7dc4674453438e5e15fc069895620c`) were resolved and selected files read at exact SHAs. Lockfile/advisory/upstream-CI audits remain incomplete; inventory OPEN_NOT_FROZEN, comparison NOT_STARTED, adoption NONE.
+- No Gemini batch or child dispatch, provider inference, secret access, local executor task, merge, deployment, qualification or component adoption. Contour A NOT ACCEPTED; Contour B remains gated.
+- Next: obtain independent reviews and authoritative required-check/branch-protection evidence for PR #583/#585; reconcile PR #441 or document why it is superseded; continue lockfile, advisory and upstream-CI audits before inventory freeze/adoption.
 
 ---
+
 
 ## Wave 351 — recovered Claude/FCC/Ollama history (2026-10-22)
 
