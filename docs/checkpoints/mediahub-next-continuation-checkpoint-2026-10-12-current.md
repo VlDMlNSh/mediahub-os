@@ -2690,3 +2690,17 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Next bounded step: run independent binary checksum and SLSA attestation verification plus `--version`/`scan --help` and a harmless JSON fixture in an approved network-enabled ephemeral environment. Do not scan the eight snapshots until tool integrity and runtime CLI/output behavior pass; otherwise continue to mark scans **BLOCKED / NOT RUN**.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+---
+
+## Wave 459 — PR head and governance gate snapshot (2026-10-29)
+
+- Report: [Wave 459 PR head and governance snapshot](MEDIAHUB-PR-HEAD-AND-GOVERNANCE-SNAPSHOT-WAVE-459-2026-10-29.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main HEAD `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; documentation branch HEAD at the start of this pass `26eb735700290ac8e3a0d751b944789b526d6426`.
+- PR #583 OPEN/DRAFT/UNMERGED at `448bcbe6b941847b993dc2675a74367cce276b3e`: 9 exact-head checks (7 SUCCESS, 2 SKIPPED), combined status pending/zero contexts, formal reviews 0. The controller probe was non-launching; no batch or child runs were created.
+- PR #585 OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`: Astra Verify [40832496142](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496142) and Cloud Runtime Validation [40832496196](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496196) are SUCCESS on that exact SHA; combined status pending/zero contexts; formal reviews 0.
+- Branch-protection endpoint returned 403; ruleset listing was empty. Effective required-check/branch policy remains NOT VERIFIED. Issue #301 remains OPEN (196 comments).
+- Canonical map's Contents API response was empty, but fetching the exact map blob `d8ca30c423c7a3b9f7b4c133a56e5b6e2fef1d07` recovered 1,198,126 characters and confirmed Wave 458 at the map index. No map-content loss inferred.
+- Gemini Agents 1/2/3, provider inference, secret reads, local executor, merge, deployment, qualification and adoption: NOT RUN. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: independent static contract review of PR #583 workflow + regression test; no dispatch until governance gates are evidenced.
