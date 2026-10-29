@@ -2515,3 +2515,16 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 - PR #585 target remains `227ea19f514b243962b2fe4ebcec943a322144c1`; runs [40830739045](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830739045) and [40830738949](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40830738949) were successful on this exact SHA. Review absent and combined status pending/zero contexts; remain Draft/open/unmerged.
 - PR #583 target remains `265a6116874739d1826fc5c7dda84b5b8b8f9eeb`; formal review absent and governance/required-check policy NOT VERIFIED. No controller dispatch occurred.
 - Next: verify immutable tag-to-commit and current default-branch head refs for zizmor, Trivy and gVisor; keep lockfile and advisory audit open until reproducible evidence is recorded.
+
+
+## Wave 446 — PR #585 latest HEAD CI recheck (2026-10-29)
+
+- Report: [Wave 446 — PR #585 new HEAD and exact-head CI recheck](MEDIAHUB-NEXT-PR585-HEAD-CI-RECHECK-WAVE-446-2026-10-29.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #585 head moved from Wave 445 target `227ea19f514b243962b2fe4ebcec943a322144c1` to `c2fc46bbab80301106764060d77336b3bea57e82`. Do not reuse CI conclusions across these SHAs.
+- Exact-head [Astra Verify run 40831136343](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831136343) was `in_progress`; [Astra Cloud Runtime Validation run 40831136328](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831136328) completed success. Full exact-head CI remains NOT VERIFIED until run 40831136343 reaches terminal status.
+- Combined status is pending with zero contexts; formal review count is zero. PR #585 remains Draft/open/unmerged. Branch protection/required-check governance remains NOT VERIFIED. Gemini controller remains NOT RUN.
+- Candidate register blob `4dd5c1c12f2e0c73772eef5cc4bfe5543ae17a21` reports 128 records; discovery OPEN_NOT_FROZEN, comparison/adoption NOT_STARTED; lockfile audit and advisory reviews remain zero. Do not freeze or adopt.
+- Next: recheck run 40831136343 at terminal status on the exact same SHA. Contour A NOT ACCEPTED; Contour B gated.
+
+Canonical map:
+https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
