@@ -3,7 +3,7 @@
 ## Status
 
 - Change: **COMMITTED on draft PR #588**, not merged.
-- Exact-head CI for `11074b6240361b2943643922d49417bee9601262`: Astra Verify `40844640479` and Astra Cloud Runtime Validation `40844640409` are **QUEUED** at the latest read; results NOT VERIFIED.
+- Exact-head CI for `11074b6240361b2943643922d49417bee9601262`: Astra Verify `40844640479` and Astra Cloud Runtime Validation `40844640409` completed **SUCCESS**. The check-runs API returned only 2 contexts total, so the other Ruleset-required contexts remain **NOT VERIFIED** and the complete required set is not established.
 - Independent review: **NOT VERIFIED**; no formal review submissions or inline threads were returned on latest check.
 - Controller integration: **NOT IMPLEMENTED**. Do not manually dispatch the child workflow.
 - Contour A: **NOT ACCEPTED**. Contour B: **GATED**.
