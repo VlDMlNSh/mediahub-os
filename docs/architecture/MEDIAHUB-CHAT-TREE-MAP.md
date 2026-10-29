@@ -1,3 +1,13 @@
+## Wave 457 — pinned dependency-audit inputs (2026-10-29)
+
+- Report: [Wave 457 pinned dependency-audit inputs](../checkpoints/MEDIAHUB-DEPENDENCY-AUDIT-INPUT-PINS-WAVE-457-2026-10-29.md), blob `d82ee45893c6d0a2a68a290c2b1475cd93d117a2`; [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-457-2026-10-29.md), blob `eacbf79b380e5b8dbebb4aac7970eb4ac43dfd5a`; [current checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- MediaHub `main` target: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Separate release/current refs and exact input blobs are pinned for zizmor `Cargo.lock` + `uv.lock`, Trivy `go.mod` + `go.sum`, and gVisor `go.mod` + `go.sum`.
+- Candidate scanner OSV-Scanner `v2.7.0`, source commit `bfe2f84abd2f09fe0b83ba7f6dad40d296762f40`; Linux x86_64 asset digest metadata recorded. Tag verification is `unknown_key`, executable/checksum/attestation validation NOT RUN; scanner qualification NOT VERIFIED.
+- Step 1 only: source refs/blobs pinned; scan/advisory output NOT RUN. Wave 455 gVisor/containerd and Wave 456 zizmor/rustls overlap findings remain separate narrow findings, not full SCA results.
+- Next: validate scanner version/command contract and integrity, then scan each pinned lockfile independently with retained JSON results/digests. If tool integrity or execution environment cannot be established, mark BLOCKED / NOT RUN. No component adoption; Contour A NOT ACCEPTED; Contour B gated.
+
+---
+
 ## Wave 456 — zizmor Rustls dependency advisory range match (2026-10-29)
 
 - Report: [pinned zizmor lockfile advisory triage](../checkpoints/MEDIAHUB-ZIZMOR-PINNED-LOCKFILE-ADVISORY-TRIAGE-WAVE-456-2026-10-29.md), blob `e09505b29df50dfe50bae88983f5f0f63d853d1c`; [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
