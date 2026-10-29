@@ -1,3 +1,30 @@
+## Wave 454 — PR head and governance recheck (2026-10-29)
+
+- Detailed report: [Wave 454 PR head and governance recheck](MEDIAHUB-PR-HEAD-GOVERNANCE-RECHECK-WAVE-454-2026-10-29.md), blob `eca0ca0f2aa3ccdac8dd9b6b5afe7c688fe12d91`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-454-2026-10-29.md), blob `73f6c91f23654fd2c6ae29dfd2af1a74239a16f8`; [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Immutable main target: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #583 exact head `448bcbe6b941847b993dc2675a74367cce276b3e`: seven observed check-runs success and two skipped (non-launching probe context). PR #585 exact head `8940c7f0f66c9f50e2d83659a6231aa790817221`: both observed workflows succeeded.
+- Formal review submissions: zero for both PRs. Combined status is pending / zero contexts. `main` metadata says `protected=false`; direct branch-protection endpoint returns 403 and an empty ruleset list is inconclusive. Effective required-check/branch policy NOT VERIFIED.
+- Pinned dependency/advisory audit NOT RUN; Trivy CI remains MIXED after disk-quota failure; gVisor checksum/attestation and zizmor advisory state NOT VERIFIED. No dispatch, provider call, secret access, merge, deployment, qualification or adoption. Contour A NOT ACCEPTED; Contour B gated.
+- Next: perform the reproducible source-pinned dependency/advisory audit against exact upstream lockfile blobs and resolve source-provenance/CI gaps. Do not dispatch or merge while review and effective branch-governance gates remain unverified.
+
+---
+
+## Wave 453 — gVisor release provenance and current gate recheck (2026-10-29)
+
+- Detailed report: [Wave 453 gVisor release provenance and current gates](MEDIAHUB-GVISOR-RELEASE-PROVENANCE-AND-CURRENT-GATES-WAVE-453-2026-10-29.md), blob `e938de6e43e2f0db73bbcdc5bd4dc6239c7d8d83`; map addendum: [Wave 453](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-453-2026-10-29.md), blob `c0ba69b93f864bbecc51d7482c1342febf728417`.
+- gVisor `release-20261026.0` targets `e8a2a28891ba41f3fb737dee8bb7120745d75826`; tag object is unsigned, release metadata reports `immutable=false`, and GitHub reports per-asset SHA-256 metadata. Release Mirror run [40606990389](https://github.com/google/gvisor/actions/runs/40606990389) succeeded. Checksum-file content comparison and independent attestation remain NOT VERIFIED; artifact provenance remains NOT VERIFIED.
+- PR #583/#585 exact-head statuses and missing-review/effective-policy blockers are preserved in Wave 454; no dispatch or merge authorization is inferred.
+- Next: compare the official checksum file contents and obtain independent release artifact provenance, then continue the exact-lockfile/transitive-advisory audit.
+
+---
+
+## Wave 452 — PR #585 register summary reconciliation (2026-10-29)
+
+- Detailed report: [Wave 452 register summary reconciliation](MEDIAHUB-PR585-REGISTER-SUMMARY-RECONCILIATION-WAVE-452-2026-10-29.md), blob `eeb174a32619add45474eb11afb24aca102f970d`; map addendum: [Wave 452](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-452-2026-10-29.md), blob `6bf8ba76390dc0b44f4bb308d43a22fc4bfc4d2d`.
+- The candidate register blob `eefd7f64b4631b17278d6b5a1d1972c6ec17069b` reconciles at 128 unique repository records: 99 CANDIDATE / 22 CONDITIONAL / 2 REFERENCE_ONLY / 5 EXCLUDED. Discovery OPEN_NOT_FROZEN; comparison/adoption NOT_STARTED. These are structural invariants, not qualification.
+- PR #585's description was reconciled to 128 rows; exact-head CI succeeded, but review/policy gates remain NOT VERIFIED. Full transitive dependency/advisory audit NOT RUN; Trivy quota CI MIXED; gVisor provenance and zizmor advisory state remain NOT VERIFIED.
+
+---
+
 ## Wave 451 — Gemini controller complete-list evidence hardening (2026-10-29)
 
 - Detailed report: [Wave 451 controller complete evidence-listing hardening](MEDIAHUB-GEMINI-CONTROLLER-COMPLETE-EVIDENCE-LISTING-WAVE-451-2026-10-29.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
