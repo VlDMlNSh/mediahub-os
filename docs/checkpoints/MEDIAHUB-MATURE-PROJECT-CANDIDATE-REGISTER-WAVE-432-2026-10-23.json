@@ -2697,7 +2697,7 @@
       "release_tag": "release-20261026.0",
       "release_tag_status": "LATEST_RELEASE_REF_REFRESHED_2026-10-29; LOCKFILE_CONTENTS_NOT_ADVISORY_AUDITED",
       "latest_release": {
-        "wave": "447",
+        "wave": "448",
         "checked_at": "2026-10-29",
         "tag": "release-20261026.0",
         "immutable_tag_commit_sha": "e8a2a28891ba41f3fb737dee8bb7120745d75826",
@@ -2951,7 +2951,7 @@
       "release_tag": "v0.76.1",
       "release_tag_status": "LATEST_RELEASE_REF_REFRESHED_2026-10-29; LOCKFILE_CONTENTS_NOT_ADVISORY_AUDITED",
       "latest_release": {
-        "wave": "447",
+        "wave": "448",
         "checked_at": "2026-10-29",
         "tag": "v0.76.1",
         "immutable_tag_commit_sha": "e713f67f7d54decdcd9b3132c9751833dcced698",
@@ -3302,7 +3302,7 @@
       "release_tag": "v1.31.1",
       "release_tag_status": "LATEST_RELEASE_REF_REFRESHED_2026-10-29; LOCKFILE_CONTENTS_NOT_ADVISORY_AUDITED",
       "latest_release": {
-        "wave": "447",
+        "wave": "448",
         "checked_at": "2026-10-29",
         "tag": "v1.31.1",
         "immutable_tag_commit_sha": "effdb35fa7868863f11655db256d9008922fa427",
@@ -3470,7 +3470,7 @@
       }
     }
   ],
-  "latest_screening_wave": "447",
+  "latest_screening_wave": "448",
   "screening_summary": {
     "pinned_heads": 69,
     "license_files_read_at_pinned_heads": 65,
@@ -3532,9 +3532,9 @@
     "adoption": "NONE",
     "notes": "Corrects the prior latest-release observation: newer GitHub Releases API tags were present for all three records. Wave 445 records are preserved under prior_latest_release_wave445."
   },
-  "wave447_summary": {
+  "wave448_summary": {
     "date": "2026-10-29",
-    "result": "LATEST_RELEASE_POINTERS_REFRESHED; STRUCTURAL_LOCKFILE_SCREEN_ONLY; PROJECT_ADVISORY_SCREEN_PARTIAL",
+    "result": "LATEST_RELEASE_REFERENCES_REFRESHED; EXACT_REF_FILE_BLOBS_CAPTURED; STRUCTURAL_LOCKFILE_SCREEN; LIMITED_PROJECT_ADVISORY_SCREEN",
     "records_updated": [
       "zizmor",
       "trivy",
@@ -3548,7 +3548,11 @@
       "EXCLUDED_FROM_ACTIVE_SHORTLIST": 5
     },
     "dependency_advisory_audit": "NOT_AUDITED",
-    "exact_upstream_ci": "ZIZMOR_SUCCESS; GVISOR_SUCCESS; TRIVY_MIXED_DEFAULT_HEAD_DUE_TO_GORELEASER_DISK_QUOTA_FAILURE",
+    "latest_release_and_head_ci": {
+      "zizmor": "SAMPLED_RELEASE_AND_DEFAULT_HEAD_RUNS_SUCCESS; PUBLIC_ADVISORY_STATUS_NOT_VERIFIED",
+      "trivy": "RELEASE_RUNS_SUCCESS; DEFAULT_HEAD_MERGE_GROUP_GORELEASER_FAILURE_DUE_DISK_QUOTA; NOT_QUALIFIED",
+      "gvisor": "SAMPLED_RELEASE_AND_DEFAULT_HEAD_RUNS_SUCCESS; RELEASE_TAG_UNSIGNED; PROVENANCE_VERIFICATION_REQUIRED"
+    },
     "discovery_phase": "OPEN_NOT_FROZEN",
     "comparison_phase": "NOT_STARTED",
     "adoption_phase": "NONE"
