@@ -1,3 +1,13 @@
+## Wave 458 — OSV-Scanner v2.7.0 qualification preflight (2026-10-29)
+
+- Report: [Wave 458 OSV-Scanner qualification preflight](../checkpoints/MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Static CLI/JSON contract is checked against pinned OSV-Scanner v2.7.0 source docs; binary/checksum/SLSA verification and runtime probe remain **NOT VERIFIED / NOT RUN** because the isolated container has no verifier/scanner and cannot resolve github.com for asset download.
+- Release tag object is `unknown_key` and release metadata `immutable=false`; GitHub's source-commit signature status is valid. Do not conflate source commit verification with binary/attestation provenance.
+- All eight pinned scans: **BLOCKED / NOT RUN**. PR #583/#585 still OPEN/DRAFT/UNMERGED; zero formal reviews, combined status pending/zero contexts; effective branch governance NOT VERIFIED. Contour A NOT ACCEPTED; Contour B gated.
+- Next: independently verify binary hash and SLSA provenance in an approved ephemeral network-enabled environment, then perform a harmless CLI/JSON fixture before any lockfile scan.
+
+---
+
 ## Wave 457 — pinned dependency-audit inputs (2026-10-29)
 
 - Report: [Wave 457 pinned dependency-audit inputs](../checkpoints/MEDIAHUB-DEPENDENCY-AUDIT-INPUT-PINS-WAVE-457-2026-10-29.md), blob `d82ee45893c6d0a2a68a290c2b1475cd93d117a2`; [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-457-2026-10-29.md), blob `eacbf79b380e5b8dbebb4aac7970eb4ac43dfd5a`; [current checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
