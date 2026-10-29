@@ -1,3 +1,16 @@
+## Wave 452 — PR #585 register summary reconciliation (2026-10-29)
+
+- Report: [PR #585 register summary reconciliation](../checkpoints/MEDIAHUB-PR585-REGISTER-SUMMARY-RECONCILIATION-WAVE-452-2026-10-29.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-452-2026-10-29.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Main target and base: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #585 remains OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`; PR #583 remains OPEN/DRAFT/UNMERGED at `448bcbe6b941847b993dc2675a74367cce276b3e`.
+- Candidate register on the research branch: blob `eefd7f64b4631b17278d6b5a1d1972c6ec17069b`, 128 rows, 128 unique repo values and IDs; declared status totals reconcile as 99 CANDIDATE / 22 CONDITIONAL / 2 REFERENCE_ONLY / 5 EXCLUDED. PR #585 description now reflects this latest register rather than its historical 87-record initial snapshot. Inventory remains OPEN_NOT_FROZEN; comparison/adoption NOT_STARTED.
+- PR #585 exact-head Astra Verify [40832496142](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496142) and Cloud Runtime Validation [40832496196](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496196) are terminal SUCCESS at the exact head. PR #583 has six observed successful workflows at its exact head; the no-secret controller probe was non-launching and admission/dispatch were skipped.
+- Formal review submissions: zero observed on #583 and #585. Combined statuses remain pending with zero contexts. Effective branch protection/required-check policy is NOT VERIFIED (branch-protection API 403; empty ruleset listing is not proof of no policy).
+- The reproducible transitive lockfile/advisory audit remains NOT RUN. Trivy current-head CI remains MIXED after a quota-limited GoReleaser failure; gVisor release artifact provenance and zizmor advisory state remain NOT VERIFIED.
+- No Gemini batch/child runs, provider inference, secret access, local executor task, merge, deployment, qualification or component adoption. Contour A NOT ACCEPTED; Contour B gated.
+- Next: run the reproducible pinned dependency/advisory audit against exact lockfile blobs and close Trivy CI / gVisor provenance gaps, while preserving independent-review and effective branch-policy gates.
+
+---
+
 ## Wave 451 — controller evidence-list completeness hardening (2026-10-29)
 
 - Report: [Wave 451 controller complete evidence-listing hardening](../checkpoints/MEDIAHUB-GEMINI-CONTROLLER-COMPLETE-EVIDENCE-LISTING-WAVE-451-2026-10-29.md); [Wave 451 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-451-2026-10-29.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
