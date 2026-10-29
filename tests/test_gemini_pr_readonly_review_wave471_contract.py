@@ -73,18 +73,18 @@ class PRReadOnlyReviewWorkflowContractTests(unittest.TestCase):
         self.assertIn("authorize", jobs)
         self.assertIn("review", jobs)
         self.assertIn("authorize", jobs["review"]["needs"])
-        review_job = self.source.split("  review:\\n", 1)[1]
+        review_job = self.source.split("  review:\n", 1)[1]
         self.assertIn("if: needs.authorize.result == 'success'", review_job)
-        authorize_job = self.source.split("  authorize:\\n", 1)[1].split("  review:\\n", 1)[0]
+        authorize_job = self.source.split("  authorize:\n", 1)[1].split("  review:\n", 1)[0]
         self.assertNotIn("GEMINI_API_KEY", authorize_job)
         self.assertIn("if not key: fail(", authorize_job)
 
     def test_all_external_actions_are_pinned_to_full_commit_shas(self):
-        action_refs = re.findall(r"uses:\\s+([^\\s]+)", self.source)
+        action_refs = re.findall(r"uses:\s+([^\s]+)", self.source)
         self.assertGreaterEqual(len(action_refs), 2)
         for ref in action_refs:
             with self.subTest(action=ref):
-                self.assertRegex(ref, r"^[^@]+@[0-9a-f]{40}(?:\\s+#.*)?$")
+                self.assertRegex(ref, r"^[^@]+@[0-9a-f]{40}(?:\s+#.*)?$")
 
     def test_no_job_grants_write_permissions_or_persistent_checkout_credentials(self):
         for line in self.source.splitlines():
@@ -92,7 +92,7 @@ class PRReadOnlyReviewWorkflowContractTests(unittest.TestCase):
             if stripped.startswith(("contents:", "pull-requests:", "issues:", "actions:", "checks:")):
                 self.assertNotIn("write", stripped)
         self.assertIn("persist-credentials: false", self.source)
-        self.assertIn("permissions:\\n      contents: read\\n      pull-requests: read", self.source)
+        self.assertIn("permissions:\n      contents: read\n      pull-requests: read", self.source)
 
 
 if __name__ == "__main__":
