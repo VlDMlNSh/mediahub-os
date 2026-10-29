@@ -2598,28 +2598,37 @@
             "path": "LICENSE",
             "blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
             "status": "READ",
-            "same_blob_at_release_and_default_ref": true
+            "same_blob_at_release_and_default_ref": true,
+            "current_head_blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
+            "current_head_blob_verified_at_exact_sha": true
           },
           "manifest": {
             "path": "go.mod",
             "release_blob_sha": "294ae28a2e67c7f556cbab16b789afd0ff06c531",
             "default_ref_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
             "same_blob_at_release_and_default_ref": false,
-            "status": "READ_NOT_AUDITED"
+            "status": "READ_NOT_AUDITED",
+            "current_head_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+            "current_head_blob_verified_at_exact_sha": true
           },
           "lockfile": {
             "path": "go.sum",
             "release_blob_sha": "4370b95ac74ab0cc579d848b9ecd5505084d963f",
             "default_ref_blob_sha": "7835f843768bb04feaadb125707099d71e15b67b",
             "same_blob_at_release_and_default_ref": false,
-            "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED"
+            "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED",
+            "current_head_blob_sha": "7835f843768bb04feaadb125707099d71e15b67b",
+            "current_head_blob_verified_at_exact_sha": true
           },
-          "current_default_branch_head_sha": "NOT_VERIFIED",
+          "current_default_branch_head_sha": "ac7b4e0fdc7dc4674453438e5e15fc069895620c",
           "dependency_advisories": "NOT_AUDITED",
           "upstream_ci": "NOT_AUDITED",
-          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred.",
+          "note": "Current branch ref was resolved to an exact commit SHA, and LICENSE, manifest and lockfile were fetched again at that exact SHA. Each current HEAD differs from the observed latest release commit. Manifest and lockfile blobs differ between release and current HEAD; license blob matches. Lockfile contents have not been dependency-audited.",
           "tag_commit_sha_pinned": true,
-          "tag_ref_mutability": "NOT_ASSUMED_IMMUTABLE; EXACT_TARGET_COMMIT_SHA_PINNED"
+          "tag_ref_mutability": "NOT_ASSUMED_IMMUTABLE; EXACT_TARGET_COMMIT_SHA_PINNED",
+          "current_default_branch_head_url": "https://github.com/google/gvisor/commit/ac7b4e0fdc7dc4674453438e5e15fc069895620c",
+          "release_commit_matches_current_head": false,
+          "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29"
         },
         "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
       }
@@ -2714,28 +2723,37 @@
             "path": "LICENSE",
             "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
             "status": "READ",
-            "same_blob_at_release_and_default_ref": true
+            "same_blob_at_release_and_default_ref": true,
+            "current_head_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+            "current_head_blob_verified_at_exact_sha": true
           },
           "manifest": {
             "path": "go.mod",
             "release_blob_sha": "1b94feb298f88964d3fb1d19b02a0a411774b138",
             "default_ref_blob_sha": "64bd58c933f83ee4133861a72538e6e0131e4a19",
             "same_blob_at_release_and_default_ref": false,
-            "status": "READ_NOT_AUDITED"
+            "status": "READ_NOT_AUDITED",
+            "current_head_blob_sha": "64bd58c933f83ee4133861a72538e6e0131e4a19",
+            "current_head_blob_verified_at_exact_sha": true
           },
           "lockfile": {
             "path": "go.sum",
             "release_blob_sha": "a07b63dfa1badfa034ebb9c078d6a2c32cbcebd8",
             "default_ref_blob_sha": "1beb295a3a0ba30ebecf1c918ce93c7981ae7d52",
             "same_blob_at_release_and_default_ref": false,
-            "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED"
+            "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED",
+            "current_head_blob_sha": "1beb295a3a0ba30ebecf1c918ce93c7981ae7d52",
+            "current_head_blob_verified_at_exact_sha": true
           },
-          "current_default_branch_head_sha": "NOT_VERIFIED",
+          "current_default_branch_head_sha": "4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77",
           "dependency_advisories": "NOT_AUDITED",
           "upstream_ci": "NOT_AUDITED",
-          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred.",
+          "note": "Current branch ref was resolved to an exact commit SHA, and LICENSE, manifest and lockfile were fetched again at that exact SHA. Each current HEAD differs from the observed latest release commit. Manifest and lockfile blobs differ between release and current HEAD; license blob matches. Lockfile contents have not been dependency-audited.",
           "tag_commit_sha_pinned": true,
-          "tag_ref_mutability": "NOT_ASSUMED_IMMUTABLE; EXACT_TARGET_COMMIT_SHA_PINNED"
+          "tag_ref_mutability": "NOT_ASSUMED_IMMUTABLE; EXACT_TARGET_COMMIT_SHA_PINNED",
+          "current_default_branch_head_url": "https://github.com/aquasecurity/trivy/commit/4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77",
+          "release_commit_matches_current_head": false,
+          "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29"
         },
         "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
       }
@@ -2898,28 +2916,37 @@
             "path": "LICENSE",
             "blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
             "status": "READ",
-            "same_blob_at_release_and_default_ref": true
+            "same_blob_at_release_and_default_ref": true,
+            "current_head_blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+            "current_head_blob_verified_at_exact_sha": true
           },
           "manifest": {
             "path": "pyproject.toml",
             "release_blob_sha": "7b31b5ffd53a7de427a1dfb09c34da98c58e6cc7",
             "default_ref_blob_sha": "96d1af120771d767fbf750b0fe4c8c3e13e62521",
             "same_blob_at_release_and_default_ref": false,
-            "status": "READ_NOT_AUDITED"
+            "status": "READ_NOT_AUDITED",
+            "current_head_blob_sha": "96d1af120771d767fbf750b0fe4c8c3e13e62521",
+            "current_head_blob_verified_at_exact_sha": true
           },
           "lockfile": {
             "path": "uv.lock",
             "release_blob_sha": "4c8652a412372ba5b1fdcb70da99a989f3ca7f03",
             "default_ref_blob_sha": "27a9fc3b2eb5bf0e70eb315c985238547519e742",
             "same_blob_at_release_and_default_ref": false,
-            "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED"
+            "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED",
+            "current_head_blob_sha": "27a9fc3b2eb5bf0e70eb315c985238547519e742",
+            "current_head_blob_verified_at_exact_sha": true
           },
-          "current_default_branch_head_sha": "NOT_VERIFIED",
+          "current_default_branch_head_sha": "bf9ccabc03ca255c8ac3ac43329335d0524e3dd7",
           "dependency_advisories": "NOT_AUDITED",
           "upstream_ci": "NOT_AUDITED",
-          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred.",
+          "note": "Current branch ref was resolved to an exact commit SHA, and LICENSE, manifest and lockfile were fetched again at that exact SHA. Each current HEAD differs from the observed latest release commit. Manifest and lockfile blobs differ between release and current HEAD; license blob matches. Lockfile contents have not been dependency-audited.",
           "tag_commit_sha_pinned": true,
-          "tag_ref_mutability": "NOT_ASSUMED_IMMUTABLE; EXACT_TARGET_COMMIT_SHA_PINNED"
+          "tag_ref_mutability": "NOT_ASSUMED_IMMUTABLE; EXACT_TARGET_COMMIT_SHA_PINNED",
+          "current_default_branch_head_url": "https://github.com/zizmorcore/zizmor/commit/bf9ccabc03ca255c8ac3ac43329335d0524e3dd7",
+          "release_commit_matches_current_head": false,
+          "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29"
         },
         "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
       }
@@ -3055,7 +3082,7 @@
     "release_and_default_license_blob_pairs_equal": 3,
     "release_manifest_blob_pairs_different_from_current_default_ref": 3,
     "release_lockfile_blob_pairs_different_from_current_default_ref": 3,
-    "current_default_branch_head_sha_checks": "NOT_VERIFIED",
+    "current_default_branch_head_sha_checks": "VERIFIED_EXACT_SHA_AT_QUERY_TIME",
     "lockfile_contents_audited": 0,
     "dependency_advisories_reviewed": 0,
     "exact_upstream_ci_audits": 0,
@@ -3063,6 +3090,10 @@
     "inventory_freeze": "NOT_READY",
     "adoption": "NONE",
     "corrected_from_misnumbered_wave": "444",
-    "notes": "Sequence identifier aligned after discovering the canonical continuation checkpoint already used Wave 444 for the PR #583 CI/governance recheck. No candidate row or evidence SHA was changed by renumbering."
+    "notes": "Sequence identifier aligned after discovering the canonical continuation checkpoint already used Wave 444 for the PR #583 CI/governance recheck. No candidate row or evidence SHA was changed by renumbering.",
+    "current_default_branch_head_shas_verified": 3,
+    "latest_release_commit_equal_current_head": 0,
+    "manifest_lockfile_blobs_verified_at_exact_current_heads": 3,
+    "branch_tip_equivalence_of_original_source_head": "NOT_VERIFIED"
   }
 }
