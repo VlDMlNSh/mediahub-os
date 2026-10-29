@@ -229,20 +229,32 @@ jobs:
                       # Reconcile exact child jobs and evidence artifacts; empty API
                       # results are NOT VERIFIED and cannot be treated as success.
                       child_jobs=[]
+                      jobs_complete=False
                       try:
                           _,job_data=call("GET",f"/repos/{repo}/actions/runs/{run['id']}/jobs?per_page=100")
                           child_jobs=job_data.get("jobs",[])
+                          # A first-page listing is not proof that every child job was inspected.
+                          jobs_complete=(
+                              isinstance(job_data.get("total_count"),int)
+                              and len(child_jobs)==job_data["total_count"]
+                          )
                       except Exception as exc:
                           j["job_monitor_error"]=type(exc).__name__
                       job_ids=";".join(f"{item.get('id')}:{item.get('name')}:{item.get('conclusion') or item.get('status')}" for item in child_jobs) or "NOT_VERIFIED"
-                      jobs_success=bool(child_jobs) and all(item.get("conclusion")=="success" for item in child_jobs)
+                      jobs_success=bool(child_jobs) and jobs_complete and all(item.get("conclusion")=="success" for item in child_jobs)
                       artifact_digest="NOT_VERIFIED"
                       try:
                           _,artifact_data=call("GET",f"/repos/{repo}/actions/runs/{run['id']}/artifacts?per_page=100")
-                          artifacts=[item for item in artifact_data.get("artifacts",[]) if not item.get("expired")]
-                          # Success requires the named child result artifact, not merely any digest-bearing artifact.
+                          listed_artifacts=artifact_data.get("artifacts",[])
+                          artifacts_complete=(
+                              isinstance(artifact_data.get("total_count"),int)
+                              and len(listed_artifacts)==artifact_data["total_count"]
+                          )
+                          artifacts=[item for item in listed_artifacts if not item.get("expired")]
+                          # Success requires a complete listing, exactly one named child result artifact,
+                          # and a digest for every non-expired artifact.
                           expected_artifacts=[item for item in artifacts if item.get("name")=="gemini-output"]
-                          if len(expected_artifacts)==1 and all(item.get("digest") for item in artifacts):
+                          if artifacts_complete and len(expected_artifacts)==1 and all(item.get("digest") for item in artifacts):
                               artifact_digest=";".join(sorted(f"{item.get('name','unnamed')}={item['digest']}" for item in artifacts))
                       except Exception as exc:
                           j["artifact_monitor_error"]=type(exc).__name__
