@@ -46,11 +46,11 @@ Updated register blob SHA: `92692639556460456a7a3141e1d677fb6065fc2d` (read-back
 
 ## 5. Parent PR and exact-head CI
 
-At report creation time, PR #585 was open/Draft/unmerged at head `ced609a3e7d8f32bef72c6b214928b80bdd88585`. Its two exact-head workflow runs were in progress:
-- Astra Cloud Runtime Validation [40831639178](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831639178).
-- Astra Verify [40831639186](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831639186).
+PR #585 remained open/Draft/unmerged at exact head `ced609a3e7d8f32bef72c6b214928b80bdd88585` on the final recheck. Both exact-head workflow runs have now completed successfully:
+- Astra Cloud Runtime Validation [40831639178](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831639178) — **SUCCESS**.
+- Astra Verify [40831639186](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831639186) — **SUCCESS**.
 
-This status is intentionally a cut-time observation; recheck both runs and the final PR head before treating CI as passed. Formal review API returned zero reviews. Combined status returned pending with zero contexts. Effective branch protection was not available to the integration (HTTP 403); integration eligibility is NOT VERIFIED.
+The commit check-runs API returned exactly these two successful checks on that SHA. The combined-status API still returned pending with zero contexts, and formal review API returned zero reviews. Effective branch protection was not available to the integration (HTTP 403); PR integration eligibility remains **NOT VERIFIED**.
 
 No Gemini controller dispatch, child-agent run, model provider inference, secret access, local executor task, merge, deployment, qualification or component adoption occurred.
 
