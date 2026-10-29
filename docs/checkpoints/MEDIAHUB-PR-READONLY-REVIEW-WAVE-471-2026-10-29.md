@@ -3,7 +3,7 @@
 ## Status
 
 - Implementation: **PLANNED / proposed in draft PR #588**; not integrated.
-- Exact-head CI: **RUNNING / NOT VERIFIED**. Initial Astra Verify run `40843918527` failed in the new static test due to an over-broad assertion that incorrectly rejected the child workflow's own `workflow_dispatch` trigger. The assertion was corrected in commit `da60a5e3bd950ada89672d8a9bbe5fc214afcdd1`; rerun `40844072020` and validate run `40844071955` were in progress at latest check. No successful full CI qualification is claimed.
+- Exact-head CI: **RUNNING / NOT VERIFIED**. Initial Astra Verify run `40843918527` failed in the new static test due to an over-broad assertion that incorrectly rejected the child workflow's own `workflow_dispatch` trigger. The assertion was corrected in commit `da60a5e3bd950ada89672d8a9bbe5fc214afcdd1`; rerun `40844072020` (Astra Verify) and validation run `40844071955` (Astra Cloud Runtime Validation) both completed SUCCESS on latest head. The API surfaced only these two contexts; the other required Ruleset contexts were not present in this result, so complete required-check set remains NOT VERIFIED. No full CI qualification is claimed.
 - Independent review: **NOT VERIFIED** (0 formal review submissions; 0 inline review threads at initial inspection).
 - Agent dispatch: **NOT RUN**. The new child is not yet connected to the controller and must not be dispatched.
 - Contour A: **NOT ACCEPTED**. Contour B: **GATED**.
