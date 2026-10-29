@@ -2521,7 +2521,7 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 
 - Report: [Wave 446 — PR #585 new HEAD and exact-head CI recheck](MEDIAHUB-NEXT-PR585-HEAD-CI-RECHECK-WAVE-446-2026-10-29.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
 - PR #585 head moved from Wave 445 target `227ea19f514b243962b2fe4ebcec943a322144c1` to `c2fc46bbab80301106764060d77336b3bea57e82`. Do not reuse CI conclusions across these SHAs.
-- Exact-head [Astra Verify run 40831136343](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831136343) was `in_progress`; [Astra Cloud Runtime Validation run 40831136328](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831136328) completed success. Full exact-head CI remains NOT VERIFIED until run 40831136343 reaches terminal status.
+- Exact-head [Astra Verify run 40831136343](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831136343) was `in_progress`; [Astra Cloud Runtime Validation run 40831136328](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831136328) completed success. This was an interim status only; the terminal CI update below supersedes it and records completed/success on the same exact SHA.
 - Combined status is pending with zero contexts; formal review count is zero. PR #585 remains Draft/open/unmerged. Branch protection/required-check governance remains NOT VERIFIED. Gemini controller remains NOT RUN.
 - Candidate register blob `4dd5c1c12f2e0c73772eef5cc4bfe5543ae17a21` reports 128 records; discovery OPEN_NOT_FROZEN, comparison/adoption NOT_STARTED; lockfile audit and advisory reviews remain zero. Do not freeze or adopt.
 - Next: recheck run 40831136343 at terminal status on the exact same SHA. Contour A NOT ACCEPTED; Contour B gated.
@@ -2581,6 +2581,21 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 - Map read-back target blob: `dabd38b79a2bcfa7163f99683c48633975378b0c` with full content length 1,185,415 characters; latest Wave 450 pointer was prepended, and prior map history was retained.
 - No Gemini batch or child dispatch, provider inference, secret access, local executor task, merge, deployment, qualification or component adoption. Contour A NOT ACCEPTED; Contour B gated.
 - Next: perform reproducible pinned lockfile/transitive-advisory audit, resolve gVisor tag provenance and Trivy quota failure, and obtain independent review plus effective required-check/branch protection evidence for PR #583/#585. Separately reconcile stale PR #441 without bypassing missing review/CI/policy gates.
+
+Canonical map:
+https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 451 — controller child-evidence listing completeness hardening (2026-10-29)
+
+- Report: [Wave 451 controller complete evidence-listing hardening](MEDIAHUB-GEMINI-CONTROLLER-COMPLETE-EVIDENCE-LISTING-WAVE-451-2026-10-29.md), blob `a86380d2f46797d27f68b255f5e9b16131ef6bd5`; map addendum: [Wave 451](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-451-2026-10-29.md), blob `fcabc7b38eec5e97f0b739559aa8a153609e7679`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Master Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- PR [#583](https://github.com/VlDMlNSh/mediahub-os/pull/583) changed from starting head `265a6116874739d1826fc5c7dda84b5b8b8f9eeb` to exact head `448bcbe6b941847b993dc2675a74367cce276b3e`. Controller workflow blob `0d4056934b3b9c3da4ef06fc4b8f3f555d61d273`; contract test blob `11391f9dadb7f868bd7110d4c29267914509db69`. Commits: workflow `b7b7f30e9ad08c1173fa1d07a6f22f7f635b7437`; final test/head `448bcbe6b941847b993dc2675a74367cce276b3e`.
+- Review finding: child jobs and artifacts used `per_page=100` without proving the result was complete. The controller now compares each returned list length with API `total_count` before accepting job success or artifact digests. If more than 100 rows are reported, the first-page result is rejected fail-closed; pagination was not added, so oversized lists remain a bounded operational limitation rather than a false success.
+- Six observed exact-head workflows completed SUCCESS: Astra Verify [40832709532](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709532), Cloud Runtime Validation [40832709559](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709559), Gemini workflow contract validation [40832709572](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709572), provider contract [40832709553](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709553), AI Factory verification [40832709536](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709536), and controller probe [40832709652](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709652). Probe was non-launching; admission and dispatch/monitor were SKIPPED. Gemini batch/children **NOT RUN**.
+- PR #583 remains OPEN/DRAFT/UNMERGED with zero formal reviews and empty/pending combined status. PR #585 remains OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`; Astra Verify [40832496142](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496142) and Cloud Runtime Validation [40832496196](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496196) succeeded on that exact SHA, but reviews remain zero.
+- The main-branch metadata endpoint returned `protected=false`; the direct branch-protection endpoint returned 403. Effective required-check/branch governance remains NOT VERIFIED and is a merge/dispatch blocker. No formal independent review was submitted by this pass.
+- No provider inference, secret access, local executor task, merge, deployment, runtime qualification, or component adoption occurred. Contour A NOT ACCEPTED; Contour B gated.
+- Next: obtain formal independent review and authoritative effective branch-policy evidence; before any batch, re-check the exact controller head and all issuer/capability/provenance gates.
 
 Canonical map:
 https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
