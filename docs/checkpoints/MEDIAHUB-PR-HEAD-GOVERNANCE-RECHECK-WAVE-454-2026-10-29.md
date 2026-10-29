@@ -25,7 +25,7 @@ PR #583 commit check-runs returned 9 entries on exact head `448bcbe6b941847b993d
 - Astra Verify [40832709532](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709532): success.
 - Cloud Runtime Validation [40832709559](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709559): success.
 - Gemini workflow contract validation [40832709572](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709572): success.
-- Provider contract [40832709553](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709553): success.
+- Approved executor-routing validation [40832709553](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709553): success.
 - AI Factory boundary verification [40832709536](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709536): success.
 - Controller probe [40832709652](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832709652): probe/observe succeeded; explicit admission and dispatch/monitor were skipped. This was non-launching and did not create an agent batch.
 - PR #585 exact head `8940c7f0f66c9f50e2d83659a6231aa790817221`: Astra Verify [40832496142](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496142) and Cloud Runtime Validation [40832496196](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496196) both completed `success`. The check-runs endpoint returned exactly those two runs.
