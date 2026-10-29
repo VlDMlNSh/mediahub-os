@@ -1,3 +1,10 @@
+## Wave 456 — zizmor Rustls dependency advisory range match (2026-10-29)
+
+- Evidence report: [Wave 456 pinned zizmor lockfile advisory triage](MEDIAHUB-ZIZMOR-PINNED-LOCKFILE-ADVISORY-TRIAGE-WAVE-456-2026-10-29.md), blob `e09505b29df50dfe50bae88983f5f0f63d853d1c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Source pins: release v1.31.1 commit `effdb35fa7868863f11655db256d9008922fa427`; current upstream main `bf9ccabc03ca255c8ac3ac43329335d0524e3dd7`. Both Cargo.lock snapshots pin `rustls 0.23.34`, within GHSA-c8m5-c952-6cm4's published affected range below 0.23.46.
+- Dependency advisory range match VERIFIED; affected behavior/exploitability NOT VERIFIED; complete pinned SCA NOT RUN. Upstream exact-head CI succeeded but does not resolve the advisory. Candidate stays unqualified; no dependency changes or adoption.
+- Next bounded step: perform a reproducible, read-only audit against both exact Cargo.lock blobs with scanner/version and advisory database snapshot recorded; trace the lockfile dependency path.
+
 ## Wave 455 — gVisor/containerd advisory intersection (2026-10-29)
 
 - Evidence report: [Wave 455 pinned gVisor/containerd advisory intersection](MEDIAHUB-GVISOR-CONTAINERD-ADVISORY-INTERSECTION-WAVE-455-2026-10-29.md), blob 7e9ab7ca5744d6c72a168721e2179be4f0062009; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-455-2026-10-29.md); [continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
