@@ -2666,3 +2666,15 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 - Current PR snapshot: #583 is OPEN/DRAFT/UNMERGED at `448bcbe6b941847b993dc2675a74367cce276b3e`; #585 is OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`. Issue #301 remains `OPEN` (updated `2026-10-23T14:55:53Z`, `196` comments). Earlier exact-head CI and formal-review/governance gaps remain as recorded in Wave 455.
 - Full Cargo dependency audit / pinned advisory-database scan NOT RUN; whether the affected behavior is reachable NOT VERIFIED. No upstream dependency changes, install, MediaHub Gemini batch/child run, provider inference, secret access, merge, deployment, qualification or component adoption. Candidate inventory remains OPEN_NOT_FROZEN; Contour A NOT ACCEPTED; Contour B gated.
 - Next bounded step: run a reproducible read-only SCA against both exact Cargo.lock blobs, recording scanner version/advisory-database snapshot and dependency path. Trivy and gVisor remain separate follow-up passes.
+
+
+## Wave 457 — pinned dependency-audit inputs (2026-10-29)
+
+- Report: [Wave 457 pinned dependency-audit inputs](MEDIAHUB-DEPENDENCY-AUDIT-INPUT-PINS-WAVE-457-2026-10-29.md), blob `d82ee45893c6d0a2a68a290c2b1475cd93d117a2`; map addendum: [Wave 457](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-457-2026-10-29.md), blob `eacbf79b380e5b8dbebb4aac7970eb4ac43dfd5a`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Master Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Step 1 pinned upstream release commits vs current default heads and exact manifest/lockfile blobs for zizmor `Cargo.lock`/`uv.lock`, Trivy `go.mod`/`go.sum`, and gVisor `go.mod`/`go.sum`. Release and current snapshots remain separately labeled. Exact SHAs and source identities are in the report.
+- Selected candidate scanner OSV-Scanner v2.7.0 (source commit `bfe2f84abd2f09fe0b83ba7f6dad40d296762f40`); published Linux asset digest metadata is recorded. Tag verification returned `unknown_key`; binary/checksum/attestation independently verified: **NOT RUN / NOT VERIFIED**.
+- Vulnerability scan/advisory results **NOT RUN**. No dependency installation, provider inference, secret access, Gemini dispatch, local executor, merge, deployment, qualification or component adoption.
+- Next bounded step: validate scanner command/output and integrity in a controlled environment; then execute read-only scans for the eight pinned lockfile snapshots and save machine-readable output/digests. If the scanner cannot be qualified, mark BLOCKED / NOT RUN, not PASS. Wave 455 containerd and Wave 456 rustls narrow version-range findings remain separate and do not constitute a full SCA.
+- Contour A **NOT ACCEPTED**; Contour B remains gated.
+
+Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
