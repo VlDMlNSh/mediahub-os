@@ -2599,3 +2599,20 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 
 Canonical map:
 https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 452 — PR #585 register summary reconciliation (2026-10-29)
+
+- Report: [PR #585 register summary reconciliation](MEDIAHUB-PR585-REGISTER-SUMMARY-RECONCILIATION-WAVE-452-2026-10-29.md), read-back blob SHA `a2094042bea53f20c3957d3111dba8638aa992d9`, publication commit `39ec89f74b4379fed945dd31846295d49bb6b7a9`.
+- Canonical map addendum: [Wave 452](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-452-2026-10-29.md), final read-back blob SHA `6bf8ba76390dc0b44f4bb308d43a22fc4bfc4d2d`; latest formatting-fix commit `383b95863cd4f3fad6fe50f12d4e17975c956dcc`.
+- Refs re-read before checkpoint update: main `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; PR #583 head `448bcbe6b941847b993dc2675a74367cce276b3e`; PR #585 head `8940c7f0f66c9f50e2d83659a6231aa790817221`; canonical docs branch HEAD before this checkpoint write `383b95863cd4f3fad6fe50f12d4e17975c956dcc`.
+- Candidate register on research branch: blob `eefd7f64b4631b17278d6b5a1d1972c6ec17069b`, 128 JSON rows, 128 unique repository identifiers and IDs, declared category counts 99/22/2/5. Discovery remains OPEN_NOT_FROZEN, comparison and adoption NOT_STARTED.
+- PR #585 description read-back confirms the stale initial 87-repository summary has been replaced with the current 128-record state. This is PR metadata only; its code HEAD did not change and it remains OPEN/DRAFT/UNMERGED.
+- Current PR #585 exact-head checks: Astra Verify [40832496142](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496142) and Cloud Runtime Validation [40832496196](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496196) both terminal SUCCESS. PR #583 head checks remain six terminal-success runs recorded in [Wave 451](MEDIAHUB-GEMINI-CONTROLLER-COMPLETE-EVIDENCE-LISTING-WAVE-451-2026-10-29.md); its controller probe was non-launching.
+- Formal review submissions: zero observed for #583 and #585. Both combined status APIs remain pending with zero contexts. Branch-protection endpoint remains blocked with HTTP 403; empty ruleset response does not establish effective required checks. Branch governance and formal review are NOT VERIFIED.
+- Reproducible transitive dependency/advisory audit NOT RUN; Trivy current-head CI MIXED after disk-quota failure; gVisor release artifact provenance NOT VERIFIED; zizmor advisory status NOT VERIFIED. Component comparison/adoption NOT STARTED.
+- Gemini batch/child runs, provider inference, secret access, local executor, merge, deployment and runtime qualification: NOT RUN. Contour A NOT ACCEPTED; Contour B gated.
+- Next bounded step: perform the reproducible pinned dependency/advisory audit using exact recorded lockfile blobs, and resolve Trivy quota CI and gVisor release provenance while retaining independent-review and effective-branch-policy gates.
+
+Canonical map:
+https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
