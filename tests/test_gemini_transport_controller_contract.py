@@ -84,11 +84,17 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             "${{ github.event_name == 'pull_request' }}",
         )
 
-    def test_child_success_requires_the_named_gemini_output_artifact(self):
-        # A successful run with an unrelated artifact is not accepted evidence.
+    def test_child_success_requires_complete_job_and_artifact_listings(self):
+        # The first page is accepted only if API total_count proves it was complete.
+        self.assertIn('jobs_complete=(', self.source)
+        self.assertIn('len(child_jobs)==job_data["total_count"]', self.source)
+        self.assertIn('jobs_success=bool(child_jobs) and jobs_complete and all(', self.source)
+        self.assertIn('artifacts_complete=(', self.source)
+        self.assertIn('len(listed_artifacts)==artifact_data["total_count"]', self.source)
         self.assertIn('expected_artifacts=[item for item in artifacts if item.get("name")=="gemini-output"]', self.source)
-        self.assertIn("if len(expected_artifacts)==1 and all(item.get(\"digest\") for item in artifacts):", self.source)
+        self.assertIn('if artifacts_complete and len(expected_artifacts)==1 and all(item.get("digest") for item in artifacts):', self.source)
         self.assertIn('artifact_digest")=="NOT_VERIFIED"', self.source)
+
 
     def test_partial_dispatch_is_recorded_and_accepted_children_are_reconciled(self):
         # Every attempt is recorded before POST; individual failures must not
