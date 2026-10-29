@@ -2713,3 +2713,13 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - PR #583 remains OPEN/DRAFT/UNMERGED at `448bcbe6b941847b993dc2675a74367cce276b3e`; PR #585 remains OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`. Both current metadata reads report base `main` and `mergeable_state=clean`.
 - The head SHAs match the prior Wave 459 checkpoint. This microstep did not re-run CI or review/branch-policy checks; see Wave 459 for their previously recorded evidence and limitations.
 - Next: read-only static review of the PR #583 workflow + regression test. No dispatch.
+
+
+### Wave 461 — PR #583 static review microstep (2026-10-29)
+
+- Report: [PR #583 static review microstep](MEDIAHUB-PR583-STATIC-REVIEW-MICROSTEP-2026-10-29.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Target PR head verified during review: `448bcbe6b941847b993dc2675a74367cce276b3e`; workflow blob `0d4056934b3b9c3da4ef06fc4b8f3f555d61d273`; contract-test blob `11391f9dadb7f868bd7110d4c29267914509db69`.
+- Static review found the PR-specific concurrency grouping and fail-closed completeness checks for child jobs/artifacts coherent in the inspected diff. Final gate checks successful child conclusions, successful job evidence, and non-`NOT_VERIFIED` artifact digest.
+- Test-strength gap: new contract assertions are mainly source-string checks; no behavior fixtures were run for incomplete pagination or missing/duplicate/expired named output artifacts. This is a verification gap, not a demonstrated implementation defect.
+- Formal review submissions observed: 0. PR #583 remains OPEN/DRAFT/UNMERGED; exact-head CI, required checks, and effective branch protection remain NOT VERIFIED in this microstep. No controller dispatch or child runs.
+- Next: read exact-head CI evidence for PR #583 SHA `448bcbe6b941847b993dc2675a74367cce276b3e`, then verify the regression-test job. Do not dispatch the controller before gates are confirmed.
