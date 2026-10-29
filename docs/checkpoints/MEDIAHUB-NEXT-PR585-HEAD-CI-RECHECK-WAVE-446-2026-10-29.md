@@ -16,11 +16,11 @@ Bounded recheck after the PR #585 head changed since Wave 445. No dispatch, prov
 
 ## Exact-head PR #585 CI
 Target SHA: `c2fc46bbab80301106764060d77336b3bea57e82`.
-- [Astra Verify run 40831136343 / job 123305368759](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831136343) — RUNNING (`in_progress`) at observation time.
+- [Astra Verify run 40831136343 / job 123305368759](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831136343) — SUCCEEDED (`completed/success`) on exact target SHA `c2fc46bbab80301106764060d77336b3bea57e82` at terminal recheck.
 - [Astra Cloud Runtime Validation run 40831136328 / job 123305368743](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40831136328) — SUCCEEDED (`completed/success`).
 - Commit check-runs API returned exactly these two checks on the exact target SHA.
 - Combined commit status: `pending`, zero status contexts; formal review API: zero reviews.
-- Therefore full exact-head CI is NOT VERIFIED while Astra Verify is running. Do not reuse Wave 445's successful checks from the prior SHA `227ea19f514b243962b2fe4ebcec943a322144c1`.
+- Both observed PR #585 workflow checks are now SUCCEEDED on the exact target SHA. This verifies the two observed checks only; combined status remains pending with zero contexts, formal review is absent, and required-check/branch-protection policy remains NOT VERIFIED. Do not reuse Wave 445's successful checks from prior SHA `227ea19f514b243962b2fe4ebcec943a322144c1`.
 
 ## Wave 445 research audit disposition
 Wave 445's structural register invariants remain the latest completed audit: 128 rows, 128 unique repository identifiers, no duplicate candidate IDs, declared status counts match computed counts. The inventory remains OPEN_NOT_FROZEN. Wave 445 reports three release tags pinned, zero lockfiles audited, zero advisory reviews, zero exact upstream CI audits, and zero candidates whose latest release commit equals the current default-branch head. These are discovery/evidence gaps, not grounds to freeze or adopt components.
@@ -33,7 +33,7 @@ Wave 445's structural register invariants remain the latest completed audit: 128
 - Contour A NOT ACCEPTED; Contour B remains gated.
 
 ## Next bounded step
-Recheck run 40831136343 to terminal status on the same immutable SHA. If it succeeds, record exact-head CI as observed but keep merge readiness blocked pending independent review and required-check/branch-protection evidence. If it fails, inspect the failing job/step before proposing any change.
+Next: obtain independent review and current required-check/branch-protection evidence before integration; keep inventory freeze blocked pending lockfile/advisory/upstream CI audits.
 
 Canonical map:
 https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
