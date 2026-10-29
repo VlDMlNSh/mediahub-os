@@ -2641,3 +2641,17 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 - Next bounded step: run the pinned reproducible dependency/advisory audit against exact upstream lockfile/source blobs, then independently resolve Trivy's quota failure and gVisor checksum/attestation provenance. Do not dispatch or merge until formal review and effective branch-policy gates are verified.
 
 Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 455 — gVisor/containerd advisory intersection (2026-10-29)
+
+- Detailed report: [Wave 455 gVisor/containerd advisory intersection](MEDIAHUB-GVISOR-CONTAINERD-ADVISORY-INTERSECTION-WAVE-455-2026-10-29.md), blob `7e9ab7ca5744d6c72a168721e2179be4f0062009`; canonical map addendum: [Wave 455](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-455-2026-10-29.md), blob `e3c04740b34419b181766ceb090710fffc934e5a`.
+- Immutable MediaHub main target: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Documentation map prepended Wave 455 summary in commit `f9b83efdae32b639c97b12e6f82eb1544003989c`; map blob SHA is `437538eac7936cd7c306a820f2fc83bb9864b7ef`. Its previous body was preserved after the new index entry.
+- Exact source: gVisor release commit `e8a2a28891ba41f3fb737dee8bb7120745d75826`; go.mod blob `d063558784be716b06f65140063c6be8afd6cd28` declares `github.com/containerd/containerd/v2 v2.1.5`. Public GitHub Advisory [GHSA-pg57-6jwg-q645 / CVE-2026-53493](https://github.com/advisories/GHSA-pg57-6jwg-q645) places `v2.1.5` within the affected range `>=2.1.0, <2.2.9`. Upstream [containerd release policy](https://github.com/containerd/containerd/blob/main/RELEASES.md) marks branch 2.1 End of Life.
+- Disposition: dependency identity and advisory range overlap **VERIFIED**; affected-code reachability/runtime impact **NOT VERIFIED**; full transitive scan **NOT RUN**; gVisor artifact provenance **NOT VERIFIED**. This is not a confirmed exploitable gVisor vulnerability.
+- PR #583 remains OPEN/DRAFT/UNMERGED at `448bcbe6b941847b993dc2675a74367cce276b3e`; PR #585 remains OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`. Formal reviews remain zero; effective branch policy NOT VERIFIED.
+- No code/dependency changes, package install, provider inference, secret access, Gemini batch/child run, merge, deployment, qualification or adoption. Contour A **NOT ACCEPTED**; Contour B **GATED**.
+- Next bounded step: inspect the pinned gVisor source call path that uses containerd v2.1.5 and determine whether the affected image-pull behavior is reachable; do not promote the candidate pending remediation or reviewed evidence.
+
+Canonical map:
+https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
