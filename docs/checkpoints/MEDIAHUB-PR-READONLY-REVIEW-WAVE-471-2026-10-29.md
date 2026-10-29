@@ -3,7 +3,7 @@
 ## Status
 
 - Implementation: **PLANNED / proposed in draft PR #588**; not integrated.
-- Exact-head CI: **RUNNING / NOT VERIFIED** at report creation. Astra Verify run `40843918527` was queued; no successful full CI qualification is claimed.
+- Exact-head CI: **RUNNING / NOT VERIFIED**. Initial Astra Verify run `40843918527` failed in the new static test due to an over-broad assertion that incorrectly rejected the child workflow's own `workflow_dispatch` trigger. The assertion was corrected in commit `da60a5e3bd950ada89672d8a9bbe5fc214afcdd1`; rerun `40844072020` and validate run `40844071955` were in progress at latest check. No successful full CI qualification is claimed.
 - Independent review: **NOT VERIFIED** (0 formal review submissions; 0 inline review threads at initial inspection).
 - Agent dispatch: **NOT RUN**. The new child is not yet connected to the controller and must not be dispatched.
 - Contour A: **NOT ACCEPTED**. Contour B: **GATED**.
@@ -11,11 +11,11 @@
 ## Immutable target and evidence
 
 - Base `main`: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`.
-- PR #588 head: `8ecc8941c079e83d6d1c356a0ffbaf3c73c8f70b`.
+- PR #588 latest head: `da60a5e3bd950ada89672d8a9bbe5fc214afcdd1` (workflow commit `8746936c35564ba1284b74dbd8a24cd0a8bee83c`; initial test commit `8ecc8941c079e83d6d1c356a0ffbaf3c73c8f70b`; assertion correction `da60a5e3bd950ada89672d8a9bbe5fc214afcdd1`).
 - Workflow commit: `8746936c35564ba1284b74dbd8a24cd0a8bee83c`.
 - Test commit: `8ecc8941c079e83d6d1c356a0ffbaf3c73c8f70b`.
 - Workflow blob SHA: `85174e24b7d213ce7d90a4bd215ec4fbac32c605`.
-- Test blob SHA: `5d06c6ce0e647ca0f19ebef71400d0b2fa935a46`.
+- Test blob SHA before correction: `5d06c6ce0e647ca0f19ebef71400d0b2fa935a46`; corrected test blob SHA: `d6f79e1c85a24c65d47af3c89369cf6aea11a643`.
 - Compare `main...feat/pr-scoped-readonly-review-wave471`: ahead 3, behind 0; exactly two files added.
 
 ## Work performed
