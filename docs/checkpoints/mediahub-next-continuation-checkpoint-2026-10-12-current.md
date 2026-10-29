@@ -2554,3 +2554,18 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 
 Canonical map:
 https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 449 — upstream latest release, lockfile and advisory screen (2026-10-29)
+
+- Report: [Wave 449 upstream latest-release, lockfile and advisory screen](MEDIAHUB-UPSTREAM-LATEST-RELEASE-LOCKFILE-ADVISORY-SCREEN-WAVE-449-2026-10-29.md), blob `64ffb2083e495d524817f198a4bef3b91db48228`; map addendum: [Wave 449](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-449-2026-10-29.md), blob `74247ff5627d6f9b74bf3598bba006d5535bbcc7`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Main HEAD remains `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Canonical docs branch before this checkpoint/map/index write was `eb4a93c18eb1c74c352979c0e9f3f2b89f5309e7`; map blob at input `164e2dae47d2a2786faaa67289d4764611055891`; Master Roadmap blob `ec6837428c9f84a12446364a84f8acb869927218`.
+- Research PR #585 HEAD `8940c7f0f66c9f50e2d83659a6231aa790817221`: Astra Verify [40832496142](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496142) and Cloud Runtime Validation [40832496196](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496196) completed **success** on this exact SHA. Combined status remains pending with zero contexts; formal reviews=0; PR remains OPEN/DRAFT/UNMERGED; effective branch-protection/required-check policy NOT VERIFIED.
+- PR #583 remains OPEN/DRAFT/UNMERGED at `265a6116874739d1826fc5c7dda84b5b8b8f9eeb`; six observed exact-head workflows succeeded (runs 39984638744, 39984638700, 39984638718, 39984638939, 39984638905, 39984639019). Formal review submissions=0; effective required checks NOT VERIFIED.
+- Research register blob `eefd7f64b4631b17278d6b5a1d1972c6ec17069b`: 128 records / 128 unique repositories; counts 99 CANDIDATE / 22 CONDITIONAL / 2 REFERENCE_ONLY / 5 EXCLUDED; inventory OPEN_NOT_FROZEN, comparison NOT_STARTED, adoption NONE. Latest release refs: zizmor v1.31.1 / commit `effdb35fa7868863f11655db256d9008922fa427`; Trivy v0.76.1 / `e713f67f7d54decdcd9b3132c9751833dcced698`; gVisor release-20261026.0 / `e8a2a28891ba41f3fb737dee8bb7120745d75826`. Current default HEADs are recorded in the report and register.
+- Sampled zizmor release/current-head CI succeeded; public advisory status NOT VERIFIED. Trivy release CI succeeded, but current-main merge-group GoReleaser build [job 122839625090](https://github.com/aquasecurity/trivy/actions/runs/40695092936/job/122839625090) failed with `disk quota exceeded`; its current-head aggregate CI remains MIXED / NOT QUALIFIED. Sampled gVisor CI succeeded; its release tag object is unsigned and artifact provenance NOT VERIFIED.
+- Lockfile inspection was structural only; full transitive dependency/advisory audit NOT RUN. Trivy project-version advisories were screened but not expanded to a complete SBOM or dependency graph. No installs, provider calls, secrets access, Gemini dispatch, child agents, local executor, merge, deployment, qualification or component adoption occurred.
+- Next: reproducibly audit exact `uv.lock`, `go.mod`, `go.sum` dependencies and advisories; verify gVisor release artifact provenance; resolve/re-run the Trivy resource-limited GoReleaser job; obtain independent reviews and effective branch governance for PR #583/#585 before freeze, merge or controller dispatch. Contour A NOT ACCEPTED; Contour B gated.
+
+Canonical map:
+https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
