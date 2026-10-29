@@ -1,3 +1,12 @@
+## Wave 455 — gVisor/containerd advisory intersection (2026-10-29)
+
+- Evidence report: [Wave 455 pinned gVisor/containerd advisory intersection](MEDIAHUB-GVISOR-CONTAINERD-ADVISORY-INTERSECTION-WAVE-455-2026-10-29.md), blob 7e9ab7ca5744d6c72a168721e2179be4f0062009; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-455-2026-10-29.md); [continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Pinned gVisor release commit e8a2a28891ba41f3fb737dee8bb7120745d75826 / go.mod blob d063558784be716b06f65140063c6be8afd6cd28 declares containerd/v2 v2.1.5. GitHub Advisory GHSA-pg57-6jwg-q645 / CVE-2026-53493 lists that version in the affected range >=2.1.0 and <2.2.9; the exact version-range overlap is VERIFIED.
+- This is not evidence of vulnerable call-path reachability or exploitable impact in gVisor. Dependency reachability/runtime impact NOT VERIFIED; full transitive scan NOT RUN; release artifact provenance NOT VERIFIED. Candidate remains unqualified and inventory OPEN_NOT_FROZEN.
+- Next: source-review the pinned gVisor call path that may consume containerd v2.1.5. Do not upgrade or adopt the component as part of this documentation-only pass, and retain all PR review/effective branch-policy gates.
+
+---
+
 ## Wave 454 — PR head and governance recheck (2026-10-29)
 
 - Detailed report: [Wave 454 PR head and governance recheck](MEDIAHUB-PR-HEAD-GOVERNANCE-RECHECK-WAVE-454-2026-10-29.md), blob `777a5f7fd0851abf8f8b5c1ce5088c28d9f2fe39`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-454-2026-10-29.md), blob `73f6c91f23654fd2c6ae29dfd2af1a74239a16f8`; [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
