@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-10-23",
+  "generated_at": "2026-10-29",
   "project": "MediaHub OS",
   "mediahub_base_target_sha": "f0448f28c7cfa61e4450c38529f09afbfdbbc7c7",
   "discovery_phase": "OPEN_NOT_FROZEN",
@@ -2571,7 +2571,7 @@
         "lockfile": "NOT_AUDITED",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
-        "release_tag": "NOT_PINNED",
+        "release_tag": "release-20261019.0",
         "security_review": "NOT_STARTED",
         "subsystem_qualification": "NOT_STARTED",
         "default_ref_check": {
@@ -2584,7 +2584,43 @@
           "equal": true,
           "checked_at": "2026-10-23",
           "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
-        }
+        },
+        "latest_release": {
+          "wave": "444",
+          "checked_at": "2026-10-29",
+          "tag": "release-20261019.0",
+          "immutable_tag_commit_sha": "760b80785dc53311d4c87bd2de167525a99709c1",
+          "release_url": "https://github.com/google/gvisor/releases",
+          "listing_url": "https://gvisor.dev/release/",
+          "latest_release_status": "OBSERVED_AS_LATEST_IN_PUBLIC_RELEASES_LISTING",
+          "default_branch": "master",
+          "license": {
+            "path": "LICENSE",
+            "blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
+            "status": "READ",
+            "same_blob_at_release_and_default_ref": true
+          },
+          "manifest": {
+            "path": "go.mod",
+            "release_blob_sha": "294ae28a2e67c7f556cbab16b789afd0ff06c531",
+            "default_ref_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+            "same_blob_at_release_and_default_ref": false,
+            "status": "READ_NOT_AUDITED"
+          },
+          "lockfile": {
+            "path": "go.sum",
+            "release_blob_sha": "4370b95ac74ab0cc579d848b9ecd5505084d963f",
+            "default_ref_blob_sha": "7835f843768bb04feaadb125707099d71e15b67b",
+            "same_blob_at_release_and_default_ref": false,
+            "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED"
+          },
+          "current_default_branch_head_sha": "NOT_VERIFIED",
+          "tag_sha_is_immutable_commit": true,
+          "dependency_advisories": "NOT_AUDITED",
+          "upstream_ci": "NOT_AUDITED",
+          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred."
+        },
+        "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
       }
     },
     {
@@ -2650,7 +2686,7 @@
         "lockfile": "NOT_AUDITED",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
-        "release_tag": "NOT_PINNED",
+        "release_tag": "v0.76.0",
         "security_review": "NOT_STARTED",
         "subsystem_qualification": "NOT_STARTED",
         "default_ref_check": {
@@ -2663,7 +2699,43 @@
           "equal": true,
           "checked_at": "2026-10-23",
           "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
-        }
+        },
+        "latest_release": {
+          "wave": "444",
+          "checked_at": "2026-10-29",
+          "tag": "v0.76.0",
+          "immutable_tag_commit_sha": "531360e5d2a88e732373f1614ba99a38738538b8",
+          "release_url": "https://github.com/aquasecurity/trivy/releases/tag/v0.76.0",
+          "listing_url": "https://github.com/aquasecurity/trivy/releases",
+          "latest_release_status": "OBSERVED_AS_LATEST_IN_PUBLIC_RELEASES_LISTING",
+          "default_branch": "main",
+          "license": {
+            "path": "LICENSE",
+            "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+            "status": "READ",
+            "same_blob_at_release_and_default_ref": true
+          },
+          "manifest": {
+            "path": "go.mod",
+            "release_blob_sha": "1b94feb298f88964d3fb1d19b02a0a411774b138",
+            "default_ref_blob_sha": "64bd58c933f83ee4133861a72538e6e0131e4a19",
+            "same_blob_at_release_and_default_ref": false,
+            "status": "READ_NOT_AUDITED"
+          },
+          "lockfile": {
+            "path": "go.sum",
+            "release_blob_sha": "a07b63dfa1badfa034ebb9c078d6a2c32cbcebd8",
+            "default_ref_blob_sha": "1beb295a3a0ba30ebecf1c918ce93c7981ae7d52",
+            "same_blob_at_release_and_default_ref": false,
+            "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED"
+          },
+          "current_default_branch_head_sha": "NOT_VERIFIED",
+          "tag_sha_is_immutable_commit": true,
+          "dependency_advisories": "NOT_AUDITED",
+          "upstream_ci": "NOT_AUDITED",
+          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred."
+        },
+        "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
       }
     },
     {
@@ -2797,7 +2869,7 @@
         "lockfile": "NOT_AUDITED",
         "dependency_advisories": "NOT_AUDITED",
         "exact_ci": "NOT_AUDITED",
-        "release_tag": "NOT_PINNED",
+        "release_tag": "v1.30.1",
         "security_review": "NOT_STARTED",
         "subsystem_qualification": "NOT_STARTED",
         "default_ref_check": {
@@ -2810,7 +2882,43 @@
           "equal": true,
           "checked_at": "2026-10-23",
           "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
-        }
+        },
+        "latest_release": {
+          "wave": "444",
+          "checked_at": "2026-10-29",
+          "tag": "v1.30.1",
+          "immutable_tag_commit_sha": "99a054ed9283c90abdd2d5b9fb5101d27dde9783",
+          "release_url": "https://github.com/zizmorcore/zizmor/releases/tag/v1.30.1",
+          "listing_url": "https://github.com/zizmorcore/zizmor/releases",
+          "latest_release_status": "OBSERVED_AS_LATEST_IN_PUBLIC_RELEASES_LISTING",
+          "default_branch": "main",
+          "license": {
+            "path": "LICENSE",
+            "blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+            "status": "READ",
+            "same_blob_at_release_and_default_ref": true
+          },
+          "manifest": {
+            "path": "pyproject.toml",
+            "release_blob_sha": "7b31b5ffd53a7de427a1dfb09c34da98c58e6cc7",
+            "default_ref_blob_sha": "96d1af120771d767fbf750b0fe4c8c3e13e62521",
+            "same_blob_at_release_and_default_ref": false,
+            "status": "READ_NOT_AUDITED"
+          },
+          "lockfile": {
+            "path": "uv.lock",
+            "release_blob_sha": "4c8652a412372ba5b1fdcb70da99a989f3ca7f03",
+            "default_ref_blob_sha": "27a9fc3b2eb5bf0e70eb315c985238547519e742",
+            "same_blob_at_release_and_default_ref": false,
+            "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED"
+          },
+          "current_default_branch_head_sha": "NOT_VERIFIED",
+          "tag_sha_is_immutable_commit": true,
+          "dependency_advisories": "NOT_AUDITED",
+          "upstream_ci": "NOT_AUDITED",
+          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred."
+        },
+        "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
       }
     },
     {
@@ -2916,24 +3024,40 @@
       }
     }
   ],
-  "latest_screening_wave": "440",
+  "latest_screening_wave": "444",
   "screening_summary": {
     "pinned_heads": 69,
-    "license_files_read_at_pinned_heads": 62,
-    "manifest_files_read_at_pinned_heads": 64,
+    "license_files_read_at_pinned_heads": 65,
+    "manifest_files_read_at_pinned_heads": 67,
     "lockfiles_audited": 0,
     "advisory_reviews": 0,
     "exact_ci_audits": 0,
-    "release_tags_pinned": 0,
+    "release_tags_pinned": 3,
     "formal_comparison": "NOT_STARTED",
     "inventory_freeze": "NOT_READY",
-    "lockfile_blob_shas_recorded": 20,
-    "lockfile_contents_read_not_audited": 16,
+    "lockfile_blob_shas_recorded": 23,
+    "lockfile_contents_read_not_audited": 19,
     "lockfile_sha_observed_but_content_empty": 7,
     "dependency_advisories": 0,
     "default_branch_tip_equivalence_verified": 0,
     "lockfile_path_not_found": 8,
-    "lockfile_blobs_recorded": 25,
+    "lockfile_blobs_recorded": 28,
     "default_ref_file_blob_equivalence_verified": 3
+  },
+  "wave444_summary": {
+    "date": "2026-10-29",
+    "candidates_added": 0,
+    "existing_candidates_enriched": 3,
+    "release_tag_commits_pinned": 3,
+    "release_and_default_license_blob_pairs_equal": 3,
+    "release_manifest_blob_pairs_different_from_current_default_ref": 3,
+    "release_lockfile_blob_pairs_different_from_current_default_ref": 3,
+    "current_default_branch_head_sha_checks": "NOT_VERIFIED",
+    "lockfile_contents_audited": 0,
+    "dependency_advisories_reviewed": 0,
+    "exact_upstream_ci_audits": 0,
+    "formal_comparison": "NOT_STARTED",
+    "inventory_freeze": "NOT_READY",
+    "adoption": "NONE"
   }
 }
