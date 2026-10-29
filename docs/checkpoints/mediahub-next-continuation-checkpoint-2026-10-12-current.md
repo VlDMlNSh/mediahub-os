@@ -2603,7 +2603,7 @@ https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-2026101
 
 ## Wave 452 — PR #585 register summary reconciliation (2026-10-29)
 
-- Report: [PR #585 register summary reconciliation](MEDIAHUB-PR585-REGISTER-SUMMARY-RECONCILIATION-WAVE-452-2026-10-29.md), read-back blob SHA `a2094042bea53f20c3957d3111dba8638aa992d9`, publication commit `39ec89f74b4379fed945dd31846295d49bb6b7a9`.
+- Report: [PR #585 register summary reconciliation](MEDIAHUB-PR585-REGISTER-SUMMARY-RECONCILIATION-WAVE-452-2026-10-29.md), read-back blob SHA `eeb174a32619add45474eb11afb24aca102f970d`, creation commit `39ec89f74b4379fed945dd31846295d49bb6b7a9`, final status/read-back update commit `fdc7e0bfdaccef569bf173afacef529e0ef31c14`.
 - Canonical map addendum: [Wave 452](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-452-2026-10-29.md), final read-back blob SHA `6bf8ba76390dc0b44f4bb308d43a22fc4bfc4d2d`; latest formatting-fix commit `383b95863cd4f3fad6fe50f12d4e17975c956dcc`.
 - Refs re-read before checkpoint update: main `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; PR #583 head `448bcbe6b941847b993dc2675a74367cce276b3e`; PR #585 head `8940c7f0f66c9f50e2d83659a6231aa790817221`; canonical docs branch HEAD before this checkpoint write `383b95863cd4f3fad6fe50f12d4e17975c956dcc`.
 - Candidate register on research branch: blob `eefd7f64b4631b17278d6b5a1d1972c6ec17069b`, 128 JSON rows, 128 unique repository identifiers and IDs, declared category counts 99/22/2/5. Discovery remains OPEN_NOT_FROZEN, comparison and adoption NOT_STARTED.
