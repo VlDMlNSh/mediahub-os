@@ -1,3 +1,13 @@
+## Wave 455 — gVisor/containerd advisory range overlap (2026-10-29)
+
+- Report: [gVisor/containerd advisory intersection](../checkpoints/MEDIAHUB-GVISOR-CONTAINERD-ADVISORY-INTERSECTION-WAVE-455-2026-10-29.md), blob 7e9ab7ca5744d6c72a168721e2179be4f0062009; [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-455-2026-10-29.md), blob e3c04740b34419b181766ceb090710fffc934e5a; [checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Exact gVisor release source commit e8a2a28891ba41f3fb737dee8bb7120745d75826, go.mod blob d063558784be716b06f65140063c6be8afd6cd28, declares containerd/v2 v2.1.5. GitHub Advisory GHSA-pg57-6jwg-q645 / CVE-2026-53493 lists >=2.1.0 and <2.2.9 as affected; version-range overlap is VERIFIED, reachability/exploitability NOT VERIFIED.
+- containerd 2.1 is marked End of Life by its published release policy. Full transitive advisory scan remains NOT RUN; gVisor artifact provenance NOT VERIFIED. Inventory remains OPEN_NOT_FROZEN; comparison/adoption NOT_STARTED/NONE.
+- No source change, dependency install, provider or secret access, controller dispatch, merge, deployment, qualification or adoption. Contour A NOT ACCEPTED; Contour B gated.
+- Next: independently review pinned gVisor source/call path to determine whether the affected image-pull functionality is reachable; do not promote the candidate pending remediation or reviewed evidence.
+
+---
+
 ## Wave 454 — PR head and governance recheck (2026-10-29)
 
 - Report: [Wave 454 PR head and governance recheck](../checkpoints/MEDIAHUB-PR-HEAD-GOVERNANCE-RECHECK-WAVE-454-2026-10-29.md), blob `777a5f7fd0851abf8f8b5c1ce5088c28d9f2fe39`; [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-454-2026-10-29.md), blob `73f6c91f23654fd2c6ae29dfd2af1a74239a16f8`; [current checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
