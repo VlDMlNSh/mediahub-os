@@ -1,7 +1,7 @@
 # MediaHub OS — Upstream Latest Release, Lockfile and Advisory Screen (Wave 449)
 
 - Date: 2026-10-29
-- Status: **SOURCE REFS VERIFIED / STRUCTURAL LOCKFILE SCREEN RECORDED / TRANSITIVE ADVISORY AUDIT NOT RUN / PR #585 CURRENT-HEAD CI NOT YET VERIFIED**
+- Status: **SOURCE REFS VERIFIED / STRUCTURAL LOCKFILE SCREEN RECORDED / TRANSITIVE ADVISORY AUDIT NOT RUN / PR #585 EXACT-HEAD CI SUCCEEDED / GOVERNANCE NOT VERIFIED**
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md)
 - Map addendum: [Wave 449 addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-449-2026-10-29.md)
 - Continuation checkpoint: [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md)
