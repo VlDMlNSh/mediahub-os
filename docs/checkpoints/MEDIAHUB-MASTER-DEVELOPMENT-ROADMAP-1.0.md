@@ -1,3 +1,14 @@
+## Wave 451 — Gemini controller complete-list evidence hardening (2026-10-29)
+
+- Detailed report: [Wave 451 controller complete evidence-listing hardening](MEDIAHUB-GEMINI-CONTROLLER-COMPLETE-EVIDENCE-LISTING-WAVE-451-2026-10-29.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Main target remains `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #583 is OPEN/DRAFT/UNMERGED at `448bcbe6b941847b993dc2675a74367cce276b3e`. Workflow/test blobs: `0d4056934b3b9c3da4ef06fc4b8f3f555d61d273` / `11391f9dadb7f868bd7110d4c29267914509db69`. Six exact-head workflows SUCCEEDED; the controller probe was non-launching and dispatch/monitor was skipped.
+- The controller now checks that returned child-job and artifact lists match API `total_count` before accepting evidence. Incomplete first-page lists fail closed rather than being accepted as complete. Formal independent review remains absent; PR combined status is pending/empty; effective required-check/branch policy NOT VERIFIED.
+- PR #585 remains OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`; Astra Verify `40832496142` and Cloud Runtime Validation `40832496196` succeeded on that exact SHA, but formal review and effective policy remain NOT VERIFIED. The main branch endpoint reports `protected=false`, while direct branch-protection inspection returns 403.
+- No Gemini batch/child dispatch, provider inference, secret access, local executor task, merge, deployment, qualification or adoption. Contour A NOT ACCEPTED; Contour B gated.
+- Next: obtain formal independent review and verify effective branch governance before considering controller dispatch or merge.
+
+---
+
 ## Wave 450 — current PR #585 head, upstream screen and governance status (2026-10-29)
 
 - Detailed report: [Wave 450 current-head recheck](MEDIAHUB-NEXT-PR585-WAVE449-CURRENT-HEAD-RECHECK-WAVE-450-2026-10-29.md); [Wave 450 map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-450-2026-10-29.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [current checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
