@@ -2586,7 +2586,7 @@
           "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
         },
         "latest_release": {
-          "wave": "444",
+          "wave": "445",
           "checked_at": "2026-10-29",
           "tag": "release-20261019.0",
           "immutable_tag_commit_sha": "760b80785dc53311d4c87bd2de167525a99709c1",
@@ -2615,10 +2615,11 @@
             "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED"
           },
           "current_default_branch_head_sha": "NOT_VERIFIED",
-          "tag_sha_is_immutable_commit": true,
           "dependency_advisories": "NOT_AUDITED",
           "upstream_ci": "NOT_AUDITED",
-          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred."
+          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred.",
+          "tag_commit_sha_pinned": true,
+          "tag_ref_mutability": "NOT_ASSUMED_IMMUTABLE; EXACT_TARGET_COMMIT_SHA_PINNED"
         },
         "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
       }
@@ -2701,7 +2702,7 @@
           "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
         },
         "latest_release": {
-          "wave": "444",
+          "wave": "445",
           "checked_at": "2026-10-29",
           "tag": "v0.76.0",
           "immutable_tag_commit_sha": "531360e5d2a88e732373f1614ba99a38738538b8",
@@ -2730,10 +2731,11 @@
             "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED"
           },
           "current_default_branch_head_sha": "NOT_VERIFIED",
-          "tag_sha_is_immutable_commit": true,
           "dependency_advisories": "NOT_AUDITED",
           "upstream_ci": "NOT_AUDITED",
-          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred."
+          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred.",
+          "tag_commit_sha_pinned": true,
+          "tag_ref_mutability": "NOT_ASSUMED_IMMUTABLE; EXACT_TARGET_COMMIT_SHA_PINNED"
         },
         "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
       }
@@ -2884,7 +2886,7 @@
           "limitations": "This proves this one file blob is identical at the tested commit and current default branch. It does not prove the commit equals current default-branch HEAD, nor release-tag equivalence."
         },
         "latest_release": {
-          "wave": "444",
+          "wave": "445",
           "checked_at": "2026-10-29",
           "tag": "v1.30.1",
           "immutable_tag_commit_sha": "99a054ed9283c90abdd2d5b9fb5101d27dde9783",
@@ -2913,10 +2915,11 @@
             "status": "BLOB_CAPTURED_CONTENT_NOT_AUDITED"
           },
           "current_default_branch_head_sha": "NOT_VERIFIED",
-          "tag_sha_is_immutable_commit": true,
           "dependency_advisories": "NOT_AUDITED",
           "upstream_ci": "NOT_AUDITED",
-          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred."
+          "note": "Release ref and selected manifest/lockfile blobs were read. Different release-vs-default manifest/lockfile blobs indicate that release artifacts and the current default ref must be assessed separately; no dependency conclusion or adoption is inferred.",
+          "tag_commit_sha_pinned": true,
+          "tag_ref_mutability": "NOT_ASSUMED_IMMUTABLE; EXACT_TARGET_COMMIT_SHA_PINNED"
         },
         "release_tag_status": "TAG_COMMIT_PINNED_LICENSE_MANIFEST_AND_LOCKFILE_BLOBS_CAPTURED"
       }
@@ -3024,7 +3027,7 @@
       }
     }
   ],
-  "latest_screening_wave": "444",
+  "latest_screening_wave": "445",
   "screening_summary": {
     "pinned_heads": 69,
     "license_files_read_at_pinned_heads": 65,
@@ -3044,7 +3047,7 @@
     "lockfile_blobs_recorded": 28,
     "default_ref_file_blob_equivalence_verified": 3
   },
-  "wave444_summary": {
+  "wave445_summary": {
     "date": "2026-10-29",
     "candidates_added": 0,
     "existing_candidates_enriched": 3,
@@ -3058,6 +3061,8 @@
     "exact_upstream_ci_audits": 0,
     "formal_comparison": "NOT_STARTED",
     "inventory_freeze": "NOT_READY",
-    "adoption": "NONE"
+    "adoption": "NONE",
+    "corrected_from_misnumbered_wave": "444",
+    "notes": "Sequence identifier aligned after discovering the canonical continuation checkpoint already used Wave 444 for the PR #583 CI/governance recheck. No candidate row or evidence SHA was changed by renumbering."
   }
 }
