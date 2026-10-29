@@ -70,6 +70,32 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
             self.assertNotIn("MEDIAHUB_GITHUB_TOKEN", source)
             self.assertIn("needs.authorize_dispatch.result == 'success'", source)
 
+    def test_pr_probe_concurrency_isolated_from_long_running_agent_batch(self):
+        # Assert the parsed concurrency policy, not a stale literal source line.
+        # PR-only no-secret checks get a PR-specific group and may cancel only PR runs;
+        # all other events retain the single serialized batch group.
+        concurrency = self.workflow["concurrency"]
+        group = concurrency["group"]
+        self.assertIn("github.event_name == 'pull_request'", group)
+        self.assertIn("format('mediahub-gemini-controller-pr-probe-{0}', github.event.pull_request.number)", group)
+        self.assertIn("|| 'mediahub-gemini-controller-batch'", group)
+        self.assertEqual(
+            concurrency["cancel-in-progress"],
+            "${{ github.event_name == 'pull_request' }}",
+        )
+
+    def test_child_success_requires_complete_job_and_artifact_listings(self):
+        # The first page is accepted only if API total_count proves it was complete.
+        self.assertIn('jobs_complete=(', self.source)
+        self.assertIn('len(child_jobs)==job_data["total_count"]', self.source)
+        self.assertIn('jobs_success=bool(child_jobs) and jobs_complete and all(', self.source)
+        self.assertIn('artifacts_complete=(', self.source)
+        self.assertIn('len(listed_artifacts)==artifact_data["total_count"]', self.source)
+        self.assertIn('expected_artifacts=[item for item in artifacts if item.get("name")=="gemini-output"]', self.source)
+        self.assertIn('if artifacts_complete and len(expected_artifacts)==1 and all(item.get("digest") for item in artifacts):', self.source)
+        self.assertIn('artifact_digest")=="NOT_VERIFIED"', self.source)
+
+
     def test_partial_dispatch_is_recorded_and_accepted_children_are_reconciled(self):
         # Every attempt is recorded before POST; individual failures must not
         # abort the loop before accepted children are monitored and summarized.
