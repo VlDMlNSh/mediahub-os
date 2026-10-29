@@ -11,7 +11,7 @@
 
 ## Wave 453 — gVisor release provenance and current gate recheck (2026-10-29)
 
-- Report: [Wave 453 gVisor release provenance and current gates](../checkpoints/MEDIAHUB-GVISOR-RELEASE-PROVENANCE-AND-CURRENT-GATES-WAVE-453-2026-10-29.md), blob `e938de6e43e2f0db73bbcdc5bd4dc6239c7d8d83`; [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-453-2026-10-29.md), blob `c0ba69b93f864bbecc51d7482c1342febf728417`; [checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Report: [Wave 453 gVisor release provenance and current gates](../checkpoints/MEDIAHUB-GVISOR-RELEASE-PROVENANCE-AND-CURRENT-GATES-WAVE-453-2026-10-29.md), blob `340bb766b8b640346360d17cefc227bb35f56277`; [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-453-2026-10-29.md), blob `c0ba69b93f864bbecc51d7482c1342febf728417`; [checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
 - gVisor `release-20261026.0` targets `e8a2a28891ba41f3fb737dee8bb7120745d75826`; tag object is unsigned, release API reports `immutable=false`, and GitHub exposes SHA-256 metadata for six release assets. Release Mirror workflow [40606990389](https://github.com/google/gvisor/actions/runs/40606990389) succeeded. Official checksum-file content comparison and independent attestation remain NOT VERIFIED, so artifact provenance is not accepted.
 - PR #583/#585 current heads, check evidence, missing formal reviews and effective branch-policy blockers are rechecked in Wave 454. No dispatch or merge authorization is inferred.
 
