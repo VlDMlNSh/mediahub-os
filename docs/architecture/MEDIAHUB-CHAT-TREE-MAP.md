@@ -1,3 +1,12 @@
+## Wave 459 — PR head and governance snapshot (2026-10-29)
+
+- Report: [Wave 459 PR head and governance snapshot](../checkpoints/MEDIAHUB-PR-HEAD-AND-GOVERNANCE-SNAPSHOT-WAVE-459-2026-10-29.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- MediaHub main HEAD remains `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #583 OPEN/DRAFT/UNMERGED at `448bcbe6b941847b993dc2675a74367cce276b3e`: seven exact-head checks SUCCESS, two SKIPPED, combined status pending/zero contexts, formal reviews 0. PR #585 OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`: Astra Verify 40832496142 and Cloud Runtime Validation 40832496196 SUCCESS on exact head, combined status pending/zero contexts, formal reviews 0.
+- Branch-protection read returned 403 and ruleset listing was empty; effective required checks/policy remains NOT VERIFIED. No controller or child dispatch, secrets/provider/local runtime work, merge, deployment, qualification or adoption occurred. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: conduct an independent static contract review of PR #583's workflow and regression test; do not dispatch until governance gates are evidenced.
+
+---
+
 ## Wave 458 — OSV-Scanner v2.7.0 qualification preflight (2026-10-29)
 
 - Report: [Wave 458 OSV-Scanner qualification preflight](../checkpoints/MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
