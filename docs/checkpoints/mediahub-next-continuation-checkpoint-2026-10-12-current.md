@@ -2704,3 +2704,12 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Canonical map's Contents API response was empty, but fetching the exact map blob `d8ca30c423c7a3b9f7b4c133a56e5b6e2fef1d07` recovered 1,198,126 characters and confirmed Wave 458 at the map index. No map-content loss inferred.
 - Gemini Agents 1/2/3, provider inference, secret reads, local executor, merge, deployment, qualification and adoption: NOT RUN. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: independent static contract review of PR #583 workflow + regression test; no dispatch until governance gates are evidenced.
+
+---
+
+## Wave 460 — PR metadata recheck (2026-10-29)
+
+- Report: [PR metadata recheck Wave 460](MEDIAHUB-PR-METADATA-RECHECK-WAVE-460-2026-10-29.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #583 remains OPEN/DRAFT/UNMERGED at `448bcbe6b941847b993dc2675a74367cce276b3e`; PR #585 remains OPEN/DRAFT/UNMERGED at `8940c7f0f66c9f50e2d83659a6231aa790817221`. Both current metadata reads report base `main` and `mergeable_state=clean`.
+- The head SHAs match the prior Wave 459 checkpoint. This microstep did not re-run CI or review/branch-policy checks; see Wave 459 for their previously recorded evidence and limitations.
+- Next: read-only static review of the PR #583 workflow + regression test. No dispatch.
