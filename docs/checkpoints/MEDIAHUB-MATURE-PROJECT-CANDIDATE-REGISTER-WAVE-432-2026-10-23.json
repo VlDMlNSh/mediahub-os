@@ -2695,7 +2695,72 @@
         }
       },
       "release_tag": "release-20261026.0",
-      "release_tag_status": "LATEST_RELEASE_TAG_TARGET_COMMIT_AND_RELEASE_DEFAULT_BLOBS_PINNED_WAVE_446"
+      "release_tag_status": "LATEST_RELEASE_REF_REFRESHED_2026-10-29; LOCKFILE_CONTENTS_NOT_ADVISORY_AUDITED",
+      "latest_release": {
+        "wave": "447",
+        "checked_at": "2026-10-29",
+        "tag": "release-20261026.0",
+        "immutable_tag_commit_sha": "e8a2a28891ba41f3fb737dee8bb7120745d75826",
+        "annotated_tag_object_sha": "61bae0ec902c13cf5ec4128759cd64062ad52848",
+        "tag_signature_status": "UNSIGNED_ANNOTATED_TAG_OBJECT; VERIFY_RELEASE_ARTIFACT_PROVENANCE_BEFORE_ADOPTION",
+        "release_url": "https://github.com/google/gvisor/releases/tag/release-20261026.0",
+        "listing_url": "https://github.com/google/gvisor/releases",
+        "latest_release_status": "OBSERVED_AS_LATEST_IN_PUBLIC_RELEASES_API",
+        "default_branch": "master",
+        "license": {
+          "path": "LICENSE",
+          "blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
+          "status": "READ_AT_RELEASE_AND_CURRENT_HEAD",
+          "same_blob_at_release_and_default_ref": true,
+          "current_head_blob_sha": "f7a006d10464cfe9724b5d687c0013bf982cc66a",
+          "current_head_blob_verified_at_exact_sha": true
+        },
+        "manifest": {
+          "path": "go.mod",
+          "release_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+          "default_ref_blob_sha": "d063558784be716b06f65140063c6be8afd6cd28",
+          "same_blob_at_release_and_default_ref": true,
+          "status": "READ; CONTENT_NOT_FULLY_AUDITED"
+        },
+        "lockfile": {
+          "path": "go.sum",
+          "release_blob_sha": "7835f843768bb04feaadb125707099d71e15b67b",
+          "default_ref_blob_sha": "7835f843768bb04feaadb125707099d71e15b67b",
+          "same_blob_at_release_and_default_ref": true,
+          "status": "STRUCTURE_SCREENED; DEPENDENCY_ADVISORIES_NOT_AUDITED",
+          "release_lines": 502,
+          "default_ref_lines": 502
+        },
+        "current_default_branch_head_sha": "ac7b4e0fdc7dc4674453438e5e15fc069895620c",
+        "current_default_branch_head_url": "https://github.com/google/gvisor/commit/ac7b4e0fdc7dc4674453438e5e15fc069895620c",
+        "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29",
+        "release_commit_matches_current_head": false,
+        "tag_commit_sha_pinned": true,
+        "tag_ref_mutability": "EXACT_TARGET_COMMIT_SHA_RECORDED; MUTABILITY/ARTIFACT ATTESTATION NOT ASSUMED",
+        "upstream_ci": {
+          "status": "SUCCEEDED_ON_RELEASE_AND_DEFAULT_HEAD",
+          "latest_release_run_ids": [
+            40603410346,
+            40606990389
+          ],
+          "latest_release_conclusions": "SUCCESS",
+          "default_head_run_ids": [
+            40828608584,
+            40828608600,
+            40828608638,
+            40828608655
+          ],
+          "default_head_conclusions": "SUCCESS"
+        },
+        "project_advisory_screen": {
+          "status": "NO_PUBLIC_ADVISORIES_OBSERVED_ON_PUBLIC_PAGE",
+          "source": "https://github.com/google/gvisor/security/advisories",
+          "note": "Absence of public advisories is not proof of absence of vulnerabilities."
+        },
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_dependency_audit": "NOT_RUN",
+        "note": "Release/current-head LICENSE, go.mod and go.sum blobs match; GitHub annotated release tag object is unsigned, so verify artifact provenance before adoption."
+      }
     },
     {
       "id": "firecracker",
@@ -2884,7 +2949,98 @@
         }
       },
       "release_tag": "v0.76.1",
-      "release_tag_status": "LATEST_RELEASE_TAG_TARGET_COMMIT_AND_RELEASE_DEFAULT_BLOBS_PINNED_WAVE_446"
+      "release_tag_status": "LATEST_RELEASE_REF_REFRESHED_2026-10-29; LOCKFILE_CONTENTS_NOT_ADVISORY_AUDITED",
+      "latest_release": {
+        "wave": "447",
+        "checked_at": "2026-10-29",
+        "tag": "v0.76.1",
+        "immutable_tag_commit_sha": "e713f67f7d54decdcd9b3132c9751833dcced698",
+        "release_url": "https://github.com/aquasecurity/trivy/releases/tag/v0.76.1",
+        "listing_url": "https://github.com/aquasecurity/trivy/releases",
+        "latest_release_status": "OBSERVED_AS_LATEST_IN_PUBLIC_RELEASES_API",
+        "default_branch": "main",
+        "license": {
+          "path": "LICENSE",
+          "blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "status": "READ_AT_RELEASE_AND_CURRENT_HEAD",
+          "same_blob_at_release_and_default_ref": true,
+          "current_head_blob_sha": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+          "current_head_blob_verified_at_exact_sha": true
+        },
+        "manifest": {
+          "path": "go.mod",
+          "release_blob_sha": "9f2eb69c8a64d1097706a55ada38055d8e17d833",
+          "default_ref_blob_sha": "64bd58c933f83ee4133861a72538e6e0131e4a19",
+          "same_blob_at_release_and_default_ref": false,
+          "status": "READ; CONTENT_NOT_FULLY_AUDITED"
+        },
+        "lockfile": {
+          "path": "go.sum",
+          "release_blob_sha": "672990d988b1177ccc56c83fc223d233b270d24d",
+          "default_ref_blob_sha": "1beb295a3a0ba30ebecf1c918ce93c7981ae7d52",
+          "same_blob_at_release_and_default_ref": false,
+          "status": "STRUCTURE_SCREENED; DEPENDENCY_ADVISORIES_NOT_AUDITED"
+        },
+        "current_default_branch_head_sha": "4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77",
+        "current_default_branch_head_url": "https://github.com/aquasecurity/trivy/commit/4cdb2db63d52cfb5f6c9199e2d08196f2bb9dc77",
+        "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29",
+        "release_commit_matches_current_head": false,
+        "tag_commit_sha_pinned": true,
+        "tag_ref_mutability": "EXACT_TARGET_COMMIT_SHA_RECORDED; MUTABILITY/ARTIFACT ATTESTATION NOT ASSUMED",
+        "upstream_ci": {
+          "status": "SUCCEEDED_ON_RELEASE_AND_DEFAULT_HEAD",
+          "latest_release_run_ids": [
+            39586330639,
+            39586330915,
+            39586309315
+          ],
+          "latest_release_conclusions": "SUCCESS",
+          "default_head_run_ids": [
+            40695092936,
+            40695091513,
+            40698250775
+          ],
+          "default_head_conclusions": "SUCCESS"
+        },
+        "project_advisory_screen": {
+          "status": "PARTIAL_PROJECT_VERSION_RANGE_SCREEN",
+          "source": "https://github.com/aquasecurity/trivy/security/advisories",
+          "findings": [
+            {
+              "id": "GHSA-69fq-xp46-6x23",
+              "severity": "CRITICAL",
+              "affected": "Trivy v0.69.4; trivy-action tags below v0.35.0; setup-trivy below v0.2.6 / unpinned versions per advisory",
+              "fixed": "Trivy binary affected version identified as v0.69.4; action/setup use safe SHA-pinned releases",
+              "url": "https://github.com/aquasecurity/trivy/security/advisories/GHSA-69fq-xp46-6x23"
+            },
+            {
+              "id": "GHSA-q3fv-x8vg-qqm4",
+              "severity": "MODERATE",
+              "affected": "Trivy <0.71.0",
+              "fixed": "0.71.0",
+              "url": "https://github.com/aquasecurity/trivy/security/advisories/GHSA-q3fv-x8vg-qqm4"
+            },
+            {
+              "id": "GHSA-mcj4-mphf-j9ff",
+              "severity": "HIGH",
+              "affected": "Trivy <0.71.1",
+              "fixed": "0.71.1",
+              "url": "https://github.com/aquasecurity/trivy/security/advisories/GHSA-mcj4-mphf-j9ff"
+            },
+            {
+              "id": "GHSA-8rc5-4fr6-64pw",
+              "severity": "MODERATE",
+              "affected": "Trivy <0.72.0",
+              "fixed": "0.72.0",
+              "url": "https://github.com/aquasecurity/trivy/security/advisories/GHSA-8rc5-4fr6-64pw"
+            }
+          ],
+          "note": "v0.76.1 is above the listed root-package patch floors, but this is not a transitive dependency audit or an assurance about historical action tags. Pin GitHub Actions by immutable SHA and verify release artifacts."
+        },
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_dependency_audit": "NOT_RUN",
+        "note": "Release/current-head LICENSE, go.mod and go.sum blobs match; GitHub annotated release tag object is unsigned, so verify artifact provenance before adoption."
+      }
     },
     {
       "id": "syft",
@@ -3141,7 +3297,72 @@
         }
       },
       "release_tag": "v1.31.1",
-      "release_tag_status": "LATEST_RELEASE_TAG_TARGET_COMMIT_AND_RELEASE_DEFAULT_BLOBS_PINNED_WAVE_446"
+      "release_tag_status": "LATEST_RELEASE_REF_REFRESHED_2026-10-29; LOCKFILE_CONTENTS_NOT_ADVISORY_AUDITED",
+      "latest_release": {
+        "wave": "447",
+        "checked_at": "2026-10-29",
+        "tag": "v1.31.1",
+        "immutable_tag_commit_sha": "effdb35fa7868863f11655db256d9008922fa427",
+        "release_url": "https://github.com/zizmorcore/zizmor/releases/tag/v1.31.1",
+        "listing_url": "https://github.com/zizmorcore/zizmor/releases",
+        "latest_release_status": "OBSERVED_AS_LATEST_IN_PUBLIC_RELEASES_API",
+        "default_branch": "main",
+        "license": {
+          "path": "LICENSE",
+          "blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+          "status": "READ_AT_RELEASE_AND_CURRENT_HEAD",
+          "same_blob_at_release_and_default_ref": true,
+          "current_head_blob_sha": "491f2b2c09f25968b9554948aa7f9b33708aa23a",
+          "current_head_blob_verified_at_exact_sha": true
+        },
+        "manifest": {
+          "path": "pyproject.toml",
+          "release_blob_sha": "96d1af120771d767fbf750b0fe4c8c3e13e62521",
+          "default_ref_blob_sha": "96d1af120771d767fbf750b0fe4c8c3e13e62521",
+          "same_blob_at_release_and_default_ref": true,
+          "status": "READ; CONTENT_NOT_FULLY_AUDITED"
+        },
+        "lockfile": {
+          "path": "uv.lock",
+          "release_blob_sha": "c68a7e33664ae40b6e013730f4180e0c831ecf9f",
+          "default_ref_blob_sha": "27a9fc3b2eb5bf0e70eb315c985238547519e742",
+          "same_blob_at_release_and_default_ref": false,
+          "status": "STRUCTURE_SCREENED; DEPENDENCY_ADVISORIES_NOT_AUDITED",
+          "release_lines": 415,
+          "default_ref_lines": 415
+        },
+        "current_default_branch_head_sha": "bf9ccabc03ca255c8ac3ac43329335d0524e3dd7",
+        "current_default_branch_head_url": "https://github.com/zizmorcore/zizmor/commit/bf9ccabc03ca255c8ac3ac43329335d0524e3dd7",
+        "current_default_branch_head_sha_status": "VERIFIED_BY_BRANCH_REF_RESOLUTION_ON_2026-10-29",
+        "release_commit_matches_current_head": false,
+        "tag_commit_sha_pinned": true,
+        "tag_ref_mutability": "EXACT_TARGET_COMMIT_SHA_RECORDED; MUTABILITY/ARTIFACT ATTESTATION NOT ASSUMED",
+        "upstream_ci": {
+          "status": "SUCCEEDED_ON_RELEASE_AND_DEFAULT_HEAD",
+          "latest_release_run_ids": [
+            38820810412,
+            38820769929,
+            38820769942,
+            38820769919
+          ],
+          "latest_release_conclusions": "SUCCESS",
+          "default_head_run_ids": [
+            40828282626,
+            40828282582,
+            40828282674,
+            40828282675,
+            40828282632
+          ],
+          "default_head_conclusions": "SUCCESS"
+        },
+        "project_advisory_screen": {
+          "status": "NOT_VERIFIED",
+          "summary": "Public advisory listing could not be retrieved in this pass; do not infer absence of advisories."
+        },
+        "dependency_advisories": "NOT_AUDITED",
+        "exact_dependency_audit": "NOT_RUN",
+        "note": "Release/current-head LICENSE, go.mod and go.sum blobs match; GitHub annotated release tag object is unsigned, so verify artifact provenance before adoption."
+      }
     },
     {
       "id": "renovate",
@@ -3246,7 +3467,7 @@
       }
     }
   ],
-  "latest_screening_wave": "446",
+  "latest_screening_wave": "447",
   "screening_summary": {
     "pinned_heads": 69,
     "license_files_read_at_pinned_heads": 65,
@@ -3307,5 +3528,26 @@
     "inventory_freeze": "NOT_READY",
     "adoption": "NONE",
     "notes": "Corrects the prior latest-release observation: newer GitHub Releases API tags were present for all three records. Wave 445 records are preserved under prior_latest_release_wave445."
+  },
+  "wave447_summary": {
+    "date": "2026-10-29",
+    "result": "LATEST_RELEASE_POINTERS_REFRESHED; STRUCTURAL_LOCKFILE_SCREEN_ONLY; PROJECT_ADVISORY_SCREEN_PARTIAL",
+    "records_updated": [
+      "zizmor",
+      "trivy",
+      "gvisor"
+    ],
+    "counts_preserved": {
+      "total": 128,
+      "CANDIDATE": 99,
+      "CONDITIONAL": 22,
+      "REFERENCE_ONLY": 2,
+      "EXCLUDED_FROM_ACTIVE_SHORTLIST": 5
+    },
+    "dependency_advisory_audit": "NOT_AUDITED",
+    "exact_upstream_ci": "ZIZMOR_SUCCESS; GVISOR_SUCCESS; TRIVY_MIXED_DEFAULT_HEAD_DUE_TO_GORELEASER_DISK_QUOTA_FAILURE",
+    "discovery_phase": "OPEN_NOT_FROZEN",
+    "comparison_phase": "NOT_STARTED",
+    "adoption_phase": "NONE"
   }
 }
