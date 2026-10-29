@@ -13,7 +13,7 @@
 
 - `main`: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`.
 - Canonical docs branch at start: `d9b2399bc72c6043acc03a718ef7a6373d7f0b62`.
-- PR #585 latest head after final recheck: `fe57a19e189e3dd3f95c0d40747685349ffbeb23`; OPEN / DRAFT / UNMERGED; base `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; 59 commits and 17 changed files. This supersedes the interim Wave 448 target `bf1c6d86a308aeeeb02480ae6c168fe55c83c99a`.
+- PR #585 latest head after final recheck: `8940c7f0f66c9f50e2d83659a6231aa790817221`; OPEN / DRAFT / UNMERGED; base `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; 62 commits and 18 changed files. This supersedes interim Wave 448 targets `bf1c6d86a308aeeeb02480ae6c168fe55c83c99a` and `fe57a19e189e3dd3f95c0d40747685349ffbeb23`.
 - PR #583 remains OPEN / DRAFT / UNMERGED at `265a6116874739d1826fc5c7dda84b5b8b8f9eeb`.
 - Issue #301 is OPEN. Formal PR review APIs returned zero submitted reviews for both #583 and #585.
 
@@ -21,11 +21,11 @@ PR #585's head advanced several times during this pass. All statements below use
 
 ## 2. Exact-head CI
 
-### PR #585 — final observed head `fe57a19e189e3dd3f95c0d40747685349ffbeb23`
+### PR #585 — final observed head `8940c7f0f66c9f50e2d83659a6231aa790817221`
 
-- [Astra Verify run 40832270154](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832270154) — `completed / success`, job `123308955861`, exact target SHA matches.
-- [Astra Cloud Runtime Validation run 40832270170](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832270170) — `completed / success`, job `123308955919`, exact target SHA matches.
-- Commit check-runs API returned these two successful jobs on the exact target SHA `fe57a19e189e3dd3f95c0d40747685349ffbeb23`. The preceding head `bf1c6d86a308aeeeb02480ae6c168fe55c83c99a` was also green, but is not the current PR head.
+- [Astra Verify run 40832496142](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496142) — `completed / success`, job `123309677386`, exact target SHA matches.
+- [Astra Cloud Runtime Validation run 40832496196](https://github.com/VlDMlNSh/mediahub-os/actions/runs/40832496196) — `completed / success`, job `123309677277`, exact target SHA matches.
+- Commit check-runs API returned these two successful jobs on the exact target SHA `8940c7f0f66c9f50e2d83659a6231aa790817221`. The preceding interim heads `bf1c6d86a308aeeeb02480ae6c168fe55c83c99a` and `fe57a19e189e3dd3f95c0d40747685349ffbeb23` were also green, but are not the current PR head.
 - Combined status remains `pending` with zero contexts; formal reviews remain zero. Required-check/branch-protection policy remains **NOT VERIFIED** (branch-protection endpoint returned HTTP 403 to the GitHub integration). PR remains Draft/unmerged, so integration acceptance is not established.
 
 ### PR #583 — head `265a6116874739d1826fc5c7dda84b5b8b8f9eeb`
