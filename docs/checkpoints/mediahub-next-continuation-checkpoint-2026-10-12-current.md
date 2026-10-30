@@ -2837,3 +2837,16 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 482 — A0 task-ingress issuer and approval-provenance source audit (2026-10-30)
+
+- Report: [Wave 482 A0 ingress issuer source audit](MEDIAHUB-A0-INGRESS-ISSUER-SOURCE-AUDIT-WAVE-482-2026-10-30.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-482-2026-10-30.md).
+- Main source target observed: f0448f28c7cfa61e4450c38529f09afbfdbbc7c7. Pinned blobs: task_ingress.py 59e1254aa61cc8f55f53bd1e179631e81c441393; astra_gateway.py 10985e4ad8f682313d08e7492ecc1856a8bce20f; authorization.py 4d8df5d3c1c26f7f133a8093cd270635b085f4d5; sign_command.py fc6943a79cefdf06e59d6e32771d2df551b2f0e9; astra_github_agent.py dd2f373bf5f3d69dec951c84e3d53b0e9befab0c.
+- HIGH source-level finding A0-ISSUER-01: FileTaskIngress accepts caller-supplied approval_state=approved after enum validation and copies it into AstraTaskRequest; AstraGatewayRuntime.run() uses that value to allow sensitive actions. No issuer signature, authenticated principal/capability, operation/resource binding, expiry, revocation or durable replay check is established on this path. AuthorizationPolicy exists but no wiring into this ingress path was found.
+- This is an authority/provenance gap, not a confirmed exploitable vulnerability; trusted inbox writer and attacker reachability were not established. No runtime changes were made.
+- Proposed 12 negative fixtures are documented but NOT IMPLEMENTED / NOT RUN. No tests, provider calls, credentials, Gemini/Claude dispatch, host task, merge, deployment, qualification or acceptance.
+- Issue #301 remains OPEN and controlling. SentinelX connected hosts=0; Voktors-Mini.Dlink offline; mh-dev-01 and mh-dev-02 disabled.
+- Working branch: docs/wave482-a0-ingress-issuer-source-audit-20261030, based on docs/mediahub-chat-tree-map-20261012. Unmerged documentation only.
+- Next: resolve issuer/capability and durable replay/lease/cancel/recovery contract, obtain independent review, then address R-06 audit/privacy and authoritative runner/workspace/network target manifest before any bounded worker admission.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
