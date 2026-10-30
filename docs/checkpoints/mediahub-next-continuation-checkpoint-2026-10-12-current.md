@@ -2804,7 +2804,7 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 ## Wave 475 — PR #588 static source review and CI trigger hardening (2026-10-30)
 
 - Report: [Wave 475 — PR #588 read-only source review](MEDIAHUB-PR588-READONLY-SOURCE-REVIEW-WAVE-475-2026-10-30.md).
-- Main remains `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #588 HEAD `c65897f2a4ff594b69a98ce739aace244147c926`, base main, 8 ahead / 0 behind; OPEN/DRAFT/UNMERGED.
+- Main remains `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #588 HEAD `c65897f2a4ff594b69a98ce739aace244147c926`, base main, 9 ahead / 0 behind; OPEN/DRAFT/UNMERGED.
 - Follow-up removed PR path filters from AI Factory, provider contract and Gemini contract validation, and removed Astra Verify's PR `paths-ignore`; all five required checks now run for every PR targeting main. The existing controller path-coverage test was updated to enforce this.
 - Exact-head CI: all five required ruleset contexts SUCCESS — Astra Verify 41016101267/job 123932662277; Astra Cloud Runtime Validation 41016101271/job 123932662331; Gemini workflow contract validation (Wave 284) 41016101312/job 123932662449; AI Factory verification 41016101268/job 123932662244; provider contract verification 41016101355/job 123932662460. Non-launching controller probe 41016101286 SUCCESS; admission and dispatch jobs SKIPPED.
 - Read-only source review of all nine changed files completed as preliminary analysis only. Independent review remains NOT VERIFIED. Blockers: child `workflow_dispatch` is not available until its file exists on the default branch; no durable replay receipt; executable HMAC suite excludes this PR-specific child; exact secret-name presence NOT VERIFIED. See report.
