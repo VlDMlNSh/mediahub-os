@@ -2864,3 +2864,20 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No runtime edits, tests, credentials/secrets, provider calls, Gemini/Claude dispatch, host tasks, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: obtain explicit owner/governance dispositions for GOV-CAP-01…07 and R-06; then draft a normative contract only within approved decisions and request independent A3 review.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os.
+
+
+## Wave 486 — owner-directed A0 issuer governance disposition (2026-10-30)
+
+- Primary decision: [MEDIAHUB-A0-ISSUER-GOVERNANCE-DISPOSITION-WAVE-486-2026-10-30.md](../architecture/MEDIAHUB-A0-ISSUER-GOVERNANCE-DISPOSITION-WAVE-486-2026-10-30.md).
+- Report: [MEDIAHUB-A0-ISSUER-GOVERNANCE-DISPOSITION-WAVE-486-2026-10-30.md](MEDIAHUB-A0-ISSUER-GOVERNANCE-DISPOSITION-WAVE-486-2026-10-30.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-486-2026-10-30.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-486-2026-10-30.md).
+- Selected WB-05 Option A: separately governed dedicated Security Issuer Authority, distinct from Jarvis and ASTRA A0. GOV-CAP-02…07 and R-06 target dispositions are specified in the primary document.
+- Initial conservative defaults: capability lifetime ≤5 minutes; revocation-state age ≤30 seconds; re-check before each protected effect; fail closed on stale/unavailable authority or audit; 365-day security evidence / 90-day routine task metadata subject to stricter legal/privacy limits.
+- DEC-DEV-02 Option C remains unchanged and owner-approved: Jarvis mission coordination; A0 internal workflow lifecycle; MediaHub Product State Authority sole canonical product-state mutation authority.
+- Source basis re-read: WB-05 blob `1b562c6546b1216f2ee89095cd6a78427a967dc5`; Wave 149 matrix blob `9c1a02dc125b37abea9284f0c0aa5deb571f13e7`; Wave 484 reconciliation; Wave 485 skeleton blob `14cf0194504824a17569433d4478154eb44afc3f`.
+- This is an owner-directed target disposition, not evidence that named operational owners or services exist. Protocol, token format, KMS/HSM vendor, identity source, audit sink, endpoints and exact operational principals remain subject to source research and ADR. Independent A3 review and normative acceptance are NOT VERIFIED; runtime implementation remains BLOCKED.
+- No runtime code/tests, secrets, provider calls, Gemini/Claude dispatch, host work, merge, deployment, qualification or acceptance occurred.
+- Working branch `docs/wave486-a0-owner-directed-governance-disposition-20261030`, parent Wave 485 head `37254c9f4ff09c39943f6924534a63dd44b5a431`. Decision commit `2d4cbf79803c83356e97c9830900443e3e736c51`; map addendum commit `424a2a83012a827b3b376e8e8d8a8794d466ae7a`; report commit `5bd449f9b1ecede0986d9dd2c5f0e15325390236`.
+- Next: derive the technology-neutral normative issuer/verifier contract and executable test plan from these selected decisions; obtain independent A3 review before runtime changes. Cloud Pool remains first delivery priority; server hardware remains deferred until Contour A acceptance.
+
+Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
