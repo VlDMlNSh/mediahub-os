@@ -2787,3 +2787,17 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Exact-head checks `verify` and `validate` (runs `40844640479`, `40844640409`) completed SUCCESS, but API returned only these 2 check-runs and zero legacy statuses. Active ruleset `26108066` requires exact contexts `Astra Cloud Runtime Validation`, `AI Factory verification`, `provider contract verification`, `Astra Verify`, and `Gemini workflow contract validation (Wave 284)`. The full five-context required gate is NOT VERIFIED on this head; do not merge or mark ready. No formal review submissions or inline threads. Controller integration not implemented; do not dispatch child manually.
 - Behavioral tests and controller integration remain outstanding. No agents, secret access, merge, deployment or qualification in this pass.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 474 — PR #588 required CI-context alignment (2026-10-30)
+
+- Report: [Wave 474 required CI-context alignment](MEDIAHUB-REQUIRED-CI-CONTEXTS-ALIGNMENT-WAVE-474-2026-10-30.md).
+- Main target remains `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. PR #588 OPEN/DRAFT/UNMERGED at `7080466d5549b3cf41522aa78efebc08ac49e88b`, based directly on main (7 ahead, 0 behind).
+- Root cause on old head `11074b6240361b2943643922d49417bee9601262`: required ruleset context names did not match job names; three workflows omitted the review child/test from PR path filters. Five workflow job names aligned exactly to active ruleset 26108066 and path filters were expanded; new static regression contract added.
+- Exact-head CI: all five required checks SUCCESS — Astra Verify 41015244518/job 123929991144; Astra Cloud Runtime Validation 41015244532/job 123929990490; Gemini workflow contract validation (Wave 284) 41015244499/job 123929990322; AI Factory verification 41015244452/job 123929990162; provider contract verification 41015244454/job 123929990143.
+- Contract-validation job passed actionlint, legacy/Wave 292 caller-context checks, reusable workflow, transport, executable child HMAC, trigger-path and new ruleset/path regression tests. Astra Verify full unit suite/compile/smoke passed; Astra Cloud tests passed.
+- Controller PR probe 41015244514: no-secret probe and caller-context assertion SUCCESS; admission guard and dispatch_and_monitor SKIPPED. No child agent runs, provider calls or secret reads.
+- Formal reviews/inline threads: 0; independent review NOT VERIFIED. Keep Draft and do not merge. PR-specific controller integration not implemented; no manual dispatch. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: independent read-only review of all eight changed files at immutable HEAD, then separately harden controller-owned PR review dispatch with HMAC, idempotency and ambiguity reconciliation, subject to independent governance review.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+

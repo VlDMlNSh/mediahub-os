@@ -1,3 +1,13 @@
+## Wave 474 — PR #588 required CI-context alignment (2026-10-30)
+
+- Report: [Wave 474 — required CI-context alignment](../checkpoints/MEDIAHUB-REQUIRED-CI-CONTEXTS-ALIGNMENT-WAVE-474-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Root cause: required context-name/job-name mismatch plus missing PR path-filter coverage. All five required job names were aligned to active ruleset 26108066 and a static regression test added.
+- PR #588 target `7080466d5549b3cf41522aa78efebc08ac49e88b`, base/main `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; all five required contexts SUCCESS (runs 41015244518, 41015244532, 41015244499, 41015244452, 41015244454).
+- Controller probe 41015244514 succeeded without launch; dispatch_and_monitor SKIPPED. No child agents, provider calls or secret reads. PR remains OPEN/DRAFT/UNMERGED; independent review NOT VERIFIED; Contour A NOT ACCEPTED; Contour B GATED.
+- Next: independent review of full PR diff at immutable target, then controller-owned PR review dispatch hardening through separate governance gates.
+
+---
+
 ## Wave 459 — PR head and governance snapshot (2026-10-29)
 
 - Report: [Wave 459 PR head and governance snapshot](../checkpoints/MEDIAHUB-PR-HEAD-AND-GOVERNANCE-SNAPSHOT-WAVE-459-2026-10-29.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
