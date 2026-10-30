@@ -1,0 +1,12 @@
+# MediaHub Chat Tree Map — Wave 479 addendum (2026-10-30)
+
+- Report: [Wave 479 multi-provider cloud model router component selection](../checkpoints/MEDIAHUB-CLOUD-MODEL-ROUTER-COMPONENT-SELECTION-WAVE-479-2026-10-30.md).
+- Main source SHA inspected: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; router policy blob `e249333c1c0ce6c1c586a5f498dbfd3979418f6e`; Gemini controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3`.
+- Issue #301 remains OPEN with A0/R-06, authoritative runner target, schema, independent review and worker acceptance gates outstanding.
+- PR #590 is OPEN/DRAFT/UNMERGED at head `98d466b3f372c541bd7301be087004b4e218d9b2`; workflow runs and combined statuses were empty in the queried APIs. Exact-head CI NOT VERIFIED; no review returned.
+- Comparison: LiteLLM is a leading future qualification candidate (MIT core, stable v1.106.6 observed; database-backed budget requirements and public critical/moderate security advisories require review); Bifrost is secondary (MIT, requires PostgreSQL 18+ and Redis 8+); Portkey is deferred (MIT, v1.15.2 stable release observed and 2.0 pre-release); New API excluded from first wave (AGPLv3 additional terms, RC release and production-readiness warning).
+- No candidate selected/adopted. No gateway installed, no tests/scan/benchmark, no provider calls, no credential reads, no Gemini/Claude dispatch, no merge or deployment.
+- MediaHub policy remains policy-only; current allowed transports remain Gemini controller and FCC/OpenRouter Free. This research does not authorize adding a new transport. Local FCC/Ollama entries in the router policy need a separate cloud-only policy reconciliation.
+- Proposed architecture requires provider-account-aware quota grouping, atomic reservations/settlement, Retry-After handling, fail-closed unknown entitlement, no same-account key cycling to bypass limits, and no paid fallback.
+- Working branch: `docs/wave479-cloud-model-router-selection-20261030`; based on canonical documentation branch `docs/mediahub-chat-tree-map-20261012`.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); checkpoint: [current continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md); Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
