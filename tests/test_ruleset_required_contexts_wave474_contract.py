@@ -40,31 +40,21 @@ class RulesetRequiredContextsWave474Tests(unittest.TestCase):
                     f"{path} job {job_id} must publish exact ruleset context {context!r}",
                 )
 
-    def test_ai_factory_and_provider_workflows_cover_review_child_changes(self):
-        for context in ("AI Factory verification", "provider contract verification"):
-            path, _, _ = self.workflows[context]
-            triggers = load_workflow(path)["on"]["pull_request"]
-            paths = set(triggers["paths"])
+    def test_all_required_workflows_run_for_every_main_pull_request(self):
+        for context, (path, job_id, job) in self.workflows.items():
+            workflow = load_workflow(path)
+            pull_request = workflow["on"]["pull_request"]
             with self.subTest(context=context):
-                self.assertIn(CHILD, paths)
-                self.assertIn(CHILD_TEST, paths)
+                self.assertIn("main", pull_request.get("branches", []))
+                self.assertNotIn("paths", pull_request)
+                self.assertNotIn("paths-ignore", pull_request)
+                self.assertNotIn("if", job, "required check job must not be conditionally skipped")
 
-    def test_gemini_contract_validation_covers_review_child_and_runs_this_test(self):
-        path, _, job = self.workflows["Gemini workflow contract validation (Wave 284)"]
-        workflow = load_workflow(path)
-        paths = set(workflow["on"]["pull_request"]["paths"])
-        self.assertIn(CHILD, paths)
-        self.assertIn(CHILD_TEST, paths)
-        self.assertIn(SELF, paths)
-        commands = "\n".join(step.get("run", "") for step in job["steps"])
+    def test_gemini_contract_validation_runs_this_regression_contract(self):
+        _, _, job = self.workflows["Gemini workflow contract validation (Wave 284)"]
+        commands = "\\n".join(step.get("run", "") for step in job["steps"])
         self.assertIn("test_ruleset_required_contexts_wave474_contract.py", commands)
 
-    def test_astra_required_workflows_run_for_pull_requests_without_path_allowlists(self):
-        for context in ("Astra Verify", "Astra Cloud Runtime Validation"):
-            path, _, _ = self.workflows[context]
-            pull_request = load_workflow(path)["on"]["pull_request"]
-            with self.subTest(context=context):
-                self.assertNotIn("paths", pull_request)
 
 
 if __name__ == "__main__":
