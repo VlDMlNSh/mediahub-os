@@ -1,0 +1,160 @@
+{
+  "contract_id": "MEDIAHUB-CLOUD-QUOTA-LEDGER",
+  "version": "0.1.0-proposed",
+  "status": "PROPOSED_NOT_IMPLEMENTED_NOT_ACCEPTED",
+  "scope": "Synthetic-only contract for provider-account-aware cloud model quota admission. No provider credentials, provider calls, workflow dispatch, or gateway runtime.",
+  "authority": {
+    "mediahub_policy_is_authoritative": true,
+    "gateway_is_transport_adapter_only": true,
+    "unknown_authorization": "BLOCK",
+    "paid_fallback": "DENY",
+    "same_account_key_rotation_to_bypass_limits": "DENY",
+    "credential_values_in_registry_or_evidence": "DENY"
+  },
+  "identities": {
+    "provider_account_key": "provider_id + provider_account_id + entitlement_id",
+    "credential_reference": "opaque secret reference only; never secret material",
+    "quota_scope": "provider_account_key + model_or_model_family + quota_dimension + window_id",
+    "independent_quota_rule": "Credentials sharing the same provider_account_key share one quota unless provider-published terms explicitly establish separate entitlements."
+  },
+  "reservation_lifecycle": [
+    "AVAILABLE",
+    "RESERVED",
+    "IN_FLIGHT",
+    "SETTLED",
+    "RELEASED",
+    "UNKNOWN",
+    "BLOCKED"
+  ],
+  "required_atomicity": {
+    "reservation": "Compare-and-swap or serializable transaction over quota_scope; reserve before any outbound call.",
+    "idempotency_key": "Stable per task attempt; unique constraint prevents duplicate reservation.",
+    "settlement": "Exactly-once logical settlement; duplicate delivery returns the original settlement.",
+    "uncertain_outcome": "Transition to UNKNOWN and reconcile; do not release or retry against another account until policy-defined reconciliation proves safe.",
+    "reset_rollover": "Use provider-documented window boundaries and timezone; never infer reset from local midnight."
+  },
+  "admission_checks": [
+    "provider and account identity are verified",
+    "entitlement and plan are explicitly authorized and current",
+    "model and data classification are allowed",
+    "quota unit, limit, remaining amount, and reset boundary are known",
+    "route is active and not expired or revoked",
+    "atomic reservation succeeds",
+    "cost class is FREE unless the exact task explicitly authorizes a paid route"
+  ],
+  "response_policy": {
+    "429": "Honor Retry-After; update only the matching account/model/window; fallback only to a separately authorized provider account with its own available quota.",
+    "401_or_403": "Block route and fail closed; no credential cycling.",
+    "timeout_after_send": "Mark reservation UNKNOWN; reconcile before retry/fallback to prevent duplicate execution or quota overspend.",
+    "provider_5xx_before_send": "Release reservation only when transport proves request was not sent; otherwise UNKNOWN.",
+    "unknown_entitlement_or_reset": "BLOCK."
+  },
+  "synthetic_acceptance_cases": [
+    {
+      "id": "Q001",
+      "scenario": "Two parallel workers reserve the last quota unit",
+      "expected": "Exactly one reservation succeeds; the other is rejected; aggregate reservation never exceeds limit."
+    },
+    {
+      "id": "Q002",
+      "scenario": "Two API keys belong to one provider account",
+      "expected": "Both keys map to one quota_scope; no second quota is created."
+    },
+    {
+      "id": "Q003",
+      "scenario": "Provider publishes independently metered entitlements for two accounts",
+      "expected": "Separate quota scopes only when evidence records the provider terms and account identities."
+    },
+    {
+      "id": "Q004",
+      "scenario": "429 response includes Retry-After",
+      "expected": "Matching account/model/window enters cooldown until Retry-After; no early retry."
+    },
+    {
+      "id": "Q005",
+      "scenario": "429 response has no Retry-After and reset is unknown",
+      "expected": "Route BLOCKED or held until an explicit conservative retry policy; never assume quota reset."
+    },
+    {
+      "id": "Q006",
+      "scenario": "Duplicate settlement event arrives",
+      "expected": "Idempotent no-op; one settlement record and one quota decrement."
+    },
+    {
+      "id": "Q007",
+      "scenario": "Timeout occurs after request may have reached provider",
+      "expected": "Reservation becomes UNKNOWN; no automatic cross-provider retry until reconciliation."
+    },
+    {
+      "id": "Q008",
+      "scenario": "Provider returns 401 or 403",
+      "expected": "Credential route BLOCKED; no repeated credential attempts."
+    },
+    {
+      "id": "Q009",
+      "scenario": "Quota reset boundary rolls over",
+      "expected": "New window opens only at provider-documented timestamp/timezone; prior window remains auditable."
+    },
+    {
+      "id": "Q010",
+      "scenario": "Only remaining route is PAID and task permits FREE only",
+      "expected": "No dispatch; return NO_AUTHORIZED_ROUTE."
+    },
+    {
+      "id": "Q011",
+      "scenario": "Credential reference is missing or secret value appears in evidence",
+      "expected": "Admission denied or evidence validation fails; secret value never persisted."
+    },
+    {
+      "id": "Q012",
+      "scenario": "Route is revoked while reservation is pending",
+      "expected": "No new outbound call; reservation is released only if not sent, otherwise UNKNOWN and reconciled."
+    },
+    {
+      "id": "Q013",
+      "scenario": "Gateway returns fallback provider not in MediaHub allowlist",
+      "expected": "Reject before outbound attempt; gateway cannot expand MediaHub authority."
+    },
+    {
+      "id": "Q014",
+      "scenario": "Ledger database unavailable or transaction outcome ambiguous",
+      "expected": "Fail closed; no provider request."
+    },
+    {
+      "id": "Q015",
+      "scenario": "Same task attempt is retried with same idempotency key",
+      "expected": "Return existing reservation/result; no duplicate outbound request."
+    }
+  ],
+  "required_evidence_fields": [
+    "target_sha",
+    "task_id",
+    "attempt_id",
+    "provider_id",
+    "provider_account_id_non_secret",
+    "entitlement_id_non_secret",
+    "model_id",
+    "quota_scope_id",
+    "reservation_id",
+    "settlement_id_or_unknown",
+    "quota_window_id",
+    "decision",
+    "decision_reason",
+    "fallback_from_and_to_non_secret",
+    "usage_units",
+    "created_at",
+    "settled_at"
+  ],
+  "forbidden_evidence_fields": [
+    "api_key",
+    "authorization_header",
+    "secret_value",
+    "raw_provider_credentials",
+    "unredacted_request_headers"
+  ],
+  "gateway_evaluation": {
+    "LiteLLM": "Potential transport adapter only. Must verify pinned release provenance, affected-advisory floors, DB/Redis fail-closed semantics and exact deployment configuration. Gateway budgets are not assumed to represent provider free quotas.",
+    "Bifrost": "Potential transport adapter only. Official repository is maximhq/bifrost (Apache-2.0); evaluate core and each separately versioned transport/plugin, routing allowlists, governance budget persistence and security advisories. Do not infer quota semantics from routing/health-based failover.",
+    "selection": "No winner selected; synthetic conformance and security review precede any integration."
+  }
+}
