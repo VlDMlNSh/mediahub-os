@@ -57,7 +57,7 @@ Existing PR review child is unchanged at blob `85174e24b7d213ce7d90a4bd215ec4fba
 
 ## Exact-head CI evidence
 
-All five required ruleset contexts were published with exact names and completed SUCCESS on `7080466d5549b3cf41522d49417bee9601262`:
+All five required ruleset contexts were published with exact names and completed SUCCESS on `7080466d5549b3cf41522aa78efebc08ac49e88b`:
 
 | Required context | Workflow run | Job | Result |
 |---|---:|---:|---|
