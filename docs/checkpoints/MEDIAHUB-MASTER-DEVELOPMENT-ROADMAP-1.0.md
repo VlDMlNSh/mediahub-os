@@ -1,3 +1,50 @@
+# Strategic priority supersession — Cloud Agent Pool First (Wave 483, 2026-10-30)
+
+**Owner direction:** prioritize the development, controlled launch, operationalization and independent acceptance of the GitHub-hosted cloud-agent pool (Contour A) before any rollout of the owned/local server hardware. This is a work-order decision. It does not waive security, governance, budget, provider, CI, independent-review or production-acceptance gates, and it does not authorize credentials, provider calls or dispatch by itself.
+
+## Updated execution order
+
+1. **Cloud-pool foundation and governance (FIRST PRIORITY).** Complete Issue #301 in its ordered sequence: A0 issuer/ingress/lease/cancel/recovery; R-06 audit/privacy; authoritative runner/workspace/network target manifest; Draft 2020-12 schema validation and negative fixtures; independent schema/semantic review.
+2. **Cloud execution transport hardening.** Source-bind the existing GitHub-hosted Gemini read-only workflows and the separately governed FCC/OpenRouter Free Claude worker; require immutable checkout SHA, strict ref/path/model allowlists, full-SHA action pins, output quarantine, evidence manifests, runtime-only secret injection, no paid fallback, and fail-closed route/quota/data-policy decisions. Resolve controller idempotency/replay and exact required CI contexts before dispatch.
+3. **Smallest read-only cloud worker and queue.** Implement only the minimum authorized slice on a dedicated branch. Use deterministic fake providers for contract tests first. Keep patch-writing, PR promotion, merge and deployment as separate authority gates.
+4. **Controlled cloud-pool pilot.** After all admission gates pass, run a narrowly scoped GitHub-hosted pilot with immutable target SHA, explicit provider/model and data classification, bounded quota/budget, isolated ephemeral workers, outbound-only network, no owner-operated always-on server, no public inbound listener, and complete run/job/artifact provenance.
+5. **Operationalization and independent acceptance of Contour A.** Demonstrate recovery, cancellation, replay resistance, audit completeness, secret isolation, policy enforcement, quota enforcement, reliability and repeatability. Obtain independent review and explicit production authorization. Record deployment and acceptance as separate states. Contour A is complete only after the defined deployment and independent acceptance evidence exists.
+6. **Server hardware phase — SECOND PRIORITY, AFTER CONTOUR A ACCEPTANCE.** Only after step 5 is accepted, resume hardware-specific compatibility qualification, procurement/activation, installation and service placement for Mac Pro, Mac mini and any optional GPU/video server. Preserve hardware inventory and architecture planning as non-blocking documentation only; do not make hardware availability a prerequisite for the cloud-pool pilot or Contour A acceptance unless a newly accepted contract proves a specific dependency.
+7. **Contour B product development.** Remains gated until Contour A is deployed and independently accepted. Server hardware acceptance is a later infrastructure workstream and does not silently replace the Contour A gate.
+
+## Priority and scheduling rules
+
+- Cloud-hosted ephemeral execution is the critical path; owned/local server deployment is deferred.
+- GitHub is the cloud development/control plane. Servers are for local compute only; they are not Gemini transport or a substitute for GitHub-hosted cloud workers.
+- Do not route Gemini through Server 3. Claude Code local execution remains separate and must use a confirmed authorized host and qualified free route; its absence must not block independent GitHub-hosted cloud-pool work.
+- Free-tier/provider quotas are renewable constraints, not a promise of availability. Use explicit admission budgets, fair scheduling, retry-after/reset semantics and no paid fallback unless separately authorized for that exact task.
+- Keep the cloud-pool MVP read-only until issuer, capability, data-egress, runner isolation and evidence gates are accepted. Expand capabilities incrementally.
+- Any hardware work performed before Contour A acceptance is limited to read-only inventory, compatibility research and documentation that does not delay the cloud-pool critical path.
+- Status vocabulary remains strict: PLANNED, IMPLEMENTED, TESTED, VERIFIED, QUALIFIED, DEPLOYED and ACCEPTED are separate. A pilot is not production acceptance.
+
+## Current baseline and blockers at this revision
+
+- Main source target last observed: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; canonical documentation base last observed: `bfb2a6d73ba64839e783d6ee30d0d8ae2e3074a4`.
+- Issue [#301](https://github.com/VlDMlNSh/mediahub-os/issues/301) remains OPEN and controlling. It explicitly orders A0/R-06/target-manifest/schema/review gates before worker dispatch.
+- PRs #590–#594 remain OPEN/DRAFT/UNMERGED at last read. Exact-head CI/reviews for the recent documentation proposals are NOT VERIFIED where the API returned empty runs/statuses/reviews.
+- SentinelX connected hosts: 0; Voktors-Mini.Dlink offline; mh-dev-01 and mh-dev-02 disabled. No local Claude task was run.
+- The router configuration is policy-only, direct provider calls disabled, paid fallback disabled and unknown routes fail-closed. This is not proof of a live cloud pool.
+- No new cloud dispatch, provider call, secret access, hardware activation, deployment or acceptance is authorized or claimed by this plan revision.
+
+## Exit criteria for the cloud-first priority
+
+The hardware phase may start only when all are true:
+1. Contour A cloud pool is deployed through its approved GitHub-hosted route.
+2. All required exact-head CI and governance contexts are verified.
+3. Issuer/capability, cancellation/recovery, replay, R-06 audit/privacy and runner/workspace/network target gates are accepted.
+4. At least one bounded read-only worker pilot has complete immutable provenance and independently verified evidence.
+5. Secret isolation, provider/model allowlists, data-egress policy, quota/budget and no-paid-fallback behavior are demonstrated.
+6. Independent Contour A qualification and explicit production acceptance are recorded.
+
+If any criterion is missing, the hardware deployment phase remains FUTURE-GATED and Contour B remains GATED.
+
+---
+
 ## Wave 458 — OSV-Scanner qualification preflight (2026-10-29)
 
 - Evidence: [Wave 458 report](MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).

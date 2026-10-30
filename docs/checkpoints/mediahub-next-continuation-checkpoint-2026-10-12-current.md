@@ -2837,3 +2837,34 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 483 — Cloud Agent Pool First priority decision (2026-10-30)
+
+- Owner direction applied to the working Master Development Roadmap: GitHub-hosted cloud-agent pool Contour A development, controlled launch, operationalization and independent acceptance is now first priority. Owned/local server deployment is explicitly second phase, after Contour A deployment and independent acceptance. Hardware inventory/compatibility research may continue as non-blocking work.
+- Strategic supersession at the top of [Master Development Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); detailed record [Wave 483 report](MEDIAHUB-CLOUD-POOL-FIRST-PRIORITY-WAVE-483-2026-10-30.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-483-2026-10-30.md).
+- Cloud critical path: Issue #301 A0 issuer/ingress/lease/cancel/recovery + R-06 + authoritative runner/workspace/network target + Draft 2020-12 schema/negative fixtures + independent review; then source-bound transport hardening; smallest authorized read-only worker; bounded pilot; independent Contour A qualification and explicit deployment/production acceptance.
+- Hardware rollout/activation/procurement/install is FUTURE-GATED until all six Contour A acceptance criteria in Wave 483 report are satisfied. Contour B remains separately gated by Contour A deployment and independent acceptance.
+- Current observations: main SHA f0448f28c7cfa61e4450c38529f09afbfdbbc7c7; canonical docs base bfb2a6d73ba64839e783d6ee30d0d8ae2e3074a4; Issue #301 OPEN; PR #590–#594 OPEN/DRAFT/UNMERGED; recent exact-head CI/reviews NOT VERIFIED where empty; router policy-only/no live pool proven; SentinelX connected hosts=0.
+- No provider calls, secrets, Gemini/Claude dispatch, server activation, deployment or acceptance.
+- Next: Wave 484 continues Issue #301 issuer/capability and durable replay/lease/cancel/recovery contract work; hardware rollout is not the next engineering step.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+### Wave 483 final verification reconciliation
+
+- PR #595 current working branch remains `docs/wave483-cloud-pool-first-priority-20261030`; latest report blob `93eb07b56691018fb262bb46eb8fe4989bb973ae`.
+- Master Roadmap blob `f811303becbb49232cd2337b9e124f9610e52e83`; canonical map blob `5f4e552f7ae344b7f4b1cee9da84a750908b7548`; map addendum blob `4f750c8399f94d47373a8789a32c4d639688b4f2`.
+- PR exact-head CI and independent review remain NOT VERIFIED; retain DRAFT. Compare showed 5 expected files, 5 commits ahead / 0 behind at the prior head; recheck after this checkpoint commit.
+
+
+### Wave 483 report final blob
+
+- Final report blob after branch-head reconciliation: `5733fdd11a6716ee5e2410ee9a07c27d3637c40b`.
+- At verification snapshot PR #595 head `e715553db99bc33ed157710e889c1db29606f39e`, ahead 7 / behind 0, five expected files; exact-head CI and independent review NOT VERIFIED. Subsequent checkpoint-only commit updates the branch head; no runtime files are changed.
+
+
+### Wave 483 terminal ref check
+
+- After checkpoint reconciliation, PR #595 head is `a7ded83b2ddbe5fde4304351048d1af22800c25b`; 9 commits ahead / 0 behind canonical docs base; exactly five intended files. Mergeable true; OPEN/DRAFT/UNMERGED.
+- Exact-head CI workflow runs/status contexts are empty; independent review count remains zero. Both are NOT VERIFIED. No merge or deployment.
