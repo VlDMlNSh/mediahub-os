@@ -1,3 +1,13 @@
+## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
+
+- [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- PR #587 branch fix/next-idempotency-complete-history-wave463, exact HEAD 8c3f6754e3f1e5ae2a688735987466117aebb37f; six ahead, zero behind, OPEN/DRAFT/UNMERGED. Added a github.run_attempt==1 gate for issue-comment-originated owner /next. Reruns stop before history/API lookup; manual workflow_dispatch is unaffected.
+- New behavioral regression test verifies reruns (missing, zero, >1, malformed attempt) fail before API call, first attempt reaches mocked history read, and incomplete history fails closed. Gemini contract suite 14 tests SUCCESS; Astra Verify full 477-test suite SUCCESS; all five corresponding workflow executions plus no-secret probe completed SUCCESS.
+- Exact required ruleset context names are not all published by PR #587's current jobs: actual checks include verify, validate and differently named verification jobs. Thus exact required-context gate remains NOT VERIFIED although corresponding workflow executions passed. Zero formal reviews/threads; independent A3 NOT VERIFIED. Keep Draft; do not merge.
+- No dispatch/agent/provider/secret activity, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: reviewed alignment of required context names, independent A3 review, and exact-head revalidation.
+---
+ 
 ## Wave 476 — PR #588 replay and default-branch bootstrap blockers (2026-10-30)
 
 - Report: [Wave 476 replay and bootstrap gaps](../checkpoints/MEDIAHUB-PR588-REPLAY-AND-BOOTSTRAP-GAP-WAVE-476-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).

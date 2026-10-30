@@ -2824,3 +2824,16 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Next: design and test controller-owned PR review routing with an atomic durable receipt and ambiguity reconciliation; solve default-branch bootstrap with a qualified independent review; verify secret-name presence/scope; obtain independent A3 review. Keep child read-only.
 - Contour A NOT ACCEPTED; Contour B GATED.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Wave 477 — owner /next workflow rerun redispatch guard (2026-10-30)
+
+- Report: [Wave 477 owner /next rerun guard](MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md).
+- PR #587 branch fix/next-idempotency-complete-history-wave463, exact HEAD 8c3f6754e3f1e5ae2a688735987466117aebb37f; base/main f0448f28c7cfa61e4450c38529f09afbfdbbc7c7; 6 ahead / 0 behind; OPEN/DRAFT/UNMERGED.
+- Added CURRENT_RUN_ATTEMPT from github.run_attempt. Issue-comment-originated owner /next dispatch requires attempt 1; reruns stop before history lookup with exit 2. Manual workflow_dispatch remains unaffected. New deterministic test checks missing/0/2/malformed attempt values stop before API call; attempt 1 reaches mocked history GET; incomplete history still fails closed.
+- Source blobs: controller cf77ed19b8944657b7f029ac40a92cc9e62353f; test e5b734a44a4520a34563b1edd85e2bc8903ffb74.
+- Exact-head workflow CI on 8c3f6754e3f1e5ae2a688735987466117aebb37f: Gemini contract validation 41017855973/job 123938151264 SUCCESS (actionlint, controller transport 14 tests, child-HMAC suite, trigger coverage); Astra Verify 41017855994/job 123938151700 SUCCESS (compile, 477 unit tests, smoke); Astra Cloud 41017856039/job 123937753519 SUCCESS; AI Factory 41017856155/job 123938152189 SUCCESS; provider contract 41017856090/job 123938151911 SUCCESS. Non-launching controller probe 41017856138: probe/assertion SUCCESS, admission/dispatch SKIPPED.
+- Important: active ruleset requires five exact contexts (Astra Cloud Runtime Validation, AI Factory verification, provider contract verification, Astra Verify, Gemini workflow contract validation (Wave 284)); current PR #587 check API publishes generic/different job names. The corresponding workflows succeed, but the exact five required contexts are NOT VERIFIED on this PR. PR reviews/threads 0; independent A3 NOT VERIFIED. Keep Draft; do not merge.
+- No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
