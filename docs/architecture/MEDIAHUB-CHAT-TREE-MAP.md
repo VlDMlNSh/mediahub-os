@@ -1,3 +1,10 @@
+## Wave 475 — PR #588 static source review and CI trigger follow-up (2026-10-30)
+
+- Report: [Wave 475 read-only source review](../checkpoints/MEDIAHUB-PR588-READONLY-SOURCE-REVIEW-WAVE-475-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Follow-up hardened all five required checks to run on every PR targeting main by removing PR path filters; controller trigger-coverage test updated. Exact PR #588 HEAD `c65897f2a4ff594b69a98ce739aace244147c926`: all five required ruleset contexts SUCCESS (runs 41016101267, 41016101271, 41016101312, 41016101268, 41016101355).
+- Nine changed files received a preliminary read-only source audit; this is not an independent review. Blockers: workflow_dispatch child unavailable until default-branch integration; anti-replay receipt/durable idempotency absent; existing executable child-HMAC tests exclude the new PR child; secret-name presence NOT VERIFIED. No controller integration, child dispatch, provider call, secret access, merge, deployment or qualification. PR #588 remains DRAFT; Contour A NOT ACCEPTED; Contour B GATED.
+- Next: resolve bootstrap dependency with qualified independent review; add synthetic-key behavioral tests and replay-safe controller routing/reconciliation; verify exact secret-name availability; obtain independent A3 review.
+
 ## Wave 474 — PR #588 required CI-context alignment (2026-10-30)
 
 - Report: [Wave 474 — required CI-context alignment](../checkpoints/MEDIAHUB-REQUIRED-CI-CONTEXTS-ALIGNMENT-WAVE-474-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
