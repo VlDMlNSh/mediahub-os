@@ -3,27 +3,13 @@ name: MediaHub Gemini workflow contract validation (Wave 284)
 on:
   pull_request:
     branches: [main]
-    paths:
-      - ".github/workflows/gemini-batch-dispatch-controller.yml"
-      - ".github/workflows/gemini-agent-2.yml"
-      - ".github/workflows/gemini-agent-3.yml"
-      - ".github/workflows/gemini-fcc-independent-review-wave409.yml"
-      - ".github/workflows/gemini-autonomous-engineering.yml"
-      - ".github/workflows/gemini-controller-context-probe-wave284.yml"
-      - ".github/workflows/gemini-reusable-context-probe-wave284.yml"
-      - ".github/workflows/gemini-workflow-contract-validation-wave284.yml"
-      - "tests/test_gemini_controller_context_probe_wave284_contract.py"
-      - "tests/test_gemini_controller_positive_context_probe_wave292_contract.py"
-      - "tests/test_gemini_reusable_workflow_contract.py"
-      - "tests/test_gemini_transport_controller_contract.py"
-      - "tests/test_gemini_child_signed_dispatch_runtime_contract.py"
-      - "tests/test_gemini_controller_trigger_path_coverage_contract.py"
 
 permissions:
   contents: read
 
 jobs:
   validate:
+    name: Gemini workflow contract validation (Wave 284)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -44,6 +30,11 @@ jobs:
           .github/workflows/gemini-controller-context-probe-wave284.yml
           .github/workflows/gemini-reusable-context-probe-wave284.yml
           .github/workflows/gemini-workflow-contract-validation-wave284.yml
+          .github/workflows/gemini-pr-readonly-review-wave471.yml
+          .github/workflows/mediahub-ai-factory-verification.yml
+          .github/workflows/mediahub-provider-contract-verification.yml
+          .github/workflows/astra-verify.yml
+          .github/workflows/astra-cloud.yml
       - name: Run legacy caller-context contracts
         run: python -m unittest discover -s tests -p 'test_gemini_controller_context_probe_wave284_contract.py'
       - name: Run Wave 292 context security contracts
@@ -56,3 +47,5 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_gemini_child_signed_dispatch_runtime_contract.py'
       - name: Run controller trigger path coverage contracts
         run: python -m unittest discover -s tests -p 'test_gemini_controller_trigger_path_coverage_contract.py'
+      - name: Verify ruleset required check contexts and PR path coverage
+        run: python -m unittest discover -s tests -p 'test_ruleset_required_contexts_wave474_contract.py'
