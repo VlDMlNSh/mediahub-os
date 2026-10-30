@@ -2851,3 +2851,16 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No runtime edits, tests, credentials, provider calls, Gemini/Claude dispatch, host tasks, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: record explicit owner/governance dispositions for GOV-CAP-01…07 and R-06; then draft one normative, technology-neutral issuer/ingress/lifecycle contract and negative-test matrix for independent A3 review.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os.
+
+
+## Wave 485 — A0 contract skeleton and negative-test requirements (2026-10-30)
+
+- Report: [Wave 485 A0 contract skeleton](MEDIAHUB-A0-ISSUER-CONTRACT-SKELETON-WAVE-485-2026-10-30.md); [contract skeleton](../architecture/MEDIAHUB-A0-ISSUER-INGRESS-LIFECYCLE-CONTRACT-SKELETON-WAVE-485-2026-10-30.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-485-2026-10-30.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Working branch: `docs/wave485-a0-contract-skeleton-20261030-v2`; parent Wave 484 head: `1e953ef817d67840fd04f70376d700400567426e`.
+- Added a DRAFT / NON-NORMATIVE contract skeleton and acceptance-oriented negative/race scenarios. It preserves DEC-DEV-02 Option C; GOV-CAP-01…07 and R-06 remain unresolved. No issuer, verifier owner, trust anchor, protocol, token format, retention or fail-open exception selected.
+- Contract blob SHA: `14cf0194504824a17569433d4478154eb44afc3f`; map addendum blob SHA: `f6216240cccd62f9ecaccf0af74c3bcff106cbc2`.
+- Canonical map file remains unchanged (blob `75f62685459ec99ebf8be478f4e9096cdb842b1d`; Contents API returned empty content). The addendum is not a substitute for an indexed canonical map update. Master Roadmap unchanged.
+- PR #597 exact-head CI/status and review evidence remains NOT VERIFIED; PR #595 exact-head CI/status and review evidence remains NOT VERIFIED. Both remain unmerged.
+- No runtime edits, tests, credentials/secrets, provider calls, Gemini/Claude dispatch, host tasks, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: obtain explicit owner/governance dispositions for GOV-CAP-01…07 and R-06; then draft a normative contract only within approved decisions and request independent A3 review.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os.
