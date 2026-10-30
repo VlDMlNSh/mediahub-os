@@ -2853,3 +2853,5 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Status: candidate **PROPOSED_NOT_ACCEPTED**; CAF-Q-012 remains **SOURCE_DISCOVERY_REQUIRED**; runtime benchmark **NOT RUN**; independent review **NOT VERIFIED**; Contour A **NOT ACCEPTED**; Contour B **GATED**.
 - Next: independent review of the candidate; resolve egress enforcement and accountable authority; verify account plan/concurrency and artifact retention; only then design a read-only non-secret benchmark.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+- Follow-up: Draft PR [#590](https://github.com/VlDMlNSh/mediahub-os/pull/590) opened against the canonical documentation branch. Initial head `13ce12764c5b72f323b4b579ad9660d959027a95`; OPEN/DRAFT/UNMERGED; zero formal reviews and zero inline threads. No pull-request workflow runs returned for that head; CI is NOT VERIFIED. Keep Draft pending independent review and any applicable checks.
