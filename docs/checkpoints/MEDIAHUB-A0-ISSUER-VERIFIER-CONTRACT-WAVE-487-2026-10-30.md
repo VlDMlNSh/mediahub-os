@@ -65,8 +65,7 @@ Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
 
 ## Final PR reconciliation
 
-- Draft PR [#600](https://github.com/VlDMlNSh/mediahub-os/pull/600).
-- Exact head: `bf49c208b95dc6bb7a90770d3ab7443a9c541d2b`; base Wave 486 branch SHA `824bb2568b2ac8bb3dceb3608366668e99bab95e`.
-- Compare: 4 commits ahead / 0 behind; 4 files changed, 361 additions, 0 deletions.
-- Exact-head workflow-run listing: empty; combined statuses: empty; formal reviews: 0; inline review threads: 0. CI and independent review remain NOT VERIFIED.
-- PR remains Draft/Open/Unmerged. It is stacked on PR #599 and must not be merged directly to the canonical documentation branch.
+- Draft PR [#600](https://github.com/VlDMlNSh/mediahub-os/pull/600) remains Open/Draft/Unmerged and stacked on PR #599.
+- The latest exact PR head, ahead/behind counts and exact-head checks are recorded by GitHub and the finalization evidence in Issue #301; always re-read before integration.
+- At the initial PR-head check, workflow runs and combined statuses were empty; formal reviews and inline threads were zero. CI and independent A3 review remain NOT VERIFIED.
+- Do not merge directly to the canonical documentation branch; preserve the Wave 486 → Wave 487 stack.
