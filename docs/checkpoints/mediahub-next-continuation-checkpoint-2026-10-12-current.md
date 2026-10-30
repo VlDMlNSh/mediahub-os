@@ -2811,3 +2811,16 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - PR reviews/inline threads remain 0. Do not mark ready or merge. Controller PR-review integration NOT IMPLEMENTED; no child dispatch, agent execution, provider calls, secret reads, merge, deployment or qualification.
 - Next: resolve default-branch bootstrap with independent review; add synthetic-key behavioral tests and controller-owned replay-safe dispatch/reconciliation; verify exact secret-name availability; obtain independent A3 review.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+## Wave 476 — PR #588 replay and default-branch bootstrap blockers (2026-10-30)
+
+- Report: [Wave 476 — replay and bootstrap gaps](MEDIAHUB-PR588-REPLAY-AND-BOOTSTRAP-GAP-WAVE-476-2026-10-30.md); [Wave 475 source review](MEDIAHUB-PR588-READONLY-SOURCE-REVIEW-WAVE-475-2026-10-30.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- PR #588 current HEAD `0d83e2033eb97e9661816706186cf059b4ae9713`, base/main `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`, 10 ahead / 0 behind; OPEN/DRAFT/UNMERGED.
+- Exact five active Ruleset contexts are SUCCESS on this head: Astra Verify 41016734247; Astra Cloud Runtime Validation 41016734246; AI Factory verification 41016734258; provider contract verification 41016734368; Gemini workflow contract validation (Wave 284) 41016734271. The validation job 123934650485 executed actionlint and the behavioral child-HMAC test suite successfully.
+- New synthetic-key tests exercise the PR-specific authorizer against invalid signatures, malformed inputs, untrusted execution context and changed/foreign PR metadata. Source audit found no durable one-time replay receipt/atomic claim for `dispatch_id`; replay resistance remains NOT IMPLEMENTED / NOT VERIFIED.
+- Child workflow remains absent from main/default branch (default-branch file lookup 404); default-branch controller has no PR-child dispatch path and existing `review` remains FCC-target-pinned. GitHub documents that workflow_dispatch requires the workflow file on the default branch. Do not manually dispatch the PR-only child.
+- Secret-name presence/scope for `MEDIAHUB_DISPATCH_HMAC_KEY`, `GEMINI_API_KEY_2`, `GEMINI_MODEL`, and controller `MEDIAHUB_GITHUB_TOKEN` remains NOT VERIFIED; no values were read. Actions secrets/variables listing was unavailable through the connected GitHub API interface.
+- PR formal reviews: 0; inline review threads: 0. Controller probe 41016734294 SUCCESS, dispatch job SKIPPED. No child dispatch, agent execution, provider call, secret read, merge, deployment, qualification or acceptance.
+- Next: design and test controller-owned PR review routing with an atomic durable receipt and ambiguity reconciliation; solve default-branch bootstrap with a qualified independent review; verify secret-name presence/scope; obtain independent A3 review. Keep child read-only.
+- Contour A NOT ACCEPTED; Contour B GATED.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
