@@ -76,11 +76,21 @@ class RequiredCiContextAlignmentWave474Tests(unittest.TestCase):
         self.assertTrue(
             any(READONLY_WORKFLOW in command for command in actionlint_commands)
         )
+        child_lint = [
+            step for step in steps
+            if READONLY_WORKFLOW in str(step.get("run", ""))
+        ]
+        self.assertTrue(child_lint)
         self.assertTrue(
-            any(
-                "test_gemini_pr_readonly_review_wave471_contract.py" in str(step.get("run", ""))
-                for step in steps
-            )
+            any(READONLY_WORKFLOW in str(step.get("if", "")) for step in child_lint)
+        )
+        child_test = [
+            step for step in steps
+            if "test_gemini_pr_readonly_review_wave471_contract.py" in str(step.get("run", ""))
+        ]
+        self.assertTrue(child_test)
+        self.assertTrue(
+            any("hashFiles" in str(step.get("if", "")) for step in child_test)
         )
 
     def test_this_alignment_contract_runs_in_gemini_validation_workflow(self):
