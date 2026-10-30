@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/gemini-batch-dispatch-controller.yml"
+      - ".github/workflows/gemini-pr-readonly-review-wave471.yml"
       - ".github/workflows/gemini-agent-2.yml"
       - ".github/workflows/gemini-agent-3.yml"
       - ".github/workflows/gemini-fcc-independent-review-wave409.yml"
@@ -18,12 +19,15 @@ on:
       - "tests/test_gemini_transport_controller_contract.py"
       - "tests/test_gemini_child_signed_dispatch_runtime_contract.py"
       - "tests/test_gemini_controller_trigger_path_coverage_contract.py"
+      - "tests/test_gemini_pr_readonly_review_wave471_contract.py"
+      - "tests/test_required_ci_context_alignment_wave474.py"
 
 permissions:
   contents: read
 
 jobs:
   validate:
+    name: Gemini workflow contract validation (Wave 284)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -44,6 +48,9 @@ jobs:
           .github/workflows/gemini-controller-context-probe-wave284.yml
           .github/workflows/gemini-reusable-context-probe-wave284.yml
           .github/workflows/gemini-workflow-contract-validation-wave284.yml
+      - name: Lint PR-scoped read-only review child when present
+        if: ${{ hashFiles('.github/workflows/gemini-pr-readonly-review-wave471.yml') != '' }}
+        run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 .github/workflows/gemini-pr-readonly-review-wave471.yml
       - name: Run legacy caller-context contracts
         run: python -m unittest discover -s tests -p 'test_gemini_controller_context_probe_wave284_contract.py'
       - name: Run Wave 292 context security contracts
@@ -56,3 +63,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_gemini_child_signed_dispatch_runtime_contract.py'
       - name: Run controller trigger path coverage contracts
         run: python -m unittest discover -s tests -p 'test_gemini_controller_trigger_path_coverage_contract.py'
+      - name: Run PR-scoped read-only review child contract when present
+        if: ${{ hashFiles('tests/test_gemini_pr_readonly_review_wave471_contract.py') != '' }}
+        run: python -m unittest discover -s tests -p 'test_gemini_pr_readonly_review_wave471_contract.py'
+      - name: Run required CI context alignment regression
+        run: python -m unittest discover -s tests -p 'test_required_ci_context_alignment_wave474.py'

@@ -23,6 +23,7 @@ permissions:
 
 jobs:
   verify:
+    name: Astra Verify
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
