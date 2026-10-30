@@ -7,6 +7,8 @@ on:
       - '.github/agents/**'
       - '.github/workflows/gemini-batch-dispatch-controller.yml'
       - '.github/workflows/mediahub-provider-contract-verification.yml'
+      - '.github/workflows/gemini-pr-readonly-review-wave471.yml'
+      - 'tests/test_gemini_pr_readonly_review_wave471_contract.py'
       - 'scripts/verify_ai_factory.py'
       - 'tests/ai/test_provider_selector.py'
   workflow_dispatch:
@@ -16,7 +18,7 @@ permissions:
 
 jobs:
   verify:
-    name: Verify approved executor routing boundaries
+    name: provider contract verification
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
