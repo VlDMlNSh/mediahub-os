@@ -102,3 +102,11 @@ No workflow was changed or dispatched. No benchmark, provider call, secret read,
 - Contour B: **GATED**
 
 Next: obtain review of this candidate manifest and resolve egress-enforcement/authority gaps before creating or dispatching a benchmark workflow.
+
+## 9. Documentation review PR
+
+- Draft PR: [#590 — propose hosted runner target manifest](https://github.com/VlDMlNSh/mediahub-os/pull/590).
+- Initial PR head: `13ce12764c5b72f323b4b579ad9660d959027a95`; base: canonical documentation branch.
+- PR state at inspection: OPEN / DRAFT / UNMERGED; 0 formal reviews; 0 inline review threads.
+- No pull-request workflow runs were returned for the inspected PR head. CI/review status: **NOT VERIFIED**, not PASS.
+- PR is documentation-only and requires independent architecture/security review before acceptance.
