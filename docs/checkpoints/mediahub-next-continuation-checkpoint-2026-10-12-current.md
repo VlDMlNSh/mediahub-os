@@ -2889,3 +2889,20 @@ Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MA
 - Decision blob: `13e6745463dbc05a7c188423bb45ffb2b210c789`; map addendum blob: `c026947681dc9d6739f4424d31a5424d1b11c259`; report blob after PR reconciliation: `7b778ebe67105d50afb00466965cdcfb5353a262`.
 - The original four-file delta against Wave 485 is 4 commits ahead / 0 behind, 4 files changed, 180 additions, 0 deletions. A report-only follow-up commit was added afterward; latest PR head is to be read from GitHub before any subsequent work.
 - Exact-head workflow runs returned empty; formal reviews 0; inline threads 0. CI and independent review remain NOT VERIFIED. PR stays Draft/Open/Unmerged.
+
+
+## Wave 487 — A0 issuer/verifier contract candidate (2026-10-30)
+
+- Primary contract: [MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md](../architecture/MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md).
+- Report: [MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md](MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-487-2026-10-30.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-487-2026-10-30.md).
+- Parent Wave 486 HEAD: `824bb2568b2ac8bb3dceb3608366668e99bab95e`; working branch `docs/wave487-a0-issuer-verifier-normative-contract-20261030`.
+- Contract create commit: `6969de41410818a5a6b61ce90a32ee809aa803da`; report commit: `b5cfada7c3aa451829108f50990014c29d56b3a0`; map addendum commit: `32447acebe421d14fa89026de4ddec7d696a1e62`.
+- Contract is DRAFT NORMATIVE CANDIDATE / NOT ACCEPTED / NOT IMPLEMENTED. It defines format-neutral issuer/principal/capability requirements, audience/operation/resource/task binding, delegation attenuation, per-consumer verification, 300-second max capability lifetime, 30-second max revocation-state age, fail-closed semantics, durable idempotent A0 receipts, lease fencing, R-06 audit/privacy and 40+ acceptance scenarios.
+- Wave 486 decision blob `13e6745463dbc05a7c188423bb45ffb2b210c789` and Wave 485 skeleton blob `14cf0194504824a17569433d4478154eb44afc3f` were re-read. Canonical map blob `75f62685459ec99ebf8be478f4e9096cdb842b1d` was rechecked; Contents API returned empty content, so canonical map not rewritten.
+- Issue #301 ordered Contour A work remains controlling: close A0 authority gates; accept runner/workspace/network manifest; validate Draft 2020-12 schemas and negative fixtures; independent review; then harden cloud transport and implement read-only worker.
+- Gemini controller main blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` and child workflows were source-inspected. Controller has fixed generic role tasks; review mode is pinned to historical FCC target `074f20eb495666946a14410ab88d566aaa754f24`, not Wave 487. Required secret/variable names were identified from source but presence was not verified. Exact Wave 487 task package cannot be passed through the current fixed controller contract; all Gemini roles NOT RUN, no probe/dispatch/provider/secret access.
+- PR #599 remains Draft/Open/Unmerged, stacked; exact-head runs/statuses empty, formal reviews 0, inline threads 0. CI and independent review NOT VERIFIED. No merge, runtime changes, tests, provider calls, server work, deployment, qualification or acceptance.
+- Next: independent A3 review; protocol/identity/trust-anchor/audit ADR; separately, runner/workspace/network manifest source reconciliation and standards-compliant Draft 2020-12 validation. Do not perform runtime issuer remediation until gates pass. Cloud Pool remains first priority; local/server hardware remains deferred until Contour A deployment and independent acceptance.
+
+Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
