@@ -2837,3 +2837,19 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 483 — Cloud Agent Pool First roadmap priority amendment (2026-10-30)
+
+- Owner direction: make the Contour A GitHub-hosted Cloud Agent Pool the first delivery priority. Server hardware procurement/provisioning and local-compute expansion are deferred until cloud pool production deployment and independent acceptance.
+- Priority amendment: [Master Roadmap Priority Amendment — Cloud Pool First](MEDIAHUB-MASTER-ROADMAP-PRIORITY-AMENDMENT-CLOUD-POOL-FIRST-WAVE-483-2026-10-30.md); [Wave 483 report](MEDIAHUB-CLOUD-POOL-FIRST-ROADMAP-PRIORITY-WAVE-483-2026-10-30.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-483-2026-10-30.md).
+- P0: close Issue #301 A0 issuer/ingress/lease/cancel/recovery and R-06 audit/privacy; accept authoritative runner/workspace/network target manifest; validate v0.2 schemas with Draft 2020-12 and positive/negative fixtures; independent review; harden GitHub-hosted Gemini workflows; implement smallest read-only worker; qualify free provider routes and renewable quota handling; controlled controller-owned dispatch; operational soak; deploy and independently accept.
+- P1: expand cloud agents/providers only after P0 acceptance and additional gates.
+- P2: server hardware/local compute only after P0 deployed and independently accepted.
+- P3: Contour B remains gated until Contour A deployment and independent acceptance.
+- Issue #301 remains OPEN and controlling. No dispatch, provider calls, secrets access, host tasks, infrastructure changes, merge, deployment or qualification occurred.
+- PR #594 and prior design PRs remain unmerged documentation/design work; exact-head CI/reviews NOT VERIFIED where prior evidence says empty.
+- Roadmap retrieval limitation: `docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md` returned 404 on main and canonical docs branch. Do not claim that legacy roadmap file was edited. Wave 483 adds a linked priority amendment; Wave 484 must recover the authoritative roadmap path/blob and reconcile without losing historical IDs/content.
+- Working branch: `docs/wave483-cloud-pool-first-roadmap-20261030`; based on canonical documentation branch. No runtime changes.
+- Next: Wave 484 recover the master roadmap artifact, integrate this priority amendment into its canonical content, then continue Issue #301's first open A0/R-06 dependency. Server hardware remains deferred.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
