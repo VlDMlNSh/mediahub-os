@@ -2908,9 +2908,9 @@ Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MA
 Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
 
 
-### Wave 487 final PR evidence
+### Wave 487 PR evidence reconciliation
 
-- Draft PR [#600](https://github.com/VlDMlNSh/mediahub-os/pull/600), head `bf49c208b95dc6bb3dceb3608366668e99bab95e`, base Wave 486 head `824bb2568b2ac8bb7a90770d3ab7443a9c541d2b`.
-- Compare: 4 commits ahead / 0 behind; 4 files changed, 361 additions, 0 deletions.
-- Contract blob SHA `691b4b52cd6ba80bb822cf64ef5bea5e6e523c61`; map addendum `81b95b2cf62ae06eebe0531f283dc90489fc546e`; report after PR reconciliation `50bf581ab5b4d2c1df8a303eeaa03967ebd09dda`.
-- Exact-head workflow runs/statuses empty; formal reviews 0; inline threads 0. CI and independent A3 review NOT VERIFIED. PR remains Draft/Open/Unmerged and stacked on #599.
+- Draft PR [#600](https://github.com/VlDMlNSh/mediahub-os/pull/600), stacked on PR #599. Base SHA `824bb2568b2ac8bb3dceb3608366668e99bab95e`.
+- Prior branch head before this checkpoint reconciliation: `bd56bd238c7dc94382af59447b3865b57fb846f8`; comparison at that point: 8 commits ahead / 0 behind; 4 files changed, 377 additions, 0 deletions. The checkpoint update itself advances the branch; fetch PR #600 for the latest head before any integration action.
+- Contract blob SHA `691b4b52cd6ba80bb822cf64ef5bea5e6e523c61`; map addendum `81b95b2cf62ae06eebe0531f283dc90489fc546e`; report blob SHA `c9dfa2e63683ac52223a890ad0d96ab4f950aedd`.
+- Exact-head workflow runs/statuses were empty at the previous-head check; formal reviews 0; inline threads 0. CI and independent A3 review NOT VERIFIED. PR remains Draft/Open/Unmerged.
