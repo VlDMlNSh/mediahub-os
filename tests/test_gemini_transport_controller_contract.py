@@ -129,7 +129,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         lines = self._extract_python_heredoc(run_text)
         start = next(i for i, line in enumerate(lines) if line.startswith("source_comment_id="))
         end = next(i for i, line in enumerate(lines) if line.startswith("target="))
-        guard = "\\n".join(lines[start:end])
+        guard = "\n".join(lines[start:end])
 
         def execute(attempt, history=None):
             calls = []
