@@ -49,7 +49,7 @@ Controller source on main:
 - Parent: `824bb2568b2ac8bb3dceb3608366668e99bab95e`.
 - Branch: `docs/wave487-a0-issuer-verifier-normative-contract-20261030`.
 - Contract create commit: `6969de41410818a5a6b61ce90a32ee809aa803da`.
-- Remaining report, map addendum and checkpoint commits to be appended after read-back.
+- Report blob SHA after PR reconciliation: `0cff710f93bda21eca3158c0b387afea4d16cfaa` (updated below in this final report revision); map addendum blob SHA: `81b95b2cf62ae06eebe0531f283dc90489fc546e`; checkpoint blob SHA: `8f692d2cda868eb17201d10b67f9539f6b07d91c`.
 
 ## Next
 
@@ -61,3 +61,12 @@ Controller source on main:
 
 Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md)
 Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
+
+
+## Final PR reconciliation
+
+- Draft PR [#600](https://github.com/VlDMlNSh/mediahub-os/pull/600).
+- Exact head: `bf49c208b95dc6bb7a90770d3ab7443a9c541d2b`; base Wave 486 branch SHA `824bb2568b2ac8bb3dceb3608366668e99bab95e`.
+- Compare: 4 commits ahead / 0 behind; 4 files changed, 361 additions, 0 deletions.
+- Exact-head workflow-run listing: empty; combined statuses: empty; formal reviews: 0; inline review threads: 0. CI and independent review remain NOT VERIFIED.
+- PR remains Draft/Open/Unmerged. It is stacked on PR #599 and must not be merged directly to the canonical documentation branch.
