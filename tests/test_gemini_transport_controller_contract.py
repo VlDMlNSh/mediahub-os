@@ -142,7 +142,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
                 "CURRENT_RUN_ATTEMPT": attempt,
             }
             with patch.dict(os.environ, environment, clear=False):
-                namespace = {"os": os, "re": re, "sys": sys, "call": fake_call}
+                namespace = {"os": os, "re": re, "sys": sys, "repo": "VlDMlNSh/mediahub-os", "call": fake_call}
                 exec(guard, namespace)
             return calls
 
@@ -157,7 +157,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
                     "CURRENT_RUN_ID": "987654321",
                     "CURRENT_RUN_ATTEMPT": attempt,
                 }, clear=False):
-                    namespace = {"os": os, "re": re, "sys": sys, "call": rejected_call}
+                    namespace = {"os": os, "re": re, "sys": sys, "repo": "VlDMlNSh/mediahub-os", "call": rejected_call}
                     with self.assertRaises(SystemExit) as raised:
                         exec(guard, namespace)
                 self.assertEqual(raised.exception.code, 2)
