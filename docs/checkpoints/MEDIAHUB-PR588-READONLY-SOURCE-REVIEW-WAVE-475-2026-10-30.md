@@ -8,7 +8,7 @@
 **PR:** [#588](https://github.com/VlDMlNSh/mediahub-os/pull/588), OPEN / DRAFT / UNMERGED  
 **Immutable reviewed head:** `c65897f2a4ff594b69a98ce739aace244147c926`  
 **Base/main:** `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`  
-**Branch relation:** 8 ahead / 0 behind, merge base equals main.
+**Branch relation:** 9 ahead / 0 behind, merge base equals main.
 
 ## 1. Purpose and scope
 
