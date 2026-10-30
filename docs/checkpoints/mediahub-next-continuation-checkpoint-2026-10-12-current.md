@@ -2881,3 +2881,11 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Next: derive the technology-neutral normative issuer/verifier contract and executable test plan from these selected decisions; obtain independent A3 review before runtime changes. Cloud Pool remains first delivery priority; server hardware remains deferred until Contour A acceptance.
 
 Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+### Wave 486 final PR reconciliation
+
+- Draft PR [#599](https://github.com/VlDMlNSh/mediahub-os/pull/599) is stacked on Wave 485 PR #598 branch `docs/wave485-a0-contract-skeleton-20261030-v2`; it is not a direct canonical-base merge candidate.
+- Decision blob: `13e6745463dbc05a7c188423bb45ffb2b210c789`; map addendum blob: `c026947681dc9d6739f4424d31a5424d1b11c259`; report blob after PR reconciliation: `7b778ebe67105d50afb00466965cdcfb5353a262`.
+- The original four-file delta against Wave 485 is 4 commits ahead / 0 behind, 4 files changed, 180 additions, 0 deletions. A report-only follow-up commit was added afterward; latest PR head is to be read from GitHub before any subsequent work.
+- Exact-head workflow runs returned empty; formal reviews 0; inline threads 0. CI and independent review remain NOT VERIFIED. PR stays Draft/Open/Unmerged.
