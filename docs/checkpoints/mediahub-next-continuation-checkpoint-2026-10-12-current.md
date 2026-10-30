@@ -2837,3 +2837,15 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 481 — quota-ledger contract design review (2026-10-30)
+
+- Report: [Wave 481 design review](MEDIAHUB-QUOTA-LEDGER-DESIGN-REVIEW-WAVE-481-2026-10-30.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-481-2026-10-30.md); reviewed [Wave 480 proposed contract](MEDIAHUB-CLOUD-QUOTA-LEDGER-CONTRACT-WAVE-480-2026-10-30.json).
+- Immutable contract blob SHA: 6492ddb7f7ee5adfe29f66e10ad4ec8012341154. PR #592 remains OPEN/DRAFT/UNMERGED at head 0436139834f93c5621b3cf54d37d16f135403662; exact-head workflow runs/statuses empty; formal reviews/comments absent. CI and independent review NOT VERIFIED.
+- Review findings: incomplete route/reservation transition graph; no reservation lease/fencing/recovery; route-revocation TOCTOU; undefined quota dimensions/units and conservative estimates; no partial settlement/adjustment model; ambiguous idempotency scope/retention; incomplete UNKNOWN reconciliation; underspecified Retry-After parsing; missing transactional outbox/send-intent crash protocol; evidence schema lacks integrity/correlation fields.
+- This is an author self-review only, not independent A3. Contract is INCOMPLETE FOR IMPLEMENTATION. Q001–Q015 tests and Draft 2020-12 schema/negative fixtures NOT RUN.
+- Issue #301 remains OPEN and controlling. No provider calls, credentials/secrets access, gateway runtime, router policy changes, Gemini dispatch or Claude execution. SentinelX connected hosts=0; Voktors-Mini.Dlink offline; mh-dev-01 and mh-dev-02 disabled.
+- Working branch: docs/wave481-quota-ledger-contract-review-20261030, created from docs/mediahub-chat-tree-map-20261012. This is unmerged working documentation, not canonical accepted state.
+- Next: revise contract to close findings F1–F10, add Draft 2020-12 schema and negative fixtures, obtain independent security/provenance review, then implement fake-provider Q001–Q015 harness. No gateway/provider runtime until Issue #301 gates pass.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
