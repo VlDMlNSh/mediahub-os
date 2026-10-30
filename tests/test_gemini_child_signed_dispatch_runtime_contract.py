@@ -399,5 +399,238 @@ class GeminiChildSignedDispatchRuntimeTests(unittest.TestCase):
             )
 
 
+PR_REVIEW_WORKFLOW = ROOT / ".github/workflows/gemini-pr-readonly-review-wave471.yml"
+PR_REVIEW_TASK = "PR-scoped read-only security, contract, and regression review; no code changes."
+PR_REVIEW_BASE_SHA = "a" * 40
+PR_REVIEW_HEAD_SHA = "b" * 40
+
+
+def load_pr_review_authorizer():
+    workflow = yaml.load(
+        PR_REVIEW_WORKFLOW.read_text(encoding="utf-8"),
+        Loader=yaml.BaseLoader,
+    )
+    return next(
+        step["run"]
+        for step in workflow["jobs"]["authorize"]["steps"]
+        if step.get("id") == "verify"
+    )
+
+
+def make_pr_review_environment(signed_overrides=None, runtime_overrides=None):
+    values = {
+        "HMAC_KEY": TEST_KEY,
+        "WORKFLOW_FILE": PR_REVIEW_WORKFLOW.name,
+        "DISPATCH_ID": VALID_UUID4,
+        "PR_NUMBER": "588",
+        "BASE_SHA": PR_REVIEW_BASE_SHA,
+        "TARGET_SHA": PR_REVIEW_HEAD_SHA,
+        "TASK": PR_REVIEW_TASK,
+        "EVENT_NAME": "workflow_dispatch",
+        "REPOSITORY": "VlDMlNSh/mediahub-os",
+        "REF_NAME": "refs/heads/main",
+    }
+    for name, value in (signed_overrides or {}).items():
+        if name not in {
+            "DISPATCH_ID", "PR_NUMBER", "BASE_SHA", "TARGET_SHA", "TASK",
+            "WORKFLOW_FILE",
+        }:
+            raise ValueError(f"Unsupported signed input: {name}")
+        values[name] = value
+    payload = {
+        "workflow_file": values["WORKFLOW_FILE"],
+        "dispatch_id": values["DISPATCH_ID"],
+        "pr_number": values["PR_NUMBER"],
+        "base_sha": values["BASE_SHA"],
+        "target_sha": values["TARGET_SHA"],
+        "task": PR_REVIEW_TASK,
+        "base_ref": "main",
+        "scope": "contour-a",
+    }
+    values["SIGNATURE"] = hmac.new(
+        values["HMAC_KEY"].encode(),
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode(),
+        hashlib.sha256,
+    ).hexdigest()
+    metadata = {
+        "state": "open",
+        "base": {"ref": "main", "sha": values["BASE_SHA"]},
+        "head": {
+            "sha": values["TARGET_SHA"],
+            "repo": {"full_name": "VlDMlNSh/mediahub-os"},
+        },
+    }
+    values["GH_STUB_RESPONSE"] = json.dumps(metadata)
+    values.update(runtime_overrides or {})
+    return values
+
+
+def run_pr_review_authorizer(script, environment):
+    with tempfile.TemporaryDirectory() as temporary:
+        root = Path(temporary)
+        bin_dir = root / "bin"
+        bin_dir.mkdir()
+        gh = bin_dir / "gh"
+        gh.write_text(
+            "#!/bin/sh\n"
+            "if [ \"$1\" != \"api\" ] || "
+            "[ \"$2\" != \"repos/VlDMlNSh/mediahub-os/pulls/$PR_NUMBER\" ]; then\n"
+            "  echo 'unexpected gh invocation' >&2\n"
+            "  exit 64\n"
+            "fi\n"
+            "printf 'called\\n' >> \"$GH_STUB_LOG\"\n"
+            "printf '%s' \"$GH_STUB_RESPONSE\"\n",
+            encoding="utf-8",
+        )
+        gh.chmod(0o755)
+        output_path = root / "github-output.txt"
+        call_log = root / "gh-calls.txt"
+        env = {
+            **os.environ,
+            **environment,
+            "PATH": f"{bin_dir}:{os.environ.get('PATH', '')}",
+            "GITHUB_OUTPUT": str(output_path),
+            "GH_STUB_LOG": str(call_log),
+        }
+        result = subprocess.run(
+            ["bash", "-euo", "pipefail", "-c", script],
+            cwd=temporary,
+            env=env,
+            text=True,
+            capture_output=True,
+            timeout=5,
+            check=False,
+        )
+        output = output_path.read_text(encoding="utf-8") if output_path.exists() else ""
+        calls = call_log.read_text(encoding="utf-8") if call_log.exists() else ""
+        return result, output, calls
+
+
+class GeminiPRReviewChildAuthorizerRuntimeTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.script = load_pr_review_authorizer()
+
+    def test_pr_review_child_authorizer_accepts_synthetic_hmac_and_exact_metadata(self):
+        result, output, calls = run_pr_review_authorizer(
+            self.script, make_pr_review_environment()
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Signed PR review request and exact open PR metadata verified", result.stdout)
+        self.assertEqual(
+            output,
+            f"pr_number=588\nbase_sha={PR_REVIEW_BASE_SHA}\ntarget_sha={PR_REVIEW_HEAD_SHA}\n",
+        )
+        self.assertEqual(calls, "called\n")
+
+    def test_pr_review_child_rejects_missing_key_bad_signature_and_untrusted_context(self):
+        cases = (
+            (
+                "missing-key",
+                {},
+                {"HMAC_KEY": ""},
+                "Dispatch HMAC secret missing",
+                False,
+            ),
+            (
+                "bad-signature",
+                {},
+                {"SIGNATURE": "0" * 64},
+                "Invalid controller HMAC signature",
+                False,
+            ),
+            (
+                "wrong-event",
+                {},
+                {"EVENT_NAME": "pull_request"},
+                "trusted main in the expected repository",
+                False,
+            ),
+            (
+                "wrong-repository",
+                {},
+                {"REPOSITORY": "attacker/example"},
+                "trusted main in the expected repository",
+                False,
+            ),
+            (
+                "wrong-ref",
+                {},
+                {"REF_NAME": "refs/heads/feature"},
+                "trusted main in the expected repository",
+                False,
+            ),
+        )
+        for name, signed, runtime, message, should_call_gh in cases:
+            with self.subTest(case=name):
+                result, output, calls = run_pr_review_authorizer(
+                    self.script,
+                    make_pr_review_environment(
+                        signed_overrides=signed,
+                        runtime_overrides=runtime,
+                    ),
+                )
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(message, result.stdout + result.stderr)
+                self.assertEqual(bool(calls), should_call_gh)
+                self.assertEqual(output, "")
+
+    def test_pr_review_child_rejects_malformed_signed_inputs(self):
+        cases = (
+            ("pr-number", {"PR_NUMBER": "588/1"}, "Malformed PR number"),
+            ("base-sha", {"BASE_SHA": "not-a-sha"}, "Base and target must be full lowercase"),
+            ("head-sha", {"TARGET_SHA": "B" * 40}, "Base and target must be full lowercase"),
+            ("uuid", {"DISPATCH_ID": "not-a-uuid"}, "Malformed dispatch UUIDv4"),
+        )
+        for name, overrides, message in cases:
+            with self.subTest(case=name):
+                result, output, calls = run_pr_review_authorizer(
+                    self.script, make_pr_review_environment(signed_overrides=overrides)
+                )
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(message, result.stdout + result.stderr)
+                self.assertEqual(output, "")
+                self.assertEqual(calls, "")
+
+    def test_pr_review_child_rejects_task_tampering_before_metadata_lookup(self):
+        environment = make_pr_review_environment(
+            runtime_overrides={"TASK": "tampered review task"}
+        )
+        result, output, calls = run_pr_review_authorizer(self.script, environment)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Task differs from fixed review task", result.stdout + result.stderr)
+        self.assertEqual(output, "")
+        self.assertEqual(calls, "")
+
+    def test_pr_review_child_rejects_closed_foreign_or_changed_pr_metadata(self):
+        cases = (
+            ("closed", {"state": "closed"}, "PR is not open"),
+            ("wrong-base-ref", {"base": {"ref": "release", "sha": PR_REVIEW_BASE_SHA}}, "PR base branch is not main"),
+            ("changed-base-sha", {"base": {"ref": "main", "sha": "c" * 40}}, "PR base SHA changed"),
+            ("changed-head-sha", {"head": {"sha": "d" * 40, "repo": {"full_name": "VlDMlNSh/mediahub-os"}}}, "PR head SHA changed"),
+            ("fork", {"head": {"sha": PR_REVIEW_HEAD_SHA, "repo": {"full_name": "attacker/mediahub-os"}}}, "PR head repository is outside the allowlist"),
+        )
+        for name, override, message in cases:
+            metadata = {
+                "state": "open",
+                "base": {"ref": "main", "sha": PR_REVIEW_BASE_SHA},
+                "head": {
+                    "sha": PR_REVIEW_HEAD_SHA,
+                    "repo": {"full_name": "VlDMlNSh/mediahub-os"},
+                },
+            }
+            metadata.update(override)
+            environment = make_pr_review_environment(
+                runtime_overrides={"GH_STUB_RESPONSE": json.dumps(metadata)}
+            )
+            with self.subTest(case=name):
+                result, output, calls = run_pr_review_authorizer(self.script, environment)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(message, result.stdout + result.stderr)
+                self.assertEqual(output, "")
+                self.assertEqual(calls, "called\n")
+
+
+
 if __name__ == "__main__":
     unittest.main()
