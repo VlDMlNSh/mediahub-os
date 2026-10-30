@@ -1,3 +1,10 @@
+## Wave 476 — PR #588 replay and default-branch bootstrap blockers (2026-10-30)
+
+- Report: [Wave 476 replay and bootstrap gaps](../checkpoints/MEDIAHUB-PR588-REPLAY-AND-BOOTSTRAP-GAP-WAVE-476-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- PR #588 exact HEAD `0d83e2033eb97e9661816706186cf059b4ae9713`: all five active ruleset required contexts SUCCESS. The newly added synthetic-key behavioral suite executed successfully.
+- Remaining blockers: no durable one-time replay receipt for the PR child's signed dispatch ID; no controller-owned PR-child route on main; child workflow absent from the default branch and therefore not yet dispatchable; exact live secret-name presence/scope and independent A3 review NOT VERIFIED.
+- No child dispatch, agent/provider/secret activity, merge, deployment, qualification or acceptance. PR #588 remains OPEN/DRAFT/UNMERGED; Contour A NOT ACCEPTED; Contour B GATED.
+
 ## Wave 475 — PR #588 static source review and CI trigger follow-up (2026-10-30)
 
 - Report: [Wave 475 read-only source review](../checkpoints/MEDIAHUB-PR588-READONLY-SOURCE-REVIEW-WAVE-475-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
