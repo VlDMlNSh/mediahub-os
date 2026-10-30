@@ -126,9 +126,9 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
     def test_issue_comment_rerun_fails_closed_before_history_api_call(self):
         self.assertIn('CURRENT_RUN_ATTEMPT: ${{ github.run_attempt }}', self.source)
         run_text = self.workflow["jobs"]["dispatch_and_monitor"]["steps"][0]["run"]
-        lines = self._extract_python_heredoc(run_text)
-        start = next(i for i, line in enumerate(lines) if line.startswith("source_comment_id="))
-        end = next(i for i, line in enumerate(lines) if line.startswith("target="))
+        lines = run_text.splitlines()
+        start = next(i for i, line in enumerate(lines) if line.strip().startswith("source_comment_id="))
+        end = next(i for i, line in enumerate(lines) if line.strip().startswith("target="))
         guard = "\n".join(lines[start:end])
 
         def execute(attempt, history=None):
