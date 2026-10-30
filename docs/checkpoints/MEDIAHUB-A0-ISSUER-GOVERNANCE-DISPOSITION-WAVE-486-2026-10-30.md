@@ -38,7 +38,8 @@ Wave 482 A0-ISSUER-01 remains a HIGH source-level provenance gap, not a confirme
 - Parent: Wave 485 head `37254c9f4ff09c39943f6924534a63dd44b5a431`.
 - Branch: `docs/wave486-a0-owner-directed-governance-disposition-20261030`.
 - Decision document commit: `2d4cbf79803c83356e97c9830900443e3e736c51`.
-- Exact-head CI and independent review: NOT VERIFIED (PR not yet created at report authoring time).
+- Draft PR: [#599](https://github.com/VlDMlNSh/mediahub-os/pull/599), base Wave 485 branch `docs/wave485-a0-contract-skeleton-20261030-v2`; parent/base SHA `37254c9f4ff09c39943f6924534a63dd44b5a431`.
+- PR #599 exact-head workflow runs: empty; formal reviews: 0; inline review threads: 0. CI and independent review are NOT VERIFIED. PR remains Draft/Open/Unmerged. The PR is stacked on PR #598 and must not be merged directly to canonical docs branch.
 
 ## Next
 
