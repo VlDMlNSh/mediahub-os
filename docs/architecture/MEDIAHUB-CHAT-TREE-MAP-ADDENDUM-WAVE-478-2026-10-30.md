@@ -9,3 +9,5 @@
 - No benchmark, workflow dispatch, agent execution, provider call, secret read, merge, deployment, qualification or acceptance occurred.
 - Working branch: `docs/wave478-runner-target-manifest-discovery-20261030`; based on canonical documentation branch, which compares to `main` as 3,455 ahead / 82 behind. Do not confuse this unmerged working change with `main`.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); checkpoint: [current continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+- Draft review PR: [#590](https://github.com/VlDMlNSh/mediahub-os/pull/590), OPEN/DRAFT/UNMERGED; 0 formal reviews / 0 inline threads at initial inspection; no PR workflow runs returned for inspected head, CI NOT VERIFIED.
