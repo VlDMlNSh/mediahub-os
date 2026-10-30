@@ -5,6 +5,7 @@ import hmac
 import json
 import os
 import re
+import sys
 import unittest
 from unittest.mock import patch
 import yaml
@@ -121,6 +122,55 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn('if not isinstance(history_total,int) or len(history_runs)!=history_total:', self.source)
         self.assertIn('duplicate-dispatch status is NOT VERIFIED.', self.source)
         self.assertIn('sys.exit(2)', self.source)
+
+    def test_issue_comment_rerun_fails_closed_before_history_api_call(self):
+        self.assertIn('CURRENT_RUN_ATTEMPT: ${{ github.run_attempt }}', self.source)
+        run_text = self.workflow["jobs"]["dispatch_and_monitor"]["steps"][0]["run"]
+        lines = self._extract_python_heredoc(run_text)
+        start = next(i for i, line in enumerate(lines) if line.startswith("source_comment_id="))
+        end = next(i for i, line in enumerate(lines) if line.startswith("target="))
+        guard = "\\n".join(lines[start:end])
+
+        def execute(attempt, history=None):
+            calls = []
+            def fake_call(method, path, body=None):
+                calls.append((method, path))
+                return 200, history or {"total_count": 0, "workflow_runs": []}
+            environment = {
+                "SOURCE_COMMENT_ID": "123456789",
+                "CURRENT_RUN_ID": "987654321",
+                "CURRENT_RUN_ATTEMPT": attempt,
+            }
+            with patch.dict(os.environ, environment, clear=False):
+                namespace = {"os": os, "re": re, "sys": sys, "call": fake_call}
+                exec(guard, namespace)
+            return calls
+
+        for attempt in ("", "0", "2", "not-a-number"):
+            with self.subTest(attempt=attempt or "missing"):
+                calls = []
+                def rejected_call(method, path, body=None):
+                    calls.append((method, path))
+                    return 200, {"total_count": 0, "workflow_runs": []}
+                with patch.dict(os.environ, {
+                    "SOURCE_COMMENT_ID": "123456789",
+                    "CURRENT_RUN_ID": "987654321",
+                    "CURRENT_RUN_ATTEMPT": attempt,
+                }, clear=False):
+                    namespace = {"os": os, "re": re, "sys": sys, "call": rejected_call}
+                    with self.assertRaises(SystemExit) as raised:
+                        exec(guard, namespace)
+                self.assertEqual(raised.exception.code, 2)
+                self.assertEqual(calls, [], "rerun must stop before the GitHub API call")
+
+        first_attempt_calls = execute("1")
+        self.assertEqual(len(first_attempt_calls), 1)
+        self.assertEqual(first_attempt_calls[0][0], "GET")
+        self.assertIn("event=issue_comment", first_attempt_calls[0][1])
+
+        with self.assertRaises(SystemExit) as incomplete:
+            execute("1", {"workflow_runs": []})
+        self.assertEqual(incomplete.exception.code, 2)
 
     def test_owner_only_next_comment_bridge_is_scoped_and_idempotent(self):
         event = self.workflow["on"]["issue_comment"]
