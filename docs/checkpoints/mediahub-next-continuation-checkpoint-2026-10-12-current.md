@@ -1,3 +1,16 @@
+## Wave 500 — PR #610 Gemini review route blocker (2026-10-31)
+
+- Report: [Wave 500 PR #610 Gemini review route blocker](MEDIAHUB-PR610-GEMINI-REVIEW-ROUTE-BLOCKER-WAVE-500-2026-10-31.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-500-2026-10-31.md); [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Inspected immutable PR HEAD: `b2de01ab7e0ad98583d83ff4fcb401c270c08e80`; base SHA `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`.
+- Exact-head PR workflow runs: Alamo [41185025595](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41185025595) (jobs 124490120227, 124490120481, 124490141744 SUCCESS; runtime steps intentionally PR-no-op/skipped); Astra Cloud [41185025618](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41185025618) (job 124490104009 SUCCESS); Astra Verify [41185025600](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41185025600) (job 124490103816 SUCCESS).
+- Source blobs: Alamo workflow `25a91f827867a10f2eb4f5f6fb347956a6ccb40a`; contract test `99d3af7a33f61e715e95cedf5d401acd2c392c86`; main Gemini controller `0a1246f6755020faf8b7e48d07bfff790bbaece3`; controller transport test `5ae0e8db9465ce36bd4020df69b552c659cd6187`; trigger coverage test `918192c6887775ccd6d800c1c44198b513c4db8b`.
+- Formal PR reviews = 0; inline review threads = 0. Independent review NOT VERIFIED.
+- Existing controller `review` mode is hard-pinned to FCC target `074f20eb495666946a14410ab88d566aaa754f24` and historical PR #506/#508; it rejects PR #610 HEAD. General three-agent mode is not a substitute. Gemini review NOT RUN; no controller/child run IDs or artifact digests.
+- Next: implement a separately gated, fixed read-only PR #610 review route that verifies PR/base/head through GitHub API, signs both immutable SHAs, uses a dedicated child to generate the complete patch, adds negative replay/authorization tests, and obtains independent review/exact-head CI before any manual dispatch.
+- Live runner smoke, provider inference, secret reads, merge, deployment, qualification and acceptance: NOT RUN / NOT ACCEPTED. Contour A NOT ACCEPTED; Contour B GATED.
+
+---
+
 ## Wave 339 — executor channel and exact-head gate recheck (2026-10-22)
 
 - Report: [Wave 339 executor channel recheck](MEDIAHUB-NEXT-EXECUTOR-CHANNEL-RECHECK-WAVE-339-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
