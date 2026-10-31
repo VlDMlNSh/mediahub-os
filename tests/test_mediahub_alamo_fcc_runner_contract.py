@@ -62,3 +62,22 @@ def test_pr_checks_are_green_without_running_live_install_or_model_calls() -> No
     assert "Record that live execution is intentionally not run on pull requests" in source
     assert source.count("if: github.event_name == 'workflow_dispatch'") >= 7
     assert "if: always() && github.event_name == 'workflow_dispatch'" in source
+
+
+def test_pinned_agent_toolchain_is_installed_without_provider_credentials() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert "Install pinned agent toolchain (no provider authentication)" in source
+    assert 'GEMINI_CLI_VERSION: "0.66.0"' in source
+    assert 'MINI_SWE_AGENT_VERSION: "2.4.6"' in source
+    assert 'AIDER_VERSION: "0.86.0"' in source
+    assert 'OPENHANDS_SDK_VERSION: "1.59.0"' in source
+    assert 'GOOSE_VERSION: "1.57.0"' in source
+    assert "openhands-sdk==${OPENHANDS_SDK_VERSION}" in source
+    assert "from openhands.sdk import Agent, Conversation, LLM" in source
+    assert "goose-x86_64-unknown-linux-gnu.tar.gz" in source
+    assert "10eb96cb6a159b6e1d38eeedbef6ab64cd28168aad91948f1fa5c34eefdf98e3" in source
+    assert "provider_authentication=NOT_CONFIGURED" in source
+    assert "agent_model_invocations=NOT_RUN" in source
+    assert "agent-toolchain/" in source
+    assert "GEMINI_API_KEY" not in source
+    assert "ANTHROPIC_API_KEY" not in source
