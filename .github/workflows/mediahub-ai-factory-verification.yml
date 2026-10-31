@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   verify:
-    name: Verify AI factory policy and secret boundaries
+    name: AI Factory verification
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
