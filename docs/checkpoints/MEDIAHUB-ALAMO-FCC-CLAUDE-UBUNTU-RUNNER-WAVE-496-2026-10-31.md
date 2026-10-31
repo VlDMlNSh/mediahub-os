@@ -7,6 +7,9 @@
 - Parent tracker: [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - Cloud Claude tracker: [Issue #496](https://github.com/VlDMlNSh/mediahub-os/issues/496)
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md)
+- Workflow blob SHA: `5878d6e91f52fb97342437078e5aa86d5252435a`
+- Contract-test blob SHA: `69fe8e45993b98e67ec7e588ae0543611ce2e902`
+- Report blob SHA before final reconciliation: `f71329367df64c6287c59bde5d37e0f699e17ca3`
 - Canonical documentation branch remains `docs/mediahub-chat-tree-map-20261012`; this branch is non-canonical and unaccepted.
 
 ## Owner direction
@@ -49,7 +52,7 @@ The workflow preflights at least 4 vCPU, 8 GiB available RAM and 8 GiB free disk
 
 ## Current execution disposition
 
-- Workflow file and tests are proposed; they have not run.
+- Workflow file and tests are committed on the working branch; PR CI is pending.
 - No GitHub workflow dispatch was made; the available GitHub integration exposes no workflow-dispatch action.
 - No Ollama model download, FCC runtime start, Claude Code request, provider request, or secret access occurred.
 - Exact-head CI and independent review are pending.
