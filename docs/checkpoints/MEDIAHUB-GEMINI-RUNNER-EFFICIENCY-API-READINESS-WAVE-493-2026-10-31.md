@@ -18,7 +18,7 @@
 
 ## 1. Verified current execution topology
 
-The three Gemini roles are dispatched by `.github/workflows/gemini-batch-dispatch-controller.yml` as three distinct GitHub Actions workflow runs. Each child workflow currently declares `runs-on: ubuntu-latest` for both its authorization job and its model-execution job. The three workflows therefore use GitHub-hosted ephemeral runner instances; they do not consume or target the owner's 20 physical computers.
+The three Gemini roles are dispatched by `.github/workflows/gemini-batch-dispatch-controller.yml` as three distinct GitHub Actions workflow runs. Each child workflow currently declares `runs-on: ubuntu-latest` for both its authorization job and its model-execution job. The three workflows therefore use GitHub-hosted ephemeral runner instances. The owner clarified that the referenced fleet of 20 computers is also GitHub-hosted cloud VMs, not physical or self-hosted machines. The inspected workflows do not address those VMs by individual identity or a custom runner label; they request standard `ubuntu-latest` runners from GitHub's hosted pool.
 
 The current topology is:
 - Agent 1: `gemini-autonomous-engineering.yml`; `GEMINI_API_KEY`.
@@ -27,7 +27,7 @@ The current topology is:
 
 Each child has an authorization job followed by a separate execution job. These are separate GitHub Actions jobs and therefore separate runner allocations. Controller POST requests are made for the three child workflows; their runs can overlap. The current Agent 2 prompt explicitly says not to claim review of Agent 1 changes created concurrently in the same batch. Thus parallel dispatch currently weakens the value of downstream verification: the reviewer may not have a completed implementation PR to inspect.
 
-The controller uses `ubuntu-latest` for its own admission/dispatch job as well. No workflow inspected in this pass routes these Gemini child jobs to a physical owner-managed runner label.
+The controller uses `ubuntu-latest` for its own admission/dispatch job as well. The owner's 20 GitHub-hosted VMs should be understood as cloud runner capacity, not as a separate self-hosted pool. Whether this means 20 concurrent jobs are available to this repository/account is NOT VERIFIED; GitHub-hosted concurrency is plan- and usage-dependent, and the 20 figure alone does not establish an account-specific quota.
 
 ## 2. Runner efficiency decision
 
@@ -47,20 +47,16 @@ Benefits:
 Cost qualification:
 - Sequential dispatch reduces peak concurrency, not necessarily total GitHub Actions billed minutes.
 - A single job with three sequential model sessions could reduce runner startup/authorization overhead, but would share one runner filesystem/process boundary. It is **not selected** until separate clean workspaces, session isolation, credential minimization, artifact handoff and failure recovery are specified and tested.
-- Do not force the three agents onto one persistent physical self-hosted runner merely to reduce concurrency.
+- Do not force the three agents onto one persistent self-hosted runner merely to reduce concurrency.
 - Do not create three duplicate API keys or accounts to multiply provider quota. Provider quota is governed by the provider's account/project/entitlement rules, not the number of MediaHub roles.
 
 Before changing the controller, prepare a source-bound design and negative tests for dispatch ordering, immutable PR binding, duplicate/replay suppression, stop-on-failure, exact run-ID reconciliation, credential scope, cancellation and partial completion. Keep the existing controller gates fail-closed.
 
 ## 3. Classification of the 20 computers
 
-The phrase "computer is a GitHub runner" must be distinguished technically:
-- GitHub-hosted runner: a temporary GitHub-managed VM selected by labels such as `ubuntu-latest`.
-- Self-hosted runner: a physical/virtual machine owned or administered by the project and registered with GitHub Actions.
+The owner clarified that the referenced 20 computers are GitHub-hosted cloud virtual machines. They are not physical owner-managed machines and should not be classified as self-hosted runners. The inspected workflows request standard `ubuntu-latest` instances and do not identify or pin 20 specific VMs. The exact account/repository concurrency entitlement, available parallel slots, included minutes and current usage are NOT VERIFIED. A count of 20 cloud VMs must not be interpreted as proof of 20 simultaneously available jobs; verify the applicable GitHub plan and usage separately.
 
-The current MediaHub Gemini workflows use the first type. If the 20 computers are registered self-hosted runners, they are a separate capacity pool and are not used by the inspected Gemini workflows.
-
-The repository is public. GitHub's security guidance warns that self-hosted runners can be persistently compromised by untrusted workflow code and should almost never be used for public repositories. Therefore, do not route untrusted PR/model-agent work to persistent owner-managed machines. Any future use of the 20 machines requires separate runner groups, strict repository/workflow allowlists, one-job ephemeral/JIT provisioning, clean-state destruction, network/secret isolation and a separately accepted target manifest. Hardware inventory and runner identity are still required before assignment.
+The public-repository self-hosted-runner security warning remains relevant only to any distinct self-hosted fleet; it does not apply to GitHub-hosted ephemeral VMs.
 
 ## 4. Exact credential references found in source
 
@@ -124,7 +120,7 @@ Prepare a documentation-backed controller optimization proposal with:
 - per-role immutable task envelope and independent evidence;
 - stop-on-failure and partial-result reconciliation;
 - explicit compute-minute versus peak-concurrency accounting;
-- no use of the 20 physical machines until their runner type and trust boundary are accepted.
+- verify the GitHub plan/account concurrency entitlement and usage before treating the stated 20 hosted VMs as 20 simultaneously available runner slots.
 
 Then run source-bound tests and independent A3 review. Do not dispatch Gemini until all existing gates pass.
 
