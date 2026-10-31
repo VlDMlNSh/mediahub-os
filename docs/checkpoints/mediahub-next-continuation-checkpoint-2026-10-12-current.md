@@ -1,3 +1,16 @@
+## Wave 500 — PR #610 Gemini review route blocker (2026-10-31)
+
+- Report: [Wave 500 PR #610 Gemini review route blocker](MEDIAHUB-PR610-GEMINI-REVIEW-ROUTE-BLOCKER-WAVE-500-2026-10-31.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-500-2026-10-31.md); [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Inspected immutable PR HEAD: `b2de01ab7e0ad98583d83ff4fcb401c270c08e80`; base SHA `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`.
+- Exact-head PR workflow runs: Alamo [41185025595](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41185025595) (jobs 124490120227, 124490120481, 124490141744 SUCCESS; runtime steps intentionally PR-no-op/skipped); Astra Cloud [41185025618](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41185025618) (job 124490104009 SUCCESS); Astra Verify [41185025600](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41185025600) (job 124490103816 SUCCESS).
+- Source blobs: Alamo workflow `25a91f827867a10f2eb4f5f6fb347956a6ccb40a`; contract test `99d3af7a33f61e715e95cedf5d401acd2c392c86`; main Gemini controller `0a1246f6755020faf8b7e48d07bfff790bbaece3`; controller transport test `5ae0e8db9465ce36bd4020df69b552c659cd6187`; trigger coverage test `918192c6887775ccd6d800c1c44198b513c4db8b`.
+- Formal PR reviews = 0; inline review threads = 0. Independent review NOT VERIFIED.
+- Existing controller `review` mode is hard-pinned to FCC target `074f20eb495666946a14410ab88d566aaa754f24` and historical PR #506/#508; it rejects PR #610 HEAD. General three-agent mode is not a substitute. Gemini review NOT RUN; no controller/child run IDs or artifact digests.
+- Next: implement a separately gated, fixed read-only PR #610 review route that verifies PR/base/head through GitHub API, signs both immutable SHAs, uses a dedicated child to generate the complete patch, adds negative replay/authorization tests, and obtains independent review/exact-head CI before any manual dispatch.
+- Live runner smoke, provider inference, secret reads, merge, deployment, qualification and acceptance: NOT RUN / NOT ACCEPTED. Contour A NOT ACCEPTED; Contour B GATED.
+
+---
+
 ## Wave 339 — executor channel and exact-head gate recheck (2026-10-22)
 
 - Report: [Wave 339 executor channel recheck](MEDIAHUB-NEXT-EXECUTOR-CHANNEL-RECHECK-WAVE-339-2026-10-22.md); canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
@@ -2373,3 +2386,35 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Gemini Agents 1–3 NOT RUN; no correlated controller dispatch, child run IDs, manifest or artifacts. Local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN. No secrets read, trigger posted, dispatch, host mutation, merge, deployment, qualification or acceptance.
 - Governance, effective token scope, independent controller/HMAC review and external CI scheduling remain NOT VERIFIED. Branch protection endpoint was 403; empty ruleset listing is inconclusive.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: diagnose queued external CI; secure independent review and metadata-only governance/token-scope evidence; only then approved no-launch probe; re-establish supported bounded SentinelX access separately.
+
+
+## Wave 497 — PR check-state correction (2026-10-31)
+
+- Report: [Wave 497 PR check correction](MEDIAHUB-ALAMO-FCC-CLAUDE-PR-CHECK-CORRECTION-WAVE-497-2026-10-31.md); report commit `2d14e7c6a43423dc72212567f5dcf515451afd8b`.
+- Map addendum: [Wave 497](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-497-2026-10-31.md); commit `7f1ef06021da2b1266d5ea0a58fc0f2a240154be`.
+- PR #610 working branch updated to code-change head `4bd96e478c53bc7f1f0429c26ca84644e344f28d`; workflow blob `e8a7ba9d34bde5654a42ed3bc9f33a5d3cf9e58e`, test blob `f62ac0184e5e251d1fdb2dcab2d6a4ff07afa01a`.
+- Previous head run #41183890589 had contract job SUCCESS, but dispatch-gate and runtime jobs SKIPPED. Astra Cloud Runtime #41183890472 and Astra Verify #41183890499 SUCCESS.
+- New exact-head workflow runs/statuses were not returned at observation time: **NOT VERIFIED**. Independent review absent. Live install/model/FCC/Claude smoke NOT RUN. Alamo/Ollama equivalence NOT VERIFIED. No merge, deployment, qualification or acceptance.
+- Next: inspect exact-head PR checks for `4bd96e478c53bc7f1f0429c26ca84644e344f28d`; require every required job terminal-success and independent security/contract review before merge or live dispatch.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 498 — PR workflow failure diagnosis and correction (2026-10-31)
+
+- Report: [Wave 498 failure diagnosis and fix](MEDIAHUB-ALAMO-FCC-PR-WORKFLOW-FAILURE-FIX-WAVE-498-2026-10-31.md); commit `b4be38e6b8f8726a912e61b909a90eb33d82ca13`.
+- Map addendum: [Wave 498](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-498-2026-10-31.md); commit `7de3560a87bec17892678c96e76958d73083be41`.
+- Failed head `da48aaf2e876d6e758caf0af593dde3168c8693f`, run `41184816539`: contract tests 5/6; runtime failed because one install step lacked workflow_dispatch condition. No install/model/FCC/Claude execution occurred.
+- Fixed head `2206a3a87f05532a72ac1406fcc1072066524f39`; workflow blob `25a91f827867a10f2eb4f5f6fb347956a6ccb40a`, test blob `99d3af7a33f61e715e95cedf5d401acd2c392c86`.
+- Exact-head runs `41184878451`, `41184878441`, `41184878541` were QUEUED at observation. Exact-head CI **NOT VERIFIED**. Independent review absent. Live smoke NOT RUN; Alamo equivalence NOT VERIFIED; no merge/deployment/qualification/acceptance.
+- Next: inspect exact-head run conclusions and confirm no PR runtime install; then require independent security/contract review before merge/dispatch.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 498 follow-up — exact-head CI success (2026-10-31)
+
+- Latest observed PR head: `6ee33596ec0c1bfa534c2683a4267928206c1de0`; workflow/test blobs unchanged from fixed code blobs `25a91f827867a10f2eb4f5f6fb347956a6ccb40a` / `99d3af7a33f61e715e95cedf5d401acd2c392c86`.
+- Alamo workflow run `41184940852`: contract job `124489892341`, dispatch gate `124489892599`, runtime PR no-op job `124489909519` all SUCCESS. Actual install/model/FCC/Claude steps SKIPPED on PR by design.
+- Astra Cloud Runtime `41184940814`, job `124489856820`: SUCCESS. Astra Verify `41184940845`, job `124489857412`: SUCCESS.
+- Exact-head CI: **PASS for PR validation workflows**. Live inference: NOT RUN. Independent review: NOT VERIFIED/absent. Alamo equivalence: NOT VERIFIED. PR #610 OPEN/UNMERGED; no qualification, deployment or acceptance.
+- Report updated: [Wave 498](MEDIAHUB-ALAMO-FCC-PR-WORKFLOW-FAILURE-FIX-WAVE-498-2026-10-31.md). Map addendum: [Wave 498](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-498-2026-10-31.md).
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
