@@ -1,0 +1,202 @@
+{
+  "schema_version": "mediahub.runner-workspace-network-target.v0.2",
+  "id": "MH-CAF-RUNNER-TARGET-489",
+  "date": "2026-10-31",
+  "status": "PROPOSED_NOT_ACCEPTED",
+  "work_item": "CAF-Q-012",
+  "contour": "A",
+  "source_commit_main": "f0448f28c7cfa61e4450c38529f09afbfdbbc7c7",
+  "documentation_parent": "02f0988cdeac2c6b360946c9a62b7a56f21c142d",
+  "supersedes_candidate": "MH-CAF-RUNNER-TARGET-478",
+  "supersedes_blob_sha": "b2ee53f0f1caed379d0fc15172c1f3f52edacc37",
+  "purpose": "Reconcile the Wave 478 workspace/network candidate with the Wave 488 source-verified standard runner catalog. This remains a proposal and does not authorize workflow dispatch, agent execution, provider calls, credential access, or deployment.",
+  "repository": {
+    "visibility": "public",
+    "visibility_source": "GitHub repository metadata",
+    "account_plan": "NOT_VERIFIED",
+    "effective_concurrency": "NOT_VERIFIED",
+    "free_plan_concurrency_reference": 20,
+    "concurrency_reference_note": "Published Free-plan baseline only; not evidence of this account's subscription, available slots, or reserved capacity."
+  },
+  "runner_catalog": [
+    {
+      "profile_id": "gh-standard-ubuntu-x64",
+      "label": "ubuntu-24.04",
+      "os": "Ubuntu 24.04",
+      "architecture": "x64",
+      "cpu_vcpu": 4,
+      "memory_gib": 16,
+      "ephemeral_ssd_gib": 14,
+      "gpu": false,
+      "role": "Primary candidate for general-purpose CI, read-only engineering tasks, static analysis and CPU-compatible small-model experiments.",
+      "admission": "CANDIDATE_NOT_QUALIFIED"
+    },
+    {
+      "profile_id": "gh-standard-ubuntu-arm64",
+      "label": "ubuntu-24.04-arm",
+      "os": "Ubuntu 24.04",
+      "architecture": "ARM64",
+      "cpu_vcpu": 4,
+      "memory_gib": 16,
+      "ephemeral_ssd_gib": 14,
+      "gpu": false,
+      "role": "Architecture-native tests and ARM-compatible runtime qualification.",
+      "admission": "SECONDARY_NOT_QUALIFIED"
+    },
+    {
+      "profile_id": "gh-standard-windows-x64",
+      "label": "windows-2025",
+      "os": "Windows Server 2025",
+      "architecture": "x64",
+      "cpu_vcpu": 4,
+      "memory_gib": 16,
+      "ephemeral_ssd_gib": 14,
+      "gpu": false,
+      "role": "On-demand Windows compatibility/build validation.",
+      "admission": "SECONDARY_NOT_QUALIFIED"
+    },
+    {
+      "profile_id": "gh-standard-windows-arm64",
+      "label": "windows-11-arm",
+      "os": "Windows 11",
+      "architecture": "ARM64",
+      "cpu_vcpu": 4,
+      "memory_gib": 16,
+      "ephemeral_ssd_gib": 14,
+      "gpu": false,
+      "role": "On-demand Windows ARM compatibility validation.",
+      "admission": "SECONDARY_NOT_QUALIFIED"
+    },
+    {
+      "profile_id": "gh-standard-macos-arm64",
+      "label": "macos-26",
+      "os": "macOS 26",
+      "architecture": "ARM64",
+      "cpu_vcpu": 3,
+      "memory_gib": 7,
+      "ephemeral_ssd_gib": 14,
+      "gpu": "Integrated Apple GPU; accelerator entitlement/performance NOT_VERIFIED",
+      "role": "Specialist Apple Silicon compatibility and bounded MLX/Metal qualification only.",
+      "admission": "SPECIALIST_NOT_QUALIFIED"
+    },
+    {
+      "profile_id": "gh-standard-macos-intel",
+      "label": "macos-26-intel",
+      "os": "macOS 26",
+      "architecture": "x64",
+      "cpu_vcpu": 4,
+      "memory_gib": 14,
+      "ephemeral_ssd_gib": 14,
+      "gpu": false,
+      "role": "On-demand Intel macOS compatibility validation.",
+      "admission": "SECONDARY_NOT_QUALIFIED"
+    }
+  ],
+  "runner_selection_policy": {
+    "default_profile": "gh-standard-ubuntu-x64",
+    "additional_profiles_require": [
+      "Explicit task OS/architecture requirement",
+      "Immutable source SHA",
+      "Runner image/version capture",
+      "Quota and budget check",
+      "Policy admission and independent review",
+      "Exact-head CI and provenance evidence"
+    ],
+    "larger_runners": "EXCLUDED_FROM_FREE_ONLY_BASELINE",
+    "ubuntu_slim": "EXCLUDED_FROM_MODEL_WORKER_BASELINE"
+  },
+  "isolation": {
+    "execution_unit": "One GitHub-hosted job",
+    "vm_lifecycle": "Fresh VM per non-slim standard hosted job; VM is decommissioned after job completion.",
+    "workspace_scope": "Job-local; may be shared between steps in one job only.",
+    "cross_job_exchange": "Explicit bounded artifacts or source-control commits; no implicit shared filesystem.",
+    "checkout": "Immutable target SHA only; persist-credentials=false.",
+    "token_permissions": "contents:read by default; no write permission in this target profile.",
+    "secret_handling": "No provider credentials in source, task envelope, prompts, workspace artifacts, caches or logs. Runtime secret access remains separately gated and was not performed.",
+    "cleanup": "Runner VM disposal is platform lifecycle behavior; artifact/cache retention and deletion policy remain NOT_VERIFIED.",
+    "self_hosted_runners": "Excluded. Self-hosted node identities and authority classes MUST NOT be merged into this hosted runner catalog."
+  },
+  "network": {
+    "egress_model": "Direct outbound HTTPS only, subject to separately accepted destination policy.",
+    "source_ip": "Dynamic/shared; no stable source IP assumed.",
+    "fixed_ip_required_by_default": false,
+    "fixed_ip_exception": "A destination requiring source-IP allowlisting is incompatible until a separately approved target is selected.",
+    "destination_allowlist_enforcement": "NOT_VERIFIED for standard hosted runner network layer; provider-connected execution remains BLOCKED.",
+    "inbound_listener": "Not required; no public inbound listener.",
+    "peer_network": "No guaranteed direct runner-to-runner reachability, bandwidth, latency, packet-loss SLA or shared private network.",
+    "artifact_relay": "Allowed as a bounded evidence/result handoff candidate only; must not be described as peer-to-peer throughput.",
+    "model_sharding": "NOT_QUALIFIED; no production tensor/pipeline sharding across standard hosted runners.",
+    "proxy_vpn_region_spoofing": "PROHIBITED"
+  },
+  "compute_constraints": {
+    "standard_linux_windows_gpu": "No documented GPU entitlement in the reviewed standard runner matrix.",
+    "macos_accelerator": "Integrated Apple GPU is not treated as guaranteed accelerator capacity; Metal/MLX availability and performance require runtime qualification.",
+    "large_model_inference": "Not assumed feasible from CPU/RAM catalog alone; per-model compatibility and memory tests required.",
+    "persistent_gui": "NOT_SUPPORTED_BY_EPHEMERAL_JOB_LIFECYCLE; persistent desktop access requires a separately governed worker class and is outside this manifest."
+  },
+  "dispatch": {
+    "permitted_now": false,
+    "agent_dispatch": "NOT_AUTHORIZED",
+    "provider_calls": "NOT_AUTHORIZED",
+    "workflow_dispatch": "NOT_AUTHORIZED",
+    "controller_task_acceptance": "Current Gemini controller fixed task profiles do not accept this manifest-reconciliation packet.",
+    "admission_gates": [
+      "A0 issuer/ingress/lease/cancel/recovery contract accepted after independent A3 review",
+      "R-06 audit/privacy authority and retention policy accepted",
+      "Destination-level egress enforcement and data policy accepted",
+      "Exact workflow SHA, runner target and task profile independently reviewed",
+      "Draft 2020-12 schema validation with format assertions and positive/negative fixtures accepted",
+      "Task identity, capability, quota, expiry, revocation and evidence lifecycle accepted",
+      "Actual account plan, effective concurrency and artifact retention policy verified"
+    ]
+  },
+  "qualification_plan": {
+    "runtime_benchmark": "NOT_RUN",
+    "pilot_scope": "One immutable non-secret read-only job on the default Ubuntu x64 profile after all admission gates pass.",
+    "measurements": [
+      "Runner image, OS version, architecture, CPU, available memory and disk",
+      "Queue delay, job duration and teardown result",
+      "At least five bounded transfer samples to an explicitly approved neutral endpoint",
+      "At least five GitHub artifact upload/download samples between two isolated jobs",
+      "Median, p95, failures, payload size and measurement endpoint",
+      "Artifact digest, retention and deletion evidence",
+      "No provider/model inference until its separate destination and data-policy gate passes"
+    ],
+    "prohibited": [
+      "Multi-GB model transfers as initial probe",
+      "Direct peer listeners or inbound ports",
+      "Secret-bearing artifacts",
+      "Paid/larger runner fallback",
+      "Persistent GUI claims",
+      "Unapproved provider endpoints"
+    ]
+  },
+  "evidence_sources": [
+    {
+      "artifact": "Wave 478 runner/workspace/network candidate",
+      "blob_sha": "b2ee53f0f1caed379d0fc15172c1f3f52edacc37"
+    },
+    {
+      "artifact": "Wave 488 GitHub-hosted runner source matrix",
+      "blob_sha": "1da1647b61cae396bb9cc1e29aeb26cee54b62da"
+    },
+    {
+      "artifact": "main source snapshot",
+      "commit_sha": "f0448f28c7cfa61e4450c38529f09afbfdbbc7c7"
+    },
+    {
+      "artifact": "Wave 488 documentation parent",
+      "commit_sha": "02f0988cdeac2c6b360946c9a62b7a56f21c142d"
+    }
+  ],
+  "acceptance": {
+    "state": "NOT_ACCEPTED",
+    "accepted_manifest": false,
+    "independent_review": "NOT_VERIFIED",
+    "schema_validation": "NOT_RUN",
+    "runtime_benchmark": "NOT_RUN",
+    "workflow_execution": "NOT_RUN",
+    "qualification": "NOT_QUALIFIED",
+    "deployment": "NOT_DEPLOYED"
+  }
+}
