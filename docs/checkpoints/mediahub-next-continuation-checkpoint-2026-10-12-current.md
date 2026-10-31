@@ -2373,3 +2373,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Gemini Agents 1–3 NOT RUN; no correlated controller dispatch, child run IDs, manifest or artifacts. Local Claude-FCC/Ollama and browser remain NOT VERIFIED/NOT RUN. No secrets read, trigger posted, dispatch, host mutation, merge, deployment, qualification or acceptance.
 - Governance, effective token scope, independent controller/HMAC review and external CI scheduling remain NOT VERIFIED. Branch protection endpoint was 403; empty ruleset listing is inconclusive.
 - Disposition: **BLOCKED / NOT QUALIFIED / NOT ACCEPTED**. Next: diagnose queued external CI; secure independent review and metadata-only governance/token-scope evidence; only then approved no-launch probe; re-establish supported bounded SentinelX access separately.
+
+
+## Wave 497 — PR check-state correction (2026-10-31)
+
+- Report: [Wave 497 PR check correction](MEDIAHUB-ALAMO-FCC-CLAUDE-PR-CHECK-CORRECTION-WAVE-497-2026-10-31.md); report commit `2d14e7c6a43423dc72212567f5dcf515451afd8b`.
+- Map addendum: [Wave 497](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-497-2026-10-31.md); commit `7f1ef06021da2b1266d5ea0a58fc0f2a240154be`.
+- PR #610 working branch updated to code-change head `4bd96e478c53bc7f1f0429c26ca84644e344f28d`; workflow blob `e8a7ba9d34bde5654a42ed3bc9f33a5d3cf9e58e`, test blob `f62ac0184e5e251d1fdb2dcab2d6a4ff07afa01a`.
+- Previous head run #41183890589 had contract job SUCCESS, but dispatch-gate and runtime jobs SKIPPED. Astra Cloud Runtime #41183890472 and Astra Verify #41183890499 SUCCESS.
+- New exact-head workflow runs/statuses were not returned at observation time: **NOT VERIFIED**. Independent review absent. Live install/model/FCC/Claude smoke NOT RUN. Alamo/Ollama equivalence NOT VERIFIED. No merge, deployment, qualification or acceptance.
+- Next: inspect exact-head PR checks for `4bd96e478c53bc7f1f0429c26ca84644e344f28d`; require every required job terminal-success and independent security/contract review before merge or live dispatch.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
