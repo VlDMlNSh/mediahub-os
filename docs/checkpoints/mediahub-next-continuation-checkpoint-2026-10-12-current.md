@@ -2852,3 +2852,15 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Working branch: `docs/wave494-twenty-slot-cloud-pool-reference-20261031`; separate from canonical docs branch and not integrated.
 - Report commit: `20e0354ecc12bdc848727616426301fea3987981`; map addendum commit: `32124ea8c72d85b5146071dfc1cf8a6a650a63b9`.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 494 reconciliation — Jarvis / three-pool topology / free-tier pool (2026-10-31)
+
+- The 20-slot proposal applies only to the GitHub-hosted cloud pool. It does not replace the owner-directed three-pool topology recorded in Wave 283: GitHub-hosted ephemeral workers; separately admitted MediaHub user machines; Alamo-only local Claude executor with a proven free-only route.
+- Jarvis is the mission submitter/coordinator to ASTRA GOLD A0, not a member of the 20 worker slots and not a competing queue. A0 owns mission DAG decomposition, dispatch, claims/leases, retry/cancel/recovery and evidence reconciliation. Neither Jarvis nor A0 gains MediaHub Product State Authority.
+- A Jarvis cloud migration/deployment itself is not evidenced by Wave 283; only the Jarvis→A0 mission flow and three-pool target are recorded. Actual migration remains NOT VERIFIED and must be designed as a control/ingress integration, not a worker role.
+- Repository visibility is public. GitHub Free published standard hosted runner concurrency is 20, macOS concurrency 5; standard runner use in public repositories is free. Free-plan artifact storage is 500 MB; private-repository included Actions allowance is 2,000 minutes/month. Provider model quotas remain independent and may be much lower.
+- Free provider candidates: Gemini API, Groq, Cerebras, Cloudflare Workers AI, OpenRouter free model IDs; Alibaba Model Studio only as expiring new-user trial with Free Quota Only; Hugging Face $0.10/month credits not admitted absent hard stop; GitHub Models retired July 30, 2026. All remain RESEARCHED / NOT ADMITTED pending account-specific quota, terms, data-egress, model identity and no-paid-fallback checks.
+- Updated report blob: `6bd4103ef0768524daaff9dab6c3eae2fa0874ef`; map addendum blob: `9de5d0ba8fedbcb83a8450b9ded14486807a6449`.
+- Wave 283 source contract: `docs/architecture/MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-HARD-REQUIREMENTS-WAVE-283-2026-10-20.md`, blob `d652824d33c1fc423dcc1ef6b1acc51e2a123b2e`.
+- No provider keys, provider calls, model calls, workflow dispatch, runtime changes, merge, deployment, qualification or acceptance.
