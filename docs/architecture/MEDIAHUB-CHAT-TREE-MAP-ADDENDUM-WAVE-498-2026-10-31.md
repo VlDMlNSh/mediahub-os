@@ -19,3 +19,13 @@ The first attempt to make PR checks non-skipped exposed two defects: an Ollama/F
 - Live inference, independent review, qualification and acceptance remain pending.
 
 This is a non-canonical working-branch addendum until governance review and merge.
+
+
+## Follow-up verification — 2026-10-31
+
+- Latest PR head at verification: `6ee33596ec0c1bfa534c2683a4267928206c1de0` (documentation commits after the corrected code commit; workflow/test blobs unchanged).
+- Exact-head Alamo workflow run [41184940852](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41184940852): `workflow-contract` job `124489892341` SUCCESS; `dispatch-gate` job `124489892599` SUCCESS; `alamo-local-fcc-claude` job `124489909519` SUCCESS. PR no-op declaration step succeeded; FCC checkout, Ollama install/model pull, Node/Claude installation, live smoke and artifact upload steps were SKIPPED by design for pull_request.
+- Exact-head Astra Cloud Runtime run [41184940814](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41184940814), job `124489856820`: SUCCESS.
+- Exact-head Astra Verify run [41184940845](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41184940845), job `124489857412`: SUCCESS.
+- Therefore all three workflow runs and all three Alamo workflow jobs are terminal SUCCESS on the latest observed PR head. The live inference path remains **NOT RUN**, not green/qualified.
+- Independent review remains absent; no review threads. PR #610 remains OPEN, UNMERGED. Alamo/Ollama equivalence remains NOT VERIFIED. No qualification, deployment or acceptance.
