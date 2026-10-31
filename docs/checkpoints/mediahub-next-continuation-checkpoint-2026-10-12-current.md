@@ -2837,3 +2837,52 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 494 — 20-slot GitHub-hosted Cloud Agent Pool reference (2026-10-31)
+
+- Report: [Twenty-slot Cloud Agent Pool reference architecture](MEDIAHUB-20-SLOT-GITHUB-HOSTED-CLOUD-AGENT-POOL-REFERENCE-WAVE-494-2026-10-31.md).
+- Map addendum: [Wave 494](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-494-2026-10-31.md).
+- Design: 20 logical concurrent job slots, dynamically shared across agent execution (8), build/test (4), independent review (3), research (2), integration/evidence (2), and control/recovery reserve (1). Idle lane capacity is borrowable; slots are not permanently bound to VM identities.
+- Default candidate profile is ubuntu-24.04 x64; ARM, Windows and macOS remain on-demand specialist profiles. Standard hosted jobs are ephemeral and use job-local workspaces; no shared filesystem, direct peer network or GPU entitlement is assumed.
+- Dependency-aware orchestration: Agent 1 creates a candidate; Agent 2 and Agent 3 review the same immutable PR/base/head SHA after creation. Independent tasks and deterministic tests run in parallel across the pool.
+- Weighted-fair scheduling, per-provider quota buckets, no paid fallback, immutable task/run provenance, durable idempotency/replay receipts, leases, cancellation, bounded retry, backpressure and stop-on-failure are required.
+- The 20-slot target is not evidence of this repository/account's effective plan or reserved concurrency. Account entitlement, current availability and artifact retention remain NOT VERIFIED.
+- Issue #301 A0 issuer/capability/lifecycle, R-06, destination-level egress, schema validation and independent review remain blocking gates. Existing controller fixed task profiles do not accept this arbitrary packet. No workflow change, agent dispatch, provider call, secret read, benchmark, merge, deployment, qualification or acceptance.
+- Working branch: `docs/wave494-twenty-slot-cloud-pool-reference-20261031`; separate from canonical docs branch and not integrated.
+- Report commit: `20e0354ecc12bdc848727616426301fea3987981`; map addendum commit: `32124ea8c72d85b5146071dfc1cf8a6a650a63b9`.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 494 reconciliation — Jarvis / three-pool topology / free-tier pool (2026-10-31)
+
+- The 20-slot proposal applies only to the GitHub-hosted cloud pool. It does not replace the owner-directed three-pool topology recorded in Wave 283: GitHub-hosted ephemeral workers; separately admitted MediaHub user machines; Alamo-only local Claude executor with a proven free-only route.
+- Jarvis is the mission submitter/coordinator to ASTRA GOLD A0, not a member of the 20 worker slots and not a competing queue. A0 owns mission DAG decomposition, dispatch, claims/leases, retry/cancel/recovery and evidence reconciliation. Neither Jarvis nor A0 gains MediaHub Product State Authority.
+- A Jarvis cloud migration/deployment itself is not evidenced by Wave 283; only the Jarvis→A0 mission flow and three-pool target are recorded. Actual migration remains NOT VERIFIED and must be designed as a control/ingress integration, not a worker role.
+- Repository visibility is public. GitHub Free published standard hosted runner concurrency is 20, macOS concurrency 5; standard runner use in public repositories is free. Free-plan artifact storage is 500 MB; private-repository included Actions allowance is 2,000 minutes/month. Provider model quotas remain independent and may be much lower.
+- Free provider candidates: Gemini API, Groq, Cerebras, Cloudflare Workers AI, OpenRouter free model IDs; Alibaba Model Studio only as expiring new-user trial with Free Quota Only; Hugging Face $0.10/month credits not admitted absent hard stop; GitHub Models retired July 30, 2026. All remain RESEARCHED / NOT ADMITTED pending account-specific quota, terms, data-egress, model identity and no-paid-fallback checks.
+- Updated report blob: `6bd4103ef0768524daaff9dab6c3eae2fa0874ef`; map addendum blob: `9de5d0ba8fedbcb83a8450b9ded14486807a6449`.
+- Wave 283 source contract: `docs/architecture/MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-HARD-REQUIREMENTS-WAVE-283-2026-10-20.md`, blob `d652824d33c1fc423dcc1ef6b1acc51e2a123b2e`.
+- No provider keys, provider calls, model calls, workflow dispatch, runtime changes, merge, deployment, qualification or acceptance.
+
+
+### Wave 494 agent runtime shortlist update
+
+- Added candidate worker runtimes to §13 of the Wave 494 report: Gemini CLI (existing), mini-SWE-agent, Aider, OpenHands Software Agent SDK, and Goose CLI. These are runtime choices, not model-provider entitlements; every model call remains subject to separately admitted provider quotas and A0 task admission.
+- Ruflo remains evaluation-only under Issue #568; Astra/A0 remains the sole control plane. ECC is selective workflow guidance only.
+- Latest report blob: `44247be6c62be4b4c35e227db0a1aef43b638377`.
+- Latest map addendum blob: `e74a7b31309abcf07b63d01bcc3620bee1139a4c`.
+- Candidate agents were not installed, invoked, dispatched or qualified.
+
+
+## Wave 495 — recovered Control Pool / global cloud resource model (2026-10-31)
+
+- Corrected Wave 494's scope: 20 GitHub-hosted concurrent jobs are only the runner execution substrate, not the full cloud resource pool, not persistent VMs, and not 20 guaranteed model sessions.
+- Restored the wider Control Pool: Human authority → Jarvis mission intake → A0 ASTRA as the single dispatcher/scheduler → A1 architecture / A2 bounded builders / A3 independent verifier → admitted execution/provider pools → evidence/recovery. Product State Authority remains separate. Jarvis is not an executor and does not directly issue leases or create a second queue.
+- Global resource domains: GitHub ephemeral runners; cloud model/provider APIs and gateways; local Alamo/Claude/FCC paths; future owned compute; opt-in user-contributed compute. Each has independent admission, data policy, identity, capacity, quota and revocation rules.
+- Scheduler inputs include task class/partitionability, CPU/GPU/NPU/RAM/VRAM, provider quotas, runner/account caps, privacy/locality/egress, RTT/bandwidth/transfer cost, health/heartbeat, failure domain, leases, contributor consent and power/thermal policy. Authorization, placement and execution remain separate. No eligible route => HOLD/DENY; no silent paid fallback.
+- Existing infrastructure candidates: Ray execution substrate; NATS/JetStream event transport; SPIFFE/SPIRE identity patterns; OpenFGA relationship authorization; Netmaker/WireGuard Development Mesh; SeaweedFS optional developer storage; Nomad conditional (BUSL-1.1 review). No candidate installed/admitted.
+- Registry source `ops/qualification/provider_model_registry.json` blob `8c0f95d33a6fc85128b3a7aa37157c2dca74bbca` contains a wide candidate inventory, but `free` labels do not prove current account entitlement. Strict free-tier priority: Gemini, Groq, Cerebras, Cloudflare Workers AI, OpenRouter :free; secondary candidates require fresh official/account confirmation. No keys read, no provider calls, no paid fallback.
+- Report source blobs: ASTRA unified architecture `e2067dc41b52983fc4e0b2549fb6af3c099cbc60`; reference architecture `7be5fadd3055642e7823c7233f90e978a87e5366`; distributed infrastructure `a7eba183aecf726cf6f720ed96059b5023793001`; Jarvis crosswalk `04251812428e1154266b7a3ec49c3ec51907a4a7`.
+- Next bounded work: reconcile Control Pool responsibility matrix and canonical registry; define versioned resource/admission/lease/evidence schemas and deterministic scheduler simulation before adopting Ray/NATS.
+- No dispatch, provider calls, runtime mutation, installation, merge, deployment, qualification or acceptance.
