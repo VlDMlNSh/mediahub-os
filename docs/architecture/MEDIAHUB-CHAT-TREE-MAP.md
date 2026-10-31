@@ -1,3 +1,14 @@
+## Wave 505 — two Ubuntu Hosted Runner placement audit (2026-10-31)
+
+- [Wave 505 report](../checkpoints/MEDIAHUB-TWO-UBUNTU-RUNNER-PLACEMENT-AUDIT-WAVE-505-2026-10-31.md); [Wave 505 addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-505-2026-10-31.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Required split: VM 1 = Alamo FCC/ECC + Claude Code only; VM 2 = three Gemini CLI roles + mini-SWE-agent + Aider + OpenHands SDK + Goose.
+- PR #610 exact PR run 41191982864 passed contract/no-op validation only; all live runtime steps were SKIPPED and no artifacts exist. The workflow incorrectly installs the VM-2 toolchain in VM 1.
+- Existing Gemini controller dispatches three child workflows on three separate ephemeral runners; shared VM-2 co-location is NOT IMPLEMENTED and requires a reviewed controller/child contract extension.
+- PR #613 exact five required contexts SUCCESS but independent review NOT VERIFIED; PR #610 required contexts NOT VERIFIED. No secret reads, agent dispatch, provider calls, live runtime, merge or deployment.
+- SentinelX inventory has one operational host and zero available free-plan slots; this is not a hosted Ubuntu VM.
+- Status: **VM1 CONTRACT PASS / VM1 RUNTIME NOT RUN / VM2 CO-LOCATION NOT IMPLEMENTED / BOTH RUNNERS NOT QUALIFIED**.
+
+---
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
