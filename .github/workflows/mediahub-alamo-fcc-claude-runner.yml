@@ -133,6 +133,7 @@ jobs:
         run: python -m pip install --disable-pip-version-check uv==0.12.13
 
       - name: Install pinned Ollama and FCC/Claude Code
+        if: github.event_name == 'workflow_dispatch'
         shell: bash
         working-directory: fcc
         run: |
