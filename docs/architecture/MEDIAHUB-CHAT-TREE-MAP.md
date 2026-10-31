@@ -1,3 +1,16 @@
+## Wave 504 — exact required CI context names (2026-10-31)
+
+- [Wave 504 report](../checkpoints/MEDIAHUB-REQUIRED-CI-CONTEXT-NAME-FIX-WAVE-504-2026-10-31.md); [implementation PR #613](https://github.com/VlDMlNSh/mediahub-os/pull/613); [target PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- PR #613 exact HEAD `237948e03088c3ea43608b0c284327c552d34f4b`, base main `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Corrected trigger coverage and explicit job names for all five active ruleset contexts; removed Astra Verify pull_request paths-ignore while preserving push exclusions.
+- Exact-head Check Runs: Astra Cloud Runtime Validation run 41190324945 SUCCESS; Astra Verify 41190324972 SUCCESS; AI Factory verification 41190324916 SUCCESS; provider contract verification 41190324922 SUCCESS; Gemini workflow contract validation (Wave 284) 41190324920 SUCCESS. Exact match 5/5.
+- Controller probe 41190324940: probe and caller-context assertion SUCCESS; admission and dispatch SKIPPED. No child/provider/model dispatch.
+- PR #613 OPEN/DRAFT/UNMERGED; formal reviews 0, inline threads 0. CI VERIFIED, independent review NOT VERIFIED, merge NOT ACCEPTED.
+- PR #610 still has 0/5 required contexts on its old immutable HEAD; it must be updated and retested after PR #613 is independently reviewed and integrated.
+- No secrets read, live Alamo/Ollama/FCC/Claude runtime, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+---
+
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).

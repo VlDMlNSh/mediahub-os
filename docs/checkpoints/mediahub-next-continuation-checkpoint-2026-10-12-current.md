@@ -1,3 +1,16 @@
+## Wave 504 — exact required CI context names (2026-10-31)
+
+- Report: [Wave 504 exact CI context fix](MEDIAHUB-REQUIRED-CI-CONTEXT-NAME-FIX-WAVE-504-2026-10-31.md); [PR #613](https://github.com/VlDMlNSh/mediahub-os/pull/613); [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- PR #613 HEAD `237948e03088c3ea43608b0c284327c552d34f4b`, base main `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Added exact job-level names and all-PR trigger coverage for five required ruleset contexts; removed Astra Verify PR path-ignore only.
+- Exact Check Runs on this HEAD: Astra Cloud Runtime Validation 41190324945 SUCCESS; Astra Verify 41190324972 SUCCESS; AI Factory verification 41190324916 SUCCESS; provider contract verification 41190324922 SUCCESS; Gemini workflow contract validation (Wave 284) 41190324920 SUCCESS. 5/5 exact contexts terminal SUCCESS.
+- Non-launching controller probe 41190324940: probe/assertion SUCCESS; admission/dispatch SKIPPED. No Gemini child/provider call.
+- PR #613 remains OPEN/DRAFT/UNMERGED; formal/inline review absent. CI VERIFIED, independent review NOT VERIFIED, merge NOT ACCEPTED.
+- PR #610 current immutable head remains 0/5; retest only after PR #613 integration. Live Alamo/Ollama/FCC/Claude runtime NOT RUN; Alamo equivalence NOT VERIFIED.
+- No secret access, provider call, live runtime, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
