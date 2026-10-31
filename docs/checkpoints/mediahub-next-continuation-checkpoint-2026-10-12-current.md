@@ -2837,3 +2837,13 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 501 — PR #588 signed child static security audit (2026-10-31)
+
+- Report: [Wave 501 preliminary static security audit](../checkpoints/MEDIAHUB-PR588-SIGNED-CHILD-STATIC-SECURITY-AUDIT-WAVE-501-2026-10-31.md); [PR #588](https://github.com/VlDMlNSh/mediahub-os/pull/588); [PR #611 Wave 500 documentation](https://github.com/VlDMlNSh/mediahub-os/pull/611); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Exact PR #588 HEAD `0d83e2033eb97e9661816706186cf059b4ae9713`; main `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Five required workflow runs SUCCESS (41016734247, 41016734246, 41016734258, 41016734368, 41016734271); non-launching controller probe 41016734294 succeeded, admission/dispatch skipped. Formal reviews and inline threads 0.
+- Read-only source audit found positive fixed-task/HMAC/PR metadata/read-only/immutable-checkout controls, but three blockers remain: no durable atomic replay receipt; existing controller signed-input schema omits PR number/base SHA and remains FCC-review-pinned; PR-review child is absent from main/default branch. Additional behavioral test, patch provenance and artifact reconciliation gaps are detailed in the report.
+- This is preliminary orchestrator analysis, not independent A3 review. Secret/variable presence/scope NOT VERIFIED; no secret values read. Gemini dispatch NOT RUN; provider/model calls, merge, deployment, qualification and acceptance NOT RUN. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: implement durable atomic replay receipt and synthetic-key concurrency/crash tests; separately add fixed controller PR metadata/HMAC routing; obtain independent A3 review and complete default-branch bootstrap before any child dispatch.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
