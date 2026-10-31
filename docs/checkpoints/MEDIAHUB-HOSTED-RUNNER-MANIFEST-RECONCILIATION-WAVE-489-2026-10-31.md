@@ -74,3 +74,13 @@ Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
 PR #595 cloud-first priority: https://github.com/VlDMlNSh/mediahub-os/pull/595
 PR #600 A0 issuer/verifier candidate: https://github.com/VlDMlNSh/mediahub-os/pull/600
 PR #601 Wave 488 runner matrix: https://github.com/VlDMlNSh/mediahub-os/pull/601
+
+## 8. Post-creation read-back and exact-head checks
+
+- Manifest re-read from the PR branch; blob SHA: `515cf8fe8be353ade1fac83baac4dbf38f6127fc`.
+- UTF-8 JSON parser check: **PASS**. Required top-level sections and all six runner profile IDs were present. This is syntax/shape inspection only, not JSON Schema Draft 2020-12 validation.
+- Report blob SHA before this evidence update: `afab22b440d4a5d8e636cfa02156840095a67e15`.
+- PR #603 exact head: `2693635c94f9d88a44a0ba27db48f25a3bf3039b`; PR base SHA: `02f0988cdeac2c6b360946c9a62b7a56f21c142d`; mergeable reported true; Draft/open/unmerged.
+- PR #603 exact-head combined status: zero status contexts; associated workflow runs: zero; reviews: zero. Therefore CI and independent review are **NOT VERIFIED**, not PASS.
+- PR #600 A0 issuer/verifier exact head `1e98fb9377e2103bdb6a70b1ca369596cea3a9fe`: zero status contexts, zero associated workflow runs and zero reviews. It remains Draft/open/unmerged; A0 admission remains blocked.
+- No merge, dispatch, provider call, secret read, runtime benchmark or deployment was performed.
