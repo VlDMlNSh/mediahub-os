@@ -2873,3 +2873,16 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Latest report blob: `44247be6c62be4b4c35e227db0a1aef43b638377`.
 - Latest map addendum blob: `e74a7b31309abcf07b63d01bcc3620bee1139a4c`.
 - Candidate agents were not installed, invoked, dispatched or qualified.
+
+
+## Wave 495 — recovered Control Pool / global cloud resource model (2026-10-31)
+
+- Corrected Wave 494's scope: 20 GitHub-hosted concurrent jobs are only the runner execution substrate, not the full cloud resource pool, not persistent VMs, and not 20 guaranteed model sessions.
+- Restored the wider Control Pool: Human authority → Jarvis mission intake → A0 ASTRA as the single dispatcher/scheduler → A1 architecture / A2 bounded builders / A3 independent verifier → admitted execution/provider pools → evidence/recovery. Product State Authority remains separate. Jarvis is not an executor and does not directly issue leases or create a second queue.
+- Global resource domains: GitHub ephemeral runners; cloud model/provider APIs and gateways; local Alamo/Claude/FCC paths; future owned compute; opt-in user-contributed compute. Each has independent admission, data policy, identity, capacity, quota and revocation rules.
+- Scheduler inputs include task class/partitionability, CPU/GPU/NPU/RAM/VRAM, provider quotas, runner/account caps, privacy/locality/egress, RTT/bandwidth/transfer cost, health/heartbeat, failure domain, leases, contributor consent and power/thermal policy. Authorization, placement and execution remain separate. No eligible route => HOLD/DENY; no silent paid fallback.
+- Existing infrastructure candidates: Ray execution substrate; NATS/JetStream event transport; SPIFFE/SPIRE identity patterns; OpenFGA relationship authorization; Netmaker/WireGuard Development Mesh; SeaweedFS optional developer storage; Nomad conditional (BUSL-1.1 review). No candidate installed/admitted.
+- Registry source `ops/qualification/provider_model_registry.json` blob `8c0f95d33a6fc85128b3a7aa37157c2dca74bbca` contains a wide candidate inventory, but `free` labels do not prove current account entitlement. Strict free-tier priority: Gemini, Groq, Cerebras, Cloudflare Workers AI, OpenRouter :free; secondary candidates require fresh official/account confirmation. No keys read, no provider calls, no paid fallback.
+- Report source blobs: ASTRA unified architecture `e2067dc41b52983fc4e0b2549fb6af3c099cbc60`; reference architecture `7be5fadd3055642e7823c7233f90e978a87e5366`; distributed infrastructure `a7eba183aecf726cf6f720ed96059b5023793001`; Jarvis crosswalk `04251812428e1154266b7a3ec49c3ec51907a4a7`.
+- Next bounded work: reconcile Control Pool responsibility matrix and canonical registry; define versioned resource/admission/lease/evidence schemas and deterministic scheduler simulation before adopting Ray/NATS.
+- No dispatch, provider calls, runtime mutation, installation, merge, deployment, qualification or acceptance.
