@@ -2837,3 +2837,13 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 502 — Alamo hosted-runner evidence correction and Gemini replay audit (2026-10-31)
+
+- Report: [Wave 502 audit](MEDIAHUB-WAVE-502-ALAMO-PR610-AND-GEMINI-REPLAY-AUDIT-2026-10-31.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-502-2026-10-31.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Corrected PR #610 evidence: run 41187561063 was a pull_request event. Workflow contract and dispatch gate succeeded, but live Alamo/FCC/Claude job skipped all install, inference, FCC, Claude Code and artifact steps. Runtime NOT RUN; artifact not produced; Alamo equivalence NOT VERIFIED.
+- PR #588 replay: bounded recent workflow-history duplicate guard exists for owner /next issue_comment events, but it is non-atomic, first-page/history-bounded, does not cover manual workflow_dispatch, and does not provide a durable receipt state machine or ambiguous dispatch reconciliation. Child remains absent from main; controller review route remains FCC-pinned.
+- No Gemini child dispatch, provider inference, secret access, merge, deployment, qualification or acceptance. PR #610 has zero formal reviews/threads; independent A3 review NOT VERIFIED. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: isolate and qualify a synthetic-key durable receipt prototype; compare atomic create-only Git refs (requiring scoped credentials and protected namespace) with a transactional store; test concurrent claims, replay, crash recovery and ambiguous dispatch. Do not integrate trusted controller or expose provider credentials before qualification and independent review.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
