@@ -186,3 +186,22 @@ Current source research candidates (not yet admitted):
 Provider source pages: [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing), [Gemini rate limits](https://ai.google.dev/gemini-api/docs/rate-limits), [Groq rate limits](https://console.groq.com/docs/rate-limits), [Cerebras pricing](https://inference-docs.cerebras.ai/support/pricing), [Cloudflare Workers AI pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/), [Cloudflare paid-only model notice](https://developers.cloudflare.com/changelog/post/2026-07-28-models-require-workers-paid/), [OpenRouter free models](https://openrouter.ai/collections/free-models), [Alibaba free quota](https://www.alibabacloud.com/help/en/model-studio/new-free-quota), [Hugging Face pricing](https://huggingface.co/docs/inference-providers/pricing), [GitHub Models retirement](https://docs.github.com/en/github-models).
 
 These are research candidates, not confirmed account entitlements, terms approvals, data approvals, or runtime admissions. No provider key or model call was used in this pass.
+
+
+## 13. Additional open-source agent runtimes for the GitHub-hosted pool
+
+These are **agent runtimes / worker frameworks**, not model providers. Their code may be open-source/free while inference still consumes a separate provider quota. They must run as bounded worker profiles under A0 and must not become a second control plane.
+
+| Candidate | Proposed role | Assessment / constraint |
+|---|---|---|
+| Google Gemini CLI | Existing primary cloud coding worker | Already present in project workflow history. Headless mode supports structured text/JSON and usage stats. Keep invocation behind the approved Gemini controller and provider quota gate. |
+| OpenHands Software Agent SDK / OpenHands CLI | General autonomous coding worker with sandboxed workspace and explicit tool set | Strong candidate for a separately qualified general-purpose worker; do not adopt commercial OpenHands Cloud. Review SDK/server, sandbox, tool execution, persistence, and artifact boundary. |
+| mini-SWE-agent | Issue-to-patch / bounded bug-fix worker | Prefer mini-SWE-agent over legacy SWE-agent per upstream recommendation. Narrow scope: one issue, one immutable SHA, one isolated checkout, tests, patch/PR artifact only. |
+| Goose CLI | General research / data-processing / MCP-connected worker | Broad capability and subagents; higher tool-surface risk. Start with CLI recipe, read-only tools and restricted model provider. Do not use Goose as scheduler/controller or enable broad MCP extensions by default. |
+| Aider | Small bounded code-edit worker | Git-aware, model-agnostic terminal coding assistant; useful for narrow diffs and test-fix loops. Require path allowlist and disable/contain auto-commit so A0 controls publication. |
+
+Source links: [Gemini CLI headless mode](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/headless.md), [OpenHands](https://github.com/OpenHands/OpenHands) and [OpenHands Software Agent SDK](https://github.com/OpenHands/software-agent-sdk), [mini-SWE-agent recommendation](https://github.com/SWE-agent/SWE-agent), [Goose](https://github.com/block/goose), [Aider](https://github.com/Aider-AI/aider).
+
+Recommended qualification order: (1) existing Gemini CLI workflow hardening; (2) mini-SWE-agent as the smallest specialized issue-to-patch addition; (3) Aider for narrow code edits; (4) OpenHands SDK for broader sandboxed tasks; (5) Goose only after MCP/tool-surface minimization. Ruflo remains a separate evaluation-only candidate under Issue #568; it must not replace Astra/A0 or own routing/authority. ECC remains selective workflow guidance only, not a second controller.
+
+No candidate above was installed, invoked, dispatched, or qualified in this pass.
