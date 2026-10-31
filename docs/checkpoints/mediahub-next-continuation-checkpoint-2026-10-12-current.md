@@ -2837,3 +2837,18 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 494 — 20-slot GitHub-hosted Cloud Agent Pool reference (2026-10-31)
+
+- Report: [Twenty-slot Cloud Agent Pool reference architecture](MEDIAHUB-20-SLOT-GITHUB-HOSTED-CLOUD-AGENT-POOL-REFERENCE-WAVE-494-2026-10-31.md).
+- Map addendum: [Wave 494](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-494-2026-10-31.md).
+- Design: 20 logical concurrent job slots, dynamically shared across agent execution (8), build/test (4), independent review (3), research (2), integration/evidence (2), and control/recovery reserve (1). Idle lane capacity is borrowable; slots are not permanently bound to VM identities.
+- Default candidate profile is ubuntu-24.04 x64; ARM, Windows and macOS remain on-demand specialist profiles. Standard hosted jobs are ephemeral and use job-local workspaces; no shared filesystem, direct peer network or GPU entitlement is assumed.
+- Dependency-aware orchestration: Agent 1 creates a candidate; Agent 2 and Agent 3 review the same immutable PR/base/head SHA after creation. Independent tasks and deterministic tests run in parallel across the pool.
+- Weighted-fair scheduling, per-provider quota buckets, no paid fallback, immutable task/run provenance, durable idempotency/replay receipts, leases, cancellation, bounded retry, backpressure and stop-on-failure are required.
+- The 20-slot target is not evidence of this repository/account's effective plan or reserved concurrency. Account entitlement, current availability and artifact retention remain NOT VERIFIED.
+- Issue #301 A0 issuer/capability/lifecycle, R-06, destination-level egress, schema validation and independent review remain blocking gates. Existing controller fixed task profiles do not accept this arbitrary packet. No workflow change, agent dispatch, provider call, secret read, benchmark, merge, deployment, qualification or acceptance.
+- Working branch: `docs/wave494-twenty-slot-cloud-pool-reference-20261031`; separate from canonical docs branch and not integrated.
+- Report commit: `20e0354ecc12bdc848727616426301fea3987981`; map addendum commit: `32124ea8c72d85b5146071dfc1cf8a6a650a63b9`.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
