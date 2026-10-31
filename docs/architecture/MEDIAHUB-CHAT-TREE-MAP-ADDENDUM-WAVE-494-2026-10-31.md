@@ -21,3 +21,15 @@ Provider candidates researched (not admitted): Gemini API, Groq, Cerebras, Cloud
 ## Additional cloud worker runtimes (research only)
 
 Wave 494 report now includes a bounded candidate shortlist: Gemini CLI (existing), mini-SWE-agent (issue-to-patch), Aider (small diffs), OpenHands Software Agent SDK (general sandboxed coding), and Goose CLI (general research/MCP worker, higher tool-surface risk). These are runtimes, not free model providers; inference quotas remain separate. Ruflo remains evaluation-only under Issue #568 and must not replace Astra/A0. No candidate was installed or dispatched. See §13 of the report for source links and qualification order.
+
+
+## Recovered Control Pool and resource-orchestration model (Wave 495, 2026-10-31)
+
+Wave 494's 20 GitHub-hosted runner slots are one execution substrate, not the entire cloud pool. The wider system has Human authority → Jarvis mission intake → A0 ASTRA single control/scheduler authority → A1 architecture / A2 bounded builders / A3 independent verifier → separately admitted execution and provider pools → evidence/recovery. Product State Authority remains separate. Jarvis is not a worker or a second dispatcher; A0 alone owns DAG, admission, claims/leases, dispatch, retries, cancellation and reconciliation.
+
+Resource pools include ephemeral GitHub runners, cloud model/provider APIs and gateways, local Alamo/Claude/FCC routes, future owned compute, and opt-in user-contributed compute. These are distinct resource domains with independent identity, privacy, quota, locality and admission policies. Runner concurrency does not equal model API quota.
+
+Recovered infrastructure candidates from the accepted architecture: Ray (execution substrate), NATS/JetStream (at-least-once event transport), SPIFFE/SPIRE patterns (workload identity), OpenFGA (relationship authorization), Netmaker/WireGuard (Development Mesh), SeaweedFS (optional developer storage), and Nomad (conditional; BUSL-1.1 review). All remain candidates behind MediaHub-owned contracts, not authorities.
+
+Provider registry `ops/qualification/provider_model_registry.json` has a broad candidate inventory; registry labels are not current free-entitlement proof. Strict Free-only evaluation priority: Gemini API, Groq, Cerebras, Cloudflare Workers AI, OpenRouter `:free`; secondary conditional review for SiliconFlow, Novita, Z.ai, SambaNova, Mistral, LLM7, Kimi and Aion Labs. Paid/ambiguous routes, Hugging Face credits without hard stop, promotional-only Alibaba quotas and paid fallback are excluded from the strict baseline. See Wave 495 report §14 for full status and source SHAs.
+
