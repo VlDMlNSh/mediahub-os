@@ -150,3 +150,39 @@ No phase is authorized by this design document alone.
 ## Post-write evidence
 
 This section is completed after the branch write and read-back.
+
+## 11. Reconciliation with the pre-existing three-pool / Jarvis architecture (Wave 283)
+
+This Wave 494 design is only the **GitHub-hosted cloud pool** component. It does not replace or collapse the owner-directed three-pool topology in [Wave 283 hard requirements](../architecture/MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-HARD-REQUIREMENTS-WAVE-283-2026-10-20.md), blob `d652824d33c1fc423dcc1ef6b1acc51e2a123b2e`.
+
+The normative target topology is:
+
+1. **GitHub-hosted cloud pool** — independent, ephemeral cloud jobs; this is the pool whose logical concurrency target is 20 slots.
+2. **Admitted MediaHub user machines** — a separate pool, only after consent, per-node identity, isolation, least privilege, revocation, quota, data/egress and independent-verification admission.
+3. **Alamo local Claude executor** — a separate, host-bound lane; only after exact host/client/router/upstream identity and free-only route qualification. This lane must not silently use paid Anthropic API/subscription credentials or paid fallback.
+
+**Jarvis is the mission submitter/coordinator, not one of the 20 worker slots and not a second executor queue.** For delegated multi-pool missions, Jarvis submits the mission to ASTRA GOLD A0. A0 decomposes the DAG, owns dispatch/task lifecycle/claims/leases/retry/cancel/recovery/evidence reconciliation and routes eligible bounded subtasks to the three separately admitted pools. Workers execute bounded tasks and return evidence. Neither Jarvis nor A0 gains MediaHub Product State Authority.
+
+The phrase “move Jarvis to the cloud pool” must therefore be implemented as a cloud-accessible Jarvis→A0 submission/control integration only if separately designed and accepted; it must not turn Jarvis into a worker or give it direct dispatch authority. The prior Wave 283 contract does not prove that Jarvis itself has already been migrated or deployed on GitHub-hosted infrastructure. That migration state remains NOT VERIFIED.
+
+The 20 slots are internal capacity for pool 1 only. The two other pools are independently admitted and are not counted among those 20 GitHub-hosted jobs. Pool 1 must remain operational even when pools 2 and 3 are offline.
+
+## 12. Free-tier qualification for the GitHub Free account
+
+Repository metadata identifies this repository as **public**. GitHub's current official limits table lists 20 concurrent standard GitHub-hosted jobs for GitHub Free, with a maximum of 5 concurrent macOS jobs. Standard GitHub-hosted runner usage in public repositories is free; the 2,000-minute monthly GitHub Free allowance applies to private-repository standard-runner use. The Free plan's artifact storage allowance is 500 MB shared with GitHub Packages. This supports a 20-job target ceiling for standard runners, not a guarantee of uninterrupted 20-way scheduling or a reserved fleet. Avoid larger runners and control artifact retention/size.
+
+Model/provider free quotas are independent from GitHub runner concurrency. Twenty runner jobs do not mean twenty simultaneous model calls are permitted. Provider-specific limits, queue tokens, model identity, free entitlement and no-paid-fallback must be enforced separately.
+
+Current source research candidates (not yet admitted):
+- Google AI Studio / Gemini API — actual free-tier models and per-model rate limits are account/tier-specific; query active limits in AI Studio. Free-tier requests may be used to improve Google's products, so classify repository data accordingly.
+- Groq — free developer access exists with account/model-specific RPM/RPD/TPM/TPD limits; exact values must be read from the account limits page and enforced per organization.
+- Cerebras Inference — documented $0 Free tier with lower rate limits; documentation states 8,192-token context on the free tier. Suitable for bounded short-context tasks after model/limit probe.
+- Cloudflare Workers AI — Workers Free includes 10,000 Neurons/day, reset at 00:00 UTC; selected resource-intensive models are explicitly paid-plan-only. Allowlist only catalogued models confirmed free in the Free plan.
+- OpenRouter — Free plan lists 25+ free models and 50 requests/day; `:free` model variants are rate-limited (20 RPM / 50 RPD unless account-specific higher allowance applies). One key is sufficient; do not multiply keys to evade quotas. Route only to explicitly allowlisted `:free` IDs and reject paid model IDs.
+- Alibaba Cloud Model Studio — optional one-time new-user free quota, generally valid for 90 days and region/model scoped; enable Free Quota Only before any call because exhausted free quota otherwise can move to pay-as-you-go. Not a permanent renewable baseline.
+- Hugging Face Inference Providers — Free accounts receive $0.10 monthly credits, but routed usage can proceed to pay-as-you-go. Do not admit unless the account can technically enforce zero spend / hard stop.
+- GitHub Models — retired July 30, 2026; do not plan new integrations around it.
+
+Provider source pages: [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing), [Gemini rate limits](https://ai.google.dev/gemini-api/docs/rate-limits), [Groq rate limits](https://console.groq.com/docs/rate-limits), [Cerebras pricing](https://inference-docs.cerebras.ai/support/pricing), [Cloudflare Workers AI pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/), [Cloudflare paid-only model notice](https://developers.cloudflare.com/changelog/post/2026-07-28-models-require-workers-paid/), [OpenRouter free models](https://openrouter.ai/collections/free-models), [Alibaba free quota](https://www.alibabacloud.com/help/en/model-studio/new-free-quota), [Hugging Face pricing](https://huggingface.co/docs/inference-providers/pricing), [GitHub Models retirement](https://docs.github.com/en/github-models).
+
+These are research candidates, not confirmed account entitlements, terms approvals, data approvals, or runtime admissions. No provider key or model call was used in this pass.
