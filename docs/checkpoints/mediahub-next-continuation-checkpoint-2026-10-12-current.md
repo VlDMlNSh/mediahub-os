@@ -1,3 +1,15 @@
+## Wave 503 — exact-head required-check reconciliation (2026-10-31)
+
+- Report: [Wave 503 exact-head audit](MEDIAHUB-PR610-EXACT-HEAD-REQUIRED-CHECKS-AUDIT-WAVE-503-2026-10-31.md); [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610); [PR #615](https://github.com/VlDMlNSh/mediahub-os/pull/615); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- main `f0448f28c7cfa61e4450c38529f09afbfdbbc7`; PR #610 HEAD `e099b99ba5a190a0d44ee03a2c0ff20a43732cb7`; PR #615 HEAD `4b56d59fc2f773d41c615b09b7951806c8b9a441`; active ruleset #26108066.
+- PR #610 exact-head Check Runs: five SUCCESS names are `alamo-local-fcc-claude`, `workflow-contract`, `dispatch-gate`, `verify`, `validate`. Required ruleset contexts are five differently named contexts; exact match **0/5**, combined legacy statuses empty. Merge gate BLOCKED.
+- PR #615 exact-head check-runs 0, workflow runs empty, statuses empty, no reviews. CI/review NOT VERIFIED.
+- PR #610 independent review absent; current tests are static source assertions only. Runtime dispatch NOT RUN; no Gemini, provider calls, secret access, model/FCC/Claude execution, merge or deployment.
+- Next: exact required context correction, behavioral runtime tests, independent review, then only owner-authorized dispatch from main after all gates.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).

@@ -1,3 +1,16 @@
+## Wave 503 — exact-head required-check reconciliation (2026-10-31)
+
+- [Wave 503 report](../checkpoints/MEDIAHUB-PR610-EXACT-HEAD-REQUIRED-CHECKS-AUDIT-WAVE-503-2026-10-31.md); [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610); [PR #615](https://github.com/VlDMlNSh/mediahub-os/pull/615); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Inspected main `f0448f28c7cfa61e4450c38529f09afbfdbbc7`, PR #610 HEAD `e099b99ba5a190a0d44ee03a2c0ff20a43732cb7`, PR #615 HEAD `4b56d59fc2f773d41c615b09b7951806c8b9a441`.
+- Active ruleset #26108066 requires five exact contexts: Astra Cloud Runtime Validation, AI Factory verification, provider contract verification, Astra Verify, Gemini workflow contract validation (Wave 284). PR #610 Check Runs API lists only `alamo-local-fcc-claude`, `workflow-contract`, `dispatch-gate`, `verify`, `validate` (all SUCCESS). Exact matching required contexts: **0/5**. Combined legacy statuses empty. PR #610 merge gate BLOCKED.
+- PR #615 has zero check runs/workflow runs/statuses and no formal/inline reviews: CI/review NOT VERIFIED.
+- PR #610 has no formal review or inline review threads. Six tests are static source assertions, not behavioral integration tests. Independent review NOT VERIFIED.
+- No Gemini child, provider call, owner live dispatch, runner/model/FCC/Claude runtime, merge, deployment or qualification occurred. No secrets read.
+- Next: make exact ruleset context names appear and pass on the immutable PR head, add behavioral runtime tests, obtain independent security review; only then owner dispatch from main with exact current SHA.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+---
+
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
