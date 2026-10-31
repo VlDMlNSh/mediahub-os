@@ -11,12 +11,6 @@ on:
       - "tests/test_p2p_*.py"
   pull_request:
     branches: [main]
-    paths-ignore:
-      - "ops/mesh/**"
-      - "ops/p2p/**"
-      - "architecture/mesh/**"
-      - "tests/test_mesh_*.py"
-      - "tests/test_p2p_*.py"
 
 permissions:
   contents: read
