@@ -1,3 +1,14 @@
+## Wave 502 — PR #610 hosted-runner evidence correction (2026-10-31)
+
+- [Wave 502 report](../checkpoints/MEDIAHUB-PR610-HOSTED-RUNNER-EVIDENCE-CORRECTION-WAVE-502-2026-10-31.md); [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Exact PR HEAD `e099b99ba5a190a0d44ee03a2c0ff20a43732cb7`, base `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Runs 41187561063 (Alamo PR validation), 41187561072 (Astra Verify), 41187561006 (Astra Cloud Runtime) completed SUCCESS on pull_request event.
+- Alamo contract job 124497476461 SUCCESS; dispatch gate 124497476214 SUCCESS with admitted=false; runtime job 124497493571 SUCCESS only because PR no-op step succeeded. All live Ollama/FCC/Claude steps were SKIPPED. Run 41187561063 has zero artifacts. Corrected classification: PR contract CI VERIFIED; live runner smoke NOT RUN; no runtime evidence.
+- Required ruleset contexts are not fully reconciled against exact-head checks; independent review NOT VERIFIED. Alamo/Ollama equivalence NOT VERIFIED. No owner workflow_dispatch, model/provider call, merge, qualification or acceptance.
+- Next: reconcile all active required contexts and independent review; only then owner may dispatch from main with confirm=true and exact current main SHA. Inspect real workflow_dispatch logs/artifact and digest before claiming runtime evidence.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](MEDIAHUB-CHAT-TREE-MAP.md).
+
+---
+
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
