@@ -2864,3 +2864,12 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Updated report blob: `6bd4103ef0768524daaff9dab6c3eae2fa0874ef`; map addendum blob: `9de5d0ba8fedbcb83a8450b9ded14486807a6449`.
 - Wave 283 source contract: `docs/architecture/MEDIAHUB-ASTRA-GOLD-THREE-POOL-ROUTING-AND-CLAUDE-FREE-AUTH-HARD-REQUIREMENTS-WAVE-283-2026-10-20.md`, blob `d652824d33c1fc423dcc1ef6b1acc51e2a123b2e`.
 - No provider keys, provider calls, model calls, workflow dispatch, runtime changes, merge, deployment, qualification or acceptance.
+
+
+### Wave 494 agent runtime shortlist update
+
+- Added candidate worker runtimes to §13 of the Wave 494 report: Gemini CLI (existing), mini-SWE-agent, Aider, OpenHands Software Agent SDK, and Goose CLI. These are runtime choices, not model-provider entitlements; every model call remains subject to separately admitted provider quotas and A0 task admission.
+- Ruflo remains evaluation-only under Issue #568; Astra/A0 remains the sole control plane. ECC is selective workflow guidance only.
+- Latest report blob: `44247be6c62be4b4c35e227db0a1aef43b638377`.
+- Latest map addendum blob: `e74a7b31309abcf07b63d01bcc3620bee1139a4c`.
+- Candidate agents were not installed, invoked, dispatched or qualified.
