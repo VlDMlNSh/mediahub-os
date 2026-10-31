@@ -2395,3 +2395,13 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - Exact-head runs `41184878451`, `41184878441`, `41184878541` were QUEUED at observation. Exact-head CI **NOT VERIFIED**. Independent review absent. Live smoke NOT RUN; Alamo equivalence NOT VERIFIED; no merge/deployment/qualification/acceptance.
 - Next: inspect exact-head run conclusions and confirm no PR runtime install; then require independent security/contract review before merge/dispatch.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 498 follow-up — exact-head CI success (2026-10-31)
+
+- Latest observed PR head: `6ee33596ec0c1bfa534c2683a4267928206c1de0`; workflow/test blobs unchanged from fixed code blobs `25a91f827867a10f2eb4f5f6fb347956a6ccb40a` / `99d3af7a33f61e715e95cedf5d401acd2c392c86`.
+- Alamo workflow run `41184940852`: contract job `124489892341`, dispatch gate `124489892599`, runtime PR no-op job `124489909519` all SUCCESS. Actual install/model/FCC/Claude steps SKIPPED on PR by design.
+- Astra Cloud Runtime `41184940814`, job `124489856820`: SUCCESS. Astra Verify `41184940845`, job `124489857412`: SUCCESS.
+- Exact-head CI: **PASS for PR validation workflows**. Live inference: NOT RUN. Independent review: NOT VERIFIED/absent. Alamo equivalence: NOT VERIFIED. PR #610 OPEN/UNMERGED; no qualification, deployment or acceptance.
+- Report updated: [Wave 498](MEDIAHUB-ALAMO-FCC-PR-WORKFLOW-FAILURE-FIX-WAVE-498-2026-10-31.md). Map addendum: [Wave 498](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-498-2026-10-31.md).
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
