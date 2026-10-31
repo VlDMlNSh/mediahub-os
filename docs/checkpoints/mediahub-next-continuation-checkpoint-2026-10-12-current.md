@@ -1,3 +1,16 @@
+## Wave 502 — PR #610 hosted-runner evidence correction (2026-10-31)
+
+- Report: [Wave 502 evidence correction](MEDIAHUB-PR610-HOSTED-RUNNER-EVIDENCE-CORRECTION-WAVE-502-2026-10-31.md); [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Exact PR HEAD `e099b99ba5a190a0d44ee03a2c0ff20a43732cb7`, base `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`. Alamo run [41187561063](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41187561063), event pull_request: workflow-contract job 124497476461 SUCCESS; dispatch-gate 124497476214 SUCCESS with admitted=false; runtime job 124497493571 SUCCESS only for the PR no-op step. FCC checkout, capacity checks, Ollama install/model pull, FCC startup, Claude install/invocation and artifact upload all SKIPPED. Artifact list empty.
+- Astra Verify [41187561072](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41187561072) and Astra Cloud Runtime [41187561006](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41187561006) SUCCESS. These do not prove local runtime execution.
+- Corrected disposition: PR contract CI VERIFIED; live Alamo/Ollama/FCC/Claude smoke NOT RUN; runtime artifact ABSENT; required ruleset context reconciliation NOT VERIFIED; independent review NOT VERIFIED; Alamo equivalence NOT VERIFIED; qualification/deployment/acceptance NOT ACCEPTED.
+- Active main ruleset ID 26108066 requires exact contexts Astra Cloud Runtime Validation, AI Factory verification, provider contract verification, Astra Verify, Gemini workflow contract validation (Wave 284). Exact-head presence/success of all required contexts was not established here.
+- Next: current-head/context recheck and independent review. Only after both gates may owner dispatch from main with confirm=true and target_sha equal to current main HEAD; then inspect runtime logs and artifact digest.
+- No secrets read, provider call, Gemini dispatch, live runner execution, merge or deployment.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
