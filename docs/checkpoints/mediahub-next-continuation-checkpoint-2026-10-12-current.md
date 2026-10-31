@@ -2384,3 +2384,14 @@ Status: partial-dispatch fix IMPLEMENTED; listed CI VERIFIED; independent securi
 - New exact-head workflow runs/statuses were not returned at observation time: **NOT VERIFIED**. Independent review absent. Live install/model/FCC/Claude smoke NOT RUN. Alamo/Ollama equivalence NOT VERIFIED. No merge, deployment, qualification or acceptance.
 - Next: inspect exact-head PR checks for `4bd96e478c53bc7f1f0429c26ca84644e344f28d`; require every required job terminal-success and independent security/contract review before merge or live dispatch.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+
+## Wave 498 — PR workflow failure diagnosis and correction (2026-10-31)
+
+- Report: [Wave 498 failure diagnosis and fix](MEDIAHUB-ALAMO-FCC-PR-WORKFLOW-FAILURE-FIX-WAVE-498-2026-10-31.md); commit `b4be38e6b8f8726a912e61b909a90eb33d82ca13`.
+- Map addendum: [Wave 498](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-498-2026-10-31.md); commit `7de3560a87bec17892678c96e76958d73083be41`.
+- Failed head `da48aaf2e876d6e758caf0af593dde3168c8693f`, run `41184816539`: contract tests 5/6; runtime failed because one install step lacked workflow_dispatch condition. No install/model/FCC/Claude execution occurred.
+- Fixed head `2206a3a87f05532a72ac1406fcc1072066524f39`; workflow blob `25a91f827867a10f2eb4f5f6fb347956a6ccb40a`, test blob `99d3af7a33f61e715e95cedf5d401acd2c392c86`.
+- Exact-head runs `41184878451`, `41184878441`, `41184878541` were QUEUED at observation. Exact-head CI **NOT VERIFIED**. Independent review absent. Live smoke NOT RUN; Alamo equivalence NOT VERIFIED; no merge/deployment/qualification/acceptance.
+- Next: inspect exact-head run conclusions and confirm no PR runtime install; then require independent security/contract review before merge/dispatch.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
