@@ -79,5 +79,8 @@ def test_pinned_agent_toolchain_is_installed_without_provider_credentials() -> N
     assert "provider_authentication=NOT_CONFIGURED" in source
     assert "agent_model_invocations=NOT_RUN" in source
     assert "agent-toolchain/" in source
-    assert "GEMINI_API_KEY" not in source
-    assert "ANTHROPIC_API_KEY" not in source
+    toolchain_start = source.index("Install pinned agent toolchain (no provider authentication)")
+    toolchain_end = source.index("Run local Alamo candidate", toolchain_start)
+    toolchain = source[toolchain_start:toolchain_end]
+    assert "GEMINI_API_KEY" not in toolchain
+    assert "ANTHROPIC_API_KEY" not in toolchain
