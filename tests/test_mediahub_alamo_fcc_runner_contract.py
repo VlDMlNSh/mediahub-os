@@ -52,3 +52,12 @@ def test_claude_code_smoke_is_bounded_and_evidence_is_uploaded() -> None:
     assert "fcc-empty-workspace" in source
     assert "actions/upload-artifact@" in source
     assert "target_sha=$GITHUB_SHA" in source
+
+
+def test_pr_checks_are_green_without_running_live_install_or_model_calls() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert "  dispatch-gate:\\n    if:" not in source
+    assert "github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch'" in source
+    assert "PR validation only; live runner dispatch is not authorized" in source
+    assert "if: github.event_name == 'workflow_dispatch'\\n        run:" in source
+    assert "if: always() && github.event_name == 'workflow_dispatch'" in source
