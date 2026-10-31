@@ -11,3 +11,10 @@
 - PR #489 is a documentation-only child of PR #601; exact-head CI/review must be checked after creation. This branch is not canonical.
 - Next: independent A3 review of PR #600; Draft 2020-12 validation for v0.2; close egress/retention governance before any pilot.
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
+
+## Wave 489 read-back evidence update
+
+- PR #603 exact head `2693635c94f9d88a44a0ba27db48f25a3bf3039b`; base `02f0988cdeac2c6b360946c9a62b7a56f21c142d`; Draft/open/unmerged.
+- Manifest blob SHA `515cf8fe8be353ade1fac83baac4dbf38f6127fc`; JSON syntax parse PASS; Draft 2020-12 schema validation NOT RUN.
+- PR #603 exact-head checks/runs/reviews: none returned; all NOT VERIFIED.
+- PR #600 A0 exact-head checks/runs/reviews: none returned; A0 acceptance gate remains BLOCKED.
