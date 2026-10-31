@@ -9,6 +9,7 @@ permissions:
 
 jobs:
   validate:
+    name: Gemini workflow contract validation (Wave 284)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
