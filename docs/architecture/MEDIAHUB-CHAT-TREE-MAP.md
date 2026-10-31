@@ -1,3 +1,11 @@
+## Wave 502 — Alamo hosted-runner evidence correction and Gemini replay audit (2026-10-31)
+
+- [Wave 502 report](../checkpoints/MEDIAHUB-WAVE-502-ALAMO-PR610-AND-GEMINI-REPLAY-AUDIT-2026-10-31.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-502-2026-10-31.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Corrected PR #610 interpretation: run 41187561063 was a pull_request contract-validation run. The live `alamo-local-fcc-claude` job skipped every installation/model/FCC/Claude Code/artifact step. No runtime artifact; live execution NOT RUN.
+- PR #588 replay finding refined: main controller has bounded recent workflow-history duplicate suppression for owner /next issue-comment events, but it is not a durable atomic receipt, does not cover manual workflow_dispatch, and cannot reconcile ambiguous child dispatches. PR child remains absent from main and unintegrated.
+- No Gemini dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: qualify an isolated synthetic-key durable receipt prototype and behavioral concurrency/replay/crash-recovery tests before touching trusted controller or provider credentials.
+
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
