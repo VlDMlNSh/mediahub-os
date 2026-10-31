@@ -138,7 +138,11 @@ jobs:
           node-version: "22"
 
       - name: Install pinned Claude Code CLI
-        run: npm install --global @anthropic-ai/claude-code@2.1.282
+        run: |
+          set -euo pipefail
+          npm install --global @anthropic-ai/claude-code@2.1.282
+          claude --version | tee "$RUNNER_TEMP/claude-code-version.txt"
+          grep -Fq "2.1.282" "$RUNNER_TEMP/claude-code-version.txt"
 
       - name: Run local Alamo candidate, FCC and Claude Code smoke
         shell: bash
@@ -159,8 +163,8 @@ jobs:
           mkdir -p "$HOME" "$XDG_CONFIG_HOME" "$RUNNER_TEMP/fcc-empty-workspace"
           chmod 700 "$HOME" "$XDG_CONFIG_HOME" "$RUNNER_TEMP/fcc-empty-workspace"
           cleanup() {
-            kill "${FCC_PID:-}" "${OLLAMA_PID:-}" 2>/dev/null || true
-            wait "${FCC_PID:-}" "${OLLAMA_PID:-}" 2>/dev/null || true
+            if [[ -n "${FCC_PID:-}" ]]; then kill "$FCC_PID" 2>/dev/null || true; wait "$FCC_PID" 2>/dev/null || true; fi
+            if [[ -n "${OLLAMA_PID:-}" ]]; then kill "$OLLAMA_PID" 2>/dev/null || true; wait "$OLLAMA_PID" 2>/dev/null || true; fi
           }
           trap cleanup EXIT
           ready=false
@@ -205,7 +209,7 @@ jobs:
           PY
           )
           export DISABLE_TELEMETRY=1 DISABLE_ERROR_REPORTING=1 DISABLE_AUTOUPDATER=1
-          (cd "$GITHUB_WORKSPACE/fcc" && uv run --locked fcc-server) > "$RUNNER_TEMP/fcc-server.log" 2>&1 &
+          (cd "$GITHUB_WORKSPACE/fcc" && exec uv run --locked fcc-server) > "$RUNNER_TEMP/fcc-server.log" 2>&1 &
           FCC_PID=$!
           ready=false
           for _ in $(seq 1 60); do
@@ -238,7 +242,7 @@ jobs:
             echo "ollama_version=$(ollama --version 2>/dev/null || echo unavailable)"
             echo "ollama_model=llama3.2:3b"
             echo "fcc_commit=3d2ae2306752dbdf504714a5489bcfcf69b2d04a"
-            echo "claude_code_version=2.1.282"
+            echo "claude_code_version=$(claude --version 2>/dev/null | head -n 1)"
             echo "fcc_route=ollama/llama3.2:3b"
             echo "proxy_auth_required=true"
             echo "paid_fallback=false"
@@ -258,5 +262,6 @@ jobs:
             ${{ runner.temp }}/ollama-version.txt
             ${{ runner.temp }}/ollama-model-list.txt
             ${{ runner.temp }}/ollama-model-metadata.txt
+            ${{ runner.temp }}/claude-code-version.txt
           if-no-files-found: warn
           retention-days: 7
