@@ -161,57 +161,6 @@ jobs:
           claude --version | tee "$RUNNER_TEMP/claude-code-version.txt"
           grep -Fq "2.1.282" "$RUNNER_TEMP/claude-code-version.txt"
 
-      - name: Install pinned agent toolchain (no provider authentication)
-        if: github.event_name == 'workflow_dispatch'
-        shell: bash
-        env:
-          GEMINI_CLI_VERSION: "0.66.0"
-          MINI_SWE_AGENT_VERSION: "2.4.6"
-          AIDER_VERSION: "0.86.0"
-          OPENHANDS_SDK_VERSION: "1.59.0"
-          GOOSE_VERSION: "1.57.0"
-        run: |
-          set -euo pipefail
-          export PATH="$HOME/.local/bin:$PATH"
-          export UV_TOOL_BIN_DIR="$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          mkdir -p "$HOME/.local/bin" "$RUNNER_TEMP/agent-toolchain"
-          uv python install 3.12
-          npm install --global "@google/gemini-cli@${GEMINI_CLI_VERSION}"
-          uv tool install --python 3.12 "mini-swe-agent==${MINI_SWE_AGENT_VERSION}"
-          uv tool install --python 3.12 "aider-chat==${AIDER_VERSION}"
-
-          uv venv --python 3.12 "$RUNNER_TEMP/openhands-sdk-venv"
-          uv pip install --python "$RUNNER_TEMP/openhands-sdk-venv/bin/python" "openhands-sdk==${OPENHANDS_SDK_VERSION}"
-          echo "OPENHANDS_SDK_PYTHON=$RUNNER_TEMP/openhands-sdk-venv/bin/python" >> "$GITHUB_ENV"
-          "$RUNNER_TEMP/openhands-sdk-venv/bin/python" -c 'from openhands.sdk import Agent, Conversation, LLM; print("OpenHands SDK import OK")'
-
-          goose_archive="$RUNNER_TEMP/agent-toolchain/goose-linux-x86_64.tar.gz"
-          curl --fail --silent --show-error --location --max-time 120 \
-            "https://github.com/aaif-goose/goose/releases/download/v${GOOSE_VERSION}/goose-x86_64-unknown-linux-gnu.tar.gz" \
-            -o "$goose_archive"
-          echo "10eb96cb6a159b6e1d38eeedbef6ab64cd28168aad91948f1fa5c34eefdf98e3  $goose_archive" | sha256sum --check -
-          mkdir -p "$RUNNER_TEMP/agent-toolchain/goose-unpack"
-          tar -xzf "$goose_archive" -C "$RUNNER_TEMP/agent-toolchain/goose-unpack"
-          goose_binary="$(find "$RUNNER_TEMP/agent-toolchain/goose-unpack" -type f -name goose -perm -u+x -print -quit)"
-          test -n "$goose_binary"
-          install -m 0755 "$goose_binary" "$HOME/.local/bin/goose"
-
-          gemini --version | tee "$RUNNER_TEMP/agent-toolchain/gemini-cli-version.txt"
-          mini --help >/dev/null
-          aider --version | tee "$RUNNER_TEMP/agent-toolchain/aider-version.txt"
-          goose --version | tee "$RUNNER_TEMP/agent-toolchain/goose-version.txt"
-          {
-            echo "gemini_cli=$GEMINI_CLI_VERSION"
-            echo "mini_swe_agent=$MINI_SWE_AGENT_VERSION"
-            echo "aider=$AIDER_VERSION"
-            echo "openhands_sdk=$OPENHANDS_SDK_VERSION"
-            echo "goose=$GOOSE_VERSION"
-            echo "goose_linux_x86_64_sha256=10eb96cb6a159b6e1d38eeedbef6ab64cd28168aad91948f1fa5c34eefdf98e3"
-            echo "provider_authentication=NOT_CONFIGURED"
-            echo "agent_model_invocations=NOT_RUN"
-          } > "$RUNNER_TEMP/agent-toolchain/agent-toolchain-manifest.txt"
-
       - name: Run local Alamo candidate, FCC and Claude Code smoke
         if: github.event_name == 'workflow_dispatch'
         shell: bash
@@ -332,6 +281,5 @@ jobs:
             ${{ runner.temp }}/ollama-model-list.txt
             ${{ runner.temp }}/ollama-model-metadata.txt
             ${{ runner.temp }}/claude-code-version.txt
-            ${{ runner.temp }}/agent-toolchain/
           if-no-files-found: warn
           retention-days: 7
