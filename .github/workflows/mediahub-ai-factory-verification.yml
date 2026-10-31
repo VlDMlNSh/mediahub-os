@@ -2,13 +2,7 @@ name: MediaHub AI Factory verification
 
 on:
   pull_request:
-    paths:
-      - '.github/agents/**'
-      - '.github/copilot-instructions.md'
-      - '.github/ai/**'
-      - '.github/workflows/gemini-batch-dispatch-controller.yml'
-      - '.github/workflows/mediahub-ai-factory-verification.yml'
-      - 'scripts/verify_ai_factory.py'
+    branches: [main]
   workflow_dispatch:
 
 permissions:

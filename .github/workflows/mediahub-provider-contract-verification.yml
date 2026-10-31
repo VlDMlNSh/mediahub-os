@@ -2,13 +2,7 @@ name: MediaHub provider contract verification
 
 on:
   pull_request:
-    paths:
-      - '.github/ai/**'
-      - '.github/agents/**'
-      - '.github/workflows/gemini-batch-dispatch-controller.yml'
-      - '.github/workflows/mediahub-provider-contract-verification.yml'
-      - 'scripts/verify_ai_factory.py'
-      - 'tests/ai/test_provider_selector.py'
+    branches: [main]
   workflow_dispatch:
 
 permissions:
