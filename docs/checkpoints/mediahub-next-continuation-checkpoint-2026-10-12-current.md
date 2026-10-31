@@ -2837,3 +2837,17 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 493 — Gemini runner efficiency and provider credential readiness (2026-10-31)
+
+- Report: [Wave 493 runner efficiency and API readiness](MEDIAHUB-GEMINI-RUNNER-EFFICIENCY-API-READINESS-WAVE-493-2026-10-31.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-493-2026-10-31.md).
+- Source-audited Gemini controller and all three child workflows. Each child has an authorization job and a separate execution job on GitHub-hosted `ubuntu-latest`; three role workflows do not target the owner's 20 physical machines.
+- Recommended orchestration: sequential Agent 1 implementation → Agent 2 exact-PR contract/test verification → Agent 3 exact-PR security/provenance audit. This reduces peak concurrency and removes the current reviewer/implementation race; total Actions minutes may not fall.
+- Single-job/three-session consolidation deferred pending clean workspace, session and credential isolation design/tests.
+- Exact secret references: `MEDIAHUB_GITHUB_TOKEN`, `MEDIAHUB_DISPATCH_HMAC_KEY`, `GEMINI_API_KEY`, `GEMINI_API_KEY_2`, `GEMINI_API_KEY_3`, `OPENROUTER_API_KEY`. Variables: `MEDIAHUB_GEMINI_BATCH_ENABLED`, `GEMINI_MODEL`, `MEDIAHUB_ALLOW_FCC_FREE_CLAUDE`. Presence/scope NOT VERIFIED; no secret values read or aliases created.
+- Current admitted model-provider families remain Gemini and FCC/OpenRouter Free. No Anthropic direct key or additional gateway/provider key is authorized by the current router policy.
+- The 20 computers are not targeted by the inspected Gemini workflows. If they are self-hosted runners, treat them as a separate trust domain; do not use persistent self-hosted runners for untrusted PR/agent jobs in this public repository.
+- No controller/child run, provider call, credential creation, billing change, workflow modification, merge, deployment, qualification or acceptance. Contour A remains NOT ACCEPTED.
+- Next: prepare and independently review a sequential controller proposal with immutable PR SHA handoff and stop-on-failure behavior; keep dispatch blocked until Issue #301 gates pass.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
