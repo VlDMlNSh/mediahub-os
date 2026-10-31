@@ -205,3 +205,98 @@ Source links: [Gemini CLI headless mode](https://github.com/google-gemini/gemini
 Recommended qualification order: (1) existing Gemini CLI workflow hardening; (2) mini-SWE-agent as the smallest specialized issue-to-patch addition; (3) Aider for narrow code edits; (4) OpenHands SDK for broader sandboxed tasks; (5) Goose only after MCP/tool-surface minimization. Ruflo remains a separate evaluation-only candidate under Issue #568; it must not replace Astra/A0 or own routing/authority. ECC remains selective workflow guidance only, not a second controller.
 
 No candidate above was installed, invoked, dispatched, or qualified in this pass.
+
+
+## 14. Recovered system-wide Control Pool and cloud-resource architecture (source reconciliation)
+
+The 20 GitHub-hosted job slots are **not the whole cloud resource pool** and are not 20 permanent model agents. They are one execution substrate under a wider control/resource system. This section restores the older accepted architecture that the initial Wave 494 allocation table did not represent.
+
+### 14.1 Control Pool / ASTRA GOLD roles
+
+- **Human authority:** retains architecture, security, production, destructive-change and launch decisions.
+- **Jarvis:** corporation-level mission intake and user-facing coordination. It proposes/forwards missions to A0 through a bounded interface; it must not directly manipulate A0 internals or independently issue worker leases.
+- **A0 ASTRA:** the single coordination authority for mission decomposition, DAG/dependencies, scheduler, claims, leases, conflict detection, dispatch, retry/recovery, integration and reconciliation.
+- **A1 Architect:** architecture/contracts/ADR proposals within assigned scope.
+- **A2 Builders:** bounded implementation workers; dynamic task-scoped instances.
+- **A3 Verifier:** independent verification and evidence review; cannot be the same identity/path as the worker being verified.
+- **MediaHub Product State Authority:** separate domain authority; AI/control/executor/provider/transport components do not gain it.
+
+The **Control Pool is a logical control plane**, not another provider or an extra runner partition. It owns scheduling decisions and job lifecycle; worker pools supply eligible execution capacity. Jarvis is not counted as an executor slot. A0 remains the single dispatcher.
+
+### 14.2 Execution/resource fabric layers
+
+1. **GitHub-hosted cloud jobs:** ephemeral standard runner VMs, workflow/controller jobs, build/test and bounded agent tasks. 20 concurrent jobs is a target ceiling subject to the verified Free account and repository controls; it is not 20 persistent VMs or 20 guaranteed inference sessions.
+2. **Cloud model/provider fabric:** direct provider APIs and admitted gateways. Model calls consume provider-specific RPM/RPD/TPM/daily quotas independently of GitHub job slots.
+3. **Local executor/model fabric:** Alamo on Voktors-Mini.Dlink, local model runtimes and local Claude Code/FCC paths; only where route identity and host/runtime qualification are proven.
+4. **Owned compute pool:** future operator-managed GPU/CPU resources, separate from GitHub runners and user-contributed capacity. Hardware procurement remains deferred until Contour A cloud fabric is deployed and independently accepted, per current owner priority.
+5. **User-contributed MediaHub compute:** opt-in, untrusted by default, isolated, capability-scoped, metered, revocable; personal/user data must not be sent absent explicit approved data policy.
+
+The previously accepted distributed-AI target puts Jarvis, API/model routing, task scheduler, node registry, queue/job state, observability and evidence collection on the central control service; it also keeps the VPS limited to API-key registration/management and out of ordinary inference/data traffic. Alamo is the local inference service on the Mac mini 2018 host, not a cloud provider. The topology is a target, not evidence of deployed components.
+
+### 14.3 Resource scheduling contract
+
+A0's placement decision must be separate from authorization and execution. It considers:
+- workload class and partitionability (independent, map/reduce, stateful/actor, GPU-exclusive, data-local, non-partitionable);
+- task capability/model requirements and provider/model identity;
+- data classification, privacy/locality and allowed egress;
+- CPU/GPU/NPU, RAM/VRAM, storage, platform/runtime and concurrency;
+- provider quota tokens, runner capacity, account/plan caps and fair-use policy;
+- availability, heartbeat freshness, health, failure domain and lease validity;
+- RTT, bandwidth, transfer size, serialization overhead, expected execution time and retry penalty;
+- contributor opt-in, power/thermal caps, quiet hours and revocation where applicable.
+
+Scheduler must not treat heterogeneous CPU/GPU/NPU as interchangeable units, overcommit attested capacity, consume idle contributed capacity without policy, or move LOCAL_ONLY work to cloud. No eligible placement means HOLD/DENY, not silent fallback. Reserve provider quota and compute capacity before dispatch; reconcile actual use after completion; release reservations on cancel/reject/expiry. Enforce idempotency, attempt IDs, fencing epochs, leases, heartbeat, bounded retry, poison-job quarantine, cancellation, backpressure and orphan recovery.
+
+### 14.4 Reusable infrastructure candidates already identified by project architecture
+
+These are substrate candidates, not replacements for MediaHub contracts or authorities:
+- **Ray** — primary candidate for Python/AI task execution, actors, object store and resource labels. MediaHub admission/identity/lease/privacy policy remains authoritative; adapter shape: MediaHub Lease → Ray placement/resource request → execution → MediaHub evidence.
+- **NATS + JetStream** — candidate durable event/control transport for offers, leases, heartbeats, results and revocation; at-least-once delivery plus application idempotency. Not State Authority.
+- **SPIFFE/SPIRE patterns** — workload identity/attestation/short-lived identity mapping; not MediaHub authorization.
+- **OpenFGA** — possible later relationship-based authorization; local fail-closed safety checks remain mandatory.
+- **Netmaker/WireGuard** — Development Mesh connectivity only, with explicit split-routing and deny-by-default boundaries; not authorization or ordinary Internet egress.
+- **SeaweedFS** — optional developer storage experiment; not an initial compute dependency and not a user-data namespace.
+- **Nomad** — only if general non-Python workload/VM scheduling is needed; licensing review required before product dependency (project source flags BUSL-1.1).
+
+The canonical architecture gaps register explicitly identifies unresolved identity/attestation, isolation, authoritative store, scheduler fencing, data classification, result confidentiality, network boundaries, idempotency, partition semantics, clock/lease semantics, node churn, heterogeneous scheduling, WAN cost, contributor fairness and Ray/NATS/SPIRE/Netmaker/SeaweedFS/OpenFGA adapter boundaries. Therefore these are candidates and design inputs, not approved runtime components.
+
+### 14.5 Provider registry: broad inventory vs free-only operational subset
+
+The project already has `ops/qualification/provider_model_registry.json` (schema `mediahub.provider-model-registry.v1`) with 24 entries including local Ollama and candidate cloud entries: SiliconFlow, Novita, Z.ai, Kimi, LLM7, SambaNova, Aion Labs, Cloudflare Workers AI, NaraRouter, OrcaRouter, UnoRouter, ZeroRouter, DeepSeek, Gemini, Groq, Mistral, OpenRouter and Hugging Face. The separate ASTRA GOLD architecture lists 23 candidate provider-model entries. This difference is an inventory/version reconciliation item, not proof of active providers.
+
+Registry labels such as `free`, `free_tier`, `permanent_free` or `router` are **not current entitlement evidence**. Several entries are stale, paid, ambiguous, gateway-mediated or account-dependent. For a strict Free-only pool, initial evaluation order should be:
+
+- **Tier A — strongest candidates for fresh qualification:** Gemini API free tier, Groq developer free tier, Cerebras Free, Cloudflare Workers AI Free (within Neurons/day and model allowlist), OpenRouter explicitly `:free` model IDs (strict request/day cap). Each still requires account-specific current quota and terms confirmation.
+- **Tier B — conditional/limited:** SiliconFlow, Novita, Z.ai, SambaNova, Mistral, LLM7, Kimi and Aion Labs only after current official pricing/terms and account dashboard confirm a genuinely free, renewable allowance with hard no-spend enforcement. Existing registry classifications alone are insufficient.
+- **Not strict-free baseline:** DeepSeek API paid route; Hugging Face small monthly credits without a technical zero-spend hard stop; Alibaba new-user promotional quota; any router/model with ambiguous or paid fallback; ZeroRouter's registry entry pointing to a paid model ID; do not multiply provider keys to evade limits.
+- **Local/auxiliary, not cloud quota:** Ollama/Alamo; FreeLLMAPI as an adapter/gateway only after its upstream identity is preserved; FCC/OmniRoute are transport; ECC/Delx are auxiliary; OpenFlux is an unqualified candidate desktop agent.
+
+A provider/model is eligible only after the canonical admission ladder: REGISTERED → CREDENTIAL_PRESENT → AUTH_SUCCESS → MODEL_DISCOVERY_PASS → PROBE_PASS → EXECUTION_PASS → RESULT_VALIDATION_PASS → A3_VERIFIED → ASTRA_GOLD_ELIGIBLE. Credentials remain secret and per-provider isolated. Provider-native and gateway-routed identities are separate. Do not promote a route based on a router's display name.
+
+### 14.6 Cloud worker/agent candidates (not all are free inference)
+
+- Gemini CLI — existing project cloud worker path, still subject to approved controller and Gemini quota.
+- Claude Code on GitHub-hosted ephemeral runners — candidate lane tracked by Issue #496; not admitted by issue creation, and strict Free-only inference path is still required.
+- mini-SWE-agent / Aider / OpenHands SDK / Goose — optional OSS execution runtimes, each bound to A0 and an admitted provider. Their code being open-source does not make model inference free.
+- Existing A1/A2/A3 roles are role contracts, not a fixed set of vendor models. A3 independence is more important than adding many agents.
+
+### 14.7 Source-of-truth anchors recovered
+
+- `architecture/ASTRA-GOLD-UNIFIED-AUTONOMOUS-DEVELOPMENT-SYSTEM.md` @ `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`, blob `e2067dc41b52983fc4e0b2549fb6af3c099cbc60`.
+- `architecture/ASTRA-GOLD-REFERENCE-ARCHITECTURE.md` @ same source ref, blob `7be5fadd3055642e7823c7233f90e978a87e5366`.
+- `architecture/MEDIAHUB-DISTRIBUTED-AI-INFRASTRUCTURE.md` @ same source ref, blob `a7eba183aecf726cf6f720ed96059b5023793001`.
+- `ops/qualification/provider_model_registry.json` @ same source ref, blob `8c0f95d33a6fc85128b3a7aa37157c2dca74bbca`.
+- `docs/checkpoints/MEDIAHUB-JARVIS-CORPORATION-ARCHITECTURE-PROPOSAL-CROSSWALK-WAVE-01-2026-10-15.md` @ same source ref, blob `04251812428e1154266b7a3ec49c3ec51907a4a7`.
+- `docs/checkpoints/2026-09-30-mediahub-architecture-gaps-and-pushback.md` and `docs/checkpoints/2026-09-30-media-fabric-job-contract.md` define outstanding resource/scheduler/lease/isolation requirements.
+
+These sources are historical architecture anchors and require reconciliation against the current canonical map/roadmap and newer Contour A contracts. They do not authorize deployment, credentials, provider calls or admission.
+
+## 15. Corrected next implementation sequence
+
+1. Reconcile the **Control Pool responsibility matrix**: Jarvis ingress → A0 mission/DAG/scheduler → admission/policy → executor pools → A3 evidence → Product State Authority boundary.
+2. Reconcile provider registry against live official free-tier facts; remove duplicate key aliases and stale free labels only through reviewed schema/contract changes.
+3. Define a single versioned ResourceRequest/NodeCapability/AdmissionDecision/ComputeLease/ExecutionEvidence contract; run Draft 2020-12 meta-validation and positive/negative fixtures.
+4. Define A0 scheduler semantics and a deterministic simulation before integrating Ray or NATS.
+5. Qualify one free-only cloud model path end-to-end with immutable SHA, secret isolation, no paid fallback and independent A3 review.
+6. Extend controller only after A0 issuer, capability, R-06, egress and evidence gates close. Then scale runner jobs gradually; 20 is a ceiling, not an objective to fill.
+7. Only after Contour A cloud pool deployment and independent acceptance revisit owned GPU hardware and contributed compute.
