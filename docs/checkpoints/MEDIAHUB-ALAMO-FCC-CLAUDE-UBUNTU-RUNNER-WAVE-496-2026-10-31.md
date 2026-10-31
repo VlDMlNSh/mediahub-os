@@ -52,10 +52,10 @@ The workflow preflights at least 4 vCPU, 8 GiB available RAM and 8 GiB free disk
 
 ## Current execution disposition
 
-- Workflow file and tests are committed on the working branch; PR CI is pending.
-- No GitHub workflow dispatch was made; the available GitHub integration exposes no workflow-dispatch action.
+- Workflow and tests are committed on the working branch. Exact-head PR CI passed at implementation head `f21496049c436aae1855fbe7dca3a9bde3a0a8c0`: Alamo workflow run `41183717447` (job `124486242023`, five contract tests passed; dispatch and runtime jobs skipped by design), Astra Cloud Runtime Validation `41183717449` (job `124486241847`), and Astra Verify `41183717401` (job `124486241820`). The Alamo PR job log confirms `5 passed in 0.04s`. The current report-only commit will receive its own exact-head CI check.
+- No GitHub workflow dispatch was made; the available GitHub integration exposes no workflow-dispatch action. PR CI skipped both `dispatch-gate` and `alamo-local-fcc-claude`, so no runner installation or model execution occurred.
 - No Ollama model download, FCC runtime start, Claude Code request, provider request, or secret access occurred.
-- Exact-head CI and independent review are pending.
+- Code-contract CI: **PASS** at implementation head `f21496049c436aae1855fbe7dca3a9bde3a0a8c0` (see run IDs above). Independent review is still pending.
 - Alamo/Ollama equivalence remains NOT VERIFIED.
 - No qualification, deployment, or acceptance is claimed.
 
