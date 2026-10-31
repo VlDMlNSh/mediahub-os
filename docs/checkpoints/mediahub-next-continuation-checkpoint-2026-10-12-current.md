@@ -2837,3 +2837,14 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 500 — PR-scoped Gemini review route readiness (2026-10-31)
+
+- Report: [Wave 500](MEDIAHUB-GEMINI-PR-REVIEW-ROUTE-READINESS-WAVE-500-2026-10-31.md); map addendum: [Wave 500](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-500-2026-10-31.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- PR #588 exact HEAD `0d83e2033eb97e9661816706186cf059b4ae9713`: five required contexts terminal SUCCESS (Astra Verify run 41016734247/job 123934650825; Astra Cloud Runtime Validation 41016734246/job 123934650327; AI Factory 41016734258/job 123934650395; provider contract 41016734368/job 123934650746; Gemini contract 41016734271/job 123934650485). Controller probe 41016734294: probe and assertion SUCCESS; admission and dispatch SKIPPED.
+- PR #588 remains OPEN/DRAFT/UNMERGED; formal reviews=0; inline threads=0. Independent A3 review NOT VERIFIED.
+- PR-specific child workflow and tests remain only on PR #588 branch; default-branch controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` has no PR review route. Do not manually dispatch child.
+- Durable atomic per-PR+head replay claim/receipt and ambiguous-dispatch reconciliation remain NOT IMPLEMENTED/NOT VERIFIED. Secret/variable presence/scope remains NOT VERIFIED; no secret values read.
+- No child Gemini dispatch, provider inference, secret access, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: implement controller-owned signed PR review routing with atomic durable claim and mocked API behavior tests; independently review before any dispatch.
