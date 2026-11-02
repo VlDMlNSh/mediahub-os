@@ -17,8 +17,11 @@ def test_runner_is_owner_gated_and_target_sha_bound() -> None:
 
 def test_local_model_runtime_is_pinned_and_loopback_only() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
-    assert "OLLAMA_VERSION=0.40.11" in source
+    assert "OLLAMA_VERSION=0.40.13" in source
+    assert "https://github.com/ollama/ollama/releases/download/v0.40.13/install.sh" in source
     assert "25f64b810b947145095956533e1bdf56eacea2673c55a7e586be4515fc882c9f" in source
+    assert "systemctl disable --now ollama.service" in source
+    assert 'kill -0 "$OLLAMA_PID"' in source
     assert "OLLAMA_HOST=127.0.0.1:11434" in source
     assert "llama3.2:3b" in source
     assert "OLLAMA_BASE_URL: http://127.0.0.1:11434" in source
@@ -54,12 +57,17 @@ def test_claude_code_smoke_is_bounded_and_evidence_is_uploaded() -> None:
     assert "target_sha=$GITHUB_SHA" in source
 
 
-def test_pr_checks_are_green_without_running_live_install_or_model_calls() -> None:
+def test_pr_preflights_are_provider_free_and_live_model_run_is_dispatch_gated() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
     assert "  dispatch-gate:\n    if:" not in source
     assert "github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch'" in source
     assert "PR validation only; live runner dispatch is not authorized" in source
     assert "Record that live execution is intentionally not run on pull requests" in source
+    assert "  ecc-profile-preflight:\\n    if: github.event_name == 'pull_request'" in source
+    assert "  fcc-claude-install-preflight:\\n    if: github.event_name == 'pull_request'" in source
+    assert "npm install --global @anthropic-ai/claude-code@2.1.282" in source
+    assert "uv sync --locked --no-dev" in source
+    assert "https://openrouter.ai/api/v1/chat/completions" not in source
     assert source.count("if: github.event_name == 'workflow_dispatch'") >= 7
     assert "if: always() && github.event_name == 'workflow_dispatch'" in source
 
@@ -86,3 +94,30 @@ def test_old_runtime_alias_is_not_reintroduced() -> None:
     assert legacy_alias not in source
     assert "ollama-local-fcc-claude:" in source
     assert "mediahub-ollama-fcc-claude-" in source
+
+
+def test_ecc_is_pinned_guidance_only_not_a_second_control_plane() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert "repository: affaan-m/ECC" in source
+    assert "ref: c05b2d6614f62f6db0047669aa4eefb223d478f9" in source
+    assert "HEAD:LICENSE" in source
+    assert "HEAD:skills/verification-loop/SKILL.md" in source
+    assert "HEAD:skills/security-review/SKILL.md" in source
+    assert "HEAD:skills/search-first/SKILL.md" in source
+    assert "hooks_enabled=false" in source
+    assert "mcp_servers_enabled=false" in source
+    assert "plugins_installed=false" in source
+    assert "independent_controller=false" in source
+    assert "ecc-profile-metadata.txt" in source
+    assert '--append-system-prompt "$(cat "$RUNNER_TEMP/claude-system-prompt.txt")"' in source
+    forbidden_installers = ("ecc-universal", "claude plugin install", "npm install -g ecc")
+    for marker in forbidden_installers:
+        assert marker not in source, f"Full ECC/plugin installation is prohibited: {marker}"
+
+
+def test_ollama_systemd_service_cannot_conflict_with_isolated_job_process() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert "systemctl disable --now ollama.service" in source
+    assert 'OLLAMA_HOST=127.0.0.1:11434' in source
+    assert 'OLLAMA_MODELS="$RUNNER_TEMP/ollama-models"' in source
+    assert 'kill -0 "$OLLAMA_PID"' in source
