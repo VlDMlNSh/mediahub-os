@@ -2837,3 +2837,19 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+---
+
+## Wave 519 — two-runner exact-head evidence reconciliation (2026-11-02)
+
+- Main HEAD observed: `af200c4323bd4cb7cfa4c47dab4accc10049d1ec`; documentation base: `d9a289b9113f7567711b641a7017eb814d6c259d`.
+- PR #623 HEAD `504507a4335e353e8adac90d755f002ff476f33b`: six associated workflow runs terminal SUCCESS. Runner workflow run 41390337883 confirms PR no-op; contract tests passed, while live Ollama/FCC/Claude steps were SKIPPED. Formal reviews 0; runtime NOT RUN.
+- PR #610 is an overlapping older Runner 1 candidate at `cac44b8a867945d4b544c3e46bd819bc42373f36`; reconcile unique file/commit content against PR #623 before integration.
+- Main Gemini controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` dispatches three child workflows to separate `ubuntu-latest` allocations. Same-host Runner 2 NOT IMPLEMENTED.
+- PR #625 remains OPEN/DRAFT/UNMERGED at `2c06a56eb2f3a5f265a5f558f3d02a8021eb022`; no exact-head workflow runs returned; formal reviews 0.
+- Canonical map blob `75f62685459ec99ebf8be478f4e9096cdb842b1d` retrieved by Git blob API (1,204,915 bytes). Checkpoint blob `fd312ded05dd1898bd36d776a9669bb02920720d` (503,275 bytes) predates current Waves 517–518; this entry records the synchronization proposal.
+- No secret values read. Secret/variable scope, effective governance, trusted-main no-secret probe and independent security review NOT VERIFIED. Gemini 1/2/3 NOT RUN. No live qualification, merge, deployment or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Report: [Wave 519 two-runner exact-head evidence reconciliation](MEDIAHUB-TWO-RUNNER-EXACT-HEAD-EVIDENCE-RECONCILIATION-WAVE-519-2026-11-02.md).
+- Next: formal independent reviews; reconcile PR #610/#623; implement same-host Runner 2; close metadata/governance/probe gates before dispatch.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
