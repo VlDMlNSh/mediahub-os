@@ -8062,3 +8062,15 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 - PR #585 head `85f716005d40fbc03e85762f867eaf235f23629a`: exact-head Astra Verify [39983810741](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39983810741) and Cloud Runtime Validation [39983810755](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39983810755) are now SUCCESS. PR remains Draft/unmerged; zero formal reviews and empty combined status, so integration eligibility is NOT VERIFIED.
 - No Gemini batch dispatch, provider call, secret access, merge, deployment, or qualification. Gemini batch **NOT RUN**; Contour A **NOT ACCEPTED**.
 - Next: repair the stale concurrency contract test, rerun both failing workflows on the exact new PR #583 head, independently review, and re-check governance before any controller dispatch.
+
+
+## Wave 517 — owner-directed two-Ubuntu-runner target topology (2026-11-02)
+
+- Addendum: [two-Ubuntu-runner topology and authority boundaries](MEDIAHUB-TWO-UBUNTU-RUNNER-TOPOLOGY-OWNER-DIRECTION-WAVE-517-2026-11-02.md).
+- Report: [Wave 517 Bootstrap and architecture reconciliation proposal](../checkpoints/MEDIAHUB-OWNER-DIRECTED-TWO-UBUNTU-RUNNER-TOPOLOGY-WAVE-517-2026-11-02.md).
+- Owner direction: Runner 1 = Ollama/FCC/Claude Code/ECC; Runner 2 = one approved Gemini controller plus three isolated Gemini agents co-located on one Ubuntu runner host per admitted batch. No separate Alamo host identity.
+- This supersedes only historical “Alamo/server 3” placement references. Wave 272/273 non-paid auth, provider/egress and no-fallback security requirements remain in force.
+- Current main controller still dispatches three child workflows to independent Ubuntu hosted runners; Runner 2 same-host co-location is NOT IMPLEMENTED. PR #623 Runner 1 source contract CI is green but live runtime steps were skipped.
+- Runner host availability/capacity: NOT VERIFIED. Gemini Agents 1/2/3: NOT RUN. Controller dispatch: BLOCKED pending independent review, metadata-only secret/variable scope evidence, trusted-main no-secret probe and governance.
+- Physical-server procurement, deployment, qualification and acceptance are not authorized by this topology note.
+- [Canonical Bootstrap](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os).

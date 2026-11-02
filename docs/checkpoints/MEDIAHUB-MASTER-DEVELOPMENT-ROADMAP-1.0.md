@@ -5489,3 +5489,22 @@ Status: **OWNER-DIRECTED TARGET REQUIREMENT / GOVERNANCE, IMPLEMENTATION AND RUN
 - Controller run [39971768646](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39971768646) failed after Agent 1 succeeded and Agents 2/3 failed their branch/PR creation postconditions. Their artifacts have verified digests but responses claiming an active PR conflict with failed tool telemetry. Existing branch names confirm collision risk from multiple queued /next comments. PR #584 remains open, no review, exact-head Astra Verify/Cloud Runtime conclusions `action_required`; CI **NOT VERIFIED**.
 - Local FCC is **BLOCKED** because effective config has `PROXY_AUTH_ENABLED=false`; unauthenticated requests are not rejected. Direct Ollama Llama inference is not FCC-routed executor qualification. Owner authorization is required to add the exact LaunchAgent plist to the SentinelX writable allowlist before persistent changes.
 - Next engineering work: fix unique branch naming/idempotency and reconcile queued controller runs before another batch; independently review current cloud admission code before any provider call; after owner-approved local config update, verify unauthenticated 401 and authenticated 200 on FCC. No merge/qualification/acceptance inferred from empty or `action_required` checks.
+
+
+## Wave 517 — owner-directed two-Ubuntu-runner topology (2026-11-02)
+
+Owner-directed target placement:
+- **Runner 1:** Ubuntu execution environment for local Ollama inference, FCC, Claude Code and selected ECC guidance. Claude Code remains gated on verified non-paid FCC auth/terms, no Anthropic API, no paid backend/proxy/fallback, strict Ollama model binding and loopback egress.
+- **Runner 2:** one approved Gemini controller plus Gemini Agents 1/2/3 co-located on the same Ubuntu runner host per admitted batch, with isolated containers/workspaces, separate agent credentials, controller secret isolation, immutable target SHA, bounded concurrency and provenance.
+- Additional cloud agents may be added only through the governed agent/provider registry with per-agent capabilities, credentials, quotas, route policy and evidence.
+
+This owner direction supersedes the historical “Alamo/server 3” placement binding only; it does not alter Contour A’s first-priority cloud-pool objective, authorize physical-server procurement, bypass the authoritative runner/workspace/network target manifest, or qualify any host. Distinguish ephemeral GitHub-hosted jobs from persistent self-hosted Ubuntu VMs; actual OS/architecture, runner ID, vCPU/RAM/disk, labels, lifecycle and egress must be measured and recorded.
+
+Current implementation/evidence:
+- Runner 1 code candidate is PR #623 HEAD `4ded07da6c262aa47fdca19289e5479a1580318d`, exact-head CI 8/8 SUCCESS, but live install/model/FCC/Claude steps are skipped on PR events; no runtime qualification.
+- The main Gemini controller currently dispatches three separate child workflows, each on its own `ubuntu-latest` runner. It does not yet satisfy same-host Runner 2 co-location.
+- Runner 2 requires a reviewed single-host controller/agent design, isolated execution containers, independent agent credentials, no inheritance of controller GitHub/HMAC secrets, resource admission tests and exact evidence IDs before use.
+
+Status: **TARGET PROPOSED / IMPLEMENTATION PARTIAL / RUNNERS NOT VERIFIED / GEMINI NOT RUN / NOT ACCEPTED**.
+
+See [Wave 517 topology report](MEDIAHUB-OWNER-DIRECTED-TWO-UBUNTU-RUNNER-TOPOLOGY-WAVE-517-2026-11-02.md), [architecture addendum](../architecture/MEDIAHUB-TWO-UBUNTU-RUNNER-TOPOLOGY-OWNER-DIRECTION-WAVE-517-2026-11-02.md), and [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).

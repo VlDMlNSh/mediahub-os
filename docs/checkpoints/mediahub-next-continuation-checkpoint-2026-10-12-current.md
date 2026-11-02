@@ -2837,3 +2837,18 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+---
+
+## Wave 517 — owner-directed two-Ubuntu-runner placement and Bootstrap reconciliation (2026-11-02)
+
+- Proposal report: [Wave 517 two-runner topology reconciliation](MEDIAHUB-OWNER-DIRECTED-TWO-UBUNTU-RUNNER-TOPOLOGY-WAVE-517-2026-11-02.md); [topology addendum](../architecture/MEDIAHUB-TWO-UBUNTU-RUNNER-TOPOLOGY-OWNER-DIRECTION-WAVE-517-2026-11-02.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Documentation base: `d9a289b9113f7567711b641a7017eb814d6c259d`. This is a Draft PR proposal on `docs/wave517-two-ubuntu-runner-topology-20261102`; canonical documentation branch remains unchanged until review/merge.
+- Owner target topology: Runner 1 Ubuntu = Ollama/FCC/Claude Code/ECC; Runner 2 Ubuntu = approved controller + three isolated Gemini agents co-located on one host. “Alamo/Allamo” is not a separate host identity; prior local-inference references meant Ollama.
+- Bootstrap edits supersede obsolete Alamo/server-3 host placement only. Non-paid auth, no Anthropic API/paid route, no paid proxy/fallback, provider allowlist, egress and fail-closed constraints remain.
+- Runner 1 source candidate PR #623 HEAD `4ded07da6c262aa47fdca19289e5479a1580318d`: eight exact-head checks SUCCESS; PR path skipped every live install, model, FCC auth and Claude invocation step. Runtime: NOT RUN.
+- Main Gemini controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` still dispatches each child to separate `ubuntu-latest` runner jobs. Runner 2 same-host co-location: NOT IMPLEMENTED.
+- Current SentinelX host is macOS ARM64 `Voktors-Mini.Dlink`; `mh-dev-01` and `mh-dev-02` are offline in Desktop Commander inventory. No persistent Ubuntu host/capacity verified.
+- PR #623 formal reviews 0; inline threads 0; independent review NOT VERIFIED. Gemini Agents 1/2/3 NOT RUN. No credentials, model/provider calls, runner provisioning, merge, deployment, qualification or acceptance.
+- Next: implement the Runner 2 same-host isolated-container architecture and its negative security/resource tests; independently review PR #623; verify actual Ubuntu resources and controller metadata/gates before any live execution.
