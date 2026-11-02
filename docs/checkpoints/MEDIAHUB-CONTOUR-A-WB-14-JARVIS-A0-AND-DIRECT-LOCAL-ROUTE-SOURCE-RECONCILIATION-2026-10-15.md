@@ -1,5 +1,8 @@
 # MediaHub OS — Contour A WB-14: Jarvis/A0 and Direct-Local Route Source Reconciliation
 
+> **Terminology correction — 2026-11-02 (supersedes the legacy wording below):** The owner clarification in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) defines every prior “Alamo” reference as the local **Ollama** inference runtime, not a separate service, endpoint, hostname, host, or executor identity. `Voktors-Mini.Dlink` is the physical Mac mini 2018 host; Ollama is software/runtime that may run on it; the model (for example `llama3.2:3b`) is a third, separate identity. Historical text is retained as an audit trail and must not be treated as current naming or proof of runtime qualification.
+
+
 - Date: 2026-10-15
 - Ref: `docs/mediahub-chat-tree-map-20261012`
 - Status: **READ-ONLY SOURCE RECONCILIATION / PARTIAL / DECISIONS OPEN / NOT IMPLEMENTED / NOT QUALIFIED**
