@@ -2861,3 +2861,15 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Runtime remains NOT RUN; Gemini dispatch NOT RUN. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile only unique historical architecture/documentation against current Bootstrap, roadmap, issues #296/#496/#301 and the two-runner topology proposal.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Wave 522 — owner-directed two-runner contract reconciliation (2026-11-02)
+
+- Report: [Wave 522 two-runner contract reconciliation](MEDIAHUB-TWO-RUNNER-CONTRACT-RECONCILIATION-WAVE-522-2026-11-02.md).
+- Issue #301 (cloud-agent fabric), Issue #296 (Ollama/FCC local-only routing) and Issue #496 (GitHub-hosted Claude executor) support the owner-directed target: Runner 1 = Ollama/FCC/Claude Code/ECC; Runner 2 = approved Gemini controller and three isolated agents on one host.
+- Canonical Bootstrap still carries the obsolete server-3-only Claude placement. PR #625 proposes the scoped supersession while preserving Wave 272/273 non-paid auth, no Anthropic API/paid proxy/fallback, egress and governance controls. PR #625 is not merged/canonical.
+- PR #625 changes six documentation files only; exact-head CI NOT VERIFIED, formal reviews 0, inline threads 0. Its Wave 517 text contains stale PR #623 “unmerged candidate” status and old candidate SHA; update status to merged at `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`, contract CI only, runtime NOT RUN.
+- Current main Gemini controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` still dispatches three separate `ubuntu-latest` child jobs; Runner 2 co-location NOT IMPLEMENTED. No Gemini dispatch or secret access.
+- Runner 1 source MERGED; Ollama/FCC/Claude runtime NOT RUN. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: correct stale PR #625 status claims, obtain exact-head CI and independent review, then design the single-host Runner 2 implementation behind all controller admission gates.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
