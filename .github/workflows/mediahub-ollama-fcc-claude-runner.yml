@@ -182,9 +182,9 @@ jobs:
           installer="$RUNNER_TEMP/ollama-install.sh"
           curl --fail --silent --show-error --location --max-time 60 https://ollama.com/install.sh -o "$installer"
           echo "25f64b810b947145095956533e1bdf56eacea2673c55a7e586be4515fc882c9f  $installer" | sha256sum --check -
-          OLLAMA_VERSION=0.40.11 sh "$installer"
+          OLLAMA_VERSION=0.40.13 sh "$installer"
           ollama --version | tee "$RUNNER_TEMP/ollama-version.txt"
-          grep -Fq "0.40.11" "$RUNNER_TEMP/ollama-version.txt"
+          grep -Fq "0.40.13" "$RUNNER_TEMP/ollama-version.txt"
           test "$(git rev-parse HEAD)" = "3d2ae2306752dbdf504714a5489bcfcf69b2d04a"
           uv sync --locked --no-dev
 
@@ -261,10 +261,35 @@ jobs:
             uv run --locked python - <<'PY'
           import hmac, os
           from free_claude_code.config.loader import get_settings
+          from free_claude_code.config.settings import Settings
           settings = get_settings()
           assert settings.proxy_auth_enabled is True
           assert hmac.compare_digest(settings.proxy_auth_token, os.environ["ANTHROPIC_AUTH_TOKEN"])
-          print("FCC managed bearer token verified; token withheld.")
+          assert settings.model == os.environ["MODEL"]
+          assert settings.ollama_base_url == os.environ["OLLAMA_BASE_URL"]
+          assert settings.model_fallbacks is None
+          assert settings.custom_providers == ()
+          assert all(getattr(settings, name) is None for name in (
+              "model_fable", "model_opus", "model_sonnet", "model_haiku"
+          ))
+          credential_suffixes = (
+              "_API_KEY", "_API_TOKEN", "_SECRET_KEY",
+              "_SECRET_ACCESS_KEY", "_ACCESS_KEY_ID", "_BEARER_TOKEN",
+          )
+          credential_fields = [
+              name for name, field in Settings.model_fields.items()
+              if isinstance(field.validation_alias, str)
+              and field.validation_alias.endswith(credential_suffixes)
+              and field.validation_alias != "ANTHROPIC_AUTH_TOKEN"
+          ]
+          assert all(not getattr(settings, name) for name in credential_fields)
+          proxy_fields = [
+              name for name, field in Settings.model_fields.items()
+              if isinstance(field.validation_alias, str)
+              and field.validation_alias.endswith(("_PROXY", "_PROXY_URL"))
+          ]
+          assert all(not getattr(settings, name) for name in proxy_fields)
+          print("FCC local-only route verified: Ollama model, loopback URL, no fallback, cloud credentials or provider proxies; local bearer token withheld.")
           PY
           )
           export DISABLE_TELEMETRY=1 DISABLE_ERROR_REPORTING=1 DISABLE_AUTOUPDATER=1
