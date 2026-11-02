@@ -3,7 +3,8 @@
 - Date: 2026-11-02
 - Status: **TERMINOLOGY CORRECTION IMPLEMENTED ON WORKING BRANCH / CI AND REVIEW PENDING / NOT ACCEPTED**
 - PR: https://github.com/VlDMlNSh/mediahub-os/pull/610
-- Branch: `contour-a/alamo-fcc-claude-hosted-runner-20261031`
+- Code branch: `contour-a/alamo-fcc-claude-hosted-runner-20261031` (legacy branch name retained as Git provenance).
+- Documentation proposal branch: `docs/wave509-ollama-terminology-unification-2026-11-02` (not canonical until accepted).
 - Source `main` target at audit start: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`
 
 ## Owner decision
@@ -67,3 +68,14 @@ The PR branch's distributed AI architecture now declares Ollama as the single lo
 - Master Roadmap: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md
 - Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301
 - PR #610: https://github.com/VlDMlNSh/mediahub-os/pull/610
+
+
+## Wave 509 consolidated verification update (2026-11-02)
+
+- PR #610 exact current head observed: `961ad2018ed6b702f501c03511596e519742d9e4`, OPEN, mergeable=true, unmerged.
+- Exact-head check-runs SUCCESS: `ollama-local-fcc-claude`, `dispatch-gate`, `workflow-contract`, `verify`, `validate`.
+- Active ruleset 26108066 requires the distinct contexts `Astra Cloud Runtime Validation`, `AI Factory verification`, `provider contract verification`, `Astra Verify`, `Gemini workflow contract validation (Wave 284)`. Those exact contexts were not returned for this head: required-context gate NOT VERIFIED.
+- Formal reviews: one owner COMMENTED review; no independent APPROVED review. Review threads empty. Independent review NOT VERIFIED.
+- PR #610 is not eligible to merge. No runtime qualification is inferred from the successful contract/no-op check.
+- Canonical docs branch remained at `d9a289b9113f7567711b641a7017eb814d6c259d` at audit start; Wave 509 docs are still a proposal until a separate docs PR is accepted.
+- No Gemini dispatch, secret read, live model call, physical-host mutation, merge, deployment or acceptance occurred.
