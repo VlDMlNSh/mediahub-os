@@ -19,6 +19,7 @@ def test_local_model_runtime_is_pinned_and_loopback_only() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
     assert "OLLAMA_VERSION=0.40.13" in source
     assert "https://github.com/ollama/ollama/releases/download/v0.40.13/install.sh" in source
+    assert "https://github.com/ollama/ollama/releases/download/v0.40.13/install.sh" in source
     assert "25f64b810b947145095956533e1bdf56eacea2673c55a7e586be4515fc882c9f" in source
     assert "systemctl disable --now ollama.service" in source
     assert 'kill -0 "$OLLAMA_PID"' in source
@@ -104,6 +105,9 @@ def test_ecc_is_pinned_guidance_only_not_a_second_control_plane() -> None:
     assert "HEAD:skills/verification-loop/SKILL.md" in source
     assert "HEAD:skills/security-review/SKILL.md" in source
     assert "HEAD:skills/search-first/SKILL.md" in source
+    assert "d7eb1fa239fd8c0ba8ae2d31a3c34d1f01741ef9" in source
+    assert "3f26b0df65661425de4e5c40c295e04edcad7a83" in source
+    assert "3d2669e71ba54afba95defb05080253058190600" in source
     assert "hooks_enabled=false" in source
     assert "mcp_servers_enabled=false" in source
     assert "plugins_installed=false" in source
