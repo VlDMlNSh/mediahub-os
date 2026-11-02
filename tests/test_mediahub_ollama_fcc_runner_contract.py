@@ -23,6 +23,8 @@ def test_local_model_runtime_is_pinned_and_loopback_only() -> None:
     assert "25f64b810b947145095956533e1bdf56eacea2673c55a7e586be4515fc882c9f" in source
     assert "systemctl disable --now ollama.service" in source
     assert 'kill -0 "$OLLAMA_PID"' in source
+    assert "preexisting_status" in source
+    assert "refusing a second server" in source
     assert "OLLAMA_HOST=127.0.0.1:11434" in source
     assert "llama3.2:3b" in source
     assert "OLLAMA_BASE_URL: http://127.0.0.1:11434" in source
