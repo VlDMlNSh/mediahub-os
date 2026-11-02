@@ -1,3 +1,7 @@
+> **SUPERSEDING OWNER TERMINOLOGY CORRECTION — WAVE 509 (2026-11-02):** The owner confirms that historical “Alamo”/“Allamo” references in this project meant **Ollama**, the local model runtime. There is no separate Alamo service, endpoint, hostname, host, or executor. Ollama is the runtime; a tag such as `llama3.2:3b` is a model identity; `Voktors-Mini.Dlink` is a physical host identity. Claude Code is a client/executor, FCC is its integration/routing layer, and Ollama is the local inference backend. Historical IDs, filenames, SHAs and run IDs are preserved as provenance; all older claims that Alamo was a separate service or that Ollama/Alamo equivalence remained unresolved are superseded. This does not qualify current runtime availability or any inference route.
+
+---
+
 # MediaHub Chat Tree Map — Wave 365 addendum (2026-10-22) 
 
 > **Terminology correction — 2026-11-02 (supersedes the legacy wording below):** The owner clarification in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) defines every prior “Alamo” reference as the local **Ollama** inference runtime, not a separate service, endpoint, hostname, host, or executor identity. `Voktors-Mini.Dlink` is the physical Mac mini 2018 host; Ollama is software/runtime that may run on it; the model (for example `llama3.2:3b`) is a third, separate identity. Historical text is retained as an audit trail and must not be treated as current naming or proof of runtime qualification.
