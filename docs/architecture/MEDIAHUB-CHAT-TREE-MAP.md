@@ -1,3 +1,17 @@
+## Wave 509 — authoritative runtime terminology correction (2026-11-02)
+
+**Owner-confirmed canonical terminology:** **Ollama** is the sole name of the local inference runtime. “Alamo/Allamo” is withdrawn as a separate component identity. The owner's original clarification is recorded in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) and reaffirmed in the current instruction on 2026-11-02.
+
+Keep these identities separate:
+- **Ollama** — local inference runtime/API server.
+- **Model tag** — selected model served by Ollama, e.g. `llama3.2:3b`.
+- **Physical host** — e.g. `Voktors-Mini.Dlink` (Mac mini 2018), where Ollama may run; the host is not the runtime name.
+- **Client/integration** — Claude Code through FCC/ECC, if the route is independently qualified.
+- **Cloud agent pool** — separate GitHub Actions/controller lane; never use the local Ollama host as Gemini transport.
+
+All Wave 364/365 claims that “Alamo” was a separate host/service/endpoint or that the runtime had to run on a distinct “Alamo/server 3” are superseded. Historical reports and source filenames remain as audit records; their claims are not current identity definitions. A GitHub-hosted Ubuntu workflow that installs Ollama is an **ephemeral runner job**, not a persistent VM. This correction does not establish runtime deployment, local model availability, FCC compatibility, Claude Code task qualification, or production acceptance.
+
+---
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
