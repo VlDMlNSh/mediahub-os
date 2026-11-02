@@ -1,15 +1,15 @@
-## Wave 509 — authoritative runtime terminology correction (2026-11-02)
+## Wave 509 — owner terminology correction and Ollama runner consolidation (2026-11-02)
 
-**Owner-confirmed canonical terminology:** **Ollama** is the sole name of the local inference runtime. “Alamo/Allamo” is withdrawn as a separate component identity. The owner's original clarification is recorded in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) and reaffirmed in the current instruction on 2026-11-02.
-
-Keep these identities separate:
-- **Ollama** — local inference runtime/API server.
-- **Model tag** — selected model served by Ollama, e.g. `llama3.2:3b`.
-- **Physical host** — e.g. `Voktors-Mini.Dlink` (Mac mini 2018), where Ollama may run; the host is not the runtime name.
-- **Client/integration** — Claude Code through FCC/ECC, if the route is independently qualified.
-- **Cloud agent pool** — separate GitHub Actions/controller lane; never use the local Ollama host as Gemini transport.
-
-All Wave 364/365 claims that “Alamo” was a separate host/service/endpoint or that the runtime had to run on a distinct “Alamo/server 3” are superseded. Historical reports and source filenames remain as audit records; their claims are not current identity definitions. A GitHub-hosted Ubuntu workflow that installs Ollama is an **ephemeral runner job**, not a persistent VM. This correction does not establish runtime deployment, local model availability, FCC compatibility, Claude Code task qualification, or production acceptance.
+- Owner authority: [Issue #301 Wave338 clarification](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941), reaffirmed in [Wave509 comment](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6568555691).
+- Canonical identity: Ollama = local inference runtime/API; model tag (e.g. llama3.2:3b) = model; Voktors-Mini.Dlink = physical Mac mini 2018 host. Former “Alamo/Allamo” is not a separate service/host/endpoint/executor. Wave364/365 contrary wording is superseded but retained for audit provenance.
+- Detailed report: [Wave509 Ollama terminology supersession](MEDIAHUB-OLLAMA-TERMINOLOGY-SUPERSESSION-WAVE-509-2026-11-02.md).
+- Map addendum: [Wave509](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md).
+- New-chat continuation prompt: [Wave509 master continuation prompt](MEDIAHUB-MASTER-CONTINUATION-PROMPT-WAVE-509-2026-11-02.md).
+- Runner1 candidate is Ollama + FCC/ECC + Claude Code; Runner2 is the separate cloud-agent pool. GitHub-hosted Ubuntu jobs are ephemeral, not persistent VMs.
+- PR #610 runner workflow/test renamed to mediahub-ollama-fcc-claude-runner.yml and test_mediahub_ollama_fcc_runner_contract.py; code changes remain in a PR branch and require final exact-head CI + independent review.
+- PR #620 carries documentation correction; draft only until exact-head CI/review and canonical integration.
+- Ollama model inference, FCC/Claude execution, Gemini batch, merge, deployment and qualification: NOT RUN. No secret values read.
+- Contour A NOT ACCEPTED; Contour B GATED.
 
 ---
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
