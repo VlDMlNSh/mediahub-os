@@ -2837,3 +2837,15 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 520 — post-merge Runner 1 and Gemini topology audit (2026-11-02)
+
+- Report: [Wave 520 post-merge Runner 1 and Gemini topology audit](MEDIAHUB-POST-MERGE-RUNNER1-AND-GEMINI-TOPOLOGY-AUDIT-WAVE-520-2026-11-02.md).
+- PR #623 is now **MERGED** at merge commit `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; its source head was `504507a4335e353e8adac90d755f002ff476f33b`. Six associated PR-head workflow runs were SUCCESS, but Runner 1's PR-event live execution steps (FCC/Ollama/model inference/Claude Code/evidence upload) were SKIPPED. Runtime qualification remains NOT RUN.
+- PR #610 remains OPEN and overlaps Runner 1 workflow/test paths; unique historical changes still require reconciliation. No merge/cherry-pick.
+- PR #625 remains an unreviewed topology proposal; PR #626 remains an open documentation proposal. Neither has verified exact-head CI or independent review in this pass.
+- Main Gemini controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` dispatches three child workflows on separate `ubuntu-latest` allocations. Required same-host Runner 2 co-location is NOT IMPLEMENTED. Secret values were not accessed; secret/variable presence and effective governance remain NOT VERIFIED.
+- Gemini Agents 1/2/3: NOT RUN; no controller or child run IDs/artifacts for this pass. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: reconcile PR #610 unique changes, correct the stale PR #626 Wave 519 status note, and implement/test a single-host Runner 2 design with isolated agent containers and controller-secret isolation before considering dispatch.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
