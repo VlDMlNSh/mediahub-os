@@ -1,3 +1,24 @@
+## Wave 525 — A0 requester provenance read-back and PR reconciliation (2026-11-02)
+
+- Report: [Wave 525 reconciliation](MEDIAHUB-A0-PROVENANCE-READBACK-AND-PR-RECONCILIATION-WAVE-525-2026-11-02.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-487-2026-10-30.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Current amended A0 contract blob `1200d343139c8e67a826902b3ade09d4987c537d`; verified requester identity/generation, workload auth context, mission authorization, approval evidence, immutable task/correlation/digest binding, durable receipt, R-06 audit and AUTH-15…AUTH-21 / AUD-05.
+- Wave 524 report corrected: read-back status VERIFIED; report blob `adc77565e502dd47ccdfa93c96cb237fcc073f5e`.
+- PR #600 head after Wave 525 updates: `9302a9559cbf57332c1636764fed62b3f8833acd`, still OPEN/DRAFT. CI and independent A3 review NOT VERIFIED. PR #602 is historical and stale relative to amended contract.
+- Draft 2020-12 validation NOT RUN (raw-source retrieval blocked by DNS); runner manifest remains PROPOSED_NOT_ACCEPTED. Gemini/Claude dispatch, provider calls, secret reads, runtime, merge, deployment and qualification NOT RUN.
+- Next: independent A3 review against exact PR #600 head; separately complete runner manifest and schema validation gates.
+
+---
+
+## Wave 524 — A0 authenticated requester provenance clarification (2026-11-02)
+
+- Report: [Wave 524 report](MEDIAHUB-A0-REQUESTER-PROVENANCE-CLARIFICATION-WAVE-524-2026-11-02.md); [Wave 487 A0 contract](../architecture/MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-487-2026-10-30.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Contract amended on PR #600 branch: requester ID/generation, workload authentication context, mission-authorization decision, separately required owner-approval evidence, binding to task/correlation/request digest, durable receipt and R-06 audit; acceptance fixtures AUTH-15…AUTH-21 and AUD-05.
+- Contract blob `691b4b52cd6ba80bb822cf64ef5bea5e6e523c61` → `1200d343139c8e67a826902b3ade09d4987c537d`; contract update commit `7c9c8d4d587602483eafe21d14c39d4a2fd1165b`.
+- Status: DRAFT AMENDED / NOT ACCEPTED / NOT IMPLEMENTED; independent A3 review NOT RUN; exact-head CI NOT VERIFIED; no runtime tests, provider calls, secret reads, dispatch, merge, deployment or qualification.
+- Next: verify amended contract read-back, refresh provenance review to the exact head, obtain independent A3 approval, then add executable tests only after identity/protocol ADR and canonical schema are selected. Continue runner manifest and Draft 2020-12 validation separately.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
@@ -2889,3 +2910,28 @@ Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MA
 - Decision blob: `13e6745463dbc05a7c188423bb45ffb2b210c789`; map addendum blob: `c026947681dc9d6739f4424d31a5424d1b11c259`; report blob after PR reconciliation: `7b778ebe67105d50afb00466965cdcfb5353a262`.
 - The original four-file delta against Wave 485 is 4 commits ahead / 0 behind, 4 files changed, 180 additions, 0 deletions. A report-only follow-up commit was added afterward; latest PR head is to be read from GitHub before any subsequent work.
 - Exact-head workflow runs returned empty; formal reviews 0; inline threads 0. CI and independent review remain NOT VERIFIED. PR stays Draft/Open/Unmerged.
+
+
+## Wave 487 — A0 issuer/verifier contract candidate (2026-10-30)
+
+- Primary contract: [MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md](../architecture/MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md).
+- Report: [MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md](MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md).
+- Map addendum: [MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-487-2026-10-30.md](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-487-2026-10-30.md).
+- Parent Wave 486 HEAD: `824bb2568b2ac8bb3dceb3608366668e99bab95e`; working branch `docs/wave487-a0-issuer-verifier-normative-contract-20261030`.
+- Contract create commit: `6969de41410818a5a6b61ce90a32ee809aa803da`; report commit: `b5cfada7c3aa451829108f50990014c29d56b3a0`; map addendum commit: `32447acebe421d14fa89026de4ddec7d696a1e62`.
+- Contract is DRAFT NORMATIVE CANDIDATE / NOT ACCEPTED / NOT IMPLEMENTED. It defines format-neutral issuer/principal/capability requirements, audience/operation/resource/task binding, delegation attenuation, per-consumer verification, 300-second max capability lifetime, 30-second max revocation-state age, fail-closed semantics, durable idempotent A0 receipts, lease fencing, R-06 audit/privacy and 40+ acceptance scenarios.
+- Wave 486 decision blob `13e6745463dbc05a7c188423bb45ffb2b210c789` and Wave 485 skeleton blob `14cf0194504824a17569433d4478154eb44afc3f` were re-read. Canonical map blob `75f62685459ec99ebf8be478f4e9096cdb842b1d` was rechecked; Contents API returned empty content, so canonical map not rewritten.
+- Issue #301 ordered Contour A work remains controlling: close A0 authority gates; accept runner/workspace/network manifest; validate Draft 2020-12 schemas and negative fixtures; independent review; then harden cloud transport and implement read-only worker.
+- Gemini controller main blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` and child workflows were source-inspected. Controller has fixed generic role tasks; review mode is pinned to historical FCC target `074f20eb495666946a14410ab88d566aaa754f24`, not Wave 487. Required secret/variable names were identified from source but presence was not verified. Exact Wave 487 task package cannot be passed through the current fixed controller contract; all Gemini roles NOT RUN, no probe/dispatch/provider/secret access.
+- PR #599 remains Draft/Open/Unmerged, stacked; exact-head runs/statuses empty, formal reviews 0, inline threads 0. CI and independent review NOT VERIFIED. No merge, runtime changes, tests, provider calls, server work, deployment, qualification or acceptance.
+- Next: independent A3 review; protocol/identity/trust-anchor/audit ADR; separately, runner/workspace/network manifest source reconciliation and standards-compliant Draft 2020-12 validation. Do not perform runtime issuer remediation until gates pass. Cloud Pool remains first priority; local/server hardware remains deferred until Contour A deployment and independent acceptance.
+
+Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md). Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+### Wave 487 PR evidence reconciliation
+
+- Draft PR [#600](https://github.com/VlDMlNSh/mediahub-os/pull/600), stacked on PR #599. Base SHA `824bb2568b2ac8bb3dceb3608366668e99bab95e`.
+- Prior branch head before this checkpoint reconciliation: `bd56bd238c7dc94382af59447b3865b57fb846f8`; comparison at that point: 8 commits ahead / 0 behind; 4 files changed, 377 additions, 0 deletions. The checkpoint update itself advances the branch; fetch PR #600 for the latest head before any integration action.
+- Contract blob SHA `691b4b52cd6ba80bb822cf64ef5bea5e6e523c61`; map addendum `81b95b2cf62ae06eebe0531f283dc90489fc546e`; report blob SHA `c9dfa2e63683ac52223a890ad0d96ab4f950aedd`.
+- Exact-head workflow runs/statuses were empty at the previous-head check; formal reviews 0; inline threads 0. CI and independent A3 review NOT VERIFIED. PR remains Draft/Open/Unmerged.
