@@ -186,3 +186,6 @@ At all times, answer in Russian unless asked otherwise. Be exact, evidence-led a
 - Exact PR #610 check names and required ruleset contexts are enumerated in the current checkpoint and Wave 509 report. Five generic successes do not equal the five required context names.
 - The previous “Alamo is server 3” instruction is superseded. Do not search for a separate Alamo host. Revalidate the actual SentinelX host/session and local Ollama route independently; owner clarification did not qualify either.
 - This prompt plus repository checkpoints, reports, PRs, issues and linked evidence reconstructs the durable project state. It cannot automatically restore inaccessible full transcripts from every prior chat. Use shared project chat context when available; do not claim otherwise.
+
+
+Documentation proposal PR #621 is OPEN/DRAFT at head `d689f82d03a2eb8adae5e3e431466d2f0f3fcc0d`; its check-runs and formal reviews were empty at the latest audit, so CI/review remain NOT VERIFIED. Do not merge until the exact required contexts and independent review are present.
