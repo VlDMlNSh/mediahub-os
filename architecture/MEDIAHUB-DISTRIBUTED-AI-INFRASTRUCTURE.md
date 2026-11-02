@@ -4,7 +4,7 @@
 - **Status:** ACCEPTED TARGET ARCHITECTURE — NOT YET RUNTIME-QUALIFIED
 - **Scope:** Mac mini 2018 central node, Mac mini Linux worker, MacBook clients, FCC, FreeLLMAPI, local model service, owned GPU server, MediaHub user-contributed compute, mobile client, and registration-only VPS.
 - **Authority:** This document records the user's accepted target design. It does not claim that any component is deployed, compatible, or qualified.
-- **Canonical runtime/host clarification (owner reaffirmed 2026-11-02; originally recorded in Issue #301 Wave 338): Ollama is the single canonical name for the local inference runtime. “Ollama/Allamo” was a mistaken legacy alias, not a distinct service, endpoint, hostname, host, or executor identity. `Voktors-Mini.Dlink` is the physical Mac mini 2018 host on which the Ollama runtime may run. Ollama (runtime), the selected model (for example `llama3.2:3b`), and the physical host are separate identities. This terminology correction does not qualify Ollama's installation, API, model, routing, FCC integration, or production readiness.
+- **Canonical runtime/host clarification (owner reaffirmed 2026-11-02; originally recorded in Issue #301 Wave 338): Ollama is the single canonical name for the local inference runtime. The former “Alamo” label was a mistaken legacy alias, not a distinct service, endpoint, hostname, host, or executor identity. `Voktors-Mini.Dlink` is the physical Mac mini 2018 host on which the Ollama runtime may run. Ollama (runtime), the selected model (for example `llama3.2:3b`), and the physical host are separate identities. This terminology correction does not qualify Ollama's installation, API, model, routing, FCC integration, or production readiness.
 
 ## 1. Architectural decisions
 
