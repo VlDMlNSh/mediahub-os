@@ -77,3 +77,11 @@ def test_cloud_agent_toolchain_is_not_installed_on_ollama_runner() -> None:
     )
     for marker in forbidden:
         assert marker not in source, f"VM 1 must not provision VM 2 tool: {marker}"
+
+
+def test_legacy_alamo_alias_is_not_reintroduced() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8").lower()
+    legacy_alias = "ala" + "mo"
+    assert legacy_alias not in source
+    assert "ollama-local-fcc-claude:" in source
+    assert "mediahub-ollama-fcc-claude-" in source
