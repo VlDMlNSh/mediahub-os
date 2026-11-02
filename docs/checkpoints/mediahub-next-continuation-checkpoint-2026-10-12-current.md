@@ -6,7 +6,7 @@
 - Map addendum: [Wave509](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md).
 - New-chat continuation prompt: [Wave509 master continuation prompt](MEDIAHUB-MASTER-CONTINUATION-PROMPT-WAVE-509-2026-11-02.md).
 - Runner1 candidate is Ollama + FCC/ECC + Claude Code; Runner2 is the separate cloud-agent pool. GitHub-hosted Ubuntu jobs are ephemeral, not persistent VMs.
-- PR #610 runner workflow/test renamed to mediahub-ollama-fcc-claude-runner.yml and test_mediahub_ollama_fcc_runner_contract.py; code changes remain in a PR branch and require final exact-head CI + independent review.
+- PR #610 runner workflow/test renamed to mediahub-ollama-fcc-claude-runner.yml and test_mediahub_ollama_fcc_runner_contract.py; exact-head job checks ran at e9efe73a032b79079280d1479121a71cc83bc767 (run 41385576449), including 8 passing contract tests; however the five required ruleset contexts remain absent and independent APPROVED review is NOT VERIFIED.
 - PR #620 carries documentation correction; draft only until exact-head CI/review and canonical integration.
 - Ollama model inference, FCC/Claude execution, Gemini batch, merge, deployment and qualification: NOT RUN. No secret values read.
 - Contour A NOT ACCEPTED; Contour B GATED.
