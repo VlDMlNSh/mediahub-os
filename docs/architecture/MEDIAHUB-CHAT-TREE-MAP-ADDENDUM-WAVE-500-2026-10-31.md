@@ -10,7 +10,7 @@
 
 ## Wave 500
 
-Reconciled the current PR #610 HEAD, exact-head PR workflow runs/jobs, source blob identities and formal review state. All three PR workflow runs completed successfully; the Alamo job executed only the PR no-op declaration, while live Ollama/FCC/Claude setup and inference remained skipped.
+Reconciled the current PR #610 HEAD, exact-head PR workflow runs/jobs, source blob identities and formal review state. All three PR workflow runs completed successfully; the Ollama job executed only the PR no-op declaration, while live Ollama/FCC/Claude setup and inference remained skipped.
 
 The existing Gemini controller review mode is pinned to historical FCC review target `074f20eb495666946a14410ab88d566aaa754f24` and historical PRs #506/#508. It cannot safely review PR #610. A one-off read-only PR-review controller/child extension is specified in the report but not implemented or dispatched.
 
