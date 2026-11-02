@@ -1,3 +1,14 @@
+## Wave 522 — Colibri / GLM-5.2 suitability assessment (2026-11-02)
+
+- Report: [Wave 522 Colibri assessment](MEDIAHUB-COLIBRI-GLM52-GLM47-CLOUD-RUNNER-ASSESSMENT-WAVE-522-2026-11-02.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Source pin: JustVugg/colibri `main` `0a5504a1dc64f86fcd0fe7db298b0448c730e7e6`; release v2.1.0, Apache-2.0. GLM-5.2 supported; GLM-4.7 not present in inspected model inventory.
+- GLM-5.2 model download ~429 GB, RAM 16 GB minimum / 24 GB recommended. Colibri's OpenAI/Anthropic-compatible API queues requests behind one generation; API authentication is off unless `COLI_API_KEY` is set.
+- Disposition: hosted Runner 1 NO-GO for GLM-5.2 resource/lifecycle fit; Runner 2 NO-GO (Gemini-only); future designated local-compute host REUSE-CANDIDATE / NOT ADOPTED. No installation, download, inference, provider call, credential access, host mutation, dispatch, merge, deployment or qualification.
+- MediaHub main HEAD `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; canonical docs base `d9a289b9113f7567711b641a7017eb814d6c259d`. PR #628 base proposal remains unverified; this Wave 522 change is stacked on it and is not canonical until both review/CI/integration gates pass.
+- Next: continue Issue #301 A0/R-06 and schema/worker admission gates; defer Colibri hardware qualification until a new local-compute target is accepted.
+
+---
+
 ## Wave 521 — PR #610 ECC preflight reconciliation and documentation freshness (2026-11-02)
 
 - Report: [Wave 521 PR #610 ECC preflight reconciliation](MEDIAHUB-PR610-ECC-PREFLIGHT-RECONCILIATION-WAVE-521-2026-11-02.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
