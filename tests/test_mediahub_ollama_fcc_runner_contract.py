@@ -111,3 +111,11 @@ def test_fcc_env_file_uses_a_real_line_terminator() -> None:
     escaped_newline = r"""printf 'ANTHROPIC_AUTH_TOKEN=%s\\n'"""
     assert expected in source
     assert escaped_newline not in source
+
+
+def test_fcc_runtime_token_file_is_ephemeral_and_private() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert 'export FCC_ENV_FILE="$RUNNER_TEMP/fcc-runtime.env"' in source
+    assert "umask 077" in source
+    assert 'chmod 600 "$FCC_ENV_FILE"' in source
+    assert "unset OPENROUTER_API_KEY ANTHROPIC_API_KEY MODEL_FALLBACKS" in source
