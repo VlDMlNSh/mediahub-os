@@ -18,6 +18,8 @@ def test_runner_is_owner_gated_and_target_sha_bound() -> None:
 def test_local_model_runtime_is_pinned_and_loopback_only() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
     assert "OLLAMA_VERSION=0.40.13" in source
+    assert "https://github.com/ollama/ollama/releases/download/v0.40.13/install.sh" in source
+    assert "https://ollama.com/install.sh" not in source
     assert "25f64b810b947145095956533e1bdf56eacea2673c55a7e586be4515fc882c9f" in source
     assert "OLLAMA_HOST=127.0.0.1:11434" in source
     assert "llama3.2:3b" in source
@@ -33,6 +35,7 @@ def test_fcc_configuration_is_local_only_without_fallbacks_or_cloud_credentials(
     assert "assert settings.custom_providers == ()" in source
     assert "credential_suffixes = (" in source
     assert '"_SECRET_ACCESS_KEY", "_ACCESS_KEY_ID", "_BEARER_TOKEN"' in source
+    assert '"_TOKEN"' in source
     assert 'field.validation_alias.endswith(("_PROXY", "_PROXY_URL"))' in source
     assert "assert all(not getattr(settings, name) for name in credential_fields)" in source
     assert "assert all(not getattr(settings, name) for name in proxy_fields)" in source
