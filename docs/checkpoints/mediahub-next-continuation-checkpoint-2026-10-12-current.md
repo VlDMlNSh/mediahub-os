@@ -1,3 +1,14 @@
+## Wave 509 — owner terminology correction: Ollama (2026-11-02)
+
+- Owner reaffirmed the Wave 338 clarification: every historical `Alamo` / `Allamo` reference intended to denote the local Ollama inference runtime. There is no separate Alamo service, endpoint, hostname, host, or executor.
+- Physical host identity remains separate: `Voktors-Mini.Dlink` is the Mac mini 2018 machine; Ollama is runtime software; `llama3.2:3b` is one model tag. Do not conflate these identities.
+- Wave 364/365 wording that “Alamo is the host” is superseded; the original historical records are annotated, not silently rewritten.
+- PR #610 runner workflow/test have been renamed to `.github/workflows/mediahub-ollama-fcc-claude-runner.yml` and `tests/test_mediahub_ollama_fcc_runner_contract.py`; exact-head CI is pending after this edit.
+- Runner 1 candidate: Ollama + FCC/ECC + Claude Code. Runner 2 candidate: separate cloud-agent pool. GitHub-hosted Ubuntu jobs are ephemeral; no persistent VM is implied.
+- Runtime installation, model inference, FCC integration and Claude Code tool execution remain separate qualification stages. No live task was run in this terminology pass.
+
+---
+
 > **SUPERSEDING OWNER TERMINOLOGY CORRECTION — WAVE 509 (2026-11-02):** All historical “Alamo”/“Allamo” references meant **Ollama**, the local model runtime. There is no separate Alamo service, endpoint, hostname, host, or executor. Ollama is the runtime; `llama3.2:3b` is a model identity; `Voktors-Mini.Dlink` is a physical host identity. Claude Code is a client/executor, FCC is its integration/routing layer, and Ollama is the local inference backend. Historical IDs and evidence remain preserved; old Alamo-vs-Ollama distinctions are superseded. This is a terminology correction, not runtime qualification.
 
 ---
