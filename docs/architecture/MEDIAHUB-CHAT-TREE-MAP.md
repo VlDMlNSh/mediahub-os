@@ -8062,3 +8062,12 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 - PR #585 head `85f716005d40fbc03e85762f867eaf235f23629a`: exact-head Astra Verify [39983810741](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39983810741) and Cloud Runtime Validation [39983810755](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39983810755) are now SUCCESS. PR remains Draft/unmerged; zero formal reviews and empty combined status, so integration eligibility is NOT VERIFIED.
 - No Gemini batch dispatch, provider call, secret access, merge, deployment, or qualification. Gemini batch **NOT RUN**; Contour A **NOT ACCEPTED**.
 - Next: repair the stale concurrency contract test, rerun both failing workflows on the exact new PR #583 head, independently review, and re-check governance before any controller dispatch.
+
+
+## Wave 520 — post-merge Runner 1 and Gemini topology audit (2026-11-02)
+
+- Report: [Wave 520 post-merge Runner 1 and Gemini topology audit](../checkpoints/MEDIAHUB-POST-MERGE-RUNNER1-AND-GEMINI-TOPOLOGY-AUDIT-WAVE-520-2026-11-02.md).
+- PR #623 is MERGED at `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; PR-head contract CI passed, but all live Runner 1 execution steps were skipped on the PR event. Ollama/FCC/Claude runtime remains NOT RUN.
+- PR #610 overlap remains unresolved. PR #625 topology and PR #626 evidence updates remain open proposals without verified exact-head CI/independent review.
+- Gemini controller main blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` still assigns three separate `ubuntu-latest` jobs; single-host Runner 2 co-location NOT IMPLEMENTED. Gemini agents NOT RUN; governance/secret metadata NOT VERIFIED.
+- Contour A NOT ACCEPTED; Contour B GATED. Next: reconcile PR #610 and implement/test the isolated same-host Runner 2 design before dispatch.
