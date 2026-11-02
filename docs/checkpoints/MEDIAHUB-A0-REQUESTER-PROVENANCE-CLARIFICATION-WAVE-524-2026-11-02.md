@@ -59,6 +59,17 @@ No cryptographic token format, identity provider, key system, database, queue, e
 
 No controller was invoked: the main Gemini controller's fixed task contract does not accept this A0 source-bound review packet as three separately defined roles. No workflow-dispatch action was used as a bypass. No secret values, provider credentials or local hosts were accessed.
 
+## Final read-back reconciliation — Wave 525 (2026-11-02)
+
+The prior status row “Contract read-back / new blob SHA: PENDING at report authoring” is superseded by the following verified read-back:
+
+- Current PR #600 head: `073f5b1fa1e478bf770f17b7655e7ad264f5cd85`.
+- Amended contract blob read from the PR branch: `1200d343139c8e67a826902b3ade09d4987c537d`.
+- Confirmed Sections 3.2, 4, 5.1, 6, 8, 10 and acceptance matrix AUTH-15…AUTH-21 / AUD-05 contain requester provenance, immutable request binding, deny rules, durable receipt and sanitized audit requirements.
+- The Wave 489 pre-review finding is addressed in the amended normative text. PR #602 remains an historical pre-review record against its earlier target `1e98fb9377e2103bdb6a70b1ca369596cea3a9fe`; its branch is now 3 commits ahead / 5 behind the amended PR #600 head and must not be treated as the current contract state.
+- PR #600 remains OPEN / DRAFT / UNMERGED. Exact-head workflow runs and combined statuses are empty; formal reviews are zero. Independent A3 review and CI remain NOT VERIFIED.
+- No runtime, executable fixture, schema validation, dispatch, secret access, provider call, merge or acceptance occurred.
+
 ## Next bounded step
 
 1. Read back the amended contract at the new blob SHA and confirm every new claim, deny rule, receipt/audit field and acceptance fixture is present.
