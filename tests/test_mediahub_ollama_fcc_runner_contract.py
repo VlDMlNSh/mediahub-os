@@ -103,3 +103,11 @@ def test_selective_ecc_profile_is_pinned_and_guidance_only() -> None:
     assert "mcps_installed=false" in source
     assert "controller_installed=false" in source
     assert "ECC is guidance only and grants no authority." in source
+
+
+def test_fcc_env_file_uses_a_real_line_terminator() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    expected = r"""printf 'ANTHROPIC_AUTH_TOKEN=%s\n' "$ANTHROPIC_AUTH_TOKEN" > "$FCC_ENV_FILE"""
+    escaped_newline = r"""printf 'ANTHROPIC_AUTH_TOKEN=%s\\n'"""
+    assert expected in source
+    assert escaped_newline not in source
