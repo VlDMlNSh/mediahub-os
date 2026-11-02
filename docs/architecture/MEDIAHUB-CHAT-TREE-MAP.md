@@ -1,3 +1,14 @@
+## Wave 521 — PR #610 ECC preflight reconciliation and documentation freshness (2026-11-02)
+
+- Report: [Wave 521 PR #610 ECC preflight reconciliation](../checkpoints/MEDIAHUB-PR610-ECC-PREFLIGHT-RECONCILIATION-WAVE-521-2026-11-02.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Main HEAD `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; canonical docs branch HEAD `d9a289b9113f7567711b641a7017eb814d6c259d`.
+- Canonical map/checkpoint/roadmap were stale at Waves 477/392/458; Wave 520 was not indexed. This entry and checkpoint update are proposed on a separate docs branch.
+- PR #610 (`cac44b8a867945d4b544c3e46bd819bc42373f36`) is diverged from main (92 ahead / 2 behind), but includes distinct pinned ECC and FCC/Claude PR preflight jobs and tests. Preserve current-main FCC config/no-fallback assertions; do not merge wholesale.
+- Runner 1 runtime NOT RUN; Gemini same-host Runner 2 NOT IMPLEMENTED; controller secrets/variable metadata, effective scope and trusted-main no-secret probe NOT VERIFIED; Gemini Agents 1/2/3 NOT RUN.
+- Next: selectively port the PR preflight jobs/tests to a fresh main-based implementation branch and obtain exact-head CI plus independent formal review.
+
+---
+
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
