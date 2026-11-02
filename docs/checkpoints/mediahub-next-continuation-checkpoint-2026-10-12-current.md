@@ -1,3 +1,16 @@
+## Wave 509 — mini-step 1: Bootstrap Ollama terminology correction (2026-11-02)
+
+- Scope: the governing Bootstrap only; map/Roadmap/repository-wide corrections are deferred to separate mini-steps.
+- Owner source: [Issue #301, Wave 338 clarification](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941).
+- Bootstrap updated on isolated branch `docs/wave509-step1-bootstrap-only-2026-11-02`; read-back blob `7b4b8331c8e2eb9faaadff87cd20d201def48206`.
+- Normative model: Ollama = local inference runtime/API; model tag = model identity; physical host/session = separately verified identity; FCC = integration/auth/routing; Claude Code = client/executor.
+- The former “Alamo/server 3” is not a separate hostname/service/executor. Historical Wave 272 names are retained as provenance and explicitly marked legacy.
+- Dated report: [Wave 509 mini-step 1](MEDIAHUB-OLLAMA-TERMINOLOGY-WAVE-509-STEP-1-BOOTSTRAP-2026-11-02.md).
+- No model/provider call, secret read, local execution, Gemini dispatch, deployment or merge. Runtime qualification and project acceptance are NOT CLAIMED.
+- Next: mini-step 2 — correct the canonical map and Master Roadmap, preserving historical IDs and provenance.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
