@@ -11,6 +11,13 @@ Keep these identities separate:
 
 All Wave 364/365 claims that “Alamo” was a separate host/service/endpoint or that the runtime had to run on a distinct “Alamo/server 3” are superseded. Historical reports and source filenames remain as audit records; their claims are not current identity definitions. A GitHub-hosted Ubuntu workflow that installs Ollama is an **ephemeral runner job**, not a persistent VM. This correction does not establish runtime deployment, local model availability, FCC compatibility, Claude Code task qualification, or production acceptance.
 
+
+### Wave509 canonical navigation
+
+- [Ollama terminology supersession report](../checkpoints/MEDIAHUB-OLLAMA-TERMINOLOGY-SUPERSESSION-WAVE-509-2026-11-02.md)
+- [Wave509 map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md)
+- [Master continuation prompt for a new chat](../checkpoints/MEDIAHUB-MASTER-CONTINUATION-PROMPT-WAVE-509-2026-11-02.md)
+
 ---
 # MediaHub — инструкция загрузки контекста и обязательного анализа перед действием
 
