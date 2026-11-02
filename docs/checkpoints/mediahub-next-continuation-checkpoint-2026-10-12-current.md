@@ -2852,3 +2852,12 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Current SentinelX host is macOS ARM64 `Voktors-Mini.Dlink`; `mh-dev-01` and `mh-dev-02` are offline in Desktop Commander inventory. No persistent Ubuntu host/capacity verified.
 - PR #623 formal reviews 0; inline threads 0; independent review NOT VERIFIED. Gemini Agents 1/2/3 NOT RUN. No credentials, model/provider calls, runner provisioning, merge, deployment, qualification or acceptance.
 - Next: implement the Runner 2 same-host isolated-container architecture and its negative security/resource tests; independently review PR #623; verify actual Ubuntu resources and controller metadata/gates before any live execution.
+
+
+## Wave 523 — PR #623 post-merge status correction (2026-11-02)
+
+- The Wave 517 report's stale claim that PR #623 remained unmerged has been corrected. PR #623 merged to main at `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; source candidate SHA `4ded07da6c262aa47fdca19289e5479a1580318d` remains historical provenance only.
+- PR-event contract CI passed, but all live Runner 1 install/model/FCC/Claude steps were skipped. Runtime remains NOT RUN / NOT QUALIFIED.
+- PR #625 updated head `16f951450d284ed2aa6c75f45d3d3732881f3fd3`; exact-head CI absent, combined status empty, formal reviews 0, inline threads 0. Keep unmerged and NOT VERIFIED.
+- Runner 2 same-host co-location NOT IMPLEMENTED; Gemini Agents 1/2/3 NOT RUN. Contour A NOT ACCEPTED; Contour B GATED.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
