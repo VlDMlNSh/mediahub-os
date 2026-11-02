@@ -1,3 +1,16 @@
+## Wave 508 — PR review and governance revalidation (2026-11-02)
+
+- Report: [Wave 508 PR review and governance revalidation](MEDIAHUB-PR-REVIEW-AND-GOVERNANCE-REVALIDATION-WAVE-508-2026-11-02.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-508-2026-11-02.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Main HEAD `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; canonical docs branch at audit start `d9a289b9113f7567711b641a7017eb814d6c259d`.
+- PR #613 exact HEAD `237948e03088c3ea43608b0c284327c552d34f4b`: all five required contexts SUCCESS (runs 41190324945, 41190324972, 41190324916, 41190324922, 41190324920); non-launching probe 41190324940 succeeded, admission/dispatch skipped. Formal reviews 0; independent review NOT VERIFIED.
+- PR #610 exact HEAD `52456b2037af215d20414c5027625b3d0fb5ce6d`: five observed checks SUCCESS, but five exact ruleset contexts absent. One owner COMMENTED review only; no independent approval. Runtime setup NOT RUN.
+- PR #619 OPEN/DRAFT at `cd0c98e82c0bd30ff2b4fecf1380efcc7ad0c15b`; exact-head check-runs 0 and formal reviews 0; NOT VERIFIED.
+- Active ruleset ID 26108066. Controller secret/variable presence and scope NOT VERIFIED; Gemini dispatch NOT RUN. SentinelX has one operational host and no available Free-plan slots; two other hosts disabled; no third server confirmed.
+- Canonical map visible head Wave 477, checkpoint prior visible head Wave 392, roadmap visible head Wave 458. Wave 508 report/addendum record the fresh audit; canonical map remains oversized and was not rewritten.
+- Contour A NOT ACCEPTED; Contour B GATED. Next: formal independent APPROVED review of PR #613; separately close PR #610 required-context and review gaps. No merge or dispatch until gates pass.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
