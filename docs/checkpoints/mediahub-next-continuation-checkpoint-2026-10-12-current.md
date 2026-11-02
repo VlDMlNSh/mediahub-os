@@ -1,3 +1,47 @@
+## Wave 509 — consolidated terminology correction and PR revalidation (2026-11-02)
+
+- Documentation PR #621: https://github.com/VlDMlNSh/mediahub-os/pull/621; OPEN/DRAFT, head `d689f82d03a2eb8adae5e3e431466d2f0f3fcc0d`, base canonical docs HEAD `d9a289b9113f7567711b641a7017eb814d6c259d`. Its exact-head check-runs endpoint returned an empty array and commit status `pending` with zero statuses; reviews and threads are empty. Documentation CI and independent review are **NOT VERIFIED**. Do not merge.
+
+- Owner's binding source: [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941): every former “Alamo/Allamo” reference to the local inference runtime means **Ollama**. No separate Alamo service, endpoint, host, hostname or executor exists.
+- Canonical identity model: Ollama = runtime/API; exact model tag (for example `llama3.2:3b`) = model; `Voktors-Mini.Dlink` = physical Mac mini host identity; FCC = integration/routing; Claude Code = client/executor.
+- Governing Bootstrap correction is on this working branch; blob `7b4b8331c8e2eb9faaadff87cd20d201def48206`. Master Roadmap's current DEC-DEV-01 wording no longer treats Alamo/Ollama as an owner decision; remaining work is technical runtime/version/endpoint/model/host evidence. Checkpoint, report, map addendum and master continuation prompt are linked below.
+- PR #610 latest code head `961ad2018ed6b702f501c03511596e519742d9e4`, title “feat: add Ollama FCC and Claude Code runner”, OPEN and not merged. Changed paths include `.github/workflows/mediahub-ollama-fcc-claude-runner.yml`, `tests/test_mediahub_ollama_fcc_runner_contract.py`, distributed AI architecture, Wave 364/365/369 and Wave 496/497/498/500 historical evidence, Wave 509 report and continuation prompt.
+- PR #610 exact-head check-runs observed: `ollama-local-fcc-claude`, `dispatch-gate`, `workflow-contract`, `verify`, `validate` all SUCCESS on `961ad201...`. However active ruleset `MediaHub-main-autonomous-merge` requires exact contexts `Astra Cloud Runtime Validation`, `AI Factory verification`, `provider contract verification`, `Astra Verify`, `Gemini workflow contract validation (Wave 284)`; these exact five contexts were not present in the returned check-runs. Therefore required-context gate is **NOT VERIFIED / BLOCKED**, notwithstanding five other successful checks.
+- PR #610 formal review endpoint has one owner-authored `COMMENTED` review (2026-10-31), not an independent `APPROVED` review; review threads returned empty. Independent approval remains **NOT VERIFIED**. Mergeable=true is not acceptance.
+- Main HEAD observed `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; canonical docs branch HEAD at audit start `d9a289b9113f7567711b641a7017eb814d6c259d`. Wave 509 documentation branch HEAD before final doc updates `003bb5eeaf89ce430b4918748a503cf250f5d6d5`; re-fetch after writes for final SHA.
+- Ruleset 26108066 is active, strict required checks, no bypass actors, and required review-thread resolution. The PR's generic check names do not satisfy the five named contexts.
+- Search and classification: active PR #610 source paths were normalized to Ollama; historical file names/immutable wave IDs remain as provenance. The Bootstrap now binds terminology and corrects normative “Alamo/server 3” language. The map's 1.2 MB content requires Git blob/tree API for an update; do not use empty Contents response as file content.
+- No secret values read; no model/provider inference; no Gemini controller dispatch; no SentinelX host mutation; no Ollama installation/model pull; no merge/deployment/qualification/acceptance. PR contract CI does not qualify live runtime.
+- Status: **TERMINOLOGY CORRECTION IMPLEMENTED ON WORKING BRANCH / PR #610 EXACT REQUIRED CONTEXTS NOT VERIFIED / INDEPENDENT REVIEW NOT VERIFIED / DOCUMENTATION PR PENDING / NOT ACCEPTED**.
+- Next: finish canonical documentation proposal (map index, report, checkpoint, roadmap, Bootstrap and new-chat prompt), open a separate PR targeting `docs/mediahub-chat-tree-map-20261012`, then validate that PR's exact-head CI/review. Separately resolve PR #610 required context publication and obtain a genuine independent review. Do not merge either PR without its own gates.
+
+Links: [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md) · [Bootstrap](../architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md) · [Master Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md) · [Wave 509 report](MEDIAHUB-OLLAMA-TERMINOLOGY-UNIFICATION-WAVE-509-2026-11-02.md) · [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md) · [new-chat master prompt](../architecture/MEDIAHUB-NEW-CHAT-MASTER-CONTINUATION-PROMPT.md) · [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301) · [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610).
+
+---
+
+## Wave 509 — Step 1: governing Bootstrap terminology correction (2026-11-02)
+
+- **Completed on documentation working branch:** normalized the controlling Bootstrap at `docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md` to identify Ollama as the sole local inference runtime.
+- Owner source: [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941).
+- Bootstrap blob after read-back: `7b4b8331c8e2eb9faaadff87cd20d201def48206`. Historical “Alamo/Allamo” labels are described as superseded; separate host/runtime/model identities are explicit. Historical Wave 272 filenames are retained and marked legacy.
+- Dated report: [Wave 509 Step 1 Bootstrap correction](MEDIAHUB-OLLAMA-TERMINOLOGY-WAVE-509-STEP-1-BOOTSTRAP-2026-11-02.md).
+- Scope strictly limited to Bootstrap and this checkpoint/report. Canonical map, Master Roadmap, remaining source files and final master prompt are later mini-steps.
+- No runtime/model call, secret read, local execution, Gemini dispatch, merge, deployment, qualification or acceptance.
+- Status: **DOCUMENTATION CHANGE WRITTEN AND READ BACK / PR CI PENDING / NOT ACCEPTED**.
+
+---
+
+## Wave 509 — owner-confirmed Ollama terminology unification (2026-11-02)
+
+- Report: [Wave 509 Ollama terminology unification](MEDIAHUB-OLLAMA-TERMINOLOGY-UNIFICATION-WAVE-509-2026-11-02.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md); [master continuation prompt](../architecture/MEDIAHUB-NEW-CHAT-MASTER-CONTINUATION-PROMPT.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Owner clarification: every historical “Alamo” / “Allamo” reference means Ollama, the local model runtime; no separate Alamo service/endpoint/host/executor exists. Model tags and physical host identities are separate.
+- Implementation PR #610: https://github.com/VlDMlNSh/mediahub-os/pull/610. Workflow/test renamed to Ollama. Architecture corrected; historical docs receive superseding notes while preserving IDs/provenance.
+- Terminology correction does not qualify live Ollama, FCC, Claude Code, or any physical host. No live model call, dispatch, secret read, host mutation, merge or deployment occurred.
+- PR #610 exact-head CI/review must be rechecked; independent formal review and effective required contexts remain separate merge gates.
+- Contour A NOT ACCEPTED; Contour B GATED.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
@@ -2837,3 +2881,11 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## PR #621 exact-head recheck — 2026-11-02
+
+- Rechecked exact head `7a6cb545b5763f37c8d3fd46871359c7e50246d7`: check-runs endpoint returned an empty array; commit status was pending with zero statuses. Formal review list and review threads both returned empty. CI and independent review **NOT VERIFIED**.
+- PR #621 remains OPEN/DRAFT, mergeable=true, not merged. Mergeability is not acceptance. Do not merge while checks/review are absent.
+- Default-branch GitHub code search for `Alamo` returned eight files; `Allamo` and `ollamo` returned zero. The eight results are the Wave 364/365/369 and architecture/WB-14 historical records. All eight were fetched from the PR #610 working branch and each was verified to contain the superseding Wave 509 note or explicit canonical Ollama clarification. The remaining occurrences are historical labels/filenames or explanatory supersession notices, not a separate current component.
+- This snapshot is tied to the checked SHA above; later documentation commits create a new head and require fresh exact-head checks.

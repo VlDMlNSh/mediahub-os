@@ -1,3 +1,21 @@
+## Wave 509 — canonical local runtime terminology correction (2026-11-02)
+
+> **Binding owner clarification:** [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) defines all former “Alamo/Allamo” references to the local inference route as **Ollama**. No separate Alamo service, endpoint, hostname, physical host or executor exists. The former “Alamo vs Ollama” naming conflict is CLOSED.
+
+Identity separation: **Ollama** = runtime/API; exact tag (e.g. `llama3.2:3b`) = model; `Voktors-Mini.Dlink` = physical Mac mini host; FCC = integration/routing; Claude Code = client/executor. Host availability, runtime version, model provenance, endpoint binding, data egress and local-only fail-closed behavior remain engineering verification tasks.
+
+- Detailed report: [Wave 509 Ollama terminology unification](../checkpoints/MEDIAHUB-OLLAMA-TERMINOLOGY-UNIFICATION-WAVE-509-2026-11-02.md)
+- Map addendum: [Wave 509](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md)
+- Bootstrap: [current project bootstrap](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md)
+- Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md)
+- Master Roadmap: [Master Development Roadmap 1.0](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md)
+- New-chat master prompt: [continuation prompt](MEDIAHUB-NEW-CHAT-MASTER-CONTINUATION-PROMPT.md)
+- Implementation candidate: [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610)
+
+Historical filenames, wave IDs, commits, blob SHAs and run IDs are preserved as provenance; their prior identity interpretations are superseded. GitHub-hosted Ubuntu jobs remain ephemeral and do not establish persistent VM or physical-host identity. Terminology correction does not qualify live runtime or accept Contour A.
+
+---
+
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
