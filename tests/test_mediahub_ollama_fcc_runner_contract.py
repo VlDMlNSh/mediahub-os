@@ -64,8 +64,8 @@ def test_pr_preflights_are_provider_free_and_live_model_run_is_dispatch_gated() 
     assert "github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch'" in source
     assert "PR validation only; live runner dispatch is not authorized" in source
     assert "Record that live execution is intentionally not run on pull requests" in source
-    assert "  ecc-profile-preflight:\\n    if: github.event_name == 'pull_request'" in source
-    assert "  fcc-claude-install-preflight:\\n    if: github.event_name == 'pull_request'" in source
+    assert "  ecc-profile-preflight:\n    if: github.event_name == 'pull_request'" in source
+    assert "  fcc-claude-install-preflight:\n    if: github.event_name == 'pull_request'" in source
     assert "npm install --global @anthropic-ai/claude-code@2.1.282" in source
     assert "uv sync --locked --no-dev" in source
     assert "https://openrouter.ai/api/v1/chat/completions" not in source
