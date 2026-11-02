@@ -4,14 +4,14 @@
 
 # MediaHub Chat Tree Map — Wave 365 addendum (2026-10-22) 
 
-> **Terminology correction — 2026-11-02 (supersedes the legacy wording below):** The owner clarification in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) defines every prior “Alamo” reference as the local **Ollama** inference runtime, not a separate service, endpoint, hostname, host, or executor identity. `Voktors-Mini.Dlink` is the physical Mac mini 2018 host; Ollama is software/runtime that may run on it; the model (for example `llama3.2:3b`) is a third, separate identity. Historical text is retained as an audit trail and must not be treated as current naming or proof of runtime qualification.
+> **Terminology correction — 2026-11-02 (supersedes the legacy wording below):** The owner clarification in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) defines every prior “Ollama” reference as the local **Ollama** inference runtime, not a separate service, endpoint, hostname, host, or executor identity. `Voktors-Mini.Dlink` is the physical Mac mini 2018 host; Ollama is software/runtime that may run on it; the model (for example `llama3.2:3b`) is a third, separate identity. Historical text is retained as an audit trail and must not be treated as current naming or proof of runtime qualification.
 
 This is a working-branch addendum, not a replacement for the canonical map on `docs/mediahub-chat-tree-map-20261012`.
 
 ## Owner-confirmed hardware identity
 
-- Alamo is hosted on `Voktors-Mini.Dlink`, identified by the owner as the Mac mini 2018.
-- This corrects the earlier interpretation that Alamo was separate from the superseded hardware label central role.
+- Ollama is hosted on `Voktors-Mini.Dlink`, identified by the owner as the Mac mini 2018.
+- This corrects the earlier interpretation that Ollama was separate from the superseded hardware label central role.
 - See merged [PR #450](https://github.com/VlDMlNSh/mediahub-os/pull/450), merge commit `25a2883bb8e3099df49c9bd688c028958102bc95`.
 - The current working branch corrects the exact superseded hardware label in three source documents. The final branch-wide search and exact-head CI remain required before acceptance.
 
