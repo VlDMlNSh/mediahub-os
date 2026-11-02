@@ -55,6 +55,10 @@ Enrollment MUST default to deny. Privileged enrollment, recovery and re-enrollme
 
 The Security Issuer Authority MUST be distinct from Jarvis, A0 and protected consumers. It MUST:
 - authenticate the requesting principal independently of request-supplied claims;
+- verify the request origin, requester identity generation and workload authentication context;
+- verify that the requester is authorized for the exact mission/task class, audience, operation/resource scope, environment and data classification;
+- verify any separately required owner/mission approval evidence without treating Jarvis identity or caller-supplied approval fields as that evidence;
+- bind the verified requester, authorization decision and any required approval reference to the immutable request digest, task ID and correlation ID;
 - evaluate versioned grant policy;
 - enforce subject/audience/operation/resource/constraint bounds;
 - refuse self-grant and unauthorized delegation;
@@ -71,6 +75,10 @@ A capability is an issuer-authenticated statement of bounded authority. The even
 | Claim | Required meaning |
 |---|---|
 | issuer | Stable issuer identity and trust/key version reference |
+| requester | Original authenticated mission-initiator principal ID and identity generation, distinct from the A0 execution subject |
+| requester_authentication | Verifiable workload-identity/authentication-context reference for the request origin; never raw credentials |
+| mission_authorization | Issuer-verifiable policy decision reference binding requester, mission/task class, audience, operation/resource scope, environment and data classification |
+| approval_evidence_ref | Non-secret reference to the separately authenticated owner/mission approval evidence when the governing mission policy requires it; otherwise an explicit not-required decision |
 | subject | Exact enrolled principal and identity generation |
 | audience | Exact intended verifier/consumer |
 | capability_id | Unique, non-secret capability identifier |
@@ -84,13 +92,25 @@ A capability is an issuer-authenticated statement of bounded authority. The even
 | revocation_ref | Revocation generation or lookup reference with freshness semantics |
 | request_binding | Immutable request digest or an unambiguous binding to it |
 
-The proof MUST authenticate the complete canonical semantic claim set. Duplicate keys, ambiguous encodings, unrecognized critical fields, non-canonical representations and downgrade attempts MUST be rejected before authorization. The implementation ADR MUST define canonicalization, cryptographic algorithms, serialization, key identifiers, rotation and verifier interoperability.
+The proof MUST authenticate the complete canonical semantic claim set. Requester identity, requester identity generation, authentication-context reference, mission-authorization decision and any required approval-evidence reference MUST be cryptographically bound to the same immutable task ID, correlation ID and request digest as the A0 grant. Duplicate keys, ambiguous encodings, unrecognized critical fields, non-canonical representations and downgrade attempts MUST be rejected before authorization. The implementation ADR MUST define canonicalization, cryptographic algorithms, serialization, key identifiers, rotation and verifier interoperability.
 
 The verifier MUST NOT accept a proof merely because it parses or because it was signed by any trusted key. It MUST validate all claim bindings against the current request and consumer policy.
 
 ## 5. Delegation and Jarvis-to-A0 ingress
 
 Jarvis submits a bounded mission request with a stable correlation ID and immutable payload digest. Jarvis does not mint or transfer an A0 capability.
+
+### 5.1 Authenticated request origin and mission authorization
+
+The original requester/initiator MUST be represented by a stable authenticated principal ID and identity generation. This principal is distinct from (a) the human/owner or approval source, where one exists; (b) the Jarvis workload principal; (c) the Security Issuer Authority; and (d) the A0 execution subject. The identity protocol and trust mechanism remain implementation ADR decisions.
+
+The request origin MUST carry a verifiable workload-identity/authentication-context reference. The Security Issuer Authority MUST independently validate that identity against its admitted-principal and current-generation trust state; request-body fields, role strings, workflow names, caller assertions or transport acknowledgements MUST NOT substitute for authentication.
+
+The issuer MUST make and retain a policy decision that the authenticated requester may submit this exact mission/task class and requested audience, operation/resource scope, environment and data classification. Where mission policy requires human/owner approval, the issuer MUST independently verify a non-secret approval-evidence reference bound to the mission; Jarvis service identity MUST NOT be treated as owner identity or approval. Where approval is not required, the policy decision MUST explicitly record that disposition.
+
+Requester identity/generation, authentication-context reference, mission-authorization decision, any required approval-evidence reference, task ID, correlation ID and immutable request digest MUST remain bound through issuer evaluation, capability issuance, Jarvis-to-A0 submission and the durable A0 receipt. Any delegation MUST preserve the original requester and each authorized delegator; it MUST NOT replace the origin with the intermediary identity.
+
+Missing, unknown, suspended, revoked, stale, unauthorized, ambiguous or altered requester/approval/delegation evidence, or any mismatch among task ID, correlation ID and request digest, MUST cause denial before durable acceptance. The denial MUST produce sanitized correlated audit evidence and MUST NOT create a task or protected effect.
 
 The Security Issuer Authority evaluates the request and, if permitted, issues a distinct capability whose subject is the admitted A0 service principal and whose audience is the A0 ingress verifier. The grant MUST be limited to:
 - the exact mission/task identity;
@@ -155,7 +175,7 @@ Required semantics:
 - crash before durable reservation: no acceptance may be reported;
 - receipt storage unavailable or integrity uncertain: reject; do not return a transport-level success as task acceptance.
 
-A durable A0 acceptance receipt MUST include receipt ID, request digest, task ID, issuer/subject/capability references, policy version, audience, accepted operation/resource scope, expiry/revocation generation, idempotency key digest, decision timestamp and evidence correlation ID. It MUST NOT contain raw bearer tokens or secret material.
+A durable A0 acceptance receipt MUST include receipt ID, request digest, task ID, issuer/subject/capability references, original requester ID and identity generation, requester authentication-context reference, mission-authorization decision reference, any required approval-evidence reference (or explicit not-required disposition), policy version, audience, accepted operation/resource scope, expiry/revocation generation, idempotency key digest, decision timestamp and evidence correlation ID. It MUST NOT contain raw bearer tokens or secret material.
 
 ## 9. A0 lifecycle and fencing contract
 
@@ -183,7 +203,7 @@ Events MUST be correlated and tamper-evident for:
 - lease claim/renewal/fencing, retry, cancellation, recovery and terminal transition;
 - privileged downstream effect and audit access itself.
 
-Minimum fields: event ID, event type, timestamp/time confidence, correlation ID, stable principal/issuer IDs, identity generation, capability ID/digest (not raw capability), audience, operation/resource classification, policy version, decision/reason, revocation generation, A0 receipt/lease generation and source/evidence reference.
+Minimum fields: event ID, event type, timestamp/time confidence, correlation ID, stable requester/initiator, issuer and subject IDs with identity generations, requester authentication-context and mission-authorization decision references, required approval-evidence reference/disposition, capability ID/digest (not raw capability), audience, operation/resource classification, policy version, decision/reason, revocation generation, A0 receipt/lease generation and source/evidence reference.
 
 MUST NOT log raw capability/token, authorization header, API key, password, private key, session cookie, HMAC key or full sensitive payload. Use payload digests and classified references. Audit reads MUST be least-privilege and themselves auditable.
 
@@ -215,6 +235,13 @@ All tests below are REQUIRED for implementation qualification. They are specific
 | AUTH-12 | Revoked grant during active task | Fence worker; no subsequent protected effect |
 | AUTH-13 | Delegation broadens subject/audience/operation/resource/lifetime | Deny |
 | AUTH-14 | Duplicate keys, ambiguous canonicalization, unknown critical field or downgrade | Deny before authorization |
+| AUTH-15 | Unknown, unadmitted or inactive authenticated requester | Deny before durable acceptance; emit sanitized audit decision |
+| AUTH-16 | Authenticated requester lacks permission for the requested mission/task class or scope | Deny; caller-supplied role/approval fields do not override policy |
+| AUTH-17 | Request digest, task ID or correlation ID differs between requester authorization and A0 ingress | Deny; do not reserve or accept the mismatched request |
+| AUTH-18 | Jarvis workload identity is valid but separately required owner/mission approval evidence is missing or invalid | Deny; Jarvis is not treated as owner/approver |
+| AUTH-19 | Delegation chain omits, replaces or alters original requester provenance | Deny; preserve original requester identity |
+| AUTH-20 | Valid request/capability replayed under a different requester, task or correlation ID | Deny and audit; preserve original receipt |
+| AUTH-21 | Requester is suspended/revoked or authorization expires before durable A0 acceptance | Deny before acceptance; re-check current generation at commit |
 | IDEM-01 | Same idempotency key and same digest | Return same receipt; one logical task |
 | IDEM-02 | Same key and different digest | Reject and audit; preserve original receipt |
 | IDEM-03 | N concurrent identical ingress requests | One durable acceptance and one logical task |
@@ -231,6 +258,7 @@ All tests below are REQUIRED for implementation qualification. They are specific
 | AUD-02 | Audit event omits required correlation/principal/policy fields | Test fails |
 | AUD-03 | Token, secret, key or sensitive payload injected into logs/artifacts | Test fails; no material emitted |
 | AUD-04 | Unauthorized audit read or unlogged audit access | Deny and alert |
+| AUD-05 | Receipt/audit event omits requester identity generation, authorization decision or required approval disposition | Test fails; no acceptance without complete sanitized provenance |
 | VER-01 | Consumer B receives proof intended for consumer A | Deny audience mismatch |
 | VER-02 | A0 accepted request then downstream consumer checks authority | Downstream performs its own verification |
 | VER-03 | Product-state mutation attempted through A0/executor grant | Deny; Product State Authority boundary preserved |
