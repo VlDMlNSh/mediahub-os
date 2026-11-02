@@ -2849,3 +2849,15 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - Gemini Agents 1/2/3: NOT RUN; no controller or child run IDs/artifacts for this pass. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile PR #610 unique changes, correct the stale PR #626 Wave 519 status note, and implement/test a single-host Runner 2 design with isolated agent containers and controller-secret isolation before considering dispatch.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 521 — Runner 1 PR #610 reconciliation (2026-11-02)
+
+- Report: [Wave 521 PR #610 reconciliation](MEDIAHUB-RUNNER1-PR610-RECONCILIATION-WAVE-521-2026-11-02.md).
+- PR #610 remains OPEN/UNMERGED at head `cac44b8a867945d4b544c3e46bd819bc42373f36`. Its Runner 1 workflow and contract test files are divergent older copies and are **SUPERSEDED / DO NOT MERGE** because PR #623 has already integrated later versions into main.
+- Current main workflow/test blobs: `12b684bbd3d475d64cac7e37bbaf64c65ce40529` / `a3cf0c8fffbe5fd049144619d388354b4704b1d8`. PR #610 copies: `dd6a577f6c704b0453fcd5b05754d10967f8babb` / `2cf879635b68008b90af2e1ae0ec831f1b5a65a1`.
+- Unique architecture and historical Wave 365/496–510 documents remain review-only; stale checkpoint copy must not replace the current checkpoint. No merge/cherry-pick/copy was performed.
+- PR #610's description cites an older head `495d3f8eca33eb3feb52426131fed7d07dc9c372`; those historical CI claims are not evidence for current head `cac44b8...`.
+- Runtime remains NOT RUN; Gemini dispatch NOT RUN. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: reconcile only unique historical architecture/documentation against current Bootstrap, roadmap, issues #296/#496/#301 and the two-runner topology proposal.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
