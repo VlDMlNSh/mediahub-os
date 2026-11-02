@@ -180,7 +180,7 @@ jobs:
         run: |
           set -euo pipefail
           installer="$RUNNER_TEMP/ollama-install.sh"
-          curl --fail --silent --show-error --location --max-time 60 https://ollama.com/install.sh -o "$installer"
+          curl --fail --silent --show-error --location --max-time 60 https://github.com/ollama/ollama/releases/download/v0.40.13/install.sh -o "$installer"
           echo "25f64b810b947145095956533e1bdf56eacea2673c55a7e586be4515fc882c9f  $installer" | sha256sum --check -
           OLLAMA_VERSION=0.40.13 sh "$installer"
           ollama --version | tee "$RUNNER_TEMP/ollama-version.txt"
@@ -274,7 +274,7 @@ jobs:
           ))
           credential_suffixes = (
               "_API_KEY", "_API_TOKEN", "_SECRET_KEY",
-              "_SECRET_ACCESS_KEY", "_ACCESS_KEY_ID", "_BEARER_TOKEN",
+              "_SECRET_ACCESS_KEY", "_ACCESS_KEY_ID", "_BEARER_TOKEN", "_TOKEN",
           )
           credential_fields = [
               name for name, field in Settings.model_fields.items()
