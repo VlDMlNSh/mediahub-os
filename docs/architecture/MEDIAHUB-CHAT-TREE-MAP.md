@@ -8062,3 +8062,21 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 - PR #585 head `85f716005d40fbc03e85762f867eaf235f23629a`: exact-head Astra Verify [39983810741](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39983810741) and Cloud Runtime Validation [39983810755](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39983810755) are now SUCCESS. PR remains Draft/unmerged; zero formal reviews and empty combined status, so integration eligibility is NOT VERIFIED.
 - No Gemini batch dispatch, provider call, secret access, merge, deployment, or qualification. Gemini batch **NOT RUN**; Contour A **NOT ACCEPTED**.
 - Next: repair the stale concurrency contract test, rerun both failing workflows on the exact new PR #583 head, independently review, and re-check governance before any controller dispatch.
+
+
+## Wave 520 — post-merge Runner 1 and Gemini topology audit (2026-11-02)
+
+- Report: [Wave 520 post-merge Runner 1 and Gemini topology audit](../checkpoints/MEDIAHUB-POST-MERGE-RUNNER1-AND-GEMINI-TOPOLOGY-AUDIT-WAVE-520-2026-11-02.md).
+- PR #623 is MERGED at `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; PR-head contract CI passed, but all live Runner 1 execution steps were skipped on the PR event. Ollama/FCC/Claude runtime remains NOT RUN.
+- PR #610 overlap remains unresolved. PR #625 topology and PR #626 evidence updates remain open proposals without verified exact-head CI/independent review.
+- Gemini controller main blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` still assigns three separate `ubuntu-latest` jobs; single-host Runner 2 co-location NOT IMPLEMENTED. Gemini agents NOT RUN; governance/secret metadata NOT VERIFIED.
+- Contour A NOT ACCEPTED; Contour B GATED. Next: reconcile PR #610 and implement/test the isolated same-host Runner 2 design before dispatch.
+
+
+## Wave 521 — Runner 1 PR #610 reconciliation (2026-11-02)
+
+- Report: [Wave 521 PR #610 reconciliation](../checkpoints/MEDIAHUB-RUNNER1-PR610-RECONCILIATION-WAVE-521-2026-11-02.md).
+- PR #610 workflow and contract-test copies are superseded by the later versions integrated through PR #623; do not merge those paths from #610.
+- Unique architecture and historical docs remain review-only; stale checkpoint copy must not replace the current checkpoint. No merge/cherry-pick performed.
+- PR #610 current head is `cac44b8a867945d4b544c3e46bd819bc42373f36`; historical exact-head CI in its body refers to an older SHA and is not transferable.
+- Runner 1 runtime NOT RUN; Gemini dispatch NOT RUN; Contour A NOT ACCEPTED; Contour B GATED.

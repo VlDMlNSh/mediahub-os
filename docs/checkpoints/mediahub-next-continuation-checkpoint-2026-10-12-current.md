@@ -2837,3 +2837,39 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 520 — post-merge Runner 1 and Gemini topology audit (2026-11-02)
+
+- Report: [Wave 520 post-merge Runner 1 and Gemini topology audit](MEDIAHUB-POST-MERGE-RUNNER1-AND-GEMINI-TOPOLOGY-AUDIT-WAVE-520-2026-11-02.md).
+- PR #623 is now **MERGED** at merge commit `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; its source head was `504507a4335e353e8adac90d755f002ff476f33b`. Six associated PR-head workflow runs were SUCCESS, but Runner 1's PR-event live execution steps (FCC/Ollama/model inference/Claude Code/evidence upload) were SKIPPED. Runtime qualification remains NOT RUN.
+- PR #610 remains OPEN and overlaps Runner 1 workflow/test paths; unique historical changes still require reconciliation. No merge/cherry-pick.
+- PR #625 remains an unreviewed topology proposal; PR #626 remains an open documentation proposal. Neither has verified exact-head CI or independent review in this pass.
+- Main Gemini controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` dispatches three child workflows on separate `ubuntu-latest` allocations. Required same-host Runner 2 co-location is NOT IMPLEMENTED. Secret values were not accessed; secret/variable presence and effective governance remain NOT VERIFIED.
+- Gemini Agents 1/2/3: NOT RUN; no controller or child run IDs/artifacts for this pass. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: reconcile PR #610 unique changes, correct the stale PR #626 Wave 519 status note, and implement/test a single-host Runner 2 design with isolated agent containers and controller-secret isolation before considering dispatch.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 521 — Runner 1 PR #610 reconciliation (2026-11-02)
+
+- Report: [Wave 521 PR #610 reconciliation](MEDIAHUB-RUNNER1-PR610-RECONCILIATION-WAVE-521-2026-11-02.md).
+- PR #610 remains OPEN/UNMERGED at head `cac44b8a867945d4b544c3e46bd819bc42373f36`. Its Runner 1 workflow and contract test files are divergent older copies and are **SUPERSEDED / DO NOT MERGE** because PR #623 has already integrated later versions into main.
+- Current main workflow/test blobs: `12b684bbd3d475d64cac7e37bbaf64c65ce40529` / `a3cf0c8fffbe5fd049144619d388354b4704b1d8`. PR #610 copies: `dd6a577f6c704b0453fcd5b05754d10967f8babb` / `2cf879635b68008b90af2e1ae0ec831f1b5a65a1`.
+- Unique architecture and historical Wave 365/496–510 documents remain review-only; stale checkpoint copy must not replace the current checkpoint. No merge/cherry-pick/copy was performed.
+- PR #610's description cites an older head `495d3f8eca33eb3feb52426131fed7d07dc9c372`; those historical CI claims are not evidence for current head `cac44b8...`.
+- Runtime remains NOT RUN; Gemini dispatch NOT RUN. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: reconcile only unique historical architecture/documentation against current Bootstrap, roadmap, issues #296/#496/#301 and the two-runner topology proposal.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+
+## Wave 522 — owner-directed two-runner contract reconciliation (2026-11-02)
+
+- Report: [Wave 522 two-runner contract reconciliation](MEDIAHUB-TWO-RUNNER-CONTRACT-RECONCILIATION-WAVE-522-2026-11-02.md).
+- Issue #301 (cloud-agent fabric), Issue #296 (Ollama/FCC local-only routing) and Issue #496 (GitHub-hosted Claude executor) support the owner-directed target: Runner 1 = Ollama/FCC/Claude Code/ECC; Runner 2 = approved Gemini controller and three isolated agents on one host.
+- Canonical Bootstrap still carries the obsolete server-3-only Claude placement. PR #625 proposes the scoped supersession while preserving Wave 272/273 non-paid auth, no Anthropic API/paid proxy/fallback, egress and governance controls. PR #625 is not merged/canonical.
+- PR #625 changes six documentation files only; exact-head CI NOT VERIFIED, formal reviews 0, inline threads 0. Its Wave 517 text contains stale PR #623 “unmerged candidate” status and old candidate SHA; update status to merged at `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`, contract CI only, runtime NOT RUN.
+- Current main Gemini controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` still dispatches three separate `ubuntu-latest` child jobs; Runner 2 co-location NOT IMPLEMENTED. No Gemini dispatch or secret access.
+- Runner 1 source MERGED; Ollama/FCC/Claude runtime NOT RUN. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: correct stale PR #625 status claims, obtain exact-head CI and independent review, then design the single-host Runner 2 implementation behind all controller admission gates.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
