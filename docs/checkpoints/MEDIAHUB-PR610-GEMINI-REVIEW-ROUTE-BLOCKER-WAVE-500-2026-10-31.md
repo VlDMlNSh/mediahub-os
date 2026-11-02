@@ -3,7 +3,7 @@
 - Date: 2026-10-31
 - Status: **SOURCE/CI RECONCILED / GEMINI REVIEW NOT RUN / NOT ACCEPTED**
 - PR: https://github.com/VlDMlNSh/mediahub-os/pull/610
-- PR branch: `contour-a/alamo-fcc-claude-hosted-runner-20261031`
+- PR branch: `contour-a/ollama-fcc-claude-hosted-runner-20261031`
 - Immutable inspected PR HEAD: `b2de01ab7e0ad98583d83ff4fcb401c270c08e80`
 - PR base SHA: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`
 - Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
@@ -14,16 +14,16 @@ All three PR workflow runs associated with the inspected HEAD completed successf
 
 | Workflow | Run | Job(s) | Result |
 |---|---:|---|---|
-| MediaHub Alamo local-inference candidate on Ubuntu Hosted Runner | [41185025595](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41185025595) | dispatch-gate `124490120227`; workflow-contract `124490120481`; alamo-local-fcc-claude `124490141744` | SUCCESS |
+| MediaHub Ollama local-inference candidate on Ubuntu Hosted Runner | [41185025595](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41185025595) | dispatch-gate `124490120227`; workflow-contract `124490120481`; ollama-local-fcc-claude `124490141744` | SUCCESS |
 | Astra Cloud Runtime Validation | [41185025618](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41185025618) | validate `124490104009` | SUCCESS |
 | Astra Verify | [41185025600](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41185025600) | verify `124490103816` | SUCCESS |
 
-The Alamo runtime job's PR branch executed only its explicit no-op declaration. FCC checkout, Ollama install, model download, FCC startup, Claude Code invocation and evidence upload were skipped by design. Therefore **PR validation CI PASS; live runtime smoke NOT RUN**.
+The Ollama runtime job's PR branch executed only its explicit no-op declaration. FCC checkout, Ollama install, model download, FCC startup, Claude Code invocation and evidence upload were skipped by design. Therefore **PR validation CI PASS; live runtime smoke NOT RUN**.
 
 ## 2. Source identity and review state
 
-- `.github/workflows/mediahub-alamo-fcc-claude-runner.yml`: blob `25a91f827867a10f2eb4f5f6fb347956a6ccb40a`.
-- `tests/test_mediahub_alamo_fcc_runner_contract.py`: blob `99d3af7a33f61e715e95cedf5d401acd2c392c86`.
+- `.github/workflows/mediahub-ollama-fcc-claude-runner.yml`: blob `25a91f827867a10f2eb4f5f6fb347956a6ccb40a`.
+- `tests/test_mediahub_ollama_fcc_runner_contract.py`: blob `99d3af7a33f61e715e95cedf5d401acd2c392c86`.
 - Main Gemini controller: `.github/workflows/gemini-batch-dispatch-controller.yml`, blob `0a1246f6755020faf8b7e48d07bfff790bbaece3`.
 - Controller transport contract test: `tests/test_gemini_transport_controller_contract.py`, blob `5ae0e8db9465ce36bd4020df69b552c659cd6187`.
 - Controller trigger coverage test: `tests/test_gemini_controller_trigger_path_coverage_contract.py`, blob `918192c6887775ccd6d800c1c44198b513c4db8b`.
@@ -58,7 +58,7 @@ This extension itself must not be launched from an unmerged PR branch. After its
 - Independent review: **NOT VERIFIED**.
 - Gemini review dispatch: **NOT RUN** (controller/child task is incompatible with PR #610).
 - Live Ollama/FCC/Claude smoke: **NOT RUN**.
-- Alamo/Ollama equivalence: **NOT VERIFIED**.
+- Ollama/Ollama equivalence: **NOT VERIFIED**.
 - Qualification, deployment and acceptance: **NOT ACCEPTED**.
 - PR #610: OPEN / UNMERGED; retain current review gates.
 
