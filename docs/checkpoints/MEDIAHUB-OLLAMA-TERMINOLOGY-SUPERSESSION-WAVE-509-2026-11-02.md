@@ -144,3 +144,11 @@ Local request path candidate: Claude Code → FCC/ECC → Ollama endpoint → ex
 - Runner contract job in run 41385888466: pytest reports **8 passed in 0.03s**.
 - Ollama runner job 125086533617 succeeded as an intentional PR no-op. Ollama/FCC/Claude installation, model pull, inference smoke, Claude CLI and artifact upload were SKIPPED; artifact list was empty.
 - Formal GitHub reviews remain one owner COMMENTED review; no independent APPROVED review. Merge/qualification/acceptance remain BLOCKED / NOT ACCEPTED by the project review gate.
+
+
+## Documentation map read-back recovery
+
+- The GitHub Contents read for the large canonical map returned an empty text body even though a source blob was available. The map was restored on this PR branch from the independently read original source blob `75f62685459ec99ebf8be478f4e9096cdb842b1d`, with the Wave509 index entry prepended.
+- Updated map blob SHA: `5aa2d923ebdc074a872e0d8130b2ac1a8ca738fd`; a blob read-back returned **1,205,222 characters**, confirming the file is not empty and preserves the historical map content after the new Wave509 index entry.
+- Canonical base branch `docs/mediahub-chat-tree-map-20261012` was not changed. Integration remains pending PR #620 review/CI.
+- PR #620 current documentation branch HEAD at this report update: `78bf16e1146613d1882eace5f29da96253fbbf47`; its exact-head check-run API returned 0 check runs and formal reviews returned 0. CI/review remain NOT VERIFIED.
