@@ -4,16 +4,16 @@
 - **Status:** ACCEPTED TARGET ARCHITECTURE — NOT YET RUNTIME-QUALIFIED
 - **Scope:** Mac mini 2018 central node, Mac mini Linux worker, MacBook clients, FCC, FreeLLMAPI, local model service, owned GPU server, MediaHub user-contributed compute, mobile client, and registration-only VPS.
 - **Authority:** This document records the user's accepted target design. It does not claim that any component is deployed, compatible, or qualified.
-- **Authoritative host identity correction (Wave 364, 2026-10-22): Alamo is the local inference service hosted on `Voktors-Mini.Dlink` (macOS), identified by the owner as the Mac mini 2018 host. Alamo and the central-infrastructure role therefore refer to the same physical Mac mini 2018 unless future inventory evidence distinguishes separate devices. This identity correction does not qualify Alamo's runtime, API, model, route, or production readiness.
+- **Canonical runtime/host clarification (owner reaffirmed 2026-11-02; originally recorded in Issue #301 Wave 338): Ollama is the single canonical name for the local inference runtime. “Ollama/Allamo” was a mistaken legacy alias, not a distinct service, endpoint, hostname, host, or executor identity. `Voktors-Mini.Dlink` is the physical Mac mini 2018 host on which the Ollama runtime may run. Ollama (runtime), the selected model (for example `llama3.2:3b`), and the physical host are separate identities. This terminology correction does not qualify Ollama's installation, API, model, routing, FCC integration, or production readiness.
 
 ## 1. Architectural decisions
 
-1. **Mac mini 2018 is the central infrastructure node.** It hosts Jarvis/control services, model/API routing, task coordination, monitoring, and the node registry, subject to hardware and runtime validation. The local inference service named Alamo runs on `Voktors-Mini.Dlink` (Mac mini 2018).
+1. **Mac mini 2018 is the central infrastructure node.** It hosts Jarvis/control services, model/API routing, task coordination, monitoring, and the node registry, subject to hardware and runtime validation. The local inference runtime Ollama may run on `Voktors-Mini.Dlink` (Mac mini 2018); the runtime and physical host remain distinct identities.
 2. **Local inference must remain local when local-only mode is selected.** The Claude Code path must not silently fall back to Anthropic's cloud API. The implementation must prove this through configuration inspection and network/evidence checks.
 3. **FCC is a required control/integration layer for the Claude Code path.** Its exact responsibilities and supported configuration must be verified against the pinned FCC release. FCC does not replace Jarvis or become MediaHub's state/authority source.
 4. **FreeLLMAPI is a cloud-model provider path, not the MediaHub authority.** It may expose multiple models/providers according to its actual API, availability, terms, and quotas.
-5. **Alamo is a local inference endpoint hosted on `Voktors-Mini.Dlink` (macOS).** It is reached over the private network through a documented, authenticated API. Its actual runtime, protocol, model, API endpoint, and qualification remain deployment facts to discover.
-6. **Model selection can be manual or policy-driven.** The router may select between approved FreeLLMAPI models, other explicitly configured providers, and Alamo. Routing must respect capability compatibility, privacy mode, availability, quotas, latency, and cost.
+5. **Ollama is the canonical local inference runtime; its current host, API binding and network exposure must be verified from deployment evidence.** It is reached over the private network through a documented, authenticated API. Its actual runtime, protocol, model, API endpoint, and qualification remain deployment facts to discover.
+6. **Model selection can be manual or policy-driven.** The router may select between approved FreeLLMAPI models, other explicitly configured providers, and Ollama. Routing must respect capability compatibility, privacy mode, availability, quotas, latency, and cost.
 7. **Codex remains a separate cloud-authenticated development path.** Its approved cloud API/subscription authentication is not silently replaced by the Claude Code/FCC/FreeLLMAPI path.
 8. **There are two separate GPU execution pools:**
    - **Pool A — owned GPU server:** trusted, operator-managed hardware providing inference/compute services to Mac mini 2018.
@@ -38,13 +38,13 @@ Mac mini / Linux
    Model-routing boundary
         ├── FreeLLMAPI ──► available cloud models/providers
         ├── other explicitly admitted provider adapters
-        └── Alamo API ───► Voktors-Mini.Dlink (Mac mini 2018) local inference
+        └── Ollama API ───► Voktors-Mini.Dlink (Mac mini 2018) local inference
 
-Mac mini 2018 / Voktors-Mini.Dlink (central infrastructure and Alamo host)
+Mac mini 2018 / Voktors-Mini.Dlink (central infrastructure and Ollama host)
   ├── Jarvis / MediaHub control plane
   ├── authenticated API gateway and model routing
   ├── task scheduler, node registry, queue and job state
-  ├── private-network route to Alamo on Voktors-Mini.Dlink
+  ├── private-network route to Ollama on Voktors-Mini.Dlink
   ├── observability and evidence collection
   └── direct protected connections to:
         ├── owned GPU server (Pool A)
@@ -66,7 +66,7 @@ This topology is logical, not a claim that all components are already deployed o
 | Jarvis | Central orchestration, task state, node coordination and policy enforcement | A provider-specific adapter or an implicit unrestricted shell |
 | FCC | Required Claude Code integration/control layer; supported routing and client adaptation | MediaHub state authority or a substitute for Jarvis |
 | FreeLLMAPI | One cloud-model/provider path, subject to provider availability and quota | A source of truth or a guarantee of permanently free capacity |
-| Alamo | Local inference endpoint hosted on Voktors-Mini.Dlink (macOS) | An assumed compatible endpoint before its API/runtime is verified |
+| Ollama | Local inference endpoint hosted on Voktors-Mini.Dlink (macOS) | An assumed compatible endpoint before its API/runtime is verified |
 | Model router | Selects only admitted models compatible with the task and policy | A mechanism to bypass provider rules, quotas, or user privacy choices |
 | Codex | Separate cloud development workflow using its supported authentication | A component silently redirected to the local model or unrelated gateway |
 | Owned GPU worker | Executes admitted jobs on operator-controlled hardware | An implicit shared-memory device for Mac mini 2018 |
@@ -79,7 +79,7 @@ This topology is logical, not a claim that all components are already deployed o
 The router should support:
 
 - explicit model selection and a visible active-provider/model identity;
-- a local-only mode that permits only Alamo and fails closed if Alamo is unavailable;
+- a local-only mode that permits only Ollama and fails closed if Ollama is unavailable;
 - a cloud-provider mode that selects only explicitly admitted providers;
 - optional policy-driven selection based on capability, availability, quota, latency, and cost;
 - fallback only when the task's privacy and capability policy allows it;
@@ -125,11 +125,11 @@ Remote RAM, disk, CPU, and GPU are consumed by executing jobs on the remote node
 
 ## 7. Integration and qualification sequence
 
-1. **Inventory current state:** identify exact Mac mini 2018/macOS/hardware, Alamo model/runtime/API on Voktors-Mini.Dlink, Mac mini environment, FCC release, FreeLLMAPI release/API, Claude Code version, ports, and existing configuration.
+1. **Inventory current state:** identify exact Mac mini 2018/macOS/hardware, Ollama model/runtime/API on Voktors-Mini.Dlink, Mac mini environment, FCC release, FreeLLMAPI release/API, Claude Code version, ports, and existing configuration.
 2. **FCC compatibility:** pin a release and verify its supported Claude Code integration, configuration format, lifecycle, and provider-routing capabilities.
 3. **FreeLLMAPI adapter:** verify authentication, supported API protocol, model discovery, rate-limit behavior, quota reporting, and provider terms.
-4. **Alamo adapter:** verify authenticated private endpoint, request/response format, context limits, tool/function calling, streaming, and health checks.
-5. **Local-only acceptance:** prove Claude Code requests reach Alamo and cannot fall back to Anthropic or another cloud provider.
+4. **Ollama adapter:** verify authenticated private endpoint, request/response format, context limits, tool/function calling, streaming, and health checks.
+5. **Local-only acceptance:** prove Claude Code requests reach Ollama and cannot fall back to Anthropic or another cloud provider.
 6. **Cloud model acceptance:** verify FreeLLMAPI model selection and report the actual provider/model identity; test quota/error/fallback behavior.
 7. **Developer workflow:** run a bounded task against a test repository and validate file changes, tool use, tests, and logs.
 8. **Owned GPU pool:** register one worker, run a non-sensitive inference job, measure latency/throughput/VRAM, and test worker loss/recovery.
@@ -145,7 +145,7 @@ The architecture is not considered implemented until evidence demonstrates all a
 - [ ] Actual FCC version and configuration are pinned and reproducible.
 - [ ] Claude Code reaches FCC through the intended local/private route.
 - [ ] FCC-to-FreeLLMAPI integration passes a non-mutating probe and a bounded functional test.
-- [ ] FCC/router-to-Alamo integration passes a non-mutating probe and a bounded functional test.
+- [ ] FCC/router-to-Ollama integration passes a non-mutating probe and a bounded functional test.
 - [ ] Local-only mode fails closed and no request is sent to Anthropic/cloud providers.
 - [ ] Cloud routing reports the actual provider/model and respects quotas/errors.
 - [ ] Codex authentication remains separate from this route.
@@ -159,7 +159,7 @@ The architecture is not considered implemented until evidence demonstrates all a
 
 ## 9. Explicit non-claims
 
-This document does not assert that FCC, FreeLLMAPI, Claude Code, Alamo, Codex, or any GPU runtime is already integrated or qualified. It does not assert unlimited free models, seamless tool compatibility, shared physical memory across computers, or successful production operation. Those are implementation questions requiring fresh evidence.
+This document does not assert that FCC, FreeLLMAPI, Claude Code, Ollama, Codex, or any GPU runtime is already integrated or qualified. It does not assert unlimited free models, seamless tool compatibility, shared physical memory across computers, or successful production operation. Those are implementation questions requiring fresh evidence.
 
 ## 10. Related architecture
 
