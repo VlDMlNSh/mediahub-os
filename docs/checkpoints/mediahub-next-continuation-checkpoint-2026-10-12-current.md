@@ -1,3 +1,7 @@
+> **SUPERSEDING OWNER TERMINOLOGY CORRECTION — WAVE 509 (2026-11-02):** All historical “Alamo”/“Allamo” references meant **Ollama**, the local model runtime. There is no separate Alamo service, endpoint, hostname, host, or executor. Ollama is the runtime; `llama3.2:3b` is a model identity; `Voktors-Mini.Dlink` is a physical host identity. Claude Code is a client/executor, FCC is its integration/routing layer, and Ollama is the local inference backend. Historical IDs and evidence remain preserved; old Alamo-vs-Ollama distinctions are superseded. This is a terminology correction, not runtime qualification.
+
+---
+
 ## Wave 500 — PR #610 Gemini review route blocker (2026-10-31)
 
 - Report: [Wave 500 PR #610 Gemini review route blocker](MEDIAHUB-PR610-GEMINI-REVIEW-ROUTE-BLOCKER-WAVE-500-2026-10-31.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-500-2026-10-31.md); [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
