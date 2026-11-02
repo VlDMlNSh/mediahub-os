@@ -8071,3 +8071,12 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 - PR #610 overlap remains unresolved. PR #625 topology and PR #626 evidence updates remain open proposals without verified exact-head CI/independent review.
 - Gemini controller main blob `0a1246f6755020faf8b7e48d07bfff790bbaece3` still assigns three separate `ubuntu-latest` jobs; single-host Runner 2 co-location NOT IMPLEMENTED. Gemini agents NOT RUN; governance/secret metadata NOT VERIFIED.
 - Contour A NOT ACCEPTED; Contour B GATED. Next: reconcile PR #610 and implement/test the isolated same-host Runner 2 design before dispatch.
+
+
+## Wave 521 — Runner 1 PR #610 reconciliation (2026-11-02)
+
+- Report: [Wave 521 PR #610 reconciliation](../checkpoints/MEDIAHUB-RUNNER1-PR610-RECONCILIATION-WAVE-521-2026-11-02.md).
+- PR #610 workflow and contract-test copies are superseded by the later versions integrated through PR #623; do not merge those paths from #610.
+- Unique architecture and historical docs remain review-only; stale checkpoint copy must not replace the current checkpoint. No merge/cherry-pick performed.
+- PR #610 current head is `cac44b8a867945d4b544c3e46bd819bc42373f36`; historical exact-head CI in its body refers to an older SHA and is not transferable.
+- Runner 1 runtime NOT RUN; Gemini dispatch NOT RUN; Contour A NOT ACCEPTED; Contour B GATED.
