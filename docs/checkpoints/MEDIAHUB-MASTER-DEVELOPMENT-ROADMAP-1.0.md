@@ -1,3 +1,17 @@
+## Wave 509 — owner terminology correction and Ollama runner consolidation (2026-11-02)
+
+- Owner authority: [Issue #301 Wave338 clarification](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941), reaffirmed in [Wave509 comment](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6568555691).
+- Canonical identity: Ollama = local inference runtime/API; model tag (e.g. llama3.2:3b) = model; Voktors-Mini.Dlink = physical Mac mini 2018 host. Former “Alamo/Allamo” is not a separate service/host/endpoint/executor. Wave364/365 contrary wording is superseded but retained for audit provenance.
+- Detailed report: [Wave509 Ollama terminology supersession](MEDIAHUB-OLLAMA-TERMINOLOGY-SUPERSESSION-WAVE-509-2026-11-02.md).
+- Map addendum: [Wave509](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md).
+- New-chat continuation prompt: [Wave509 master continuation prompt](MEDIAHUB-MASTER-CONTINUATION-PROMPT-WAVE-509-2026-11-02.md).
+- Runner1 candidate is Ollama + FCC/ECC + Claude Code; Runner2 is the separate cloud-agent pool. GitHub-hosted Ubuntu jobs are ephemeral, not persistent VMs.
+- PR #610 final exact HEAD 495d3f8eca33eb3feb52426131fed7d07dc9c372: all five active ruleset contexts SUCCESS on exact SHA — Astra Cloud Runtime Validation (41385888533), Astra Verify (41385888539), AI Factory verification (41385888602), provider contract verification (41385888343), Gemini workflow contract validation (Wave 284) (41385888462). Contract tests: 8 passed. Runner's pull_request job was no-op; live Ollama/FCC/Claude steps skipped and no artifacts. Independent APPROVED review remains absent.
+- PR #620 carries documentation correction; draft only until exact-head CI/review and canonical integration.
+- Ollama model inference, FCC/Claude execution, Gemini batch, merge, deployment and qualification: NOT RUN. No secret values read.
+- Contour A NOT ACCEPTED; Contour B GATED.
+
+---
 ## Wave 458 — OSV-Scanner qualification preflight (2026-10-29)
 
 - Evidence: [Wave 458 report](MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).

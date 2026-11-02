@@ -1,11 +1,14 @@
-## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
+## Wave 509 — Ollama terminology correction and runner consolidation (2026-11-02)
 
-- [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
-- PR #587 branch fix/next-idempotency-complete-history-wave463, exact HEAD 8c3f6754e3f1e5ae2a688735987466117aebb37f; six ahead, zero behind, OPEN/DRAFT/UNMERGED. Added a github.run_attempt==1 gate for issue-comment-originated owner /next. Reruns stop before history/API lookup; manual workflow_dispatch is unaffected.
-- New behavioral regression test verifies reruns (missing, zero, >1, malformed attempt) fail before API call, first attempt reaches mocked history read, and incomplete history fails closed. Gemini contract suite 14 tests SUCCESS; Astra Verify full 477-test suite SUCCESS; all five corresponding workflow executions plus no-secret probe completed SUCCESS.
-- Exact required ruleset context names are not all published by PR #587's current jobs: actual checks include verify, validate and differently named verification jobs. Thus exact required-context gate remains NOT VERIFIED although corresponding workflow executions passed. Zero formal reviews/threads; independent A3 NOT VERIFIED. Keep Draft; do not merge.
-- No dispatch/agent/provider/secret activity, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
-- Next: reviewed alignment of required context names, independent A3 review, and exact-head revalidation.
+- Owner evidence: [Issue #301 Wave338 clarification](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941), reaffirmed by [Wave509 owner comment](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6568555691).
+- Canonical identities: **Ollama** = local inference runtime/API; model tag (e.g. llama3.2:3b) = model; Voktors-Mini.Dlink = physical Mac mini 2018 host. No separate Alamo/Allamo service, host, endpoint, hostname or executor exists. Wave364/365 interpretation is superseded and kept only for historical provenance.
+- Report: [Wave509 terminology supersession](../checkpoints/MEDIAHUB-OLLAMA-TERMINOLOGY-SUPERSESSION-WAVE-509-2026-11-02.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md); [master prompt for new chat](../checkpoints/MEDIAHUB-MASTER-CONTINUATION-PROMPT-WAVE-509-2026-11-02.md).
+- Runner1 candidate: Ollama + FCC/ECC + Claude Code. Runner2 is a separate cloud-agent pool. GitHub-hosted Ubuntu jobs are ephemeral, not persistent VMs.
+- PR #610 exact HEAD 495d3f8eca33eb3feb52426131fed7d07dc9c372: all five required ruleset contexts SUCCESS (Astra Cloud Runtime Validation 41385888533; Astra Verify 41385888539; AI Factory verification 41385888602; provider contract verification 41385888343; Gemini workflow contract validation 41385888462). Contract tests 8 passed. Ollama job was PR no-op; live install/inference/Claude steps skipped; no artifacts. Independent APPROVED review remains absent.
+- PR #620 is the documentation draft. The canonical docs branch is not updated until PR #620 is independently reviewed and integrated.
+- Ollama runtime deployment, model inference, FCC/Claude task, Gemini batch, merge, qualification and acceptance: NOT RUN / NOT ACCEPTED. No secret values were read.
+- Contour A NOT ACCEPTED; Contour B GATED.
+
 ---
  
 ## Wave 476 — PR #588 replay and default-branch bootstrap blockers (2026-10-30)
