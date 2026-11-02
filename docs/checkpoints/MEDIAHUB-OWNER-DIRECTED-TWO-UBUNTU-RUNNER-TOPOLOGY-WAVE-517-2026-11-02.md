@@ -55,3 +55,12 @@ Implement a reviewed same-host Runner 2 controller/agent execution design with i
 - [Canonical map](https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md)
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - [PR #623 Runner 1 code candidate](https://github.com/VlDMlNSh/mediahub-os/pull/623)
+
+
+## Wave 523 — post-merge status correction (2026-11-02)
+
+- PR #623 is no longer an unmerged candidate: it merged to main at `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`. The original candidate SHA `4ded07da6c262aa47fdca19289e5479a1580318d` is retained only as historical source provenance.
+- Its PR-event contract workflows passed, but live Runner 1 install/model/FCC/Claude steps were skipped. Runner 1 runtime remains NOT RUN / NOT QUALIFIED.
+- This report's prior sentence claiming PR #623 remained unmerged has been corrected. PR #625 description now reflects the merge and the runtime caveat.
+- PR #625 updated HEAD: `16f951450d284ed2aa6c75f45d3d3732881f3fd3`; open, non-draft, mergeable. Exact-head PR workflow lookup returned no runs; combined status returned zero contexts; formal reviews 0; inline threads 0. CI/review NOT VERIFIED, so no merge or canonical acceptance.
+- Runner 2 same-host co-location remains NOT IMPLEMENTED; Gemini Agents 1/2/3 NOT RUN. No credentials, provider calls, dispatch, provisioning or qualification.
