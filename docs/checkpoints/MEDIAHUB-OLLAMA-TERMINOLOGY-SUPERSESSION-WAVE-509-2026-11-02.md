@@ -1,7 +1,7 @@
 # MediaHub OS — Ollama terminology supersession and runner consolidation (Wave 509)
 
 Date: 2026-11-02
-Status: **TERMINOLOGY CORRECTION DOCUMENTED / RUNNER REFACTOR PROPOSED IN PR #610 / CI NOT VERIFIED / NOT ACCEPTED**
+Status: **TERMINOLOGY CORRECTION DOCUMENTED / CONTRACT TESTS AND FIVE REQUIRED CI CONTEXTS VERIFIED / INDEPENDENT REVIEW NOT VERIFIED / RUNTIME NOT RUN / NOT ACCEPTED**
 
 ## 1. Authoritative owner direction
 
@@ -135,3 +135,12 @@ Local request path candidate: Claude Code → FCC/ECC → Ollama endpoint → ex
 - Ollama job 125085582256 performed only the pull_request no-op declaration. FCC checkout, runner-capacity check, Ollama installation/model pull, FCC and Claude Code installation, local inference smoke, and evidence upload were SKIPPED. Artifact list was empty.
 - These five job names do not include the five active required ruleset contexts. Required contexts remain NOT VERIFIED / BLOCKED on this SHA. Formal reviews still consist only of the owner's COMMENTED review; independent APPROVED review remains NOT VERIFIED.
 - Therefore: contract test VERIFIED; PR job checks VERIFIED; live runtime NOT RUN; required ruleset gate BLOCKED; independent review NOT VERIFIED; merge/qualification/acceptance NOT ACCEPTED.
+
+
+## Final exact-head verification — 2026-11-02
+
+- PR #610 final observed code HEAD: 495d3f8eca33eb3feb52426131fed7d07dc9c372.
+- All five active required ruleset contexts are SUCCESS on that exact SHA: AI Factory verification (run 41385888602), provider contract verification (41385888343), Astra Verify (41385888539), Astra Cloud Runtime Validation (41385888533), Gemini workflow contract validation (Wave 284) (41385888462).
+- Runner contract job in run 41385888466: pytest reports **8 passed in 0.03s**.
+- Ollama runner job 125086533617 succeeded as an intentional PR no-op. Ollama/FCC/Claude installation, model pull, inference smoke, Claude CLI and artifact upload were SKIPPED; artifact list was empty.
+- Formal GitHub reviews remain one owner COMMENTED review; no independent APPROVED review. Merge/qualification/acceptance remain BLOCKED / NOT ACCEPTED by the project review gate.
