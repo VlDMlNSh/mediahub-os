@@ -42,7 +42,7 @@ This proposal updates current instructions while preserving historical reports a
 
 ## Non-goals
 
-No workflows/controllers were changed. No runner was provisioned. No credentials were read. No Gemini or Claude invocation, model/provider inference, merge, deployment, qualification or acceptance was performed. PR #623 remains an unmerged code candidate; this documentation PR does not promote it.
+No workflows/controllers were changed. No runner was provisioned. No credentials were read. No Gemini or Claude invocation, model/provider inference, merge, deployment, qualification or acceptance was performed. PR #623 has since merged into main at merge commit `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0` (source candidate HEAD `4ded07da6c262aa47fdca19289e5479a1580318d`). Its PR-event contract CI passed, but live install/model/FCC/Claude steps were skipped; Runner 1 runtime remains NOT RUN. This documentation PR does not qualify or accept that runtime.
 
 ## Required next implementation
 
