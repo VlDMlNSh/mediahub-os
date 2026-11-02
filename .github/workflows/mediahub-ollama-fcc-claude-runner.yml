@@ -248,7 +248,7 @@ jobs:
           export ANTHROPIC_AUTH_TOKEN="mh-ollama-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           export FCC_ENV_FILE="$RUNNER_TEMP/fcc-runtime.env"
           umask 077
-          printf 'ANTHROPIC_AUTH_TOKEN=%s\\n' "$ANTHROPIC_AUTH_TOKEN" > "$FCC_ENV_FILE"
+          printf 'ANTHROPIC_AUTH_TOKEN=%s\n' "$ANTHROPIC_AUTH_TOKEN" > "$FCC_ENV_FILE"
           chmod 600 "$FCC_ENV_FILE"
           (
             cd "$GITHUB_WORKSPACE/fcc"
