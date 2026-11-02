@@ -95,3 +95,12 @@ The PR branch's distributed AI architecture now declares Ollama as the single lo
 - PR #621 remains OPEN/DRAFT, mergeable=true, not merged. Mergeability is not acceptance. Do not merge while checks/review are absent.
 - Default-branch GitHub code search for `Alamo` returned eight files; `Allamo` and `ollamo` returned zero. The eight results are the Wave 364/365/369 and architecture/WB-14 historical records. All eight were fetched from the PR #610 working branch and each was verified to contain the superseding Wave 509 note or explicit canonical Ollama clarification. The remaining occurrences are historical labels/filenames or explanatory supersession notices, not a separate current component.
 - This snapshot is tied to the checked SHA above; later documentation commits create a new head and require fresh exact-head checks.
+
+
+## Subsequent micro-step — duplicate documentation PR cleanup (2026-11-02)
+
+- PR #622 was closed **without merge** as a duplicate of the comprehensive PR #621.
+- Verified identical Bootstrap content on both branches: blob SHA `7b4b8331c8e2eb9faaadff87cd20d201def48206`; byte-for-byte content comparison succeeded (40,496 characters on each branch).
+- PR #621 contains the same Bootstrap correction plus the canonical map update, Wave 509 addendum/report, continuation checkpoint, Master Roadmap correction and new-chat master continuation prompt. It is retained as the single consolidated documentation review surface.
+- PR #622 closure comment: https://github.com/VlDMlNSh/mediahub-os/pull/622#issuecomment-6568671374. PR #621 tracking comment: https://github.com/VlDMlNSh/mediahub-os/pull/621#issuecomment-6568674549.
+- Revalidation snapshot: PR #621 OPEN/DRAFT, exact-head check-runs empty and formal reviews/threads empty. CI and independent review therefore remain NOT VERIFIED. No merge/acceptance is claimed.
