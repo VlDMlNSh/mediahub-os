@@ -8062,3 +8062,14 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 - PR #585 head `85f716005d40fbc03e85762f867eaf235f23629a`: exact-head Astra Verify [39983810741](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39983810741) and Cloud Runtime Validation [39983810755](https://github.com/VlDMlNSh/mediahub-os/actions/runs/39983810755) are now SUCCESS. PR remains Draft/unmerged; zero formal reviews and empty combined status, so integration eligibility is NOT VERIFIED.
 - No Gemini batch dispatch, provider call, secret access, merge, deployment, or qualification. Gemini batch **NOT RUN**; Contour A **NOT ACCEPTED**.
 - Next: repair the stale concurrency contract test, rerun both failing workflows on the exact new PR #583 head, independently review, and re-check governance before any controller dispatch.
+
+
+## Wave 519 — two-runner exact-head evidence reconciliation (2026-11-02)
+
+- [Wave 519 report](../checkpoints/MEDIAHUB-TWO-RUNNER-EXACT-HEAD-EVIDENCE-RECONCILIATION-WAVE-519-2026-11-02.md); [checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Main HEAD observed: `af200c4323bd4cb7cfa4c47dab4accc10049d1ec`. PR #623 exact head `504507a4335e353e8adac90d755f002ff476f33b`: six associated workflow runs terminal SUCCESS, but live Ollama/FCC/Claude steps were SKIPPED on PR event; formal reviews 0. Runtime NOT RUN.
+- PR #610 is an overlapping older Runner 1 candidate and requires file-level reconciliation before integration.
+- Main Gemini controller `0a1246f6755020faf8b7e48d07bfff790bbaece3` still dispatches three child workflows to separate `ubuntu-latest` allocations. Runner 2 same-host co-location NOT IMPLEMENTED.
+- PR #625 remains Draft with no exact-head workflow runs returned and no formal reviews. Same-host design is proposal only.
+- Secret/variable metadata, effective governance, trusted-main no-secret probe and independent security review NOT VERIFIED. Gemini 1/2/3 NOT RUN; no runtime qualification or acceptance.
+- Status: **EVIDENCE RECONCILED / DOCUMENTATION PROPOSAL / NOT QUALIFIED / NOT ACCEPTED**.
