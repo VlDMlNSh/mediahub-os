@@ -32,7 +32,7 @@ The previous PR-triggered workflow had a passing contract-test job, but the `dis
 - New exact head `4bd96e478c53bc7f1f0429c26ca84644e344f28d`: no associated PR workflow runs returned at observation time; combined commit status returned an empty status list. **Exact-head CI = NOT VERIFIED**, not PASS.
 - Independent PR reviews: none. Review threads: none.
 - No workflow dispatch, runner install, model pull, FCC startup, Claude Code request, or artifact generation occurred.
-- Ollama/Ollama equivalence remains `NOT_VERIFIED`; no qualification or acceptance.
+- Ollama runtime qualification remains `NOT_VERIFIED`; no qualification or acceptance.
 
 ## Next gate
 
