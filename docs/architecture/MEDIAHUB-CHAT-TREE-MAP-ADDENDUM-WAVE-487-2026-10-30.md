@@ -1,3 +1,12 @@
+## Wave 525 — A0 requester provenance read-back and PR reconciliation (2026-11-02)
+
+- Report: [Wave 525 reconciliation](../checkpoints/MEDIAHUB-A0-PROVENANCE-READBACK-AND-PR-RECONCILIATION-WAVE-525-2026-11-02.md); [Wave 524 clarification](../checkpoints/MEDIAHUB-A0-REQUESTER-PROVENANCE-CLARIFICATION-WAVE-524-2026-11-02.md); [A0 contract](MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md).
+- Re-read amended contract blob `1200d343139c8e67a826902b3ade09d4987c537d`; requester identity/authentication/mission authorization/approval binding, durable receipt, R-06 audit and AUTH-15…AUTH-21 / AUD-05 are present. Wave 489 finding is addressed at normative-text level only.
+- Wave 524 report stale read-back row corrected; report blob `adc77565e502dd47ccdfa93c96cb237fcc073f5e`.
+- PR #600 remains DRAFT/OPEN; exact-head CI and independent A3 review NOT VERIFIED. PR #602 is stale/diverged historical pre-review. No runtime, dispatch, secret access, merge or acceptance.
+
+---
+
 ## Wave 524 — authenticated requester provenance clarification (2026-11-02)
 
 - Report: [Wave 524 requester-provenance clarification](../checkpoints/MEDIAHUB-A0-REQUESTER-PROVENANCE-CLARIFICATION-WAVE-524-2026-11-02.md); [A0 contract](MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
