@@ -125,3 +125,13 @@ Local request path candidate: Claude Code → FCC/ECC → Ollama endpoint → ex
 - [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301)
 - [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610)
 - [PR #620](https://github.com/VlDMlNSh/mediahub-os/pull/620)
+
+
+## Exact-head CI follow-up — 2026-11-02
+
+- Current PR #610 branch HEAD: e9efe73a032b79079280d1479121a71cc83bc767.
+- Workflow run 41385576449: all five observed PR job checks SUCCESS on that exact SHA: ollama-local-fcc-claude, workflow-contract, dispatch-gate, validate and verify.
+- Contract job 125085558554 ran pytest against tests/test_mediahub_ollama_fcc_runner_contract.py: **8 passed in 0.04s**.
+- Ollama job 125085582256 performed only the pull_request no-op declaration. FCC checkout, runner-capacity check, Ollama installation/model pull, FCC and Claude Code installation, local inference smoke, and evidence upload were SKIPPED. Artifact list was empty.
+- These five job names do not include the five active required ruleset contexts. Required contexts remain NOT VERIFIED / BLOCKED on this SHA. Formal reviews still consist only of the owner's COMMENTED review; independent APPROVED review remains NOT VERIFIED.
+- Therefore: contract test VERIFIED; PR job checks VERIFIED; live runtime NOT RUN; required ruleset gate BLOCKED; independent review NOT VERIFIED; merge/qualification/acceptance NOT ACCEPTED.
