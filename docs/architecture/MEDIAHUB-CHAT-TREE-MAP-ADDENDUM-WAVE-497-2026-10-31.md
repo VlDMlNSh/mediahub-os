@@ -23,6 +23,6 @@ The Ollama/FCC/Claude workflow's PR event now executes explicit no-op gate/runti
 - Code-change head at report time: `4bd96e478c53bc7f1f0429c26ca84644e344f28d`.
 - Previous head had a passing contract job but two skipped jobs; new exact-head checks had not yet appeared at verification time.
 - No live runner work or provider inference has occurred.
-- Independent review, exact-head CI, Ollama equivalence, qualification and acceptance remain unresolved.
+- Independent review, exact-head CI, Ollama runtime qualification, qualification and acceptance remain unresolved.
 
 This addendum is not canonical until accepted through the documentation governance process.
