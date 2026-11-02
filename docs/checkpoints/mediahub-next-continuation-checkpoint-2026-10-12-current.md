@@ -1,3 +1,15 @@
+## Wave 509 — Step 1: governing Bootstrap terminology correction (2026-11-02)
+
+- **Completed on documentation working branch:** normalized the controlling Bootstrap at `docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md` to identify Ollama as the sole local inference runtime.
+- Owner source: [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941).
+- Bootstrap blob after read-back: `7b4b8331c8e2eb9faaadff87cd20d201def48206`. Historical “Alamo/Allamo” labels are described as superseded; separate host/runtime/model identities are explicit. Historical Wave 272 filenames are retained and marked legacy.
+- Dated report: [Wave 509 Step 1 Bootstrap correction](MEDIAHUB-OLLAMA-TERMINOLOGY-WAVE-509-STEP-1-BOOTSTRAP-2026-11-02.md).
+- Scope strictly limited to Bootstrap and this checkpoint/report. Canonical map, Master Roadmap, remaining source files and final master prompt are later mini-steps.
+- No runtime/model call, secret read, local execution, Gemini dispatch, merge, deployment, qualification or acceptance.
+- Status: **DOCUMENTATION CHANGE WRITTEN AND READ BACK / PR CI PENDING / NOT ACCEPTED**.
+
+---
+
 ## Wave 509 — owner-confirmed Ollama terminology unification (2026-11-02)
 
 - Report: [Wave 509 Ollama terminology unification](MEDIAHUB-OLLAMA-TERMINOLOGY-UNIFICATION-WAVE-509-2026-11-02.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md); [master continuation prompt](../architecture/MEDIAHUB-NEW-CHAT-MASTER-CONTINUATION-PROMPT.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
