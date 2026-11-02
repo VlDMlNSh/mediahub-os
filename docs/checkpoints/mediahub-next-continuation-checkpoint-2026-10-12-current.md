@@ -1,3 +1,18 @@
+## Wave 510 — Ollama / FCC / Claude Code / ECC Runner preflight (2026-11-02)
+
+- Working-branch report: [Wave 510 Runner preflight](MEDIAHUB-OLLAMA-FCC-CLAUDE-ECC-RUNNER-PREFLIGHT-WAVE-510-2026-11-02.md); implementation: [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610).
+- Exact code HEAD: `d217d2de332b07b30866635750aac910375525a5`; workflow blob `dd6a577f6c704b0453fcd5b05754d10967f8babb`; contract test blob `2cf879635b68008b90af2e1ae0ec831f1b5a65a1`.
+- Runner pins: Ollama v0.40.13 with versioned installer SHA-256, model `llama3.2:3b), FCC commit `3d2ae2306752dbdf504714a5489bcfcf69b2d04a`, Python 3.14.7, uv 0.12.13, Node 22 and Claude Code 2.1.282. Ollama and FCC bind to loopback; FCC bearer auth is required.
+- ECC remains guidance-only by project decision: pinned commit `c05b2d6614f62f6db0047669aa4eefb223d478f9`, MIT license and three exact skill blobs verified. No full plugin, hooks, MCP servers, plugin installer or second controller.
+- Exact-head workflow run [41387069959](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41387069959) SUCCESS: contract tests 10/10; ECC preflight, FCC/Claude install preflight, dispatch gate and PR no-op all SUCCESS. FCC/Claude install preflight confirms FCC entry points and Claude Code CLI 2.1.282 without provider credentials.
+- All five active required ruleset contexts on the exact HEAD succeeded: Astra Cloud Runtime Validation (41387069996), AI Factory verification (41387069973), provider contract verification (41387069881), Astra Verify (41387069992), Gemini workflow contract validation (Wave 284) (41387069952).
+- **No live Ollama installation, model pull/inference, FCC service, live Claude task, provider call, secret read, Gemini dispatch, merge, deployment or qualification occurred.** The PR Ollama job is an intentional no-op; runtime remains NOT RUN / NOT QUALIFIED.
+- PR #610 remains OPEN / unmerged; compare with current main is 98 ahead / 1 behind. Formal review API contains only an OWNER COMMENTED review on an older SHA; independent formal APPROVED review is NOT VERIFIED. Do not merge or dispatch.
+- Next: independent formal review on this exact SHA, branch reconciliation with current main, and a fresh exact-head CI pass. Only after all gates may owner-gated workflow_dispatch from trusted main be considered.
+- This entry is a working-branch record only. Canonical documentation map branch remains separate and unchanged; Contour A NOT ACCEPTED; Contour B GATED.
+
+---
+
 ## Wave 509 — owner terminology correction: Ollama (2026-11-02)
 
 - Owner reaffirmed the Wave 338 clarification: every historical `Alamo` / `Allamo` reference intended to denote the local Ollama inference runtime. There is no separate Alamo service, endpoint, hostname, host, or executor.
