@@ -1,3 +1,14 @@
+## Wave 509 — owner-confirmed Ollama terminology unification (2026-11-02)
+
+- Report: [Wave 509 Ollama terminology unification](MEDIAHUB-OLLAMA-TERMINOLOGY-UNIFICATION-WAVE-509-2026-11-02.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md); [master continuation prompt](../architecture/MEDIAHUB-NEW-CHAT-MASTER-CONTINUATION-PROMPT.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+- Owner clarification: every historical “Alamo” / “Allamo” reference means Ollama, the local model runtime; no separate Alamo service/endpoint/host/executor exists. Model tags and physical host identities are separate.
+- Implementation PR #610: https://github.com/VlDMlNSh/mediahub-os/pull/610. Workflow/test renamed to Ollama. Architecture corrected; historical docs receive superseding notes while preserving IDs/provenance.
+- Terminology correction does not qualify live Ollama, FCC, Claude Code, or any physical host. No live model call, dispatch, secret read, host mutation, merge or deployment occurred.
+- PR #610 exact-head CI/review must be rechecked; independent formal review and effective required contexts remain separate merge gates.
+- Contour A NOT ACCEPTED; Contour B GATED.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
