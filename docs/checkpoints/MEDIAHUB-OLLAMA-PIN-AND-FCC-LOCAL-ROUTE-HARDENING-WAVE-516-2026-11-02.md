@@ -51,16 +51,16 @@ The test suite completed **13/13 PASS** on the exact source target.
 
 All eight check-runs on `830f5acb56153fe3bc9e1ebc651f78507c4f3aa9` completed terminal **SUCCESS**:
 
-| Check | Workflow run | Job |
-|---|---:|---:|
-| `ollama-local-fcc-claude` | [41389278687](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278687) | 125096946308 |
-| `workflow-contract` | [41389278687](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278687) | 125096920512 |
-| `dispatch-gate` | [41389278687](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278687) | 125096920151 |
-| `Astra Verify` | [41389278506](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278506) | 125096871603 |
-| `Astra Cloud Runtime Validation` | [41389278518](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278518) | 125096871? |
-| `AI Factory verification` | [41389278619](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278619) | 125096? |
-| `provider contract verification` | [41389278774](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278774) | 125096? |
-| `Gemini workflow contract validation (Wave 284)` | [41389278638](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278638) | 125096872246 |
+| Check | Workflow run |
+|---|---:|
+| `ollama-local-fcc-claude` | [41389278687](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278687) |
+| `workflow-contract` | [41389278687](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278687) |
+| `dispatch-gate` | [41389278687](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278687) |
+| `Astra Verify` | [41389278506](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278506) |
+| `Astra Cloud Runtime Validation` | [41389278518](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278518) |
+| `AI Factory verification` | [41389278619](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278619) |
+| `provider contract verification` | [41389278774](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278774) |
+| `Gemini workflow contract validation (Wave 284)` | [41389278638](https://github.com/VlDMlNSh/mediahub-os/actions/runs/41389278638) |
 
 The five exact active Ruleset contexts are present and SUCCESS on this SHA: Astra Verify, Astra Cloud Runtime Validation, AI Factory verification, provider contract verification, and Gemini workflow contract validation (Wave 284).
 
