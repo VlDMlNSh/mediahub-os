@@ -8074,3 +8074,11 @@ The current continuation is [Wave 301 — Gemini independent schema and governan
 - Runner host availability/capacity: NOT VERIFIED. Gemini Agents 1/2/3: NOT RUN. Controller dispatch: BLOCKED pending independent review, metadata-only secret/variable scope evidence, trusted-main no-secret probe and governance.
 - Physical-server procurement, deployment, qualification and acceptance are not authorized by this topology note.
 - [Canonical Bootstrap](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os).
+
+
+## Wave 523 — PR #623 post-merge status correction (2026-11-02)
+
+- Wave 517's stale “PR #623 unmerged” sentence was corrected. PR #623 merged at `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; source candidate SHA `4ded07da6c262aa47fdca19289e5479a1580318d` is historical provenance only.
+- PR-event contract CI passed; live Runner 1 install/model/FCC/Claude steps were skipped. Runtime NOT RUN / NOT QUALIFIED.
+- PR #625 updated head `16f951450d284ed2aa6c75f45d3d3732881f3fd3`; exact-head CI and independent review NOT VERIFIED. No merge.
+- Runner 2 co-location NOT IMPLEMENTED; Gemini Agents 1/2/3 NOT RUN. Contour A NOT ACCEPTED; Contour B GATED.
