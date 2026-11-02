@@ -44,7 +44,7 @@ No cryptographic token format, identity provider, key system, database, queue, e
 |---|---|
 | Wave 487 requester-provenance static gap | IDENTIFIED in Wave 489 |
 | Contract text amendment | COMPLETED on PR #600 working branch |
-| Contract read-back / new blob SHA | PENDING at report authoring; must be confirmed before review |
+| Contract read-back / new blob SHA | VERIFIED in Wave 525; contract blob `1200d343139c8e67a826902b3ade09d4987c537d` |
 | Wave 486 authority model consistency | STATICALLY CHECKED / NOT INDEPENDENTLY REVIEWED |
 | Independent A3 review of amended exact HEAD | NOT RUN |
 | PR #600 exact-head CI | NOT VERIFIED; prior recorded lookup empty |
