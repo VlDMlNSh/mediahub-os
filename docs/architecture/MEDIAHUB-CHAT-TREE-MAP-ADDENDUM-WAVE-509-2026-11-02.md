@@ -30,7 +30,7 @@
 
 ## Evidence state
 
-- Runner refactor is on PR #610 branch only; exact final-head CI and independent review are NOT VERIFIED.
+- Runner refactor remains on PR #610 branch only. PR #610 final exact HEAD 495d3f8eca33eb3feb52426131fed7d07dc9c372: all five active ruleset contexts SUCCESS on exact SHA — Astra Cloud Runtime Validation (41385888533), Astra Verify (41385888539), AI Factory verification (41385888602), provider contract verification (41385888343), Gemini workflow contract validation (Wave 284) (41385888462). Contract tests: 8 passed. Runner's pull_request job was no-op; live Ollama/FCC/Claude steps skipped and no artifacts. Independent APPROVED review remains absent.
 - Documentation work is on PR #620 draft; exact-head CI/review NOT VERIFIED.
 - No Gemini dispatch, no provider/model call, no secret read, no local Claude task, no merge, no deployment.
 - SentinelX currently lists one operational host (Voktors-Mini.Dlink, host_5f7264034bdf0b51), Free plan one active slot / zero available; two other hosts disabled.
