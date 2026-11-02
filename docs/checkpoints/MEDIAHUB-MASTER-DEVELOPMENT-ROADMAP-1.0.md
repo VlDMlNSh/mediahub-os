@@ -1,3 +1,11 @@
+## Wave 522 — Colibri GLM-5.2 admission decision (2026-11-02)
+
+- Read-only assessment: [Wave 522 Colibri / GLM-5.2 admission audit](MEDIAHUB-COLIBRI-GLM52-ADMISSION-AUDIT-WAVE-522-2026-11-02.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Colibri is retained as a research-only local inference candidate, not an admitted Contour A executor. GLM-5.2 requires ~429 GB model storage and 16/24 GB RAM minimum/recommended; standard GitHub-hosted Ubuntu runners expose only 14 GB SSD. A larger runner could fit on paper but requires separate budget, availability, provenance, isolation and runtime qualification.
+- No priority change: Contour A governance/schema/worker acceptance remains first. No Colibri installation, model download, inference, paid larger-runner allocation or topology change is authorized by this assessment.
+
+---
+
 ## Wave 458 — OSV-Scanner qualification preflight (2026-10-29)
 
 - Evidence: [Wave 458 report](MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).

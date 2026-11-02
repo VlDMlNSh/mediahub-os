@@ -1,3 +1,13 @@
+## Wave 522 — Colibri / GLM-5.2 admission audit (2026-11-02)
+
+- Report: [Colibri / GLM-5.2 admission audit](../checkpoints/MEDIAHUB-COLIBRI-GLM52-ADMISSION-AUDIT-WAVE-522-2026-11-02.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Pinned upstream Colibri source: `JustVugg/colibri@0a5504a1dc64f86fcd0fe7db298b0448c730e7e6`. GLM-5.2, OpenAI Chat Completions and Anthropic Messages APIs/tool calls are documented; GLM-4.7 support is not documented. Engine source Apache-2.0; upstream README states GLM-5.2 weights MIT, but model-card/weight provenance not independently verified.
+- GLM-5.2 int4 package is ~429 GB disk; upstream memory guidance 16 GB minimum / 24 GB recommended. Standard public GitHub Ubuntu runner has 16 GB RAM / 14 GB SSD, so local Colibri is NOT FEASIBLE there. Larger 16-vCPU/64-GB/600-GB runner is only capacity-plausible; budget, availability, throughput and runtime remain NOT VERIFIED.
+- API defaults to loopback; non-loopback bind requires `COLI_API_KEY` unless unsafe `COLI_ALLOW_INSECURE_BIND=1` override. Default key is optional; admitted profile must set runtime-only key, avoid insecure override, wildcard Host/CORS, and keep listener private. Single default KV slot queues generation; not a parallel 3-agent backend.
+- Disposition: RESEARCHED / NOT ADMITTED / NOT RUN. No installation, download, inference, tests, runner allocation or architecture change. Do not add to standard Runner 1 or Gemini Runner 2. See report for source blobs, security constraints and next admission gates.
+
+---
+
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
