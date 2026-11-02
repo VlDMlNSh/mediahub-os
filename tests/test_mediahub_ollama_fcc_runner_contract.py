@@ -17,12 +17,25 @@ def test_runner_is_owner_gated_and_target_sha_bound() -> None:
 
 def test_local_model_runtime_is_pinned_and_loopback_only() -> None:
     source = WORKFLOW.read_text(encoding="utf-8")
-    assert "OLLAMA_VERSION=0.40.11" in source
+    assert "OLLAMA_VERSION=0.40.13" in source
     assert "25f64b810b947145095956533e1bdf56eacea2673c55a7e586be4515fc882c9f" in source
     assert "OLLAMA_HOST=127.0.0.1:11434" in source
     assert "llama3.2:3b" in source
     assert "OLLAMA_BASE_URL: http://127.0.0.1:11434" in source
     assert "ollama_runtime_qualification=NOT_VERIFIED" in source
+
+
+def test_fcc_configuration_is_local_only_without_fallbacks_or_cloud_credentials() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert 'assert settings.model == os.environ["MODEL"]' in source
+    assert 'assert settings.ollama_base_url == os.environ["OLLAMA_BASE_URL"]' in source
+    assert "assert settings.model_fallbacks is None" in source
+    assert "assert settings.custom_providers == ()" in source
+    assert "credential_suffixes = (" in source
+    assert '"_SECRET_ACCESS_KEY", "_ACCESS_KEY_ID", "_BEARER_TOKEN"' in source
+    assert 'field.validation_alias.endswith(("_PROXY", "_PROXY_URL"))' in source
+    assert "assert all(not getattr(settings, name) for name in credential_fields)" in source
+    assert "assert all(not getattr(settings, name) for name in proxy_fields)" in source
 
 
 def test_fcc_and_claude_are_pinned_and_no_cloud_credentials_used() -> None:
