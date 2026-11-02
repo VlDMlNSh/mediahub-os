@@ -87,3 +87,11 @@ The PR branch's distributed AI architecture now declares Ollama as the single lo
 - Exact-head check-runs: empty array; commit status pending with zero statuses. CI NOT VERIFIED.
 - Formal reviews: zero; review threads: zero. Independent review NOT VERIFIED.
 - No merge. The documentation proposal remains separate from the canonical docs branch.
+
+
+## PR #621 exact-head recheck — 2026-11-02
+
+- Rechecked exact head `7a6cb545b5763f37c8d3fd46871359c7e50246d7`: check-runs endpoint returned an empty array; commit status was pending with zero statuses. Formal review list and review threads both returned empty. CI and independent review **NOT VERIFIED**.
+- PR #621 remains OPEN/DRAFT, mergeable=true, not merged. Mergeability is not acceptance. Do not merge while checks/review are absent.
+- Default-branch GitHub code search for `Alamo` returned eight files; `Allamo` and `ollamo` returned zero. The eight results are the Wave 364/365/369 and architecture/WB-14 historical records. All eight were fetched from the PR #610 working branch and each was verified to contain the superseding Wave 509 note or explicit canonical Ollama clarification. The remaining occurrences are historical labels/filenames or explanatory supersession notices, not a separate current component.
+- This snapshot is tied to the checked SHA above; later documentation commits create a new head and require fresh exact-head checks.
