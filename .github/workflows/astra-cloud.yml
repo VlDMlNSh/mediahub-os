@@ -8,6 +8,7 @@ on:
 
 jobs:
   validate:
+    name: Astra Cloud Runtime Validation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

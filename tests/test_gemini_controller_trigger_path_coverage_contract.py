@@ -25,8 +25,9 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
         self.assertTrue(required.issubset(paths), f"controller probe path filter missing: {sorted(required - paths)}")
 
     def test_contract_validation_executes_this_regression_contract(self):
-        paths = set(self.validation["on"]["pull_request"]["paths"])
-        self.assertIn("tests/test_gemini_controller_trigger_path_coverage_contract.py", paths)
+        pull_request = self.validation["on"]["pull_request"]
+        self.assertEqual(pull_request.get("branches"), ["main"])
+        self.assertNotIn("paths", pull_request)
         steps = self.validation["jobs"]["validate"]["steps"]
         commands = "\n".join(step.get("run", "") for step in steps)
         self.assertIn("test_gemini_controller_trigger_path_coverage_contract.py", commands)
