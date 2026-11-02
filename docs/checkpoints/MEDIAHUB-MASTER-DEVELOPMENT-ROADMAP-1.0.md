@@ -1,3 +1,17 @@
+## Wave 509 — authoritative runtime terminology correction (2026-11-02)
+
+**Owner-confirmed canonical terminology:** **Ollama** is the sole name of the local inference runtime. “Alamo/Allamo” is withdrawn as a separate component identity. The owner's original clarification is recorded in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) and reaffirmed in the current instruction on 2026-11-02.
+
+Keep these identities separate:
+- **Ollama** — local inference runtime/API server.
+- **Model tag** — selected model served by Ollama, e.g. `llama3.2:3b`.
+- **Physical host** — e.g. `Voktors-Mini.Dlink` (Mac mini 2018), where Ollama may run; the host is not the runtime name.
+- **Client/integration** — Claude Code through FCC/ECC, if the route is independently qualified.
+- **Cloud agent pool** — separate GitHub Actions/controller lane; never use the local Ollama host as Gemini transport.
+
+All Wave 364/365 claims that “Alamo” was a separate host/service/endpoint or that the runtime had to run on a distinct “Alamo/server 3” are superseded. Historical reports and source filenames remain as audit records; their claims are not current identity definitions. A GitHub-hosted Ubuntu workflow that installs Ollama is an **ephemeral runner job**, not a persistent VM. This correction does not establish runtime deployment, local model availability, FCC compatibility, Claude Code task qualification, or production acceptance.
+
+---
 ## Wave 458 — OSV-Scanner qualification preflight (2026-10-29)
 
 - Evidence: [Wave 458 report](MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
