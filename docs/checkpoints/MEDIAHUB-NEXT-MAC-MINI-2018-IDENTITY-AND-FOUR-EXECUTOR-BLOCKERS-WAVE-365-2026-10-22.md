@@ -1,4 +1,11 @@
+> **SUPERSEDING OWNER TERMINOLOGY CORRECTION — WAVE 509 (2026-11-02):** The owner confirms that historical “Alamo”/“Allamo” references in this project meant **Ollama**, the local model runtime. There is no separate Alamo service, endpoint, hostname, host, or executor. Ollama is the runtime; a tag such as `llama3.2:3b` is a model identity; `Voktors-Mini.Dlink` is a physical host identity. Claude Code is a client/executor, FCC is its integration/routing layer, and Ollama is the local inference backend. Historical IDs, filenames, SHAs and run IDs are preserved as provenance; all older claims that Alamo was a separate service or that Ollama/Alamo equivalence remained unresolved are superseded. This does not qualify current runtime availability or any inference route.
+
+---
+
 # MediaHub OS — Wave 365: Mac mini 2018 identity sweep and four-executor launch blockers
+
+> **Terminology correction — 2026-11-02 (supersedes the legacy wording below):** The owner clarification in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) defines every prior “Ollama” reference as the local **Ollama** inference runtime, not a separate service, endpoint, hostname, host, or executor identity. `Voktors-Mini.Dlink` is the physical Mac mini 2018 host; Ollama is software/runtime that may run on it; the model (for example `llama3.2:3b`) is a third, separate identity. Historical text is retained as an audit trail and must not be treated as current naming or proof of runtime qualification.
+
 
 - Date: 2026-10-22
 - Base main SHA verified at start: `25a2883bb8e3099df49c9bd688c028958102bc95` (merge commit for PR #450).
@@ -7,9 +14,9 @@
 
 ## 1. Owner clarification and PR #450
 
-PR #450, [docs(wave-364): correct Alamo host identity to Voktors-Mini](https://github.com/VlDMlNSh/mediahub-os/pull/450), is merged. Merge commit: `25a2883bb8e3099df49c9bd688c028958102bc95`. Current main ref recheck at the beginning of this pass returned the same SHA.
+PR #450, [docs(wave-364): correct Ollama host identity to Voktors-Mini](https://github.com/VlDMlNSh/mediahub-os/pull/450), is merged. Merge commit: `25a2883bb8e3099df49c9bd688c028958102bc95`. Current main ref recheck at the beginning of this pass returned the same SHA.
 
-The owner clarifies that Alamo is hosted on `Voktors-Mini.Dlink`, which is the Mac mini 2018, and that this device is the intended local executor host. This supersedes the earlier mistaken interpretation that Alamo was a different host from the central legacy hardware label role.
+The owner clarifies that Ollama is hosted on `Voktors-Mini.Dlink`, which is the Mac mini 2018, and that this device is the intended local executor host. This supersedes the earlier mistaken interpretation that Ollama was a different host from the central legacy hardware label role.
 
 ## 2. legacy hardware label phrase sweep
 
@@ -19,7 +26,7 @@ GitHub repository search returned up to 100 candidate files for the terms “leg
 - `docs/checkpoints/MEDIAHUB-JARVIS-CORPORATION-ARCHITECTURE-PROPOSAL-CROSSWALK-WAVE-01-2026-10-15.md` — blob SHA `04251812428e1154266b7a3ec49c3ec51907a4a7`
 - `docs/checkpoints/MEDIAHUB-CONTOUR-A-WB-14-JARVIS-A0-AND-DIRECT-LOCAL-ROUTE-SOURCE-RECONCILIATION-2026-10-15.md` — blob SHA `048376919db64de57e96e3ca56207eaf8a82f295`
 
-All exact `legacy hardware label` phrases in those three files are now replaced with `Mac mini 2018`. The architecture text now states that `Voktors-Mini.Dlink` is the owner-identified Mac mini 2018 hosting Alamo and the central-infrastructure role. The generic “Mac mini/Linux worker” role remains distinct only if later inventory establishes a separate device.
+All exact `legacy hardware label` phrases in those three files are now replaced with `Mac mini 2018`. The architecture text now states that `Voktors-Mini.Dlink` is the owner-identified Mac mini 2018 hosting Ollama and the central-infrastructure role. The generic “Mac mini/Linux worker” role remains distinct only if later inventory establishes a separate device.
 
 Scope limitation: this was a source-backed sweep of the 100 search candidates returned by GitHub, not a proof that every branch, historical commit, issue, PR comment, release artifact, or file beyond that search result set contains no phrase. The open PR will include a final exact-string recheck on the changed source branch.
 
@@ -56,7 +63,7 @@ The prior local-route evidence only established some Ollama/FCC/OmniRoute infere
 | Lane | Status | Evidence / blocker |
 |---|---|---|
 | Gemini 1–3 manual independent tasks | NOT RUN | Probe only; controller admission/dispatch skipped; batch variable reported false; no direct dispatch action exposed here. |
-| Claude local task on Alamo | NOT RUN | Host confirmed by owner, but current host calls are unstable; repo path not allowlisted; full capability/route check not completed. |
+| Claude local task on Ollama | NOT RUN | Host confirmed by owner, but current host calls are unstable; repo path not allowlisted; full capability/route check not completed. |
 | PR #450 host identity correction | MERGED | Merge commit `25a2883bb8e3099df49c9bd688c028958102bc95`. |
 | Mac mini 2018 wording correction | PREPARED | Three actual-phrase source documents corrected on this branch; broad historical corpus still needs final exact-string verification. |
 | Wave 365 docs PR | PLANNED | Report, map addendum, and checkpoint overlay are being assembled; exact-head CI/review must be checked after PR creation. |
