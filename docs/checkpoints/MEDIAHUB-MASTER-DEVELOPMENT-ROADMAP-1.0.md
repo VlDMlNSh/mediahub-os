@@ -1,3 +1,13 @@
+## Wave 509 — owner-confirmed canonical Ollama terminology (2026-11-02)
+
+- Binding owner source: [Issue #301, Wave 338 clarification](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941). All historical `Alamo` / `Allamo` references to the local inference route mean **Ollama**; there is no separate Alamo service, endpoint, hostname, host or executor.
+- Identity model: Ollama = runtime/API; exact model tag (for example `llama3.2:3b`) = model; `Voktors-Mini.Dlink` = physical host; FCC = integration/routing; Claude Code = client/executor. Keep these identities separate.
+- Retire the stale Phase 04 / P0-03 / DEC-DEV-01 question “Alamo vs Ollama” as resolved terminology. Remaining engineering work is to verify Ollama version/provenance, endpoint binding, model provenance, host/capacity, FCC compatibility, data egress and fail-closed behavior; ONNX Runtime and llama.cpp remain separate candidate runtimes, not Alamo aliases.
+- GitHub-hosted Ubuntu jobs which install Ollama are ephemeral jobs, not persistent VMs. Local executor host identity must be independently revalidated.
+- Historical roadmap entries are preserved as provenance; this section supersedes conflicting current terminology.
+
+---
+
 ## Wave 458 — OSV-Scanner qualification preflight (2026-10-29)
 
 - Evidence: [Wave 458 report](MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
@@ -465,7 +475,7 @@ Every phase has an output, an exit gate and a no-go condition. Phases may overla
 
 ### Phase 04 — Models, providers, tools and engineering memory (P0)
 **Actions**
-- Reconcile Alamo (service/endpoint name), Ollama, ONNX Runtime and llama.cpp: classify each as service, runtime, adapter, candidate or alternative only from source evidence; request owner decision where evidence cannot disambiguate.
+- Treat Ollama as the canonical local inference runtime. Keep Ollama distinct from model tags, the physical host, FCC and Claude Code. Reconcile Ollama, ONNX Runtime and llama.cpp as separate runtime candidates/adapters only where implementation evidence requires; no owner decision is pending on an Alamo/Ollama naming distinction.
 - Inventory Claude/Codex, FCC, FreeLLMAPI and all other provider/tool paths already recorded in the repo. Do not invent additional mandatory providers.
 - Define provider/model identity, API compatibility, allowed data classes, egress policy, retention, quota/cost, timeouts, retry policy, rate limits, credential reference (never credential value), audit and degradation mode.
 - Define explicit local-only/cloud-allowed policy; local-only failure must fail closed without silent cloud fallback.
@@ -555,7 +565,7 @@ Every phase has an output, an exit gate and a no-go condition. Phases may overla
 
 1. **P0-01 — Source/ref freshness ledger:** recheck current map/checkpoint and source SHAs; record current `main HEAD` and branch divergence.
 2. **P0-02 — Node/service placement matrix:** derive rows only from the accepted target architecture and component/domain sources; label unknowns.
-3. **P0-03 — Decision register:** resolve Alamo/Ollama/ONNX/llama.cpp composition; Jarvis/ASTRA lifecycle ownership; developer-vs-production Mac Pro identity; Mac mini compatibility; mobile identity/revocation; provider egress/retention.
+3. **P0-03 — Decision register:** resolve the verified role/composition of Ollama, ONNX Runtime and llama.cpp (the obsolete Alamo/Ollama naming conflict is closed); Jarvis/ASTRA lifecycle ownership; developer-vs-production Mac Pro identity; Mac mini compatibility; mobile identity/revocation; provider egress/retention.
 4. **P0-04 — Component registry:** reconcile canonical component manifest with actual target placement, pinned refs, platform support, license/provenance and gate status.
 5. **P0-05 — Requirements/contract crosswalk:** trace each service-placement row to contract, acceptance criteria and evidence.
 6. **P0-06 — Deployment package contract:** complete macOS/Linux profile design and rollback/recovery gates without executing installation.
@@ -568,7 +578,7 @@ P0-01 through P0-05 are documentary/source-reconciliation work. P0-06 and P0-07 
 
 | Decision ID | Question | Current evidence | Required owner output |
 |---|---|---|---|
-| DEC-DEV-01 | Is Alamo a service name above a selected runtime, or does it denote a particular runtime? How do Ollama, ONNX Runtime and llama.cpp relate? | Different source documents use these labels; composition not proven | One approved composition diagram and role assignment, or explicit deferment |
+| DEC-DEV-01 | Which local inference runtime(s) are admitted, and how do Ollama, ONNX Runtime and llama.cpp relate in the target deployment? | Owner clarified that former Alamo references mean Ollama; Ollama is canonical local runtime identity. Exact deployed version/endpoint/model and any ONNX/llama.cpp alternatives remain evidence questions. | Runtime/version/model/host inventory and source-backed role/ADR; no further naming decision required |
 | DEC-DEV-02 | Who owns authoritative task lifecycle, queue/claim/lease/retry/cancel and evidence promotion across Jarvis and ASTRA? | Jarvis umbrella / ASTRA subsystem framing exists; detailed single-owner boundary unresolved | One lifecycle owner plus typed adapter contract |
 | DEC-DEV-03 | Is future production Mac Pro the same physical unit as developer Mac Pro? | Role ambiguity recorded in source reconciliation | Explicit same-asset/separate-asset decision |
 | DEC-DEV-04 | Which services may run on Mac mini Server 2011? | 16 GB and Linux are owner-reported; detailed compatibility unknown; MH-15 not accepted | Hardware/OS compatibility evidence and approved workload profile |
@@ -655,7 +665,7 @@ No tests, qualification, provider/model calls, credentials, host/runtime inspect
 
 ### 10.4 Текущий следующий проход
 
-Placement matrix создан и проиндексирован: `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`. Консолидированный пакет решений создан: `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`. Следующий шаг — crosswalk-validation, а не повторная инвентаризация: перепроверить DEC-DEV-01…08 по exact primary clauses/live refs/SHA; обновить только подтверждённую трассировку в unified matrix и working Passport; подготовить минимальный owner questionnaire с вариантами, последствиями и рекомендацией. Не выбирать вместо владельца Alamo/Ollama/ONNX Runtime/llama.cpp, не назначать единого Jarvis/ASTRA lifecycle owner и не снимать Contour A → Contour B gate.
+Placement matrix создан и проиндексирован: `docs/checkpoints/MEDIAHUB-NODE-SERVICE-PLACEMENT-AND-DECISION-REGISTER-01.md`. Консолидированный пакет решений создан: `docs/checkpoints/MEDIAHUB-OWNER-DECISION-PACKET-01.md`. Следующий шаг — crosswalk-validation, а не повторная инвентаризация: перепроверить DEC-DEV-01…08 по exact primary clauses/live refs/SHA; обновить только подтверждённую трассировку в unified matrix и working Passport; подготовить минимальный owner questionnaire с вариантами, последствиями и рекомендацией. Не возвращать владельцу закрытый терминологический вопрос Alamo/Ollama; самостоятельно сверить Ollama/ONNX Runtime/llama.cpp по первичным источникам и зафиксировать техническую рекомендацию, не назначать единого Jarvis/ASTRA lifecycle owner и не снимать Contour A → Contour B gate.
 
 
 ### 10.5 Execution update — P0-07 D1/D2 source revalidation and decision gate (2026-10-13)
