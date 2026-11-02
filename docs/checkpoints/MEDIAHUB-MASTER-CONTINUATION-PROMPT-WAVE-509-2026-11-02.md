@@ -145,4 +145,4 @@ At the 2026-11-02 audit:
 
 Use evidence-backed states only: PLANNED, DISPATCHED, RUNNING, SUCCEEDED, VERIFIED, QUALIFIED, ACCEPTED, NOT RUN, BLOCKED, FAILED, NOT VERIFIED. Distinguish lifecycle stages. No runtime success, qualification or acceptance without exact evidence.
 
-**Immediate next step:** Re-fetch PR #610's actual current head and exact-head checks after the Ollama rename; verify workflow/test and independent review; in parallel validate PR #620 documentation changes. Do not dispatch Gemini, run live Ollama/FCC/Claude, merge or deploy until applicable gates demonstrably pass.
+**Immediate next step:** Obtain a genuine independent formal GitHub APPROVED review of PR #610 at exact HEAD `495d3f8eca33eb3feb52426131fed7d07dc9c372`; re-check current branch head/checks before integration. In parallel, obtain exact-head CI and independent review for PR #620, then integrate the documentation proposal into the canonical docs branch only after its gates pass. Continue safe Issue #301 work that does not require dispatch. Do not dispatch Gemini, run live Ollama/FCC/Claude, merge or deploy while any applicable gate remains open.
