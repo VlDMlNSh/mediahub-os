@@ -4,7 +4,7 @@
 
 # MediaHub Next Continuation Checkpoint — Wave 365 (2026-10-22)
 
-> **Terminology correction — 2026-11-02 (supersedes the legacy wording below):** The owner clarification in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) defines every prior “Alamo” reference as the local **Ollama** inference runtime, not a separate service, endpoint, hostname, host, or executor identity. `Voktors-Mini.Dlink` is the physical Mac mini 2018 host; Ollama is software/runtime that may run on it; the model (for example `llama3.2:3b`) is a third, separate identity. Historical text is retained as an audit trail and must not be treated as current naming or proof of runtime qualification.
+> **Terminology correction — 2026-11-02 (supersedes the legacy wording below):** The owner clarification in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) defines every prior “Ollama” reference as the local **Ollama** inference runtime, not a separate service, endpoint, hostname, host, or executor identity. `Voktors-Mini.Dlink` is the physical Mac mini 2018 host; Ollama is software/runtime that may run on it; the model (for example `llama3.2:3b`) is a third, separate identity. Historical text is retained as an audit trail and must not be treated as current naming or proof of runtime qualification.
 
 
 ## Immutable baseline
@@ -15,7 +15,7 @@
 
 ## Owner direction
 
-Alamo runs on `Voktors-Mini.Dlink`, the Mac mini 2018. The owner asked to replace all repository references to “legacy hardware label” with “Mac mini 2018”. Exact phrase checks over GitHub's returned 100 candidate paths found three source files with literal matches; all three have been updated on this branch. Finish a branch-wide exact-string check before calling the repository sweep complete.
+Ollama runs on `Voktors-Mini.Dlink`, the Mac mini 2018. The owner asked to replace all repository references to “legacy hardware label” with “Mac mini 2018”. Exact phrase checks over GitHub's returned 100 candidate paths found three source files with literal matches; all three have been updated on this branch. Finish a branch-wide exact-string check before calling the repository sweep complete.
 
 ## Agent dispatch status
 
