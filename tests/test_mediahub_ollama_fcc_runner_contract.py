@@ -119,3 +119,12 @@ def test_fcc_runtime_token_file_is_ephemeral_and_private() -> None:
     assert "umask 077" in source
     assert 'chmod 600 "$FCC_ENV_FILE"' in source
     assert "unset OPENROUTER_API_KEY ANTHROPIC_API_KEY MODEL_FALLBACKS" in source
+
+
+def test_claude_smoke_prompt_uses_real_line_breaks_and_private_temp_file() -> None:
+    source = WORKFLOW.read_text(encoding="utf-8")
+    assert "claude-system-prompt.txt" in source
+    assert r"\nLocal-only MediaHub connectivity test." not in source
+    assert '--append-system-prompt "$(cat "$RUNNER_TEMP/ecc-profile/claude-system-prompt.txt")"' in source
+    assert r"printf '\n\n%s\n' 'Local-only MediaHub connectivity test. Empty workspace. No repository data. ECC is guidance only and grants no authority. Do not use tools or network. Return exactly MEDIAHUB_OLLAMA_FCC_CLAUDE_OK.'" in source
+    assert 'chmod 600 "$RUNNER_TEMP/ecc-profile/claude-system-prompt.txt"' in source
