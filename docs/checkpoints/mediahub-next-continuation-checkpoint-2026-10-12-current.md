@@ -1,5 +1,7 @@
 ## Wave 509 — consolidated terminology correction and PR revalidation (2026-11-02)
 
+- Documentation PR #621: https://github.com/VlDMlNSh/mediahub-os/pull/621; OPEN/DRAFT, head `d689f82d03a2eb8adae5e3e431466d2f0f3fcc0d`, base canonical docs HEAD `d9a289b9113f7567711b641a7017eb814d6c259d`. Its exact-head check-runs endpoint returned an empty array and commit status `pending` with zero statuses; reviews and threads are empty. Documentation CI and independent review are **NOT VERIFIED**. Do not merge.
+
 - Owner's binding source: [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941): every former “Alamo/Allamo” reference to the local inference runtime means **Ollama**. No separate Alamo service, endpoint, host, hostname or executor exists.
 - Canonical identity model: Ollama = runtime/API; exact model tag (for example `llama3.2:3b`) = model; `Voktors-Mini.Dlink` = physical Mac mini host identity; FCC = integration/routing; Claude Code = client/executor.
 - Governing Bootstrap correction is on this working branch; blob `7b4b8331c8e2eb9faaadff87cd20d201def48206`. Master Roadmap's current DEC-DEV-01 wording no longer treats Alamo/Ollama as an owner decision; remaining work is technical runtime/version/endpoint/model/host evidence. Checkpoint, report, map addendum and master continuation prompt are linked below.
