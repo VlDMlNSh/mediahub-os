@@ -80,6 +80,7 @@ def test_cloud_agent_toolchain_is_not_installed_on_ollama_runner() -> None:
 
 
 def test_old_runtime_alias_is_not_reintroduced() -> None:
+    """Keep Ollama as the sole runtime name; host and model identities stay separate."""
     source = WORKFLOW.read_text(encoding="utf-8").lower()
     legacy_alias = "ala" + "mo"
     assert legacy_alias not in source
