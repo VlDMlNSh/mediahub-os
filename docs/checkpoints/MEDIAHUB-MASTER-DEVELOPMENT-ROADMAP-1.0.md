@@ -366,7 +366,7 @@ This dated block supersedes older pending-status statements in the historical ex
 - **ASTRA authority wording:** the documentation-branch reference architecture already narrows A0 to ASTRA GOLD engineering coordination and internal queue/claim/gate state. The documentation-branch unified YAML has now been aligned to that scoped role. Main still contains broader wording; branch divergence is not resolved and no integration is authorized.
 - **Qualification truth:** the main-generated `docs/qualification/CURRENT-TRUTH.generated.md` reports G0–G11 `BLOCKED` and overall `NOT_PROVEN / BLOCKED`. `QUALIFICATION_READY_HYBRID_FABRIC` means design/model readiness only, not passed runtime qualification.
 - **Capability issuer and A0 ingress:** exact accepted issuer lifecycle, A0 ingress API, cancellation/replay/recovery semantics remain open; do not invent endpoints, token format, or global exactly-once guarantees.
-- **Routing identities:** FreeLLMAPI/FCC/OmniRoute/UnoRouter/OpenRouter/Alamo/Ollama identities and actual upstream/egress relationships remain unresolved without pinned non-secret source/deployment evidence.
+- **Routing identities:** Ollama is the canonical local inference runtime; FreeLLMAPI/FCC/OmniRoute/UnoRouter/OpenRouter remain distinct gateway/provider identities whose exact upstream/egress relationships still require pinned non-secret source/deployment evidence.
 - **Baseline and contour invariants:** Baseline 2.0 remains canonical; Baseline 1.0 remains historical. Contour B remains gated on Contour A deployment and independent acceptance evidence.
 - **Branch status at this update:** `main` HEAD `608d7463011798ca75e36bfce4b749a9caf4f9a0`; documentation branch DIVERGED, 1174 ahead / 3 behind, merge base `f0f406feb9f9816b009f4e6e756813541e53b9bc`. No merge/rebase/cherry-pick performed.
 
@@ -578,7 +578,7 @@ P0-01 through P0-05 are documentary/source-reconciliation work. P0-06 and P0-07 
 
 | Decision ID | Question | Current evidence | Required owner output |
 |---|---|---|---|
-| DEC-DEV-01 | Which local inference runtime(s) are admitted, and how do Ollama, ONNX Runtime and llama.cpp relate in the target deployment? | Owner clarified that former Alamo references mean Ollama; Ollama is canonical local runtime identity. Exact deployed version/endpoint/model and any ONNX/llama.cpp alternatives remain evidence questions. | Runtime/version/model/host inventory and source-backed role/ADR; no further naming decision required |
+| DEC-DEV-01 | Which local inference runtime(s) are admitted, and how do Ollama, ONNX Runtime and llama.cpp relate in the target deployment? | Owner clarification resolves the former Alamo/Ollama naming ambiguity: Ollama is the canonical local runtime. Exact deployed version, endpoint, model tag and any ONNX/llama.cpp alternatives remain engineering evidence questions. | Source-backed runtime/version/model/host inventory and role/ADR; no further naming decision required |
 | DEC-DEV-02 | Who owns authoritative task lifecycle, queue/claim/lease/retry/cancel and evidence promotion across Jarvis and ASTRA? | Jarvis umbrella / ASTRA subsystem framing exists; detailed single-owner boundary unresolved | One lifecycle owner plus typed adapter contract |
 | DEC-DEV-03 | Is future production Mac Pro the same physical unit as developer Mac Pro? | Role ambiguity recorded in source reconciliation | Explicit same-asset/separate-asset decision |
 | DEC-DEV-04 | Which services may run on Mac mini Server 2011? | 16 GB and Linux are owner-reported; detailed compatibility unknown; MH-15 not accepted | Hardware/OS compatibility evidence and approved workload profile |
@@ -3055,7 +3055,7 @@ Every phase has an output, an exit gate and a no-go condition. Phases may overla
 
 ### Phase 04 — Models, providers, tools and engineering memory (P0)
 **Actions**
-- Reconcile Alamo (service/endpoint name), Ollama, ONNX Runtime and llama.cpp: classify each as service, runtime, adapter, candidate or alternative only from source evidence; request owner decision where evidence cannot disambiguate.
+- Treat Ollama as the canonical local inference runtime. Keep it distinct from model tags, the physical host, FCC and Claude Code. Reconcile Ollama, ONNX Runtime and llama.cpp as separate runtime candidates/adapters only where implementation evidence requires; no owner decision is pending on the former Alamo/Ollama naming distinction.
 - Inventory Claude/Codex, FCC, FreeLLMAPI and all other provider/tool paths already recorded in the repo. Do not invent additional mandatory providers.
 - Define provider/model identity, API compatibility, allowed data classes, egress policy, retention, quota/cost, timeouts, retry policy, rate limits, credential reference (never credential value), audit and degradation mode.
 - Define explicit local-only/cloud-allowed policy; local-only failure must fail closed without silent cloud fallback.
@@ -3158,7 +3158,7 @@ P0-01 through P0-05 are documentary/source-reconciliation work. P0-06 and P0-07 
 
 | Decision ID | Question | Current evidence | Required owner output |
 |---|---|---|---|
-| DEC-DEV-01 | Is Alamo a service name above a selected runtime, or does it denote a particular runtime? How do Ollama, ONNX Runtime and llama.cpp relate? | Different source documents use these labels; composition not proven | One approved composition diagram and role assignment, or explicit deferment |
+| DEC-DEV-01 | Which local inference runtime(s) are admitted, and how do Ollama, ONNX Runtime and llama.cpp relate in the target deployment? | Owner clarification resolves the former Alamo/Ollama naming ambiguity: Ollama is the canonical local runtime. Exact deployed version, endpoint, model tag and any ONNX/llama.cpp alternatives remain engineering evidence questions. | Source-backed runtime/version/model/host inventory and role/ADR; no further naming decision required |
 | DEC-DEV-02 | Who owns authoritative task lifecycle, queue/claim/lease/retry/cancel and evidence promotion across Jarvis and ASTRA? | Jarvis umbrella / ASTRA subsystem framing exists; detailed single-owner boundary unresolved | One lifecycle owner plus typed adapter contract |
 | DEC-DEV-03 | Is future production Mac Pro the same physical unit as developer Mac Pro? | Role ambiguity recorded in source reconciliation | Explicit same-asset/separate-asset decision |
 | DEC-DEV-04 | Which services may run on Mac mini Server 2011? | 16 GB and Linux are owner-reported; detailed compatibility unknown; MH-15 not accepted | Hardware/OS compatibility evidence and approved workload profile |
