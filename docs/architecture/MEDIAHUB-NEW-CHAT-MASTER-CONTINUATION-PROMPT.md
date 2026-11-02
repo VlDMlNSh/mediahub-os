@@ -189,3 +189,7 @@ At all times, answer in Russian unless asked otherwise. Be exact, evidence-led a
 
 
 Documentation proposal PR #621 is OPEN/DRAFT at head `d689f82d03a2eb8adae5e3e431466d2f0f3fcc0d`; its check-runs and formal reviews were empty at the latest audit, so CI/review remain NOT VERIFIED. Do not merge until the exact required contexts and independent review are present.
+
+
+### PR #621 audit snapshot
+At exact head `7a6cb545b5763f37c8d3fd46871359c7e50246d7`, check-runs were empty, commit status pending with zero statuses, formal reviews zero and review threads zero. PR #621 remains OPEN/DRAFT; CI/review NOT VERIFIED. GitHub code search on main found eight Alamo matches, all eight source files have been annotated/corrected on PR #610's working branch; Allamo/ollamo returned zero matches. Revalidate after any new commit.
