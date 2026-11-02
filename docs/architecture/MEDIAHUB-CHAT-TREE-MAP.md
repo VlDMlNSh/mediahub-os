@@ -1,16 +1,18 @@
-# Wave 509 — canonical local runtime naming correction (2026-11-02)
+## Wave 509 — canonical local runtime terminology correction (2026-11-02)
 
-> **Binding correction:** Per the owner clarification in [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941), every historical “Alamo” / “Allamo” reference to the local inference route means **Ollama**. There is no separate Alamo service, endpoint, hostname, physical host or executor. The former “Alamo vs Ollama” open conflict is CLOSED as a naming question.
+> **Binding owner clarification:** [Issue #301, Wave 338](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941) defines all former “Alamo/Allamo” references to the local inference route as **Ollama**. No separate Alamo service, endpoint, hostname, physical host or executor exists. The former “Alamo vs Ollama” naming conflict is CLOSED.
 
-Canonical identities: **Ollama** = local inference runtime/API; a model tag such as `llama3.2:3b` = model identity; `Voktors-Mini.Dlink` = physical Mac mini 2018 host identity; FCC = integration/auth/routing layer; Claude Code = client/executor. Host availability, model provenance, endpoint binding, FCC route, egress and local-only enforcement remain separate engineering verification tasks.
+Identity separation: **Ollama** = runtime/API; exact tag (e.g. `llama3.2:3b`) = model; `Voktors-Mini.Dlink` = physical Mac mini host; FCC = integration/routing; Claude Code = client/executor. Host availability, runtime version, model provenance, endpoint binding, data egress and local-only fail-closed behavior remain engineering verification tasks.
 
-Historical Wave 317–338 and later records retain original filenames, IDs, SHAs and wording as provenance. This notice supersedes identity interpretations, not factual runtime evidence. A GitHub-hosted job that installs Ollama is ephemeral and not a persistent VM. Do not treat “Alamo” as a current component or require a separate “Alamo/server 3” host.
-
-- Wave 509 details: [terminology-unification report](../checkpoints/MEDIAHUB-OLLAMA-TERMINOLOGY-UNIFICATION-WAVE-509-2026-11-02.md)
+- Detailed report: [Wave 509 Ollama terminology unification](../checkpoints/MEDIAHUB-OLLAMA-TERMINOLOGY-UNIFICATION-WAVE-509-2026-11-02.md)
 - Map addendum: [Wave 509](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-509-2026-11-02.md)
-- Bootstrap: [canonical instruction](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md)
+- Bootstrap: [current project bootstrap](MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md)
 - Checkpoint: [current continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md)
 - Master Roadmap: [Master Development Roadmap 1.0](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md)
+- New-chat master prompt: [continuation prompt](MEDIAHUB-NEW-CHAT-MASTER-CONTINUATION-PROMPT.md)
+- Implementation candidate: [PR #610](https://github.com/VlDMlNSh/mediahub-os/pull/610)
+
+Historical filenames, wave IDs, commits, blob SHAs and run IDs are preserved as provenance; their prior identity interpretations are superseded. GitHub-hosted Ubuntu jobs remain ephemeral and do not establish persistent VM or physical-host identity. Terminology correction does not qualify live runtime or accept Contour A.
 
 ---
 
