@@ -309,6 +309,8 @@ jobs:
           export OLLAMA_MODELS="$RUNNER_TEMP/ollama-models"
           mkdir -p "$OLLAMA_MODELS"
           chmod 700 "$OLLAMA_MODELS"
+          preexisting_status="$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 1 http://127.0.0.1:11434/api/tags || true)"
+          [[ "$preexisting_status" == "000" ]] || { echo "An Ollama endpoint already occupies loopback port 11434; refusing a second server."; exit 1; }
           ollama serve > "$RUNNER_TEMP/ollama-server.log" 2>&1 &
           OLLAMA_PID=$!
           export HOME="$RUNNER_TEMP/fcc-home"
