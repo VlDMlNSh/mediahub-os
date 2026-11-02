@@ -1,3 +1,13 @@
+## Wave 524 — A0 authenticated requester provenance clarification (2026-11-02)
+
+- Report: [Wave 524 report](MEDIAHUB-A0-REQUESTER-PROVENANCE-CLARIFICATION-WAVE-524-2026-11-02.md); [Wave 487 A0 contract](../architecture/MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-487-2026-10-30.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Contract amended on PR #600 branch: requester ID/generation, workload authentication context, mission-authorization decision, separately required owner-approval evidence, binding to task/correlation/request digest, durable receipt and R-06 audit; acceptance fixtures AUTH-15…AUTH-21 and AUD-05.
+- Contract blob `691b4b52cd6ba80bb822cf64ef5bea5e6e523c61` → `1200d343139c8e67a826902b3ade09d4987c537d`; contract update commit `7c9c8d4d587602483eafe21d14c39d4a2fd1165b`.
+- Status: DRAFT AMENDED / NOT ACCEPTED / NOT IMPLEMENTED; independent A3 review NOT RUN; exact-head CI NOT VERIFIED; no runtime tests, provider calls, secret reads, dispatch, merge, deployment or qualification.
+- Next: verify amended contract read-back, refresh provenance review to the exact head, obtain independent A3 approval, then add executable tests only after identity/protocol ADR and canonical schema are selected. Continue runner manifest and Draft 2020-12 validation separately.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
