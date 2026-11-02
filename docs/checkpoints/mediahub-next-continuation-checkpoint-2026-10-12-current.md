@@ -1,3 +1,14 @@
+## Wave 525 — A0 requester provenance read-back and PR reconciliation (2026-11-02)
+
+- Report: [Wave 525 reconciliation](MEDIAHUB-A0-PROVENANCE-READBACK-AND-PR-RECONCILIATION-WAVE-525-2026-11-02.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-487-2026-10-30.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Current amended A0 contract blob `1200d343139c8e67a826902b3ade09d4987c537d`; verified requester identity/generation, workload auth context, mission authorization, approval evidence, immutable task/correlation/digest binding, durable receipt, R-06 audit and AUTH-15…AUTH-21 / AUD-05.
+- Wave 524 report corrected: read-back status VERIFIED; report blob `adc77565e502dd47ccdfa93c96cb237fcc073f5e`.
+- PR #600 head after Wave 525 updates: `9302a9559cbf57332c1636764fed62b3f8833acd`, still OPEN/DRAFT. CI and independent A3 review NOT VERIFIED. PR #602 is historical and stale relative to amended contract.
+- Draft 2020-12 validation NOT RUN (raw-source retrieval blocked by DNS); runner manifest remains PROPOSED_NOT_ACCEPTED. Gemini/Claude dispatch, provider calls, secret reads, runtime, merge, deployment and qualification NOT RUN.
+- Next: independent A3 review against exact PR #600 head; separately complete runner manifest and schema validation gates.
+
+---
+
 ## Wave 524 — A0 authenticated requester provenance clarification (2026-11-02)
 
 - Report: [Wave 524 report](MEDIAHUB-A0-REQUESTER-PROVENANCE-CLARIFICATION-WAVE-524-2026-11-02.md); [Wave 487 A0 contract](../architecture/MEDIAHUB-A0-ISSUER-VERIFIER-CONTRACT-WAVE-487-2026-10-30.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-487-2026-10-30.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
