@@ -122,7 +122,20 @@ For every pass:
 
 Allowed status vocabulary: PLANNED, DISPATCHED, RUNNING, SUCCEEDED, VERIFIED, QUALIFIED, ACCEPTED, NOT RUN, BLOCKED, FAILED, NOT VERIFIED.
 
-## 8. Current known state to revalidate — do not assume it is still current
+## 8. Current verified snapshot — Wave 509 (2026-11-02), revalidate before use
+
+- `main` HEAD observed: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`.
+- Canonical docs branch `docs/mediahub-chat-tree-map-20261012` HEAD observed at audit start: `d9a289b9113f7567711b641a7017eb814d6c259d`.
+- Documentation working branch: `docs/wave509-ollama-terminology-unification-2026-11-02`; latest observed before final writes: `003bb5eeaf89ce430b4918748a503cf250f5d6d5`.
+- PR #610 is OPEN, not merged, current code head observed: `961ad2018ed6b702f501c03511596e519742d9e4`; title uses Ollama.
+- PR #610 exact-head checks observed SUCCESS: `ollama-local-fcc-claude`, `dispatch-gate`, `workflow-contract`, `verify`, `validate`. Active ruleset 26108066 requires five different exact context names: `Astra Cloud Runtime Validation`, `AI Factory verification`, `provider contract verification`, `Astra Verify`, `Gemini workflow contract validation (Wave 284)`. Exact required-context gate is NOT VERIFIED.
+- PR #610 reviews: one owner `COMMENTED` review, no independent `APPROVED` review; review threads empty. Independent review NOT VERIFIED. Mergeable=true does not satisfy gates.
+- Issue #301 OPEN. Owner terminology clarification is [comment #6326925941](https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941).
+- Canonical local identity: Ollama runtime/API; exact model tag; physical host separately (historical host `Voktors-Mini.Dlink`); FCC routing; Claude Code client. No separate Alamo host/service exists.
+- Live Ollama runtime, model installation, local-only route, FCC/Claude Code execution, physical host availability, VM2 shared runner, Gemini dispatch and Contour A acceptance remain NOT VERIFIED/NOT RUN as appropriate.
+- These are audit-time observations, not durable current truths; fetch again before acting.
+
+## 8A. Historical snapshots to revalidate — do not assume current
 
 Historical audit snapshots recorded:
 - `main` at `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`.
@@ -157,8 +170,19 @@ Start with a fresh repository audit. Specifically:
 - Search the entire default branch and the active PR for `Alamo`, `Allamo`, and case variants. Distinguish historical filenames/immutable IDs from active semantic assertions. Ensure all active architecture, workflow, tests, PR metadata, map addenda and checkpoints use Ollama consistently.
 - Verify the current workflow path is `.github/workflows/mediahub-ollama-fcc-claude-runner.yml` and its contract test path is `tests/test_mediahub_ollama_fcc_runner_contract.py`; do not assume until fetched.
 - Run static tests/contract CI only after checking workflow triggers and exact SHA. Do not perform live inference or dispatch without its separate authorization/gates.
-- Update the canonical documentation branch via a separate documentation PR; do not silently treat a feature-branch document as canonical.
+- Update the canonical documentation branch via a separate documentation PR; do not silently treat a feature-branch document as canonical. Current Wave 509 proposal branch is `docs/wave509-ollama-terminology-unification-2026-11-02`; it is not canonical until merged and accepted.
 - Reconcile and document any remaining historical references with an explicit Wave 509 supersession note.
 - Continue the Contour A cloud-agent path independently of the local Ollama lane.
 
 At all times, answer in Russian unless asked otherwise. Be exact, evidence-led and transparent about unknowns. Do not ask the owner to repeat facts already documented. Do not state that this prompt restores inaccessible chat transcripts automatically: reconstruct the project history from this repository, linked PRs/issues, reports and available project chat context.
+
+
+## 11. Wave 509 evidence and handoff
+
+- Owner clarification: https://github.com/VlDMlNSh/mediahub-os/issues/301#issuecomment-6326925941
+- Implementation PR: https://github.com/VlDMlNSh/mediahub-os/pull/610 (Ollama workflow/test names; current exact-head gates must be rechecked).
+- Canonical docs target: `docs/mediahub-chat-tree-map-20261012`.
+- Wave 509 working docs branch: `docs/wave509-ollama-terminology-unification-2026-11-02`; not canonical until PR acceptance.
+- Exact PR #610 check names and required ruleset contexts are enumerated in the current checkpoint and Wave 509 report. Five generic successes do not equal the five required context names.
+- The previous “Alamo is server 3” instruction is superseded. Do not search for a separate Alamo host. Revalidate the actual SentinelX host/session and local Ollama route independently; owner clarification did not qualify either.
+- This prompt plus repository checkpoints, reports, PRs, issues and linked evidence reconstructs the durable project state. It cannot automatically restore inaccessible full transcripts from every prior chat. Use shared project chat context when available; do not claim otherwise.
