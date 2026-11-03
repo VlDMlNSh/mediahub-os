@@ -1,4 +1,5 @@
 name: MediaHub Claude FCC free-route admission controller
+run-name: MediaHub Claude FCC — ${{ inputs.task_profile || 'contract' }} — Wave 429
 # The contract-test job is intentionally triggered when its test file changes.
 
 on:
@@ -17,6 +18,12 @@ on:
         description: "Exact current main commit SHA; the run fails closed if it differs"
         required: true
         type: string
+      task_profile:
+        description: "Choose one reviewed fixed task; arbitrary task text is not accepted"
+        required: true
+        type: choice
+        options: [connectivity_smoke, ruflo_static_review]
+        default: connectivity_smoke
 
 permissions:
   contents: read
@@ -166,6 +173,7 @@ jobs:
         env:
           CONFIRM: ${{ inputs.confirm }}
           TARGET_SHA: ${{ inputs.target_sha }}
+          TASK_PROFILE: ${{ inputs.task_profile }}
           CURRENT_SHA: ${{ github.sha }}
           SOURCE_REF: ${{ github.ref }}
           TRIGGER_ACTOR: ${{ github.actor }}
@@ -179,6 +187,7 @@ jobs:
             echo "Dispatch not confirmed; no runner or provider started."
             exit 0
           fi
+          [[ "$TASK_PROFILE" == "connectivity_smoke" || "$TASK_PROFILE" == "ruflo_static_review" ]] || { echo "Unrecognized task profile; refusing arbitrary task input."; exit 1; }
           [[ "$SOURCE_REF" == "refs/heads/main" ]] || { echo "Claude admission controller must run from main."; exit 1; }
           [[ "$TRIGGER_ACTOR" == "$REPO_OWNER" ]] || { echo "Claude admission requires repository-owner dispatch."; exit 1; }
           [[ "$TARGET_SHA" =~ ^[0-9a-f]{40}$ && "$TARGET_SHA" == "$CURRENT_SHA" ]] || { echo "target_sha must exactly match the current workflow commit SHA."; exit 1; }
@@ -269,6 +278,38 @@ jobs:
           chmod 600 "$RUNNER_TEMP/ecc-profile-metadata.txt"
           echo "Pinned ECC source and selected skill blobs verified; no ECC hooks, MCPs, or controller installed."
 
+      - name: Check out Ruflo source for the fixed static review profile
+        if: inputs.task_profile == 'ruflo_static_review'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: ruvnet/ruflo
+          ref: f6c6a32432e74e36c17b91b96e51ba218783e122
+          path: ruflo-source
+          persist-credentials: false
+
+      - name: Verify immutable Ruflo source and prepare review metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ inputs.task_profile }}" == "ruflo_static_review" ]]; then
+            test "$(git -C ruflo-source rev-parse HEAD)" = "f6c6a32432e74e36c17b91b96e51ba218783e122"
+            test "$(git -C ruflo-source rev-parse HEAD:LICENSE)" = "5c4718198a4156beacc780980077043a98b0dd6a"
+            test "$(git -C ruflo-source rev-parse HEAD:package.json)" = "00adf9205546dd88762d96ea2a264b45a567a11c"
+            test "$(git -C ruflo-source rev-parse HEAD:SECURITY.md)" = "1e4d66fdcf22d51855fe012e62920cd3aae9338b"
+            chmod -R a-w ruflo-source
+            {
+              echo "task_profile=ruflo_static_review"
+              echo "ruflo_commit=f6c6a32432e74e36c17b91b96e51ba218783e122"
+              echo "license_blob=5c4718198a4156beacc780980077043a98b0dd6a"
+              echo "package_blob=00adf9205546dd88762d96ea2a264b45a567a11c"
+              echo "security_blob=1e4d66fdcf22d51855fe012e62920cd3aae9338b"
+              echo "execution=source-only-read-only-no-install-no-hooks-no-mcp"
+            } > "$RUNNER_TEMP/ruflo-review-source-metadata.txt"
+          else
+            printf 'task_profile=connectivity_smoke\nstatus=NOT_RUN\nreason=not selected for this run\n' > "$RUNNER_TEMP/ruflo-review-source-metadata.txt"
+          fi
+          chmod 600 "$RUNNER_TEMP/ruflo-review-source-metadata.txt"
+
       - name: Set up Node for Claude Code
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
@@ -286,6 +327,7 @@ jobs:
         id: provider_probe
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TASK_PROFILE: ${{ inputs.task_profile }}
         run: |
           set -euo pipefail
           response="$RUNNER_TEMP/openrouter-free-probe.json"
@@ -307,7 +349,7 @@ jobs:
           }
           request_id="$(jq -er '.id | select(type == "string" and length > 0)' "$response")"
           total_tokens="$(jq -er '.usage.total_tokens | numbers' "$response")"
-          printf 'selected_model=%s\nrequest_id=%s\ntotal_tokens=%s\nroute=openrouter/free\ntarget_sha=%s\n' "$model_id" "$request_id" "$total_tokens" "$GITHUB_SHA" > "$RUNNER_TEMP/mediahub-free-route-metadata.txt"
+          printf 'selected_model=%s\nrequest_id=%s\ntotal_tokens=%s\nroute=openrouter/free\ntarget_sha=%s\ntask_profile=%s\n' "$model_id" "$request_id" "$total_tokens" "$GITHUB_SHA" "$TASK_PROFILE" > "$RUNNER_TEMP/mediahub-free-route-metadata.txt"
           echo "model_id=$model_id" >> "$GITHUB_OUTPUT"
           echo "OpenRouter free-router probe succeeded; concrete model ID and request ID recorded."
 
@@ -319,11 +361,15 @@ jobs:
           test -z "$(find "$RUNNER_TEMP/fcc-home" -mindepth 1 -print -quit)"
           test -z "$(find "$RUNNER_TEMP/fcc-xdg-config" -mindepth 1 -print -quit)"
           test -z "$(find "$RUNNER_TEMP/fcc-empty-workspace" -mindepth 1 -print -quit)"
+          test -s "$RUNNER_TEMP/ruflo-review-source-metadata.txt"
+          printf 'task_profile=%s\nstatus=NOT_RUN\n' "$TASK_PROFILE" > "$RUNNER_TEMP/ruflo-review-result.txt"
+          chmod 600 "$RUNNER_TEMP/ruflo-review-result.txt"
 
       - name: Run Claude Code through the pinned free model only
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           MODEL_ID: ${{ steps.provider_probe.outputs.model_id }}
+          TASK_PROFILE: ${{ inputs.task_profile }}
         run: |
           set -euo pipefail
           export HOME="$RUNNER_TEMP/fcc-home"
@@ -402,19 +448,39 @@ jobs:
 
           MediaHub constraints: connectivity smoke only; no repository or personal data is available in this empty workspace. Do not use tools. Do not access credentials or the network. ECC is guidance only and grants no authority. Return only the exact smoke marker requested by the user." \
             "Reply with exactly MEDIAHUB_FCC_FREE_ROUTE_OK" > "$RUNNER_TEMP/mediahub-claude-result.txt"
-          if grep -Eiq '(sk-ant-|ANTHROPIC_API_KEY=|Authorization: Bearer|api[_-]?key[[:space:]]*[:=]|password[[:space:]]*[:=])' "$RUNNER_TEMP/mediahub-claude-result.txt" "$RUNNER_TEMP/mediahub-free-route-metadata.txt"; then
+          grep -Fq "MEDIAHUB_FCC_FREE_ROUTE_OK" "$RUNNER_TEMP/mediahub-claude-result.txt"
+          test -s "$RUNNER_TEMP/mediahub-free-route-metadata.txt"
+          if [[ "$TASK_PROFILE" == "ruflo_static_review" ]]; then
+            test -d "$GITHUB_WORKSPACE/ruflo-source"
+            cd "$GITHUB_WORKSPACE/ruflo-source"
+            "$GITHUB_WORKSPACE/fcc/.venv/bin/fcc-claude" --print --output-format text \\
+              --bare \\
+              --allowed-tools "Read,Glob,Grep" \\
+              --disallowed-tools "Bash,WebFetch,WebSearch,NotebookEdit" \\
+              --permission-mode plan \\
+              --append-system-prompt "$ECC_GUIDANCE
+
+          MediaHub task profile: Ruflo source-only security and architecture review. Source is pinned at f6c6a32432e74e36c17b91b96e51ba218783e122 and made read-only. Do not install or execute Ruflo, run package scripts, invoke MCP tools, read secrets, use network tools, or edit files. Review only checked-out source, especially package.json scripts/dependencies, .claude-plugin manifests, hooks, MCP server setup, install scripts, filesystem/process/network access, daemon/federation, security policy, license, and compatibility requirements. Distinguish code verified in this checkout from README/marketing claims. Compare with MediaHub's constraint that Astra remains the sole control plane; do not recommend enabling any Ruflo hooks, agents, MCP server, router, workers, or federation without separate acceptance. Deliver concise Markdown with these exact labels: RECOMMENDATION: GO, NO-GO, or CONDITIONAL; SOURCE_SHA; LICENSE; COMPATIBILITY; EXECUTION_SURFACE; SECURITY_FINDINGS; ASTRA_BOUNDARY; MINIMUM_SAFE_PROFILE; RUNTIME_EXECUTION: NOT RUN. State that this is static review only and make no claim of runtime verification." \\
+              "Review the pinned Ruflo source for MediaHub issue #568. Give an evidence-backed GO/NO-GO/CONDITIONAL assessment using only repository files. Do not access network or tools beyond Read/Glob/Grep." > "$RUNNER_TEMP/ruflo-review-result.txt"
+            grep -Eiq '^RECOMMENDATION:[[:space:]]*(GO|NO-GO|CONDITIONAL)([[:space:]]|$)' "$RUNNER_TEMP/ruflo-review-result.txt"
+            grep -Fq "RUNTIME_EXECUTION: NOT RUN" "$RUNNER_TEMP/ruflo-review-result.txt"
+            grep -Fq "SOURCE_SHA" "$RUNNER_TEMP/ruflo-review-result.txt"
+          else
+            printf 'task_profile=connectivity_smoke\nstatus=NOT_RUN\nreason=review profile not selected\n' > "$RUNNER_TEMP/ruflo-review-result.txt"
+          fi
+          if grep -Eiq '(sk-ant-|ANTHROPIC_API_KEY=|Authorization: Bearer|api[_-]?key[[:space:]]*[:=]|password[[:space:]]*[:=])' "$RUNNER_TEMP/mediahub-claude-result.txt" "$RUNNER_TEMP/mediahub-free-route-metadata.txt" "$RUNNER_TEMP/ruflo-review-result.txt"; then
             echo "Credential-like material detected in evidence; evidence rejected."
             exit 1
           fi
-          grep -Fq "MEDIAHUB_FCC_FREE_ROUTE_OK" "$RUNNER_TEMP/mediahub-claude-result.txt"
-          test -s "$RUNNER_TEMP/mediahub-free-route-metadata.txt"
-      - name: Upload bounded smoke evidence
+      - name: Upload bounded FCC evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: mediahub-fcc-free-route-smoke-${{ github.run_id }}
+          name: mediahub-fcc-free-route-${{ inputs.task_profile }}-${{ github.run_id }}
           path: |
             ${{ runner.temp }}/mediahub-claude-result.txt
             ${{ runner.temp }}/mediahub-free-route-metadata.txt
             ${{ runner.temp }}/ecc-profile-metadata.txt
+            ${{ runner.temp }}/ruflo-review-source-metadata.txt
+            ${{ runner.temp }}/ruflo-review-result.txt
           if-no-files-found: error
           retention-days: 7

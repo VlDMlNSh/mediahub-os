@@ -86,6 +86,11 @@ fcc_text = FCC_CONTROLLER.read_text(encoding="utf-8")
 for needle in (
     "workflow_dispatch:",
     "inputs.target_sha",
+    "inputs.task_profile",
+    "options: [connectivity_smoke, ruflo_static_review]",
+    "repository: ruvnet/ruflo",
+    "ref: f6c6a32432e74e36c17b91b96e51ba218783e122",
+    "RUNTIME_EXECUTION: NOT RUN",
     'SOURCE_REF" == "refs/heads/main"',
     'TRIGGER_ACTOR" == "$REPO_OWNER"',
     'TARGET_SHA" == "$CURRENT_SHA"',
