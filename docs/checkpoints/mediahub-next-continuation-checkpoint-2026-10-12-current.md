@@ -2837,3 +2837,17 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 479 — multi-provider cloud model router component selection (2026-10-30)
+
+- Report: [Wave 479 component selection](MEDIAHUB-CLOUD-MODEL-ROUTER-COMPONENT-SELECTION-WAVE-479-2026-10-30.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-479-2026-10-30.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Main SHA inspected: `f0448f28c7cfa61e4450c38529f09afbfdbbc7c7`; model-router policy blob `e249333c1c0ce6c1c586a5f498dbfd3979418f6e`; Gemini controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3`.
+- PR #590 remains OPEN/DRAFT/UNMERGED at `98d466b3f372c541bd7301be087004b4e218d9b2`; queried PR workflow runs and combined statuses were empty, so exact-head CI NOT VERIFIED. Formal review was not returned.
+- Research disposition: LiteLLM is the leading candidate for a future isolated qualification spike, not selected/adopted; Bifrost is secondary; Portkey deferred; New API excluded from first qualification wave pending release/license/security review. See report for versions, license and evidence.
+- Critical finding: no candidate has yet been proven to implement MediaHub's provider-account-aware free-tier quota semantics. Generic routing, RPM/TPM and spend budgets are insufficient. Require atomic shared quota reservations/settlement, account-level key grouping, Retry-After, fail-closed entitlement handling, no same-account key cycling to bypass limits, and no paid fallback.
+- Current router policy remains policy-only and permits only the Gemini controller and FCC/OpenRouter Free transport. This wave does not authorize a new gateway transport or provider calls. Local FCC/Ollama entries remain a separate policy reconciliation against cloud-only Contour A.
+- Gemini and Claude execution NOT RUN; no run/job/host/session IDs; provider credentials NOT READ; provider calls NOT RUN; gateway install, tests, scan, benchmark NOT RUN; merge/deployment/qualification/adoption NOT RUN.
+- Working branch: `docs/wave479-cloud-model-router-selection-20261030`, based on `docs/mediahub-chat-tree-map-20261012`. The canonical map file is over 1 MB and its Contents API response was empty; full blob retrieval succeeded, but this pass records the map change in a dedicated addendum rather than rewriting the large canonical map.
+- Next: bounded LiteLLM-versus-Bifrost security/quota-ledger design spike with synthetic providers/keys only, after reconciling Issue #301 gates.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
