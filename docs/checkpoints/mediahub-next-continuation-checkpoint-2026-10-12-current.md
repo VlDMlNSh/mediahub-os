@@ -1,3 +1,16 @@
+## Wave 524 — Colibri duplicate-PR and canonical documentation reconciliation (2026-11-03)
+
+- Report: [Wave 524 Colibri / documentation reconciliation](MEDIAHUB-COLIBRI-DOCCHAIN-RECONCILIATION-WAVE-524-2026-11-03.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Master Roadmap](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- `main` HEAD `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; canonical docs branch base `d9a289b9113f7567711b641a7017eb814d6c259d`; Baseline 2.0 remains ACCEPTED / canonical.
+- Canonical map/checkpoint/roadmap indexed through Waves 477/392/458 respectively; this Wave 524 entry is proposed, not accepted.
+- PR #628 Wave 521 is OPEN/DRAFT. PR #629 Wave 522 assessment is OPEN/DRAFT and stacked on #628. PR #630 Wave 522 admission audit is OPEN/DRAFT on the canonical docs base. PR #625 owner-directed two-runner proposal is OPEN/READY. Exact-head check-runs=0, combined status contexts=0, formal reviews=0 and inline threads=0 for #625/#628/#629/#630: all remain NOT VERIFIED.
+- Colibri reports share pinned source `JustVugg/colibri@0a5504a1dc64f86fcd0fe7db298b0448c730e7e6`; GLM-5.2 ~429 GB, standard public Ubuntu runner 14 GB SSD => not viable. #630 gives fuller larger-runner/security constraints; consolidate rather than merge duplicate Wave 522 index entries.
+- Colibri RESEARCHED / NOT ADMITTED / NOT INSTALLED / NOT QUALIFIED; GLM-4.7 NOT VERIFIED. Runner 1 live install/model/FCC/Claude/ECC NOT RUN; Runner 2 same-host co-location NOT IMPLEMENTED; Gemini agents NOT RUN; no secrets read; Contour A NOT ACCEPTED.
+- Next: reconcile #628 with one consolidated Wave 522 record; obtain exact-head CI and independent review before integration; separately resolve PR #625 topology against Bootstrap and qualify actual runner capacity.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).

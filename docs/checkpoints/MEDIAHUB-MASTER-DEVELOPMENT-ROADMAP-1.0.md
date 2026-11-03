@@ -1,3 +1,14 @@
+## Wave 524 — documentation and Colibri admission status (2026-11-03)
+
+- Evidence report: [Wave 524 Colibri / documentation reconciliation](MEDIAHUB-COLIBRI-DOCCHAIN-RECONCILIATION-WAVE-524-2026-11-03.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [continuation checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Canonical docs freshness remains behind the working proposals. PR #628 (Wave 521) is the preceding documentation candidate; #629 and #630 duplicate Wave 522 Colibri coverage on different bases. Consolidate to one Wave 522 record; do not merge duplicate entries.
+- Colibri: research only. GLM-5.2 ~429 GB and standard Ubuntu runner has 14 GB SSD; larger runner capacity is only theoretical pending budget/availability/provenance/security/runtime qualification. GLM-4.7 support NOT VERIFIED. No installation, download or inference.
+- Runner 1 source is integrated, but live Ollama/FCC/Claude/ECC runtime remains NOT RUN. Runner 2 co-location NOT IMPLEMENTED. Gemini Agents 1/2/3 NOT RUN; controller dispatch gates NOT VERIFIED.
+- PR #625 two-runner proposal remains unaccepted; canonical Bootstrap topology reconciliation and actual runner identity/capacity evidence are required before live runtime work.
+- Priority: consolidate documentation and establish exact-head checks + independent review; then resolve runner topology; then execute only separately admitted runtime qualification. No deployment or Contour A acceptance is implied.
+
+---
+
 ## Wave 458 — OSV-Scanner qualification preflight (2026-10-29)
 
 - Evidence: [Wave 458 report](MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).
