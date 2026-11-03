@@ -2837,3 +2837,17 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## Wave 484 — A0 issuer governance and lifecycle reconciliation (2026-10-30)
+
+- Report: [Wave 484 A0 issuer governance and lifecycle reconciliation](MEDIAHUB-A0-ISSUER-GOVERNANCE-AND-LIFECYCLE-RECONCILIATION-WAVE-484-2026-10-30.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-484-2026-10-30.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Documentation base SHA: bfb2a6d73ba64839e783d6ee30d0d8ae2e3074a4; working branch: docs/wave484-a0-governance-reconciliation-20261030.
+- Re-read WB-05 (blob 1b562c6546b1216f2ee89095cd6a78427a967dc5), WB-06 (9bd850e869dbd19db9bde2ce08768aaf502c95a2), WB-04 (dac5e9eab9ec69ab7d15ac8eea45d7a1c8922387), WB-03 (e2f13fe8250fedef02b27bb221072b582db1f3d1), MH-12 (cf4ebfd5bf471ca676f075c51d3a24906504e490) and Wave 149 matrix (9c1a02dc125b37abea9284f0c0aa5deb571f13e7).
+- DEC-DEV-02 Option C is already owner-approved: Jarvis coordinates corporation missions; ASTRA A0 owns internal engineering queue/lease/cancel/recovery; MediaHub Product State Authority remains sole canonical product-state mutation authority. Do not reopen this settled lifecycle split.
+- GOV-CAP-01…07 remain unresolved; WB-05 options A–D remain unselected. R-06 audit/privacy remains open. No issuer, verifier ownership, trust anchor, protocol, token format, key store, retention period or audit fail-open exception is selected.
+- Wave 482 A0-ISSUER-01 remains a HIGH source-level provenance gap (not a confirmed exploitable vulnerability): caller-supplied approval_state=approved reaches sensitive-action gating without established issuer/capability verification on the inspected path. Runtime remediation remains blocked pending accepted governance and independent review.
+- Created documentation report and map addendum. Canonical map file was not rewritten because its retrieved blob is 1,204,915 bytes and exceeds the contents API safe update path used here; map addendum is provided for later controlled index reconciliation. Master Roadmap unchanged; Wave 483 priority remains in Draft PR #595 and is not accepted.
+- No runtime edits, tests, credentials, provider calls, Gemini/Claude dispatch, host tasks, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: record explicit owner/governance dispositions for GOV-CAP-01…07 and R-06; then draft one normative, technology-neutral issuer/ingress/lifecycle contract and negative-test matrix for independent A3 review.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Master Roadmap: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os.
