@@ -1,3 +1,14 @@
+## Wave 483 — Cloud Agent Pool First priority (2026-10-30)
+
+- **Owner-directed order:** GitHub-hosted Contour A cloud-agent pool development, controlled launch, operationalization and independent acceptance is first priority. Owned/local server hardware rollout is second phase, only after Contour A deployment and independent acceptance.
+- Master plan supersession: [MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md).
+- Evidence and exit criteria: [Wave 483 report](../checkpoints/MEDIAHUB-CLOUD-POOL-FIRST-PRIORITY-WAVE-483-2026-10-30.md); [map addendum](MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-483-2026-10-30.md); [checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md).
+- Issue #301 remains OPEN and controlling. Complete A0 issuer/ingress/lease/cancel/recovery, R-06, authoritative runner/workspace/network target, schema validation/negative fixtures and independent review before any worker dispatch.
+- Hardware inventory and compatibility research may continue only as non-blocking documentation. Server activation/procurement/install is FUTURE-GATED until the six Contour A exit criteria in Wave 483 report pass. Contour B remains separately gated.
+- Current execution evidence: router policy-only, no live cloud pool proven; SentinelX connected hosts=0; no provider calls, secrets, Gemini/Claude dispatch, hardware activation, deployment or acceptance.
+
+---
+
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
