@@ -130,6 +130,7 @@ jobs:
           REPOSITORY: ${{ github.repository }}
           SOURCE_COMMENT_ID: ${{ github.event.comment.id }}
           CURRENT_RUN_ID: ${{ github.run_id }}
+          CURRENT_RUN_ATTEMPT: ${{ github.run_attempt }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
@@ -150,8 +151,22 @@ jobs:
                   raise RuntimeError(f"GitHub API {method} {path}: HTTP {e.code}: {detail}")
           source_comment_id=os.environ.get("SOURCE_COMMENT_ID","").strip()
           if source_comment_id:
+              # A rerun keeps the same workflow run ID, so excluding CURRENT_RUN_ID
+              # alone would let a retry pass the duplicate guard and dispatch again.
+              attempt=os.environ.get("CURRENT_RUN_ATTEMPT","")
+              if attempt!="1":
+                  print("::error::Issue #301 /next controller reruns are disabled; submit a new /next comment. Refusing duplicate dispatch.")
+                  sys.exit(2)
               _,history=call("GET",f"/repos/{repo}/actions/workflows/gemini-batch-dispatch-controller.yml/runs?event=issue_comment&branch=main&per_page=100")
-              duplicates=[r for r in history.get("workflow_runs",[]) if str(r.get("id"))!=os.environ.get("CURRENT_RUN_ID","") and ("next-comment-"+source_comment_id) in (r.get("display_title") or "")]
+              history_runs=history.get("workflow_runs",[])
+              history_total=history.get("total_count")
+              # The idempotency guard must inspect a complete listing. If the
+              # first page is truncated or the API omits cardinality evidence,
+              # fail closed rather than risk dispatching the same owner comment twice.
+              if not isinstance(history_total,int) or len(history_runs)!=history_total:
+                  print("::error::Controller history listing is incomplete; duplicate-dispatch status is NOT VERIFIED.")
+                  sys.exit(2)
+              duplicates=[r for r in history_runs if str(r.get("id"))!=os.environ.get("CURRENT_RUN_ID","") and ("next-comment-"+source_comment_id) in (r.get("display_title") or "")]
               if duplicates:
                   print("::notice::This /next comment already has a controller run; duplicate dispatch suppressed.")
                   sys.exit(0)
