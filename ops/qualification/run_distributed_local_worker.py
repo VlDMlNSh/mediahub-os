@@ -248,8 +248,46 @@ def scope_paths(task: dict, changed: set[str]) -> list[str]:
     return bad
 
 
+def _resolve_workspace_path(raw_path: str | Path, *, allow_absolute: bool) -> Path | None:
+    """Resolve a task path while denying traversal and every symlink component."""
+    root = ROOT.resolve()
+    candidate = Path(raw_path)
+    if candidate.is_absolute():
+        if not allow_absolute:
+            return None
+        try:
+            relative = candidate.relative_to(root)
+        except ValueError:
+            return None
+    else:
+        relative = candidate
+    if not relative.parts or ".." in relative.parts:
+        return None
+
+    current = root
+    for part in relative.parts:
+        if part in {"", "."}:
+            continue
+        current = current / part
+        try:
+            if current.is_symlink():
+                return None
+        except OSError:
+            return None
+
+    try:
+        resolved = current.resolve()
+        resolved.relative_to(root)
+    except (OSError, RuntimeError, ValueError):
+        return None
+    return resolved
+
+
 def _materialize_bounded_claude_tool_output(output: str, boundary: str) -> str | None:
-    """Materialize only an exact-boundary Write/Edit emitted by the real Claude client."""
+    """Materialize only an exact, repository-contained Write/Edit emitted by Claude."""
+    boundary_path = _resolve_workspace_path(boundary, allow_absolute=False)
+    if boundary_path is None or boundary_path == ROOT.resolve():
+        return None
     candidates: list[dict] = []
     for block in re.findall(r"(?s)```json\s*(\{.*?\})\s*```", output):
         try:
@@ -268,7 +306,7 @@ def _materialize_bounded_claude_tool_output(output: str, boundary: str) -> str |
             if isinstance(value, dict):
                 candidates.append(value)
 
-    boundary_path = (ROOT / boundary).resolve()
+    root = ROOT.resolve()
     for candidate in candidates:
         name = str(candidate.get("name") or "").strip().lower()
         args = candidate.get("arguments")
@@ -277,14 +315,8 @@ def _materialize_bounded_claude_tool_output(output: str, boundary: str) -> str |
         raw_path = str(args.get("file_path") or args.get("path") or "").strip()
         if not raw_path:
             continue
-        target = Path(raw_path)
-        if not target.is_absolute():
-            target = ROOT / target
-        try:
-            target = target.resolve()
-        except OSError:
-            continue
-        if target != boundary_path:
+        target = _resolve_workspace_path(raw_path, allow_absolute=True)
+        if target is None or target != boundary_path:
             continue
         if name == "write":
             content = args.get("content")
