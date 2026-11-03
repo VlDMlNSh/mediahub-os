@@ -1,3 +1,16 @@
+## Wave 526 — documentation-chain reconciliation (2026-11-03)
+
+- Report: [Wave 526 reconciliation](MEDIAHUB-DOCUMENTATION-CHAIN-RECONCILIATION-WAVE-526-2026-11-03.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Main HEAD: 41c13e1c2b17ac48dc51c9963a9cda140f79ddb0. Canonical docs base: d9a289b9113f7567711b641a7017eb814d6c259d.
+- Recovered Waves 517–525: #625 topology proposal; Issue #301 comment Wave 518; #626 Wave 519; #627 Wave 520 and PR610 Wave 521; #628 second Wave 521 ECC preflight; #629/#630 overlapping Wave 522 Colibri reports; #625 Wave 523 status correction; #600 A0 Waves 524/525.
+- Stale SHA corrections: live PR #625 head = 01efb5e6264b4cb84aee1d9c0c162be77cd1f264 (not intermediate 16f951... in its Wave 523 checkpoint); live PR #600 head = 05a873e82760d63c8b26dc496b43d3309f4cfbf9 (three commits after the 9302a9... head in its Wave 525 report).
+- PRs #625–630 and #600 remain open and have 0 observed exact-head check-runs, 0 formal reviews and 0 inline review threads. #629 is stacked on #628; #600 is on a separate Wave 486 base. No branch was merged or cherry-picked.
+- Runner 1 runtime NOT RUN; Runner 2 same-host co-location NOT IMPLEMENTED; Gemini 1/2/3 NOT RUN; Colibri NOT ADMITTED / NOT RUN; A0 requester-provenance amendment NOT ACCEPTED; Contour A NOT ACCEPTED; Contour B GATED.
+- Active ruleset 26108066 requires five exact contexts; none of those five names appeared in the observed current-main check-run collection. Exact-head required-context CI NOT VERIFIED.
+- Next: independent reviews and exact-head CI for the documentation candidates; keep #600 separate; then proceed to Runner 2 single-host isolation design and behavioral tests only after controller/governance gates pass.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
