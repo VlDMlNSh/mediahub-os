@@ -1,0 +1,109 @@
+{
+  "schema_version": "mediahub.runner-workspace-network-target.v0.1",
+  "id": "MH-CAF-RUNNER-TARGET-478",
+  "date": "2026-10-30",
+  "status": "PROPOSED_NOT_ACCEPTED",
+  "work_item": "CAF-Q-012",
+  "contour": "A",
+  "source_commit_main": "f0448f28c7cfa61e4450c38529f09afbfdbbc7c7",
+  "purpose": "Candidate target profile for bounded GitHub-hosted engineering jobs; not an authorization to dispatch agents, access provider credentials, or make provider calls.",
+  "runner_profile": {
+    "provider": "GitHub Actions",
+    "class": "standard GitHub-hosted runner",
+    "repository_visibility_observed": "public",
+    "target_plan_assumption": "GitHub Free; account subscription itself was not independently verified",
+    "os_image": "Ubuntu 24.04",
+    "runs_on_label": "ubuntu-24.04",
+    "architecture": "x64",
+    "cpu_vcpu": 4,
+    "memory_gib": 16,
+    "ephemeral_ssd_gib": 14,
+    "gpu": false,
+    "standard_runner_cost_for_public_repo": "free; public repository standard runners are documented as free and unlimited",
+    "free_plan_max_concurrent_standard_jobs": 20,
+    "maximum_job_runtime_hours": 6,
+    "operational_guardrail": "Use <=330 minutes as a proposed work deadline to preserve time for evidence publication and teardown; not a GitHub platform limit."
+  },
+  "isolation": {
+    "execution_unit": "one GitHub-hosted job",
+    "vm_lifecycle": "each non-slim standard hosted job receives a fresh VM; VM is ephemeral",
+    "workspace": "GITHUB_WORKSPACE is job-local and may be shared by steps in the same job; never treat it as cross-job shared storage",
+    "cross_job_exchange": "explicitly published artifacts or source-control commits only; no implicit shared filesystem",
+    "checkout": "persist-credentials=false; checkout only immutable target SHA",
+    "token_permissions": "permissions: contents: read by default; add no write permissions in this target profile",
+    "secret_handling": "no provider secrets in source, task envelope, prompts, artifacts, caches or logs; no secret reads in this qualification pass",
+    "cleanup": "VM disposal after job; explicit artifact retention and deletion policy still requires qualification",
+    "self_hosted_runners": "excluded from this profile"
+  },
+  "network": {
+    "egress_model": "direct outbound HTTPS from hosted runner",
+    "source_ip": "dynamic/shared by default; no stable source IP assumed",
+    "fixed_ip_required_by_default": false,
+    "fixed_ip_exception": "If a provider requires IP allowlisting, this profile is incompatible until a separately approved static-egress target is selected.",
+    "destination_allowlist_enforcement": "NOT VERIFIED for standard hosted runner network layer; provider calls remain blocked until enforceable policy and per-task destination authorization are accepted.",
+    "inbound_listener": "not required",
+    "inter_runner_network": "no guaranteed direct reachability, bandwidth, latency, packet-loss SLA or shared private network; do not assume a cluster fabric",
+    "distributed_model_parallelism": "not qualified; do not use this profile for tensor/pipeline parallel inference",
+    "benchmark": "read-only, non-secret tests to approved GitHub endpoints only; measure DNS/TLS/connect latency, upload/download throughput, packet loss where supported, job stability and teardown. Provider endpoints require separate authorization."
+  },
+  "dispatch": {
+    "permitted_now": false,
+    "agent_dispatch": "NOT AUTHORIZED",
+    "provider_calls": "NOT AUTHORIZED",
+    "workflow_dispatch": "NOT AUTHORIZED",
+    "acceptance_gates": [
+      "A0 issuer/ingress/lease/cancel/recovery accepted",
+      "R-06 audit/privacy governance disposition accepted",
+      "destination-level egress enforcement and data policy accepted",
+      "exact workflow SHA and runner target independently reviewed",
+      "schema Draft 2020-12 validation and negative fixtures accepted",
+      "task identity, capability, quota, expiry and revocation gates accepted"
+    ]
+  },
+  "known_unknowns": [
+    "Actual account plan was not exposed by repository metadata; Free plan is an assumption for concurrency planning.",
+    "Actual account-level concurrent job capacity and queue behavior have not been measured.",
+    "Standard hosted runner network throughput, RTT, packet loss and inter-runner reachability have not been benchmarked.",
+    "Artifact retention/deletion settings and effective organization/repository policies were not inspected.",
+    "Enforceable outbound destination allowlisting for standard runners is not demonstrated."
+  ],
+  "evidence_sources": [
+    {
+      "path": "docs/checkpoints/MEDIAHUB-AUTONOMOUS-CLOUD-AGENT-FABRIC-REFERENCE-ARCHITECTURE-WAVE-08-2026-10-16.md",
+      "blob_sha": "712faccec5a35f2ed56b86f23a42cd4a1a5b4710"
+    },
+    {
+      "path": "docs/checkpoints/MEDIAHUB-CLOUD-NATIVE-CREDENTIAL-AND-EGRESS-ARCHITECTURE-WAVE-14-2026-10-16.md",
+      "blob_sha": "21ab57f932594bed670583d0eb66d4abb076755f"
+    },
+    {
+      "path": "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-DIRECT-EGRESS-DECISION-WAVE-18-2026-10-16.md",
+      "blob_sha": "d7730895d97f84fc8ff25d1fdda61558dbd50696"
+    },
+    {
+      "path": "docs/checkpoints/MEDIAHUB-CLOUD-AGENT-ACTIVATION-QUEUE-WAVE-11-2026-10-16.json",
+      "blob_sha": "0d4d591f464b976d6920bbd39c87a45a9d4fda59"
+    },
+    {
+      "url": "https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job"
+    },
+    {
+      "url": "https://docs.github.com/en/actions/reference/runners/github-hosted-runners"
+    },
+    {
+      "url": "https://docs.github.com/en/actions/reference/limits"
+    },
+    {
+      "url": "https://docs.github.com/en/actions/reference/security/secure-use"
+    }
+  ],
+  "acceptance": {
+    "state": "NOT_ACCEPTED",
+    "accepted_manifest": false,
+    "independent_review": "NOT_VERIFIED",
+    "runtime_benchmark": "NOT RUN",
+    "workflow_execution": "NOT RUN",
+    "qualification": "NOT QUALIFIED",
+    "deployment": "NOT DEPLOYED"
+  }
+}
