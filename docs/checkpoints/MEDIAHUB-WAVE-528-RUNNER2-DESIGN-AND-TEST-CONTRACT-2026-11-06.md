@@ -21,7 +21,7 @@ Status: **DESIGN CONTRACT PROPOSED / NOT IMPLEMENTED / NO AGENT DISPATCH / NO PR
 
 ## 2. Current source facts
 
-1. The main controller dispatches three independent child workflows. Each child workflow currently declares its own `ubuntu-latest` execution job. This is three runner allocations, not one co-located Runner 2.
+1. The main controller has three separately declared Ubuntu jobs (probe, readiness and dispatch stages, subject to their job conditions). Each of the three child workflows also has two Ubuntu jobs: `authorize_dispatch` (lines 37–74) and the model execution job (lines 75–end). Thus the child-workflow topology alone declares six runner-backed jobs per three-agent batch, not three; actual allocations depend on which controller stages and child jobs execute. None is co-located with another by this design. Runner 2 must be evaluated against this verified two-job-per-child topology, and any consolidation must preserve the authorization boundary without leaking the HMAC key into agent execution.
 2. The controller owns the signed task envelope and GitHub transport. It must remain the only dispatch authority; agent containers are workers, not controllers.
 3. The existing router file explicitly declares `mode: policy_only`, `direct_provider_api_calls: false`, `paid_fallback: false` and `unknown_route_behavior: fail_closed`. It is a policy contract, not a runtime key selector or dispatcher.
 4. No provider-key registry, secret values, Actions secret inventory or account metadata were inspected in this pass. Source-level role credential bindings do not prove secret presence, account ownership, quota independence or runtime use.
