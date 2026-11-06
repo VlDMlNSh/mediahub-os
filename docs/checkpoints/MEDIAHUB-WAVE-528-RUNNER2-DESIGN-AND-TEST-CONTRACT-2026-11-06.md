@@ -159,3 +159,15 @@ During the 2026-11-06 follow-up, the initial Wave 528 index entry had been dupli
 - Post-edit read-back must confirm exactly one Wave 528 heading in each file. These remain proposal-branch documents, not canonical-branch changes.
 - No runtime code or workflow was changed. No controller dispatch, Gemini run, provider call, secret inventory/value access, merge, deployment or qualification occurred.
 - PR #634 exact-head CI and formal review remain NOT VERIFIED until the latest head is queried after this correction.
+
+
+## 10. Source-line topology correction (2026-11-06)
+
+A follow-up source-line review corrected the runner-count statement in section 2:
+
+- Each of the three child workflows has two separate `ubuntu-latest` jobs: `authorize_dispatch` (lines 37–74) and model execution (starting at line 75/78, depending on file formatting).
+- Therefore the three child workflows declare six runner-backed jobs per three-agent batch, not three. Actual allocations depend on job conditions and whether the workflows are dispatched.
+- The controller source separately declares three Ubuntu stages (probe, readiness gate, dispatch), subject to conditions. These are additional potential runner allocations, not a persistent shared runner.
+- Any Runner 2 consolidation must preserve the authorization boundary: the HMAC key is used by the authorization job and must not become available to model-execution processes or agent containers. Co-location is not permission to combine trust domains.
+- Source evidence: controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3`; child blobs A1 `155a02159912ca371e6f826c51325ca269857aad`, A2 `fff1820a6b97d379b23674f36bd62227b7d4dec2`, A3 `781df56e8aa7c75ba453c08378611857862b2e44` at source target `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`.
+- This correction is documentation-only. No workflow implementation, agent dispatch, provider call, secret access, or runner provisioning occurred.
