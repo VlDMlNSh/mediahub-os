@@ -1,3 +1,21 @@
+## Wave 528 — Runner 2 design and behavioral test contract (2026-11-06)
+
+- Report: [Wave 528 Runner 2 design and test contract](MEDIAHUB-WAVE-528-RUNNER2-DESIGN-AND-TEST-CONTRACT-2026-11-06.md); Draft PR [#634](https://github.com/VlDMlNSh/mediahub-os/pull/634), branch `docs/wave528-runner2-design-contract-20261106`, stacked on PR #633.
+- Runtime/source target main SHA: `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; parent docs proposal PR #633 HEAD: `bca5536189580ceafaa22caec28672e04b07c8aa`.
+- Topology correction (Wave 528 report section 10): each child workflow has two Ubuntu jobs (`authorize_dispatch` and model execution), so three child workflows declare six runner-backed jobs per batch; the controller separately has three conditional Ubuntu stages. Actual allocations depend on conditions. Any consolidation must keep HMAC authorization isolated from model execution. Runner 2 co-location NOT IMPLEMENTED.
+- Upstream source pins and compatibility disposition are in the report. No component was adopted.
+- Defined R2-01…R2-18 deterministic synthetic/no-secret tests covering signed envelope, role/workspace isolation, controller/provider credential non-inheritance, Docker/host boundaries, egress, resource limits, cancellation, replay, artifact integrity and partial failure. Follow-up read-back correction removed the duplicated Wave 528 index entry; see report section 9.
+- PR #625 remains OPEN/unaccepted, with zero exact-head workflow runs, formal reviews and review threads. PR #633 remains OPEN/DRAFT with zero exact-head workflow runs, formal reviews and review threads.
+- Router policy is explicitly `policy_only`, with direct provider calls disabled, paid fallback disabled and unknown routes fail-closed. No provider-key registry, secret inventory or secret values were read; account/quota-domain mapping remains NOT VERIFIED.
+- Gemini Agents 1/2/3 NOT RUN. No controller dispatch, provider call, runner provisioning, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: independent A3 review of the design; then a synthetic no-secret isolation harness. Do not launch agents until all controller and Runner 2 admission gates pass.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+---
+
+
+---
+
 ## Wave 527 — exact-head CI correction and Runner 2 component assessment (2026-11-05)
 
 - Report: [Wave 527 exact-head CI and Runner 2 assessment](../checkpoints/MEDIAHUB-WAVE-527-EXACT-HEAD-CI-AND-RUNNER2-ASSESSMENT-2026-11-05.md).
