@@ -1,3 +1,18 @@
+## Wave 528 — Runner 2 design and behavioral test contract (2026-11-06)
+
+- Report: [Wave 528 Runner 2 design and test contract](MEDIAHUB-WAVE-528-RUNNER2-DESIGN-AND-TEST-CONTRACT-2026-11-06.md).
+- Runtime/source target main SHA: `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; parent docs proposal PR #633 HEAD: `bca5536189580ceafaa22caec28672e04b07c8aa`.
+- Verified current controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3`; three child workflow blobs `155a02159912ca371e6f826c51325ca269857aad`, `fff1820a6b97d379b23674f36bd62227b7d4dec2`, `781df56e8aa7c75ba453c08378611857862b2e44`. Each child still runs on its own `ubuntu-latest`; Runner 2 co-location NOT IMPLEMENTED.
+- Upstream source pins and compatibility disposition are in the report. No component was adopted.
+- Defined R2-01…R2-18 deterministic synthetic/no-secret tests covering signed envelope, role/workspace isolation, controller/provider credential non-inheritance, Docker/host boundaries, egress, resource limits, cancellation, replay, artifact integrity and partial failure.
+- PR #625 remains OPEN/unaccepted, with zero exact-head workflow runs, formal reviews and review threads. PR #633 remains OPEN/DRAFT with zero exact-head workflow runs, formal reviews and review threads.
+- Router policy is explicitly `policy_only`, with direct provider calls disabled, paid fallback disabled and unknown routes fail-closed. No provider-key registry, secret inventory or secret values were read; account/quota-domain mapping remains NOT VERIFIED.
+- Gemini Agents 1/2/3 NOT RUN. No controller dispatch, provider call, runner provisioning, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: independent A3 review of the design; then a synthetic no-secret isolation harness. Do not launch agents until all controller and Runner 2 admission gates pass.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+---
+
 ## Wave 527 — exact-head CI correction and Runner 2 component assessment (2026-11-05)
 
 - Report: [Wave 527 exact-head CI and Runner 2 assessment](../checkpoints/MEDIAHUB-WAVE-527-EXACT-HEAD-CI-AND-RUNNER2-ASSESSMENT-2026-11-05.md).
