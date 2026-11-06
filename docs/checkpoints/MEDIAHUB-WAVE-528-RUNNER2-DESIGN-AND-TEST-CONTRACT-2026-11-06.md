@@ -148,3 +148,14 @@ All tests in the first implementation increment must be deterministic and use sy
 - Proposal branch: `docs/wave528-runner2-design-contract-20261106`, intentionally stacked on PR #633.
 - At initial publication, PR #634 had zero exact-head workflow runs/status contexts, zero formal reviews and zero review threads. Recheck the final updated HEAD before relying on this status.
 - This is a proposal only; canonical documentation branch remains unchanged.
+
+
+## 9. Follow-up correction — duplicate index entries
+
+During the 2026-11-06 follow-up, the initial Wave 528 index entry had been duplicated in both the proposal-branch map and continuation checkpoint. The duplicate second entries were removed; the first complete entries were retained.
+
+- Corrected map blob: `d567571697dbd6872ea8387f8484b0d086639f06`.
+- Corrected checkpoint blob: `e6504b524b7b3e52817e4af6f06a4df7c4866d6d`.
+- Post-edit read-back must confirm exactly one Wave 528 heading in each file. These remain proposal-branch documents, not canonical-branch changes.
+- No runtime code or workflow was changed. No controller dispatch, Gemini run, provider call, secret inventory/value access, merge, deployment or qualification occurred.
+- PR #634 exact-head CI and formal review remain NOT VERIFIED until the latest head is queried after this correction.
