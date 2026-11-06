@@ -140,3 +140,11 @@ All tests in the first implementation increment must be deterministic and use sy
 - Bootstrap: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CONTEXT-BOOTSTRAP-INSTRUCTION.md
 - Checkpoint: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md
 - Master Roadmap: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md
+
+
+## 8. Publication
+
+- Draft documentation PR: https://github.com/VlDMlNSh/mediahub-os/pull/634
+- Proposal branch: `docs/wave528-runner2-design-contract-20261106`, intentionally stacked on PR #633.
+- At initial publication, PR #634 had zero exact-head workflow runs/status contexts, zero formal reviews and zero review threads. Recheck the final updated HEAD before relying on this status.
+- This is a proposal only; canonical documentation branch remains unchanged.
