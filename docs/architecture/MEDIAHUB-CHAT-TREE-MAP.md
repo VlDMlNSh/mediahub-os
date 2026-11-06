@@ -1,3 +1,16 @@
+## Wave 528 — Runner 2 design and behavioral test contract (2026-11-06)
+
+- Report: [Wave 528 Runner 2 design and test contract](../checkpoints/MEDIAHUB-WAVE-528-RUNNER2-DESIGN-AND-TEST-CONTRACT-2026-11-06.md).
+- Runtime/source target main SHA: `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; parent proposal PR #633 HEAD: `bca5536189580ceafaa22caec28672e04b07c8aa`.
+- Verified current main controller and three child workflow blobs; each child still uses a separate `ubuntu-latest` job. Same-host Runner 2 is NOT IMPLEMENTED.
+- Pinned reconnaissance: Google Gemini CLI Action main `387c8ddb7a72078825da941758b811b9153c71e8`; GitHub Agentic Workflows main `3decf5979cd1661c7cbd71b6701ef7c150ec6e9c`; OpenHands docs main `fe4d8345b1b994a41d954c15d73bce4dade273bd`.
+- Disposition: Gemini Action is a composite host-job action, not a three-container isolation boundary; GH-AW/AWF is a security-pattern candidate, not a second controller; OpenHands is not selected. No dependency adopted.
+- Added explicit R2-01…R2-18 synthetic/no-secret behavioral acceptance contract. Independent A3 review is required before implementation; controller dispatch and provider calls remain blocked.
+- PR #625 remains an unaccepted topology proposal; PR #633 remains OPEN/DRAFT with zero exact-head runs/reviews/threads. No secret inventory or values inspected; account/quota mapping NOT VERIFIED.
+- Gemini Agents 1/2/3 NOT RUN; no runtime, runner provisioning, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+
+---
+
 ## Wave 527 — exact-head CI correction and Runner 2 component assessment (2026-11-05)
 
 - Report: [Wave 527 exact-head CI and Runner 2 assessment](../checkpoints/MEDIAHUB-WAVE-527-EXACT-HEAD-CI-AND-RUNNER2-ASSESSMENT-2026-11-05.md).
