@@ -152,12 +152,7 @@ jobs:
           RUN_ID: ${{ github.run_id }}
         run: |
           set -euo pipefail
-          python3 scripts/validate_gemini_dispatch_pr.py \\
-            --role agent-3 \\
-            --dispatch-id "$DISPATCH_ID" \\
-            --repository "$REPOSITORY" \\
-            --run-id "$RUN_ID"
-
+          python3 scripts/validate_gemini_dispatch_pr.py --role agent-3 --dispatch-id "$DISPATCH_ID" --repository "$REPOSITORY" --run-id "$RUN_ID"
       - name: Validate Gemini produced an actionable PR result
         if: success()
         shell: bash
