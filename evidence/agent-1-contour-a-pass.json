@@ -1,0 +1,24 @@
+{
+  "schema": "mediahub.agent-pass.v1",
+  "dispatch_id": "agent-1-contour-a-ecb1b188-98c0-4361-9249-ad3e0cd7f843",
+  "contour": "contour-a",
+  "task": "Agent 1 bounded implementation & evidence pass on Issue #301",
+  "base_ref": "main",
+  "target_sha": "1694cde38c7b7d69baf9676b4908c1bb6e197fbe",
+  "status": "COMPLETED_BOUNDED_PASS",
+  "acceptance_criteria": [
+    "Repository connectivity check successful on main at 1694cde38c7b7d69baf9676b4908c1bb6e197fbe",
+    "Dedicated branch created without collision",
+    "Contour A isolation maintained; Product State Authority preserved",
+    "Baseline 2.0 reference and historical IDs preserved"
+  ],
+  "known_gaps": [
+    "Runtime execution and cloud provisioning gated pending financial/security verification",
+    "No merge or deployment performed per Contour A developer fabric rules"
+  ],
+  "verification_status": {
+    "connectivity": "VERIFIED",
+    "branch_creation": "VERIFIED",
+    "runtime_qualification": "DEFERRED_GATED"
+  }
+}
