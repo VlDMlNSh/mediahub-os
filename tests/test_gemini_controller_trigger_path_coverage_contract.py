@@ -1,4 +1,4 @@
-""""Regression contract: controller no-secret PR probe must cover Gemini transport changes."""
+"""Regression contract: controller no-secret PR probe must cover Gemini transport changes."""
 from pathlib import Path
 import unittest
 import yaml
@@ -56,7 +56,7 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
         self.assertEqual(pull_request.get("branches"), ["main"])
         self.assertNotIn("paths", pull_request)
         steps = self.validation["jobs"]["validate"]["steps"]
-        commands = "\\n".join(step.get("run", "") for step in steps)
+        commands = "\n".join(step.get("run", "") for step in steps)
         self.assertIn("test_gemini_controller_trigger_path_coverage_contract.py", commands)
 
 if __name__ == "__main__":
