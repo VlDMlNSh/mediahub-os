@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "Probe does not launch; agents dispatches three roles; review dispatches one fixed read-only review task"
+        description: "Probe does not launch; agents dispatches three roles; review modes dispatch one fixed read-only review task"
         required: true
         type: choice
-        options: [probe, agents, review]
+        options: [probe, agents, review, review-pr649]
         default: probe
       confirm:
         description: "Explicitly confirm dispatch of the selected bounded Gemini task or tasks"
@@ -30,6 +30,8 @@ on:
       - ".github/workflows/gemini-agent-2.yml"
       - ".github/workflows/gemini-agent-3.yml"
       - ".github/workflows/gemini-fcc-independent-review-wave409.yml"
+      - ".github/workflows/gemini-pr649-independent-review.yml"
+      - "tests/test_gemini_pr649_review_contract.py"
       - "tests/test_gemini_controller_positive_context_probe_wave292_contract.py"
       - ".github/workflows/gemini-workflow-contract-validation-wave284.yml"
       - "tests/test_gemini_child_signed_dispatch_runtime_contract.py"
@@ -86,6 +88,7 @@ jobs:
     if: >-
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == true) ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'review' && inputs.confirm == true) ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'review-pr649' && inputs.confirm == true) ||
       (github.event_name == 'issue_comment' && github.event.issue.number == 301 && github.event.issue.pull_request == null && github.event.comment.body == '/next' && github.event.comment.author_association == 'OWNER')
     name: Require explicit batch admission flag
     runs-on: ubuntu-latest
@@ -114,6 +117,7 @@ jobs:
       (
         (github.event_name == 'workflow_dispatch' && inputs.mode == 'agents' && inputs.confirm == true) ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'review' && inputs.confirm == true) ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'review-pr649' && inputs.confirm == true) ||
         (github.event_name == 'issue_comment' && github.event.issue.number == 301 && github.event.issue.pull_request == null && github.event.comment.body == '/next' && github.event.comment.author_association == 'OWNER')
       )
     runs-on: ubuntu-latest
@@ -165,6 +169,8 @@ jobs:
               print("::error::Immutable target SHA did not resolve exactly."); sys.exit(2)
           if os.environ.get("REQUESTED_MODE","").strip()=="review" and target!="074f20eb495666946a14410ab88d566aaa754f24":
               print("::error::Review mode is pinned to FCC review target 074f20eb495666946a14410ab88d566aaa754f24; refusing a different target."); sys.exit(2)
+          if os.environ.get("REQUESTED_MODE","").strip()=="review-pr649" and target!="38aafbe40c6a6d55913f13ae9bf1691fa6b2221e":
+              print("::error::PR 649 review is pinned to head 38aafbe40c6a6d55913f13ae9bf1691fa6b2221e; refusing a different target."); sys.exit(2)
           print(f"Shared immutable target SHA: {target}")
           tasks=[
            ("gemini-autonomous-engineering.yml","Per-/next Agent 1 — bounded implementation. On the shared immutable target SHA, read the canonical map, Bootstrap, current checkpoint, Master Roadmap and Issue #301. Select the highest-priority open, unblocked next task; prefer reuse of stable existing components. Complete exactly one bounded implementation/evidence pass, preserve Baseline 2.0, historical IDs, issuer/capability boundaries, Product State Authority and provenance. Draft PR/report only; no merge, deployment, qualification, secret access or nested dispatch.","contour-a"),
@@ -179,6 +185,11 @@ jobs:
               # must produce a read-only findings report; no runtime/provider test.
               tasks=[
                ("gemini-fcc-independent-review-wave409.yml","Wave 408 independent review — inspect the exact merged source changes in PR #506 (merge SHA 3a0cda63a6e39b844c3d78bede4b777e3a0004bf) and PR #508 (merge/target SHA 074f20eb495666946a14410ab88d566aaa754f24), using the shared immutable target SHA as repository context. Review effective FCC managed-token initialization, bearer authentication and HTTP 401 behavior, secret isolation, free-only routing/no paid fallback, read-only tools/workspace, workflow gates, provenance and test coverage. Read the exact PR patches and current source/tests. Report findings by severity with file/path, line or evidence reference, impact, reproducible proof and PASS/FAIL/NOT VERIFIED. Treat absent checks/reviews as NOT VERIFIED. This is a review-only task: do not edit application/workflow code, read or print secret values, invoke any provider/model or runtime, dispatch other agents, merge, deploy, or qualify. Produce only a concise dated review report as the workflow artifact; do not create a PR or change repository files. State explicitly that no live runtime test was performed.", "contour-a")
+              ]
+          elif requested_mode=="review-pr649":
+              # One fixed, read-only reviewer. No caller-supplied task or PR target.
+              tasks=[
+               ("gemini-pr649-independent-review.yml","PR #649 independent static review — inspect the exact patch from base 41c13e1c2b17ac48dc51c9963a9cda140f79ddb0 to head 38aafbe40c6a6d55913f13ae9bf1691fa6b2221e. Review dispatch_id uniqueness and propagation, branch-name collision prevention across all three agents, UUID/HMAC binding, trusted-main and immutable-target checks, least privilege, secret separation, fail-closed branch/PR creation, provenance and adversarial test coverage. Report severity-ranked findings with exact file/line evidence, impact, reproducible proof, remediation and NOT VERIFIED gaps. This is one read-only static review only: do not edit files, create branches/PRs, read secrets, invoke providers, dispatch other agents, merge, deploy or qualify; explicitly state no runtime dispatch was performed.","contour-a")
               ]
           elif requested_mode!="agents":
               print("::error::Unsupported or missing dispatch mode; fail closed."); sys.exit(2)
