@@ -1,4 +1,4 @@
-"""Regression contract: controller no-secret PR probe must cover Gemini transport changes."""
+""""Regression contract: controller no-secret PR probe must cover Gemini transport changes."""
 from pathlib import Path
 import unittest
 import yaml
@@ -14,7 +14,7 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
         cls.validation = yaml.load(VALIDATION.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
 
     def test_controller_probe_triggers_for_hmac_contract_change_set(self):
-        paths = set(cls.controller["on"]["pull_request"]["paths"])
+        paths = set(self.controller["on"]["pull_request"]["paths"])
         required = {
             ".github/workflows/gemini-batch-dispatch-controller.yml",
             ".github/workflows/gemini-workflow-contract-validation-wave284.yml",
@@ -56,7 +56,7 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
         self.assertEqual(pull_request.get("branches"), ["main"])
         self.assertNotIn("paths", pull_request)
         steps = self.validation["jobs"]["validate"]["steps"]
-        commands = "\n".join(step.get("run", "") for step in steps)
+        commands = "\\n".join(step.get("run", "") for step in steps)
         self.assertIn("test_gemini_controller_trigger_path_coverage_contract.py", commands)
 
 if __name__ == "__main__":
