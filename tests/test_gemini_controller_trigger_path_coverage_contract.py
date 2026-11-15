@@ -21,6 +21,8 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
             "tests/test_gemini_child_signed_dispatch_runtime_contract.py",
             "tests/test_gemini_transport_controller_contract.py",
             "tests/test_gemini_controller_trigger_path_coverage_contract.py",
+            ".github/workflows/gemini-pr649-independent-review.yml",
+            "tests/test_gemini_pr649_review_contract.py",
         }
         self.assertTrue(required.issubset(paths), f"controller probe path filter missing: {sorted(required - paths)}")
 
