@@ -52,8 +52,8 @@ jobs:
           CALLER_AUTHOR_ASSOCIATION: ${{ inputs.caller_author_association }}
         run: |
           set -euo pipefail
-          printf 'event_name=%s\\n' "$GITHUB_EVENT_NAME" >> "$GITHUB_OUTPUT"
-          printf 'workflow_ref=%s\\n' "$GITHUB_WORKFLOW_REF" >> "$GITHUB_OUTPUT"
+          printf 'event_name=%s\n' "$GITHUB_EVENT_NAME" >> "$GITHUB_OUTPUT"
+          printf 'workflow_ref=%s\n' "$GITHUB_WORKFLOW_REF" >> "$GITHUB_OUTPUT"
           trusted_controller=false
           if [[ "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" && "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
             trusted_controller=true
@@ -65,4 +65,4 @@ jobs:
               trusted_controller=true
             fi
           fi
-          printf 'trusted_controller=%s\\n' "$trusted_controller" >> "$GITHUB_OUTPUT"
+          printf 'trusted_controller=%s\n' "$trusted_controller" >> "$GITHUB_OUTPUT"
