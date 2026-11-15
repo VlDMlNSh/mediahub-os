@@ -115,6 +115,8 @@ class DispatchPRProvenanceTests(unittest.TestCase):
             self.assertIn("--dispatch-id", content)
             self.assertIn("--run-id", content)
             self.assertIn("actions: read", content)
+            if role == "agent-2":
+                self.assertIn("Contract and Test Verification", content)
 
     def test_live_api_reconciles_exact_endpoints_without_logging_credentials(self):
         prs, ref, run = fixtures()
