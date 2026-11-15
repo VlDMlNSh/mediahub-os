@@ -48,6 +48,11 @@ jobs:
     name: Non-launching no-secret caller-context probe
     uses: ./.github/workflows/gemini-reusable-context-probe-wave284.yml
     permissions: {}
+    with:
+      caller_issue_number: ${{ format('{0}', github.event.issue.number || '') }}
+      caller_issue_is_pull_request: ${{ format('{0}', github.event.issue.pull_request != null) }}
+      caller_comment_body: ${{ format('{0}', github.event.comment.body || '') }}
+      caller_author_association: ${{ format('{0}', github.event.comment.author_association || '') }}
   assert_probe_context:
     if: always() && (github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'probe') || (github.event_name == 'issue_comment' && github.event.issue.number == 301 && github.event.issue.pull_request == null && github.event.comment.body == '/probe' && github.event.comment.author_association == 'OWNER'))
     needs: probe

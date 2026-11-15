@@ -2,6 +2,23 @@ name: MediaHub — reusable workflow caller context observer (Wave 284)
 
 on:
   workflow_call:
+    inputs:
+      caller_issue_number:
+        description: "Issue number supplied by the trusted caller workflow event"
+        required: false
+        type: string
+      caller_issue_is_pull_request:
+        description: "Whether the caller event's issue object is a pull request"
+        required: false
+        type: string
+      caller_comment_body:
+        description: "Comment body supplied by the trusted caller workflow event"
+        required: false
+        type: string
+      caller_author_association:
+        description: "Comment author association supplied by the trusted caller workflow event"
+        required: false
+        type: string
     outputs:
       caller_event_name:
         description: "Event name observed inside the reusable workflow call"
@@ -10,7 +27,7 @@ on:
         description: "Workflow ref observed inside the reusable workflow call"
         value: ${{ jobs.observe.outputs.workflow_ref }}
       caller_trusted_controller:
-        description: "Whether the caller matches the single trusted controller"
+        description: "Whether the caller matches the single trusted controller and owner probe context"
         value: ${{ jobs.observe.outputs.trusted_controller }}
 
 # No token authority, checkout, provider secret, model action, or external action.
@@ -29,7 +46,10 @@ jobs:
         shell: bash
         env:
           EXPECTED_CONTROLLER_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
-          EVENT_PATH: ${{ github.event_path }}
+          CALLER_ISSUE_NUMBER: ${{ inputs.caller_issue_number }}
+          CALLER_ISSUE_IS_PULL_REQUEST: ${{ inputs.caller_issue_is_pull_request }}
+          CALLER_COMMENT_BODY: ${{ inputs.caller_comment_body }}
+          CALLER_AUTHOR_ASSOCIATION: ${{ inputs.caller_author_association }}
         run: |
           set -euo pipefail
           printf 'event_name=%s\n' "$GITHUB_EVENT_NAME" >> "$GITHUB_OUTPUT"
@@ -38,18 +58,10 @@ jobs:
           if [[ "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" && "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
             trusted_controller=true
           elif [[ "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" && "$GITHUB_EVENT_NAME" == "issue_comment" ]]; then
-            if python3 - "$EVENT_PATH" <<'PY'
-          import json,sys
-          with open(sys.argv[1], encoding="utf-8") as stream:
-              event=json.load(stream)
-          issue=event.get("issue") or {}
-          comment=event.get("comment") or {}
-          trusted=(issue.get("number")==301 and not issue.get("pull_request")
-                   and comment.get("body")=="/probe"
-                   and comment.get("author_association")=="OWNER")
-          sys.exit(0 if trusted else 1)
-          PY
-            then
+            if [[ "$CALLER_ISSUE_NUMBER" == "301" &&
+                  "$CALLER_ISSUE_IS_PULL_REQUEST" == "false" &&
+                  "$CALLER_COMMENT_BODY" == "/probe" &&
+                  "$CALLER_AUTHOR_ASSOCIATION" == "OWNER" ]]; then
               trusted_controller=true
             fi
           fi
