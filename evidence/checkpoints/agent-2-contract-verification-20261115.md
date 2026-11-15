@@ -1,39 +1,32 @@
-# Agent 2 — Independent Contract and Test Verification Checkpoint
+# Agent 2 Independent Contract and Test Verification Checkpoint
 
 - **Agent Identity:** gemini-agent-2
-- **Credential Reference:** GEMINI_API_KEY_2
-- **Authorized Contour:** Contour A (Developer Fabric)
+- **Specialization:** Research & Architecture (Contour A - Developer Fabric)
 - **Immutable Target SHA:** `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`
 - **Base Ref:** `main`
-- **Branch:** `agent-2-contract-verification-20261115`
-- **Timestamp:** 2026-11-15
+- **Verification Date:** 2026-11-15
+- **Status:** DRAFT_EVIDENCE_REVIEW
 
-## 1. Scope & Objective
-Independent contract and test verification against the immutable target SHA (`41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`). Mapping next-step acceptance criteria to source, contracts, and tests without executing secret-bearing live calls or self-qualification.
+## 1. Contract & Source Mapping
+- **Governance Contract:** `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` (SHA: `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`)
+  - Defines gate registry (G0–G11), runtime thresholds, invariant registry, credential lifecycle, and executor classes.
+- **Execution Backends Evidence:** `evidence/execution-backends.json` (SHA: `30d2c64acd169caf10dd96137c4ca24beb13c623`)
+  - Current status: `BLOCKED`, reason: `RUNTIME_EVIDENCE_REQUIRED`.
+- **Transport Health Evidence:** `evidence/transport-health-current.json` (SHA: `c1d63bb5fa5b4d6be0763eff2893fb157324999a`)
+  - Node health verification status.
 
-## 2. Source, Contract, and Test Mapping
+## 2. Invariant & Test Verification
+- Invariant enforcement mapped via `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml`:
+  - `INV_NO_CREDENTIALS_IN_GIT` -> `tests/test_repo_secret_hygiene.py`
+  - `INV_NO_SECRETS_IN_EVIDENCE` -> `tests/test_repo_secret_hygiene.py`
+  - `INV_NO_PROVIDER_STATE_AUTHORITY` -> `tests/test_astra_gold_architecture_drift.py`
+  - `INV_MISSING_EVIDENCE_BLOCKS` -> `tests/test_astra_gold_governance_contract.py`
 
-- **Governance Contract:** `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` (Blob SHA: `1d3ac25e7817f365807ad85d0d7c9007bd48bebf`)
-  - Defines gate registry (G0 through G11), runtime thresholds, credential lifecycle, and invariant registry.
-- **Invariant Enforcement Bindings:**
-  - `INV_NO_CREDENTIALS_IN_GIT` / `INV_NO_SECRETS_IN_EVIDENCE` → `tests/test_repo_secret_hygiene.py`
-  - `INV_NO_PROVIDER_STATE_AUTHORITY` / `INV_NO_TRANSPORT_STATE_AUTHORITY` / `INV_NO_EXECUTOR_ARCHITECTURE_AUTHORITY` / `INV_NO_CANDIDATE_SELF_QUALIFICATION` / `INV_NO_A2_SELF_VERIFICATION` / `INV_NO_LAUNCH_WITHOUT_INDEPENDENT_A3` / `INV_NO_LAUNCH_WITHOUT_RECOVERY` / `INV_NO_LAUNCH_WITHOUT_CURRENT_SOAK` / `INV_NO_QUALIFICATION_FROM_HISTORICAL_EVIDENCE` → `tests/test_astra_gold_architecture_drift.py`
-  - `INV_MISSING_EVIDENCE_BLOCKS` → `tests/test_astra_gold_governance_contract.py`
-  - `INV_NO_MODEL_AUTHORITY_BY_IMPLICATION` / `INV_NO_CANDIDATE_SELF_PROMOTION` / `INV_NO_CREDENTIAL_CREATION_BY_AUXILIARY` → `tests/test_astra_gold_qualification_launch_schema.py`
-- **Product State Authority:**
-  - Product State Authority alone owns canonical MediaHub product-state mutation. AI agents, cloud workflows, queues, and adapters do not acquire that authority (fail-closed).
-- **Executor Classes & Candidate Cloud Paths:**
-  - Local executors: `codex`, `claude_code`.
-  - Cloud executors: `gemini`, `perplexity`, `kimi`, `deepseek`, `chatgpt_openai`, `gigachat`, `siliconflow`, `novita`, `zai`, `llm7`, `sambanova`, `aionlabs`, `cloudflare`, `groq`, `mistral`, `huggingface`.
-  - Cloud gateway executors: `openrouter`, `unorouter`, `zerouter`, `nararouter`, `orcarouter`.
-  - All candidate cloud paths (e.g., `GEMINI_DIRECT`, `OPENROUTER_GATEWAY`, etc.) start as `NOT_PROVEN` and require 23 mandatory fresh rounds + independent A3 verification.
-
-## 3. Verification Status & Non-Secret Checks
-- Structure and schema compliance verified against `architecture/ASTRA-GOLD-GOVERNANCE-CONTRACT.yaml` and test suite bindings.
-- No secrets exposed in repository or evidence artifacts.
-- No self-qualification or self-promotion attempted; Agent 2 acts strictly as an independent research and architecture verifier.
+## 3. Non-Secret Checks & Reproducible Commands
+- Static contract inspection against governance schema and JSON evidence descriptors.
+- Non-secret policy checks via pytest: `pytest tests/test_astra_gold_governance_contract.py tests/test_astra_gold_architecture_drift.py`.
 
 ## 4. Known Gaps & Constraints
-- Candidate cloud executor paths remain unproven (`NOT_PROVEN`) pending fresh execution and independent A3 qualification runs.
-- Live Reg.cloud zero-cost financial gate provisioning remains strictly gated and unexecuted.
-- No merge, deployment, qualification, or nested dispatch performed.
+- Runtime evidence execution pending for active local/cloud backends (status `BLOCKED` in `execution-backends.json`).
+- Product State Authority separation strictly maintained (AI agents do not mutate product state).
+- No merge, deployment, qualification, or nested dispatch performed. Independent review and evidence drafting only.
