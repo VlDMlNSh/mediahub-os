@@ -142,6 +142,22 @@ jobs:
             Bounded task:
             ${{ inputs.task }}
 
+      - name: Enforce live dispatch branch and PR provenance
+        if: success()
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          DISPATCH_ID: ${{ inputs.dispatch_id }}
+          REPOSITORY: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_gemini_dispatch_pr.py \\
+            --role agent-3 \\
+            --dispatch-id "$DISPATCH_ID" \\
+            --repository "$REPOSITORY" \\
+            --run-id "$RUN_ID"
+
       - name: Validate Gemini produced an actionable PR result
         if: success()
         shell: bash
