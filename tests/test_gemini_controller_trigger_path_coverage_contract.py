@@ -14,7 +14,7 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
         cls.validation = yaml.load(VALIDATION.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
 
     def test_controller_probe_triggers_for_hmac_contract_change_set(self):
-        paths = set(self.controller["on"]["pull_request"]["paths"])
+        paths = set(cls.controller["on"]["pull_request"]["paths"])
         required = {
             ".github/workflows/gemini-batch-dispatch-controller.yml",
             ".github/workflows/gemini-workflow-contract-validation-wave284.yml",
@@ -35,16 +35,21 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
         self.assertNotIn("comment.body == '/probe'", readiness_if)
         self.assertNotIn("comment.body == '/probe'", dispatch_if)
         reusable = (ROOT / ".github/workflows/gemini-reusable-context-probe-wave284.yml").read_text()
-        self.assertIn('caller_issue_number', self.controller["jobs"]["probe"].get("with", {}))
-        self.assertIn('caller_issue_is_pull_request', self.controller["jobs"]["probe"].get("with", {}))
-        self.assertIn('caller_comment_body', self.controller["jobs"]["probe"].get("with", {}))
-        self.assertIn('caller_author_association', self.controller["jobs"]["probe"].get("with", {}))
+        probe_inputs = self.controller["jobs"]["probe"].get("with", {})
+        for name in (
+            "caller_issue_number",
+            "caller_issue_is_pull_request",
+            "caller_comment_body",
+            "caller_author_association",
+        ):
+            self.assertIn(name, probe_inputs)
+            self.assertIn(f"{name}:", reusable)
         self.assertIn('CALLER_ISSUE_NUMBER" == "301"', reusable)
         self.assertIn('CALLER_ISSUE_IS_PULL_REQUEST" == "false"', reusable)
         self.assertIn('CALLER_COMMENT_BODY" == "/probe"', reusable)
         self.assertIn('CALLER_AUTHOR_ASSOCIATION" == "OWNER"', reusable)
-        self.assertNotIn('EVENT_PATH', reusable)
-        self.assertNotIn('github.event_path', reusable)
+        self.assertNotIn("EVENT_PATH", reusable)
+        self.assertNotIn("github.event_path", reusable)
 
     def test_contract_validation_executes_this_regression_contract(self):
         pull_request = self.validation["on"]["pull_request"]
