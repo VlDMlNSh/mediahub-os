@@ -38,6 +38,10 @@ class GeminiPR649ReviewContractTests(unittest.TestCase):
         self.assertIn("PR 649 review is pinned to head", self.controller_source)
         self.assertIn(f'("{REVIEW_WORKFLOW}","PR #649 independent static review', self.controller_source)
         self.assertIn("expected_count=len(tasks)", self.controller_source)
+        self.assertEqual(set(dispatch["inputs"]), {"mode", "confirm", "target_sha"})
+        review_block = self.controller_source.split('elif requested_mode=="review-pr649":', 1)[1].split('elif requested_mode!="agents":', 1)[0]
+        self.assertEqual(review_block.count('("gemini-pr649-independent-review.yml"'), 1)
+        self.assertEqual(review_block.count('("gemini-'), 1)
 
     def test_child_is_one_fixed_review_workflow_with_read_only_permissions(self):
         self.assertEqual(set(self.review["on"]), {"workflow_dispatch"})
