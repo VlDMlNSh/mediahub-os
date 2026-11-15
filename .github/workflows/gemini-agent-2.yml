@@ -81,6 +81,7 @@ jobs:
       contents: write
       pull-requests: write
       issues: read
+      actions: read
     steps:
       - name: Checkout selected base for read-only workspace context
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
