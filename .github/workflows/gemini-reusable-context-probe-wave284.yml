@@ -38,7 +38,7 @@ jobs:
           if [[ "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" && "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
             trusted_controller=true
           elif [[ "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" && "$GITHUB_EVENT_NAME" == "issue_comment" ]]; then
-            python3 - "$EVENT_PATH" <<'PY'
+            if python3 - "$EVENT_PATH" <<'PY'
           import json,sys
           with open(sys.argv[1], encoding="utf-8") as stream:
               event=json.load(stream)
@@ -47,19 +47,9 @@ jobs:
           trusted=(issue.get("number")==301 and not issue.get("pull_request")
                    and comment.get("body")=="/probe"
                    and comment.get("author_association")=="OWNER")
-          print("true" if trusted else "false")
+          sys.exit(0 if trusted else 1)
           PY
-            if [[ "$(python3 - "$EVENT_PATH" <<'PY'
-          import json,sys
-          with open(sys.argv[1], encoding="utf-8") as stream:
-              event=json.load(stream)
-          issue=event.get("issue") or {}
-          comment=event.get("comment") or {}
-          print("true" if (issue.get("number")==301 and not issue.get("pull_request")
-                           and comment.get("body")=="/probe"
-                           and comment.get("author_association")=="OWNER") else "false")
-          PY
-          )" == "true" ]]; then
+            then
               trusted_controller=true
             fi
           fi
