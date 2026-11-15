@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "queue_task_id": "Issue #301",
+  "contour": "contour-a",
+  "agent": "Agent 1",
+  "target_sha": "41c13e1c2b17ac48dc51c9963a9cda140f79ddb0",
+  "base_ref": "main",
+  "branch": "contour-a/agent-1-pass-20261115",
+  "timestamp": "2026-11-15T12:30:00Z",
+  "status": "PASS",
+  "functional_baseline": "2.0",
+  "product_state_authority_preserved": true,
+  "domain_isolation_verified": true,
+  "acceptance_criteria": [
+    "Reconcile Contour A developer components with ASTRA GOLD architecture rules",
+    "Verify absence of unauthorized authority escalation",
+    "Establish immutable evidence artifact for Agent 1 pass"
+  ],
+  "known_gaps": [
+    "Full 24-hour soak and independent A3 verification pending external launch authorization",
+    "Reg.cloud provisioning zero-cost financial gate pending operator confirmation"
+  ],
+  "verification_status": "Static contract alignment verified. Structural compliance with Baseline 2.0 confirmed."
+}
