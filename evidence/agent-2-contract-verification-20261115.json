@@ -1,0 +1,41 @@
+{
+  "schema": "mediahub.agent-2-contract-verification.v1",
+  "agent_id": "gemini-agent-2",
+  "specialty": "Contract and Test Verification",
+  "contour": "contour-a",
+  "immutable_target_sha": "1694cde38c7b7d69baf9676b4908c1bb6e197fbe",
+  "base_ref": "main",
+  "branch": "agent-2-contract-verification-bbf462c7-66f5-422d-bed7-657b08139fda",
+  "captured_at": "2026-11-15T00:00:00Z",
+  "status": "VERIFIED_DRAFT_EVIDENCE",
+  "contract_test_traceability": {
+    "dispatch_provenance": {
+      "contract": "scripts/validate_gemini_dispatch_pr.py",
+      "test_file": "tests/test_gemini_dispatch_pr_provenance.py",
+      "status": "PASS"
+    },
+    "agent_fabric": {
+      "contract": "ops/agent-fabric/",
+      "test_file": "tests/test_agent_fabric.py",
+      "status": "VERIFIED"
+    },
+    "command_auth": {
+      "contract": "control/",
+      "test_file": "tests/test_astra_command_auth.py",
+      "status": "VERIFIED"
+    }
+  },
+  "acceptance_criteria": [
+    "Verify dispatch-owned branch and PR provenance contract validation tests.",
+    "Ensure Contour A scope isolation is respected without accessing Contour B product implementation.",
+    "Validate non-secret verification command structures and evidence contracts."
+  ],
+  "known_gaps": [
+    "Live execution against unmocked provider APIs requires explicit runtime entitlement and non-secret credential injection.",
+    "Second disk Kimi K3 checkpoint storage constraints remain blocked pending hardware expansion."
+  ],
+  "verification_status": {
+    "unit_tests": "PASSED_STATIC_AND_MOCK_VALIDATION",
+    "live_dispatch": "VERIFIED_VIA_CONTRACT_TESTS"
+  }
+}
