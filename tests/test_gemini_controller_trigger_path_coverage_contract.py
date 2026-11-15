@@ -24,6 +24,21 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
         }
         self.assertTrue(required.issubset(paths), f"controller probe path filter missing: {sorted(required - paths)}")
 
+    def test_issue_comment_probe_is_owner_only_and_never_dispatches_agents(self):
+        probe_if = self.controller["jobs"]["probe"]["if"]
+        assert_if = self.controller["jobs"]["assert_probe_context"]["if"]
+        readiness_if = self.controller["jobs"]["readiness_gate"]["if"]
+        dispatch_if = self.controller["jobs"]["dispatch_and_monitor"]["if"]
+        self.assertIn("comment.body == '/probe'", probe_if)
+        self.assertIn("author_association == 'OWNER'", probe_if)
+        self.assertIn("comment.body == '/probe'", assert_if)
+        self.assertNotIn("comment.body == '/probe'", readiness_if)
+        self.assertNotIn("comment.body == '/probe'", dispatch_if)
+        reusable = (ROOT / ".github/workflows/gemini-reusable-context-probe-wave284.yml").read_text()
+        self.assertIn("GITHUB_EVENT_NAME == \"issue_comment\"", reusable)
+        self.assertIn('comment.get("body")=="/probe"', reusable)
+        self.assertIn('comment.get("author_association")=="OWNER"', reusable)
+
     def test_contract_validation_executes_this_regression_contract(self):
         pull_request = self.validation["on"]["pull_request"]
         self.assertEqual(pull_request.get("branches"), ["main"])
