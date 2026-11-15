@@ -1,5 +1,5 @@
 name: MediaHub Contour A — Gemini GitHub API dispatch controller
-run-name: MediaHub Gemini controller — ${{ github.event.comment.id && format('next-comment-{0}', github.event.comment.id) || inputs.mode || 'probe' }} — Wave 317
+run-name: MediaHub Gemini controller — ${{ github.event.comment.body == '/probe' && format('probe-comment-{0}', github.event.comment.id) || (github.event.comment.id && format('next-comment-{0}', github.event.comment.id)) || inputs.mode || 'probe' }} — Wave 317
 on:
   workflow_dispatch:
     inputs:
@@ -43,12 +43,13 @@ jobs:
   probe:
     if: >-
       github.event_name == 'pull_request' ||
-      (github.event_name == 'workflow_dispatch' && inputs.mode == 'probe')
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'probe') ||
+      (github.event_name == 'issue_comment' && github.event.issue.number == 301 && github.event.issue.pull_request == null && github.event.comment.body == '/probe' && github.event.comment.author_association == 'OWNER')
     name: Non-launching no-secret caller-context probe
     uses: ./.github/workflows/gemini-reusable-context-probe-wave284.yml
     permissions: {}
   assert_probe_context:
-    if: always() && (github.event_name == 'pull_request' || inputs.mode == 'probe')
+    if: always() && (github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'probe') || (github.event_name == 'issue_comment' && github.event.issue.number == 301 && github.event.issue.pull_request == null && github.event.comment.body == '/probe' && github.event.comment.author_association == 'OWNER'))
     needs: probe
     runs-on: ubuntu-latest
     permissions: {}
@@ -61,12 +62,20 @@ jobs:
           OBSERVED_WORKFLOW_REF: ${{ needs.probe.outputs.caller_workflow_ref }}
           OBSERVED_TRUSTED_CONTROLLER: ${{ needs.probe.outputs.caller_trusted_controller }}
           TRUSTED_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          AUTHOR_ASSOCIATION: ${{ github.event.comment.author_association }}
         run: |
           set -euo pipefail
-          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            [[ "$OBSERVED_EVENT_NAME" == "workflow_dispatch" ]]
+          if [[ "$EVENT_NAME" == "workflow_dispatch" || "$EVENT_NAME" == "issue_comment" ]]; then
+            [[ "$OBSERVED_EVENT_NAME" == "$EVENT_NAME" ]]
             [[ "$OBSERVED_WORKFLOW_REF" == "$TRUSTED_REF" ]]
             [[ "$OBSERVED_TRUSTED_CONTROLLER" == "true" ]]
+            if [[ "$EVENT_NAME" == "issue_comment" ]]; then
+              [[ "$ISSUE_NUMBER" == "301" ]]
+              [[ "$COMMENT_BODY" == "/probe" ]]
+              [[ "$AUTHOR_ASSOCIATION" == "OWNER" ]]
+            fi
           else
             [[ "$EVENT_NAME" == "pull_request" ]]
             [[ "$OBSERVED_EVENT_NAME" == "pull_request" ]]

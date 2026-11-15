@@ -29,12 +29,28 @@ jobs:
         shell: bash
         env:
           EXPECTED_CONTROLLER_REF: 'VlDMlNSh/mediahub-os/.github/workflows/gemini-batch-dispatch-controller.yml@refs/heads/main'
+          EVENT_PATH: ${{ github.event_path }}
         run: |
           set -euo pipefail
           printf 'event_name=%s\n' "$GITHUB_EVENT_NAME" >> "$GITHUB_OUTPUT"
           printf 'workflow_ref=%s\n' "$GITHUB_WORKFLOW_REF" >> "$GITHUB_OUTPUT"
           trusted_controller=false
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" ]]; then
+          if [[ "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" && "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
             trusted_controller=true
+          elif [[ "$GITHUB_WORKFLOW_REF" == "$EXPECTED_CONTROLLER_REF" && "$GITHUB_EVENT_NAME" == "issue_comment" ]]; then
+            if python3 - "$EVENT_PATH" <<'PY'
+          import json,sys
+          with open(sys.argv[1], encoding="utf-8") as stream:
+              event=json.load(stream)
+          issue=event.get("issue") or {}
+          comment=event.get("comment") or {}
+          trusted=(issue.get("number")==301 and not issue.get("pull_request")
+                   and comment.get("body")=="/probe"
+                   and comment.get("author_association")=="OWNER")
+          sys.exit(0 if trusted else 1)
+          PY
+            then
+              trusted_controller=true
+            fi
           fi
           printf 'trusted_controller=%s\n' "$trusted_controller" >> "$GITHUB_OUTPUT"
