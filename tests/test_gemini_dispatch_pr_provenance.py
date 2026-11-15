@@ -1,5 +1,6 @@
 """Adversarial tests for dispatch-owned Gemini branch and PR provenance."""
 import unittest
+from pathlib import Path
 from scripts.validate_gemini_dispatch_pr import (
     expected_branch, validate_dispatch_pr, validate_live_dispatch,
 )
@@ -99,6 +100,20 @@ class DispatchPRProvenanceTests(unittest.TestCase):
         run["head_branch"] = "pull/123/merge"
         with self.assertRaisesRegex(ValueError, "trusted main"):
             self.validate(run=run)
+
+    def test_each_child_workflow_invokes_role_bound_live_validator(self):
+        root = Path(__file__).resolve().parents[1]
+        workflows = {
+            ".github/workflows/gemini-autonomous-engineering.yml": "agent-1",
+            ".github/workflows/gemini-agent-2.yml": "agent-2",
+            ".github/workflows/gemini-agent-3.yml": "agent-3",
+        }
+        for path, role in workflows.items():
+            content = (root / path).read_text()
+            self.assertIn("validate_gemini_dispatch_pr.py", content)
+            self.assertIn("--role " + role, content)
+            self.assertIn("--dispatch-id", content)
+            self.assertIn("--run-id", content)
 
     def test_live_api_reconciles_exact_endpoints_without_logging_credentials(self):
         prs, ref, run = fixtures()
