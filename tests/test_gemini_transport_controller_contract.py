@@ -28,7 +28,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
     def test_explicit_confirmation_and_nonlaunching_default(self):
         dispatch = self.workflow["on"]["workflow_dispatch"]
         self.assertEqual(dispatch["inputs"]["mode"]["default"], "probe")
-        self.assertEqual(dispatch["inputs"]["mode"]["options"], ["probe", "agents", "review"])
+        self.assertEqual(dispatch["inputs"]["mode"]["options"], ["probe", "agents", "review", "review-pr649"])
         self.assertEqual(dispatch["inputs"]["confirm"]["type"], "boolean")
         self.assertEqual(dispatch["inputs"]["confirm"]["default"], "false")
         self.assertEqual(self.workflow["permissions"], {})
@@ -37,6 +37,7 @@ class GeminiTransportControllerContractTests(unittest.TestCase):
         self.assertIn("github.ref=='refs/heads/main'", condition)
         self.assertIn("inputs.mode=='agents'", condition)
         self.assertIn("inputs.mode=='review'", condition)
+        self.assertIn("inputs.mode=='review-pr649'", condition)
         self.assertIn("inputs.confirm==true", condition)
 
     def test_controller_uses_transport_token_only_for_api_dispatch(self):

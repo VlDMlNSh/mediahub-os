@@ -27,6 +27,7 @@ jobs:
           .github/workflows/gemini-agent-2.yml
           .github/workflows/gemini-agent-3.yml
           .github/workflows/gemini-fcc-independent-review-wave409.yml
+          .github/workflows/gemini-pr649-independent-review.yml
           .github/workflows/gemini-controller-context-probe-wave284.yml
           .github/workflows/gemini-reusable-context-probe-wave284.yml
           .github/workflows/gemini-workflow-contract-validation-wave284.yml
@@ -42,3 +43,5 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_gemini_child_signed_dispatch_runtime_contract.py'
       - name: Run controller trigger path coverage contracts
         run: python -m unittest discover -s tests -p 'test_gemini_controller_trigger_path_coverage_contract.py'
+      - name: Run PR 649 independent review contracts
+        run: python -m unittest discover -s tests -p 'test_gemini_pr649_review_contract.py'
