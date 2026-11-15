@@ -35,7 +35,7 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
         self.assertNotIn("comment.body == '/probe'", readiness_if)
         self.assertNotIn("comment.body == '/probe'", dispatch_if)
         reusable = (ROOT / ".github/workflows/gemini-reusable-context-probe-wave284.yml").read_text()
-        self.assertIn("GITHUB_EVENT_NAME == \"issue_comment\"", reusable)
+        self.assertIn('GITHUB_EVENT_NAME" == "issue_comment"', reusable)
         self.assertIn('comment.get("body")=="/probe"', reusable)
         self.assertIn('comment.get("author_association")=="OWNER"', reusable)
 
