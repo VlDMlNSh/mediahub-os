@@ -1,6 +1,8 @@
 """Adversarial tests for dispatch-owned Gemini branch and PR provenance."""
 import unittest
-from scripts.validate_gemini_dispatch_pr import expected_branch, validate_dispatch_pr
+from scripts.validate_gemini_dispatch_pr import (
+    expected_branch, validate_dispatch_pr, validate_live_dispatch,
+)
 
 DISPATCH = "123e4567-e89b-42d3-a456-426614174000"
 REPOSITORY = "VlDMlNSh/mediahub-os"
@@ -14,10 +16,15 @@ def fixtures():
             "created_at": "2026-11-15T18:00:01Z",
             "head": {"ref": BRANCH, "sha": "b" * 40,
                      "repo": {"full_name": REPOSITORY}},
-            "base": {"ref": "main"},
+            "base": {"ref": "main", "repo": {"full_name": REPOSITORY}},
         }],
         {"ref": f"refs/heads/{BRANCH}", "object": {"sha": "b" * 40}},
-        {"created_at": "2026-11-15T18:00:00Z"},
+        {
+            "created_at": "2026-11-15T18:00:00Z",
+            "event": "workflow_dispatch",
+            "head_branch": "main",
+            "repository": {"full_name": REPOSITORY},
+        },
     )
 
 
@@ -52,7 +59,7 @@ class DispatchPRProvenanceTests(unittest.TestCase):
     def test_wrong_head_repository_fails(self):
         prs, _, _ = fixtures()
         prs[0]["head"]["repo"]["full_name"] = "attacker/fork"
-        with self.assertRaisesRegex(ValueError, "repository mismatch"):
+        with self.assertRaisesRegex(ValueError, "head/base repository"):
             self.validate(prs=prs)
 
     def test_wrong_base_fails(self):
@@ -61,7 +68,11 @@ class DispatchPRProvenanceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "base must be main"):
             self.validate(prs=prs)
 
-    def test_branch_ref_sha_must_match_pr_head_sha(self):
+    def test_branch_ref_name_and_sha_must_match_pr_head(self):
+        _, ref, _ = fixtures()
+        ref["ref"] = "refs/heads/reused-branch"
+        with self.assertRaisesRegex(ValueError, "Git ref"):
+            self.validate(ref=ref)
         _, ref, _ = fixtures()
         ref["object"]["sha"] = "c" * 40
         with self.assertRaisesRegex(ValueError, "SHA does not match"):
@@ -82,6 +93,28 @@ class DispatchPRProvenanceTests(unittest.TestCase):
         prs[0]["created_at"] = "2026-11-15T17:59:59Z"
         with self.assertRaisesRegex(ValueError, "predates"):
             self.validate(prs=prs, run=run)
+
+    def test_untrusted_run_context_fails(self):
+        _, _, run = fixtures()
+        run["head_branch"] = "pull/123/merge"
+        with self.assertRaisesRegex(ValueError, "trusted main"):
+            self.validate(run=run)
+
+    def test_live_api_reconciles_exact_endpoints_without_logging_credentials(self):
+        prs, ref, run = fixtures()
+        seen = []
+        def fake_get(path, token):
+            seen.append((path, token))
+            if "/git/ref/" in path:
+                return ref
+            if "/pulls?" in path:
+                return prs
+            if "/actions/runs/" in path:
+                return run
+            raise AssertionError("unexpected API path")
+        self.assertTrue(validate_live_dispatch("agent-1", DISPATCH, REPOSITORY, "12345", "test-token", fake_get))
+        self.assertEqual(len(seen), 3)
+        self.assertTrue(all(item[1] == "test-token" for item in seen))
 
 
 if __name__ == "__main__":
