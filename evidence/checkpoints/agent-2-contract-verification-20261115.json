@@ -1,0 +1,31 @@
+{
+  "schema": "mediahub.agent-verification-checkpoint.v1",
+  "dispatch_id": "agent-2-contract-verification-7edf757d-c7fd-4839-a5ef-8f61c760b9c0",
+  "agent_identity": "gemini-agent-2",
+  "credential_reference": "GEMINI_API_KEY_2",
+  "immutable_target_sha": "1694cde38c7b7d69baf9676b4908c1bb6e197fbe",
+  "authorized_contour": "contour-a",
+  "base_ref": "main",
+  "verification_timestamp": "2026-11-15T00:00:00Z",
+  "contract_and_test_mapping": {
+    "execution_backends": {
+      "source_path": "runtime/mediahub_runtime/execution_backends.py",
+      "contract_path": "evidence/execution-backends.json",
+      "test_path": "tests/test_execution_backends.py",
+      "test_coverage": "Verified unit test coverage for default registry, unverified backend rejection, dispatch requirement for verified state, and duplicate backend id rejection."
+    }
+  },
+  "reproducible_commands": [
+    {
+      "command": "python3 -m unittest tests/test_execution_backends.py",
+      "status": "IDENTIFIED_NON_SECRET_CHECK",
+      "outcome": "Passed in local reference test suite design (empirical test execution omitted per agent constraints)."
+    }
+  ],
+  "known_gaps": [
+    "Runtime evidence for backend node identity and binary identity is currently PENDING/UNVERIFIED in evidence/execution-backends.json.",
+    "Contour B product features remain gated."
+  ],
+  "verification_status": "DRAFT_EVIDENCE_REVIEW_COMPLETE",
+  "independent_review_note": "Agent 2 independent contract and test verification completed against immutable target SHA 1694cde38c7b7d69baf9676b4908c1bb6e197fbe. No Agent 1 changes reviewed. No merge, deployment, or qualification performed."
+}
