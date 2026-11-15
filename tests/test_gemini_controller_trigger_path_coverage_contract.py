@@ -35,9 +35,16 @@ class GeminiControllerTriggerPathCoverageTests(unittest.TestCase):
         self.assertNotIn("comment.body == '/probe'", readiness_if)
         self.assertNotIn("comment.body == '/probe'", dispatch_if)
         reusable = (ROOT / ".github/workflows/gemini-reusable-context-probe-wave284.yml").read_text()
-        self.assertIn('GITHUB_EVENT_NAME" == "issue_comment"', reusable)
-        self.assertIn('comment.get("body")=="/probe"', reusable)
-        self.assertIn('comment.get("author_association")=="OWNER"', reusable)
+        self.assertIn('caller_issue_number:', self.controller["jobs"]["probe"].get("with", {}))
+        self.assertIn('caller_issue_is_pull_request:', self.controller["jobs"]["probe"].get("with", {}))
+        self.assertIn('caller_comment_body:', self.controller["jobs"]["probe"].get("with", {}))
+        self.assertIn('caller_author_association:', self.controller["jobs"]["probe"].get("with", {}))
+        self.assertIn('CALLER_ISSUE_NUMBER" == "301"', reusable)
+        self.assertIn('CALLER_ISSUE_IS_PULL_REQUEST" == "false"', reusable)
+        self.assertIn('CALLER_COMMENT_BODY" == "/probe"', reusable)
+        self.assertIn('CALLER_AUTHOR_ASSOCIATION" == "OWNER"', reusable)
+        self.assertNotIn('EVENT_PATH', reusable)
+        self.assertNotIn('github.event_path', reusable)
 
     def test_contract_validation_executes_this_regression_contract(self):
         pull_request = self.validation["on"]["pull_request"]
