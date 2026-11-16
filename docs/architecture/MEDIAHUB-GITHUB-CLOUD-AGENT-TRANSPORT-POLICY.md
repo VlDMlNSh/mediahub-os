@@ -64,3 +64,17 @@ The owner clarified that MediaHub OS must continue autonomously and efficiently,
 The only approved route remains GitHub-hosted Actions controller `.github/workflows/gemini-batch-dispatch-controller.yml` → fixed-scope child workflows. Do not launch agents from SentinelX, server/local shell, local CLI, ad-hoc scripts, unrelated workflows, or alternate transports. Never expose `MEDIAHUB_GITHUB_TOKEN` to child/model processes. Do not use `secrets: inherit`; pass only the specific child provider secret. No agent was launched in Wave 244.
 
 Wave report: [MEDIAHUB-CLOUD-AGENT-AUTONOMY-CLARIFICATION-WAVE-244-2026-10-20.md](../checkpoints/MEDIAHUB-CLOUD-AGENT-AUTONOMY-CLARIFICATION-WAVE-244-2026-10-20.md).
+
+
+## Current-source reconciliation (2026-11-16) — supersedes stale Wave 243 status
+
+The historical Wave 243 / PR #431 description above predates the later merged transport correction and must not be read as the current source state.
+
+- PR #432 merged as `1a6e5a16ef9950b72dda04abd69a27f019922489`; current main HEAD observed 2026-11-16 is `1694cde38c7b7d69baf9676b4908c1bb6e197fbe`.
+- Current controller blob: `7799f0fc713c5bd772ce6820df40a926a83445c8`; child workflows A1/A2/A3 are `ed9ae2200debe76e39e3e5dfb5816ba94db3950c`, `fa3b4c407d3c583cbd33133aea89e4bd8a496b69`, and `bad0d5baf9b9cf1e8e5d7cdd2ab80f12052b047e`. The active source is controller-side REST dispatch/monitoring with signed child `workflow_dispatch` authorization. The intermediate Option B reusable-`workflow_call` state after PR #421 is superseded.
+- PR #437 merged the HMAC test repair and executable child-authorization coverage. Exact-head contract validation `39757948715`, non-launching trusted-main probe `39757948751`, Astra Verify `39757948759`, and Astra Cloud Runtime Validation `39757948849` succeeded. The probe skipped batch admission and child dispatch.
+- PR #431 is a separate open, unmerged candidate and is not the active main source. Its green candidate checks do not qualify current main.
+- Formal review APIs for PR #432/#437/#431 returned no submitted reviews. Exact-main CI, independent security review, effective secret/variable presence and scope metadata, least-privilege token authority and effective repository/org governance remain NOT VERIFIED. The successful no-secret probe verifies only trusted caller context, not provider readiness or child execution.
+- Therefore source transport is implemented, but agent-mode remains BLOCKED. Do not dispatch children, enable batch mode, use an alternate transport, or infer qualification until all gates are independently evidenced.
+
+Current source references: [main](https://github.com/VlDMlNSh/mediahub-os/commit/1694cde38c7b7d69baf9676b4908c1bb6e197fbe), [PR #432](https://github.com/VlDMlNSh/mediahub-os/pull/432), [PR #437](https://github.com/VlDMlNSh/mediahub-os/pull/437), [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301), [canonical map](MEDIAHUB-CHAT-TREE-MAP.md).
