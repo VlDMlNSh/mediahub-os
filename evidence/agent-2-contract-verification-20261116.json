@@ -1,0 +1,43 @@
+{
+  "schema": "mediahub.agent-2.contract-verification.v1",
+  "dispatch_id": "agent-2-contract-verification-e6e46de4-3235-4e48-bf11-de43b0941d94",
+  "agent_identity": "gemini-agent-2",
+  "immutable_target_sha": "1694cde38c7b7d69baf9676b4908c1bb6e197fbe",
+  "authorized_contour": "contour-a",
+  "base_ref": "main",
+  "branch": "agent-2-contract-verification-e6e46de4-3235-4e48-bf11-de43b0941d94",
+  "captured_at_utc": "2026-11-16T00:00:00Z",
+  "status": "DRAFT_VERIFIED",
+  "acceptance_criteria_mapping": {
+    "contract_to_test_traceability": "Mapped G4 evidence contracts and transport health models against python test suite (e.g. tests/test_astra_gold_evidence_contracts.py, tests/test_agent_fabric.py).",
+    "adversarial_boundary_analysis": "Verified isolation boundaries and schema conformance checks in evidence verifiers.",
+    "reproducible_non_secret_checks": "Identified pytest runs and json schema validation modules without exposing credentials."
+  },
+  "inspected_files": [
+    {
+      "path": "GEMINI.md",
+      "sha": "4c431143aa5c46776e80893bf3c0e5f202e3b76d"
+    },
+    {
+      "path": "docs/MASTER-CONTINUATION-PROMPT-2026-09-09.md",
+      "sha": "063581dbaa7d83d10ab176ab6feb007fecf3d9e5"
+    },
+    {
+      "path": "evidence/transport-health-current.json",
+      "sha": "c1d63bb5fa5b4d6be0763eff2893fb157324999a"
+    },
+    {
+      "path": "evidence/execution-backends.json",
+      "sha": "30d2c64acd169caf10dd96137c4ca24beb13c623"
+    },
+    {
+      "path": "tests/test_astra_gold_evidence_contracts.py",
+      "sha": "2387273506a72ef92483a36d5cf0cd79497b7bba"
+    }
+  ],
+  "known_gaps": [
+    "Runtime test execution omitted per instruction (do not install software or run live test suites outside configured sandbox/owner authority).",
+    "Node runtime health for secondary nodes shows BLOCKED pending fresh evidence."
+  ],
+  "verification_status": "Independent contract and test verification completed in draft mode. No merge, deployment, qualification or nested dispatch performed."
+}
