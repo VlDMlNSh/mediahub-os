@@ -1,3 +1,15 @@
+## Wave 524 — Colibri duplicate-PR and canonical documentation reconciliation (2026-11-03)
+
+- Report: [Wave 524 Colibri / documentation reconciliation](../checkpoints/MEDIAHUB-COLIBRI-DOCCHAIN-RECONCILIATION-WAVE-524-2026-11-03.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Refs: `main` `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; canonical docs base `d9a289b9113f7567711b641a7017eb814d6c259d`. Baseline 2.0 remains ACCEPTED / canonical.
+- Canonical index freshness at audit: map Wave 477; checkpoint Wave 392; Master Roadmap Wave 458. This entry is a proposal on a separate branch, not yet canonical.
+- Wave 522 Colibri evidence is duplicated across open Draft PRs #629 (stacked on #628) and #630 (direct canonical base). Both cite the same pinned Colibri source and agree that standard Ubuntu runners cannot host the ~429 GB GLM-5.2 model; #630 adds the larger-runner capacity/security case. Exact-head checks, combined contexts and formal reviews are absent for #625/#628/#629/#630. Do not merge both Wave 522 entries or treat either as accepted.
+- Disposition: Colibri RESEARCHED / NOT ADMITTED / NOT INSTALLED / NOT QUALIFIED; GLM-4.7 NOT VERIFIED. Runner 1 live runtime NOT RUN; Runner 2 co-location NOT IMPLEMENTED; Gemini Agents 1/2/3 NOT RUN; Contour A NOT ACCEPTED; Contour B GATED.
+- PR #625 owner-directed runner topology remains OPEN / NOT ACCEPTED; reconcile it with canonical Bootstrap before runtime claims.
+- This is a working documentation proposal pending independent review and exact-head CI; canonical branch is unchanged.
+
+---
+
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
