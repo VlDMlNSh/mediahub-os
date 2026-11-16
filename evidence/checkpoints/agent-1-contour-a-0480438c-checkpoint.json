@@ -1,0 +1,25 @@
+{
+  "schema": "mediahub.contour-a.agent-checkpoint.v1",
+  "dispatch_id": "agent-1-contour-a-0480438c-9cb0-42d9-a5ad-806c6c341332",
+  "task": "Per-/next Agent 1 — bounded implementation. Issue #301",
+  "contour": "contour-a",
+  "base_ref": "main",
+  "immutable_target_sha": "1694cde38c7b7d69baf9676b4908c1bb6e197fbe",
+  "captured_at_utc": "2026-11-16T00:00:00Z",
+  "status": "COMPLETED_BOUNDED_PASS",
+  "acceptance_criteria": [
+    "Read canonical map, bootstrap, current checkpoint, Master Roadmap and Issue #301 on immutable target SHA",
+    "Select highest-priority open, unblocked next task prioritizing stable existing component reuse",
+    "Preserve Baseline 2.0, historical IDs, issuer/capability boundaries, and Product State Authority",
+    "Create dedicated branch and open single draft PR without merge, deployment, qualification, secret access or nested dispatch"
+  ],
+  "known_gaps": [
+    "Contour B product implementation remains gated by Master Development Roadmap",
+    "Product State Authority retains exclusive authority over canonical product-state mutation"
+  ],
+  "verification_status": {
+    "connectivity_check": "PASS",
+    "branch_creation": "PASS",
+    "bounded_evidence_pass": "PASS"
+  }
+}
