@@ -1,3 +1,20 @@
+## Wave 526 — evidence-chain restoration and admission order (2026-11-03)
+
+**Current source boundary:** main 41c13e1c2b17ac48dc51c9963a9cda140f79ddb0; canonical docs base d9a289b9113f7567711b641a7017eb814d6c259d. See [Wave 526 reconciliation report](MEDIAHUB-DOCUMENTATION-CHAIN-RECONCILIATION-WAVE-526-2026-11-03.md).
+
+The Waves 517–525 records are now reconciled as a proposed documentation index, not accepted architecture or implementation. The open proposals remain separate: #625 topology; #626 Wave519; #627 Waves520/521; #628 Wave521 ECC; #629 stacked Wave522 Colibri assessment; #630 independent Wave522 Colibri admission audit; #600 A0 requester-provenance amendment stacked on Wave486.
+
+**Admission order remains unchanged:**
+1. Close Issue #301 A0 issuer/ingress/lease/cancel/recovery and R-06 authority gates.
+2. Accept the authoritative runner/workspace/network target manifest and complete Draft 2020-12 schema meta-validation, format assertions, positive/negative fixtures and independent review.
+3. Obtain exact-head CI and independent review for the two-runner topology/Runner 1 documentation proposals; resolve the Claude placement contract explicitly. Merged Runner 1 source does not qualify its live runtime.
+4. Implement and test Runner 2 as one admitted host with three isolated agent sandboxes and controller credential non-inheritance; verify effective secrets/variables and the trusted-main no-secret probe before dispatch.
+5. Reconsider Colibri only on a separately qualified local-compute target. Standard GitHub-hosted runners are NO-GO for the ~429 GB GLM-5.2 package; Runner 2 stays dedicated to the approved Gemini route.
+
+**Status:** documentation proposal only; Runner 1 runtime NOT RUN; Runner 2 NOT IMPLEMENTED; Gemini NOT RUN; A0 contract NOT ACCEPTED; Contour A NOT ACCEPTED; Contour B GATED.
+
+---
+
 ## Wave 458 — OSV-Scanner qualification preflight (2026-10-29)
 
 - Evidence: [Wave 458 report](MEDIAHUB-OSV-SCANNER-QUALIFICATION-WAVE-458-2026-10-29.md), blob `842068f6e3a7d136dbe1ac892b0d4ae98129310a`; [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-458-2026-10-29.md), blob `3a511ee1e526cb10c768a76b88dded43c645d00c`; [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [checkpoint](mediahub-next-continuation-checkpoint-2026-10-12-current.md).

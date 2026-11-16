@@ -1,3 +1,15 @@
+## Wave 526 — documentation-chain reconciliation (2026-11-03)
+
+- Report: [Wave 526 evidence reconciliation](../checkpoints/MEDIAHUB-DOCUMENTATION-CHAIN-RECONCILIATION-WAVE-526-2026-11-03.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Master Roadmap](../checkpoints/MEDIAHUB-MASTER-DEVELOPMENT-ROADMAP-1.0.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Immutable boundary: main 41c13e1c2b17ac48dc51c9963a9cda140f79ddb0; canonical docs base d9a289b9113f7567711b641a7017eb814d6c259d. This entry is proposed on a separate Wave 526 branch; canonical branch remains unchanged until review/merge.
+- Recovered evidence: Wave 517/#625 and Wave 523 correction; Wave 518 Issue #301 comment 6573082204; Wave 519/#626; Wave 520/#627; two distinct Wave 521 reports (#627 PR610 reconciliation and #628 ECC preflight); overlapping Wave 522 Colibri assessments (#629/#630); separate A0 Waves 524/525 on PR #600.
+- Reconciliation: PR #625 current head is 01efb5e6264b4cb84aee1d9c0c162be77cd1f264 (the Wave 523 working checkpoint still says intermediate 16f951...); PR #600 current head is 05a873e82760d63c8b26dc496b43d3309f4cfbf9 (the Wave 525 report records prior 9302a9...); PR #629 is stacked on #628, while #630 is independent; PR #600 is a separate Wave 486 stack.
+- The two Wave 521 records and two Wave 522 Colibri assessments remain separately traceable; none is accepted, installed or qualified by index inclusion.
+- Runner 1 source is merged, but live Ollama/FCC/Claude runtime remains NOT RUN; Runner 2 co-location NOT IMPLEMENTED; Gemini Agents 1/2/3 NOT RUN; Colibri RESEARCHED / NOT ADMITTED; A0 contract amendment NOT ACCEPTED. Contour A NOT ACCEPTED; Contour B GATED.
+- Exact-head CI and formal review evidence is absent for the related open PRs; controller/agent launch gates remain closed.
+
+---
+
 ## Wave 477 — owner /next workflow rerun idempotency (2026-10-30)
 
 - [Wave 477 report](../checkpoints/MEDIAHUB-OWNER-NEXT-RERUN-GUARD-WAVE-477-2026-10-30.md); [continuation checkpoint](../checkpoints/mediahub-next-continuation-checkpoint-2026-10-12-current.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
