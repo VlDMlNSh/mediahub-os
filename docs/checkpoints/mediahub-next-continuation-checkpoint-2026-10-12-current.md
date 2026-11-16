@@ -2837,3 +2837,15 @@ Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-t
 - No agents/child dispatch, provider inference, secret reads, merge, deployment, qualification or acceptance occurred. History pagination remains capped at first page and fails closed on incomplete count; cross-run durable receipt for distinct duplicate issue_comment events remains a separate open requirement. Contour A NOT ACCEPTED; Contour B GATED.
 - Next: reconcile required-context names on a reviewed branch and obtain independent A3 review before considering merge.
 - Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+
+## 2026-11-16 — Current Gemini transport source and qualification gate reconciliation
+
+- Current main HEAD observed: `1694cde38c7b7d69baf9676b4908c1bb6e197fbe`; controller blob `7799f0fc713c5bd772ce6820df40a926a83445c8`; child workflow blobs A1 `ed9ae2200debe76e39e3e5dfb5816ba94db3950c`, A2 `fa3b4c407d3c583cbd33133aea89e4bd8a496b69`, A3 `bad0d5baf9b9cf1e8e5d7cdd2ab80f12052b047e`.
+- Active source transport is controller REST/HMAC with signed child `workflow_dispatch`; Option B after PR #421 is an intermediate historical state, superseded by later owner-directed records and PR #432 merge. PR #437 merged the HMAC test repair and executable child authorization tests.
+- PR #437 exact-head CI: contract validation `39757948715` SUCCESS (includes executable HMAC contracts); non-launching probe `39757948751` SUCCESS with dispatch/admission skipped; Astra Verify `39757948759` SUCCESS; Astra Cloud `39757948849` SUCCESS.
+- Trusted-main no-secret probe run `43764634513` also succeeded in November; probe/assertion succeeded, readiness/dispatch skipped. This proves caller context only.
+- Formal PR review APIs for #432/#437/#431 returned zero submitted reviews. Exact-main CI, independent security review, effective secret/variable metadata and scope, token least-privilege and effective branch/org governance remain NOT VERIFIED. No new Gemini dispatch.
+- Current-source reconciliation was appended to Bootstrap and transport policy on this canonical documentation branch. Previous Cloud Pool audit claim of an unauthorized Option B reversal is explicitly superseded by the new correction report.
+- Next: obtain independent security review of current main controller/HMAC/secret boundaries; verify effective secret/variable metadata and token permissions without reading values; verify governance and exact-main CI; only then consider authorized controller launch.
+- Canonical map: https://github.com/VlDMlNSh/mediahub-os/blob/docs/mediahub-chat-tree-map-20261012/docs/architecture/MEDIAHUB-CHAT-TREE-MAP.md
