@@ -1,3 +1,17 @@
+## Wave 527 — exact-head CI correction and Runner 2 component assessment (2026-11-05)
+
+- Report: [Wave 527 exact-head CI and Runner 2 assessment](../checkpoints/MEDIAHUB-WAVE-527-EXACT-HEAD-CI-AND-RUNNER2-ASSESSMENT-2026-11-05.md).
+- Main HEAD: `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; canonical documentation base: `d9a289b9113f7567711b641a7017eb814d6c259d`; active ruleset `26108066`.
+- Corrected CI diagnosis: all five required contexts are SUCCESS on PR #610 exact head `cac44b8a867945d4b544c3e46bd819bc42373f36` (check runs 125090595169, 125090595532, 125090595204, 125090595994, 125090595758). Their absence from main push check-runs is expected for PR-only workflows.
+- PR #610 remains unsafe to integrate: 102 commits ahead / 2 behind current main, GitHub mergeable=false, no independent review; its runtime job succeeded only through PR no-op and skipped all live setup/inference steps.
+- PR #625 remains an unaccepted same-host Runner 2 proposal (head `01efb5e6264b4cb84aee1d9c0c162be77cd1f264`, zero formal reviews and exact-head checks). Main still dispatches three child workflows on separate `ubuntu-latest` allocations; co-location NOT IMPLEMENTED.
+- Upstream reconnaissance: official Google Gemini CLI GitHub Action, GitHub Agentic Workflows security architecture, and OpenHands Docker sandbox documentation reviewed. Candidate design: one coordinator job, three isolated containers, no Docker socket or controller credentials in agent sandboxes, bounded resources and signed provenance. No dependency adoption or implementation in this pass.
+- Gemini 1/2/3 NOT RUN; scheduled supervisor run 42076974507 PENDING with no jobs returned; execution NOT VERIFIED. No secrets read, server mutation, merge, deployment, qualification or acceptance. Contour A NOT ACCEPTED; Contour B GATED.
+- Next: prepare a dedicated Runner 2 design/test contract against the existing signed controller, then obtain independent security review before implementation or dispatch.
+- Canonical map: [MEDIAHUB-CHAT-TREE-MAP.md](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); Issue #301: https://github.com/VlDMlNSh/mediahub-os/issues/301.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
