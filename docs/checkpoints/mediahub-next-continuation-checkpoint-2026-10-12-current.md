@@ -1,3 +1,14 @@
+## Wave 522 — Colibri / GLM-5.2 admission audit (2026-11-02)
+
+- Report: [Colibri / GLM-5.2 admission audit](MEDIAHUB-COLIBRI-GLM52-ADMISSION-AUDIT-WAVE-522-2026-11-02.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Pinned upstream source: `JustVugg/colibri@0a5504a1dc64f86fcd0fe7db298b0448c730e7e6`; README/API/server/test blob SHAs and source review are recorded in the report. GLM-5.2 and both OpenAI/Anthropic API surfaces are documented; GLM-4.7 support is NOT VERIFIED.
+- Model package ~429 GB; memory guidance 16 GB minimum / 24 GB recommended. Standard public GitHub Ubuntu runner: 16 GB RAM / 14 GB SSD, so local Colibri is not feasible there. Larger runner capacity may fit, but budget, entitlement, availability and actual runtime are NOT VERIFIED.
+- Security observations: loopback default; remote bind requires API key unless unsafe override; optional API key by default; wildcard Host disables DNS-rebinding protection; default single KV slot queues generations. Report records admission controls.
+- Status: RESEARCHED / NOT ADMITTED / NOT RUN. No install, model download, inference, runner allocation, provider call, secret access, code change, merge, deployment, qualification or acceptance. No change to Runner 1/Runner 2 architecture.
+- Next: only if separately budget-authorized, verify larger-runner availability and prepare an isolated, pinned, loopback-only proof of concept; otherwise keep Colibri as research-only candidate.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
