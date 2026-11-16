@@ -1,3 +1,16 @@
+## Wave 505 — two Ubuntu Hosted Runner placement audit (2026-10-31)
+
+- Report: [Wave 505 two-runner placement audit](MEDIAHUB-TWO-UBUNTU-RUNNER-PLACEMENT-AUDIT-WAVE-505-2026-10-31.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-505-2026-10-31.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Corrected placement: VM 1 = Alamo FCC/ECC + Claude Code only; VM 2 = three independent Gemini roles + mini-SWE-agent + Aider + OpenHands SDK + Goose.
+- PR #610 exact PR run 41191982864 passed contract/no-op only. Runtime installation/inference steps were all SKIPPED; artifacts empty. The workflow incorrectly installs the VM-2 toolchain in VM 1. Required exact ruleset contexts on PR #610 remain NOT VERIFIED.
+- Existing controller dispatches three Gemini child workflows on three separate ephemeral ubuntu-latest runners. Co-location of three Gemini CLI instances and the other agent tools on one VM 2 is NOT IMPLEMENTED and requires a reviewed controller/child contract extension.
+- main = f0448f28c7cfa61e4450c38529f09afbfdbbc7c7; docs branch before this pass = d9a289b9113f7567711b641a7017eb814d6c259d; PR #610 head = 8f59cc25e789796979637aab6edd7e0e98c4f511; PR #613 head = 237948e03088c3ea43608b0c284327c552d34f4b.
+- PR #613 exact five required contexts SUCCESS, but independent review remains NOT VERIFIED. No Gemini controller dispatch, child run, provider call, secret read, Claude runtime, persistent VM creation, merge, deployment, qualification or acceptance.
+- SentinelX: one operational host (host_5f7264034bdf0b51, Voktors-Mini.Dlink), free plan one slot occupied, zero available; two hosts user-disabled. No VM-1/VM-2 GitHub runner registration is established by this inventory.
+- Status: **VM1 CONTRACT PASS / VM1 RUNTIME NOT RUN / VM2 CO-LOCATION NOT IMPLEMENTED / TWO RUNNERS NOT QUALIFIED / CONTOUR A NOT ACCEPTED / CONTOUR B GATED**.
+- Next: independent review and integration of PR #613; correct/retest PR #610; then prepare a controller-authorized single VM-2 worker with three separately scoped Gemini roles and pinned supporting tools.
+
+---
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
