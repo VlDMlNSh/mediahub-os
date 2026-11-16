@@ -1,0 +1,22 @@
+{
+  "dispatch_id": "ae09407b-b19d-48df-bd35-a69f68803b9f",
+  "agent": "Agent 1",
+  "contour": "contour-a",
+  "target_sha": "1694cde38c7b7d69baf9676b4908c1bb6e197fbe",
+  "base_ref": "main",
+  "branch": "agent-1-contour-a-ae09407b-b19d-48df-bd35-a69f68803b9f",
+  "task_id": "Issue #301 / Agent 1 bounded implementation pass",
+  "status": "completed-bounded-pass",
+  "acceptance_criteria": [
+    "Read canonical map and bootstrap context",
+    "Identify highest priority open unblocked task (#301)",
+    "Preserve Baseline 2.0, historical IDs, issuer/capability boundaries, Product State Authority and provenance",
+    "Create dedicated branch and draft PR without merge or deployment"
+  ],
+  "known_gaps": [
+    "Contour B product features gated by Master Development Roadmap remain excluded",
+    "No live deployment, test runner execution, or external service invocation performed per sandbox rules"
+  ],
+  "verification_status": "verified-structural-and-contractual-compliance",
+  "timestamp": "2026-11-16T00:00:00Z"
+}
