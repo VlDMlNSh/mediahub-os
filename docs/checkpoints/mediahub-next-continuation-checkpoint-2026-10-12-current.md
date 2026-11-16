@@ -1,3 +1,18 @@
+## Wave 521 — PR #610 ECC preflight reconciliation and documentation freshness (2026-11-02)
+
+- Report: [Wave 521 PR #610 ECC preflight reconciliation](MEDIAHUB-PR610-ECC-PREFLIGHT-RECONCILIATION-WAVE-521-2026-11-02.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md); [Issue #301](https://github.com/VlDMlNSh/mediahub-os/issues/301).
+- Main HEAD: `41c13e1c2b17ac48dc51c9963a9cda140f79ddb0`; Runner 1 workflow blob `12b684bbd3d475d64cac7e37bbaf64c65ce40529`; controller blob `0a1246f6755020faf8b7e48d07bfff790bbaece3`.
+- Canonical docs branch HEAD: `d9a289b9113f7567711b641a7017eb814d6c259d`. Map/checkpoint/roadmap were stale at Waves 477/392/458; Wave 520 was not indexed. This Wave 521 report and index entries are proposed on a separate branch; canonical branch remains unchanged pending merge.
+- PR #610 branch head recorded as `cac44b8a867945d4b544c3e46bd819bc42373f36`, diverged from main (92 ahead / 2 behind). It contains distinct ECC guidance and FCC/Claude install PR preflights plus focused tests; current-main FCC settings assertions must be preserved. Do not merge PR #610 wholesale.
+- PR #610 runner/test blobs: `dd6a577f6c704b0453fcd5b05754d10967f8babb` / `2cf879635b68008b90af2e1ae0ec831f1b5a65a1`; main runner/test blobs: `12b684bbd3d475d64cac7e37bbaf64c65ce40529` / `a3cf0c8fffbe5fd049144619d388354b4704b1d8`. Historical Wave 510 CI reports 10/10 and preflight success on an earlier implementation SHA; exact current candidate SHA CI lookup returned empty, so current exact-head CI is NOT VERIFIED in this pass.
+- PR #623 source merged; live Ollama/model/FCC/Claude steps were skipped on PR event. Runner 1 runtime remains NOT RUN.
+- PR #625 is still an unaccepted two-runner proposal; its candidate head is disputed between `01efb5e6264b4cb84aee1d9c0c162be77cd1f264` and `2c06a56eb2f3a5f265a5f558f3d02a80221eb022`. PR #627 Wave 520 report remains a working documentation proposal.
+- Main Gemini controller still launches three separate hosted jobs, not one co-located Runner 2. Secret/variable metadata, effective token scope, trusted-main no-secret probe and independent security review NOT VERIFIED. Gemini 1/2/3 NOT RUN; no controller/child run IDs or artifacts.
+- Next: selectively port ECC/FCC PR preflights to a fresh main-based branch; preserve current main FCC/no-fallback assertions; run exact-head required CI and obtain independent formal review. Separately reconcile PR #625 and qualify controller gates before any agent dispatch.
+- Status: **PARTIALLY VERIFIED / BLOCKED / NOT QUALIFIED / NOT ACCEPTED**.
+
+---
+
 ## Wave 392 — OpenRouter catalog authentication evidence (2026-10-22)
 
 - Report: [Wave 392 OpenRouter catalog authentication evidence](MEDIAHUB-NEXT-OPENROUTER-CATALOG-AUTH-WAVE-392-2026-10-22.md); [map addendum](../architecture/MEDIAHUB-CHAT-TREE-MAP-ADDENDUM-WAVE-392-2026-10-22.md); [canonical map](../architecture/MEDIAHUB-CHAT-TREE-MAP.md).
